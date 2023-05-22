@@ -9,5 +9,4 @@ public class AiCvGeneratorBackendApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(AiCvGeneratorBackendApplication.class, args);
 	}
-
 }
