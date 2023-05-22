@@ -6,6 +6,9 @@ void main() {
   runApp(const MyApp());
 }
 
+//Run: flutter clean
+//     flutter run
+//     Choose between Windows,Chrome,Edge application
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
@@ -15,7 +18,8 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/':(context) => Home(),
-        '/importCV':(context) => ImportCV() 
+        // '/importCV':(context) => ImportCV() 
+        // Incase we need routing later on
       },
     );
   }
