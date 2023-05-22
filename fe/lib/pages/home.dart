@@ -8,7 +8,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  int _selectedIndex = 0;
+  int _selectedIndex = 1;
   Map data = {};
   void _onItemTapped(int index) {
     setState(() {
@@ -18,11 +18,11 @@ class _HomeState extends State<Home> {
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static final List<Widget> _widgetOptions = <Widget>[
+    ImportCV(),
     const Text(
       'CreateCV stub',
       style: optionStyle,
     ),
-    ImportCV(),
     const Text(
       'Profile stub',
       style: optionStyle,
