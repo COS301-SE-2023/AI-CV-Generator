@@ -12,13 +12,28 @@ class _ImportCVState extends State<ImportCV> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("AI CV Generator"),
-        centerTitle: true,
-        backgroundColor: Colors.amber[300],
-      ),
       body: Center(
-        child: Text("Stub"),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Container(
+              padding: const EdgeInsets.all(10.0),
+              child: OutlinedButton(
+                onPressed: () {}, 
+                child: const Text("Upload")
+              )
+            ),
+            Container(
+              padding: const EdgeInsets.all(10.0),
+              child: OutlinedButton(
+                onPressed: () {
+                }, 
+                child: const Text("Create Manually")
+              ) 
+            )
+          ],
+        )
       )
     );
   }
