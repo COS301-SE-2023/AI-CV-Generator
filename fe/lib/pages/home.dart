@@ -1,7 +1,6 @@
 import 'package:ai_cv_generator/pages/importCV.dart';
 import 'package:flutter/material.dart';
 import 'importCV.dart';
-import 'createCV.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -20,7 +19,10 @@ class _HomeState extends State<Home> {
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static final List<Widget> _widgetOptions = <Widget>[
     ImportCV(),
-    const CreateCV(),
+    const Text(
+      'CreateCV stub',
+      style: optionStyle,
+    ),
     const Text(
       'Profile stub',
       style: optionStyle,
