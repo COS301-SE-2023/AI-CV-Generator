@@ -6,8 +6,13 @@ import 'text.dart';
 //must include buttons upload cv and generate cv
 //upload cv button will populate text area on left
 //generate cv button will populate text area on right
+final leftPaneKey = new GlobalKey<TextSpaceState>();
+final rightPaneKey = new GlobalKey<TextSpaceState>();
+
+
 class CreateCV extends StatelessWidget {
   const CreateCV({super.key});
+  
 
   @override
   Widget build(BuildContext context) {
@@ -21,12 +26,12 @@ class CreateCV extends StatelessWidget {
             Row(
               children: [
                 OutlinedButton(
-                  onPressed: () {}, 
+                  onPressed: () {leftPaneKey.currentState?.textEditorController.text = userText;}, 
                   child: const Text("Upload")
                 ),
                 SizedBox(width: 20),
                 OutlinedButton(
-                  onPressed: () {}, 
+                  onPressed: () {rightPaneKey.currentState?.textEditorController.text = aiText;}, 
                   child: const Text("Generate CV")
                 ),
               ]
@@ -34,9 +39,9 @@ class CreateCV extends StatelessWidget {
             Expanded(
               child: Row(
                 children: [
-                  Expanded(child: TextSpace()),
+                  Expanded(child: TextSpace(leftPaneKey)),
                   SizedBox(width: 50),
-                  Expanded(child: TextSpace()),
+                  Expanded(child: TextSpace(rightPaneKey)),
                 ],
               ),
             ),
@@ -49,13 +54,14 @@ class CreateCV extends StatelessWidget {
 }
 
 class TextSpace extends StatefulWidget {
-  const TextSpace({super.key});
+  TextSpace(Key key): super(key: key);
   @override
-  State<TextSpace> createState() => TextSpaceState();
+  TextSpaceState createState() => TextSpaceState();
 }
 
 class TextSpaceState extends State<TextSpace> {
-  var txt = TextEditingController();
+  var textEditorController = TextEditingController();
+
   String populateField() {
     var t = "";
     for(var i = 0; i < 4000; i++) {
@@ -66,14 +72,13 @@ class TextSpaceState extends State<TextSpace> {
 
   @override
   Widget build(BuildContext context) {
-    txt.text = aiText;
     return Padding(
       padding: EdgeInsets.all(0),
       child: TextField(
         decoration: InputDecoration(
           border: InputBorder.none,
         ),
-        controller: txt,
+        controller: textEditorController,
         maxLines: 99999,
       )
     );
