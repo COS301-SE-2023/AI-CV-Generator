@@ -9,6 +9,8 @@ highlight their strengths and experiences.
 The AI CV Generator aims to aid job seekers in creating appealing job application
 documents that will increase their chances of acquiring a job.
 
+[link to google Doc](https://docs.google.com/document/d/1uZgBWY-mxEkonOn8Cq_yOl-uwwj_W4hjAHLR3XUDczg/edit?usp=sharing)
+
 ## The Team
 |![WhatsApp Image 2023-03-26 at 21 23 44](https://github.com/COS301-SE-2023/AI-CV-Generator/assets/94606154/39875899-7368-4e46-8bc0-e5bf3e7b159f)| Mbofho Mamatsharaga|
 |----------------------|---------------------------|
