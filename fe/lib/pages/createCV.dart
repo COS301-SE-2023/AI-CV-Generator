@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'text.dart';
 // Left side is imported cv data that can be edited
 // Right side is generated cv data that can also be edited
 //side by side for comparison
@@ -11,12 +11,39 @@ class CreateCV extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Row(
-      textDirection: TextDirection.ltr,
-      children: [
-        Expanded(child: TextSpace()),
-        Expanded(child: TextSpace()),
-      ],
+    return Padding(
+      padding: EdgeInsets.only(top: 20),
+      child: Expanded(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 30),
+          child: Column(
+          children: [
+            Row(
+              children: [
+                OutlinedButton(
+                  onPressed: () {}, 
+                  child: const Text("Upload")
+                ),
+                SizedBox(width: 20),
+                OutlinedButton(
+                  onPressed: () {}, 
+                  child: const Text("Generate CV")
+                ),
+              ]
+            ),
+            Expanded(
+              child: Row(
+                children: [
+                  Expanded(child: TextSpace()),
+                  SizedBox(width: 50),
+                  Expanded(child: TextSpace()),
+                ],
+              ),
+            ),
+          ],
+        ),
+          ),
+      ),
     );
   }
 }
@@ -28,12 +55,27 @@ class TextSpace extends StatefulWidget {
 }
 
 class TextSpaceState extends State<TextSpace> {
-  var text = '';
+  var txt = TextEditingController();
+  String populateField() {
+    var t = "";
+    for(var i = 0; i < 4000; i++) {
+      t += "0";
+    }
+    return t;
+  }
 
   @override
   Widget build(BuildContext context) {
-    return const TextField(
-      maxLines: 99999,
+    txt.text = aiText;
+    return Padding(
+      padding: EdgeInsets.all(0),
+      child: TextField(
+        decoration: InputDecoration(
+          border: InputBorder.none,
+        ),
+        controller: txt,
+        maxLines: 99999,
+      )
     );
   }
 }
