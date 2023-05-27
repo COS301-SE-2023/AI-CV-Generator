@@ -37,9 +37,6 @@ Linkedin link: [Click Here](https://www.linkedin.com/in/nathan-opperman-70321427
 Linkedin link: [Click Here](linkedin.com/in/vaghelis-gkikas-7a7217278)
 
 
-Testing 1 2 3
-
-
 
 
 
