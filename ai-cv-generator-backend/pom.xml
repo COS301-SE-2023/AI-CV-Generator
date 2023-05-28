@@ -11,6 +11,7 @@
 	<groupId>com.revolvingSolutions</groupId>
 	<artifactId>ai-cv-generator-backend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
 	<name>ai-cv-generator-backend</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
@@ -24,6 +25,10 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
 		</dependency>
 
 		<dependency>
