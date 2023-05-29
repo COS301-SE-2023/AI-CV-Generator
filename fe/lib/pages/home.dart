@@ -1,3 +1,4 @@
+import 'package:ai_cv_generator/pages/createCV.dart';
 import 'package:ai_cv_generator/pages/importCV.dart';
 import 'package:flutter/material.dart';
 import 'importCV.dart';
@@ -19,10 +20,7 @@ class _HomeState extends State<Home> {
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static final List<Widget> _widgetOptions = <Widget>[
     ImportCV(),
-    const Text(
-      'CreateCV stub',
-      style: optionStyle,
-    ),
+    CreateCV(),
     const Text(
       'Profile stub',
       style: optionStyle,
