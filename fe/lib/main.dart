@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ai_cv_generator/pages/home.dart';
-import 'package:ai_cv_generator/pages/importCV.dart';
+import 'package:ai_cv_generator/pages/createPage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -21,6 +21,7 @@ class MyApp extends StatelessWidget {
         // '/importCV':(context) => ImportCV() 
         // Incase we need routing later on
       },
+      debugShowCheckedModeBanner: false,
     );
   }
 }

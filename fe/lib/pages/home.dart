@@ -1,6 +1,7 @@
-import 'package:ai_cv_generator/pages/importCV.dart';
+import 'package:ai_cv_generator/pages/generatedCV.dart';
+import 'package:ai_cv_generator/pages/createPage.dart';
 import 'package:flutter/material.dart';
-import 'importCV.dart';
+import 'createPage.dart';
 import 'createCV.dart';
 
 class Home extends StatefulWidget {
@@ -11,48 +12,33 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   int _selectedIndex = 1;
   Map data = {};
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static final List<Widget> _widgetOptions = <Widget>[
-    ImportCV(),
-    const CreateCV(),
-    const Text(
-      'Profile stub',
-      style: optionStyle,
-    ),
-  ];
 
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Center(child: Text("AI-CV Generator"),)
+          backgroundColor: Colors.lightBlue,
+          leading: IconButton(
+            icon: Icon(Icons.menu),
+            onPressed: () => {
+
+            },
+          ),
+        actions: [
+          IconButton(
+            onPressed: () => {
+
+            }, 
+            icon: Icon(Icons.account_circle)
+            )
+        ],
       ),
       body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.upload),
-            label: 'Import',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.add),
-            label: 'Create',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle_outlined),
-            label: 'Profile',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[800],
-        onTap: _onItemTapped,
+        child: Row(
+          children: [
+            Expanded(child: ImportCV()),
+            Expanded(child: generatedCV())
+          ],
+        ),
       ),
     );
   }
