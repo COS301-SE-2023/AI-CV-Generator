@@ -18,7 +18,9 @@ class ProfileState extends State<Profile> {
                 Expanded(
                   child: 
                     Column(
-
+                      children: [
+                        AboutMe(),
+                      ],
                     ),
                 ),
                 Expanded(
@@ -93,6 +95,7 @@ class EducationState extends State<Education> {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(institution, textAlign: textAlign, style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 2.0),),
+                Text(institution, textAlign: textAlign, style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 1.5),),
                 Text(degree, textAlign: textAlign,),
                 DateField(),
               ],
@@ -151,5 +154,36 @@ class LinksState extends State<Links> {
                 ]
               ),
             );
+  }
+}
+
+class AboutMe extends StatefulWidget {
+  @override
+  AboutMeState createState() => AboutMeState();
+}
+
+class AboutMeState extends State {
+  TextAlign textAlign = TextAlign.left;
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: 
+        Align(
+          alignment: Alignment.centerLeft,
+          child:
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("default", textAlign: textAlign, style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 2.0),),
+                TextField(
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                  ),
+                  maxLines: 5,
+                ),
+              ]
+            ),
+        )
+    );
   }
 }
