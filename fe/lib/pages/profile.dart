@@ -181,9 +181,40 @@ class AboutMeState extends State {
                   ),
                   maxLines: 5,
                 ),
+                Row(
+                  children: [
+                    Interests(),
+                    Interests(),
+                    Interests(),
+                    Interests(),
+                  ],
+                ),
               ]
             ),
         )
+    );
+  }
+}
+
+class Interests extends StatefulWidget {
+  @override
+  InterestsState createState() => InterestsState();
+}
+
+class InterestsState extends State<Interests> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+          margin: const EdgeInsets.all(15.0),
+          padding: const EdgeInsets.all(3.0),
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.blueAccent),
+            borderRadius: BorderRadius.all(
+                          Radius.circular(10),
+            ),
+          ),
+          
+          child: Text("default"),
     );
   }
 }
