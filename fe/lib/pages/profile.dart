@@ -93,10 +93,33 @@ class EducationState extends State<Education> {
               children: [
                 Text(institution, textAlign: textAlign, style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 2.0),),
                 Text(degree, textAlign: textAlign,),
-                Text(degree, textAlign: textAlign,),
+                DateField(),
               ],
             ),
         ),
     );
   }
+}
+
+class DateField extends StatefulWidget {
+  @override
+  DateFieldState createState() => DateFieldState();
+}
+
+class DateFieldState extends State<DateField> {
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+            alignment: Alignment.centerRight,
+            child:
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  SizedBox(width: 40, child: TextField(),),
+                  Text("-",),
+                  SizedBox(width: 40, child: TextField(),),
+                ],
+              ),
+          );
+    }
 }
