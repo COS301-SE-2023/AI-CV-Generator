@@ -8,6 +8,17 @@ class Profile extends StatefulWidget {
 class ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
-    return Text('');
+    return const Padding(
+      padding: EdgeInsets.all(42),
+      child:
+        Expanded(
+          child:
+            Column(
+              children: [
+                
+              ],
+            )
+        )
+      );
   }
 }
