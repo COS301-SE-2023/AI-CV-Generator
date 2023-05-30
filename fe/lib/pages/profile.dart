@@ -27,6 +27,7 @@ class ProfileState extends State<Profile> {
                       children: [
                         PersonalDetails(),
                         Education(),
+                        Links(),
                       ],
                     ),
                 ),
@@ -122,4 +123,33 @@ class DateFieldState extends State<DateField> {
               ),
           );
     }
+}
+
+class Links extends StatefulWidget {
+  @override
+  LinksState createState() => LinksState();
+}
+
+class LinksState extends State<Links> {
+  String github = "default";
+  String behance = "default";
+  String dribbble = "default";
+  TextAlign textAlign = TextAlign.right;
+  
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+            alignment: Alignment.centerRight,
+            child:
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text("default", textAlign: textAlign, style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 2.0),),
+                  Text(github, textAlign: textAlign,),
+                  Text(behance, textAlign: textAlign,),
+                  Text(dribbble, textAlign: textAlign,),
+                ]
+              ),
+            );
+  }
 }
