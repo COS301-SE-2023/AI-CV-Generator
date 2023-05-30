@@ -13,12 +13,34 @@ class ProfileState extends State<Profile> {
       child:
         Expanded(
           child:
-            Column(
+            Row(
               children: [
-                
+                Expanded(
+                  child: 
+                    Column(
+
+                    )
+                ),
+                Expanded(
+                  child: 
+                    Column(
+
+                    )
+                ),
               ],
             )
         )
       );
+  }
+}
+
+class PersonalDetails extends StatefulWidget {
+  @override
+  ProfileState createState() => ProfileState();
+}
+
+class PersonalDetailsState extends State<PersonalDetails> {
+  Widget build(BuildContext context) {
+    return Text("");
   }
 }
