@@ -26,7 +26,7 @@ class ProfileState extends State<Profile> {
                     Column(
                       children: [
                         PersonalDetails(),
-                        PersonalDetails(),
+                        Education(),
                       ],
                     ),
                 ),
@@ -67,6 +67,36 @@ class PersonalDetailsState extends State<PersonalDetails> {
               ]
             ),
         )
+    );
+  }
+}
+
+class Education extends StatefulWidget {
+  @override
+  EducationState createState() => EducationState();
+}
+
+class EducationState extends State<Education> {
+  String institution = "default";
+  String degree = "default";
+  TextAlign textAlign = TextAlign.right;
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child:
+        Align(
+          alignment: Alignment.centerRight,
+          child:
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(institution, textAlign: textAlign, style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 2.0),),
+                Text(degree, textAlign: textAlign,),
+                Text(degree, textAlign: textAlign,),
+              ],
+            ),
+        ),
     );
   }
 }
