@@ -8,7 +8,7 @@ class Profile extends StatefulWidget {
 class ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
-    return const Padding(
+    return Padding(
       padding: EdgeInsets.all(42),
       child:
         Expanded(
@@ -19,13 +19,16 @@ class ProfileState extends State<Profile> {
                   child: 
                     Column(
 
-                    )
+                    ),
                 ),
                 Expanded(
                   child: 
                     Column(
-
-                    )
+                      children: [
+                        PersonalDetails(),
+                        PersonalDetails(),
+                      ],
+                    ),
                 ),
               ],
             )
@@ -36,11 +39,28 @@ class ProfileState extends State<Profile> {
 
 class PersonalDetails extends StatefulWidget {
   @override
-  ProfileState createState() => ProfileState();
+  PersonalDetailsState createState() => PersonalDetailsState();
 }
 
 class PersonalDetailsState extends State<PersonalDetails> {
+  String name = "default";
+  String location = "default";
+  String email = "default";
+  String phoneNumber = "default";
+  TextAlign textAlign = TextAlign.right;
+
+  @override
   Widget build(BuildContext context) {
-    return Text("");
+    return Expanded(
+      child: 
+        Column(
+          children: [
+            Text(name, textAlign: textAlign,),
+            Text(name, textAlign: textAlign,),
+            Text(name, textAlign: textAlign,),
+            Text(name, textAlign: textAlign,),
+          ]
+        ),
+    );
   }
 }
