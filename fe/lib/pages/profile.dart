@@ -48,19 +48,25 @@ class PersonalDetailsState extends State<PersonalDetails> {
   String email = "default";
   String phoneNumber = "default";
   TextAlign textAlign = TextAlign.right;
+  
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: 
-        Column(
-          children: [
-            Text(name, textAlign: textAlign,),
-            Text(name, textAlign: textAlign,),
-            Text(name, textAlign: textAlign,),
-            Text(name, textAlign: textAlign,),
-          ]
-        ),
+        Align(
+          alignment: Alignment.centerRight,
+          child:
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(name, textAlign: textAlign, style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 3.0),),
+                Text(location, textAlign: textAlign,),
+                Text(email, textAlign: textAlign,),
+                Text(phoneNumber, textAlign: textAlign,),
+              ]
+            ),
+        )
     );
   }
 }
