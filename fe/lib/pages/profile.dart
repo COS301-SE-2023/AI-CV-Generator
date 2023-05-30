@@ -20,6 +20,7 @@ class ProfileState extends State<Profile> {
                     Column(
                       children: [
                         AboutMe(),
+                        Work(),
                       ],
                     ),
                 ),
@@ -215,6 +216,53 @@ class InterestsState extends State<Interests> {
           ),
           
           child: Text("default"),
+    );
+  }
+}
+
+class Work extends StatefulWidget {
+  @override
+  WorkState createState() => WorkState();
+}
+
+class WorkState extends State<Work> {
+  TextAlign textAlign = TextAlign.left;
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: 
+        Align(
+          alignment: Alignment.centerLeft,
+          child:
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("default", textAlign: textAlign, style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 2.0),),
+                Row(
+                  children: [
+                    Text("default"),
+                    DateField(),
+                    Text("default"),
+                  ],
+                ),
+                                Row(
+                  children: [
+                    Text("default"),
+                    DateField(),
+                    Text("default"),
+                  ],
+                ),
+                                Row(
+                  children: [
+                    Text("default"),
+                    DateField(),
+                    Text("default"),
+                  ],
+                ),
+              ]
+            ),
+        )
     );
   }
 }
