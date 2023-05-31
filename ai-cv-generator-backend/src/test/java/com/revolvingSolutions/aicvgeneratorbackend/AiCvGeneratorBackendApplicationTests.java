@@ -10,4 +10,8 @@ class AiCvGeneratorBackendApplicationTests {
 	void contextLoads() {
 	}
 
+	/*@Test -> Personal details filled (name, surname, cellphone number, email address)
+	 * @Test -> 
+	 */
+
 }
