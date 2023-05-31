@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:ai_cv_generator/api/pdfApi.dart';
+import 'package:ai_cv_generator/pages/pdfWinLink.dart';
 import 'package:ai_cv_generator/pages/pdf_window.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
@@ -37,7 +38,7 @@ class _ImportCVState extends State<ImportCV> {
                           if (fi == null) return;
                           file = fi;
                           fileAvail = true;
-                          openFile(file, context);
+                          //openFile(file, context);
                       }, 
                       child: const Text("Upload")
                     )
@@ -53,9 +54,7 @@ class _ImportCVState extends State<ImportCV> {
                 ]
               ),
               fileAvail == true ?
-              PdfWindow(
-                file: file
-              ) : const Text("I am here")
+              pdfWinLink(file: file,): const Text("I am here")
           ],
         )
       )
