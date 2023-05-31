@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pdfx/pdfx.dart';
 import 'package:file_picker/file_picker.dart';
 
 class generatedCV extends StatefulWidget {
