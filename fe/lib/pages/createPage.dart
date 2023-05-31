@@ -26,7 +26,7 @@ class _ImportCVState extends State<ImportCV> {
 
   @override
   Widget build(BuildContext context) {
-    List<String> views = [];
+    List<File> files = [];
     return Scaffold(
       body: Center(
         child: Column(
@@ -40,7 +40,7 @@ class _ImportCVState extends State<ImportCV> {
                     padding: const EdgeInsets.all(10.0),
                     child: OutlinedButton(
                       onPressed: () {
-                        views.add(_pick_cvfile() as String);
+                        files.add(_pick_cvfile() as File);
                       }, 
                       child: const Text("Upload")
                     )
