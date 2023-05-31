@@ -12,18 +12,19 @@ class pdfAPI{
     return _storFile(url,bytes);
   }
 
-  static Future<File?> pick_cvfile() async {
+  static Future<PlatformFile?> pick_cvfile() async {
     final res = await FilePicker.platform.pickFiles(
-      allowMultiple: false,
       type: FileType.custom,
-      allowedExtensions: ['pdf']
+      allowedExtensions: ['pdf'],
+      withData: true
     );
-    if (res == null) return null; 
-    String? path = res.paths.first;
-    if (path == null) return null;
-    return File(path);
+    if (res != null) {
+      return res.files.first;
+    }
+    return null;
   }
 
+  //not for web
   static Future<File> _storFile(String url, List<int> bytes) async {
     final filName = basename(url);
     final directory = await getApplicationDocumentsDirectory();
