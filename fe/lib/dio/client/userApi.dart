@@ -9,7 +9,7 @@ class userApi extends DioClient {
   Future<UserModel?> getUser({required UserLog logdetails}) async {
     UserModel? user;
     try {
-      Response userData = await dio.get(baseurl + '/users/${logdetails.data.email}');
+      Response userData = await dio.get('$baseurl/users/${logdetails.data.email}');
       print('User Info: ${userData.data}');
       user = UserModel.fromJson(userData.data);
     } on DioError catch (e) {
@@ -30,7 +30,7 @@ class userApi extends DioClient {
 
     try {
       Response response = await dio.post(
-        baseurl + '/users/create',
+        '$baseurl/users/create',
         data: userInfo.toJson(),
       );
 
@@ -46,16 +46,14 @@ class userApi extends DioClient {
 
   Future<String?> deleteUser(
     {
-      required UserModel model,
       required id
     }
     ) async {
     ConfirmationMsg? retrievedMsg;
-
+    
     try {
-      Response response = await dio.post(
-        baseurl + '/users/delete/$id',
-        data: model.toJson(),
+      Response response = await dio.delete(
+        '$baseurl/users/delete/$id'
       );
 
       print('User created: ${response.data}');
@@ -78,7 +76,7 @@ class userApi extends DioClient {
 
     try {
       Response response = await dio.put(
-        baseurl + '/users/update/$id',
+        '$baseurl/users/update/$id',
         data: user.toJson(),
       );
 
