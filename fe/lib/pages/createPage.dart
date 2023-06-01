@@ -27,6 +27,7 @@ class _ImportCVState extends State<ImportCV> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
+                  if (fileAvail == false)
                   Container(
                     padding: const EdgeInsets.all(10.0),
                     child: OutlinedButton(
