@@ -68,12 +68,12 @@ class DioClient {
 
 
   //Will expand into different updates later on
-  Future<UserModel?> updateUser({required UserModel userInfo}) async {
+  Future<UserModel?> updateUser({required UserModel userInfo, required UserLog log}) async {
     UserModel? retrievedUser;
 
     try {
       Response response = await _dio.post(
-        baseurl + '/users/update/',
+        baseurl + '/users/update/${log.data.email}',
         data: userInfo.toJson(),
       );
 
