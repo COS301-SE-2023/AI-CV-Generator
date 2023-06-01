@@ -2,6 +2,7 @@ import 'package:ai_cv_generator/pages/createCV.dart';
 import 'package:ai_cv_generator/pages/importCV.dart';
 import 'package:flutter/material.dart';
 import 'importCV.dart';
+import 'profile.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -21,10 +22,7 @@ class _HomeState extends State<Home> {
   static final List<Widget> _widgetOptions = <Widget>[
     ImportCV(),
     CreateCV(),
-    const Text(
-      'Profile stub',
-      style: optionStyle,
-    ),
+    Profile(),
   ];
 
   Widget build(BuildContext context) {
