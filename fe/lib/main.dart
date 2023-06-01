@@ -17,10 +17,11 @@ class MyApp extends StatelessWidget {
       title: 'AI-CV-GENERATOR_DEMO1_build',
       initialRoute: '/',
       routes: {
-        
-        '/mainPage':(context) => Home(),
-        '/':(context) => Login() 
+        '/':(context) => const Home(),
+        // '/importCV':(context) => ImportCV() 
+        // Incase we need routing later on
       },
+      debugShowCheckedModeBanner: false,
     );
   }
 }

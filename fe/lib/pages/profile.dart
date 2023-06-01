@@ -1,4 +1,3 @@
-import 'package:ai_cv_generator/pages/profile2.dart';
 import 'package:flutter/material.dart';
 
 class Profile extends StatefulWidget {
