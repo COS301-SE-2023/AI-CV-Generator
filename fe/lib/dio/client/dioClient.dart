@@ -1,4 +1,6 @@
+import 'package:ai_cv_generator/models/user/Confirmation.dart';
 import 'package:ai_cv_generator/models/user/UserLog.dart';
+import 'package:ai_cv_generator/models/user/UserModel.dart';
 import 'package:dio/dio.dart';
 
 class DioClient {
@@ -7,12 +9,12 @@ class DioClient {
   final baseurl = "https//mockbackend/api"; //Until the backend is fully established
 
 
-  Future<UserModel?> getUser({required String id}) async {
+  Future<UserModel?> getUser({required UserLog logdetails}) async {
     UserModel? user;
     try {
-      Response userData = await _dio.get(baseurl + '/users/$id');
+      Response userData = await _dio.get(baseurl + '/users/${logdetails.data.email}');
       print('User Info: ${userData.data}');
-      user = UserModel.fromJSON(userData.data);
+      user = UserModel.fromJson(userData.data);
     } on DioError catch (e) {
       if (e.response != null) {
         print('Dio error!  no response');
@@ -37,7 +39,7 @@ class DioClient {
 
       print('User created: ${response.data}');
 
-      retrievedUser = UserModel.fromJSON(response.data);
+      retrievedUser = UserModel.fromJson(response.data);
     } catch (e) {
       print('Error creating user: $e');
     }
@@ -45,7 +47,25 @@ class DioClient {
     return retrievedUser;
   }
 
-  
+  Future<String?> deleteUser({required UserLog log}) async {
+    ConfirmationMsg? retrievedMsg;
+
+    try {
+      Response response = await _dio.post(
+        baseurl + '/users/delete/${log.data.email}',
+        data: log.toJson(),
+      );
+
+      print('User created: ${response.data}');
+
+      retrievedMsg = ConfirmationMsg.fromJSON(response.data);
+    } catch (e) {
+      print('Error creating user: $e');
+    }
+
+    return retrievedMsg?.msg;
+  }
+
 
   //Will expand into different updates later on
   Future<UserModel?> updateUser({required UserModel userInfo}) async {
@@ -53,13 +73,13 @@ class DioClient {
 
     try {
       Response response = await _dio.post(
-        baseurl + '/users/update',
+        baseurl + '/users/update/',
         data: userInfo.toJson(),
       );
 
       print('User created: ${response.data}');
 
-      retrievedUser = UserModel.fromJSON(response.data);
+      retrievedUser = UserModel.fromJson(response.data);
     } catch (e) {
       print('Error creating user: $e');
     }

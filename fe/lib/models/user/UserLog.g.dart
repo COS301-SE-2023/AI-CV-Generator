@@ -6,10 +6,10 @@ part of 'UserLog.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-UserModel _$UserModelFromJson(Map<String, dynamic> json) => UserModel(
+UserLog _$UserLogFromJson(Map<String, dynamic> json) => UserLog(
       data: Data.fromJson(json['data'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
+Map<String, dynamic> _$UserLogToJson(UserLog instance) => <String, dynamic>{
       'data': instance.data,
     };

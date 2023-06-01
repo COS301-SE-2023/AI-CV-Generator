@@ -3,13 +3,13 @@ import 'package:json_annotation/json_annotation.dart';
 part 'UserLog.g.dart';
 
 @JsonSerializable()
-class UserModel {
+class UserLog {
     Data data;
     // More data to be added
-    UserModel({required this.data});
+    UserLog({required this.data});
 
-    factory UserModel.fromJSON(Map<String,dynamic> json) => _$UserModelFromJson(json);
+    factory UserLog.fromJSON(Map<String,dynamic> json) => _$UserLogFromJson(json);
 
-    Map<String,dynamic> toJson() => _$UserModelToJson(this);
+    Map<String,dynamic> toJson() => _$UserLogToJson(this);
       
 }
