@@ -1,19 +1,19 @@
-import 'dart:io';
 
 import 'package:ai_cv_generator/api/pdfApi.dart';
-import 'package:ai_cv_generator/pages/pdfWinLink.dart';
 import 'package:ai_cv_generator/pages/pdf_window.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 
 class ImportCV extends StatefulWidget {
+  const ImportCV({super.key});
+
   @override
   _ImportCVState createState() => _ImportCVState();
 }
 
 class _ImportCVState extends State<ImportCV> {
   Map data = {};
-  PlatformFile? file = null;
+  PlatformFile? file;
   bool fileAvail = false;
   @override
   Widget build(BuildContext context) {
@@ -61,7 +61,7 @@ class _ImportCVState extends State<ImportCV> {
                     appBar: AppBar(
                       actions: [
                           IconButton(
-                            icon: Icon(Icons.delete),
+                            icon: const Icon(Icons.delete),
                             onPressed: () {
                                 setState(() {
                                   file = null;
@@ -71,7 +71,7 @@ class _ImportCVState extends State<ImportCV> {
                           )
                       ],
                       leading: IconButton(
-                        icon: Icon(Icons.upload),
+                        icon: const Icon(Icons.upload),
                         onPressed: () {
                           
                         },

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:ai_cv_generator/pages/home.dart';
-import 'package:ai_cv_generator/pages/createPage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,7 +16,7 @@ class MyApp extends StatelessWidget {
       title: 'AI-CV-GENERATOR_DEMO1_build',
       initialRoute: '/',
       routes: {
-        '/':(context) => Home(),
+        '/':(context) => const Home(),
         // '/importCV':(context) => ImportCV() 
         // Incase we need routing later on
       },

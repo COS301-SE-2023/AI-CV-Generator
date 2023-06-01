@@ -1,5 +1,4 @@
 import "package:file_picker/file_picker.dart";
-import "package:dio/dio.dart" as http;
 
 class pdfAPI{
   static Future<PlatformFile?> pick_cvfile() async {
