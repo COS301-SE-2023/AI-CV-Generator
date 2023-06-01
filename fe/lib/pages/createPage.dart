@@ -1,5 +1,6 @@
 
 import 'package:ai_cv_generator/api/pdfApi.dart';
+import 'package:ai_cv_generator/dio/client/fileApi.dart';
 import 'package:ai_cv_generator/dio/client/userApi.dart';
 import 'package:ai_cv_generator/pages/pdf_window.dart';
 import 'package:flutter/material.dart';
@@ -75,6 +76,8 @@ class _ImportCVState extends State<ImportCV> {
                       leading: IconButton(
                         icon: const Icon(Icons.upload),
                         onPressed: () {
+                          if (file == null) {return;}
+                            FileApi().uploadFile(file: file, id: "test_id");
                           
                         },
                       ),

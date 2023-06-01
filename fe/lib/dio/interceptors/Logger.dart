@@ -9,6 +9,7 @@ class Logger extends Interceptor {
   //Logs outgoing requests
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
+    if (!log) return super.onRequest(options,handler);
     print('Request [${options.method}] => at path: ${options.path}');
     return super.onRequest(options, handler);
   }
@@ -16,6 +17,7 @@ class Logger extends Interceptor {
   //Logs incoming responses
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
+    if (!log) return super.onResponse(response, handler);
     print(
       'Resonse Recieved [${response.statusCode}] => at Path: ${response.requestOptions.path}',
     );
@@ -25,9 +27,13 @@ class Logger extends Interceptor {
   //Logs Errors
   @override
   void onError(DioError err, ErrorInterceptorHandler handler) {
+    if (!log) return super.onError(err,handler);
     print(
       'Error [${err.response?.statusCode}] => at Path: ${err.requestOptions.path}',
     );
+    if (err.response == null) {
+      print("Error may be that frontend cannot connect to the backend or that the backend isnt running");
+    }
     return super.onError(err, handler);
   }
 }
