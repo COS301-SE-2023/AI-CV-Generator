@@ -53,7 +53,7 @@ class _ImportCVState extends State<ImportCV> {
                 ]
               ),
               fileAvail == true ?
-              Expanded(child:pdfWinLink(file: file,)) : const Text("")
+              Expanded(child:PdfWindow(file: file,)) : const Text("")
           ],
         )
       )
