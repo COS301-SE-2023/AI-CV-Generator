@@ -26,6 +26,47 @@ class DioClient {
     return user;
   }
 
+  Future<UserModel?> createUser({required UserModel userInfo}) async {
+    UserModel? retrievedUser;
+
+    try {
+      Response response = await _dio.post(
+        baseurl + '/users/create',
+        data: userInfo.toJson(),
+      );
+
+      print('User created: ${response.data}');
+
+      retrievedUser = UserModel.fromJSON(response.data);
+    } catch (e) {
+      print('Error creating user: $e');
+    }
+
+    return retrievedUser;
+  }
+
+  
+
+  //Will expand into different updates later on
+  Future<UserModel?> updateUser({required UserModel userInfo}) async {
+    UserModel? retrievedUser;
+
+    try {
+      Response response = await _dio.post(
+        baseurl + '/users/update',
+        data: userInfo.toJson(),
+      );
+
+      print('User created: ${response.data}');
+
+      retrievedUser = UserModel.fromJSON(response.data);
+    } catch (e) {
+      print('Error creating user: $e');
+    }
+
+    return retrievedUser;
+  }
+
 
 
 
