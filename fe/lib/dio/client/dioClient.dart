@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 class DioClient {
   final Dio _dio = Dio();
 
-  final baseurl = "https//mockbackend/api";
+  final baseurl = "https//mockbackend/api"; //Until the backend is fully established
 
 
   Future<UserModel?> getUser({required String id}) async {
@@ -15,12 +15,11 @@ class DioClient {
       user = UserModel.fromJSON(userData.data);
     } on DioError catch (e) {
       if (e.response != null) {
-        print('Dio error!');
-        print('STATUS: ${e.response?.statusCode}');
+        print('Dio error!  no response');
+        print('STATUS: ${e.response?.statusCode} //status of dio request failuire');
         print('DATA: ${e.response?.data}');
         print('HEADERS: ${e.response?.headers}');
       } else {
-        print('Error sending request!');
         print(e.message);
       }
     }
@@ -28,6 +27,8 @@ class DioClient {
   }
 
   
+
+
 
 
 }
