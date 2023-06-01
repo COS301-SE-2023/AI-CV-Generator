@@ -1,3 +1,4 @@
+import 'package:ai_cv_generator/pages/profile2.dart';
 import 'package:flutter/material.dart';
 
 class Profile extends StatefulWidget {
@@ -5,264 +6,103 @@ class Profile extends StatefulWidget {
   ProfileState createState() => ProfileState();
 }
 
+bool isEditingEnabled = false;
+
 class ProfileState extends State<Profile> {
+  final _formKey = GlobalKey<FormState>();
+  String imagePath = "";
+  String name = "Avery Quinn";
+  String email = "averyquinn@hmail.com";
+  String phoneNumber = "0823427832";
+  String location = "Pretoria, Gauteng";
+  String aboutMe = "";
+  String education = "";
+  String workExperience = "";
+  String links = "";
+
   @override
   Widget build(BuildContext context) {
+    
     return Padding(
-      padding: EdgeInsets.all(42),
-      child:
-        Expanded(
-          child:
-            Row(
-              children: [
-                Expanded(
-                  child: 
-                    Column(
-                      children: [
-                        AboutMe(),
-                        Work(),
-                      ],
-                    ),
+      padding: EdgeInsets.symmetric(vertical: 42, horizontal: 420),
+        child: Form(
+          key: _formKey,
+          child: ListView(
+            children: [
+              CircleAvatar(
+                radius: 50,
+                // backgroundImage: AssetImage(imagePath),
+                backgroundColor: Colors.blue,
+              ),
+              SizedBox(height: 16,),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10) ,
+                child:OutlinedButton(
+                  onPressed: () {
+                    setState(() {
+                      isEditingEnabled = !isEditingEnabled;
+                    });
+                    _formKey.currentState!.save();
+                    print(name);
+                    print(links);
+                  }, 
+                  child: const Text("EDIT")
                 ),
-                Expanded(
-                  child: 
-                    Column(
-                      children: [
-                        PersonalDetails(),
-                        Education(),
-                        Links(),
-                      ],
-                    ),
-                ),
-              ],
-            )
+              ),
+              SizedBox(height: 16,),
+              InputField(label: "NAME", widgetField: TextFormField(enabled: isEditingEnabled, initialValue: name, onSaved: (value)=>{name=value!},)),
+              SizedBox(height: 16,),
+              InputField(label: "EMAIL", widgetField: TextFormField(enabled: isEditingEnabled, initialValue: email, onSaved: (value)=>{email=value!},)),
+              SizedBox(height: 16,),
+              InputField(label: "PHONE NUMBER", widgetField: TextFormField(enabled: isEditingEnabled, initialValue: phoneNumber, onSaved: (value)=>{phoneNumber=value!},)),
+              SizedBox(height: 16,),
+              InputField(label: "LOCATION", widgetField: TextFormField(enabled: isEditingEnabled, initialValue: location, onSaved: (value)=>{location=value!},)),
+              SizedBox(height: 16,),
+              InputField(label: "ABOUT ME", widgetField: TextFormField(enabled: isEditingEnabled, initialValue: aboutMe, onSaved: (value)=>{aboutMe=value!}, maxLines: 10,)),
+              SizedBox(height: 16,),
+              InputField(label: "EDUCATION", widgetField: TextFormField(enabled: isEditingEnabled, initialValue: education, onSaved: (value)=>{education=value!}, maxLines: 10,)),
+              SizedBox(height: 16,),
+              InputField(label: "WORK EXPERIENCE", widgetField: TextFormField(enabled: isEditingEnabled, initialValue: workExperience, onSaved: (value)=>{workExperience=value!}, maxLines: 10,)),
+              SizedBox(height: 16,),
+              InputField(label: "LINKS", widgetField: TextFormField(enabled: isEditingEnabled, initialValue: links, onSaved: (value)=>{links=value!}, maxLines: 10,)),
+              SizedBox(height: 16,),
+            ],
+          )
         )
       );
   }
 }
 
-class PersonalDetails extends StatefulWidget {
+class InputField extends StatefulWidget {
+  final String label;
+  final Widget widgetField;
+  InputField({required this.label, required this.widgetField});
   @override
-  PersonalDetailsState createState() => PersonalDetailsState();
+  InputFieldState createState() => InputFieldState();
 }
 
-class PersonalDetailsState extends State<PersonalDetails> {
-  String name = "default";
-  String location = "default";
-  String email = "default";
-  String phoneNumber = "default";
-  TextAlign textAlign = TextAlign.right;
-  
-
+class InputFieldState extends State<InputField> {
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: 
-        Align(
-          alignment: Alignment.centerRight,
-          child:
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Text(name, textAlign: textAlign, style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 3.0),),
-                Text(location, textAlign: textAlign,),
-                Text(email, textAlign: textAlign,),
-                Text(phoneNumber, textAlign: textAlign,),
-              ]
-            ),
-        )
-    );
-  }
-}
-
-class Education extends StatefulWidget {
-  @override
-  EducationState createState() => EducationState();
-}
-
-class EducationState extends State<Education> {
-  String institution = "default";
-  String degree = "default";
-  TextAlign textAlign = TextAlign.right;
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child:
-        Align(
-          alignment: Alignment.centerRight,
-          child:
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Text(institution, textAlign: textAlign, style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 2.0),),
-                Text(institution, textAlign: textAlign, style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 1.5),),
-                Text(degree, textAlign: textAlign,),
-                DateField(),
-              ],
-            ),
-        ),
-    );
-  }
-}
-
-class DateField extends StatefulWidget {
-  @override
-  DateFieldState createState() => DateFieldState();
-}
-
-class DateFieldState extends State<DateField> {
-  @override
-  Widget build(BuildContext context) {
-    return Align(
-            alignment: Alignment.centerRight,
-            child:
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  SizedBox(width: 40, child: TextField(),),
-                  Text("-",),
-                  SizedBox(width: 40, child: TextField(),),
-                ],
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 10),
+      child: Column (
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(widget.label),
+          SizedBox(height: 8,),
+          Container(
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: Colors.grey,
+                width: 1.0,
               ),
-          );
-    }
-}
-
-class Links extends StatefulWidget {
-  @override
-  LinksState createState() => LinksState();
-}
-
-class LinksState extends State<Links> {
-  String github = "default";
-  String behance = "default";
-  String dribbble = "default";
-  TextAlign textAlign = TextAlign.right;
-  
-  @override
-  Widget build(BuildContext context) {
-    return Align(
-            alignment: Alignment.centerRight,
-            child:
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text("default", textAlign: textAlign, style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 2.0),),
-                  Text(github, textAlign: textAlign,),
-                  Text(behance, textAlign: textAlign,),
-                  Text(dribbble, textAlign: textAlign,),
-                ]
-              ),
-            );
-  }
-}
-
-class AboutMe extends StatefulWidget {
-  @override
-  AboutMeState createState() => AboutMeState();
-}
-
-class AboutMeState extends State {
-  TextAlign textAlign = TextAlign.left;
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: 
-        Align(
-          alignment: Alignment.centerLeft,
-          child:
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text("default", textAlign: textAlign, style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 2.0),),
-                TextField(
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                  ),
-                  maxLines: 5,
-                ),
-                Row(
-                  children: [
-                    Interests(),
-                    Interests(),
-                    Interests(),
-                    Interests(),
-                  ],
-                ),
-              ]
+              borderRadius: BorderRadius.circular(8.0),
             ),
-        )
-    );
-  }
-}
-
-class Interests extends StatefulWidget {
-  @override
-  InterestsState createState() => InterestsState();
-}
-
-class InterestsState extends State<Interests> {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-          margin: const EdgeInsets.all(15.0),
-          padding: const EdgeInsets.all(3.0),
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.blueAccent),
-            borderRadius: BorderRadius.all(
-                          Radius.circular(10),
-            ),
-          ),
-          
-          child: Text("default"),
-    );
-  }
-}
-
-class Work extends StatefulWidget {
-  @override
-  WorkState createState() => WorkState();
-}
-
-class WorkState extends State<Work> {
-  TextAlign textAlign = TextAlign.left;
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: 
-        Align(
-          alignment: Alignment.centerLeft,
-          child:
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text("default", textAlign: textAlign, style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 2.0),),
-                Row(
-                  children: [
-                    Text("default"),
-                    DateField(),
-                    Text("default"),
-                  ],
-                ),
-                                Row(
-                  children: [
-                    Text("default"),
-                    DateField(),
-                    Text("default"),
-                  ],
-                ),
-                                Row(
-                  children: [
-                    Text("default"),
-                    DateField(),
-                    Text("default"),
-                  ],
-                ),
-              ]
-            ),
-        )
+            child: widget.widgetField,
+          )
+        ],
+      ),
     );
   }
 }
