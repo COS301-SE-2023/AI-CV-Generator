@@ -15,12 +15,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'AI-CV-GENERATOR_DEMO1_build',
+      debugShowCheckedModeBanner: false,
       initialRoute: '/',
       routes: {
         '/mainPage':(context) => Home(),
         '/':(context) => Login() 
       },
-      debugShowCheckedModeBanner: false,
     );
   }
 }
