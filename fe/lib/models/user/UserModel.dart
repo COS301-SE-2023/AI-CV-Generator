@@ -1,14 +1,6 @@
-import 'dart:convert';
 import 'package:ai_cv_generator/models/user/userdata.dart';
 import 'package:json_annotation/json_annotation.dart';
 part 'UserModel.g.dart';
-
-UserModel userModelJson(String str) =>
-  UserModel.fromJSON(json.decode(str));
-
-String UserModeltoJson(UserModel data) => json.encode(data.toJson());
-
-
 
 @JsonSerializable()
 class UserModel {
