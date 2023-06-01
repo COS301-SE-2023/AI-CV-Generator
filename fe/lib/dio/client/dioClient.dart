@@ -47,13 +47,18 @@ class DioClient {
     return retrievedUser;
   }
 
-  Future<String?> deleteUser({required UserLog log}) async {
+  Future<String?> deleteUser(
+    {
+      required UserModel model,
+      required id
+    }
+    ) async {
     ConfirmationMsg? retrievedMsg;
 
     try {
       Response response = await _dio.post(
-        baseurl + '/users/delete/${log.data.email}',
-        data: log.toJson(),
+        baseurl + '/users/delete/$id',
+        data: model.toJson(),
       );
 
       print('User created: ${response.data}');
@@ -68,28 +73,25 @@ class DioClient {
 
 
   //Will expand into different updates later on
-  Future<UserModel?> updateUser({required UserModel userInfo, required UserLog log}) async {
-    UserModel? retrievedUser;
+  Future<UserModel?> updateUser({
+      required UserModel user,
+      required String id,
+    }) async {
+    UserModel? updateduser;
 
     try {
-      Response response = await _dio.post(
-        baseurl + '/users/update/${log.data.email}',
-        data: userInfo.toJson(),
+      Response response = await _dio.put(
+        baseurl + '/users/update/$id',
+        data: user.toJson(),
       );
 
-      print('User created: ${response.data}');
+      print('User updated: ${response.data}');
 
-      retrievedUser = UserModel.fromJson(response.data);
+      updateduser = UserModel.fromJson(response.data);
     } catch (e) {
-      print('Error creating user: $e');
+      print('Error updating user: $e');
     }
 
-    return retrievedUser;
+    return updateduser;
   }
-
-
-
-
-
-
 }
