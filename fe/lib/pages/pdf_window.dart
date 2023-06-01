@@ -30,8 +30,8 @@ class _PdfWindowState extends State<PdfWindow> {
         )
       );
     }
-    return Scaffold(
-      body: const Text("File not available")
+    return const Scaffold(
+      body: Text("File not available")
     );
   }
 }

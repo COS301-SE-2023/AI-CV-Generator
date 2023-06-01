@@ -19,8 +19,9 @@ class _pdfWinLinkState extends State<pdfWinLink> {
     Widget build(BuildContext context) {
         String? filename = "Unavailable!";
         PlatformFile? file = widget.file;
-        if (file != null && file.name != null)
+        if (file != null) {
           filename = file.name;
+        }
         return Scaffold(
           body: ElevatedButton(onPressed:() => {}, child: Text(filename)),
         );
