@@ -10,7 +10,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final int _selectedIndex = 1;
   Map data = {};
 
   @override

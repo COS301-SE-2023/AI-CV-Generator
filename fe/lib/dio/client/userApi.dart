@@ -1,6 +1,5 @@
 import 'package:ai_cv_generator/dio/client/dioClient.dart';
 import 'package:ai_cv_generator/models/user/Confirmation.dart';
-import 'package:ai_cv_generator/models/user/UserLog.dart';
 import 'package:ai_cv_generator/models/user/UserModel.dart';
 
 import 'package:dio/dio.dart';
