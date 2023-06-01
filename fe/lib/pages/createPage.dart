@@ -43,14 +43,14 @@ class _ImportCVState extends State<ImportCV> {
                       child: const Text("Upload")
                     )
                   ),
-                  Container(
-                    padding: const EdgeInsets.all(10.0),
-                    child: OutlinedButton(
-                      onPressed: () {
-                      }, 
-                      child: const Text("Create Manually")
-                    ) 
-                  ),
+                  // Container(
+                  //   padding: const EdgeInsets.all(10.0),
+                  //   child: OutlinedButton(
+                  //     onPressed: () {
+                  //     }, 
+                  //     child: const Text("Create Manually")
+                  //   ) 
+                  // ),
                 ]
               ),
               fileAvail == true ?
