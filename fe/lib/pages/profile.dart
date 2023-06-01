@@ -43,8 +43,8 @@ class ProfileState extends State<Profile> {
                       isEditingEnabled = !isEditingEnabled;
                     });
                     _formKey.currentState!.save();
-                    print(name);
-                    print(links);
+                    // print(name);
+                    // print(links);
                   }, 
                   child: const Text("EDIT")
                 ),
