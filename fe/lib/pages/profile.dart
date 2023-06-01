@@ -35,19 +35,29 @@ class ProfileState extends State<Profile> {
                 backgroundColor: Colors.blue,
               ),
               SizedBox(height: 16,),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10) ,
-                child:OutlinedButton(
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                child: OutlinedButton(
                   onPressed: () {
-                    setState(() {
-                      isEditingEnabled = !isEditingEnabled;
-                    });
                     _formKey.currentState!.save();
-                    // print(name);
-                    // print(links);
+                    setState(() {
+                      isEditingEnabled = false;
+                    });
+                  }, 
+                  child: const Text("SAVE")
+                ) 
+              ),
+              SizedBox(height: 8,),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                child: OutlinedButton(
+                  onPressed: () {
+                      setState(() {
+                      isEditingEnabled = true;
+                    });
                   }, 
                   child: const Text("EDIT")
-                ),
+                ) 
               ),
               SizedBox(height: 16,),
               InputField(label: "NAME", widgetField: TextFormField(enabled: isEditingEnabled, initialValue: name, onSaved: (value)=>{name=value!},)),
