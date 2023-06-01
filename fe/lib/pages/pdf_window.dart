@@ -1,12 +1,6 @@
 import 'dart:async';
-
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'dart:typed_data';
-import "package:path/path.dart";
-import "package:path_provider/path_provider.dart";
-//import 'dart:io';
-import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:pdfx/pdfx.dart';
 
@@ -37,7 +31,7 @@ class _PdfWindowState extends State<PdfWindow> {
       );
     }
     return Scaffold(
-      body: Text("File not available")
+      body: const Text("File not available")
     );
   }
 }
