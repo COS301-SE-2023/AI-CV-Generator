@@ -7,8 +7,6 @@ class MockInterceptor extends Interceptor {
  static const _jsonDir = 'assets/json/';
  static const _jsonExtension = '.json';
  
- 
-  
   @override
   Future onRequest(RequestOptions options,RequestInterceptorHandler handler) async {
     final resourcePath = _jsonDir + options.path + _jsonExtension;

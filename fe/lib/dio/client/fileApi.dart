@@ -4,12 +4,13 @@ import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 
 class FileApi extends DioClient {
-  Future<Response> uploadFile(
+  Future<Response?> uploadFile(
     {
-      required PlatformFile file,
+      required PlatformFile? file,
       required id
     }
   ) async {
+    if (file == null) return null;
     FormData formData = FormData.fromMap({
       "pdf": await MultipartFile.fromBytes(
         file.bytes as List<int>, filename: file.name,
