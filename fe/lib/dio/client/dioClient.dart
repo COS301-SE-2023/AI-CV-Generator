@@ -1,4 +1,4 @@
-import 'package:ai_cv_generator/models/user/UserModel.dart';
+import 'package:ai_cv_generator/models/user/UserLog.dart';
 import 'package:dio/dio.dart';
 
 class DioClient {
@@ -26,7 +26,7 @@ class DioClient {
     return user;
   }
 
-  
+
 
 
 

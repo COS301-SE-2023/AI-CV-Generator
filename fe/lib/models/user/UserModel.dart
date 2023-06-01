@@ -1,15 +1,26 @@
-import 'package:ai_cv_generator/models/user/userdata.dart';
 import 'package:json_annotation/json_annotation.dart';
+
 part 'UserModel.g.dart';
 
+
+//for creating a user and editing a user
 @JsonSerializable()
-class UserModel {
-    Data data;
-    // More data to be added
-    UserModel({required this.data});
+class UserInfomat {
+  @JsonKey(name: "fname")
+  String fname;
+  @JsonKey(name: "userid")
+  String? id;
+  String? createdAt;
+  String? updatedAt;
+  
 
-    factory UserModel.fromJSON(Map<String,dynamic> json) => _$UserModelFromJson(json);
+  UserInfomat({
+    required this.fname,
+    this.id,
+    this.createdAt,
+    this.updatedAt,
+  });
 
-    Map<String,dynamic> toJson() => _$UserModelToJson(this);
-      
+  factory UserInfomat.fromJson(Map<String, dynamic> json) => _$UserInfomatFromJson(json);
+  Map<String, dynamic> toJson() => _$UserInfomatToJson(this);
 }
