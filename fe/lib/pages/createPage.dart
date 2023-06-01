@@ -54,7 +54,42 @@ class _ImportCVState extends State<ImportCV> {
                 ]
               ),
               fileAvail == true ?
-              Expanded(child:PdfWindow(file: file,)) : const Text("")
+              Expanded(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: Scaffold(
+                    appBar: AppBar(
+                      actions: [
+                          IconButton(
+                            icon: Icon(Icons.delete),
+                            onPressed: () {
+                                setState(() {
+                                  file = null;
+                                  fileAvail = false;
+                                });
+                            },
+                          )
+                      ],
+                      leading: IconButton(
+                        icon: Icon(Icons.upload),
+                        onPressed: () {
+                          
+                        },
+                      ),
+                      backgroundColor: Colors.blueGrey[900],
+                    ),
+                    body: Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.blueGrey,
+                            width: 1
+                          )
+                        ),
+                        child: PdfWindow(file: file),
+                    )
+                  ),
+                )
+              ) : const Text("")
           ],
         )
       )
