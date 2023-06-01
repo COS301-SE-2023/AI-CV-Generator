@@ -17,9 +17,8 @@ class MyApp extends StatelessWidget {
       title: 'AI-CV-GENERATOR_DEMO1_build',
       initialRoute: '/',
       routes: {
-        '/':(context) => const Home(),
-        // '/importCV':(context) => ImportCV() 
-        // Incase we need routing later on
+        '/mainPage':(context) => Home(),
+        '/':(context) => Login() 
       },
       debugShowCheckedModeBanner: false,
     );
