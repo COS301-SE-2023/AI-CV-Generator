@@ -6,15 +6,16 @@ part 'user_informat.g.dart';
 //for creating a user and editing a user
 @JsonSerializable()
 class UserInfomat {
-  String name;
-  String job;
+  @JsonKey(name: "fname")
+  String fname;
+  @JsonKey(name: "userid")
   String? id;
   String? createdAt;
   String? updatedAt;
+  
 
   UserInfomat({
-    required this.name,
-    required this.job,
+    required this.fname,
     this.id,
     this.createdAt,
     this.updatedAt,

@@ -7,18 +7,16 @@ part of 'user_informat.dart';
 // **************************************************************************
 
 UserInfomat _$UserInfomatFromJson(Map<String, dynamic> json) => UserInfomat(
-      name: json['name'] as String,
-      job: json['job'] as String,
-      id: json['id'] as String?,
+      fname: json['fname'] as String,
+      id: json['userid'] as String?,
       createdAt: json['createdAt'] as String?,
       updatedAt: json['updatedAt'] as String?,
     );
 
 Map<String, dynamic> _$UserInfomatToJson(UserInfomat instance) =>
     <String, dynamic>{
-      'name': instance.name,
-      'job': instance.job,
-      'id': instance.id,
+      'fname': instance.fname,
+      'userid': instance.id,
       'createdAt': instance.createdAt,
       'updatedAt': instance.updatedAt,
     };
