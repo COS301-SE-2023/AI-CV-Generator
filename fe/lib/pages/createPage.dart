@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:ai_cv_generator/api/pdfApi.dart';
 import 'package:ai_cv_generator/pages/pdfWinLink.dart';
@@ -13,14 +12,12 @@ class ImportCV extends StatefulWidget {
 }
 
 class _ImportCVState extends State<ImportCV> {
-
   Map data = {};
-  
-
+  PlatformFile? file = null;
+  bool fileAvail = false;
   @override
   Widget build(BuildContext context) {
-    PlatformFile? file = null;
-    bool fileAvail = false;
+    
     return Scaffold(
       body: Center(
         child: Column(
@@ -36,9 +33,11 @@ class _ImportCVState extends State<ImportCV> {
                       onPressed: () async {
                           final fi = await pdfAPI.pick_cvfile();
                           if (fi == null) return;
-                          file = fi;
-                          fileAvail = true;
-                          //openFile(file, context);
+                          
+                          setState(() {
+                              file = fi;
+                              fileAvail = true;
+                          });
                       }, 
                       child: const Text("Upload")
                     )
@@ -54,7 +53,7 @@ class _ImportCVState extends State<ImportCV> {
                 ]
               ),
               fileAvail == true ?
-              pdfWinLink(file: file,): const Text("I am here")
+              Expanded(child:pdfWinLink(file: file,)) : const Text("I am here")
           ],
         )
       )
