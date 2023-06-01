@@ -6,10 +6,10 @@ import 'package:ai_cv_generator/models/user/UserModel.dart';
 import 'package:dio/dio.dart';
 
 class userApi extends DioClient {
-  Future<UserModel?> getUser({required UserLog logdetails}) async {
+  Future<UserModel?> getUser({required String id}) async {
     UserModel? user;
     try {
-      Response userData = await dio.get('$baseurl/users/${logdetails.data.email}');
+      Response userData = await dio.get('$baseurl/users/$id');
       print('User Info: ${userData.data}');
       user = UserModel.fromJson(userData.data);
     } on DioError catch (e) {
@@ -30,7 +30,7 @@ class userApi extends DioClient {
 
     try {
       Response response = await dio.post(
-        '$baseurl/users/create',
+        '$baseurl/users',
         data: userInfo.toJson(),
       );
 
@@ -53,7 +53,7 @@ class userApi extends DioClient {
     
     try {
       Response response = await dio.delete(
-        '$baseurl/users/delete/$id'
+        '$baseurl/users/$id'
       );
 
       print('User created: ${response.data}');
@@ -76,7 +76,7 @@ class userApi extends DioClient {
 
     try {
       Response response = await dio.put(
-        '$baseurl/users/update/$id',
+        '$baseurl/users/$id',
         data: user.toJson(),
       );
 
