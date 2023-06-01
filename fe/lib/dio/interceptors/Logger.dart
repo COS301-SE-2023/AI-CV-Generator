@@ -1,6 +1,10 @@
 import 'package:dio/dio.dart';
 
 class Logger extends Interceptor {
+  final bool log;
+  Logger({
+    required this.log
+  });
 
   //Logs outgoing requests
   @override
@@ -22,7 +26,7 @@ class Logger extends Interceptor {
   @override
   void onError(DioError err, ErrorInterceptorHandler handler) {
     print(
-      'error [${err.response?.statusCode}] => at Path: ${err.requestOptions.path}',
+      'Error [${err.response?.statusCode}] => at Path: ${err.requestOptions.path}',
     );
     return super.onError(err, handler);
   }

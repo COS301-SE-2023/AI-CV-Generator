@@ -1,5 +1,6 @@
 
 import 'package:ai_cv_generator/api/pdfApi.dart';
+import 'package:ai_cv_generator/dio/client/userApi.dart';
 import 'package:ai_cv_generator/pages/pdf_window.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
@@ -43,14 +44,15 @@ class _ImportCVState extends State<ImportCV> {
                       child: const Text("Upload")
                     )
                   ),
-                  // Container(
-                  //   padding: const EdgeInsets.all(10.0),
-                  //   child: OutlinedButton(
-                  //     onPressed: () {
-                  //     }, 
-                  //     child: const Text("Create Manually")
-                  //   ) 
-                  // ),
+                  Container(
+                    padding: const EdgeInsets.all(10.0),
+                    child: OutlinedButton(
+                      onPressed: () {
+                        userApi().getUser(id: "test_id");
+                      }, 
+                      child: const Text("Test Button")
+                    ) 
+                  ),
                 ]
               ),
               fileAvail == true ?

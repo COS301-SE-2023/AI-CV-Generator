@@ -35,7 +35,7 @@ class FileApi extends DioClient {
   ) async {
     FileModel? file;
     try {
-      Response userData = await dio.get('$baseurl/users/$id');
+      Response userData = await dio.get('$baseurl/users/search/$id');
       file = FileModel.fromJson(userData.data);
     } on DioError catch (e) {
       if (e.response != null) {
