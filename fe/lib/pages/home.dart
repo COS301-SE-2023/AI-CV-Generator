@@ -36,10 +36,11 @@ class _HomeState extends State<Home> {
           IconButton(
             onPressed: () async {
               UserModel? mode = await userApi.getUser(id: id);
-              if (mode != null)
-              Navigator.of(context).push(
+              if (mode != null) {
+                Navigator.of(context).push(
                 MaterialPageRoute(builder: (c)=>  Profile(id: id,model: mode,))
               );
+              }
             }, 
             icon: const Icon(Icons.account_circle)
             )

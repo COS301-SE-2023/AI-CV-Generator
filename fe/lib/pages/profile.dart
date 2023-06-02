@@ -1,5 +1,7 @@
 import 'package:ai_cv_generator/dio/client/userApi.dart';
+import 'package:ai_cv_generator/models/user/Qualifications.dart';
 import 'package:ai_cv_generator/models/user/UserModel.dart';
+import 'package:ai_cv_generator/pages/inputField.dart';
 import 'package:flutter/material.dart';
 
 class Profile extends StatefulWidget {
@@ -52,7 +54,24 @@ class ProfileState extends State<Profile> {
       workExperience = "No Work expierience listed...";
     }
 
-    String links = "";
+    String links = "Not ready yet";
+    
+    void update() {
+      print("Updated");
+    }
+    TextEditingController nameC = TextEditingController(text: model.fname);
+    TextEditingController emailC = TextEditingController(text: email);
+    TextEditingController phoneNoC = TextEditingController(text: phoneNumber);
+    TextEditingController locationC = TextEditingController(text: location);
+    TextEditingController descripC = TextEditingController(text: aboutMe);
+    List<TextEditingController> workExperienceC;
+    List<TextEditingController> qualificationC;
+    nameC.addListener(update);
+    emailC.addListener(update);
+    phoneNoC.addListener(update);
+    locationC.addListener(update);
+    descripC.addListener(update);
+
     
     return Material(child:Padding(
       padding: const EdgeInsets.symmetric(vertical: 42, horizontal: 420),
@@ -91,7 +110,8 @@ class ProfileState extends State<Profile> {
                 ) 
               ),
               const SizedBox(height: 16,),
-              InputField(label: "NAME", widgetField: TextFormField(enabled: isEditingEnabled, initialValue: model.fname, onSaved: (value)=>{model.fname=value!},)),
+              //InputField(label: "NAME", widgetField: TextFormField(enabled: isEditingEnabled, initialValue: model.fname, onSaved: (value)=>{model.fname=value!},)),
+              inputField(editor: nameC,text: model.fname , label: "Name"),
               const SizedBox(height: 16,),
               InputField(label: "EMAIL", widgetField: TextFormField(enabled: isEditingEnabled, initialValue: email, onSaved: (value)=>{email=value!},)),
               const SizedBox(height: 16,),
