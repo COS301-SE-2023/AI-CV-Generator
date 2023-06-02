@@ -8,16 +8,16 @@ import '../client/dioClient.dart';
 class MockInterceptor extends Interceptor {
  static const _jsonDir = 'assets/json/';
  static const _jsonExtension = '.json';
- bool throwError;
+ bool? throwError;
 
  MockInterceptor({
-  required this.throwError
+    this.throwError
  });
  
   @override
   void onRequest(RequestOptions options,RequestInterceptorHandler handler) async {
     final resourcePath = _jsonDir + options.path.replaceAll(DioClient.base+"/","") + _jsonExtension;
-    var data;
+    ByteData data;
     print("Retriving from mock: $resourcePath");
     try {
       data = await rootBundle.load(resourcePath);
@@ -35,18 +35,38 @@ class MockInterceptor extends Interceptor {
         requestOptions: options
       );
 
-      if (throwError) {
+      if (throwError != null && throwError == true) {
         handler.reject(DioError(requestOptions: options));
       } else {
         handler.resolve(resp);
       }
-    }  on Error catch(e) {
+    }  on Error {
       print("Data from $resourcePath does not exit");
-      if (throwError) {
+      if (throwError != null && throwError == true) {
         handler.reject(DioError(requestOptions: options));
       } else {
         handler.next(options);
       }
     }    
+  }
+
+  @override
+  void onResponse(Response response, ResponseInterceptorHandler handler) {
+    print(
+      'Resonse Recieved [${response.statusCode}] => at Path: ${response.requestOptions.path}',
+    );
+    return super.onResponse(response, handler);
+  }
+
+  //Logs Errors
+  @override
+  void onError(DioError err, ErrorInterceptorHandler handler) {
+    print(
+      'Error [${err.response?.statusCode}] => at Path: ${err.requestOptions.path}',
+    );
+    if (err.response == null) {
+      print("Error may be that frontend cannot connect to the backend or that the backend isnt running");
+    }
+    return super.onError(err, handler);
   }
 }

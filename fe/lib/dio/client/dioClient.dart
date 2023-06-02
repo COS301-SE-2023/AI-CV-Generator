@@ -9,10 +9,10 @@ class DioClient {
       baseUrl: 'https://mockbackend/api',
       //Will change depending on time
       connectTimeout: const Duration(
-        seconds: 20
+        seconds: 10
       ),
       receiveTimeout: const Duration(
-        seconds: 20
+        seconds: 10
       ),
     ),
   ) ..interceptors.addAll(

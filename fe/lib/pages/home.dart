@@ -45,7 +45,7 @@ class _HomeState extends State<Home> {
         child: Row(
           children: [
             Expanded(child: createPage(id:id)),
-            Expanded(child: generatedCV())
+            const Expanded(child: generatedCV())
           ],
         ),
       ),

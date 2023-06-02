@@ -1,15 +1,15 @@
 import 'package:dio/dio.dart';
 
 class Logger extends Interceptor {
-  final bool log;
+  final bool? log;
   Logger({
-    required this.log
+    this.log
   });
 
   //Logs outgoing requests
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    if (!log) return super.onRequest(options,handler);
+    if (log == null || log == false) return super.onRequest(options,handler);
     print('Request [${options.method}] => at path: ${options.path}');
     return super.onRequest(options, handler);
   }
@@ -17,7 +17,7 @@ class Logger extends Interceptor {
   //Logs incoming responses
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
-    if (!log) return super.onResponse(response, handler);
+    if (log == null || log == false) return super.onResponse(response, handler);
     print(
       'Resonse Recieved [${response.statusCode}] => at Path: ${response.requestOptions.path}',
     );
@@ -27,7 +27,7 @@ class Logger extends Interceptor {
   //Logs Errors
   @override
   void onError(DioError err, ErrorInterceptorHandler handler) {
-    if (!log) return super.onError(err,handler);
+    if (log == null || log ==false) return super.onError(err,handler);
     print(
       'Error [${err.response?.statusCode}] => at Path: ${err.requestOptions.path}',
     );
