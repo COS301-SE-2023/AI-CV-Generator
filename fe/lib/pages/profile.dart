@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class Profile extends StatefulWidget {
+  const Profile({super.key});
+
   @override
   ProfileState createState() => ProfileState();
 }
@@ -22,18 +24,18 @@ class ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 42, horizontal: 420),
+    return Material(child:Padding(
+      padding: const EdgeInsets.symmetric(vertical: 42, horizontal: 420),
         child: Form(
           key: _formKey,
           child: ListView(
             children: [
-              CircleAvatar(
+              const CircleAvatar(
                 radius: 50,
                 // backgroundImage: AssetImage(imagePath),
                 backgroundColor: Colors.blue,
               ),
-              SizedBox(height: 16,),
+              const SizedBox(height: 16,),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10.0),
                 child: OutlinedButton(
@@ -46,7 +48,7 @@ class ProfileState extends State<Profile> {
                   child: const Text("SAVE")
                 ) 
               ),
-              SizedBox(height: 8,),
+              const SizedBox(height: 8,),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10.0),
                 child: OutlinedButton(
@@ -58,34 +60,34 @@ class ProfileState extends State<Profile> {
                   child: const Text("EDIT")
                 ) 
               ),
-              SizedBox(height: 16,),
+              const SizedBox(height: 16,),
               InputField(label: "NAME", widgetField: TextFormField(enabled: isEditingEnabled, initialValue: name, onSaved: (value)=>{name=value!},)),
-              SizedBox(height: 16,),
+              const SizedBox(height: 16,),
               InputField(label: "EMAIL", widgetField: TextFormField(enabled: isEditingEnabled, initialValue: email, onSaved: (value)=>{email=value!},)),
-              SizedBox(height: 16,),
+              const SizedBox(height: 16,),
               InputField(label: "PHONE NUMBER", widgetField: TextFormField(enabled: isEditingEnabled, initialValue: phoneNumber, onSaved: (value)=>{phoneNumber=value!},)),
-              SizedBox(height: 16,),
+              const SizedBox(height: 16,),
               InputField(label: "LOCATION", widgetField: TextFormField(enabled: isEditingEnabled, initialValue: location, onSaved: (value)=>{location=value!},)),
-              SizedBox(height: 16,),
+              const SizedBox(height: 16,),
               InputField(label: "ABOUT ME", widgetField: TextFormField(enabled: isEditingEnabled, initialValue: aboutMe, onSaved: (value)=>{aboutMe=value!}, maxLines: 10,)),
-              SizedBox(height: 16,),
+              const SizedBox(height: 16,),
               InputField(label: "EDUCATION", widgetField: TextFormField(enabled: isEditingEnabled, initialValue: education, onSaved: (value)=>{education=value!}, maxLines: 10,)),
-              SizedBox(height: 16,),
+              const SizedBox(height: 16,),
               InputField(label: "WORK EXPERIENCE", widgetField: TextFormField(enabled: isEditingEnabled, initialValue: workExperience, onSaved: (value)=>{workExperience=value!}, maxLines: 10,)),
-              SizedBox(height: 16,),
+              const SizedBox(height: 16,),
               InputField(label: "LINKS", widgetField: TextFormField(enabled: isEditingEnabled, initialValue: links, onSaved: (value)=>{links=value!}, maxLines: 10,)),
-              SizedBox(height: 16,),
+              const SizedBox(height: 16,),
             ],
           )
         )
-      );
+      ));
   }
 }
 
 class InputField extends StatefulWidget {
   final String label;
   final Widget widgetField;
-  InputField({required this.label, required this.widgetField});
+  const InputField({super.key, required this.label, required this.widgetField});
   @override
   InputFieldState createState() => InputFieldState();
 }
@@ -94,12 +96,12 @@ class InputFieldState extends State<InputField> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 10),
       child: Column (
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(widget.label),
-          SizedBox(height: 8,),
+          const SizedBox(height: 8,),
           Container(
             decoration: BoxDecoration(
               border: Border.all(

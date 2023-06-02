@@ -29,7 +29,7 @@ class _HomeState extends State<Home> {
           IconButton(
             onPressed: () => {
               Navigator.of(context).push(
-                MaterialPageRoute(builder: (c)=>  Profile())
+                MaterialPageRoute(builder: (c)=>  const Profile())
               )
             }, 
             icon: const Icon(Icons.account_circle)

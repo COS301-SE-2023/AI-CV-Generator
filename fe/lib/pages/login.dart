@@ -8,11 +8,11 @@ class Login extends StatelessWidget {
  
   @override
   Widget build(BuildContext context) {
-    return  MaterialApp(
+    return  const MaterialApp(
       title: _title,
-      home: const Scaffold(
+      home: Scaffold(
         //appBar: AppBar(title: const Text(_title)),
-        body: const MyStatefulWidget(),
+        body: MyStatefulWidget(),
       ),
     );
   }
@@ -38,7 +38,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             Container(
                 alignment: Alignment.center,
                 padding: const EdgeInsets.all(10),
-                child: Image(image: ResizeImage(AssetImage('assets/images/ImgLogo-removebg-preview.png'),width:350,height:350),)
+                child: const Image(image: ResizeImage(AssetImage('assets/images/ImgLogo-removebg-preview.png'),width:350,height:350),)
                 ),
             Container(
                 alignment: Alignment.center,
@@ -81,7 +81,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     // Implement Login functionality later
                     // Just move to app for now
                     Navigator.push(context, MaterialPageRoute(
-                      builder: (context) => Home()
+                      builder: (context) => const Home()
                     ));
                   },
                 )
