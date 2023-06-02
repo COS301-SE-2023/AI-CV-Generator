@@ -8,6 +8,11 @@ import '../client/dioClient.dart';
 class MockInterceptor extends Interceptor {
  static const _jsonDir = 'assets/json/';
  static const _jsonExtension = '.json';
+ bool throwError;
+
+ MockInterceptor({
+  required this.throwError
+ });
  
   @override
   void onRequest(RequestOptions options,RequestInterceptorHandler handler) async {
@@ -33,7 +38,11 @@ class MockInterceptor extends Interceptor {
       handler.resolve(resp,true);
     }  on Error catch(e) {
       print("Data from $resourcePath does not exit");
-      handler.next(options);
+      if (throwError) {
+        handler.reject(DioError(requestOptions: options));
+      } else {
+        handler.next(options);
+      }
     }    
   }
 }
