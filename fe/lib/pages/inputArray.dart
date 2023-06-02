@@ -27,7 +27,7 @@ class _inputArrayState extends State<inputArray> {
     }
     return Scaffold(
       body: Column(
-        children: [...editors.map((e) => inputField(editor: e,label: "",text: e.text,))]
+        children: [...editors.map((e) => inputField(editor: e,label: "",))]
       ),
     );
   }

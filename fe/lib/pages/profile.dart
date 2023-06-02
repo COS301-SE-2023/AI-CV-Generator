@@ -55,25 +55,52 @@ class ProfileState extends State<Profile> {
     }
 
     String links = "Not ready yet";
-    
+    DateTime time = DateTime.now();
+    void ActualUpdate() {
+      print("Actual Update");
+    }
     void update() {
-      print("Updated");
+        DateTime nTime = DateTime.now();
+        if (nTime.second - time.second > 10) {
+          ActualUpdate();
+          time = nTime;
+        }
     }
     TextEditingController nameC = TextEditingController(text: model.fname);
     TextEditingController emailC = TextEditingController(text: email);
     TextEditingController phoneNoC = TextEditingController(text: phoneNumber);
     TextEditingController locationC = TextEditingController(text: location);
     TextEditingController descripC = TextEditingController(text: aboutMe);
-    List<TextEditingController> workExperienceC;
-    List<TextEditingController> qualificationC;
+    TextEditingController workExperienceC = TextEditingController();
+    TextEditingController qualificationC = TextEditingController();
     nameC.addListener(update);
     emailC.addListener(update);
     phoneNoC.addListener(update);
     locationC.addListener(update);
     descripC.addListener(update);
+    workExperienceC.addListener(update);
+    qualificationC.addListener(update);
 
     
-    return Material(child:Padding(
+    return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back,
+            color: Color.fromARGB(255, 0, 63, 114),
+          ), 
+          onPressed: () { 
+            ActualUpdate();
+            Navigator.pop(context);
+          },
+        ),
+        backgroundColor: Colors.transparent,
+        shadowColor: Colors.transparent,
+      ),
+      body: Container( 
+        color: Colors.white,
+        child:Padding(
       padding: const EdgeInsets.symmetric(vertical: 42, horizontal: 420),
         child: Form(
           key: _formKey,
@@ -111,15 +138,18 @@ class ProfileState extends State<Profile> {
               ),
               const SizedBox(height: 16,),
               //InputField(label: "NAME", widgetField: TextFormField(enabled: isEditingEnabled, initialValue: model.fname, onSaved: (value)=>{model.fname=value!},)),
-              inputField(editor: nameC,text: model.fname , label: "Name"),
+              inputField(editor: nameC , label: "Name"),
               const SizedBox(height: 16,),
-              InputField(label: "EMAIL", widgetField: TextFormField(enabled: isEditingEnabled, initialValue: email, onSaved: (value)=>{email=value!},)),
+              //InputField(label: "EMAIL", widgetField: TextFormField(enabled: isEditingEnabled, initialValue: email, onSaved: (value)=>{email=value!},)),
+              inputField(editor: emailC, label: "EMAIL"),
               const SizedBox(height: 16,),
-              InputField(label: "PHONE NUMBER", widgetField: TextFormField(enabled: isEditingEnabled, initialValue: phoneNumber, onSaved: (value)=>{phoneNumber=value!},)),
+              //InputField(label: "PHONE NUMBER", widgetField: TextFormField(enabled: isEditingEnabled, initialValue: phoneNumber, onSaved: (value)=>{phoneNumber=value!},)),
+              inputField(editor: phoneNoC, label: "PHONE No"),
               const SizedBox(height: 16,),
-              InputField(label: "LOCATION", widgetField: TextFormField(enabled: isEditingEnabled, initialValue: location, onSaved: (value)=>{location=value!},)),
+              //InputField(label: "LOCATION", widgetField: TextFormField(enabled: isEditingEnabled, initialValue: location, onSaved: (value)=>{location=value!},)),
+              inputField(editor: locationC,label: "LOCATION",),
               const SizedBox(height: 16,),
-              InputField(label: "ABOUT ME", widgetField: TextFormField(enabled: isEditingEnabled, initialValue: aboutMe, onSaved: (value)=>{aboutMe=value!}, maxLines: 10,)),
+              InputField(label: "ABOUT ME", widgetField: TextFormField(controller: descripC, maxLines: 10,)),
               const SizedBox(height: 16,),
               InputField(label: "EDUCATION", widgetField: TextFormField(enabled: isEditingEnabled, initialValue: education, onSaved: (value)=>{education=value!}, maxLines: 10,)),
               const SizedBox(height: 16,),
@@ -130,7 +160,7 @@ class ProfileState extends State<Profile> {
             ],
           )
         )
-      ));
+      )));
   }
 }
 
