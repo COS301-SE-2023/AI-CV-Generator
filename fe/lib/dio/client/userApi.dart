@@ -5,10 +5,10 @@ import 'package:ai_cv_generator/models/user/UserModel.dart';
 import 'package:dio/dio.dart';
 
 class userApi extends DioClient {
-  Future<UserModel?> getUser({required String id}) async {
+  static Future<UserModel?> getUser({required String id}) async {
     UserModel? user;
     try {
-      Response userData = await dio.get('$baseurl/users/retrieve/$id');
+      Response userData = await DioClient.dio.get('$DioClient.baseurl/users/retrieve/$id');
       print('User Info: ${userData.data}');
       user = UserModel.fromJson(userData.data);
     } on DioError catch (e) {
@@ -24,12 +24,12 @@ class userApi extends DioClient {
     return user;
   }
 
-  Future<UserModel?> createUser({required UserModel userInfo}) async {
+  static Future<UserModel?> createUser({required UserModel userInfo}) async {
     UserModel? retrievedUser;
 
     try {
-      Response response = await dio.post(
-        '$baseurl/users/create',
+      Response response = await DioClient.dio.post(
+        '$DioClient.baseurl/users/create',
         data: userInfo.toJson(),
       );
 
@@ -51,8 +51,8 @@ class userApi extends DioClient {
     ConfirmationMsg? retrievedMsg;
     
     try {
-      Response response = await dio.delete(
-        '$baseurl/users/delete/$id'
+      Response response = await DioClient.dio.delete(
+        '$DioClient.baseurl/users/delete/$id'
       );
 
       print('User created: ${response.data}');
@@ -67,15 +67,15 @@ class userApi extends DioClient {
 
 
   //Will expand into different updates later on
-  Future<UserModel?> updateUser({
+  static Future<UserModel?> updateUser({
       required UserModel user,
       required String id,
     }) async {
     UserModel? updateduser;
 
     try {
-      Response response = await dio.put(
-        '$baseurl/users/update/$id',
+      Response response = await DioClient.dio.put(
+        '$DioClient.baseurl/users/update/$id',
         data: user.toJson(),
       );
 

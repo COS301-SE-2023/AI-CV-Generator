@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 
 class FileApi extends DioClient {
-  Future<Response?> uploadFile(
+  static Future<Response?> uploadFile(
     {
       required PlatformFile? file,
       required id
@@ -17,7 +17,7 @@ class FileApi extends DioClient {
       )
     });
 
-    Response response = await dio.post(
+    Response response = await DioClient.dio.post(
       '/search/$id', // will be changed
       data: formData,
       onSendProgress: (int sent, int total) {
@@ -28,7 +28,7 @@ class FileApi extends DioClient {
     return response;
   }
 
-  Future<PlatformFile?> requestFileFile(
+  static Future<PlatformFile?> requestFileFile(
     {
       required PlatformFile file,
       required id
@@ -36,7 +36,7 @@ class FileApi extends DioClient {
   ) async {
     FileModel? file;
     try {
-      Response userData = await dio.get('$baseurl/users/search/$id');
+      Response userData = await DioClient.dio.get('$DioClient.baseurl/users/search/$id');
       file = FileModel.fromJson(userData.data);
     } on DioError catch (e) {
       if (e.response != null) {

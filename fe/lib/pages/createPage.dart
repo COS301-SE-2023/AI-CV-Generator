@@ -49,7 +49,7 @@ class _ImportCVState extends State<ImportCV> {
                     padding: const EdgeInsets.all(10.0),
                     child: OutlinedButton(
                       onPressed: () {
-                        userApi().getUser(id: "test_id");
+                        userApi.getUser(id: "test_id");
                       }, 
                       child: const Text("Test Button")
                     ) 
@@ -77,7 +77,7 @@ class _ImportCVState extends State<ImportCV> {
                         icon: const Icon(Icons.upload),
                         onPressed: () {
                           if (file == null) {return;}
-                            FileApi().uploadFile(file: file, id: "test_id");
+                            FileApi.uploadFile(file: file, id: "test_id");
                           
                         },
                       ),

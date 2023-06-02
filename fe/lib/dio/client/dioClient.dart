@@ -3,7 +3,7 @@ import 'package:ai_cv_generator/dio/interceptors/testingInterceptor.dart';
 import 'package:dio/dio.dart';
 
 class DioClient {
-  final Dio _dio = Dio(
+  static final Dio _dio = Dio(
     BaseOptions(
       baseUrl: 'https://mockbackend/api',
       //Will change depending on time
@@ -21,8 +21,8 @@ class DioClient {
       Tester(test: true)
     ]
   );
-  final baseurl = "http//localhost:8080"; //This will be the actual base usl during development of the system
+  static const baseurl = "http//localhost:8080"; //This will be the actual base usl during development of the system
   //final baseurl = "https//mockbackend/api"; //Until the backend is fully established
 
-  get dio => _dio;
+  static get dio => _dio;
 }
