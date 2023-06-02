@@ -12,23 +12,28 @@ class MockInterceptor extends Interceptor {
   @override
   void onRequest(RequestOptions options,RequestInterceptorHandler handler) async {
     final resourcePath = _jsonDir + options.path.replaceAll(DioClient.base+"/","") + _jsonExtension;
+    var data;
     print("Retriving from mock: $resourcePath");
-    final data = await rootBundle.load(resourcePath);
-    final map = json.decode(
-      utf8.decode(
-        data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes),
-      ),
-    );
+    try {
+      data = await rootBundle.load(resourcePath);
+      final map = json.decode(
+        utf8.decode(
+          data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes),
+        ),
+      );
+      print("Loading data from $resourcePath was succesful returning data");
+      print(map.toString());
+    
+      var resp = Response(
+        data: map,
+        statusCode: 200,
+        requestOptions: options
+      );
 
-    print("Loading data from $resourcePath was succesful returning data");
-    print(map.toString());
-  
-    var resp = Response(
-      data: map,
-      statusCode: 200,
-      requestOptions: options
-    );
-
-    handler.resolve(resp,true);
+      handler.resolve(resp,true);
+    }  on Error catch(e) {
+      print("Data from $resourcePath does not exit");
+      handler.next(options);
+    }    
   }
 }
