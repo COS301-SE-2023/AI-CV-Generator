@@ -1,3 +1,6 @@
+import 'package:ai_cv_generator/dio/client/userApi.dart';
+import 'package:ai_cv_generator/models/user/UserLog.dart';
+import 'package:ai_cv_generator/models/user/UserModel.dart';
 import 'package:ai_cv_generator/pages/home.dart';
 import 'package:flutter/material.dart';
  
@@ -28,6 +31,8 @@ class MyStatefulWidget extends StatefulWidget {
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   TextEditingController nameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+
+  bool Error = false;
  
   @override
   Widget build(BuildContext context) {
@@ -77,15 +82,23 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 padding: const EdgeInsets.fromLTRB(300, 0, 300, 0),
                 child: ElevatedButton(
                   child: const Text('Login'),
-                  onPressed: () {
-                    // Implement Login functionality later
-                    // Just move to app for now
-                    Navigator.push(context, MaterialPageRoute(
-                      builder: (context) => const Home()
+                  onPressed: () async {
+                    UserLog? model = await userApi.login(username: nameController.text,password: passwordController.text);
+                    if (model != null) {
+                      Error = false;
+                      Navigator.push(context, MaterialPageRoute(
+                      builder: (context) => Home(id:model.data_.id)
                     ));
+                    } else {
+                      setState(() {
+                        Error = true;
+                      });
+                    }
                   },
                 )
             ),
+            Error ?
+            const Text("Password or Email invalid") : const Text(""),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
