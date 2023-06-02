@@ -1,3 +1,4 @@
+import 'package:ai_cv_generator/dio/client/userApi.dart';
 import 'package:ai_cv_generator/models/user/UserModel.dart';
 import 'package:ai_cv_generator/pages/inputField.dart';
 import 'package:flutter/material.dart';
@@ -53,9 +54,24 @@ class ProfileState extends State<Profile> {
     }
 
     String links = "Not ready yet";
+    TextEditingController nameC = TextEditingController(text: model.fname);
+    TextEditingController emailC = TextEditingController(text: email);
+    TextEditingController phoneNoC = TextEditingController(text: phoneNumber);
+    TextEditingController locationC = TextEditingController(text: location);
+    TextEditingController descripC = TextEditingController(text: aboutMe);
+    TextEditingController workExperienceC = TextEditingController();
+    TextEditingController qualificationC = TextEditingController();
     DateTime time = DateTime.now();
     void ActualUpdate() {
       print("Actual Update");
+      model.fname = nameC.text;
+      model.email = emailC.text;
+      model.phoneNumber = phoneNoC.text;
+      model.description = descripC.text;
+      model.location = locationC.text;
+      // Will do the rest when I figure out their inputs
+
+      userApi.updateUser(user: model, id: id);
     }
     void update() {
         DateTime nTime = DateTime.now();
@@ -64,13 +80,7 @@ class ProfileState extends State<Profile> {
           time = nTime;
         }
     }
-    TextEditingController nameC = TextEditingController(text: model.fname);
-    TextEditingController emailC = TextEditingController(text: email);
-    TextEditingController phoneNoC = TextEditingController(text: phoneNumber);
-    TextEditingController locationC = TextEditingController(text: location);
-    TextEditingController descripC = TextEditingController(text: aboutMe);
-    TextEditingController workExperienceC = TextEditingController();
-    TextEditingController qualificationC = TextEditingController();
+    
     nameC.addListener(update);
     emailC.addListener(update);
     phoneNoC.addListener(update);
@@ -118,6 +128,7 @@ class ProfileState extends State<Profile> {
                     setState(() {
                       isEditingEnabled = false;
                     });
+                    ActualUpdate();
                   }, 
                   child: const Text("SAVE")
                 ) 
@@ -149,10 +160,10 @@ class ProfileState extends State<Profile> {
               const SizedBox(height: 16,),
               InputField(label: "ABOUT ME", widgetField: TextFormField(controller: descripC, maxLines: 10,)),
               const SizedBox(height: 16,),
-              InputField(label: "EDUCATION", widgetField: TextFormField(enabled: isEditingEnabled, initialValue: education, onSaved: (value)=>{education=value!}, maxLines: 10,)),
+              InputField(label: "EDUCATION", widgetField: TextFormField(controller: qualificationC, maxLines: 10,)),
               //inputArray(editor: qualificationC),
               const SizedBox(height: 16,),
-              InputField(label: "WORK EXPERIENCE", widgetField: TextFormField(enabled: isEditingEnabled, initialValue: workExperience, onSaved: (value)=>{workExperience=value!}, maxLines: 10,)),
+              InputField(label: "WORK EXPERIENCE", widgetField: TextFormField(controller: workExperienceC, maxLines: 10,)),
               const SizedBox(height: 16,),
               InputField(label: "LINKS", widgetField: TextFormField(enabled: isEditingEnabled, initialValue: links, onSaved: (value)=>{links=value!}, maxLines: 10,)),
               const SizedBox(height: 16,),
