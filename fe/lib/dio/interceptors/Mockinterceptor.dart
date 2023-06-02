@@ -12,7 +12,7 @@ class MockInterceptor extends Interceptor {
   @override
   void onRequest(RequestOptions options,RequestInterceptorHandler handler) async {
     final resourcePath = _jsonDir + options.path.replaceAll(DioClient.base+"/","") + _jsonExtension;
-    print("Retriving from mock: "+resourcePath);
+    print("Retriving from mock: $resourcePath");
     final data = await rootBundle.load(resourcePath);
     final map = json.decode(
       utf8.decode(
@@ -20,7 +20,7 @@ class MockInterceptor extends Interceptor {
       ),
     );
 
-    print("Loading data from "+resourcePath+" was succesful returning data");
+    print("Loading data from $resourcePath was succesful returning data");
     print(map.toString());
   
     var resp = Response(

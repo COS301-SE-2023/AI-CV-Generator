@@ -1,5 +1,4 @@
 import 'package:ai_cv_generator/dio/interceptors/Logger.dart';
-import 'package:ai_cv_generator/dio/interceptors/testingInterceptor.dart';
 import 'package:dio/dio.dart';
 
 import '../interceptors/Mockinterceptor.dart';
