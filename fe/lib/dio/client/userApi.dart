@@ -4,6 +4,8 @@ import 'package:ai_cv_generator/models/user/UserModel.dart';
 
 import 'package:dio/dio.dart';
 
+import '../../models/user/UserLog.dart';
+
 class userApi extends DioClient {
   static Future<UserModel?> getUser({required String id}) async {
     UserModel? user;
@@ -87,5 +89,27 @@ class userApi extends DioClient {
     }
 
     return updateduser;
+  }
+
+  static Future<UserLog?> login({
+    required String username,
+    required String password
+  }) async {
+    UserLog? user;
+    try {
+      Response userData = await DioClient.dio.get('${DioClient.base}/users/retrieve/$username');
+      print('User Info: ${userData.data}');
+      user = UserLog.fromJSON(userData.data);
+    } on DioError catch (e) {
+      if (e.response != null) {
+        print('Dio error!  no response');
+        print('STATUS: ${e.response?.statusCode} //status of dio request failuire');
+        print('DATA: ${e.response?.data}');
+        print('HEADERS: ${e.response?.headers}');
+      } else {
+        print(e.message);
+      }
+    }
+    return user;
   }
 }
