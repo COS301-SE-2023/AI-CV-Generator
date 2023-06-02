@@ -25,4 +25,5 @@ class DioClient {
   //final baseurl = "https//mockbackend/api"; //Until the backend is fully established
 
   static get dio => _dio;
+  static get base => baseurl;
 }
