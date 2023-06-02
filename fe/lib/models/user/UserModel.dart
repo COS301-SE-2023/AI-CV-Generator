@@ -9,6 +9,7 @@ part 'UserModel.g.dart';
 class UserModel {
   @JsonKey(name: "fname")
   String fname;
+  String lname;
   @JsonKey(name: "userid")
   String? id;
   String? createdAt;
@@ -18,6 +19,7 @@ class UserModel {
 
   UserModel({
     required this.fname,
+    required this.lname,
     this.id,
     this.createdAt,
     this.updatedAt,

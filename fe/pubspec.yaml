@@ -70,6 +70,7 @@ flutter:
     - assets/images/ImgLogo.jpg
     - assets/images/ImgLogo-removebg-preview.png
     - assets/Documents/DocumentTest.pdf
+    - assets/json/users/retrieve/test_id.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

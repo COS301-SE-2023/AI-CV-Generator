@@ -6,6 +6,8 @@ import 'package:ai_cv_generator/pages/pdf_window.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 
+import '../models/user/UserModel.dart';
+
 class ImportCV extends StatefulWidget {
   const ImportCV({super.key});
 
@@ -48,8 +50,9 @@ class _ImportCVState extends State<ImportCV> {
                   Container(
                     padding: const EdgeInsets.all(10.0),
                     child: OutlinedButton(
-                      onPressed: () {
-                        userApi.getUser(id: "test_id");
+                      onPressed: () async {
+                        UserModel? model = await userApi.getUser(id: "test_id");
+                        print(model == null);
                       }, 
                       child: const Text("Test Button")
                     ) 
