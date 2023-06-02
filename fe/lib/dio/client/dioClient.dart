@@ -18,7 +18,7 @@ class DioClient {
   ) ..interceptors.addAll(
     [
       Logger(log: true),
-      MockInterceptor(), 
+      MockInterceptor(throwError: true), 
     ]
   );
   static const baseurl = "http//localhost:8080"; //This will be the actual base usl during development of the system

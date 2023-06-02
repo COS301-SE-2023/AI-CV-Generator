@@ -35,7 +35,11 @@ class MockInterceptor extends Interceptor {
         requestOptions: options
       );
 
-      handler.resolve(resp,true);
+      if (throwError) {
+        handler.reject(DioError(requestOptions: options));
+      } else {
+        handler.resolve(resp);
+      }
     }  on Error catch(e) {
       print("Data from $resourcePath does not exit");
       if (throwError) {

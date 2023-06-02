@@ -98,7 +98,10 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 )
             ),
             Error ?
-            const Text("Password or Email invalid") : const Text(""),
+            const Center(child: Text("Password or Email invalid",style: TextStyle(
+              color: Colors.red,
+              backgroundColor: Color.fromARGB(0, 186, 40, 40)
+            ),)) : const Text(""),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
