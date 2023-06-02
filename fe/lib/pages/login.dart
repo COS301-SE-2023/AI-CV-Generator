@@ -16,6 +16,7 @@ class Login extends StatelessWidget {
         //appBar: AppBar(title: const Text(_title)),
         body: MyStatefulWidget(),
       ),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
