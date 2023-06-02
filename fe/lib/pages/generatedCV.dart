@@ -15,7 +15,7 @@ class _generatedCVState extends State<generatedCV> {
   Map data = {};
   String value = '';
 
-  void output() {
+  void createCV() {
     // File file = File('details.txt');
     // data = json.decode(file.readAsStringSync());
     // String response = '';
