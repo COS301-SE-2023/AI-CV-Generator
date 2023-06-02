@@ -1,4 +1,8 @@
+import 'dart:convert';
+
+import 'package:ai_cv_generator/dio/client/dioClient.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/services.dart';
 
 class Tester extends Interceptor {
   final bool test;
@@ -6,11 +10,21 @@ class Tester extends Interceptor {
     required this.test
   });
 
+  static const _jsonDir = 'assets/json/';
+  static const _jsonExtension = '.json';
+
   //Logs outgoing requests
   @override
-  void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
+  Future<void> onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
     if (!test) return super.onRequest(options, handler);
-    print('Request [${options.method}] => at path: ${options.path}');
+    final resourcePath = _jsonDir + options.path.replaceAll(DioClient.base+"/","") + _jsonExtension;
+    final data = await rootBundle.load(resourcePath);
+    final map = json.decode(
+      utf8.decode(
+        data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes),
+      ),
+    );
+    print(map.toString());
     return super.onRequest(options, handler);
   }
 

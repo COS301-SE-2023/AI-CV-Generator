@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:ai_cv_generator/pages/home.dart';
 import 'package:ai_cv_generator/pages/login.dart';
 
 void main() {
@@ -18,7 +17,6 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
       routes: {
-        '/mainPage':(context) => const Home(),
         '/':(context) => const Login() 
       },
     );

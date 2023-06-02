@@ -6,17 +6,23 @@ import 'package:ai_cv_generator/pages/pdf_window.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 
-class ImportCV extends StatefulWidget {
-  const ImportCV({super.key});
+import '../models/user/UserModel.dart';
 
+class createPage extends StatefulWidget {
+  createPage({super.key,required this.id});
+  String id;
   @override
-  _ImportCVState createState() => _ImportCVState();
+  _createPageState createState() => _createPageState(id:id);
 }
 
-class _ImportCVState extends State<ImportCV> {
+class _createPageState extends State<createPage> {
   Map data = {};
   PlatformFile? file;
   bool fileAvail = false;
+  String id;
+  _createPageState({
+    required this.id
+  });
   @override
   Widget build(BuildContext context) {
     
@@ -48,8 +54,9 @@ class _ImportCVState extends State<ImportCV> {
                   Container(
                     padding: const EdgeInsets.all(10.0),
                     child: OutlinedButton(
-                      onPressed: () {
-                        userApi.getUser(id: "test_id");
+                      onPressed: () async {
+                        UserModel? model = await userApi.getUser(id: id);
+                        print(model == null);
                       }, 
                       child: const Text("Test Button")
                     ) 

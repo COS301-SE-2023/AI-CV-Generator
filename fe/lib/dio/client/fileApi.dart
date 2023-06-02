@@ -18,7 +18,7 @@ class FileApi extends DioClient {
     });
 
     Response response = await DioClient.dio.post(
-      '/search/$id', // will be changed
+      '${DioClient.base}/search/$id', // will be changed
       data: formData,
       onSendProgress: (int sent, int total) {
         print('$sent $total');
@@ -36,7 +36,7 @@ class FileApi extends DioClient {
   ) async {
     FileModel? file;
     try {
-      Response userData = await DioClient.dio.get('$DioClient.baseurl/users/search/$id');
+      Response userData = await DioClient.dio.get('${DioClient.base}/users/search/$id');
       file = FileModel.fromJson(userData.data);
     } on DioError catch (e) {
       if (e.response != null) {

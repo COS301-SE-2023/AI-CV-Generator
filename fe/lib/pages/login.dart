@@ -1,3 +1,5 @@
+import 'package:ai_cv_generator/dio/client/userApi.dart';
+import 'package:ai_cv_generator/models/user/UserLog.dart';
 import 'package:ai_cv_generator/pages/home.dart';
 import 'package:flutter/material.dart';
  
@@ -8,12 +10,13 @@ class Login extends StatelessWidget {
  
   @override
   Widget build(BuildContext context) {
-    return  const MaterialApp(
+    return  MaterialApp(
       title: _title,
-      home: Scaffold(
+      home: const Scaffold(
         //appBar: AppBar(title: const Text(_title)),
-        body: MyStatefulWidget(),
+        body: const MyStatefulWidget(),
       ),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
@@ -28,6 +31,8 @@ class MyStatefulWidget extends StatefulWidget {
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   TextEditingController nameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+
+  bool Error = false;
  
   @override
   Widget build(BuildContext context) {
@@ -38,7 +43,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             Container(
                 alignment: Alignment.center,
                 padding: const EdgeInsets.all(10),
-                child: const Image(image: ResizeImage(AssetImage('assets/images/ImgLogo-removebg-preview.png'),width:350,height:350),)
+                child: Image(image: ResizeImage(AssetImage('assets/images/ImgLogo-removebg-preview.png'),width:350,height:350),)
                 ),
             Container(
                 alignment: Alignment.center,
@@ -77,15 +82,26 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 padding: const EdgeInsets.fromLTRB(300, 0, 300, 0),
                 child: ElevatedButton(
                   child: const Text('Login'),
-                  onPressed: () {
-                    // Implement Login functionality later
-                    // Just move to app for now
-                    Navigator.push(context, MaterialPageRoute(
-                      builder: (context) => const Home()
+                  onPressed: () async {
+                    UserLog? model = await userApi.login(username: nameController.text,password: passwordController.text);
+                    if (model != null) {
+                      Error = false;
+                      Navigator.push(context, MaterialPageRoute(
+                      builder: (context) => Home(id:model.data_.id)
                     ));
+                    } else {
+                      setState(() {
+                        Error = true;
+                      });
+                    }
                   },
                 )
             ),
+            Error ?
+            const Center(child: Text("Password or Email invalid",style: TextStyle(
+              color: Colors.red,
+              backgroundColor: Color.fromARGB(0, 186, 40, 40)
+            ),)) : const Text(""),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[

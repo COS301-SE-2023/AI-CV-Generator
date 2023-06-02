@@ -4,9 +4,9 @@ part 'UserLog.g.dart';
 
 @JsonSerializable()
 class UserLog {
-    Data data;
+    Data data_;
     // More data to be added
-    UserLog({required this.data});
+    UserLog({required this.data_});
 
     factory UserLog.fromJSON(Map<String,dynamic> json) => _$UserLogFromJson(json);
 

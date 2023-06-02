@@ -5,18 +5,23 @@ import 'package:flutter/material.dart';
 import 'profile.dart';
 
 class Home extends StatefulWidget {
-  const Home({super.key});
+  Home({super.key,required this.id});
+
+  String id;
 
   @override
-  _HomeState createState() => _HomeState();
+  _HomeState createState() => _HomeState(id:id);
 }
 
 class _HomeState extends State<Home> {
   Map data = {};
-
+  String id;
+  _HomeState({
+    required this.id
+  });
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return  Scaffold(
       appBar: AppBar(
           backgroundColor: Colors.lightBlue,
           leading: IconButton(
@@ -36,11 +41,11 @@ class _HomeState extends State<Home> {
             )
         ],
       ),
-      body: const Center(
+      body: Center(
         child: Row(
           children: [
-            Expanded(child: ImportCV()),
-            Expanded(child: generatedCV())
+            Expanded(child: createPage(id:id)),
+            const Expanded(child: generatedCV())
           ],
         ),
       ),

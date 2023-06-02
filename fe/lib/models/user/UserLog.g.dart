@@ -7,9 +7,9 @@ part of 'UserLog.dart';
 // **************************************************************************
 
 UserLog _$UserLogFromJson(Map<String, dynamic> json) => UserLog(
-      data: Data.fromJson(json['data'] as Map<String, dynamic>),
+      data_: Data.fromJson(json['data_'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$UserLogToJson(UserLog instance) => <String, dynamic>{
-      'data': instance.data,
+      'data_': instance.data_,
     };
