@@ -2,7 +2,9 @@
 import 'package:ai_cv_generator/pages/generatedCV.dart';
 import 'package:ai_cv_generator/pages/createPage.dart';
 import 'package:flutter/material.dart';
+import '../models/user/UserModel.dart';
 import 'profile.dart';
+import 'package:ai_cv_generator/dio/client/userApi.dart';
 
 class Home extends StatefulWidget {
   Home({super.key,required this.id});
@@ -32,10 +34,12 @@ class _HomeState extends State<Home> {
           ),
         actions: [
           IconButton(
-            onPressed: () => {
+            onPressed: () async {
+              UserModel? mode = await userApi.getUser(id: id);
+              if (mode != null)
               Navigator.of(context).push(
-                MaterialPageRoute(builder: (c)=>  const Profile())
-              )
+                MaterialPageRoute(builder: (c)=>  Profile(id: id,model: mode,))
+              );
             }, 
             icon: const Icon(Icons.account_circle)
             )

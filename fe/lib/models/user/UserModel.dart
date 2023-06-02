@@ -15,6 +15,11 @@ class UserModel {
   String? createdAt;
   String? updatedAt;
   Details? details;
+  String? phoneNumber;
+  String? email;
+  String? location;
+  String? description;
+  
   
 
   UserModel({

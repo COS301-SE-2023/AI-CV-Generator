@@ -1,28 +1,58 @@
+import 'package:ai_cv_generator/dio/client/userApi.dart';
+import 'package:ai_cv_generator/models/user/UserModel.dart';
 import 'package:flutter/material.dart';
 
 class Profile extends StatefulWidget {
-  const Profile({super.key});
+  Profile({super.key,required this.id,required this.model});
+  String id;
+  UserModel model;
+
 
   @override
-  ProfileState createState() => ProfileState();
+  ProfileState createState() => ProfileState(id:id,model: model);
 }
 
 bool isEditingEnabled = false;
 
 class ProfileState extends State<Profile> {
   final _formKey = GlobalKey<FormState>();
-  String imagePath = "";
-  String name = "Avery Quinn";
-  String email = "averyquinn@hmail.com";
-  String phoneNumber = "0823427832";
-  String location = "Pretoria, Gauteng";
-  String aboutMe = "";
-  String education = "";
-  String workExperience = "";
-  String links = "";
+  UserModel model;
+  String id;
+
+  ProfileState({
+    required this.id,
+    required this.model
+  });
 
   @override
   Widget build(BuildContext context) {
+    String email =  model.email != null ? model.email! : "No email...";
+    String phoneNumber =  model.phoneNumber != null? model.phoneNumber!:"No phone number...";
+    String location = model.location != null ? model.location!:"No location...";
+    String aboutMe = model.description!= null? model.description!:"No description...";
+    String workExperience = "";
+    String education = "";
+    final details = model.details;
+    if (details != null) {
+      for (int n=0; n <details.employhistory.employHis.length; n++) {
+        workExperience += "${details.employhistory.employHis[n].company} ";
+        workExperience += "${details.employhistory.employHis[n].title} ";
+        workExperience += "${details.employhistory.employHis[n].start_date}-";
+        workExperience += "${details.employhistory.employHis[n].end_date}\n";
+      }
+      if (details.employhistory.employHis.isEmpty) workExperience = "No Work expierience listed...";
+      for (int n=0; n<details.qualifications.qualifications.length; n++) {
+        education += "${details.qualifications.qualifications[n].qualification} ";
+        education += "${details.qualifications.qualifications[n].instatution} ";
+        education += "${details.qualifications.qualifications[n].date.toString()}\n";
+      }
+      if (details.qualifications.qualifications.isEmpty) education = "No education listed...";
+    } else {
+      education = "No education listed...";
+      workExperience = "No Work expierience listed...";
+    }
+
+    String links = "";
     
     return Material(child:Padding(
       padding: const EdgeInsets.symmetric(vertical: 42, horizontal: 420),
@@ -61,7 +91,7 @@ class ProfileState extends State<Profile> {
                 ) 
               ),
               const SizedBox(height: 16,),
-              InputField(label: "NAME", widgetField: TextFormField(enabled: isEditingEnabled, initialValue: name, onSaved: (value)=>{name=value!},)),
+              InputField(label: "NAME", widgetField: TextFormField(enabled: isEditingEnabled, initialValue: model.fname, onSaved: (value)=>{model.fname=value!},)),
               const SizedBox(height: 16,),
               InputField(label: "EMAIL", widgetField: TextFormField(enabled: isEditingEnabled, initialValue: email, onSaved: (value)=>{email=value!},)),
               const SizedBox(height: 16,),
