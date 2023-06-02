@@ -5,7 +5,7 @@ class inputField extends StatefulWidget {
   TextEditingController editor;
   String? text;
   String label;
-  inputField({
+  inputField({super.key, 
     required this.editor,
     required this.label
   });

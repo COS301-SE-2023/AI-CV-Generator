@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 class inputArray extends StatefulWidget {
   List<String>? inputs;
   TextEditingController editor;
-  inputArray({
+  inputArray({super.key, 
     required this.editor
   });
 
@@ -27,7 +27,7 @@ class _inputArrayState extends State<inputArray> {
     }
     return Scaffold(
       body: Column(
-        children: [...editors.map((e) => inputField(editor: e,label: "",))]
+        children: [...editors.map((e) => Column(children: [inputField(editor: e,label: ""),const SizedBox(height: 8,)]))]
       ),
     );
   }

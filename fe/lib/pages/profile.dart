@@ -1,5 +1,3 @@
-import 'package:ai_cv_generator/dio/client/userApi.dart';
-import 'package:ai_cv_generator/models/user/Qualifications.dart';
 import 'package:ai_cv_generator/models/user/UserModel.dart';
 import 'package:ai_cv_generator/pages/inputField.dart';
 import 'package:flutter/material.dart';
@@ -152,6 +150,7 @@ class ProfileState extends State<Profile> {
               InputField(label: "ABOUT ME", widgetField: TextFormField(controller: descripC, maxLines: 10,)),
               const SizedBox(height: 16,),
               InputField(label: "EDUCATION", widgetField: TextFormField(enabled: isEditingEnabled, initialValue: education, onSaved: (value)=>{education=value!}, maxLines: 10,)),
+              //inputArray(editor: qualificationC),
               const SizedBox(height: 16,),
               InputField(label: "WORK EXPERIENCE", widgetField: TextFormField(enabled: isEditingEnabled, initialValue: workExperience, onSaved: (value)=>{workExperience=value!}, maxLines: 10,)),
               const SizedBox(height: 16,),
