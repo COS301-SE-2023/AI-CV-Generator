@@ -10,12 +10,15 @@ class Home extends StatefulWidget {
   String id;
 
   @override
-  _HomeState createState() => _HomeState();
+  _HomeState createState() => _HomeState(id:id);
 }
 
 class _HomeState extends State<Home> {
   Map data = {};
-
+  String id;
+  _HomeState({
+    required this.id
+  });
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
@@ -38,10 +41,10 @@ class _HomeState extends State<Home> {
             )
         ],
       ),
-      body: const Center(
+      body: Center(
         child: Row(
           children: [
-            Expanded(child: ImportCV()),
+            Expanded(child: createPage(id:id)),
             Expanded(child: generatedCV())
           ],
         ),

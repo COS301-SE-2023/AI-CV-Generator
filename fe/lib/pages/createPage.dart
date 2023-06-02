@@ -8,17 +8,21 @@ import 'package:file_picker/file_picker.dart';
 
 import '../models/user/UserModel.dart';
 
-class ImportCV extends StatefulWidget {
-  const ImportCV({super.key});
-
+class createPage extends StatefulWidget {
+  createPage({super.key,required this.id});
+  String id;
   @override
-  _ImportCVState createState() => _ImportCVState();
+  _createPageState createState() => _createPageState(id:id);
 }
 
-class _ImportCVState extends State<ImportCV> {
+class _createPageState extends State<createPage> {
   Map data = {};
   PlatformFile? file;
   bool fileAvail = false;
+  String id;
+  _createPageState({
+    required this.id
+  });
   @override
   Widget build(BuildContext context) {
     
@@ -51,7 +55,7 @@ class _ImportCVState extends State<ImportCV> {
                     padding: const EdgeInsets.all(10.0),
                     child: OutlinedButton(
                       onPressed: () async {
-                        UserModel? model = await userApi.getUser(id: "test_id");
+                        UserModel? model = await userApi.getUser(id: id);
                         print(model == null);
                       }, 
                       child: const Text("Test Button")
