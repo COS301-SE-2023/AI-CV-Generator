@@ -25,6 +25,7 @@ class _generatedCVState extends State<generatedCV> {
     // });
     setState(() {
       value = File('details.txt').readAsStringSync();
+      data = json.decode(File('content.json').readAsStringSync());
     });
   }
 
