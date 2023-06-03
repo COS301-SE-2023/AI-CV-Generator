@@ -64,7 +64,7 @@ class TextSpaceState extends State<TextSpace> {
 
   String populateField() {
     var t = "";
-    for(var i = 0; i < 4000; i++) {
+    for(var i = 0; i < 4; i++) {
       t += "0";
     }
     return t;
