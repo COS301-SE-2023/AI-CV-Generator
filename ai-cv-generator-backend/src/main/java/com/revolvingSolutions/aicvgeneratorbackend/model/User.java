@@ -13,6 +13,8 @@ public class User {
 
     public CV cv;
 
+    public boolean success = false;
+
     public User() {
         userid = "";
         name = "";
@@ -30,18 +32,21 @@ public class User {
         cell = c;
         region = city;
         
-        return true;
+        success = true;
+        return success;
     }
 
     public boolean importCV(String cvpath) {
         cvfilePath = cvpath;
 
-        return true;
+        success = true;
+        return success;
     }
 
     public boolean deleteCV(CV cv) {
         //delete the selected CV from the user's profile
-        return true;
+        success = true;
+        return success;
     }
 
 }
