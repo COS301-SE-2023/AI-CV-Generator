@@ -33,15 +33,28 @@ class _generatedCVState extends State<generatedCV> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.all(24),
-            child: Text(
-              value
-            ),
+          child: ListView(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(10.0),
+                child: OutlinedButton(
+                  onPressed: () async {
+                    setState(() {
+                      createCV();
+                    });
+                  }, 
+                  child: const Text("Generate")
+                ) 
+              ),
+              Padding(
+                padding: EdgeInsets.all(24),
+                child: Text(
+                  value
+                ),
+              )
+            ]
           ),
         )
-      )
     );
   }
 }
