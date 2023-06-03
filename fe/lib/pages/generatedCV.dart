@@ -14,18 +14,20 @@ class _generatedCVState extends State<generatedCV> {
 
   Map data = {};
   String value = '';
+  TextEditingController _controller = TextEditingController();
 
   void createCV() {
-    // File file = File('details.txt');
-    // data = json.decode(file.readAsStringSync());
-    // String response = '';
-    // data.forEach((key, value) {
-    //   response += '$key' + '\n';
-    //   response += '$value' + '\n\n';
-    // });
     setState(() {
-      value = File('details.txt').readAsStringSync();
-      data = json.decode(File('content.json').readAsStringSync());
+      File file = File('details.txt');
+      // data = json.decode(file.readAsStringSync());
+      // value = data['personalDetails'];
+      // data.forEach((key, value) {
+      //   value += '$key' + '\n';
+      //   value += '$value' + '\n\n';
+      // });
+      _controller.text = file.readAsStringSync();
+      // value = file.readAsStringSync();
+      // data = json.decode(File('content.json').readAsStringSync());
     });
   }
 
@@ -48,8 +50,9 @@ class _generatedCVState extends State<generatedCV> {
               ),
               Padding(
                 padding: EdgeInsets.all(24),
-                child: Text(
-                  value
+                child: TextFormField(
+                  controller: _controller,
+                  maxLines: 99999,
                 ),
               )
             ]
