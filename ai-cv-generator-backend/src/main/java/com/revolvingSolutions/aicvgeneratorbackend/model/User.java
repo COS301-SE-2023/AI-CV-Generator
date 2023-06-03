@@ -1,6 +1,7 @@
 package com.revolvingSolutions.aicvgeneratorbackend.model;
 
 public class User {
+    //Personal Information component of CV
     public String name;
     public String userid;
     public String sname;
@@ -9,6 +10,8 @@ public class User {
     public String region;
 
     public String cvfilePath;
+
+    public CV cv;
 
     public User() {
         userid = "";
@@ -27,13 +30,17 @@ public class User {
         cell = c;
         region = city;
         
-
         return true;
     }
 
     public boolean importCV(String cvpath) {
         cvfilePath = cvpath;
 
+        return true;
+    }
+
+    public boolean deleteCV(CV cv) {
+        //delete the selected CV from the user's profile
         return true;
     }
 
