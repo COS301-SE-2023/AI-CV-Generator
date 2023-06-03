@@ -1,12 +1,10 @@
 
 import 'package:ai_cv_generator/api/pdfApi.dart';
 import 'package:ai_cv_generator/dio/client/fileApi.dart';
-import 'package:ai_cv_generator/dio/client/userApi.dart';
 import 'package:ai_cv_generator/pages/pdf_window.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 
-import '../models/user/UserModel.dart';
 
 class createPage extends StatefulWidget {
   createPage({super.key,required this.id});

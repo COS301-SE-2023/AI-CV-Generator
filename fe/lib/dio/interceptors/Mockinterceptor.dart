@@ -9,13 +9,16 @@ class MockInterceptor extends Interceptor {
  static const _jsonDir = 'assets/json/';
  static const _jsonExtension = '.json';
  bool? throwError;
+ bool? intercept;
 
  MockInterceptor({
-    this.throwError
+    this.throwError,
+    this.intercept
  });
  
   @override
   void onRequest(RequestOptions options,RequestInterceptorHandler handler) async {
+    if (intercept == null || intercept == false) return super.onRequest(options, handler);
     final resourcePath = _jsonDir + options.path.replaceAll(DioClient.base+"/","") + _jsonExtension;
     ByteData data;
     print("Retriving from mock: $resourcePath");

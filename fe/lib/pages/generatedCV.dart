@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
-import 'dart:convert';
 
 
 class generatedCV extends StatefulWidget {
@@ -14,7 +13,7 @@ class _generatedCVState extends State<generatedCV> {
 
   Map data = {};
   String value = '';
-  TextEditingController _controller = TextEditingController();
+  final TextEditingController _controller = TextEditingController();
 
   void createCV() {
     setState(() {
@@ -49,7 +48,7 @@ class _generatedCVState extends State<generatedCV> {
                 ) 
               ),
               Padding(
-                padding: EdgeInsets.all(24),
+                padding: const EdgeInsets.all(24),
                 child: TextFormField(
                   controller: _controller,
                   maxLines: 99999,
