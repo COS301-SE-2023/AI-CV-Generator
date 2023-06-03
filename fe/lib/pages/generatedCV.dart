@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'dart:io';
+import 'details.dart';
 
 
 class generatedCV extends StatefulWidget {
@@ -11,23 +11,18 @@ class generatedCV extends StatefulWidget {
 
 class _generatedCVState extends State<generatedCV> {
 
-  Map data = {};
-  String value = '';
-  final TextEditingController _controller = TextEditingController();
+  Map data = content;
+  TextEditingController _controller = TextEditingController();
 
   void createCV() {
+    String response = '';
     setState(() {
-      File file = File('details.txt');
-      // data = json.decode(file.readAsStringSync());
-      // value = data['personalDetails'];
-      // data.forEach((key, value) {
-      //   value += '$key' + '\n';
-      //   value += '$value' + '\n\n';
-      // });
-      _controller.text = file.readAsStringSync();
-      // value = file.readAsStringSync();
-      // data = json.decode(File('content.json').readAsStringSync());
+      data.forEach((key, value) {
+        response += '$key\n';
+        response += '$value\n\n';
+      });
     });
+    _controller.text = response;
   }
 
   @override
@@ -48,7 +43,7 @@ class _generatedCVState extends State<generatedCV> {
                 ) 
               ),
               Padding(
-                padding: const EdgeInsets.all(24),
+                padding: EdgeInsets.all(24),
                 child: TextFormField(
                   controller: _controller,
                   maxLines: 99999,
