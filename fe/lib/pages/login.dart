@@ -1,6 +1,7 @@
 import 'package:ai_cv_generator/dio/client/userApi.dart';
 import 'package:ai_cv_generator/models/user/UserLog.dart';
 import 'package:ai_cv_generator/pages/home.dart';
+import 'package:ai_cv_generator/pages/test_page.dart';
 import 'package:flutter/material.dart';
  
 class Login extends StatelessWidget {
@@ -84,10 +85,29 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   child: const Text('Login'),
                   onPressed: () async {
                     UserLog? model = await userApi.login(username: nameController.text,password: passwordController.text);
-                    if (model != null) {
+                    if (true) {
                       Error = false;
                       Navigator.push(context, MaterialPageRoute(
-                      builder: (context) => Home(id:model.data_.id)
+                      builder: (context) => Home(id:"test_id")
+                    ));
+                    } else {
+                      setState(() {
+                        Error = true;
+                      });
+                    }
+                  },
+                )
+            ),
+            Container(
+                height: 50,
+                padding: const EdgeInsets.fromLTRB(300, 0, 300, 0),
+                child: ElevatedButton(
+                  child: const Text('Test Page'),
+                  onPressed: () async {
+                    if (true) {
+                      Error = false;
+                      Navigator.push(context, MaterialPageRoute(
+                      builder: (context) => const TestPage()
                     ));
                     } else {
                       setState(() {

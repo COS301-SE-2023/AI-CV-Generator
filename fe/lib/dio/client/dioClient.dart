@@ -6,7 +6,7 @@ import '../interceptors/Mockinterceptor.dart';
 class DioClient {
   static final Dio _dio = Dio(
     BaseOptions(
-      baseUrl: 'https://mockbackend/api',
+      baseUrl: baseurl,
       //Will change depending on time
       connectTimeout: const Duration(
         seconds: 10
@@ -18,7 +18,7 @@ class DioClient {
   ) ..interceptors.addAll(
     [
       Logger(log: true),
-      MockInterceptor(throwError: false, intercept: true), 
+      MockInterceptor(throwError: false, intercept: false), 
     ]
   );
   static const baseurl = "http//localhost:8080"; //This will be the actual base usl during development of the system

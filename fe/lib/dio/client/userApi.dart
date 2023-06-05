@@ -112,4 +112,11 @@ class userApi extends DioClient {
     }
     return user;
   }
+
+  static void testRequest({
+    required String val
+  }) async {
+    Response resp = await DioClient.dio.get('${DioClient.base}/api/Users');
+    print("Response: "+resp.data);
+  }
 }
