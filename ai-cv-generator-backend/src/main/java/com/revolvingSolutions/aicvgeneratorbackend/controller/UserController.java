@@ -2,22 +2,31 @@ package com.revolvingSolutions.aicvgeneratorbackend.controller;
 
 import com.revolvingSolutions.aicvgeneratorbackend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(path = "api/User")
 public class UserController {
-    private final UserService service;
-
     @Autowired
-    public UserController(UserService service) {
-        this.service = service;
+    UserService service;
+
+    @RequestMapping(value="user",method = RequestMethod.GET)
+    public String getUser() {
+        return "";
     }
 
-    @GetMapping
-    public String getUserName() {
-        return service.getUsername();
+    @RequestMapping(value="user",method = RequestMethod.POST)
+    public String updateUser() {
+        return "";
     }
+    @RequestMapping(value="file",method = RequestMethod.POST)
+    public String uploadFile() {
+        return "";
+    }
+
+    @RequestMapping(value="file",method = RequestMethod.GET)
+    public String getFile() {
+        return "";
+    }
+
 }
