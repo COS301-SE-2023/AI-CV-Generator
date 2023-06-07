@@ -1,16 +1,17 @@
 package com.revolvingSolutions.aicvgeneratorbackend.conf;
 
 import com.revolvingSolutions.aicvgeneratorbackend.service.AuthService;
-import com.revolvingSolutions.aicvgeneratorbackend.service.UserDetailService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -21,7 +22,7 @@ import java.io.IOException;
 public class AuthFilter extends OncePerRequestFilter {
 
     private AuthService authService;
-    private UserDetailService uDetailService;
+    private UserDetailsService uDetailService;
     @Override
     protected void doFilterInternal(
             @NonNull HttpServletRequest request,
@@ -34,10 +35,15 @@ public class AuthFilter extends OncePerRequestFilter {
             final String username = authService.getUsername(token);
             if (username != null) {
                 if (SecurityContextHolder.getContext().getAuthentication() == null) {
-                    //UserDetails details = this. tbc
+                    UserDetails details = uDetailService.loadUserByUsername(username);
+                    if (authService.validate(token,details)) {
+                        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(details,null,details.getAuthorities());
+                        authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                        SecurityContextHolder.getContext().setAuthentication(authToken);
+                    }
                 }
             }
-
+            filterChain.doFilter(request,response);
         } else {
             filterChain.doFilter(request,response);
             return;
