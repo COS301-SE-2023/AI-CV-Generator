@@ -19,7 +19,7 @@ import java.util.function.Function;
 @Service
 public class AuthService {
 
-    @Value("${app.tokenExpire-factor")
+    @Value("${app.tokenExpire-factor}")
     private String expFactor;
 
     @Value("${app.key}")
