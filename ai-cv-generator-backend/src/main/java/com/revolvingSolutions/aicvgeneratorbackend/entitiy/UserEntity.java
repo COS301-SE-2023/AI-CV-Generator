@@ -26,7 +26,7 @@ public class UserEntity implements UserDetails {
 
     public String fname;
     public String lname;
-    public String email;
+    public String username;
     public String password;
 
     @Enumerated(EnumType.STRING)
@@ -44,7 +44,7 @@ public class UserEntity implements UserDetails {
 
     @Override
     public String getUsername() {
-        return email;
+        return username;
     }
 
     //Not doing override for non expired
