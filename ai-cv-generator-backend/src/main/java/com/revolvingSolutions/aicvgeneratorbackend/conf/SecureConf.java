@@ -32,7 +32,7 @@ public class SecureConf {
                             @Override
                             public void customize(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry authorizationManagerRequestMatcherRegistry) {
                                 authorizationManagerRequestMatcherRegistry
-                                        .requestMatchers("")
+                                        .requestMatchers("/api/auth/**")
                                         .permitAll()
                                         .anyRequest()
                                         .authenticated();
