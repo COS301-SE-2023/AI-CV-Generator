@@ -76,3 +76,5 @@ build/
 
 ### VS Code ###
 .vscode/
+
+application.yml
