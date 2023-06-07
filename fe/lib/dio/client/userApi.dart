@@ -116,7 +116,19 @@ class userApi extends DioClient {
   static void testRequest({
     required String val
   }) async {
-    Response resp = await DioClient.dio.get('${DioClient.base}/api/Users');
-    print("Response: "+resp.data);
+    
+    try {
+      Response resp = await DioClient.dio.get('${DioClient.base}api/User/retrieve');
+      print("Response: "+resp.data);
+    } on DioError catch (e) {
+      if (e.response != null) {
+        print('Dio error!  no response');
+        print('STATUS: ${e.response?.statusCode} //status of dio request failuire');
+        print('DATA: ${e.response?.data}');
+        print('HEADERS: ${e.response?.headers}');
+      } else {
+        print(e.message);
+      }
+    }
   }
 }
