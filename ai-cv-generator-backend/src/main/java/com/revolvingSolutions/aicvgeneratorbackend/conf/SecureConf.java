@@ -26,7 +26,14 @@ public class SecureConf {
     @Bean
     public SecurityFilterChain secureFilterChain(HttpSecurity httpSecure) throws Exception{
         httpSecure
-                .csrf(AbstractHttpConfigurer::disable)
+                .csrf(
+                        new Customizer<CsrfConfigurer<HttpSecurity>>() {
+                            @Override
+                            public void customize(CsrfConfigurer<HttpSecurity> httpSecurityCsrfConfigurer) {
+                                httpSecurityCsrfConfigurer.disable();
+                            }
+                        }
+                )
                 .authorizeHttpRequests(
                         new Customizer<AuthorizeHttpRequestsConfigurer<org.springframework.security.config.annotation.web.builders.HttpSecurity>.AuthorizationManagerRequestMatcherRegistry>() {
                             @Override

@@ -24,9 +24,11 @@ class DioClient {
   static const baseurl = "http//localhost:8080"; //This will be the actual base usl during development of the system
   //final baseurl = "https//mockbackend/api"; //Until the backend is fully established
 
+
+  // Extreamely temporary (implementing secure method later on)
   static String authToken ="";
   static void SetAuth(String authT) {
-    
+    authToken = authT;
   }
 
   static get dio => _dio;
