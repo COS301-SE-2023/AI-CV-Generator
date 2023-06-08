@@ -13,7 +13,7 @@ class userApi extends DioClient {
       Response userData = await DioClient.dio.get('${DioClient.base}/users/retrieve/$id');
       print('User Info: ${userData.data}');
       user = UserModel.fromJson(userData.data);
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       if (e.response != null) {
         print('Dio error!  no response');
         print('STATUS: ${e.response?.statusCode} //status of dio request failuire');
@@ -100,7 +100,7 @@ class userApi extends DioClient {
       Response userData = await DioClient.dio.get('${DioClient.base}/users/retrieve/$username');
       print('User Info: ${userData.data}');
       user = UserLog.fromJSON(userData.data);
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       if (e.response != null) {
         print('Dio error!  no response');
         print('STATUS: ${e.response?.statusCode} //status of dio request failuire');
