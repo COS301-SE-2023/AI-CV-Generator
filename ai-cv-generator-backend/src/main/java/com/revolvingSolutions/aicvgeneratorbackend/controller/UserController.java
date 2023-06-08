@@ -6,26 +6,26 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(path = "api/User")
+@RequestMapping(path = "/api/User")
 public class UserController {
     @Autowired
     UserService service;
 
-    @RequestMapping(value="user",method = RequestMethod.GET)
+    @GetMapping(value="/user")
     public String getUser() {
         return "";
     }
 
-    @RequestMapping(value="user",method = RequestMethod.POST)
+    @PostMapping(value="/user")
     public String updateUser() {
         return "";
     }
-    @RequestMapping(value="file",method = RequestMethod.POST)
+    @PostMapping(value="/file")
     public String uploadFile() {
         return "";
     }
 
-    @RequestMapping(value="file",method = RequestMethod.GET)
+    @GetMapping(value="/file")
     public String getFile() {
         return "";
     }
