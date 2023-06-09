@@ -62,6 +62,7 @@ class ProfileState extends State<Profile> {
     TextEditingController descripC = TextEditingController(text: aboutMe);
     TextEditingController workExperienceC = TextEditingController();
     TextEditingController qualificationC = TextEditingController();
+    TextEditingController linksC = TextEditingController();
     DateTime time = DateTime.now();
     void ActualUpdate() {
       print("Actual Update");
@@ -91,6 +92,7 @@ class ProfileState extends State<Profile> {
     descripC.addListener(update);
     workExperienceC.addListener(update);
     qualificationC.addListener(update);
+    linksC.addListener(update);
 
     
     return Scaffold(
@@ -125,7 +127,7 @@ class ProfileState extends State<Profile> {
 
                       Column(
                         children: [
-                          SectionHeading(heading: "ABOUT ME"),
+                          SectionHeading(heading: "ABOUT ME", align: Alignment.topLeft,),
                           SectionInput(inputWidget: TextFormField(controller: descripC),),
                         ],
                       ),
@@ -145,11 +147,14 @@ class ProfileState extends State<Profile> {
                   child: Column(
                     children: [
                       Expanded(
+                        flex: 2,
                         child: Column(
                           children: [
-                          SectionHeading(heading: "PERSONAL DETAILS"),
-                          SectionInput(inputWidget: TextFormField(controller: fnameC,)),
-                          SectionInput(inputWidget: TextFormField(controller: lnameC,)),
+                          SectionHeading(heading: "PERSONAL DETAILS", align: Alignment.topRight,),
+                          SectionInput(inputWidget: TextFormField(controller: fnameC),),
+                          SectionInput(inputWidget: TextFormField(controller: lnameC,),),
+                          SectionInput(inputWidget: TextFormField(controller: phoneNoC,),),
+                          SectionInput(inputWidget: TextFormField(controller: locationC,),),
                           ],
                         ),
                       ),
@@ -157,6 +162,7 @@ class ProfileState extends State<Profile> {
                         child: Column(
                           children: [
                           SectionHeading(heading: "EDUCATION"),
+                          SectionInput(inputWidget: TextFormField(controller: qualificationC,),),
                           ],
                         ),
                       ),
@@ -164,6 +170,7 @@ class ProfileState extends State<Profile> {
                         child: Column(
                           children: [
                           SectionHeading(heading: "LINKS"),
+                          SectionInput(inputWidget: TextFormField(controller: linksC,),),
                           ],
                         ),
                       ),
@@ -242,25 +249,29 @@ class ProfileState extends State<Profile> {
 
 class SectionHeading extends StatelessWidget {
   final String heading;
-  SectionHeading({required this.heading});
+  final Alignment? align;
+  SectionHeading({required this.heading, this.align});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-          padding: EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                heading,
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
+
+    return Align(
+      alignment: align != null? align!: Alignment.topLeft,
+      child: Container(
+        padding: EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            Text(
+              heading,
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
               ),
-              // SizedBox(height: 16),
-            ],
-          )
+            ),
+            // SizedBox(height: 16),
+          ],
+        )
+      )
     );
   }
 }
