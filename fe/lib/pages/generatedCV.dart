@@ -12,7 +12,7 @@ class generatedCV extends StatefulWidget {
 class _generatedCVState extends State<generatedCV> {
 
   Map data = content;
-  TextEditingController _controller = TextEditingController();
+  final TextEditingController _controller = TextEditingController();
 
   void createCV() {
     String response = '';
@@ -43,7 +43,7 @@ class _generatedCVState extends State<generatedCV> {
                 ) 
               ),
               Padding(
-                padding: EdgeInsets.all(24),
+                padding: const EdgeInsets.all(24),
                 child: TextFormField(
                   controller: _controller,
                   maxLines: 99999,

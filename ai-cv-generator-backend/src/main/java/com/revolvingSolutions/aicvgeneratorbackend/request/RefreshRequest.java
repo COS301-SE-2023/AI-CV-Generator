@@ -1,4 +1,4 @@
-package com.revolvingSolutions.aicvgeneratorbackend.response;
+package com.revolvingSolutions.aicvgeneratorbackend.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthResponse {
-    private String token;
+public class RefreshRequest {
     private String refreshToken;
 }

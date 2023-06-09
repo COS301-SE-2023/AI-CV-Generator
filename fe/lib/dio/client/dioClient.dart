@@ -1,4 +1,6 @@
+import 'package:ai_cv_generator/dio/interceptors/HeaderInterceptor.dart';
 import 'package:ai_cv_generator/dio/interceptors/Logger.dart';
+import 'package:ai_cv_generator/dio/interceptors/tokenRefreshInterceptor.dart';
 import 'package:dio/dio.dart';
 
 import '../interceptors/Mockinterceptor.dart';
@@ -18,7 +20,9 @@ class DioClient {
   ) ..interceptors.addAll(
     [
       Logger(log: true),
-      MockInterceptor(throwError: false, intercept: false), 
+      MockInterceptor(throwError: false, intercept: false),
+      HeaderAdder(),
+      TokenRevalidator()
     ]
   );
   static const baseurl = "http://localhost:8080/"; //This will be the actual base usl during development of the system
@@ -27,10 +31,25 @@ class DioClient {
 
   // Extreamely temporary (implementing secure method later on)
   static String authToken ="";
+  static String refreshToken = "";
   static void SetAuth(String authT) {
     authToken = authT;
+  }
+  static void SetRefresh(String authT) {
+    refreshToken = authT;
   }
 
   static get dio => _dio;
   static get base => baseurl;
+
+  static void handleError(DioError e) {
+    if (e.response != null) {
+        print('Dio error!  no response');
+        print('STATUS: ${e.response?.statusCode}');
+        print('DATA: ${e.response?.data}');
+        print('HEADERS: ${e.response?.headers}');
+    } else {
+      print(e.message);
+    }
+  }
 }

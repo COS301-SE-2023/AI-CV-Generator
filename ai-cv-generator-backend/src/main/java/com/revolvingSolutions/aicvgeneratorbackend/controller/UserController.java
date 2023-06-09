@@ -6,29 +6,29 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin(origins = "*")
-@RequestMapping(path = "api/User")
+@CrossOrigin(value="*")
+@RequestMapping(path = "/api/User")
 public class UserController {
     @Autowired
     UserService service;
 
-    @RequestMapping(value="user",method = RequestMethod.GET)
-    public String getUser() {
-        return "";
+    @GetMapping(value="/user")
+    public ResponseEntity<String> getUser() {
+        return ResponseEntity.ok("");
     }
 
-    @RequestMapping(value="user",method = RequestMethod.POST)
-    public String updateUser() {
-        return "";
+    @PostMapping(value="/user")
+    public ResponseEntity<String> updateUser() {
+        return ResponseEntity.ok("");
     }
-    @RequestMapping(value="file",method = RequestMethod.POST)
-    public String uploadFile() {
-        return "";
+    @PostMapping(value="/file")
+    public ResponseEntity<String> uploadFile() {
+        return ResponseEntity.ok("");
     }
 
-    @RequestMapping(value="file",method = RequestMethod.GET)
-    public String getFile() {
-        return "";
+    @GetMapping(value="/file")
+    public ResponseEntity<String> getFile() {
+        return ResponseEntity.ok("");
     }
 
     @GetMapping(value = "test")

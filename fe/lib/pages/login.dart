@@ -1,7 +1,6 @@
 import 'package:ai_cv_generator/dio/client/userApi.dart';
-import 'package:ai_cv_generator/models/user/UserLog.dart';
+import 'package:ai_cv_generator/pages/Register.dart';
 import 'package:ai_cv_generator/pages/home.dart';
-import 'package:ai_cv_generator/pages/test_page.dart';
 import 'package:flutter/material.dart';
  
 class Login extends StatelessWidget {
@@ -14,7 +13,6 @@ class Login extends StatelessWidget {
     return  const MaterialApp(
       title: _title,
       home: Scaffold(
-        //appBar: AppBar(title: const Text(_title)),
         body: MyStatefulWidget(),
       ),
       debugShowCheckedModeBanner: false,
@@ -54,7 +52,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   style: TextStyle(fontSize: 20),
                 )),
             Container(
-              padding: const EdgeInsets.fromLTRB(300, 10, 300, 10),
+              padding: const EdgeInsets.fromLTRB(500, 10, 500, 10),
               child: TextField(
                 controller: nameController,
                 decoration: const InputDecoration(
@@ -64,7 +62,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               ),
             ),
             Container(
-              padding: const EdgeInsets.fromLTRB(300, 10, 300, 10),
+              padding: const EdgeInsets.fromLTRB(500, 10, 500, 10),
               child: TextField(
                 obscureText: true,
                 controller: passwordController,
@@ -80,34 +78,15 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             ),
             Container(
                 height: 50,
-                padding: const EdgeInsets.fromLTRB(300, 0, 300, 0),
+                padding: const EdgeInsets.fromLTRB(600, 0, 600, 0),
                 child: ElevatedButton(
                   child: const Text('Login'),
                   onPressed: () async {
-                    UserLog? model = await userApi.login(username: nameController.text,password: passwordController.text);
-                    if (true) {
+                    bool resp = await userApi.login(username: nameController.text,password: passwordController.text);
+                    if (resp) {
                       Error = false;
                       Navigator.push(context, MaterialPageRoute(
                       builder: (context) => Home(id:"test_id")
-                    ));
-                    } else {
-                      setState(() {
-                        Error = true;
-                      });
-                    }
-                  },
-                )
-            ),
-            Container(
-                height: 50,
-                padding: const EdgeInsets.fromLTRB(300, 0, 300, 0),
-                child: ElevatedButton(
-                  child: const Text('Test Page'),
-                  onPressed: () async {
-                    if (true) {
-                      Error = false;
-                      Navigator.push(context, MaterialPageRoute(
-                      builder: (context) => const TestPage()
                     ));
                     } else {
                       setState(() {
@@ -131,7 +110,11 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     'Create Account',
                     style: TextStyle(fontSize: 20),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(
+                      builder: (context) => const RegisterPage()
+                    ));
+                  },
                 )
               ],
             ),
