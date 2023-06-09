@@ -134,6 +134,13 @@ class ProfileState extends State<Profile> {
                       SizedBox(height: 10,),
                       Column(
                         children: [
+                          SectionHeading(heading: "EDUCATION"),
+                          SectionInput(inputWidget: TextFormField(controller: qualificationC, maxLines: 9,),),
+                        ],
+                      ),
+                      SizedBox(height: 10,),
+                      Column(
+                        children: [
                           SectionHeading(heading: "WORK EXPERIENCE"),
                           SectionInput(inputWidget: TextFormField(controller: workExperienceC, maxLines: 9,),),
                         ],
@@ -150,7 +157,6 @@ class ProfileState extends State<Profile> {
                   child: Column(
                     children: [
                       Expanded(
-                        flex: 2,
                         child: Column(
                           children: [
                           SectionHeading(heading: "PERSONAL DETAILS", align: Alignment.topRight,),
@@ -159,14 +165,6 @@ class ProfileState extends State<Profile> {
                           SectionInput(inputWidget: TextFormField(controller: emailC, textAlign: TextAlign.right,),),
                           SectionInput(inputWidget: TextFormField(controller: phoneNoC, textAlign: TextAlign.right,),),
                           SectionInput(inputWidget: TextFormField(controller: locationC, textAlign: TextAlign.right,),),
-                          ],
-                        ),
-                      ),
-                      Expanded(
-                        child: Column(
-                          children: [
-                          SectionHeading(heading: "EDUCATION"),
-                          SectionInput(inputWidget: TextFormField(controller: qualificationC,),),
                           ],
                         ),
                       ),
@@ -262,7 +260,7 @@ class SectionHeading extends StatelessWidget {
     return Align(
       alignment: align != null? align!: Alignment.topLeft,
       child: Container(
-        padding: EdgeInsets.all(16.0),
+        padding: EdgeInsets.symmetric(vertical: 16.0),
         child: Column(
           children: [
             Text(
