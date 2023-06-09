@@ -117,23 +117,26 @@ class ProfileState extends State<Profile> {
 
                 Expanded(
                   flex: 2,
-                  child: Column(
-                    children: [
-                      Expanded(
-                        flex: 1,
-                        child: Container(child:TextField(maxLines: 99,), color: Colors.grey),
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: Container(child:TextField(maxLines: 99,), color: Colors.blue),
-                      ),
-                      Expanded(
-                        flex: 3,
-                        child: Container(child:TextField(maxLines: 99,), color: Colors.brown),
-                      ),
-                    ],
-                  ),
+                  // child: SingleChildScrollView(
+                    child: ListView(
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: Container(child:TextField(maxLines: 9,), color: Colors.grey),
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: Container(child:TextField(maxLines: 9,), color: Colors.blue),
+                        ),
+                        Expanded(
+                          flex: 3,
+                          child: Container(child:TextField(maxLines: 9,), color: Colors.brown),
+                        ),
+                      ],
+                    ),
+                  // ),
                 ),
+                
                 Expanded(
                   flex: 1,
                   child: Column(
