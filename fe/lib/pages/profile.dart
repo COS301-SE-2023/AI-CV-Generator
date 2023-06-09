@@ -109,68 +109,95 @@ class ProfileState extends State<Profile> {
       body: Container( 
         color: Colors.white,
         child:Padding(
-      padding: const EdgeInsets.symmetric(vertical: 42, horizontal: 420),
-        child: Form(
-          key: _formKey,
-          child: ListView(
-            children: [
-              const CircleAvatar(
-                radius: 50,
-                // backgroundImage: AssetImage(imagePath),
-                backgroundColor: Colors.blue,
-              ),
-              const SizedBox(height: 16,),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                child: OutlinedButton(
-                  onPressed: () {
-                    _formKey.currentState!.save();
-                    setState(() {
-                      isEditingEnabled = false;
-                    });
-                    ActualUpdate();
-                  }, 
-                  child: const Text("SAVE")
-                ) 
-              ),
-              const SizedBox(height: 8,),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                child: OutlinedButton(
-                  onPressed: () {
-                      setState(() {
-                      isEditingEnabled = true;
-                    });
-                  }, 
-                  child: const Text("EDIT")
-                ) 
-              ),
-              const SizedBox(height: 16,),
-              //InputField(label: "NAME", widgetField: TextFormField(enabled: isEditingEnabled, initialValue: model.fname, onSaved: (value)=>{model.fname=value!},)),
-              inputField(editor: nameC , label: "Name"),
-              const SizedBox(height: 16,),
-              //InputField(label: "EMAIL", widgetField: TextFormField(enabled: isEditingEnabled, initialValue: email, onSaved: (value)=>{email=value!},)),
-              inputField(editor: emailC, label: "EMAIL"),
-              const SizedBox(height: 16,),
-              //InputField(label: "PHONE NUMBER", widgetField: TextFormField(enabled: isEditingEnabled, initialValue: phoneNumber, onSaved: (value)=>{phoneNumber=value!},)),
-              inputField(editor: phoneNoC, label: "PHONE No"),
-              const SizedBox(height: 16,),
-              //InputField(label: "LOCATION", widgetField: TextFormField(enabled: isEditingEnabled, initialValue: location, onSaved: (value)=>{location=value!},)),
-              inputField(editor: locationC,label: "LOCATION",),
-              const SizedBox(height: 16,),
-              InputField(label: "ABOUT ME", widgetField: TextFormField(controller: descripC, maxLines: 10,)),
-              const SizedBox(height: 16,),
-              InputField(label: "EDUCATION", widgetField: TextFormField(controller: qualificationC, maxLines: 10,)),
-              //inputArray(editor: qualificationC),
-              const SizedBox(height: 16,),
-              InputField(label: "WORK EXPERIENCE", widgetField: TextFormField(controller: workExperienceC, maxLines: 10,)),
-              const SizedBox(height: 16,),
-              InputField(label: "LINKS", widgetField: TextFormField(enabled: isEditingEnabled, initialValue: links, onSaved: (value)=>{links=value!}, maxLines: 10,)),
-              const SizedBox(height: 16,),
-            ],
+          padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 0),
+          child: Form(
+            key: _formKey,
+            child: Row(
+              children: [
+
+                Expanded(
+                  flex: 2,
+                  child: Column(
+                    children: [
+
+                    ],
+                  ),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: Column(
+                    children: [
+                      Text("HELLO")
+                    ],
+                  ),
+                ),
+
+              ],
+            ),
           )
+        // child: Form(
+        //   key: _formKey,
+        //   child: ListView(
+        //     children: [
+        //       const CircleAvatar(
+        //         radius: 50,
+        //         // backgroundImage: AssetImage(imagePath),
+        //         backgroundColor: Colors.blue,
+        //       ),
+        //       const SizedBox(height: 16,),
+        //       Container(
+        //         padding: const EdgeInsets.symmetric(horizontal: 10.0),
+        //         child: OutlinedButton(
+        //           onPressed: () {
+        //             _formKey.currentState!.save();
+        //             setState(() {
+        //               isEditingEnabled = false;
+        //             });
+        //             ActualUpdate();
+        //           }, 
+        //           child: const Text("SAVE")
+        //         ) 
+        //       ),
+        //       const SizedBox(height: 8,),
+        //       Container(
+        //         padding: const EdgeInsets.symmetric(horizontal: 10.0),
+        //         child: OutlinedButton(
+        //           onPressed: () {
+        //               setState(() {
+        //               isEditingEnabled = true;
+        //             });
+        //           }, 
+        //           child: const Text("EDIT")
+        //         ) 
+        //       ),
+        //       const SizedBox(height: 16,),
+        //       //InputField(label: "NAME", widgetField: TextFormField(enabled: isEditingEnabled, initialValue: model.fname, onSaved: (value)=>{model.fname=value!},)),
+        //       inputField(editor: nameC , label: "Name"),
+        //       const SizedBox(height: 16,),
+        //       //InputField(label: "EMAIL", widgetField: TextFormField(enabled: isEditingEnabled, initialValue: email, onSaved: (value)=>{email=value!},)),
+        //       inputField(editor: emailC, label: "EMAIL"),
+        //       const SizedBox(height: 16,),
+        //       //InputField(label: "PHONE NUMBER", widgetField: TextFormField(enabled: isEditingEnabled, initialValue: phoneNumber, onSaved: (value)=>{phoneNumber=value!},)),
+        //       inputField(editor: phoneNoC, label: "PHONE No"),
+        //       const SizedBox(height: 16,),
+        //       //InputField(label: "LOCATION", widgetField: TextFormField(enabled: isEditingEnabled, initialValue: location, onSaved: (value)=>{location=value!},)),
+        //       inputField(editor: locationC,label: "LOCATION",),
+        //       const SizedBox(height: 16,),
+        //       InputField(label: "ABOUT ME", widgetField: TextFormField(controller: descripC, maxLines: 10,)),
+        //       const SizedBox(height: 16,),
+        //       InputField(label: "EDUCATION", widgetField: TextFormField(controller: qualificationC, maxLines: 10,)),
+        //       //inputArray(editor: qualificationC),
+        //       const SizedBox(height: 16,),
+        //       InputField(label: "WORK EXPERIENCE", widgetField: TextFormField(controller: workExperienceC, maxLines: 10,)),
+        //       const SizedBox(height: 16,),
+        //       InputField(label: "LINKS", widgetField: TextFormField(enabled: isEditingEnabled, initialValue: links, onSaved: (value)=>{links=value!}, maxLines: 10,)),
+        //       const SizedBox(height: 16,),
+        //     ],
+        //   )
+        // )
         )
-      )));
+      )
+    );
   }
 }
 
