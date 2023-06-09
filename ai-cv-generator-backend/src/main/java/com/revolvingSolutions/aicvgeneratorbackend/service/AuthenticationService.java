@@ -68,8 +68,7 @@ public class AuthenticationService {
                     return new AuthResponse(newtoken, token);
                         }
                 )
-                .orElseThrow(() -> new RefreshException(token,
-                        "Refresh token is not in database!"));
+                .orElseThrow(() -> new RefreshException(token, "Refresh token is not in database!"));
 
     }
 }
