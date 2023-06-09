@@ -128,19 +128,22 @@ class ProfileState extends State<Profile> {
                       Column(
                         children: [
                           SectionHeading(heading: "ABOUT ME", align: Alignment.topLeft,),
-                          SectionInput(inputWidget: TextFormField(controller: descripC),),
+                          SectionInput(inputWidget: TextFormField(controller: descripC, maxLines: 9,),),
                         ],
                       ),
+                      SizedBox(height: 10,),
                       Column(
                         children: [
                           SectionHeading(heading: "WORK EXPERIENCE"),
-                          SectionInput(inputWidget: TextFormField(controller: descripC),),
+                          SectionInput(inputWidget: TextFormField(controller: workExperienceC, maxLines: 9,),),
                         ],
                       ),
 
                     ],
                   ),
                 ),
+                
+                SizedBox(width: 15,),
                 
                 Expanded(
                   flex: 1,
@@ -151,10 +154,11 @@ class ProfileState extends State<Profile> {
                         child: Column(
                           children: [
                           SectionHeading(heading: "PERSONAL DETAILS", align: Alignment.topRight,),
-                          SectionInput(inputWidget: TextFormField(controller: fnameC),),
-                          SectionInput(inputWidget: TextFormField(controller: lnameC,),),
-                          SectionInput(inputWidget: TextFormField(controller: phoneNoC,),),
-                          SectionInput(inputWidget: TextFormField(controller: locationC,),),
+                          SectionInput(inputWidget: TextFormField(controller: fnameC, textAlign: TextAlign.right,),),
+                          SectionInput(inputWidget: TextFormField(controller: lnameC, textAlign: TextAlign.right,),),
+                          SectionInput(inputWidget: TextFormField(controller: emailC, textAlign: TextAlign.right,),),
+                          SectionInput(inputWidget: TextFormField(controller: phoneNoC, textAlign: TextAlign.right,),),
+                          SectionInput(inputWidget: TextFormField(controller: locationC, textAlign: TextAlign.right,),),
                           ],
                         ),
                       ),
