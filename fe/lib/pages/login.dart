@@ -1,5 +1,4 @@
 import 'package:ai_cv_generator/dio/client/userApi.dart';
-import 'package:ai_cv_generator/models/user/UserLog.dart';
 import 'package:ai_cv_generator/pages/home.dart';
 import 'package:ai_cv_generator/pages/test_page.dart';
 import 'package:flutter/material.dart';

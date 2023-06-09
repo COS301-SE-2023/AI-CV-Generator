@@ -3,9 +3,7 @@ import 'package:ai_cv_generator/dio/request/RefreshRequest.dart';
 import 'package:dio/dio.dart';
 
 class TokenRevalidator extends Interceptor {
-  
 
-  //Logs outgoing requests
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     if (!options.path.contains("auth")) {
@@ -14,14 +12,6 @@ class TokenRevalidator extends Interceptor {
     return handler.next(options);
   }
 
-  //Logs incoming responses
-  @override
-  void onResponse(Response response, ResponseInterceptorHandler handler) {
-    
-    return super.onResponse(response, handler);
-  }
-
-  //Logs Errors
   @override
   void onError(DioError err, ErrorInterceptorHandler handler) async {
     if (err.response?.statusCode == 403 ) {
@@ -45,7 +35,7 @@ class TokenRevalidator extends Interceptor {
         } else {
           return handler.next(err);
         }
-      } on DioError catch (e) {
+      } on DioError {
         print("Refresh failed!\nSign in again!");
         return handler.next(err);
       }
