@@ -1,7 +1,6 @@
 import 'package:ai_cv_generator/dio/client/userApi.dart';
 import 'package:ai_cv_generator/pages/Register.dart';
 import 'package:ai_cv_generator/pages/home.dart';
-import 'package:ai_cv_generator/pages/test_page.dart';
 import 'package:flutter/material.dart';
  
 class Login extends StatelessWidget {
@@ -53,7 +52,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   style: TextStyle(fontSize: 20),
                 )),
             Container(
-              padding: const EdgeInsets.fromLTRB(300, 10, 300, 10),
+              padding: const EdgeInsets.fromLTRB(500, 10, 500, 10),
               child: TextField(
                 controller: nameController,
                 decoration: const InputDecoration(
@@ -63,7 +62,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               ),
             ),
             Container(
-              padding: const EdgeInsets.fromLTRB(300, 10, 300, 10),
+              padding: const EdgeInsets.fromLTRB(500, 10, 500, 10),
               child: TextField(
                 obscureText: true,
                 controller: passwordController,
@@ -79,7 +78,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             ),
             Container(
                 height: 50,
-                padding: const EdgeInsets.fromLTRB(300, 0, 300, 0),
+                padding: const EdgeInsets.fromLTRB(600, 0, 600, 0),
                 child: ElevatedButton(
                   child: const Text('Login'),
                   onPressed: () async {
@@ -113,7 +112,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   ),
                   onPressed: () {
                     Navigator.push(context, MaterialPageRoute(
-                      builder: (context) => RegisterPage()
+                      builder: (context) => const RegisterPage()
                     ));
                   },
                 )

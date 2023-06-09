@@ -13,22 +13,22 @@ public class UserController {
     UserService service;
 
     @GetMapping(value="/user")
-    public String getUser() {
-        return "";
+    public ResponseEntity<String> getUser() {
+        return ResponseEntity.ok("");
     }
 
     @PostMapping(value="/user")
-    public String updateUser() {
-        return "";
+    public ResponseEntity<String> updateUser() {
+        return ResponseEntity.ok("");
     }
     @PostMapping(value="/file")
-    public String uploadFile() {
-        return "";
+    public ResponseEntity<String> uploadFile() {
+        return ResponseEntity.ok("");
     }
 
     @GetMapping(value="/file")
-    public String getFile() {
-        return "";
+    public ResponseEntity<String> getFile() {
+        return ResponseEntity.ok("");
     }
 
     @GetMapping(value = "test")
