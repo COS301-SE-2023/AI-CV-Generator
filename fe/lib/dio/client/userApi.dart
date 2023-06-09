@@ -97,6 +97,8 @@ class userApi extends DioClient {
       );
       print('Response Info: ${response.data}');
       AuthResponse resp = AuthResponse.fromJson(response.data);
+      DioClient.SetAuth(resp.token);
+      DioClient.SetRefresh(resp.refreshToken);
       return true;
     } on DioError catch (e) {
      DioClient.handleError(e);
@@ -104,7 +106,7 @@ class userApi extends DioClient {
     return false;
   }
 
-  static Future<bool> register({
+  static Future<String?> register({
     required String username,
     required String password,
     required String fname,
@@ -113,16 +115,18 @@ class userApi extends DioClient {
     RegisterRequest req = RegisterRequest(username: username, password: password,fname: fname,lname: lname);
     try {
       Response response = await DioClient.dio.post<Map<String,dynamic>>(
-        'api/auth/register',
+        'api/auth/reg',
         data: req.toJson(),
       );
       print('Response Info: ${response.data}');
       AuthResponse resp = AuthResponse.fromJson(response.data);
-      return true;
+      DioClient.SetAuth(resp.token);
+      DioClient.SetRefresh(resp.refreshToken);
+      return "1";
     } on DioError catch (e) {
       DioClient.handleError(e);
+      return e.message;
     }
-    return false;
   }
 
   static void testRequest({

@@ -1,4 +1,5 @@
 import 'package:ai_cv_generator/dio/client/userApi.dart';
+import 'package:ai_cv_generator/pages/Register.dart';
 import 'package:ai_cv_generator/pages/home.dart';
 import 'package:ai_cv_generator/pages/test_page.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +14,6 @@ class Login extends StatelessWidget {
     return  const MaterialApp(
       title: _title,
       home: Scaffold(
-        //appBar: AppBar(title: const Text(_title)),
         body: MyStatefulWidget(),
       ),
       debugShowCheckedModeBanner: false,
@@ -97,25 +97,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   },
                 )
             ),
-            Container(
-                height: 50,
-                padding: const EdgeInsets.fromLTRB(300, 0, 300, 0),
-                child: ElevatedButton(
-                  child: const Text('Test Page'),
-                  onPressed: () async {
-                    if (true) {
-                      Error = false;
-                      Navigator.push(context, MaterialPageRoute(
-                      builder: (context) => const TestPage()
-                    ));
-                    } else {
-                      setState(() {
-                        Error = true;
-                      });
-                    }
-                  },
-                )
-            ),
             Error ?
             const Center(child: Text("Password or Email invalid",style: TextStyle(
               color: Colors.red,
@@ -130,7 +111,11 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     'Create Account',
                     style: TextStyle(fontSize: 20),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(
+                      builder: (context) => RegisterPage()
+                    ));
+                  },
                 )
               ],
             ),

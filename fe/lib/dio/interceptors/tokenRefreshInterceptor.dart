@@ -14,6 +14,9 @@ class TokenRevalidator extends Interceptor {
 
   @override
   void onError(DioError err, ErrorInterceptorHandler handler) async {
+    if (err.requestOptions.path.contains("auth")) {
+      return handler.next(err);
+    }
     if (err.response?.statusCode == 403 ) {
       try {
         RefreshRequest req = RefreshRequest(refreshToken: DioClient.refreshToken);
