@@ -109,7 +109,7 @@ class ProfileState extends State<Profile> {
       body: Container( 
         color: Colors.white,
         child:Padding(
-          padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 0),
+          padding: const EdgeInsets.symmetric(vertical: 42, horizontal: 42),
           child: Form(
             key: _formKey,
             child: Row(
@@ -119,7 +119,18 @@ class ProfileState extends State<Profile> {
                   flex: 2,
                   child: Column(
                     children: [
-
+                      Expanded(
+                        flex: 1,
+                        child: Container(child:TextField(maxLines: 99,), color: Colors.grey),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: Container(child:TextField(maxLines: 99,), color: Colors.blue),
+                      ),
+                      Expanded(
+                        flex: 3,
+                        child: Container(child:TextField(maxLines: 99,), color: Colors.brown),
+                      ),
                     ],
                   ),
                 ),
@@ -127,7 +138,18 @@ class ProfileState extends State<Profile> {
                   flex: 1,
                   child: Column(
                     children: [
-                      Text("HELLO")
+                      Expanded(
+                        flex: 1,
+                        child: Container(child:TextField(maxLines: 99,), color: Colors.yellow),
+                      ),
+                      Expanded(
+                        flex: 3,
+                        child: Container(child:TextField(maxLines: 99,), color: Colors.green),
+                      ),
+                      Expanded(
+                        flex: 2,
+                        child: Container(child:TextField(maxLines: 99,), color: Colors.purple),
+                      ),
                     ],
                   ),
                 ),
