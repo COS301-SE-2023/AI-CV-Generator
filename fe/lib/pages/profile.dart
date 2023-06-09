@@ -154,7 +154,7 @@ class ProfileState extends State<Profile> {
                         child: Column(
                           children: [
                           SectionHeading(heading: "PERSONAL DETAILS", align: Alignment.topRight,),
-                          SectionInput(inputWidget: TextFormField(controller: fnameC, textAlign: TextAlign.right,),),
+                          SectionInput(inputWidget: TextInputField(editor: fnameC),),
                           SectionInput(inputWidget: TextFormField(controller: lnameC, textAlign: TextAlign.right,),),
                           SectionInput(inputWidget: TextFormField(controller: emailC, textAlign: TextAlign.right,),),
                           SectionInput(inputWidget: TextFormField(controller: phoneNoC, textAlign: TextAlign.right,),),
@@ -288,10 +288,31 @@ class SectionInput extends StatefulWidget {
 }
 
 class SectionInputState extends State<SectionInput> {
-    @override
+  @override
   Widget build(BuildContext context) {
     return Container(
       child: widget.inputWidget,
+    );
+  }
+}
+
+class TextInputField extends StatefulWidget {
+  final TextEditingController editor;
+  const TextInputField({required this.editor});
+  @override
+  TextInputFieldState createState() => TextInputFieldState();
+}
+
+class TextInputFieldState extends State<TextInputField> {
+  @override
+  Widget build(BuildContext context) {
+    TextEditingController editor = widget.editor;
+    return TextFormField(
+      controller: editor, 
+      autocorrect: true,
+      onEditingComplete: () {
+        editor.notifyListeners();
+      },
     );
   }
 }
