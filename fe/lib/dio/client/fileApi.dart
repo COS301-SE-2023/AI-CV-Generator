@@ -7,7 +7,7 @@ class FileApi extends DioClient {
   static Future<Response?> uploadFile(
     {
       required PlatformFile? file,
-      required id
+
     }
   ) async {
     if (file == null) return null;
@@ -18,7 +18,7 @@ class FileApi extends DioClient {
     });
 
     Response response = await DioClient.dio.post(
-      '${DioClient.base}/search/$id', // will be changed
+      'api/user/upload', // will be changed
       data: formData,
       onSendProgress: (int sent, int total) {
         print('$sent $total');

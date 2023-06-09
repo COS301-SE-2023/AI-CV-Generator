@@ -46,7 +46,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             Container(
                 alignment: Alignment.center,
                 padding: const EdgeInsets.all(10),
-                child: const Image(image: ResizeImage(AssetImage('assets/images/ImgLogo-removebg-preview.png'),width:175,height:175),)
+                child: const Image(image: ResizeImage(AssetImage('assets/images/logo.png'),width:175,height:175),)
                 ),
             Container(
                 alignment: Alignment.center,

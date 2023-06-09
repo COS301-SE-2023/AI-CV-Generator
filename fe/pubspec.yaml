@@ -42,6 +42,7 @@ dependencies:
   json_annotation: ^4.8.1
   flutter_secure_storage: ^8.0.0
   shared_preferences: ^2.1.1
+  flutter_slider_drawer: ^2.1.3
 
 dev_dependencies:
   flutter_test:
@@ -71,6 +72,7 @@ flutter:
   assets:
     - assets/images/ImgLogo.jpg
     - assets/images/ImgLogo-removebg-preview.png
+    - assets/images/logo.png
     - assets/Documents/DocumentTest.pdf
     - assets/json/users/retrieve/test_id.json
     - assets/json/users/update/test_id.json

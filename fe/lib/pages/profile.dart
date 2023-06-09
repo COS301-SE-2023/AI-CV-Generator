@@ -69,13 +69,11 @@ class ProfileState extends State<Profile> {
       model.phoneNumber = phoneNoC.text;
       model.description = descripC.text;
       model.location = locationC.text;
-      // Will do the rest when I figure out their inputs
-
       userApi.updateUser(user: model, id: id);
     }
     void update() {
         DateTime nTime = DateTime.now();
-        if (nTime.second - time.second > 10) {
+        if (nTime.second - time.second > 30) {
           ActualUpdate();
           time = nTime;
         }

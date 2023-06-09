@@ -82,7 +82,7 @@ class _createPageState extends State<createPage> {
                         icon: const Icon(Icons.upload),
                         onPressed: () {
                           if (file == null) {return;}
-                            FileApi.uploadFile(file: file, id: "test_id");
+                            FileApi.uploadFile(file: file);
                           
                         },
                       ),

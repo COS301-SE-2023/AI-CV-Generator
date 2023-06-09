@@ -9,6 +9,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.io.File;
 import java.util.Collection;
 import java.util.List;
 
@@ -28,6 +29,9 @@ public class UserEntity implements UserDetails {
     public String lname;
     public String username;
     public String password;
+
+    @ElementCollection
+    public List<FileEntity> files;
 
     @Enumerated(EnumType.STRING)
     public Role role;
