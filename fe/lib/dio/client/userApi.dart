@@ -11,18 +11,11 @@ class userApi extends DioClient {
   static Future<UserModel?> getUser({required String id}) async {
     UserModel? user;
     try {
-      Response userData = await DioClient.dio.get('${DioClient.base}/users/retrieve/$id');
+      Response userData = await DioClient.dio.get('users/retrieve/$id');
       print('User Info: ${userData.data}');
       user = UserModel.fromJson(userData.data);
     } on DioError catch (e) {
-      if (e.response != null) {
-        print('Dio error!  no response');
-        print('STATUS: ${e.response?.statusCode} //status of dio request failuire');
-        print('DATA: ${e.response?.data}');
-        print('HEADERS: ${e.response?.headers}');
-      } else {
-        print(e.message);
-      }
+      DioClient.handleError(e);
     }
     return user;
   }
@@ -32,16 +25,16 @@ class userApi extends DioClient {
 
     try {
       Response response = await DioClient.dio.post(
-        '${DioClient.base}/users/create',
+        'users/create',
         data: userInfo.toJson(),
       );
 
       print('User created: ${response.data}');
 
       retrievedUser = UserModel.fromJson(response.data);
-    } catch (e) {
-      print('Error creating user: $e');
-    }
+    } on DioError catch (e) {
+      DioClient.handleError(e);
+    } 
 
     return retrievedUser;
   }
@@ -55,14 +48,14 @@ class userApi extends DioClient {
     
     try {
       Response response = await DioClient.dio.delete(
-        '${DioClient.base}/users/delete/$id'
+        'users/delete/$id'
       );
 
       print('User created: ${response.data}');
 
       retrievedMsg = ConfirmationMsg.fromJSON(response.data);
-    } catch (e) {
-      print('Error creating user: $e');
+    } on DioError catch (e) {
+      DioClient.handleError(e);
     }
 
     return retrievedMsg?.msg;
@@ -78,15 +71,15 @@ class userApi extends DioClient {
 
     try {
       Response response = await DioClient.dio.put(
-        '${DioClient.base}/users/update/$id',
+        'users/update/$id',
         data: user.toJson(),
       );
 
       print('User updated: ${response.data}');
 
       updateduser = UserModel.fromJson(response.data);
-    } catch (e) {
-      print('Error updating user: $e');
+    } on DioError catch (e) {
+      DioClient.handleError(e);
     }
 
     return updateduser;
@@ -99,21 +92,14 @@ class userApi extends DioClient {
     LoginRequest req = LoginRequest(username: username, password: password);
     try {
       Response response = await DioClient.dio.post<Map<String,dynamic>>(
-        '${DioClient.base}api/auth/authenticate',
+        'api/auth/authenticate',
         data: req.toJson(),
       );
       print('Response Info: ${response.data}');
       AuthResponse resp = AuthResponse.fromJson(response.data);
       return true;
     } on DioError catch (e) {
-      if (e.response != null) {
-        print('Dio error!  no response');
-        print('STATUS: ${e.response?.statusCode}');
-        print('DATA: ${e.response?.data}');
-        print('HEADERS: ${e.response?.headers}');
-      } else {
-        print(e.message);
-      }
+     DioClient.handleError(e);
     }
     return false;
   }
@@ -127,21 +113,14 @@ class userApi extends DioClient {
     RegisterRequest req = RegisterRequest(username: username, password: password,fname: fname,lname: lname);
     try {
       Response response = await DioClient.dio.post<Map<String,dynamic>>(
-        '${DioClient.base}api/auth/register',
+        'api/auth/register',
         data: req.toJson(),
       );
       print('Response Info: ${response.data}');
       AuthResponse resp = AuthResponse.fromJson(response.data);
       return true;
     } on DioError catch (e) {
-      if (e.response != null) {
-        print('Dio error!  no response');
-        print('STATUS: ${e.response?.statusCode}');
-        print('DATA: ${e.response?.data}');
-        print('HEADERS: ${e.response?.headers}');
-      } else {
-        print(e.message);
-      }
+      DioClient.handleError(e);
     }
     return false;
   }
@@ -149,7 +128,7 @@ class userApi extends DioClient {
   static void testRequest({
     required String val
   }) async {
-    Response resp = await DioClient.dio.get('${DioClient.base}/api/Users');
-    print("Response: "+resp.data);
+    Response resp = await DioClient.dio.get('api/Users');
+    print("Response: ${resp.data}");
   }
 }

@@ -10,7 +10,6 @@ import com.revolvingSolutions.aicvgeneratorbackend.request.RefreshRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.RegRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.response.AuthResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;

@@ -41,4 +41,15 @@ class DioClient {
 
   static get dio => _dio;
   static get base => baseurl;
+
+  static void handleError(DioError e) {
+    if (e.response != null) {
+        print('Dio error!  no response');
+        print('STATUS: ${e.response?.statusCode}');
+        print('DATA: ${e.response?.data}');
+        print('HEADERS: ${e.response?.headers}');
+    } else {
+      print(e.message);
+    }
+  }
 }
