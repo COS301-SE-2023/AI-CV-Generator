@@ -27,8 +27,12 @@ class DioClient {
 
   // Extreamely temporary (implementing secure method later on)
   static String authToken ="";
+  static String refreshToken = "";
   static void SetAuth(String authT) {
     authToken = authT;
+  }
+  static void SetRefresh(String authT) {
+    refreshToken = authT;
   }
 
   static get dio => _dio;

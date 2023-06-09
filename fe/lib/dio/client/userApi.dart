@@ -101,12 +101,6 @@ class userApi extends DioClient {
       Response response = await DioClient.dio.post<Map<String,dynamic>>(
         '${DioClient.base}api/auth/authenticate',
         data: req.toJson(),
-        options: Options(
-          headers: <String,dynamic> {
-            'Content-Type':'application/json',
-            'Accept':'*/*'
-          }
-        )
       );
       print('Response Info: ${response.data}');
       AuthResponse resp = AuthResponse.fromJson(response.data);
@@ -135,12 +129,6 @@ class userApi extends DioClient {
       Response response = await DioClient.dio.post<Map<String,dynamic>>(
         '${DioClient.base}api/auth/register',
         data: req.toJson(),
-        options: Options(
-          headers: <String,dynamic> {
-            'Content-Type':'application/json',
-            'Accept':'*/*'
-          }
-        )
       );
       print('Response Info: ${response.data}');
       AuthResponse resp = AuthResponse.fromJson(response.data);
