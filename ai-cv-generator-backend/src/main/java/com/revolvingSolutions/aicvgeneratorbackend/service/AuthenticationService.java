@@ -4,6 +4,7 @@ import com.revolvingSolutions.aicvgeneratorbackend.entitiy.RefreshToken;
 import com.revolvingSolutions.aicvgeneratorbackend.entitiy.Role;
 import com.revolvingSolutions.aicvgeneratorbackend.entitiy.UserEntity;
 import com.revolvingSolutions.aicvgeneratorbackend.exception.RefreshException;
+import com.revolvingSolutions.aicvgeneratorbackend.exception.UserAlreadyExistsException;
 import com.revolvingSolutions.aicvgeneratorbackend.repository.UserRepository;
 import com.revolvingSolutions.aicvgeneratorbackend.request.AuthRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.RefreshRequest;
@@ -24,6 +25,9 @@ public class AuthenticationService {
      private final RefreshTokenService refreshTokenService;
      private final AuthenticationManager authenticationManager;
     public AuthResponse register(RegRequest request) {
+        if (repository.findByUsername(request.getUsername()).isPresent()) {
+            throw new UserAlreadyExistsException("Username already exists");
+        }
         var _user = UserEntity.builder()
                 .fname(request.getFname())
                 .lname(request.getLname())
