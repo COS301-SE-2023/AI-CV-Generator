@@ -1,10 +1,11 @@
 import 'package:ai_cv_generator/dio/client/dioClient.dart';
+import 'package:ai_cv_generator/dio/request/LoginRequest.dart';
+import 'package:ai_cv_generator/dio/request/RegisterRequest.dart';
+import 'package:ai_cv_generator/dio/response/AuthResponse.dart';
 import 'package:ai_cv_generator/models/user/Confirmation.dart';
 import 'package:ai_cv_generator/models/user/UserModel.dart';
 
 import 'package:dio/dio.dart';
-
-import '../../models/user/UserLog.dart';
 
 class userApi extends DioClient {
   static Future<UserModel?> getUser({required String id}) async {
@@ -13,7 +14,7 @@ class userApi extends DioClient {
       Response userData = await DioClient.dio.get('${DioClient.base}/users/retrieve/$id');
       print('User Info: ${userData.data}');
       user = UserModel.fromJson(userData.data);
-    } on DioException catch (e) {
+    } on DioError catch (e) {
       if (e.response != null) {
         print('Dio error!  no response');
         print('STATUS: ${e.response?.statusCode} //status of dio request failuire');
@@ -91,26 +92,70 @@ class userApi extends DioClient {
     return updateduser;
   }
 
-  static Future<UserLog?> login({
+  static Future<bool> login({
     required String username,
     required String password
   }) async {
-    UserLog? user;
+    LoginRequest req = LoginRequest(username: username, password: password);
     try {
-      Response userData = await DioClient.dio.get('${DioClient.base}/users/retrieve/$username');
-      print('User Info: ${userData.data}');
-      user = UserLog.fromJSON(userData.data);
-    } on DioException catch (e) {
+      Response response = await DioClient.dio.post<Map<String,dynamic>>(
+        '${DioClient.base}api/auth/authenticate',
+        data: req.toJson(),
+        options: Options(
+          headers: <String,dynamic> {
+            'Content-Type':'application/json',
+            'Accept':'*/*'
+          }
+        )
+      );
+      print('Response Info: ${response.data}');
+      AuthResponse resp = AuthResponse.fromJson(response.data);
+      return true;
+    } on DioError catch (e) {
       if (e.response != null) {
         print('Dio error!  no response');
-        print('STATUS: ${e.response?.statusCode} //status of dio request failuire');
+        print('STATUS: ${e.response?.statusCode}');
         print('DATA: ${e.response?.data}');
         print('HEADERS: ${e.response?.headers}');
       } else {
         print(e.message);
       }
     }
-    return user;
+    return false;
+  }
+
+  static Future<bool> register({
+    required String username,
+    required String password,
+    required String fname,
+    required String lname
+  }) async {
+    RegisterRequest req = RegisterRequest(username: username, password: password,fname: fname,lname: lname);
+    try {
+      Response response = await DioClient.dio.post<Map<String,dynamic>>(
+        '${DioClient.base}api/auth/register',
+        data: req.toJson(),
+        options: Options(
+          headers: <String,dynamic> {
+            'Content-Type':'application/json',
+            'Accept':'*/*'
+          }
+        )
+      );
+      print('Response Info: ${response.data}');
+      AuthResponse resp = AuthResponse.fromJson(response.data);
+      return true;
+    } on DioError catch (e) {
+      if (e.response != null) {
+        print('Dio error!  no response');
+        print('STATUS: ${e.response?.statusCode}');
+        print('DATA: ${e.response?.data}');
+        print('HEADERS: ${e.response?.headers}');
+      } else {
+        print(e.message);
+      }
+    }
+    return false;
   }
 
   static void testRequest({

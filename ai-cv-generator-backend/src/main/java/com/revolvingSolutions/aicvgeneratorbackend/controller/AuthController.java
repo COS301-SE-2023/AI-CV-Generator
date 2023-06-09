@@ -6,14 +6,17 @@ import com.revolvingSolutions.aicvgeneratorbackend.response.AuthResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.apache.coyote.Response;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin(value="*")
 @RequestMapping(path = "/api/auth")
 @RequiredArgsConstructor
 public class AuthController {
 
+    @Autowired
     private final AuthenticationService service;
     @PostMapping("/reg")
     public ResponseEntity<AuthResponse> register(

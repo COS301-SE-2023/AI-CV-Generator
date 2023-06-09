@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin(value="*")
 @RequestMapping(path = "/api/User")
 public class UserController {
     @Autowired

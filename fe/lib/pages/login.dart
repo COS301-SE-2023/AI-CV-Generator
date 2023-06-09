@@ -84,7 +84,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 child: ElevatedButton(
                   child: const Text('Login'),
                   onPressed: () async {
-                    UserLog? model = await userApi.login(username: nameController.text,password: passwordController.text);
+                    bool model = await userApi.login(username: nameController.text,password: passwordController.text);
                     if (true) {
                       Error = false;
                       Navigator.push(context, MaterialPageRoute(

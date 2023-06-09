@@ -21,7 +21,7 @@ class DioClient {
       MockInterceptor(throwError: false, intercept: false), 
     ]
   );
-  static const baseurl = "http//localhost:8080"; //This will be the actual base usl during development of the system
+  static const baseurl = "http://localhost:8080/"; //This will be the actual base usl during development of the system
   //final baseurl = "https//mockbackend/api"; //Until the backend is fully established
 
 
