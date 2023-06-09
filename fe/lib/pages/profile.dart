@@ -54,7 +54,8 @@ class ProfileState extends State<Profile> {
     }
 
     String links = "Not ready yet";
-    TextEditingController nameC = TextEditingController(text: model.fname);
+    TextEditingController fnameC = TextEditingController(text: model.fname);
+    TextEditingController lnameC = TextEditingController(text: model.lname);
     TextEditingController emailC = TextEditingController(text: email);
     TextEditingController phoneNoC = TextEditingController(text: phoneNumber);
     TextEditingController locationC = TextEditingController(text: location);
@@ -64,7 +65,8 @@ class ProfileState extends State<Profile> {
     DateTime time = DateTime.now();
     void ActualUpdate() {
       print("Actual Update");
-      model.fname = nameC.text;
+      model.fname = fnameC.text;
+      model.lname = lnameC.text;
       model.email = emailC.text;
       model.phoneNumber = phoneNoC.text;
       model.description = descripC.text;
@@ -81,7 +83,8 @@ class ProfileState extends State<Profile> {
         }
     }
     
-    nameC.addListener(update);
+    fnameC.addListener(update);
+    lnameC.addListener(update);
     emailC.addListener(update);
     phoneNoC.addListener(update);
     locationC.addListener(update);
@@ -117,24 +120,24 @@ class ProfileState extends State<Profile> {
 
                 Expanded(
                   flex: 2,
-                  // child: SingleChildScrollView(
-                    child: ListView(
-                      children: [
-                        Expanded(
-                          flex: 1,
-                          child: Container(child:TextField(maxLines: 9,), color: Colors.grey),
-                        ),
-                        Expanded(
-                          flex: 1,
-                          child: Container(child:TextField(maxLines: 9,), color: Colors.blue),
-                        ),
-                        Expanded(
-                          flex: 3,
-                          child: Container(child:TextField(maxLines: 9,), color: Colors.brown),
-                        ),
-                      ],
-                    ),
-                  // ),
+                  child: ListView(
+                    children: [
+
+                      Column(
+                        children: [
+                          SectionHeading(heading: "ABOUT ME"),
+                          SectionInput(inputWidget: TextFormField(controller: descripC),),
+                        ],
+                      ),
+                      Column(
+                        children: [
+                          SectionHeading(heading: "WORK EXPERIENCE"),
+                          SectionInput(inputWidget: TextFormField(controller: descripC),),
+                        ],
+                      ),
+
+                    ],
+                  ),
                 ),
                 
                 Expanded(
@@ -142,19 +145,30 @@ class ProfileState extends State<Profile> {
                   child: Column(
                     children: [
                       Expanded(
-                        flex: 1,
-                        child: Container(child:TextField(maxLines: 99,), color: Colors.yellow),
+                        child: Column(
+                          children: [
+                          SectionHeading(heading: "PERSONAL DETAILS"),
+                          SectionInput(inputWidget: TextFormField(controller: fnameC,)),
+                          SectionInput(inputWidget: TextFormField(controller: lnameC,)),
+                          ],
+                        ),
                       ),
                       Expanded(
-                        flex: 3,
-                        child: Container(child:TextField(maxLines: 99,), color: Colors.green),
+                        child: Column(
+                          children: [
+                          SectionHeading(heading: "EDUCATION"),
+                          ],
+                        ),
                       ),
                       Expanded(
-                        flex: 2,
-                        child: Container(child:TextField(maxLines: 99,), color: Colors.purple),
+                        child: Column(
+                          children: [
+                          SectionHeading(heading: "LINKS"),
+                          ],
+                        ),
                       ),
                     ],
-                  ),
+                  )
                 ),
 
               ],
@@ -222,6 +236,47 @@ class ProfileState extends State<Profile> {
         // )
         )
       )
+    );
+  }
+}
+
+class SectionHeading extends StatelessWidget {
+  final String heading;
+  SectionHeading({required this.heading});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+          padding: EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                heading,
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              // SizedBox(height: 16),
+            ],
+          )
+    );
+  }
+}
+
+class SectionInput extends StatefulWidget {
+  final Widget inputWidget;
+  const SectionInput({required this.inputWidget});
+  @override
+  SectionInputState createState() => SectionInputState();
+}
+
+class SectionInputState extends State<SectionInput> {
+    @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: widget.inputWidget,
     );
   }
 }
