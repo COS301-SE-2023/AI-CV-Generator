@@ -27,31 +27,61 @@ class _generatedCVState extends State<generatedCV> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-          child: ListView(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(10.0),
-                child: OutlinedButton(
-                  onPressed: () async {
-                    setState(() {
-                      createCV();
-                    });
-                  }, 
-                  child: const Text("Generate")
-                ) 
-              ),
-              Padding(
-                padding: const EdgeInsets.all(24),
-                child: TextFormField(
-                  controller: _controller,
-                  maxLines: 99999,
-                ),
-              )
-            ]
-          ),
-        )
+    return Column(
+      children: [
+        Stack(
+          children: [
+
+            TextFormField(
+              controller: _controller,
+              maxLines: 9,
+            ),
+            
+            Positioned(
+                                          bottom: 16.0,
+                right: 16.0,
+              child: 
+
+            FloatingActionButton(
+              onPressed: () {
+              },
+              child: Icon(Icons.share),
+            )),
+
+          ],
+        ),
+          // Container(
+          //   padding: const EdgeInsets.all(10.0),
+          //   child: OutlinedButton(
+          //     onPressed: () async {
+          //       setState(() {
+          //         createCV();
+          //       });
+          //     },
+          //     child: const Text("Generate")
+          //   ) 
+          // ),
+          // Stack(
+          //   children: [
+              // Positioned(
+              //   bottom: 16.0,
+              //   right: 16.0,
+              //   child: FloatingActionButton(
+              //     onPressed: () {
+              //     },
+              //     child: Icon(Icons.add),
+              //   ),
+              // ),
+          //   ],
+          // ),
+          // Padding(
+          //   padding: const EdgeInsets.all(24),
+          //   child: TextFormField(
+          //     controller: _controller,
+          //     maxLines: 9,
+          //   ),
+          // ),
+      ],
     );
   }
 }
