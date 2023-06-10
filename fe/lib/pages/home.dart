@@ -33,6 +33,22 @@ class _HomeState extends State<Home> {
             },
           ),
         actions: [
+
+          Container(
+            // padding: EdgeInsets.all(8.0),
+            height: 5,
+            width: 400,
+            child: SearchBar(
+            leading: IconButton(
+              icon: Icon(
+                color: Colors.black,
+                Icons.search,
+                ),
+              onPressed: () => {},
+            ),
+          ),
+          ),
+
           IconButton(
             onPressed: () async {
               UserModel? mode = await userApi.getUser(id: id);
@@ -43,17 +59,18 @@ class _HomeState extends State<Home> {
               }
             }, 
             icon: const Icon(Icons.account_circle)
-            )
+            ),
         ],
       ),
       body: Center(
         child: Row(
           children: [
             Expanded(child: createPage(id:id)),
-            const Expanded(child: generatedCV())
+            Expanded(child: generatedCV())
           ],
         ),
       ),
     );
   }
 }
+
