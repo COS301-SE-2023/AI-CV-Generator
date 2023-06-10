@@ -6,6 +6,7 @@ import com.revolvingSolutions.aicvgeneratorbackend.request.UpdateUserRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.UploadFileRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.response.GetFilesResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,9 +16,9 @@ import java.util.List;
 @RestController
 @CrossOrigin(value="*")
 @RequestMapping(path = "/api/User")
+@RequiredArgsConstructor
 public class UserController {
-    @Autowired
-    UserService service;
+    private final UserService service;
 
     @GetMapping(value="/user")
     public ResponseEntity<UserEntity> getUser() {
@@ -34,6 +35,7 @@ public class UserController {
     public ResponseEntity<String> uploadFile(
             @RequestBody UploadFileRequest request
     ) {
+        System.out.println("Yeah");
         return ResponseEntity.ok(service.uploadFile(request));
     }
 
@@ -42,7 +44,7 @@ public class UserController {
         return ResponseEntity.ok(service.getFile());
     }
 
-    @GetMapping(value = "test")
+    @GetMapping(value = "/test")
     public ResponseEntity<String> test() {
         return ResponseEntity.ok("Hello auth is working");
     }

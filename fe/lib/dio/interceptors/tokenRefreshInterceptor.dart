@@ -1,3 +1,4 @@
+
 import 'package:ai_cv_generator/dio/client/dioClient.dart';
 import 'package:ai_cv_generator/dio/request/RefreshRequest.dart';
 import 'package:dio/dio.dart';
@@ -7,6 +8,7 @@ class TokenRevalidator extends Interceptor {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     if (!options.path.contains("auth")) {
+      print(DioClient.authToken);
       options.headers['Authorization'] = "Bearer ${DioClient.authToken}";
     }   
     return handler.next(options);
@@ -17,7 +19,7 @@ class TokenRevalidator extends Interceptor {
     if (err.requestOptions.path.contains("auth")) {
       return handler.next(err);
     }
-    if (err.response?.statusCode == 403 ) {
+    if (err.response?.statusCode == 408 ) {
       try {
         RefreshRequest req = RefreshRequest(refreshToken: DioClient.refreshToken);
         Response resp = await DioClient.dio.post(

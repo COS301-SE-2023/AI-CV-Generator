@@ -47,14 +47,18 @@ public class UserService {
     }
 
     public String uploadFile(UploadFileRequest request) {
-        FileEntity file = FileEntity.builder()
-                .user(getAuthenticatedUser())
-                .filename(request.getFilename())
-                .filetype(request.getFiletype())
-                .data(request.getData())
-                .build();
-        fileRepository.save(file);
-        return "Success";
+        try {
+            FileEntity file = FileEntity.builder()
+                    .user(getAuthenticatedUser())
+                    .filename(request.getFile().getName())
+                    .filetype(request.getFile().getContentType())
+                    .data(request.getFile().getBytes())
+                    .build();
+            fileRepository.save(file);
+            return "Success";
+        } catch (Exception e) {
+            throw new UnknownErrorException("File exception!: "+e.getMessage());
+        }
     }
 
     private UserEntity getAuthenticatedUser() {

@@ -30,7 +30,13 @@ public class AuthFilter extends OncePerRequestFilter {
             @NonNull HttpServletResponse response,
             @NonNull FilterChain filterChain
     ) throws ServletException, IOException {
+        System.out.println(
+                request.getMethod()
+        );
         final String header = request.getHeader("Authorization");
+        System.out.println(
+                request.getAuthType()
+        );
         if (header != null && header.startsWith("Bearer")) {
             final String token = header.substring(7);
             final String username = authService.getUsername(token);
@@ -43,6 +49,8 @@ public class AuthFilter extends OncePerRequestFilter {
                         SecurityContextHolder.getContext().setAuthentication(authToken);
                     }
                 }
+            } else {
+                System.out.println("Error with auth token");
             }
             filterChain.doFilter(request,response);
         } else {

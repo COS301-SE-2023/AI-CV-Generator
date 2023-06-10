@@ -9,6 +9,7 @@ class HeaderAdder extends Interceptor {
     }
     options.headers['Content-Type'] = 'application/json';
     options.headers['Accept'] = '*/*';
+    options.headers['Connection'] = 'keep-alive';
     return handler.next(options);
   }
 }

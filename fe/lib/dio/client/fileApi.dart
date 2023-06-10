@@ -17,15 +17,19 @@ class FileApi extends DioClient {
       )
     });
 
-    Response response = await DioClient.dio.post(
-      'api/user/upload', // will be changed
-      data: formData,
-      onSendProgress: (int sent, int total) {
-        print('$sent $total');
-      },
-    );
-
-    return response;
+    try {
+      Response response = await DioClient.dio.post(
+        'api/User/file', // will be changed
+        data: formData,
+        onSendProgress: (int sent, int total) {
+          print('$sent $total');
+        },
+      );
+      return response;
+    } on DioError catch(e) {
+      DioClient.handleError(e);
+    }
+    return null;
   }
 
   static Future<PlatformFile?> requestFileFile(
