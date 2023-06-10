@@ -6,10 +6,17 @@ import com.revolvingSolutions.aicvgeneratorbackend.exception.UnknownErrorExcepti
 import com.revolvingSolutions.aicvgeneratorbackend.model.FileModel;
 import com.revolvingSolutions.aicvgeneratorbackend.repository.FileRepository;
 import com.revolvingSolutions.aicvgeneratorbackend.repository.UserRepository;
+import com.revolvingSolutions.aicvgeneratorbackend.request.DownloadFileRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.UpdateUserRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.UploadFileRequest;
+import com.revolvingSolutions.aicvgeneratorbackend.response.DownloadFileResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.GetFilesResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -45,6 +52,20 @@ public class UserService {
         return GetFilesResponse.builder()
                 .files(fileRepository.getFilesFromUser(getAuthenticatedUser().getUsername()))
                 .build();
+    }
+
+    public ResponseEntity<Resource> downloadFile(DownloadFileRequest request) {
+        FileModel file = fileRepository.getFileFromUser(getAuthenticatedUser().getUsername(), request.getFilename()).get(0);
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(file.getFiletype()))
+                .header(
+                        HttpHeaders.CONTENT_DISPOSITION,
+                        "attachment; filename=\""+file.getFilename()+"\""
+                )
+                .body(
+                        new ByteArrayResource(file.getData())
+                );
+
     }
 
     public String uploadFile(MultipartFile request) {

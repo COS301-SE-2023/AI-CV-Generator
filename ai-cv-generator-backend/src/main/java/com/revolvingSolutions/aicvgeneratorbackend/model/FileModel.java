@@ -13,4 +13,8 @@ public class FileModel {
     private String filename;
     private String filetype;
     private byte[] data;
+
+    public FileModel(String filename) {
+        this.filename = filename;
+    }
 }

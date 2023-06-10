@@ -12,4 +12,7 @@ public interface FileRepository extends JpaRepository<FileEntity,Integer> {
 
     @Query("SELECT new com.revolvingSolutions.aicvgeneratorbackend.model.FileModel(f.filename) FROM FileEntity f WHERE f.user.username = ?1")
     public List<FileModel> getFilesFromUser(String username);
+
+    @Query("SELECT new com.revolvingSolutions.aicvgeneratorbackend.model.FileModel(f.filename,f.filetype,f.data) FROM FileEntity f WHERE f.user.username = ?1 and f.filename = ?2")
+    public List<FileModel> getFileFromUser(String username,String filename);
 }

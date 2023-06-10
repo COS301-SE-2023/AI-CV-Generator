@@ -2,12 +2,16 @@ package com.revolvingSolutions.aicvgeneratorbackend.controller;
 
 import com.revolvingSolutions.aicvgeneratorbackend.entitiy.UserEntity;
 import com.revolvingSolutions.aicvgeneratorbackend.model.FileModel;
+import com.revolvingSolutions.aicvgeneratorbackend.request.DownloadFileRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.UpdateUserRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.UploadFileRequest;
+import com.revolvingSolutions.aicvgeneratorbackend.response.DownloadFileResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.GetFilesResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -40,8 +44,15 @@ public class UserController {
         return ResponseEntity.ok(service.uploadFile(file));
     }
 
-    @GetMapping(value="/file")
-    public ResponseEntity<GetFilesResponse> getFile() {
+    @PostMapping(value="/retfile")
+    public ResponseEntity<Resource> downloadFile(
+            @RequestBody DownloadFileRequest request
+            ) {
+        return service.downloadFile(request);
+    }
+
+    @GetMapping(value="/files")
+    public ResponseEntity<GetFilesResponse> getFiles() {
         return ResponseEntity.ok(service.getFile());
     }
 
