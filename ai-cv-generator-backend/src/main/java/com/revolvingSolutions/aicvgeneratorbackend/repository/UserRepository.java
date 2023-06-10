@@ -11,9 +11,4 @@ import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<UserEntity, Integer> {
     Optional<UserEntity> findByUsername(String username);
-
-    @Query("SELECT new com.revolvingSolutions.aicvgeneratorbackend.response.FileListResponse(f.filename) FROM UserEntity u JOIN u.files f WHERE u.username = ?1")
-    public List<FileListResponse> getJoinInfo(String username);
-
-
 }
