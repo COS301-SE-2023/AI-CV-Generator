@@ -34,19 +34,20 @@ class _HomeState extends State<Home> {
           ),
         actions: [
 
-          Container(
-            // padding: EdgeInsets.all(8.0),
-            height: 5,
-            width: 400,
-            child: SearchBar(
-            leading: IconButton(
-              icon: Icon(
-                color: Colors.black,
-                Icons.search,
+          Transform.scale(
+            scale: 0.8,
+            child: Container(
+              width: 350,
+              child: SearchBar(
+                leading: IconButton(
+                  icon: Icon(
+                    color: Colors.black,
+                    Icons.search,
+                    ),
+                  onPressed: () => {},
                 ),
-              onPressed: () => {},
+              ),
             ),
-          ),
           ),
 
           IconButton(
