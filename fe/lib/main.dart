@@ -3,6 +3,9 @@ import 'package:ai_cv_generator/pages/login.dart';
 
 
 void main() {
+  Uri myurl = Uri.base; //get complete url
+  Map<String,List<String>> parameters = myurl.queryParametersAll;
+  print(myurl.path);
   runApp(const MyApp());
 }
 
@@ -18,7 +21,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
       routes: {
-        '/':(context) => const Login() 
+        '/':(context) => const Login(),
       },
     );
   }

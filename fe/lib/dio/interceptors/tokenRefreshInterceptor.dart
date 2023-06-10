@@ -19,7 +19,7 @@ class TokenRevalidator extends Interceptor {
     if (err.requestOptions.path.contains("auth")) {
       return handler.next(err);
     }
-    if (err.response?.statusCode == 408 ) {
+    if (err.response?.statusCode == 401 ) {
       try {
         RefreshRequest req = RefreshRequest(refreshToken: DioClient.refreshToken);
         Response resp = await DioClient.dio.post(
