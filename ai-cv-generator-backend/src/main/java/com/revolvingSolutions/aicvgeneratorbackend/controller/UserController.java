@@ -1,5 +1,6 @@
 package com.revolvingSolutions.aicvgeneratorbackend.controller;
 
+import com.revolvingSolutions.aicvgeneratorbackend.request.UploadFileRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,8 +23,8 @@ public class UserController {
         return ResponseEntity.ok("");
     }
     @PostMapping(value="/file")
-    public ResponseEntity<String> uploadFile() {
-        return ResponseEntity.ok("");
+    public ResponseEntity<String> uploadFile(@RequestBody UploadFileRequest request) {
+        return ResponseEntity.ok(service.getFile(request));
     }
 
     @GetMapping(value="/file")
