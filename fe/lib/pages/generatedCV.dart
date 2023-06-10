@@ -48,24 +48,30 @@ class _generatedCVState extends State<generatedCV> {
               ),
               
               Expanded(
-                child: ListView(
-                  padding: EdgeInsets.all(16.0),
-                  children: [
-                    TextFormField(
-                      maxLines: null,
-                      controller: _controller,
-                      decoration: InputDecoration(
+                child: Container(
+                  // decoration: BoxDecoration(
+                  // border: Border.all(
+                  //   color: Colors.grey,
+                  //   width: 1.0,
+                  // ),
+                // ),
+                  child: ListView(
+                    padding: EdgeInsets.all(16.0),
+                    children: [
+                      TextFormField(
+                        maxLines: null,
+                        controller: _controller,
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
 
             ],
           ),
           Positioned(
-            bottom: 16.0, // Adjust the position of the floating button
-            right: 16.0,
+            bottom: 18.0, // Adjust the position of the floating button
+            right: 18.0,
             child: FloatingActionButton(
               onPressed: () {
                 // Floating button on press logic
