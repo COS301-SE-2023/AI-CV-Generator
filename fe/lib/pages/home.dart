@@ -18,6 +18,8 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   Map data = {};
   String id;
+  TextEditingController searchC = TextEditingController();
+
   _HomeState({
     required this.id
   });
@@ -29,7 +31,6 @@ class _HomeState extends State<Home> {
           leading: IconButton(
             icon: const Icon(Icons.menu),
             onPressed: () => {
-
             },
           ),
         actions: [
@@ -39,13 +40,19 @@ class _HomeState extends State<Home> {
             child: Container(
               width: 350,
               child: SearchBar(
+                controller: searchC,
                 leading: IconButton(
                   icon: Icon(
                     color: Colors.black,
                     Icons.search,
                     ),
-                  onPressed: () => {},
+                  onPressed: () => {
+                    print(searchC.text)
+                  },
                 ),
+                onChanged: (value)=>{
+                  print(value)
+                } ,
               ),
             ),
           ),
@@ -61,6 +68,7 @@ class _HomeState extends State<Home> {
             }, 
             icon: const Icon(Icons.account_circle)
             ),
+        
         ],
       ),
       body: Center(
