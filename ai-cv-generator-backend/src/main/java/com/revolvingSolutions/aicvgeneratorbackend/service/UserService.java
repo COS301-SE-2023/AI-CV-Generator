@@ -15,6 +15,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -46,13 +47,13 @@ public class UserService {
                 .build();
     }
 
-    public String uploadFile(UploadFileRequest request) {
+    public String uploadFile(MultipartFile request) {
         try {
             FileEntity file = FileEntity.builder()
                     .user(getAuthenticatedUser())
-                    .filename(request.getFile().getName())
-                    .filetype(request.getFile().getContentType())
-                    .data(request.getFile().getBytes())
+                    .filename(request.getName())
+                    .filetype(request.getContentType())
+                    .data(request.getBytes())
                     .build();
             fileRepository.save(file);
             return "Success";

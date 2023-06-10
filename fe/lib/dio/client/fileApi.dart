@@ -12,7 +12,7 @@ class FileApi extends DioClient {
   ) async {
     if (file == null) return null;
     FormData formData = FormData.fromMap({
-      "pdf": MultipartFile.fromBytes(
+      "file": MultipartFile.fromBytes(
         file.bytes as List<int>, filename: file.name,
       )
     });

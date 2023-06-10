@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -33,10 +34,10 @@ public class UserController {
     }
     @PostMapping(value="/file")
     public ResponseEntity<String> uploadFile(
-            @RequestBody UploadFileRequest request
-    ) {
+            @RequestParam("file")MultipartFile file
+            ) {
         System.out.println("Yeah");
-        return ResponseEntity.ok(service.uploadFile(request));
+        return ResponseEntity.ok(service.uploadFile(file));
     }
 
     @GetMapping(value="/file")
