@@ -11,6 +11,7 @@ import com.revolvingSolutions.aicvgeneratorbackend.request.UpdateUserRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.UploadFileRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.response.DownloadFileResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.GetFilesResponse;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
@@ -54,6 +55,7 @@ public class UserService {
                 .build();
     }
 
+    @Transactional
     public ResponseEntity<Resource> downloadFile(DownloadFileRequest request) {
         FileModel file = fileRepository.getFileFromUser(getAuthenticatedUser().getUsername(), request.getFilename()).get(0);
         return ResponseEntity.ok()
@@ -72,7 +74,7 @@ public class UserService {
         try {
             FileEntity file = FileEntity.builder()
                     .user(getAuthenticatedUser())
-                    .filename(request.getName())
+                    .filename(request.getOriginalFilename())
                     .filetype(request.getContentType())
                     .data(request.getBytes())
                     .build();
