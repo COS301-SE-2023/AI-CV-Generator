@@ -7,7 +7,7 @@ class TokenRevalidator extends Interceptor {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     if (!options.path.contains("auth")) {
-      options.headers['Bearer'] = DioClient.authToken;
+      options.headers['Authorization'] = "Bearer ${DioClient.authToken}";
     }   
     return handler.next(options);
   }

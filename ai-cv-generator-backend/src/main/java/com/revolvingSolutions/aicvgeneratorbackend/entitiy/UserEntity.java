@@ -30,7 +30,8 @@ public class UserEntity implements UserDetails {
     public String username;
     public String password;
 
-    @ElementCollection
+    @OneToMany(targetEntity = FileEntity.class,cascade = CascadeType.ALL)
+    @JoinColumn(name="ufs_fk",referencedColumnName = "userid")
     public List<FileEntity> files;
 
     @Enumerated(EnumType.STRING)
