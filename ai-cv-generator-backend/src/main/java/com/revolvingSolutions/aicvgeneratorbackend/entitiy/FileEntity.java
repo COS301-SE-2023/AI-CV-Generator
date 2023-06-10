@@ -25,4 +25,8 @@ public class FileEntity{
     public UserEntity user;
 
     public String filename;
+    public String filetype;
+
+    @Lob
+    public byte[] data;
 }

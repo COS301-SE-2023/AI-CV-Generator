@@ -1,7 +1,10 @@
 package com.revolvingSolutions.aicvgeneratorbackend.controller;
 
+import com.revolvingSolutions.aicvgeneratorbackend.entitiy.UserEntity;
 import com.revolvingSolutions.aicvgeneratorbackend.model.FileModel;
+import com.revolvingSolutions.aicvgeneratorbackend.request.UpdateUserRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.UploadFileRequest;
+import com.revolvingSolutions.aicvgeneratorbackend.response.GetFilesResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,21 +20,25 @@ public class UserController {
     UserService service;
 
     @GetMapping(value="/user")
-    public ResponseEntity<String> getUser() {
-        return ResponseEntity.ok("");
+    public ResponseEntity<UserEntity> getUser() {
+        return ResponseEntity.ok(service.getUser());
     }
 
     @PostMapping(value="/user")
-    public ResponseEntity<String> updateUser() {
-        return ResponseEntity.ok("");
+    public ResponseEntity<UserEntity> updateUser(
+            @RequestBody UpdateUserRequest request
+            ) {
+        return ResponseEntity.ok(service.updateUser(request));
     }
-    @PutMapping(value="/file")
-    public ResponseEntity<String> uploadFile(@RequestBody UploadFileRequest request) {
+    @PostMapping(value="/file")
+    public ResponseEntity<String> uploadFile(
+            @RequestBody UploadFileRequest request
+    ) {
         return ResponseEntity.ok(service.uploadFile(request));
     }
 
     @GetMapping(value="/file")
-    public ResponseEntity<List<FileModel>> getFile() {
+    public ResponseEntity<GetFilesResponse> getFile() {
         return ResponseEntity.ok(service.getFile());
     }
 

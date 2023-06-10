@@ -10,5 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UploadFileRequest {
-    private String fileName;
+    private String filename;
+    private String filetype;
+    private byte[] data;
 }

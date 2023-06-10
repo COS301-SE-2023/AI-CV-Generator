@@ -6,11 +6,14 @@ import com.revolvingSolutions.aicvgeneratorbackend.exception.UnknownErrorExcepti
 import com.revolvingSolutions.aicvgeneratorbackend.model.FileModel;
 import com.revolvingSolutions.aicvgeneratorbackend.repository.FileRepository;
 import com.revolvingSolutions.aicvgeneratorbackend.repository.UserRepository;
+import com.revolvingSolutions.aicvgeneratorbackend.request.UpdateUserRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.UploadFileRequest;
+import com.revolvingSolutions.aicvgeneratorbackend.response.GetFilesResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,21 +25,36 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final FileRepository fileRepository;
-    public String getUsername() {
-        return "Username";
+    private final PasswordEncoder encoder;
+    public UserEntity getUser() {
+        return getAuthenticatedUser();
     }
 
-    public List<FileModel> getFile() {
-        return fileRepository.getFilesFromUser(getAuthenticatedUser().getUsername());
+    public UserEntity updateUser(UpdateUserRequest request) {
+        UserEntity user = getAuthenticatedUser();
+        user.setFname(request.getFname());
+        user.setLname(request.getLname());
+        user.setUsername(request.getUsername());
+        user.setPassword(encoder.encode(request.getPassword()));
+        userRepository.save(user);
+        return  user;
+    }
+
+    public GetFilesResponse getFile() {
+        return GetFilesResponse.builder()
+                .files(fileRepository.getFilesFromUser(getAuthenticatedUser().getUsername()))
+                .build();
     }
 
     public String uploadFile(UploadFileRequest request) {
-        FileEntity file = new FileEntity();
-        file.setFilename(request.getFileName());
-        UserEntity user = getAuthenticatedUser();
-        file.setUser(user);
+        FileEntity file = FileEntity.builder()
+                .user(getAuthenticatedUser())
+                .filename(request.getFilename())
+                .filetype(request.getFiletype())
+                .data(request.getData())
+                .build();
         fileRepository.save(file);
-        return "";
+        return "Success";
     }
 
     private UserEntity getAuthenticatedUser() {

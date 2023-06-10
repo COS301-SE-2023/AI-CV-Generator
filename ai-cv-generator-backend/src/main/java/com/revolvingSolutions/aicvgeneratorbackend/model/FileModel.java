@@ -11,4 +11,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class FileModel {
     private String filename;
+    private String filetype;
+    private byte[] data;
 }
