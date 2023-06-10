@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ai_cv_generator/pages/login.dart';
 
+
 void main() {
   runApp(const MyApp());
 }

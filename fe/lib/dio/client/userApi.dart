@@ -11,9 +11,9 @@ class userApi extends DioClient {
   static Future<UserModel?> getUser({required String id}) async {
     UserModel? user;
     try {
-      Response userData = await DioClient.dio.get('users/retrieve/$id');
+      Response userData = await DioClient.dio.get('api/User/user');
       print('User Info: ${userData.data}');
-      user = UserModel.fromJson(userData.data);
+      //user = UserModel.fromJson(userData.data);
     } on DioError catch (e) {
       DioClient.handleError(e);
     }
@@ -134,7 +134,7 @@ class userApi extends DioClient {
   }) async {
     
     try {
-      Response resp = await DioClient.dio.get('${DioClient.base}api/User/retrieve');
+      Response resp = await DioClient.dio.get('api/User/test');
       print("Response: "+resp.data);
     } on DioError catch (e) {
       if (e.response != null) {

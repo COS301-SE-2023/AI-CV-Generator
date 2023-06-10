@@ -1,6 +1,5 @@
 import 'package:ai_cv_generator/dio/client/userApi.dart';
 import 'package:ai_cv_generator/models/user/UserModel.dart';
-import 'package:ai_cv_generator/pages/inputField.dart';
 import 'package:flutter/material.dart';
 
 class Profile extends StatefulWidget {
@@ -125,21 +124,21 @@ class ProfileState extends State<Profile> {
 
                       Column(
                         children: [
-                          SectionHeading(heading: "ABOUT ME", align: Alignment.topLeft,),
+                          const SectionHeading(heading: "ABOUT ME", align: Alignment.topLeft,),
                           SectionInput(inputWidget: TextFormField(controller: descripC, maxLines: 9,),),
                         ],
                       ),
-                      SizedBox(height: 10,),
+                      const SizedBox(height: 10,),
                       Column(
                         children: [
-                          SectionHeading(heading: "EDUCATION"),
+                          const SectionHeading(heading: "EDUCATION"),
                           SectionInput(inputWidget: TextFormField(controller: qualificationC, maxLines: 9,),),
                         ],
                       ),
-                      SizedBox(height: 10,),
+                      const SizedBox(height: 10,),
                       Column(
                         children: [
-                          SectionHeading(heading: "WORK EXPERIENCE"),
+                          const SectionHeading(heading: "WORK EXPERIENCE"),
                           SectionInput(inputWidget: TextFormField(controller: workExperienceC, maxLines: 9,),),
                         ],
                       ),
@@ -148,7 +147,7 @@ class ProfileState extends State<Profile> {
                   ),
                 ),
                 
-                SizedBox(width: 15,),
+                const SizedBox(width: 15,),
                 
                 Expanded(
                   flex: 1,
@@ -157,7 +156,7 @@ class ProfileState extends State<Profile> {
                       Expanded(
                         child: Column(
                           children: [
-                          SectionHeading(heading: "PERSONAL DETAILS", align: Alignment.topRight,),
+                          const SectionHeading(heading: "PERSONAL DETAILS", align: Alignment.topRight,),
                           SectionInput(inputWidget: TextInputField(editor: fnameC, align: TextAlign.right,),),
                           SectionInput(inputWidget: TextFormField(controller: lnameC, textAlign: TextAlign.right,),),
                           SectionInput(inputWidget: TextFormField(controller: emailC, textAlign: TextAlign.right,),),
@@ -169,7 +168,7 @@ class ProfileState extends State<Profile> {
                       Expanded(
                         child: Column(
                           children: [
-                          SectionHeading(heading: "LINKS"),
+                          const SectionHeading(heading: "LINKS"),
                           SectionInput(inputWidget: TextFormField(controller: linksC,),),
                           ],
                         ),
@@ -250,7 +249,7 @@ class ProfileState extends State<Profile> {
 class SectionHeading extends StatelessWidget {
   final String heading;
   final Alignment? align;
-  SectionHeading({required this.heading, this.align});
+  const SectionHeading({super.key, required this.heading, this.align});
 
   @override
   Widget build(BuildContext context) {
@@ -258,12 +257,12 @@ class SectionHeading extends StatelessWidget {
     return Align(
       alignment: align != null? align!: Alignment.topLeft,
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: 16.0),
+        padding: const EdgeInsets.symmetric(vertical: 16.0),
         child: Column(
           children: [
             Text(
               heading,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
               ),
@@ -278,7 +277,7 @@ class SectionHeading extends StatelessWidget {
 
 class SectionInput extends StatefulWidget {
   final Widget inputWidget;
-  const SectionInput({required this.inputWidget});
+  const SectionInput({super.key, required this.inputWidget});
   @override
   SectionInputState createState() => SectionInputState();
 }
@@ -295,7 +294,7 @@ class SectionInputState extends State<SectionInput> {
 class TextInputField extends StatefulWidget {
   final TextEditingController editor;
   final TextAlign align;
-  const TextInputField({required this.editor, required this.align});
+  const TextInputField({super.key, required this.editor, required this.align});
   @override
   TextInputFieldState createState() => TextInputFieldState();
 }

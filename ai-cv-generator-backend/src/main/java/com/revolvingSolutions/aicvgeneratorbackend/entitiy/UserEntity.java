@@ -30,7 +30,7 @@ public class UserEntity implements UserDetails {
     public String username;
     public String password;
 
-    @ElementCollection
+    @OneToMany(mappedBy = "user")
     public List<FileEntity> files;
 
     @Enumerated(EnumType.STRING)
