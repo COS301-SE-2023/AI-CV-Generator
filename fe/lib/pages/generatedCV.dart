@@ -27,61 +27,55 @@ class _generatedCVState extends State<generatedCV> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Stack(
-          children: [
+    return Scaffold(
+      body: Stack(
+        children: [
+          Column(
+            children: [
 
-            TextFormField(
-              controller: _controller,
-              maxLines: 9,
-            ),
-            
-            Positioned(
-                                          bottom: 16.0,
-                right: 16.0,
-              child: 
+              Container(
+                padding: const EdgeInsets.all(10.0),
+                child: Center(
+                  child: OutlinedButton(
+                    onPressed: () async {
+                      setState(() {
+                        createCV();
+                      });
+                    },
+                    child: const Text("Generate")
+                  )
+                ),
+              ),
+              
+              Expanded(
+                child: ListView(
+                  padding: EdgeInsets.all(16.0),
+                  children: [
+                    TextFormField(
+                      maxLines: null,
+                      controller: _controller,
+                      decoration: InputDecoration(
+                      ),
+                    ),
+                  ],
+                ),
+              ),
 
-            FloatingActionButton(
+            ],
+          ),
+          Positioned(
+            bottom: 16.0, // Adjust the position of the floating button
+            right: 16.0,
+            child: FloatingActionButton(
               onPressed: () {
+                // Floating button on press logic
               },
-              child: Icon(Icons.share),
-            )),
-
-          ],
-        ),
-          // Container(
-          //   padding: const EdgeInsets.all(10.0),
-          //   child: OutlinedButton(
-          //     onPressed: () async {
-          //       setState(() {
-          //         createCV();
-          //       });
-          //     },
-          //     child: const Text("Generate")
-          //   ) 
-          // ),
-          // Stack(
-          //   children: [
-              // Positioned(
-              //   bottom: 16.0,
-              //   right: 16.0,
-              //   child: FloatingActionButton(
-              //     onPressed: () {
-              //     },
-              //     child: Icon(Icons.add),
-              //   ),
-              // ),
-          //   ],
-          // ),
-          // Padding(
-          //   padding: const EdgeInsets.all(24),
-          //   child: TextFormField(
-          //     controller: _controller,
-          //     maxLines: 9,
-          //   ),
-          // ),
-      ],
+              child: Icon(Icons.download),
+            ),
+          ),
+        
+        ],
+      ),
     );
   }
 }
