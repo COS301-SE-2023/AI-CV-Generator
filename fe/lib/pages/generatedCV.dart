@@ -28,30 +28,61 @@ class _generatedCVState extends State<generatedCV> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-          child: ListView(
+      body: Stack(
+        children: [
+          Column(
             children: [
+
               Container(
                 padding: const EdgeInsets.all(10.0),
-                child: OutlinedButton(
-                  onPressed: () async {
-                    setState(() {
-                      createCV();
-                    });
-                  }, 
-                  child: const Text("Generate")
-                ) 
-              ),
-              Padding(
-                padding: const EdgeInsets.all(24),
-                child: TextFormField(
-                  controller: _controller,
-                  maxLines: 99999,
+                child: Align(
+                  alignment: Alignment.topLeft,
+                  child: OutlinedButton(
+                    onPressed: () async {
+                      setState(() {
+                        createCV();
+                      });
+                    },
+                    child: const Text("Generate")
+                  )
                 ),
-              )
-            ]
+              ),
+              
+              Expanded(
+                child: Container(
+                  // decoration: BoxDecoration(
+                  // border: Border.all(
+                  //   color: Colors.grey,
+                  //   width: 1.0,
+                  // ),
+                // ),
+                  child: ListView(
+                    padding: EdgeInsets.all(16.0),
+                    children: [
+                      TextFormField(
+                        maxLines: null,
+                        controller: _controller,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+
+            ],
           ),
-        )
+          Positioned(
+            bottom: 18.0, // Adjust the position of the floating button
+            right: 18.0,
+            child: FloatingActionButton(
+              onPressed: () {
+                // Floating button on press logic
+              },
+              child: Icon(Icons.download),
+            ),
+          ),
+        
+        ],
+      ),
     );
   }
 }
