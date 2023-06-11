@@ -17,4 +17,5 @@ public class User {
     public String phoneNumber;
     public String location;
     public String description;
+    public Details details;
 }

@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 @Data
 @Builder
 @NoArgsConstructor
@@ -21,5 +20,6 @@ public class LinkEntity {
     @JoinColumn(name = "did", referencedColumnName = "detailsid")
     public DetailsEntity details;
 
+    @Column(nullable = false)
     public String url;
 }

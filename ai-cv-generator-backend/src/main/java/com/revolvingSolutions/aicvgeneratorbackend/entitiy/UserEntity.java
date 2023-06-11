@@ -25,11 +25,14 @@ public class UserEntity implements UserDetails {
     @GeneratedValue
     public Integer userid;
 
+    @Column(nullable = false)
     public String fname;
+    @Column(nullable = false)
     public String lname;
 
-    @Column(unique = true)
+    @Column(unique = true,nullable = false)
     public String username;
+    @Column(nullable = false)
     public String password;
 
     @OneToMany(mappedBy = "user")

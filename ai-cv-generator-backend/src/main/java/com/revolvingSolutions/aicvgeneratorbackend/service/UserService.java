@@ -1,8 +1,10 @@
 package com.revolvingSolutions.aicvgeneratorbackend.service;
 
+import com.revolvingSolutions.aicvgeneratorbackend.entitiy.EmploymentEntity;
 import com.revolvingSolutions.aicvgeneratorbackend.entitiy.FileEntity;
 import com.revolvingSolutions.aicvgeneratorbackend.entitiy.UserEntity;
 import com.revolvingSolutions.aicvgeneratorbackend.exception.UnknownErrorException;
+import com.revolvingSolutions.aicvgeneratorbackend.model.EmploymentHistory;
 import com.revolvingSolutions.aicvgeneratorbackend.model.FileModel;
 import com.revolvingSolutions.aicvgeneratorbackend.model.User;
 import com.revolvingSolutions.aicvgeneratorbackend.repository.FileRepository;
@@ -62,6 +64,9 @@ public class UserService {
         user.setLocation(request.getUser().getLocation());
         user.setPhoneNumber(request.getUser().getPhoneNumber());
         user.setDescription(request.getUser().getDescription());
+        user.getDetails().setEmploymentHistory(request.getUser().getDetails().getEmploymenthistory().getEmploymentHis());
+        user.getDetails().setQualifications(request.getUser().getDetails().getQualifications().getQualifications());
+        user.getDetails().setLinks(request.getUser().getDetails().getLinks().getLinks());
         userRepository.save(user);
         return  UpdateUserResponse.builder()
                 .user(

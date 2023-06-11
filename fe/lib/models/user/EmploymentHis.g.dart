@@ -23,6 +23,8 @@ Employment _$EmploymentFromJson(Map<String, dynamic> json) => Employment(
       title: json['title'] as String,
       start_date: DateTime.parse(json['start_date'] as String),
       end_date: DateTime.parse(json['end_date'] as String),
+      empid: int.parse(json['empid'] as String)
+      
     );
 
 Map<String, dynamic> _$EmploymentToJson(Employment instance) =>
