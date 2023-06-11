@@ -38,7 +38,7 @@ class _HomeState extends State<Home> {
           Transform.scale(
             scale: 0.8,
             child: Container(
-              width: 350,
+              width: 400,
               child: SearchBar(
                 controller: searchC,
                 leading: IconButton(

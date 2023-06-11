@@ -35,7 +35,8 @@ class _generatedCVState extends State<generatedCV> {
 
               Container(
                 padding: const EdgeInsets.all(10.0),
-                child: Center(
+                child: Align(
+                  alignment: Alignment.topLeft,
                   child: OutlinedButton(
                     onPressed: () async {
                       setState(() {
