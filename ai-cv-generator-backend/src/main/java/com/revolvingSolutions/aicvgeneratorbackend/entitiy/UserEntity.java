@@ -27,6 +27,8 @@ public class UserEntity implements UserDetails {
 
     public String fname;
     public String lname;
+
+    @Column(unique = true)
     public String username;
     public String password;
 

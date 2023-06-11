@@ -23,7 +23,7 @@ public class FileEntity{
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "uid", referencedColumnName = "userid")
     public UserEntity user;
-
+    @Column(unique = true)
     public String filename;
     public String filetype;
 

@@ -34,23 +34,18 @@ class FileApi extends DioClient {
 
   static Future<PlatformFile?> requestFileFile(
     {
-      required PlatformFile file,
-      required id
+      required String filename
     }
   ) async {
     FileModel? file;
     try {
-      Response userData = await DioClient.dio.get('${DioClient.base}/users/search/$id');
-      file = FileModel.fromJson(userData.data);
+      Response userData = await DioClient.dio.post(
+          'api/User/retfile',
+          data: {"filename":filename}
+        );
+      file = userData.data;
     } on DioError catch (e) {
-      if (e.response != null) {
-        print('Dio error!  no response');
-        print('STATUS: ${e.response?.statusCode} //status of dio request failuire');
-        print('DATA: ${e.response?.data}');
-        print('HEADERS: ${e.response?.headers}');
-      } else {
-        print(e.message);
-      }
+      DioClient.handleError(e);
     }
     if (file != null) {
       return PlatformFile(name: file.name , size: file.size,bytes: file.bytes);
