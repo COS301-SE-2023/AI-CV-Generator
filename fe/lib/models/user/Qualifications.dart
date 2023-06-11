@@ -17,8 +17,11 @@ class Qualification {
   Qualification({
     required this.qualification,
     required this.instatution,
-    required this.date
+    required this.date,
+    required this.quaid
   });
+
+  int quaid;
   String qualification;
   String instatution;
   DateTime date;

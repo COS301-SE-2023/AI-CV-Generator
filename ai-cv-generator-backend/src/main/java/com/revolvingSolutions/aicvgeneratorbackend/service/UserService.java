@@ -1,18 +1,14 @@
 package com.revolvingSolutions.aicvgeneratorbackend.service;
 
-import com.revolvingSolutions.aicvgeneratorbackend.entitiy.EmploymentEntity;
 import com.revolvingSolutions.aicvgeneratorbackend.entitiy.FileEntity;
 import com.revolvingSolutions.aicvgeneratorbackend.entitiy.UserEntity;
 import com.revolvingSolutions.aicvgeneratorbackend.exception.UnknownErrorException;
-import com.revolvingSolutions.aicvgeneratorbackend.model.EmploymentHistory;
 import com.revolvingSolutions.aicvgeneratorbackend.model.FileModel;
 import com.revolvingSolutions.aicvgeneratorbackend.model.User;
 import com.revolvingSolutions.aicvgeneratorbackend.repository.FileRepository;
 import com.revolvingSolutions.aicvgeneratorbackend.repository.UserRepository;
 import com.revolvingSolutions.aicvgeneratorbackend.request.DownloadFileRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.UpdateUserRequest;
-import com.revolvingSolutions.aicvgeneratorbackend.request.UploadFileRequest;
-import com.revolvingSolutions.aicvgeneratorbackend.response.DownloadFileResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.GetFilesResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.GetUserResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.UpdateUserResponse;
@@ -29,9 +25,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

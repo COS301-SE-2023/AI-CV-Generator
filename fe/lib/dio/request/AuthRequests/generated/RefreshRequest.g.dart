@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'RefreshRequest.dart';
+part of '../RefreshRequest.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator

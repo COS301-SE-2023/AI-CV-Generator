@@ -4,8 +4,10 @@ import 'package:ai_cv_generator/pages/login.dart';
 
 void main() {
   Uri myurl = Uri.base; //get complete url
-  Map<String,List<String>> parameters = myurl.queryParametersAll;
-  print(myurl.path);
+  Map<String,List<String>> parameters = myurl.queryParametersAll; //These parameters are used in share CV for POST call later
+  for(var v in parameters.values) {
+    print(v);
+  }
   runApp(const MyApp());
 }
 
@@ -22,6 +24,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/':(context) => const Login(),
+        //Route for shareCV will be added later
       },
     );
   }

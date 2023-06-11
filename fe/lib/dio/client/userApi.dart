@@ -1,6 +1,6 @@
 import 'package:ai_cv_generator/dio/client/dioClient.dart';
-import 'package:ai_cv_generator/dio/request/LoginRequest.dart';
-import 'package:ai_cv_generator/dio/request/RegisterRequest.dart';
+import 'package:ai_cv_generator/dio/request/AuthRequests/LoginRequest.dart';
+import 'package:ai_cv_generator/dio/request/AuthRequests/RegisterRequest.dart';
 import 'package:ai_cv_generator/dio/request/UpdateUserRequest.dart';
 import 'package:ai_cv_generator/dio/response/AuthResponse.dart';
 import 'package:ai_cv_generator/dio/response/UserResponse.dart';

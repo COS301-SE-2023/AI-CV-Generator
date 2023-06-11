@@ -1,5 +1,5 @@
 import 'package:ai_cv_generator/dio/client/dioClient.dart';
-import 'package:ai_cv_generator/dio/request/FileRequest.dart';
+import 'package:ai_cv_generator/dio/request/FileRequests/FileRequest.dart';
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 
@@ -19,7 +19,7 @@ class FileApi extends DioClient {
 
     try {
       Response response = await DioClient.dio.post(
-        'api/User/file', // will be changed
+        'api/User/file',
         data: formData,
         onSendProgress: (int sent, int total) {
           print('$sent $total');
