@@ -11,9 +11,11 @@ Details _$DetailsFromJson(Map<String, dynamic> json) => Details(
           json['qualifications'] as Map<String, dynamic>),
       employhistory: EmploymentHistory.fromJson(
           json['employhistory'] as Map<String, dynamic>),
+      links: Links.fromJson(json['links'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$DetailsToJson(Details instance) => <String, dynamic>{
       'qualifications': instance.qualifications,
       'employhistory': instance.employhistory,
+      'links': instance.links,
     };

@@ -35,6 +35,9 @@ public class UserEntity implements UserDetails {
     @OneToMany(mappedBy = "user")
     public List<FileEntity> files;
 
+    @OneToOne(mappedBy = "user")
+    public DetailsEntity details;
+
     @Enumerated(EnumType.STRING)
     public Role role;
 
