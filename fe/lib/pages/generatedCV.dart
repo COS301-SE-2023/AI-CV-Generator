@@ -57,7 +57,7 @@ class _generatedCVState extends State<generatedCV> {
                   // ),
                 // ),
                   child: ListView(
-                    padding: EdgeInsets.all(16.0),
+                    padding: const EdgeInsets.all(16.0),
                     children: [
                       TextFormField(
                         maxLines: null,
@@ -77,7 +77,7 @@ class _generatedCVState extends State<generatedCV> {
               onPressed: () {
                 // Floating button on press logic
               },
-              child: Icon(Icons.download),
+              child: const Icon(Icons.download),
             ),
           ),
         

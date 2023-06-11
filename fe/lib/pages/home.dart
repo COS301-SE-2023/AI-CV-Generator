@@ -37,12 +37,12 @@ class _HomeState extends State<Home> {
 
           Transform.scale(
             scale: 0.8,
-            child: Container(
+            child: SizedBox(
               width: 400,
               child: SearchBar(
                 controller: searchC,
                 leading: IconButton(
-                  icon: Icon(
+                  icon: const Icon(
                     color: Colors.black,
                     Icons.search,
                     ),
@@ -75,7 +75,7 @@ class _HomeState extends State<Home> {
         child: Row(
           children: [
             Expanded(child: createPage(id:id)),
-            Expanded(child: generatedCV())
+            const Expanded(child: generatedCV())
           ],
         ),
       ),

@@ -1,3 +1,21 @@
-
-
-
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/revolving_sols
+    username: postgres
+    password: Stupidcat12
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+        ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+app.key: 68566D597133743677397A24432646294A404E635266556A586E5A7234753778214125442A472D4B6150645367566B59703373357638792F423F4528482B4D62
+app.tokenExpire-factor: 120
+spring.servlet.multipart.enabled: true
+spring.servlet.multipart.file-size-threshold: 2KB
+spring.servlet.multipart.max-file-size: 200MB
+spring.servlet.multipart.max-request-size: 215MB
