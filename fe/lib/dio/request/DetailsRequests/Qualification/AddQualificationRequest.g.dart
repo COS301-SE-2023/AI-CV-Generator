@@ -1,20 +1,20 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of '../RemoveQualificationRequest.dart';
+part of 'AddQualificationRequest.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-RemoveQualificationRequest _$RemoveQualificationRequestFromJson(
+AddQualificationRequest _$AddQualificationRequestFromJson(
         Map<String, dynamic> json) =>
-    RemoveQualificationRequest(
+    AddQualificationRequest(
       qualification:
           Qualification.fromJson(json['qualification'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$RemoveQualificationRequestToJson(
-        RemoveQualificationRequest instance) =>
+Map<String, dynamic> _$AddQualificationRequestToJson(
+        AddQualificationRequest instance) =>
     <String, dynamic>{
       'qualification': instance.qualification,
     };

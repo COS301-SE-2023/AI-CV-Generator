@@ -1,7 +1,7 @@
-import 'package:ai_cv_generator/models/user/Qualifications.dart';
+import 'package:ai_cv_generator/models/user/Qualification.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'generated/RemoveQualificationRequest.g.dart';
+part 'RemoveQualificationRequest.g.dart';
 
 @JsonSerializable()
 class RemoveQualificationRequest {

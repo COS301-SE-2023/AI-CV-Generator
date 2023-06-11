@@ -1,4 +1,6 @@
 import 'package:ai_cv_generator/dio/client/userApi.dart';
+import 'package:ai_cv_generator/models/user/Employment.dart';
+import 'package:ai_cv_generator/models/user/Qualification.dart';
 import 'package:ai_cv_generator/models/user/UserModel.dart';
 import 'package:flutter/material.dart';
 
@@ -29,25 +31,24 @@ class ProfileState extends State<Profile> {
     String aboutMe = model.description!= null? model.description!:"No description...";
     String workExperience = "";
     String education = "";
-    final details = model.details;
-    if (details != null) {
-      for (int n=0; n <details.employhistory.length; n++) {
-        workExperience += "${details.employhistory[n].company} ";
-        workExperience += "${details.employhistory[n].title} ";
-        workExperience += "${details.employhistory[n].start_date}-";
-        workExperience += "${details.employhistory[n].end_date}\n";
-      }
-      if (details.employhistory.isEmpty) workExperience = "No Work expierience listed...";
-      for (int n=0; n<details.qualifications.length; n++) {
-        education += "${details.qualifications[n].qualification} ";
-        education += "${details.qualifications[n].instatution} ";
-        education += "${details.qualifications[n].date.toString()}\n";
-      }
-      if (details.qualifications.isEmpty) education = "No education listed...";
-    } else {
-      education = "No education listed...";
-      workExperience = "No Work expierience listed...";
+    List<Employment>? employhistory = model.employhistory;
+    if (employhistory != null)
+    for (int n=0; n <employhistory.length; n++) {
+      workExperience += "${employhistory[n].company} ";
+      workExperience += "${employhistory[n].title} ";
+      workExperience += "${employhistory[n].start_date}-";
+      workExperience += "${employhistory[n].end_date}\n";
     }
+    if (employhistory == null || employhistory.isEmpty) workExperience = "No Work expierience listed...";
+    List<Qualification>? qualifications = model.qualifications;
+    if (qualifications!= null)
+    for (int n=0; n<qualifications.length; n++) {
+      education += "${qualifications[n].qualification} ";
+      education += "${qualifications[n].instatution} ";
+      education += "${qualifications[n].date.toString()}\n";
+    }
+    if (qualifications== null || qualifications.isEmpty) education = "No education listed...";
+    
 
     String links = "Not ready yet";
     TextEditingController fnameC = TextEditingController(text: model.fname);
@@ -153,7 +154,7 @@ class ProfileState extends State<Profile> {
                       Expanded(
                         child: Column(
                           children: [
-                          const SectionHeading(heading: "PERSONAL DETAILS", align: Alignment.topRight,),
+                          const SectionHeading(heading: "PERSONAL model", align: Alignment.topRight,),
                           SectionInput(inputWidget: TextInputField(editor: fnameC, align: TextAlign.right,),),
                           SectionInput(inputWidget: TextFormField(controller: lnameC, textAlign: TextAlign.right,),),
                           SectionInput(inputWidget: TextFormField(controller: emailC, textAlign: TextAlign.right,),),

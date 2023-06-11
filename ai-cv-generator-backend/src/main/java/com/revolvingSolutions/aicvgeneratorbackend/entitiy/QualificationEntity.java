@@ -20,8 +20,8 @@ public class QualificationEntity {
     public Integer quaid;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "did", referencedColumnName = "detailsid")
-    public DetailsEntity details;
+    @JoinColumn(name = "uid", referencedColumnName = "userid")
+    public UserEntity user;
 
     public String qualification;
     public String intstitution;

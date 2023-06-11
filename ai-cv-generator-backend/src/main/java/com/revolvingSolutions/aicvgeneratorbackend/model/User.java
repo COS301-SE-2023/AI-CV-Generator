@@ -1,10 +1,12 @@
 package com.revolvingSolutions.aicvgeneratorbackend.model;
 
-import com.revolvingSolutions.aicvgeneratorbackend.entitiy.DetailsEntity;
+import com.revolvingSolutions.aicvgeneratorbackend.entitiy.EmploymentEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Data
 @Builder
@@ -18,5 +20,5 @@ public class User {
     public String phoneNumber;
     public String location;
     public String description;
-    public DetailsEntity details;
+    public List<EmploymentEntity> employmenthistory;
 }

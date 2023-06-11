@@ -1,4 +1,6 @@
-import 'package:ai_cv_generator/models/user/userDetails.dart';
+import 'package:ai_cv_generator/models/user/Employment.dart';
+import 'package:ai_cv_generator/models/user/Qualification.dart';
+import 'package:ai_cv_generator/models/user/Link.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'UserModel.g.dart';
@@ -10,11 +12,13 @@ class UserModel {
   String fname;
   String lname;
   String username;
-  Details? details;
   String? phoneNumber;
   String? email;
   String? location;
   String? description;
+  List<Qualification>? qualifications;
+  List<Employment>? employhistory;
+  List<Link>? links;
   
   
 

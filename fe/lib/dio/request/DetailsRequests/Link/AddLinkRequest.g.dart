@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of '../AddLinkRequest.dart';
+part of 'AddLinkRequest.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator

@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of '../AddEmploymentRequest.dart';
+part of 'AddEmploymentRequest.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator

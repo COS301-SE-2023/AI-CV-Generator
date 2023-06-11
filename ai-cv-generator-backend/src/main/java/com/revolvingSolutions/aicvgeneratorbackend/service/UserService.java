@@ -1,17 +1,20 @@
 package com.revolvingSolutions.aicvgeneratorbackend.service;
 
+import com.revolvingSolutions.aicvgeneratorbackend.entitiy.EmploymentEntity;
 import com.revolvingSolutions.aicvgeneratorbackend.entitiy.FileEntity;
 import com.revolvingSolutions.aicvgeneratorbackend.entitiy.UserEntity;
+import com.revolvingSolutions.aicvgeneratorbackend.exception.FileNotFoundException;
 import com.revolvingSolutions.aicvgeneratorbackend.exception.UnknownErrorException;
 import com.revolvingSolutions.aicvgeneratorbackend.model.FileModel;
 import com.revolvingSolutions.aicvgeneratorbackend.model.User;
+import com.revolvingSolutions.aicvgeneratorbackend.repository.EmploymentRepository;
 import com.revolvingSolutions.aicvgeneratorbackend.repository.FileRepository;
 import com.revolvingSolutions.aicvgeneratorbackend.repository.UserRepository;
+import com.revolvingSolutions.aicvgeneratorbackend.request.AddEmploymentRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.DownloadFileRequest;
+import com.revolvingSolutions.aicvgeneratorbackend.request.RemoveEmploymentRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.UpdateUserRequest;
-import com.revolvingSolutions.aicvgeneratorbackend.response.GetFilesResponse;
-import com.revolvingSolutions.aicvgeneratorbackend.response.GetUserResponse;
-import com.revolvingSolutions.aicvgeneratorbackend.response.UpdateUserResponse;
+import com.revolvingSolutions.aicvgeneratorbackend.response.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ByteArrayResource;
@@ -32,6 +35,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final FileRepository fileRepository;
+    private final EmploymentRepository employmentRepository;
     private final PasswordEncoder encoder;
     public GetUserResponse getUser() {
         UserEntity dbuser = getAuthenticatedUser();
@@ -48,6 +52,42 @@ public class UserService {
                 .build();
     }
 
+    public AddEmploymentResponse addEmployment(
+            AddEmploymentRequest request
+    ) {
+        EmploymentEntity emp = EmploymentEntity.builder()
+                .user(getAuthenticatedUser())
+                .title(request.getEmployment().getTitle())
+                .company(request.getEmployment().getTitle())
+                .startdate(request.getEmployment().getStartdate())
+                .enddate(request.getEmployment().getEnddate())
+                .build();
+        employmentRepository.save(emp);
+        return AddEmploymentResponse.builder()
+                .employment(emp)
+                .build();
+    }
+
+    public RemoveEmploymentResponse removeEmployment(
+            RemoveEmploymentRequest request
+    ) {
+        employmentRepository.delete(request.getEmployment());
+        return RemoveEmploymentResponse.builder()
+                .message(request.getEmployment().getEmpid()+" removed")
+                .build();
+    }
+
+    public void updateEmployment(
+            EmploymentEntity entity
+    ) {
+        EmploymentEntity prev = employmentRepository.getReferenceById(entity.getEmpid());
+        prev.setCompany(entity.getCompany());
+        prev.setTitle(entity.getTitle());
+        prev.setEnddate(entity.getEnddate());
+        prev.setStartdate(entity.getStartdate());
+        employmentRepository.save(prev);
+    }
+
     public UpdateUserResponse updateUser(UpdateUserRequest request) {
         UserEntity user = getAuthenticatedUser();
         user.setFname(request.getUser().getFname());
@@ -57,7 +97,10 @@ public class UserService {
         user.setLocation(request.getUser().getLocation());
         user.setPhoneNumber(request.getUser().getPhoneNumber());
         user.setDescription(request.getUser().getDescription());
-        user.setDetails(request.getUser().getDetails());
+        for (EmploymentEntity ent:
+             request.getUser().getEmploymenthistory()) {
+            updateEmployment(ent);
+        }
         userRepository.save(user);
         return  UpdateUserResponse.builder()
                 .user(
@@ -74,17 +117,22 @@ public class UserService {
 
     @Transactional
     public ResponseEntity<Resource> downloadFile(DownloadFileRequest request) {
-        FileModel file = fileRepository.getFileFromUser(getAuthenticatedUser().getUsername(), request.getFilename()).get(0);
-        return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType(file.getFiletype()))
-                .header(
-                        HttpHeaders.CONTENT_DISPOSITION,
-                        "attachment; filename=\""+file.getFilename()+"\""
-                )
-                .body(
-                        new ByteArrayResource(file.getData())
-                );
+        try {
 
+
+            FileModel file = fileRepository.getFileFromUser(getAuthenticatedUser().getUsername(), request.getFilename()).get(0);
+            return ResponseEntity.ok()
+                    .contentType(MediaType.parseMediaType(file.getFiletype()))
+                    .header(
+                            HttpHeaders.CONTENT_DISPOSITION,
+                            "attachment; filename=\"" + file.getFilename() + "\""
+                    )
+                    .body(
+                            new ByteArrayResource(file.getData())
+                    );
+        } catch (Exception e) {
+            throw new FileNotFoundException(request.getFilename()+" was not found in users folder ,Error: "+e.getMessage());
+        }
     }
     public String uploadFile(MultipartFile request) {
         try {
