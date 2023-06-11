@@ -31,19 +31,19 @@ class ProfileState extends State<Profile> {
     String education = "";
     final details = model.details;
     if (details != null) {
-      for (int n=0; n <details.employhistory.employHis.length; n++) {
-        workExperience += "${details.employhistory.employHis[n].company} ";
-        workExperience += "${details.employhistory.employHis[n].title} ";
-        workExperience += "${details.employhistory.employHis[n].start_date}-";
-        workExperience += "${details.employhistory.employHis[n].end_date}\n";
+      for (int n=0; n <details.employhistory.length; n++) {
+        workExperience += "${details.employhistory[n].company} ";
+        workExperience += "${details.employhistory[n].title} ";
+        workExperience += "${details.employhistory[n].start_date}-";
+        workExperience += "${details.employhistory[n].end_date}\n";
       }
-      if (details.employhistory.employHis.isEmpty) workExperience = "No Work expierience listed...";
-      for (int n=0; n<details.qualifications.qualifications.length; n++) {
-        education += "${details.qualifications.qualifications[n].qualification} ";
-        education += "${details.qualifications.qualifications[n].instatution} ";
-        education += "${details.qualifications.qualifications[n].date.toString()}\n";
+      if (details.employhistory.isEmpty) workExperience = "No Work expierience listed...";
+      for (int n=0; n<details.qualifications.length; n++) {
+        education += "${details.qualifications[n].qualification} ";
+        education += "${details.qualifications[n].instatution} ";
+        education += "${details.qualifications[n].date.toString()}\n";
       }
-      if (details.qualifications.qualifications.isEmpty) education = "No education listed...";
+      if (details.qualifications.isEmpty) education = "No education listed...";
     } else {
       education = "No education listed...";
       workExperience = "No Work expierience listed...";

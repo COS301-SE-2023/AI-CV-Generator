@@ -1,4 +1,4 @@
-import 'package:ai_cv_generator/models/user/EmploymentHis.dart';
+import 'package:ai_cv_generator/models/user/Employment.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'generated/RemoveEmploymentRequest.g.dart';

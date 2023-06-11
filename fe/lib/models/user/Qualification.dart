@@ -1,16 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
-part 'Qualifications.g.dart';
+part 'Qualification.g.dart';
 
-@JsonSerializable()
-class Qualifications {
-  Qualifications({
-    required this.qualifications
-  });
-  List<Qualification> qualifications;
-
-  factory Qualifications.fromJson(Map<String, dynamic> json) => _$QualificationsFromJson(json);
-  Map<String, dynamic> toJson() => _$QualificationsToJson(this);
-}
 
 @JsonSerializable()
 class Qualification {

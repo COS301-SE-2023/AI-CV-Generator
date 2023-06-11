@@ -57,9 +57,7 @@ public class UserService {
         user.setLocation(request.getUser().getLocation());
         user.setPhoneNumber(request.getUser().getPhoneNumber());
         user.setDescription(request.getUser().getDescription());
-        user.getDetails().setEmploymentHistory(request.getUser().getDetails().getEmploymenthistory().getEmploymentHis());
-        user.getDetails().setQualifications(request.getUser().getDetails().getQualifications().getQualifications());
-        user.getDetails().setLinks(request.getUser().getDetails().getLinks().getLinks());
+        user.setDetails(request.getUser().getDetails());
         userRepository.save(user);
         return  UpdateUserResponse.builder()
                 .user(
@@ -88,7 +86,6 @@ public class UserService {
                 );
 
     }
-
     public String uploadFile(MultipartFile request) {
         try {
             FileEntity file = FileEntity.builder()

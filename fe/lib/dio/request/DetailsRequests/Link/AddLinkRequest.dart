@@ -1,4 +1,4 @@
-import 'package:ai_cv_generator/models/user/Links.dart';
+import 'package:ai_cv_generator/models/user/Link.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'generated/AddLinkRequest.g.dart';

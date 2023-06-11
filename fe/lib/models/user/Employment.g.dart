@@ -1,22 +1,10 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'EmploymentHis.dart';
+part of 'Employment.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
-
-EmploymentHistory _$EmploymentHistoryFromJson(Map<String, dynamic> json) =>
-    EmploymentHistory(
-      employHis: (json['employHis'] as List<dynamic>)
-          .map((e) => Employment.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-
-Map<String, dynamic> _$EmploymentHistoryToJson(EmploymentHistory instance) =>
-    <String, dynamic>{
-      'employHis': instance.employHis,
-    };
 
 Employment _$EmploymentFromJson(Map<String, dynamic> json) => Employment(
       company: json['company'] as String,

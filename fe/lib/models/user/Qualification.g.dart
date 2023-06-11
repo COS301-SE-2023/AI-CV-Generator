@@ -1,22 +1,10 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'Qualifications.dart';
+part of 'Qualification.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
-
-Qualifications _$QualificationsFromJson(Map<String, dynamic> json) =>
-    Qualifications(
-      qualifications: (json['qualifications'] as List<dynamic>)
-          .map((e) => Qualification.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-
-Map<String, dynamic> _$QualificationsToJson(Qualifications instance) =>
-    <String, dynamic>{
-      'qualifications': instance.qualifications,
-    };
 
 Qualification _$QualificationFromJson(Map<String, dynamic> json) =>
     Qualification(
