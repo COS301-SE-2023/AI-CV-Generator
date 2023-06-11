@@ -55,7 +55,7 @@ public class AuthService {
                 .setClaims(new HashMap<>())
                 .setSubject(details.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000*60 *Long.parseLong(expFactor)))
+                .setExpiration(new Date(System.currentTimeMillis() + 1000L *60 *Integer.parseInt(expFactor)))
                 .signWith(getKey(),SignatureAlgorithm.HS512)
                 .compact();
     }
@@ -68,7 +68,7 @@ public class AuthService {
                 .setClaims(cls)
                 .setSubject(details.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000*60*Long.parseLong(expFactor)))
+                .setExpiration(new Date(System.currentTimeMillis() + 1000L *60*Integer.parseInt(expFactor)))
                 .signWith(getKey(), SignatureAlgorithm.HS512)
                 .compact();
     }

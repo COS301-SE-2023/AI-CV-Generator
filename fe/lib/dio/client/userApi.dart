@@ -1,83 +1,42 @@
 import 'package:ai_cv_generator/dio/client/dioClient.dart';
 import 'package:ai_cv_generator/dio/request/LoginRequest.dart';
 import 'package:ai_cv_generator/dio/request/RegisterRequest.dart';
+import 'package:ai_cv_generator/dio/request/UpdateUserRequest.dart';
 import 'package:ai_cv_generator/dio/response/AuthResponse.dart';
-import 'package:ai_cv_generator/models/user/Confirmation.dart';
+import 'package:ai_cv_generator/dio/response/UserResponse.dart';
 import 'package:ai_cv_generator/models/user/UserModel.dart';
 
 import 'package:dio/dio.dart';
 
 class userApi extends DioClient {
-  static Future<UserModel?> getUser({required String id}) async {
+  static Future<UserModel?> getUser() async {
     UserModel? user;
     try {
-      Response userData = await DioClient.dio.get('api/User/user');
-      print('User Info: ${userData.data}');
-      //user = UserModel.fromJson(userData.data);
+      Response response = await DioClient.dio.get('api/User/user');
+      print('User Info: ${response.data}');
+      user = UserResponse.fromJson(response.data).user;
     } on DioError catch (e) {
       DioClient.handleError(e);
     }
     return user;
   }
 
-  static Future<UserModel?> createUser({required UserModel userInfo}) async {
-    UserModel? retrievedUser;
-
-    try {
-      Response response = await DioClient.dio.post(
-        'users/create',
-        data: userInfo.toJson(),
-      );
-
-      print('User created: ${response.data}');
-
-      retrievedUser = UserModel.fromJson(response.data);
-    } on DioError catch (e) {
-      DioClient.handleError(e);
-    } 
-
-    return retrievedUser;
-  }
-
-  Future<String?> deleteUser(
-    {
-      required id
-    }
-    ) async {
-    ConfirmationMsg? retrievedMsg;
-    
-    try {
-      Response response = await DioClient.dio.delete(
-        'users/delete/$id'
-      );
-
-      print('User created: ${response.data}');
-
-      retrievedMsg = ConfirmationMsg.fromJSON(response.data);
-    } on DioError catch (e) {
-      DioClient.handleError(e);
-    }
-
-    return retrievedMsg?.msg;
-  }
-
 
   //Will expand into different updates later on
   static Future<UserModel?> updateUser({
-      required UserModel user,
-      required String id,
+      required UserModel user
     }) async {
     UserModel? updateduser;
 
     try {
-      Response response = await DioClient.dio.put(
-        'users/update/$id',
-        data: user.toJson(),
+      UpdateUserRequest request = UpdateUserRequest(user: user);
+      Response response = await DioClient.dio.post(
+        'api/User/user',
+        data: request.toJson()
       );
-
       print('User updated: ${response.data}');
 
-      updateduser = UserModel.fromJson(response.data);
+      updateduser = UserResponse.fromJson(response.data).user;
     } on DioError catch (e) {
       DioClient.handleError(e);
     }
@@ -137,14 +96,7 @@ class userApi extends DioClient {
       Response resp = await DioClient.dio.get('api/User/test');
       print("Response: "+resp.data);
     } on DioError catch (e) {
-      if (e.response != null) {
-        print('Dio error!  no response');
-        print('STATUS: ${e.response?.statusCode} //status of dio request failuire');
-        print('DATA: ${e.response?.data}');
-        print('HEADERS: ${e.response?.headers}');
-      } else {
-        print(e.message);
-      }
+      DioClient.handleError(e);
     }
     Response resp = await DioClient.dio.get('api/Users');
     print("Response: ${resp.data}");

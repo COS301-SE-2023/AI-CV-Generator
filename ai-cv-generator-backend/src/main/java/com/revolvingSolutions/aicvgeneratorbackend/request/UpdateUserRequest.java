@@ -1,5 +1,6 @@
 package com.revolvingSolutions.aicvgeneratorbackend.request;
 
+import com.revolvingSolutions.aicvgeneratorbackend.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,8 +11,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UpdateUserRequest {
-    private String fname;
-    private String lname;
-    private String username;
-    private String password;
+    private User user;
 }

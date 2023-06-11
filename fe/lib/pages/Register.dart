@@ -161,7 +161,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     if (resp!= null && resp == "1") {
                       Error = false;
                       Navigator.push(context, MaterialPageRoute(
-                      builder: (context) => Home(id:"test_id")
+                      builder: (context) => const Home()
                     ));
                     } else if (resp != null) {
                       setState(() {

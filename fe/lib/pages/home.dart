@@ -7,22 +7,16 @@ import 'profile.dart';
 import 'package:ai_cv_generator/dio/client/userApi.dart';
 
 class Home extends StatefulWidget {
-  Home({super.key,required this.id});
+  const Home({super.key});
 
-  String id;
 
   @override
-  _HomeState createState() => _HomeState(id:id);
+  _HomeState createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
   Map data = {};
-  String id;
   TextEditingController searchC = TextEditingController();
-
-  _HomeState({
-    required this.id
-  });
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
@@ -37,12 +31,12 @@ class _HomeState extends State<Home> {
 
           Transform.scale(
             scale: 0.8,
-            child: Container(
+            child: SizedBox(
               width: 400,
               child: SearchBar(
                 controller: searchC,
                 leading: IconButton(
-                  icon: Icon(
+                  icon: const Icon(
                     color: Colors.black,
                     Icons.search,
                     ),
@@ -59,10 +53,10 @@ class _HomeState extends State<Home> {
 
           IconButton(
             onPressed: () async {
-              UserModel? mode = await userApi.getUser(id: id);
+              UserModel? mode = await userApi.getUser();
               if (mode != null) {
                 Navigator.of(context).push(
-                MaterialPageRoute(builder: (c)=>  Profile(id: id,model: mode,))
+                MaterialPageRoute(builder: (c)=>  Profile(model: mode,))
               );
               }
             }, 
@@ -71,10 +65,10 @@ class _HomeState extends State<Home> {
         
         ],
       ),
-      body: Center(
+      body: const Center(
         child: Row(
           children: [
-            Expanded(child: createPage(id:id)),
+            Expanded(child: createPage()),
             Expanded(child: generatedCV())
           ],
         ),

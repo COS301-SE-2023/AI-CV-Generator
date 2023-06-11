@@ -1,5 +1,5 @@
 import 'package:ai_cv_generator/dio/client/dioClient.dart';
-import 'package:ai_cv_generator/models/files/FileModel.dart';
+import 'package:ai_cv_generator/dio/request/FileRequest.dart';
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 
@@ -32,24 +32,22 @@ class FileApi extends DioClient {
     return null;
   }
 
-  static Future<PlatformFile?> requestFileFile(
+  static Future<PlatformFile?> requestFile(
     {
       required String filename
     }
   ) async {
-    FileModel? file;
     try {
-      Response userData = await DioClient.dio.post(
+      FileRequest request = FileRequest(filename: filename);
+      Response response = await DioClient.dio.post(
           'api/User/retfile',
-          data: {"filename":filename}
+          data: request.toJson()
         );
-      file = userData.data;
+      print(response.data);
     } on DioError catch (e) {
       DioClient.handleError(e);
     }
-    if (file != null) {
-      return PlatformFile(name: file.name , size: file.size,bytes: file.bytes);
-    }
+    
     return null;
   }
 }

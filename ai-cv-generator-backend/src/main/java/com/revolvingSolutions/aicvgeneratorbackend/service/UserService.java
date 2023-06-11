@@ -4,6 +4,7 @@ import com.revolvingSolutions.aicvgeneratorbackend.entitiy.FileEntity;
 import com.revolvingSolutions.aicvgeneratorbackend.entitiy.UserEntity;
 import com.revolvingSolutions.aicvgeneratorbackend.exception.UnknownErrorException;
 import com.revolvingSolutions.aicvgeneratorbackend.model.FileModel;
+import com.revolvingSolutions.aicvgeneratorbackend.model.User;
 import com.revolvingSolutions.aicvgeneratorbackend.repository.FileRepository;
 import com.revolvingSolutions.aicvgeneratorbackend.repository.UserRepository;
 import com.revolvingSolutions.aicvgeneratorbackend.request.DownloadFileRequest;
@@ -11,6 +12,8 @@ import com.revolvingSolutions.aicvgeneratorbackend.request.UpdateUserRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.UploadFileRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.response.DownloadFileResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.GetFilesResponse;
+import com.revolvingSolutions.aicvgeneratorbackend.response.GetUserResponse;
+import com.revolvingSolutions.aicvgeneratorbackend.response.UpdateUserResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ByteArrayResource;
@@ -35,18 +38,36 @@ public class UserService {
     private final UserRepository userRepository;
     private final FileRepository fileRepository;
     private final PasswordEncoder encoder;
-    public UserEntity getUser() {
-        return getAuthenticatedUser();
+    public GetUserResponse getUser() {
+        UserEntity dbuser = getAuthenticatedUser();
+        return GetUserResponse.builder()
+                .user(
+                        User.builder()
+                                .fname(dbuser.getFname())
+                                .lname(dbuser.getLname())
+                                .username(dbuser.getUsername())
+                                .email(dbuser.getEmail())
+                                .description(dbuser.getLocation())
+                                .build()
+                )
+                .build();
     }
 
-    public UserEntity updateUser(UpdateUserRequest request) {
+    public UpdateUserResponse updateUser(UpdateUserRequest request) {
         UserEntity user = getAuthenticatedUser();
-        user.setFname(request.getFname());
-        user.setLname(request.getLname());
-        user.setUsername(request.getUsername());
-        user.setPassword(encoder.encode(request.getPassword()));
+        user.setFname(request.getUser().getFname());
+        user.setLname(request.getUser().getLname());
+        user.setUsername(request.getUser().getUsername());
+        user.setEmail(request.getUser().getEmail());
+        user.setLocation(request.getUser().getLocation());
+        user.setPhoneNumber(request.getUser().getPhoneNumber());
+        user.setDescription(request.getUser().getDescription());
         userRepository.save(user);
-        return  user;
+        return  UpdateUserResponse.builder()
+                .user(
+                        request.getUser()
+                )
+                .build();
     }
 
     public GetFilesResponse getFile() {

@@ -3,13 +3,12 @@ import 'package:ai_cv_generator/models/user/UserModel.dart';
 import 'package:flutter/material.dart';
 
 class Profile extends StatefulWidget {
-  Profile({super.key,required this.id,required this.model});
-  String id;
+  Profile({super.key,required this.model});
   UserModel model;
 
 
   @override
-  ProfileState createState() => ProfileState(id:id,model: model);
+  ProfileState createState() => ProfileState(model: model);
 }
 
 bool isEditingEnabled = false;
@@ -17,10 +16,8 @@ bool isEditingEnabled = false;
 class ProfileState extends State<Profile> {
   final _formKey = GlobalKey<FormState>();
   UserModel model;
-  String id;
 
   ProfileState({
-    required this.id,
     required this.model
   });
 
@@ -71,7 +68,7 @@ class ProfileState extends State<Profile> {
       model.phoneNumber = phoneNoC.text;
       model.description = descripC.text;
       model.location = locationC.text;
-      userApi.updateUser(user: model, id: id);
+      userApi.updateUser(user: model);
     }
     void update() {
         DateTime nTime = DateTime.now();

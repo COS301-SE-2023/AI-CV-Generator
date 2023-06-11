@@ -2,11 +2,14 @@ package com.revolvingSolutions.aicvgeneratorbackend.controller;
 
 import com.revolvingSolutions.aicvgeneratorbackend.entitiy.UserEntity;
 import com.revolvingSolutions.aicvgeneratorbackend.model.FileModel;
+import com.revolvingSolutions.aicvgeneratorbackend.model.User;
 import com.revolvingSolutions.aicvgeneratorbackend.request.DownloadFileRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.UpdateUserRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.UploadFileRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.response.DownloadFileResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.GetFilesResponse;
+import com.revolvingSolutions.aicvgeneratorbackend.response.GetUserResponse;
+import com.revolvingSolutions.aicvgeneratorbackend.response.UpdateUserResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,12 +29,12 @@ public class UserController {
     private final UserService service;
 
     @GetMapping(value="/user")
-    public ResponseEntity<UserEntity> getUser() {
+    public ResponseEntity<GetUserResponse> getUser() {
         return ResponseEntity.ok(service.getUser());
     }
 
     @PostMapping(value="/user")
-    public ResponseEntity<UserEntity> updateUser(
+    public ResponseEntity<UpdateUserResponse> updateUser(
             @RequestBody UpdateUserRequest request
             ) {
         return ResponseEntity.ok(service.updateUser(request));
@@ -40,7 +43,6 @@ public class UserController {
     public ResponseEntity<String> uploadFile(
             @RequestParam("file")MultipartFile file
             ) {
-        System.out.println("Yeah");
         return ResponseEntity.ok(service.uploadFile(file));
     }
 

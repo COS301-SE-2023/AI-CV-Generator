@@ -7,20 +7,15 @@ import 'package:file_picker/file_picker.dart';
 
 
 class createPage extends StatefulWidget {
-  createPage({super.key,required this.id});
-  String id;
+  const createPage({super.key});
   @override
-  _createPageState createState() => _createPageState(id:id);
+  _createPageState createState() => _createPageState();
 }
 
 class _createPageState extends State<createPage> {
   Map data = {};
   PlatformFile? file;
   bool fileAvail = false;
-  String id;
-  _createPageState({
-    required this.id
-  });
   @override
   Widget build(BuildContext context) {
     
