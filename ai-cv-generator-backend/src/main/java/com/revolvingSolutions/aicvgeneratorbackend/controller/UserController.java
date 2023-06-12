@@ -1,5 +1,6 @@
 package com.revolvingSolutions.aicvgeneratorbackend.controller;
 
+import com.revolvingSolutions.aicvgeneratorbackend.exception.NotIndatabaseException;
 import com.revolvingSolutions.aicvgeneratorbackend.request.details.employment.AddEmploymentRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.details.employment.RemoveEmploymentRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.details.employment.UpdateEmploymentRequest;
@@ -82,10 +83,14 @@ public class UserController {
     }
 
     @PostMapping(value="/updateEmp")
-    public ResponseEntity<UpdateEmploymentResponse> updateEmployment(
+    public ResponseEntity<Object> updateEmployment(
             @RequestBody UpdateEmploymentRequest request
     ) {
-        return ResponseEntity.ok(service.updateEmployment_(request));
+        try {
+            return ResponseEntity.ok(service.updateEmployment_(request));
+        } catch (NotIndatabaseException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PostMapping(value="/addQua")
@@ -103,10 +108,15 @@ public class UserController {
     }
 
     @PostMapping(value="/updateQua")
-    public ResponseEntity<UpdateQualificationResponse> updateQualification(
+    public ResponseEntity<Object> updateQualification(
             @RequestBody UpdateQualificationRequest request
     ) {
-        return ResponseEntity.ok(service.updateQualification_(request));
+        try {
+            return ResponseEntity.ok(service.updateQualification_(request));
+        } catch (NotIndatabaseException e) {
+            return ResponseEntity.notFound().build();
+        }
+
     }
 
     @PostMapping(value="/addLink")
@@ -124,10 +134,14 @@ public class UserController {
     }
 
     @PostMapping(value="/updateLink")
-    public ResponseEntity<UpdateLinkResponse> updateLink(
+    public ResponseEntity<Object> updateLink(
             @RequestBody UpdateLinkRequest request
     ) {
-        return ResponseEntity.ok(service.updateLink_(request));
+        try {
+            return ResponseEntity.ok(service.updateLink_(request));
+        } catch (NotIndatabaseException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @GetMapping(value = "/test")

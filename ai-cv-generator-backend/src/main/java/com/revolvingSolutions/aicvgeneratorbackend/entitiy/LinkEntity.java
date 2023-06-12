@@ -17,7 +17,7 @@ public class LinkEntity {
     @GeneratedValue
     public Integer linkid;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     @JoinColumn(name = "uid", referencedColumnName = "userid")
     @JsonBackReference
     public UserEntity user;

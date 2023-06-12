@@ -1,7 +1,7 @@
 import 'package:ai_cv_generator/models/user/Link.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'generated/RemoveLinkRequest.g.dart';
+part 'RemoveLinkRequest.g.dart';
 
 @JsonSerializable()
 class RemoveLinkRequest {

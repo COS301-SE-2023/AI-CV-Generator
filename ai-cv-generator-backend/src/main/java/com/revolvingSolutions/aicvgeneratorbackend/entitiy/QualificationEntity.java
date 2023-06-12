@@ -20,7 +20,7 @@ public class QualificationEntity {
     @GeneratedValue
     public Integer quaid;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     @JoinColumn(name = "uid", referencedColumnName = "userid")
     @JsonBackReference
     public UserEntity user;

@@ -1,7 +1,7 @@
 import 'package:ai_cv_generator/models/user/Link.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'generated/AddLinkRequest.g.dart';
+part 'AddLinkRequest.g.dart';
 
 @JsonSerializable()
 class AddLinkRequest {

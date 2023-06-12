@@ -2,6 +2,7 @@ package com.revolvingSolutions.aicvgeneratorbackend.service;
 
 import com.revolvingSolutions.aicvgeneratorbackend.entitiy.*;
 import com.revolvingSolutions.aicvgeneratorbackend.exception.FileNotFoundException;
+import com.revolvingSolutions.aicvgeneratorbackend.exception.NotIndatabaseException;
 import com.revolvingSolutions.aicvgeneratorbackend.exception.UnknownErrorException;
 import com.revolvingSolutions.aicvgeneratorbackend.model.*;
 import com.revolvingSolutions.aicvgeneratorbackend.repository.*;
@@ -64,6 +65,9 @@ public class UserService {
                                 .username(dbuser.getUsername())
                                 .email(dbuser.getEmail())
                                 .description(dbuser.getLocation())
+                                .employmenthistory(getEmployments())
+                                .qualifications(getQualifications())
+                                .links(getLinks())
                                 .build()
                 )
                 .build();
@@ -117,97 +121,134 @@ public class UserService {
     public RemoveEmploymentResponse removeEmployment(
             RemoveEmploymentRequest request
     ) {
-        employmentRepository.deleteById(request.getEmployment().getEmpid());
-        employmentRepository.flush();
-        return RemoveEmploymentResponse.builder()
-                .employees(getEmployments())
-                .build();
+        try {
+            employmentRepository.deleteById(request.getEmployment().getEmpid());
+            return RemoveEmploymentResponse.builder()
+                    .employees(getEmployments())
+                    .build();
+        } catch (Exception e) {
+            throw  new NotIndatabaseException("Employee missing "+e.getMessage());
+        }
     }
 
     public RemoveQualificationResponse removeQualification(
             RemoveQualificationRequest request
     ) {
+        try {
         qualificationRepository.deleteById(request.getQualification().getQuaid());
         qualificationRepository.flush();
         return RemoveQualificationResponse.builder()
                 .qualifications(getQualifications())
                 .build();
+        } catch (Exception e) {
+            throw  new NotIndatabaseException("Qualification missing "+e.getMessage());
+        }
     }
 
     public RemoveLinkResponse removeLink(
             RemoveLinkRequest request
     ) {
-        linkRepository.deleteById(request.getLink().getLinkid());
-        linkRepository.flush();
-        return RemoveLinkResponse.builder()
-                .links(getLinks())
-                .build();
+        try {
+
+
+            linkRepository.deleteById(request.getLink().getLinkid());
+            linkRepository.flush();
+            return RemoveLinkResponse.builder()
+                    .links(getLinks())
+                    .build();
+        } catch (Exception e) {
+            throw  new NotIndatabaseException("Link missing "+e.getMessage());
+        }
     }
 
     private void updateEmployment(
             Employment entity
     ) {
-        EmploymentEntity prev = employmentRepository.getReferenceById(entity.getEmpid());
-        prev.setCompany(entity.getCompany());
-        prev.setTitle(entity.getTitle());
-        prev.setEnddate(entity.getEnddate());
-        prev.setStartdate(entity.getStartdate());
-        employmentRepository.save(prev);
+        try {
+            EmploymentEntity prev = employmentRepository.getReferenceById(entity.getEmpid());
+            prev.setCompany(entity.getCompany());
+            prev.setTitle(entity.getTitle());
+            prev.setEnddate(entity.getEnddate());
+            prev.setStartdate(entity.getStartdate());
+            employmentRepository.save(prev);
+        } catch (Exception e) {
+            throw  new NotIndatabaseException("Employee missing "+e.getMessage());
+        }
     }
     private void updateQualification(
             Qualification entity
     ) {
-        QualificationEntity prev = qualificationRepository.getReferenceById(entity.getQuaid());
-        prev.setQualification(entity.getQualification());
-        prev.setIntstitution(entity.getIntstitution());
-        prev.setDate(entity.getDate());
-        qualificationRepository.save(prev);
+        try {
+            QualificationEntity prev = qualificationRepository.getReferenceById(entity.getQuaid());
+            prev.setQualification(entity.getQualification());
+            prev.setIntstitution(entity.getIntstitution());
+            prev.setDate(entity.getDate());
+            qualificationRepository.save(prev);
+        } catch (Exception e) {
+            throw  new NotIndatabaseException("Qualification missing "+e.getMessage());
+        }
     }
 
     private void updateLink(
             Link entity
     ) {
-        LinkEntity prev = linkRepository.getReferenceById(entity.getLinkid());
-        prev.setUrl(entity.getUrl());
-        linkRepository.save(prev);
+        try {
+            LinkEntity prev = linkRepository.getReferenceById(entity.getLinkid());
+            prev.setUrl(entity.getUrl());
+            linkRepository.save(prev);
+        } catch (Exception e) {
+            throw  new NotIndatabaseException("Link missing "+e.getMessage());
+        }
     }
 
     public UpdateEmploymentResponse updateEmployment_(
             UpdateEmploymentRequest request
     ) {
-        EmploymentEntity prev = employmentRepository.getReferenceById(request.getEmployment().getEmpid());
-        prev.setCompany(request.getEmployment().getCompany());
-        prev.setTitle(request.getEmployment().getTitle());
-        prev.setEnddate(request.getEmployment().getEnddate());
-        prev.setStartdate(request.getEmployment().getStartdate());
-        employmentRepository.saveAndFlush(prev);
-        return UpdateEmploymentResponse.builder()
-                .employees(getEmployments())
-                .build();
+        try {
+            EmploymentEntity prev = employmentRepository.getReferenceById(request.getEmployment().getEmpid());
+            prev.setCompany(request.getEmployment().getCompany());
+            prev.setTitle(request.getEmployment().getTitle());
+            prev.setEnddate(request.getEmployment().getEnddate());
+            prev.setStartdate(request.getEmployment().getStartdate());
+            employmentRepository.saveAndFlush(prev);
+            return UpdateEmploymentResponse.builder()
+                    .employees(getEmployments())
+                    .build();
+        } catch (Exception e) {
+            throw  new NotIndatabaseException("Employee missing "+e.getMessage());
+        }
     }
 
     public UpdateQualificationResponse updateQualification_(
             UpdateQualificationRequest request
     ) {
-        QualificationEntity prev = qualificationRepository.getReferenceById(request.getQualification().getQuaid());
-        prev.setQualification(request.getQualification().getQualification());
-        prev.setIntstitution(request.getQualification().getIntstitution());
-        prev.setDate(request.getQualification().getDate());
-        qualificationRepository.saveAndFlush(prev);
-        return UpdateQualificationResponse.builder()
-                .qualifications(getQualifications())
-                .build();
+        try {
+            QualificationEntity prev = qualificationRepository.getReferenceById(request.getQualification().getQuaid());
+            prev.setQualification(request.getQualification().getQualification());
+            prev.setIntstitution(request.getQualification().getIntstitution());
+            prev.setDate(request.getQualification().getDate());
+            qualificationRepository.saveAndFlush(prev);
+            return UpdateQualificationResponse.builder()
+                    .qualifications(getQualifications())
+                    .build();
+        } catch (Exception e) {
+            throw  new NotIndatabaseException("Qualification missing "+e.getMessage());
+        }
     }
 
     public UpdateLinkResponse updateLink_(
             UpdateLinkRequest request
     ) {
-        LinkEntity prev = linkRepository.getReferenceById(request.getLink().getLinkid());
-        prev.setUrl(request.getLink().getUrl());
-        linkRepository.saveAndFlush(prev);
-        return UpdateLinkResponse.builder()
-                .links(getLinks())
-                .build();
+        try {
+            LinkEntity prev = linkRepository.getReferenceById(request.getLink().getLinkid());
+            prev.setUrl(request.getLink().getUrl());
+            linkRepository.saveAndFlush(prev);
+            return UpdateLinkResponse.builder()
+                    .links(getLinks())
+                    .build();
+        } catch (Exception e) {
+            throw  new NotIndatabaseException("Link missing "+e.getMessage());
+        }
     }
 
     public List<Employment> getEmployments() {

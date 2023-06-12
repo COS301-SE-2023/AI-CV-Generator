@@ -1,7 +1,7 @@
 import 'package:ai_cv_generator/models/user/Employment.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'generated/AddEmploymentRequest.g.dart';
+part 'AddEmploymentRequest.g.dart';
 
 @JsonSerializable()
 class AddEmploymentRequest {
