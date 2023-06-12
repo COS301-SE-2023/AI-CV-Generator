@@ -1,5 +1,6 @@
 package com.revolvingSolutions.aicvgeneratorbackend.entitiy;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,6 +22,7 @@ public class EmploymentEntity {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "uid", referencedColumnName = "userid")
+    @JsonBackReference
     public UserEntity user;
 
     public String company;

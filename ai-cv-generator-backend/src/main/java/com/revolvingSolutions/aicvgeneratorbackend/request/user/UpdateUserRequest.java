@@ -1,4 +1,4 @@
-package com.revolvingSolutions.aicvgeneratorbackend.response;
+package com.revolvingSolutions.aicvgeneratorbackend.request.user;
 
 import com.revolvingSolutions.aicvgeneratorbackend.model.User;
 import lombok.AllArgsConstructor;
@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class GetUserResponse {
+public class UpdateUserRequest {
     private User user;
 }

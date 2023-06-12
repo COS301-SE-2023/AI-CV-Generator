@@ -1,4 +1,4 @@
-package com.revolvingSolutions.aicvgeneratorbackend.request;
+package com.revolvingSolutions.aicvgeneratorbackend.response.file;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class DownloadFileRequest {
+public class FileListResponse {
     private String filename;
 }

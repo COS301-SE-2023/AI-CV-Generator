@@ -1,23 +1,22 @@
 package com.revolvingSolutions.aicvgeneratorbackend.controller;
 
-import com.revolvingSolutions.aicvgeneratorbackend.entitiy.UserEntity;
-import com.revolvingSolutions.aicvgeneratorbackend.model.FileModel;
-import com.revolvingSolutions.aicvgeneratorbackend.model.User;
-import com.revolvingSolutions.aicvgeneratorbackend.request.DownloadFileRequest;
-import com.revolvingSolutions.aicvgeneratorbackend.request.UpdateUserRequest;
-import com.revolvingSolutions.aicvgeneratorbackend.request.UploadFileRequest;
-import com.revolvingSolutions.aicvgeneratorbackend.response.DownloadFileResponse;
-import com.revolvingSolutions.aicvgeneratorbackend.response.GetFilesResponse;
-import com.revolvingSolutions.aicvgeneratorbackend.response.GetUserResponse;
-import com.revolvingSolutions.aicvgeneratorbackend.response.UpdateUserResponse;
+import com.revolvingSolutions.aicvgeneratorbackend.request.details.AddEmploymentRequest;
+import com.revolvingSolutions.aicvgeneratorbackend.request.details.RemoveEmploymentRequest;
+import com.revolvingSolutions.aicvgeneratorbackend.request.details.UpdateEmploymentRequest;
+import com.revolvingSolutions.aicvgeneratorbackend.request.file.DownloadFileRequest;
+import com.revolvingSolutions.aicvgeneratorbackend.request.user.UpdateUserRequest;
+import com.revolvingSolutions.aicvgeneratorbackend.response.details.AddEmploymentResponse;
+import com.revolvingSolutions.aicvgeneratorbackend.response.details.RemoveEmploymentResponse;
+import com.revolvingSolutions.aicvgeneratorbackend.response.details.UpdateEmploymentResponse;
+import com.revolvingSolutions.aicvgeneratorbackend.response.file.GetFilesResponse;
+import com.revolvingSolutions.aicvgeneratorbackend.response.user.GetUserResponse;
+import com.revolvingSolutions.aicvgeneratorbackend.response.user.UpdateUserResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 @RestController
 @CrossOrigin(value="*")
@@ -54,6 +53,27 @@ public class UserController {
     @GetMapping(value="/files")
     public ResponseEntity<GetFilesResponse> getFiles() {
         return ResponseEntity.ok(service.getFile());
+    }
+
+    @PostMapping(value="/addEmp")
+    public ResponseEntity<AddEmploymentResponse> addEmp(
+            @RequestBody AddEmploymentRequest request
+            ) {
+        return ResponseEntity.ok(service.addEmployment(request));
+    }
+
+    @PostMapping(value="/remEmp")
+    public ResponseEntity<RemoveEmploymentResponse> removeEmp(
+            @RequestBody RemoveEmploymentRequest request
+    ) {
+        return ResponseEntity.ok(service.removeEmployment(request));
+    }
+
+    @PostMapping(value="/updateEmp")
+    public ResponseEntity<UpdateEmploymentResponse> updateEmp(
+            @RequestBody UpdateEmploymentRequest request
+    ) {
+        return ResponseEntity.ok(service.updateEmployment_(request));
     }
 
     @GetMapping(value = "/test")

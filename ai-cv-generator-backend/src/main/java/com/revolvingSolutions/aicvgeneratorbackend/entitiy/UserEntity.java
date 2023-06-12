@@ -1,5 +1,6 @@
 package com.revolvingSolutions.aicvgeneratorbackend.entitiy;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -39,6 +40,7 @@ public class UserEntity implements UserDetails {
     public List<FileEntity> files;
 
     @OneToMany(mappedBy = "user")
+    @JsonManagedReference
     public List<EmploymentEntity> employmentHistory;
 
     @OneToMany(mappedBy = "user")

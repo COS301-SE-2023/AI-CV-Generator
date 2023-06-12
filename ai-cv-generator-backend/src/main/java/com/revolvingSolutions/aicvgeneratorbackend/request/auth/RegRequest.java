@@ -1,4 +1,4 @@
-package com.revolvingSolutions.aicvgeneratorbackend.request;
+package com.revolvingSolutions.aicvgeneratorbackend.request.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthRequest {
+public class RegRequest {
+    private String fname;
+    private String lname;
     private String username;
-    String password;
+    private String password;
 }

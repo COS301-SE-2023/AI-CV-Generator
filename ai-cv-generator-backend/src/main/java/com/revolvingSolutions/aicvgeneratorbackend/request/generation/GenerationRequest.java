@@ -1,4 +1,4 @@
-package com.revolvingSolutions.aicvgeneratorbackend.response;
+package com.revolvingSolutions.aicvgeneratorbackend.request.generation;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,5 +9,5 @@ import lombok.NoArgsConstructor;
 //@Builder
 //@AllArgsConstructor
 //@NoArgsConstructor
-public class GenerationResponse {
+public class GenerationRequest {
 }

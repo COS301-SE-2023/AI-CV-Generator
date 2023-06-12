@@ -12,6 +12,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Employment {
+    private Integer empid;
     private String company;
     private String title;
     private Date startdate;

@@ -1,9 +1,9 @@
 package com.revolvingSolutions.aicvgeneratorbackend.controller;
 
-import com.revolvingSolutions.aicvgeneratorbackend.request.AuthRequest;
-import com.revolvingSolutions.aicvgeneratorbackend.request.RefreshRequest;
-import com.revolvingSolutions.aicvgeneratorbackend.request.RegRequest;
-import com.revolvingSolutions.aicvgeneratorbackend.response.AuthResponse;
+import com.revolvingSolutions.aicvgeneratorbackend.request.auth.AuthRequest;
+import com.revolvingSolutions.aicvgeneratorbackend.request.auth.RefreshRequest;
+import com.revolvingSolutions.aicvgeneratorbackend.request.auth.RegRequest;
+import com.revolvingSolutions.aicvgeneratorbackend.response.auth.AuthResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package com.revolvingSolutions.aicvgeneratorbackend.response;
+package com.revolvingSolutions.aicvgeneratorbackend.response.file;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,6 +1,6 @@
-package com.revolvingSolutions.aicvgeneratorbackend.request;
+package com.revolvingSolutions.aicvgeneratorbackend.request.details;
 
-import com.revolvingSolutions.aicvgeneratorbackend.entitiy.EmploymentEntity;
+import com.revolvingSolutions.aicvgeneratorbackend.model.Employment;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,5 +11,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RemoveEmploymentRequest {
-    private EmploymentEntity employment;
+    private Employment employment;
 }
