@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UpdateQualification {
+public class UpdateQualificationRequest {
     private Qualification qualification;
 }

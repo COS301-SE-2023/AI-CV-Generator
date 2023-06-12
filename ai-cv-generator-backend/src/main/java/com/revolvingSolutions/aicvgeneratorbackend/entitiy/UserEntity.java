@@ -44,9 +44,11 @@ public class UserEntity implements UserDetails {
     public List<EmploymentEntity> employmentHistory;
 
     @OneToMany(mappedBy = "user")
+    @JsonManagedReference
     public List<QualificationEntity> qualifications;
 
     @OneToMany(mappedBy = "user")
+    @JsonManagedReference
     public List<LinkEntity> links;
 
     @Enumerated(EnumType.STRING)

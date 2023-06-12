@@ -21,4 +21,5 @@ public class User {
     public String description;
     public List<Employment> employmenthistory;
     public List<Qualification> qualifications;
+    public List<Link> links;
 }

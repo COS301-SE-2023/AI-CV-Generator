@@ -1,4 +1,4 @@
-package com.revolvingSolutions.aicvgeneratorbackend.response.details;
+package com.revolvingSolutions.aicvgeneratorbackend.response.details.employment;
 
 
 import com.revolvingSolutions.aicvgeneratorbackend.model.Employment;

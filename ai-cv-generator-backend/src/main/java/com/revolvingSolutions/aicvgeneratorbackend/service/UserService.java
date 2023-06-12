@@ -1,24 +1,30 @@
 package com.revolvingSolutions.aicvgeneratorbackend.service;
 
-import com.revolvingSolutions.aicvgeneratorbackend.entitiy.EmploymentEntity;
-import com.revolvingSolutions.aicvgeneratorbackend.entitiy.FileEntity;
-import com.revolvingSolutions.aicvgeneratorbackend.entitiy.UserEntity;
+import com.revolvingSolutions.aicvgeneratorbackend.entitiy.*;
 import com.revolvingSolutions.aicvgeneratorbackend.exception.FileNotFoundException;
 import com.revolvingSolutions.aicvgeneratorbackend.exception.UnknownErrorException;
-import com.revolvingSolutions.aicvgeneratorbackend.model.Employment;
-import com.revolvingSolutions.aicvgeneratorbackend.model.FileModel;
-import com.revolvingSolutions.aicvgeneratorbackend.model.User;
-import com.revolvingSolutions.aicvgeneratorbackend.repository.EmploymentRepository;
-import com.revolvingSolutions.aicvgeneratorbackend.repository.FileRepository;
-import com.revolvingSolutions.aicvgeneratorbackend.repository.UserRepository;
-import com.revolvingSolutions.aicvgeneratorbackend.request.details.AddEmploymentRequest;
-import com.revolvingSolutions.aicvgeneratorbackend.request.details.UpdateEmploymentRequest;
+import com.revolvingSolutions.aicvgeneratorbackend.model.*;
+import com.revolvingSolutions.aicvgeneratorbackend.repository.*;
+import com.revolvingSolutions.aicvgeneratorbackend.request.details.employment.AddEmploymentRequest;
+import com.revolvingSolutions.aicvgeneratorbackend.request.details.employment.UpdateEmploymentRequest;
+import com.revolvingSolutions.aicvgeneratorbackend.request.details.link.AddLinkRequest;
+import com.revolvingSolutions.aicvgeneratorbackend.request.details.link.RemoveLinkRequest;
+import com.revolvingSolutions.aicvgeneratorbackend.request.details.link.UpdateLinkRequest;
+import com.revolvingSolutions.aicvgeneratorbackend.request.details.qualification.AddQualificationRequest;
+import com.revolvingSolutions.aicvgeneratorbackend.request.details.qualification.RemoveQualificationRequest;
+import com.revolvingSolutions.aicvgeneratorbackend.request.details.qualification.UpdateQualificationRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.file.DownloadFileRequest;
-import com.revolvingSolutions.aicvgeneratorbackend.request.details.RemoveEmploymentRequest;
+import com.revolvingSolutions.aicvgeneratorbackend.request.details.employment.RemoveEmploymentRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.user.UpdateUserRequest;
-import com.revolvingSolutions.aicvgeneratorbackend.response.details.AddEmploymentResponse;
-import com.revolvingSolutions.aicvgeneratorbackend.response.details.RemoveEmploymentResponse;
-import com.revolvingSolutions.aicvgeneratorbackend.response.details.UpdateEmploymentResponse;
+import com.revolvingSolutions.aicvgeneratorbackend.response.details.employment.AddEmploymentResponse;
+import com.revolvingSolutions.aicvgeneratorbackend.response.details.employment.RemoveEmploymentResponse;
+import com.revolvingSolutions.aicvgeneratorbackend.response.details.employment.UpdateEmploymentResponse;
+import com.revolvingSolutions.aicvgeneratorbackend.response.details.link.AddLinkResponse;
+import com.revolvingSolutions.aicvgeneratorbackend.response.details.link.RemoveLinkResponse;
+import com.revolvingSolutions.aicvgeneratorbackend.response.details.link.UpdateLinkResponse;
+import com.revolvingSolutions.aicvgeneratorbackend.response.details.qualification.AddQualificationResponse;
+import com.revolvingSolutions.aicvgeneratorbackend.response.details.qualification.RemoveQualificationResponse;
+import com.revolvingSolutions.aicvgeneratorbackend.response.details.qualification.UpdateQualificationResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.file.GetFilesResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.user.GetUserResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.user.UpdateUserResponse;
@@ -45,6 +51,8 @@ public class UserService {
     private final UserRepository userRepository;
     private final FileRepository fileRepository;
     private final EmploymentRepository employmentRepository;
+    private final QualificationRepository qualificationRepository;
+    private final LinkRepository linkRepository;
     private final PasswordEncoder encoder;
     public GetUserResponse getUser() {
         UserEntity dbuser = getAuthenticatedUser();
@@ -73,9 +81,38 @@ public class UserService {
                 .build();
         employmentRepository.saveAndFlush(emp);
         return AddEmploymentResponse.builder()
-                .employees(getEmployment())
+                .employees(getEmployments())
                 .build();
     }
+
+    public AddQualificationResponse addQualification(
+            AddQualificationRequest request
+    ) {
+        QualificationEntity qua = QualificationEntity.builder()
+                .user(getAuthenticatedUser())
+                .qualification(request.getQualification().getQualification())
+                .intstitution(request.getQualification().getIntstitution())
+                .date(request.getQualification().getDate())
+                .build();
+        qualificationRepository.saveAndFlush(qua);
+        return AddQualificationResponse.builder()
+                .qualifications(getQualifications())
+                .build();
+    }
+
+    public AddLinkResponse addLink(
+            AddLinkRequest request
+    ) {
+        LinkEntity link = LinkEntity.builder()
+                .user(getAuthenticatedUser())
+                .url(request.getLink().getUrl())
+                .build();
+        linkRepository.saveAndFlush(link);
+        return AddLinkResponse.builder()
+                .links(getLinks())
+                .build();
+    }
+
 
     public RemoveEmploymentResponse removeEmployment(
             RemoveEmploymentRequest request
@@ -83,7 +120,27 @@ public class UserService {
         employmentRepository.deleteById(request.getEmployment().getEmpid());
         employmentRepository.flush();
         return RemoveEmploymentResponse.builder()
-                .employees(getEmployment())
+                .employees(getEmployments())
+                .build();
+    }
+
+    public RemoveQualificationResponse removeQualification(
+            RemoveQualificationRequest request
+    ) {
+        qualificationRepository.deleteById(request.getQualification().getQuaid());
+        qualificationRepository.flush();
+        return RemoveQualificationResponse.builder()
+                .qualifications(getQualifications())
+                .build();
+    }
+
+    public RemoveLinkResponse removeLink(
+            RemoveLinkRequest request
+    ) {
+        linkRepository.deleteById(request.getLink().getLinkid());
+        linkRepository.flush();
+        return RemoveLinkResponse.builder()
+                .links(getLinks())
                 .build();
     }
 
@@ -95,7 +152,24 @@ public class UserService {
         prev.setTitle(entity.getTitle());
         prev.setEnddate(entity.getEnddate());
         prev.setStartdate(entity.getStartdate());
-        employmentRepository.saveAndFlush(prev);
+        employmentRepository.save(prev);
+    }
+    private void updateQualification(
+            Qualification entity
+    ) {
+        QualificationEntity prev = qualificationRepository.getReferenceById(entity.getQuaid());
+        prev.setQualification(entity.getQualification());
+        prev.setIntstitution(entity.getIntstitution());
+        prev.setDate(entity.getDate());
+        qualificationRepository.save(prev);
+    }
+
+    private void updateLink(
+            Link entity
+    ) {
+        LinkEntity prev = linkRepository.getReferenceById(entity.getLinkid());
+        prev.setUrl(entity.getUrl());
+        linkRepository.save(prev);
     }
 
     public UpdateEmploymentResponse updateEmployment_(
@@ -108,12 +182,44 @@ public class UserService {
         prev.setStartdate(request.getEmployment().getStartdate());
         employmentRepository.saveAndFlush(prev);
         return UpdateEmploymentResponse.builder()
-                .employees(getEmployment())
+                .employees(getEmployments())
                 .build();
     }
 
-    public List<Employment> getEmployment() {
+    public UpdateQualificationResponse updateQualification_(
+            UpdateQualificationRequest request
+    ) {
+        QualificationEntity prev = qualificationRepository.getReferenceById(request.getQualification().getQuaid());
+        prev.setQualification(request.getQualification().getQualification());
+        prev.setIntstitution(request.getQualification().getIntstitution());
+        prev.setDate(request.getQualification().getDate());
+        qualificationRepository.saveAndFlush(prev);
+        return UpdateQualificationResponse.builder()
+                .qualifications(getQualifications())
+                .build();
+    }
+
+    public UpdateLinkResponse updateLink_(
+            UpdateLinkRequest request
+    ) {
+        LinkEntity prev = linkRepository.getReferenceById(request.getLink().getLinkid());
+        prev.setUrl(request.getLink().getUrl());
+        linkRepository.saveAndFlush(prev);
+        return UpdateLinkResponse.builder()
+                .links(getLinks())
+                .build();
+    }
+
+    public List<Employment> getEmployments() {
         return employmentRepository.getEmploymentHistoryFromUser(getAuthenticatedUser().getUsername());
+    }
+
+    public List<Qualification> getQualifications() {
+        return qualificationRepository.getQualificationsFromUser(getAuthenticatedUser().getUsername());
+    }
+
+    public List<Link> getLinks() {
+        return linkRepository.getLinksFromUser(getAuthenticatedUser().getUsername());
     }
 
     public UpdateUserResponse updateUser(UpdateUserRequest request) {
@@ -142,8 +248,6 @@ public class UserService {
     @Transactional
     public ResponseEntity<Resource> downloadFile(DownloadFileRequest request) {
         try {
-
-
             FileModel file = fileRepository.getFileFromUser(getAuthenticatedUser().getUsername(), request.getFilename()).get(0);
             return ResponseEntity.ok()
                     .contentType(MediaType.parseMediaType(file.getFiletype()))

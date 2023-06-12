@@ -1,4 +1,4 @@
-package com.revolvingSolutions.aicvgeneratorbackend.request.details;
+package com.revolvingSolutions.aicvgeneratorbackend.request.details.employment;
 
 import com.revolvingSolutions.aicvgeneratorbackend.model.Employment;
 import lombok.AllArgsConstructor;
