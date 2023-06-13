@@ -1,8 +1,20 @@
-//import 'package:ai_cv_generator/pages/education.dart';
+import 'package:ai_cv_generator/pages/education.dart';
 import 'package:ai_cv_generator/pages/strings.dart';
 import 'package:flutter/material.dart';
 
 void main () => runApp(Create());
+
+class PersonalDetailsForm extends StatefulWidget {
+  const PersonalDetailsForm({super.key});
+
+  @override
+  PersonalDetailsFormState createState() {
+    return PersonalDetailsFormState();
+  }
+}
+
+// Create a corresponding State class.
+// This class holds data related to the form.
 
 
 
