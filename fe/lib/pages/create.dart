@@ -123,6 +123,31 @@ class PersonalDetailsFormState extends State<PersonalDetailsForm> {
               ),
             ),
           ),
+
+                    Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Center (
+              child: ConstrainedBox(
+              constraints: BoxConstraints.tight(const Size(550,50)),
+                child: TextFormField(
+                // The validator receives the text that the user has entered.
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter some text';
+                    }
+                    return null;
+                  },
+                  
+                  decoration: const InputDecoration(  
+                    icon: Icon(Icons.home),  
+                    hintText: 'Enter your address',  
+                    labelText: 'Address',  
+                    enabledBorder: OutlineInputBorder(),
+                  ), 
+                ),
+              ),
+            ),
+          ),
           
           Padding(
             padding: const EdgeInsets.all(20.0),
