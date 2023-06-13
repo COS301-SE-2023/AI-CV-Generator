@@ -13,7 +13,25 @@ class Create extends StatelessWidget {
     child:Column (
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: <Widget> [
-        //buttons
+        Padding (
+          padding: const EdgeInsets.all(8.0),
+            child: Text (
+              StringsPersonal.appHeadingTitle,
+              style: const TextStyle (
+                fontSize: 30.0,
+            ),
+          ),
+        ),
+        
+        Padding (
+          padding: const EdgeInsets.all(8.0),
+            child: Text (
+              StringsPersonal.appsubHeadingTitle,
+              style: const TextStyle (
+                fontSize: 20.0,
+              ),
+          ),
+        ),
         
       ],
     ),
