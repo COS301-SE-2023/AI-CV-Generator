@@ -9,7 +9,16 @@ void main () => runApp(Create());
 class Create extends StatelessWidget {
 
   //titleSection widget
-    
+    Widget titleSection=Container(
+    child:Column (
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: <Widget> [
+        //buttons
+        
+      ],
+    ),
+  );
+
     @override
     Widget build(BuildContext context) {
       return MaterialApp(
