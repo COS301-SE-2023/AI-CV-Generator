@@ -12,3 +12,8 @@ class StringsQualifications {
   static final appsubHeadingTitle="Section B: Qualifications";
 }
 
+class StringsEmployment {
+  static final appBarTitle="AI CV Generator";
+  static final appHeadingTitle="Create CV";
+  static final appsubHeadingTitle="Section C: Employment History";
+}
