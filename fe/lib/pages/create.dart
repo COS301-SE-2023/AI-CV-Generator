@@ -28,7 +28,47 @@ class PersonalDetailsFormState extends State<PersonalDetailsForm> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget> [
-          //form fields
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Center (
+              child: ConstrainedBox(
+                constraints: BoxConstraints.tight(const Size(550,50)),
+                child: TextFormField(
+                  // The validator receives the text that the user has entered.
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter some text';
+                    }
+                    return null;
+                  },
+                  decoration: const InputDecoration(  
+                    icon: Icon(Icons.person),  
+                    hintText: 'Enter your name',  
+                    labelText: 'Name',
+                    enabledBorder: OutlineInputBorder(),
+                  ), 
+                ),
+              ),
+            ),
+          ),
+
+          
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Center (
+              child: ElevatedButton(
+                onPressed: () {
+                  // Validate returns true if the form is valid, or false otherwise.
+                  
+                  Navigator.push(
+                  context,
+                    MaterialPageRoute(builder: (context) => const QualificationsForm()),
+                  );
+                },
+                child: const Text('Save & Proceed'),
+              ),
+            ),
+          ),
         ],
       ),
     );
