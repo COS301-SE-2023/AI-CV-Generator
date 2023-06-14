@@ -38,7 +38,8 @@ public class UserEntity implements UserDetails {
     @Column(nullable = false)
     public String password;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    @JsonManagedReference
     public List<FileEntity> files;
 
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)

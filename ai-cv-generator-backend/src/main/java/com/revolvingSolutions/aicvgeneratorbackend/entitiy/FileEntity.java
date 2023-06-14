@@ -1,6 +1,7 @@
 package com.revolvingSolutions.aicvgeneratorbackend.entitiy;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,8 +21,9 @@ public class FileEntity{
     @GeneratedValue
     public Integer fileid;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     @JoinColumn(name = "uid", referencedColumnName = "userid")
+    @JsonBackReference
     public UserEntity user;
     @Column(unique = true,nullable = false)
     public String filename;

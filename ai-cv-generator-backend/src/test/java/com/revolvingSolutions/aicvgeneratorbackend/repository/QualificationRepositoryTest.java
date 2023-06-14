@@ -5,18 +5,16 @@ import com.revolvingSolutions.aicvgeneratorbackend.entitiy.Role;
 import com.revolvingSolutions.aicvgeneratorbackend.entitiy.UserEntity;
 import com.revolvingSolutions.aicvgeneratorbackend.model.Qualification;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 class QualificationRepositoryTest {
@@ -32,9 +30,8 @@ class QualificationRepositoryTest {
         userRepository.deleteAll();
     }
 
-    @Test
-    void ItShouldGetQualificationsFromUser() {
-        // given
+    @BeforeEach
+    void SetUp() {
         UserEntity user = UserEntity.builder()
                 .fname("Nathan")
                 .lname("Opperman")
@@ -46,7 +43,12 @@ class QualificationRepositoryTest {
                 .password("password")
                 .build();
         userRepository.saveAndFlush(user);
-        user = userRepository.findByUsername("Nate").orElseThrow();
+    }
+
+    @Test
+    void ItShouldGetQualificationsFromUser() {
+        // given
+        UserEntity user = userRepository.findByUsername("Nate").orElseThrow();
         QualificationEntity qualification = QualificationEntity.builder()
                 .user(user)
                 .qualification("Bsc CS")
@@ -63,18 +65,7 @@ class QualificationRepositoryTest {
     @Test
     void ItShouldNotGetQualificationsFromUser() {
         // given
-        UserEntity user = UserEntity.builder()
-                .fname("Nathan")
-                .lname("Opperman")
-                .email("nathanEmail")
-                .role(
-                        Role.USER
-                )
-                .username("Nate")
-                .password("password")
-                .build();
-        userRepository.saveAndFlush(user);
-        user = userRepository.findByUsername("Nate").orElseThrow();
+        UserEntity user = userRepository.findByUsername("Nate").orElseThrow();
         QualificationEntity qualification = QualificationEntity.builder()
                 .user(user)
                 .qualification("Bsc CS")

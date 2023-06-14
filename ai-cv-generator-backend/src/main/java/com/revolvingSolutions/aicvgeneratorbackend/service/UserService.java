@@ -300,7 +300,7 @@ public class UserService {
                             new ByteArrayResource(file.getData())
                     );
         } catch (Exception e) {
-            throw new FileNotFoundException(request.getFilename()+" was not found in users folder ,Error: "+e.getMessage());
+            return ResponseEntity.notFound().build();
         }
     }
     public String uploadFile(MultipartFile request) {
