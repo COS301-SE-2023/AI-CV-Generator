@@ -122,7 +122,6 @@ class ProfileState extends State<Profile> {
 
                       Column(
                         children: [
-                          // SectionDuplicate(target: SectionInput(inputWidget: TextFormField(controller: descripC, maxLines: 9,),),),
                           const SectionHeading(heading: "ABOUT ME", align: Alignment.topLeft,),
                           SectionInput(inputWidget: TextFormField(controller: descripC, maxLines: 9,),),
                         ],
@@ -131,7 +130,8 @@ class ProfileState extends State<Profile> {
                       Column(
                         children: [
                           const SectionHeading(heading: "EDUCATION"),
-                          SectionInput(inputWidget: TextFormField(controller: qualificationC, maxLines: 9,),),
+                          SectionDuplicate(target: SectionInput(inputWidget: TextFormField(controller: descripC, maxLines: 9,),),),
+                          // SectionInput(inputWidget: TextFormField(controller: qualificationC, maxLines: 9,),),
                         ],
                       ),
                       const SizedBox(height: 10,),
@@ -301,15 +301,34 @@ class SectionDuplicate extends StatefulWidget {
 class SectionDuplicateState extends State<SectionDuplicate> {
   List<Widget> widgets = [];
   void add() {
-    widgets.add(widget.target);
+    int index = widgets.length;
+    widgets.add(
+      Column(
+        children: [
+          widget.target,
+          OutlinedButton(
+            onPressed: (){
+              print(widgets);
+              widgets.removeAt(index);
+              setState(() {
+              });
+            }, 
+            child: Text("-"),),
+        ],
+      )
+    );
+    setState(() {
+    });
   }
 
   @override
   Widget build(BuildContext build) {
-    return ListView(
+    return Column(
       children: [
         ...widgets,
-        OutlinedButton(onPressed: add, child: Text("+")),
+        SizedBox(height: 8,),
+        OutlinedButton(onPressed: (){add();}, child: Text("+")),
+        SizedBox(height: 16,),
       ]
     );
   }
@@ -321,6 +340,9 @@ class SectionBuilder extends StatefulWidget {
 }
 
 class SectionBuilderState extends State<SectionBuilder> {
+  void remove() {
+  }
+
   @override
   Widget build(BuildContext build) {
     return Text("");
