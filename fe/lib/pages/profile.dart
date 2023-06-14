@@ -122,6 +122,7 @@ class ProfileState extends State<Profile> {
 
                       Column(
                         children: [
+                          // SectionDuplicate(target: SectionInput(inputWidget: TextFormField(controller: descripC, maxLines: 9,),),),
                           const SectionHeading(heading: "ABOUT ME", align: Alignment.topLeft,),
                           SectionInput(inputWidget: TextFormField(controller: descripC, maxLines: 9,),),
                         ],
@@ -286,6 +287,43 @@ class SectionInputState extends State<SectionInput> {
     return Container(
       child: widget.inputWidget,
     );
+  }
+}
+
+class SectionDuplicate extends StatefulWidget {
+  Widget target;
+  SectionDuplicate({required this.target});
+
+  @override
+  SectionDuplicateState createState() => SectionDuplicateState();
+}
+
+class SectionDuplicateState extends State<SectionDuplicate> {
+  List<Widget> widgets = [];
+  void add() {
+    widgets.add(widget.target);
+  }
+
+  @override
+  Widget build(BuildContext build) {
+    return ListView(
+      children: [
+        ...widgets,
+        OutlinedButton(onPressed: add, child: Text("+")),
+      ]
+    );
+  }
+}
+
+class SectionBuilder extends StatefulWidget {
+  @override
+  SectionBuilderState createState() => SectionBuilderState();
+}
+
+class SectionBuilderState extends State<SectionBuilder> {
+  @override
+  Widget build(BuildContext build) {
+    return Text("");
   }
 }
 
