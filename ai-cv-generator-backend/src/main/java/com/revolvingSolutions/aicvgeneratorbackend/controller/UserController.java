@@ -1,5 +1,6 @@
 package com.revolvingSolutions.aicvgeneratorbackend.controller;
 
+import com.revolvingSolutions.aicvgeneratorbackend.exception.FileNotFoundException;
 import com.revolvingSolutions.aicvgeneratorbackend.exception.NotIndatabaseException;
 import com.revolvingSolutions.aicvgeneratorbackend.request.details.employment.AddEmploymentRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.details.employment.RemoveEmploymentRequest;
@@ -11,6 +12,7 @@ import com.revolvingSolutions.aicvgeneratorbackend.request.details.qualification
 import com.revolvingSolutions.aicvgeneratorbackend.request.details.qualification.RemoveQualificationRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.details.qualification.UpdateQualificationRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.file.DownloadFileRequest;
+import com.revolvingSolutions.aicvgeneratorbackend.request.user.GenerateUrlRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.user.UpdateUserRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.response.details.employment.AddEmploymentResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.details.employment.RemoveEmploymentResponse;
@@ -22,6 +24,7 @@ import com.revolvingSolutions.aicvgeneratorbackend.response.details.qualificatio
 import com.revolvingSolutions.aicvgeneratorbackend.response.details.qualification.RemoveQualificationResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.details.qualification.UpdateQualificationResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.file.GetFilesResponse;
+import com.revolvingSolutions.aicvgeneratorbackend.response.user.GenerateUrlResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.user.GetUserResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.user.UpdateUserResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.service.UserService;
@@ -140,6 +143,17 @@ public class UserController {
         try {
             return ResponseEntity.ok(service.updateLink_(request));
         } catch (NotIndatabaseException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PostMapping(value="/share")
+    public ResponseEntity<GenerateUrlResponse> generateURL(
+            @RequestBody GenerateUrlRequest request
+            ) {
+        try {
+            return ResponseEntity.ok(service.generateUrl(request));
+        } catch (FileNotFoundException e) {
             return ResponseEntity.notFound().build();
         }
     }

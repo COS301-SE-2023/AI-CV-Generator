@@ -16,6 +16,7 @@ import com.revolvingSolutions.aicvgeneratorbackend.request.details.qualification
 import com.revolvingSolutions.aicvgeneratorbackend.request.details.qualification.UpdateQualificationRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.file.DownloadFileRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.details.employment.RemoveEmploymentRequest;
+import com.revolvingSolutions.aicvgeneratorbackend.request.user.GenerateUrlRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.user.UpdateUserRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.response.details.employment.AddEmploymentResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.details.employment.RemoveEmploymentResponse;
@@ -27,6 +28,7 @@ import com.revolvingSolutions.aicvgeneratorbackend.response.details.qualificatio
 import com.revolvingSolutions.aicvgeneratorbackend.response.details.qualification.RemoveQualificationResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.details.qualification.UpdateQualificationResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.file.GetFilesResponse;
+import com.revolvingSolutions.aicvgeneratorbackend.response.user.GenerateUrlResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.user.GetUserResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.user.UpdateUserResponse;
 import jakarta.transaction.Transactional;
@@ -315,6 +317,18 @@ public class UserService {
             return "Success";
         } catch (Exception e) {
             throw new UnknownErrorException("File exception!: "+e.getMessage());
+        }
+    }
+
+    public GenerateUrlResponse generateUrl(
+            GenerateUrlRequest request
+    ) {
+        try {
+            return GenerateUrlResponse.builder()
+                    .generatedUrl("")
+                    .build();
+        } catch (Exception e) {
+            throw new FileNotFoundException(request.getFilename()+" was not found!");
         }
     }
 
