@@ -1,6 +1,7 @@
 package com.revolvingSolutions.aicvgeneratorbackend.service;
 
 import com.revolvingSolutions.aicvgeneratorbackend.entitiy.ShareEntity;
+import com.revolvingSolutions.aicvgeneratorbackend.exception.FileNotFoundException;
 import com.revolvingSolutions.aicvgeneratorbackend.model.FileModel;
 import com.revolvingSolutions.aicvgeneratorbackend.repository.ShareRepository;
 import com.revolvingSolutions.aicvgeneratorbackend.request.file.DownloadFileRequest;
@@ -14,6 +15,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+import java.util.Date;
+
 @Service
 @RequiredArgsConstructor
 public class ShareService {
@@ -22,6 +26,7 @@ public class ShareService {
     @Transactional
     public ResponseEntity<Resource> RetriveUrl(RetrieveFileWithURL request) {
         try {
+            update();
             ShareEntity share = shareRepository.getReferenceById(request.getUuid());
             FileModel file = FileModel.builder()
                     .filename(share.getFilename())
@@ -40,6 +45,11 @@ public class ShareService {
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    private void update() {
+        shareRepository.deleteAllInBatch(shareRepository.getExpiredURLs(Date.from(Instant.now())));
+        shareRepository.flush();
     }
 
 }

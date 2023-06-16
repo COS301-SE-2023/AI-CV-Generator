@@ -14,4 +14,5 @@ import java.time.Duration;
 public class GenerateUrlRequest {
     String filename;
     String base;
+    Duration duration;
 }

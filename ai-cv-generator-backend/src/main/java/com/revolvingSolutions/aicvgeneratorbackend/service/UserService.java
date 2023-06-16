@@ -45,6 +45,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.sql.Date;
+import java.time.Instant;
 import java.util.List;
 
 @Service
@@ -337,6 +339,7 @@ public class UserService {
                             .filetype(file.getFiletype())
                             .filename(file.getFilename())
                             .data(file.getData())
+                            .ExpireDate(Date.from(Instant.now().plusMillis(request.getDuration().toMillis())))
                             .build()
             );
             return GenerateUrlResponse.builder()

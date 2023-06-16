@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
 import java.util.UUID;
 
 @Data
@@ -17,11 +18,14 @@ import java.util.UUID;
 public class ShareEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(unique = true)
     private UUID uuid;
 
-    @Column(unique = true,nullable = false)
+    @Column(nullable = false)
     public String filename;
     public String filetype;
+
+    public Date ExpireDate;
 
     @Lob
     public byte[] data;
