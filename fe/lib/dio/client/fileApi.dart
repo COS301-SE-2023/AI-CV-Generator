@@ -57,7 +57,7 @@ class FileApi extends DioClient {
   }) async {
     String url = "";
     try {
-      ShareFileRequest request = ShareFileRequest(filename: filename, base: Uri.base.toString());
+      ShareFileRequest request = ShareFileRequest(filename: filename, base: "http:/${Uri.base.host}:${Uri.base.port}/");
       Response response = await DioClient.dio.post(
         'api/User/share',
         data: request.toJson()

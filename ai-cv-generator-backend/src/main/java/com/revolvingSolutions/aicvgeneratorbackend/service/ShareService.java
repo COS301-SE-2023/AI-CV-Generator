@@ -17,6 +17,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -26,8 +28,10 @@ public class ShareService {
     @Transactional
     public ResponseEntity<Resource> RetriveUrl(RetrieveFileWithURL request) {
         try {
-            update();
             ShareEntity share = shareRepository.getReferenceById(request.getUuid());
+            if (update(share)) {
+                throw new FileNotFoundException("Expired");
+            }
             FileModel file = FileModel.builder()
                     .filename(share.getFilename())
                     .filetype(share.getFiletype())
@@ -47,9 +51,15 @@ public class ShareService {
         }
     }
 
-    private void update() {
+    private Boolean update(ShareEntity geting) {
+        List<ShareEntity> expired = shareRepository.getExpiredURLs(Date.from(Instant.now()));
         shareRepository.deleteAllInBatch(shareRepository.getExpiredURLs(Date.from(Instant.now())));
         shareRepository.flush();
+        if (expired.contains(geting)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }
