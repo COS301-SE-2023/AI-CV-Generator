@@ -340,7 +340,7 @@ public class UserService {
                             .build()
             );
             return GenerateUrlResponse.builder()
-                    .generatedUrl(request.getBase()+shareRepository.findByFilename(file.getFilename()).orElseThrow().getUuid().toString())
+                    .generatedUrl(request.getBase()+"share/"+shareRepository.findByFilename(file.getFilename()).orElseThrow().getUuid().toString())
                     .build();
         } catch (Exception e) {
             throw new FileNotFoundException(request.getFilename()+" was not found!");
