@@ -11,33 +11,33 @@ void shareCVModal(BuildContext context) {
         child: FractionallySizedBox(
           widthFactor: 0.4,
           child: Container(
-            padding: EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(16.0),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                const Text(
                   'SHARE',
                   style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
                 ),
-                SizedBox(height: 16.0),
-                Text(
+                const SizedBox(height: 16.0),
+                const Text(
                   'EMAIL',
                   style: TextStyle(fontSize: 16.0),
                 ),
-                SizedBox(height: 8.0),
+                const SizedBox(height: 8.0),
                 TextField(
                   controller: emailC,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                   ),
                 ),
-                SizedBox(height: 8.0),
-                Text(
+                const SizedBox(height: 8.0),
+                const Text(
                   'INSERT THE EMAIL ADDRESS TO SHARE WITH',
                   style: TextStyle(fontSize: 12.0),
                 ),
-                SizedBox(height: 16.0),
+                const SizedBox(height: 16.0),
                 Row(
                   children: [
                     ElevatedButton(
@@ -45,9 +45,9 @@ void shareCVModal(BuildContext context) {
                         print(emailC.text);
                         Navigator.of(context).pop();
                       },
-                      child: Text('Submit'),
+                      child: const Text('Submit'),
                     ),
-                    SizedBox(width: 16,),
+                    const SizedBox(width: 16,),
                     InkWell(
                       onTap: () {
                         String linkToCV = 'insert CV URL here';
@@ -58,7 +58,7 @@ void shareCVModal(BuildContext context) {
                         //   ),
                         // );
                       },
-                      child: Row(
+                      child: const Row(
                         children: [
                           Icon(Icons.link),
                           SizedBox(width: 8.0),

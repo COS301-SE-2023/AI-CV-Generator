@@ -16,7 +16,7 @@ import java.util.UUID;
 public class ShareUrlController {
 
     private final ShareService service;
-    @PostMapping(value="/")
+    @PostMapping(value="")
     public ResponseEntity<Resource> getSharedFile(
             @RequestBody RetrieveFileWithURL request
             ) {

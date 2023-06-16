@@ -33,7 +33,7 @@ class ShareApi {
         'share',
         data: request.toJson()
       );
-      print(response.data);
+      return PlatformFile.fromMap(response.data); 
     } on DioError catch(e) {
       DioClient.handleError(e);
     }

@@ -1,3 +1,4 @@
+import 'package:ai_cv_generator/dio/client/shareClient.dart';
 import 'package:ai_cv_generator/dio/client/userApi.dart';
 import 'package:flutter/material.dart';
 
@@ -32,7 +33,7 @@ class _TestPageState extends State<TestPageState> {
           child: ElevatedButton(
             child: const Text("Test Button"),
             onPressed: () {
-              userApi.testRequest(val: "test1");
+              ShareApi.retrieveFile(uuid: "6195626f-998a-4df1-bdfb-12c1a4bb20d3");
             },
           ),
         ),
