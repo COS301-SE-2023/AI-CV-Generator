@@ -1,16 +1,19 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of '../FileRequest.dart';
+part of 'ShareFileRequest.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-FileRequest _$FileRequestFromJson(Map<String, dynamic> json) => FileRequest(
+ShareFileRequest _$ShareFileRequestFromJson(Map<String, dynamic> json) =>
+    ShareFileRequest(
       filename: json['filename'] as String,
+      base: json['base'] as String,
     );
 
-Map<String, dynamic> _$FileRequestToJson(FileRequest instance) =>
+Map<String, dynamic> _$ShareFileRequestToJson(ShareFileRequest instance) =>
     <String, dynamic>{
       'filename': instance.filename,
+      'base': instance.base,
     };

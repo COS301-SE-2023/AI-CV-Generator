@@ -13,5 +13,5 @@ import java.time.Duration;
 @NoArgsConstructor
 public class GenerateUrlRequest {
     String filename;
-    Duration lasts;
+    String base;
 }

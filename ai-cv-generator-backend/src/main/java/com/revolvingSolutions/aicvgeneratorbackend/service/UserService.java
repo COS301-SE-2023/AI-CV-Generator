@@ -56,6 +56,8 @@ public class UserService {
     private final EmploymentRepository employmentRepository;
     private final QualificationRepository qualificationRepository;
     private final LinkRepository linkRepository;
+    private final ShareRepository shareRepository;
+
     private final PasswordEncoder encoder;
     public GetUserResponse getUser() {
         UserEntity dbuser = getAuthenticatedUser();
@@ -320,12 +322,25 @@ public class UserService {
         }
     }
 
+    @Transactional
     public GenerateUrlResponse generateUrl(
             GenerateUrlRequest request
     ) {
         try {
+            List<FileModel> files = fileRepository.getFileFromUser(getAuthenticatedUser().getUsername(),request.getFilename());
+            if (files.size() != 1) {
+                throw new Exception("Failed",null);
+            }
+            FileModel file = files.get(0);
+            shareRepository.save(
+                    ShareEntity.builder()
+                            .filetype(file.getFiletype())
+                            .filename(file.getFilename())
+                            .data(file.getData())
+                            .build()
+            );
             return GenerateUrlResponse.builder()
-                    .generatedUrl("")
+                    .generatedUrl(request.getBase()+shareRepository.findByFilename(file.getFilename()).orElseThrow().getUuid().toString())
                     .build();
         } catch (Exception e) {
             throw new FileNotFoundException(request.getFilename()+" was not found!");
