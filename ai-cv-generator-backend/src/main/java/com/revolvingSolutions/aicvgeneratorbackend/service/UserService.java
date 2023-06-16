@@ -330,6 +330,7 @@ public class UserService {
             GenerateUrlRequest request
     ) {
         try {
+            update();
             List<FileModel> files = fileRepository.getFileFromUser(getAuthenticatedUser().getUsername(),request.getFilename());
             if (files.size() != 1) {
                 throw new Exception("Failed",null);
@@ -353,6 +354,7 @@ public class UserService {
 
     public GenerateUrlResponse generateUrlFromFile(String base, MultipartFile file, Duration duration) {
         try {
+            update();
             shareRepository.save(
                     ShareEntity.builder()
                             .filetype(file.getContentType())
@@ -377,5 +379,10 @@ public class UserService {
             return user_;
         }
         throw new UnknownErrorException("This should not be possible");
+    }
+
+    private void update() {
+        shareRepository.deleteAllInBatch(shareRepository.getExpiredURLs(java.util.Date.from(Instant.now())));
+        shareRepository.flush();
     }
 }

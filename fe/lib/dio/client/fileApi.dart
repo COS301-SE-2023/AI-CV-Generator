@@ -76,22 +76,28 @@ class FileApi extends DioClient {
     required PlatformFile file,
     required Duration duration
   }) async {
-    if (file == null) return null;
-    FormData formData = FormData.fromMap({
-      "file": MultipartFile.fromBytes(
-        file.bytes as List<int>, filename: file.name,
-      ),
-      "Duration": duration,
-      "base": "http://${Uri.base.host}:${Uri.base.port}/"
-    });
-    Response response = await DioClient.dio.post(
-        'api/User/shareFile',
-        data: formData,
-        onSendProgress: (int sent, int total) {
-          print('$sent $total');
-        },
-      );
-
-
+    String url = "";
+    try {
+      if (file == null) return null;
+      FormData formData = FormData.fromMap({
+        "file": MultipartFile.fromBytes(
+          file.bytes as List<int>, filename: file.name,
+        ),
+        "Duration": duration,
+        "base": "http://${Uri.base.host}:${Uri.base.port}/"
+      });
+      Response response = await DioClient.dio.post(
+          'api/User/shareFile',
+          data: formData,
+          onSendProgress: (int sent, int total) {
+            print('$sent $total');
+          },
+        );
+      ShareFileResponse resp =ShareFileResponse.fromJson(response.data);
+        url = resp.generatedUrl;
+    } on DioError catch(e) {
+      DioClient.handleError(e);
+    }
+    return url;
   }
 }

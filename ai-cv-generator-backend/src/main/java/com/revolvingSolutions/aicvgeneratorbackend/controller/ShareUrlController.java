@@ -1,6 +1,6 @@
 package com.revolvingSolutions.aicvgeneratorbackend.controller;
 
-import com.revolvingSolutions.aicvgeneratorbackend.request.file.RetrieveFileWithURL;
+import com.revolvingSolutions.aicvgeneratorbackend.request.file.RetrieveFileWithURLRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.service.ShareService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
@@ -18,7 +18,7 @@ public class ShareUrlController {
     private final ShareService service;
     @PostMapping(value="")
     public ResponseEntity<Resource> getSharedFile(
-            @RequestBody RetrieveFileWithURL request
+            @RequestBody RetrieveFileWithURLRequest request
             ) {
         return service.RetriveUrl(request);
     }
@@ -28,7 +28,7 @@ public class ShareUrlController {
             @PathVariable("uuid")UUID uuid
             ) {
         return service.RetriveUrl(
-                RetrieveFileWithURL.builder()
+                RetrieveFileWithURLRequest.builder()
                         .uuid(uuid)
                         .build()
         );

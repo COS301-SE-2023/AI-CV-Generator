@@ -11,6 +11,6 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RetrieveFileWithURL {
+public class RetrieveFileWithURLRequest {
     private UUID uuid;
 }

@@ -4,8 +4,7 @@ import com.revolvingSolutions.aicvgeneratorbackend.entitiy.ShareEntity;
 import com.revolvingSolutions.aicvgeneratorbackend.exception.FileNotFoundException;
 import com.revolvingSolutions.aicvgeneratorbackend.model.FileModel;
 import com.revolvingSolutions.aicvgeneratorbackend.repository.ShareRepository;
-import com.revolvingSolutions.aicvgeneratorbackend.request.file.DownloadFileRequest;
-import com.revolvingSolutions.aicvgeneratorbackend.request.file.RetrieveFileWithURL;
+import com.revolvingSolutions.aicvgeneratorbackend.request.file.RetrieveFileWithURLRequest;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ByteArrayResource;
@@ -18,7 +17,6 @@ import org.springframework.stereotype.Service;
 import java.time.Instant;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -26,7 +24,7 @@ public class ShareService {
     private final ShareRepository shareRepository;
 
     @Transactional
-    public ResponseEntity<Resource> RetriveUrl(RetrieveFileWithURL request) {
+    public ResponseEntity<Resource> RetriveUrl(RetrieveFileWithURLRequest request) {
         try {
             ShareEntity share = shareRepository.getReferenceById(request.getUuid());
             if (update(share)) {
@@ -37,6 +35,7 @@ public class ShareService {
                     .filetype(share.getFiletype())
                     .data(share.getData())
                     .build();
+            System.out.println(new ByteArrayResource(file.getData()).toString());
             return ResponseEntity.ok()
                     .contentType(MediaType.parseMediaType(file.getFiletype()))
                     .header(

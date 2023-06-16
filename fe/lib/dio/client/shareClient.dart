@@ -26,14 +26,13 @@ class ShareApi {
   static Future<PlatformFile?> retrieveFile({
     required String uuid
   }) async {
-    PlatformFile file;
     try {
       GetSharedFileRequest request = GetSharedFileRequest(uuid: uuid);
       Response response = await shareClient.post(
         'share',
         data: request.toJson()
       );
-      return PlatformFile.fromMap(response.data); 
+      
     } on DioError catch(e) {
       DioClient.handleError(e);
     }
