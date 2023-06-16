@@ -1,5 +1,4 @@
 import 'package:ai_cv_generator/dio/client/fileApi.dart';
-import 'package:ai_cv_generator/dio/client/userApi.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -52,7 +51,7 @@ void shareCVModal(BuildContext context) {
                     const SizedBox(width: 16,),
                     InkWell(
                       onTap: () async {
-                        String linkToCV = await FileApi.generateUrl(filename: "DocumentTest.pdf", duration: Duration(minutes: 10));
+                        String linkToCV = await FileApi.generateUrl(filename: "DocumentTest.pdf", duration: const Duration(minutes: 10));
                         Clipboard.setData(ClipboardData(text: linkToCV));
                         // ScaffoldMessenger.of(context).showSnackBar(
                         //   SnackBar(

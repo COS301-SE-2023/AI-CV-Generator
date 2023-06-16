@@ -1,5 +1,4 @@
 import 'package:ai_cv_generator/dio/client/shareClient.dart';
-import 'package:ai_cv_generator/dio/client/userApi.dart';
 import 'package:flutter/material.dart';
 
 class TestPage extends StatelessWidget {

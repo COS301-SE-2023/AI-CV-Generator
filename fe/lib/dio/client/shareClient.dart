@@ -4,6 +4,7 @@ import 'package:ai_cv_generator/dio/interceptors/Logger.dart';
 import 'package:ai_cv_generator/dio/request/FileRequests/GetSharedFileRequest.dart';
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
+import 'dart:typed_data';
 
 class ShareApi {
   static final Dio shareClient = Dio(
@@ -30,9 +31,18 @@ class ShareApi {
       GetSharedFileRequest request = GetSharedFileRequest(uuid: uuid);
       Response response = await shareClient.post(
         'share',
-        data: request.toJson()
+        data: request.toJson(),
+        options: Options(
+          responseType: ResponseType.bytes
+        )
       );
-      
+      Uint8List data = Uint8List.fromList(response.data.toList() as List<int>);
+      PlatformFile file = PlatformFile(
+        name: "",
+        size: data.length,
+        bytes: data,
+      );
+      return file;
     } on DioError catch(e) {
       DioClient.handleError(e);
     }
