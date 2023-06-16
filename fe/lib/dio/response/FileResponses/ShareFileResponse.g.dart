@@ -8,10 +8,10 @@ part of 'ShareFileResponse.dart';
 
 ShareFileResponse _$ShareFileResponseFromJson(Map<String, dynamic> json) =>
     ShareFileResponse(
-      generateUrl: json['generateUrl'] as String,
+      generatedUrl: json['generatedUrl'] as String,
     );
 
 Map<String, dynamic> _$ShareFileResponseToJson(ShareFileResponse instance) =>
     <String, dynamic>{
-      'generateUrl': instance.generateUrl,
+      'generatedUrl': instance.generatedUrl,
     };

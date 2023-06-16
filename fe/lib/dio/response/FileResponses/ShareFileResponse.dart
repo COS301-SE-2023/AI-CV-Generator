@@ -4,10 +4,10 @@ part 'ShareFileResponse.g.dart';
 
 @JsonSerializable()
 class ShareFileResponse {
-  String generateUrl;
+  String generatedUrl;
 
   ShareFileResponse({
-    required this.generateUrl
+    required this.generatedUrl
   });
 
   factory ShareFileResponse.fromJson(Map<String, dynamic> json) => _$ShareFileResponseFromJson(json);

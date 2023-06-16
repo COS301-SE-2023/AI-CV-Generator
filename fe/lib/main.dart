@@ -5,10 +5,7 @@ import 'package:flutter/material.dart';
 
 void main() {
   Uri myurl = Uri.base; //get complete url
-  Map<String,List<String>> parameters = myurl.queryParametersAll; //These parameters are used in share CV for POST call later
-  for(var v in parameters.values) {
-    print(v);
-  }
+  print(myurl.path);
   runApp(const MyApp());
 }
 

@@ -34,6 +34,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.Duration;
+
 @RestController
 @CrossOrigin(value="*")
 @RequestMapping(path = "/api/User")
@@ -57,6 +59,15 @@ public class UserController {
             @RequestParam("file")MultipartFile file
             ) {
         return ResponseEntity.ok(service.uploadFile(file));
+    }
+
+    @PostMapping(value="/shareFile")
+    public ResponseEntity<GenerateUrlResponse> uploadFileAndShare(
+            @RequestParam("file")MultipartFile file,
+            @RequestParam("Duration")Duration duration,
+            @RequestParam("base") String base
+            ) {
+        return ResponseEntity.ok(service.generateUrlFromFile(base,file,duration));
     }
 
     @PostMapping(value="/retfile")

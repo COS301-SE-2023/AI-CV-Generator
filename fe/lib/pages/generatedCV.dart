@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ai_cv_generator/pages/shareCV.dart';
 import 'details.dart';
 
 
@@ -75,7 +76,7 @@ class _generatedCVState extends State<generatedCV> {
             right: 18.0,
             child: FloatingActionButton(
               onPressed: () {
-                // Floating button on press logic
+                shareCVModal(context);
               },
               child: const Icon(Icons.download),
             ),

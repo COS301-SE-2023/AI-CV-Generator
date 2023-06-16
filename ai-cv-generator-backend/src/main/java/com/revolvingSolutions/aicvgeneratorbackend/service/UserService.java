@@ -46,6 +46,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.Date;
+import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
 
@@ -347,6 +348,24 @@ public class UserService {
                     .build();
         } catch (Exception e) {
             throw new FileNotFoundException(request.getFilename()+" was not found!");
+        }
+    }
+
+    public GenerateUrlResponse generateUrlFromFile(String base, MultipartFile file, Duration duration) {
+        try {
+            shareRepository.save(
+                    ShareEntity.builder()
+                            .filetype(file.getContentType())
+                            .filename(file.getOriginalFilename())
+                            .data(file.getBytes())
+                            .ExpireDate(Date.from(Instant.now().plusMillis(duration.toMillis())))
+                            .build()
+            );
+            return GenerateUrlResponse.builder()
+                    .generatedUrl(base+"share/"+shareRepository.findByFilename(file.getOriginalFilename()).orElseThrow().getUuid().toString())
+                    .build();
+        } catch (Exception e) {
+            throw new UnknownErrorException("File exception!: "+e.getMessage());
         }
     }
 
