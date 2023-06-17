@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:ai_cv_generator/dio/client/dioClient.dart';
 import 'package:ai_cv_generator/dio/request/FileRequests/FileRequest.dart';
 import 'package:ai_cv_generator/dio/request/FileRequests/ShareFileRequest.dart';
@@ -43,9 +45,18 @@ class FileApi extends DioClient {
       FileRequest request = FileRequest(filename: filename);
       Response response = await DioClient.dio.post(
           'api/User/retfile',
-          data: request.toJson()
+          data: request.toJson(),
+          options: Options(
+            responseType: ResponseType.bytes
+          )
         );
-      print(response.data);
+      Uint8List data = Uint8List.fromList(response.data.toList() as List<int>);
+      PlatformFile file = PlatformFile(
+        name: "",
+        size: data.length,
+        bytes: data,
+      );
+      return file;
     } on DioError catch (e) {
       DioClient.handleError(e);
     }

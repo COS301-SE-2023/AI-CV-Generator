@@ -27,6 +27,8 @@ class _PdfWindowState extends State<PdfWindow> {
       return Scaffold(
         body : PdfView(
           controller: PdfController(document: PdfDocument.openData(file.bytes as FutureOr<Uint8List>)),
+          scrollDirection: Axis.horizontal,
+          pageSnapping: false,
         )
       );
     }

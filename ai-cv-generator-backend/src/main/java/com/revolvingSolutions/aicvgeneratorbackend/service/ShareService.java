@@ -35,7 +35,6 @@ public class ShareService {
                     .filetype(share.getFiletype())
                     .data(share.getData())
                     .build();
-            System.out.println(new ByteArrayResource(file.getData()).toString());
             return ResponseEntity.ok()
                     .contentType(MediaType.parseMediaType(file.getFiletype()))
                     .header(
