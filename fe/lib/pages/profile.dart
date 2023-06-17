@@ -2,6 +2,7 @@ import 'package:ai_cv_generator/dio/client/userApi.dart';
 import 'package:ai_cv_generator/models/user/Employment.dart';
 import 'package:ai_cv_generator/models/user/Qualification.dart';
 import 'package:ai_cv_generator/models/user/UserModel.dart';
+// import 'package:ai_cv_generator/models/user/link.dart';
 import 'package:flutter/material.dart';
 
 class Profile extends StatefulWidget {
@@ -168,77 +169,16 @@ class ProfileState extends State<Profile> {
                         child: Column(
                           children: [
                           const SectionHeading(heading: "LINKS"),
-                          SectionInput(inputWidget: TextFormField(controller: linksC,),),
+                          SectionDuplicate(target: SectionInput(inputWidget: Links(id: 0,)),),
                           ],
                         ),
                       ),
                     ],
                   )
                 ),
-
               ],
             ),
           )
-        // child: Form(
-        //   key: _formKey,
-        //   child: ListView(
-        //     children: [
-        //       const CircleAvatar(
-        //         radius: 50,
-        //         // backgroundImage: AssetImage(imagePath),
-        //         backgroundColor: Colors.blue,
-        //       ),
-        //       const SizedBox(height: 16,),
-        //       Container(
-        //         padding: const EdgeInsets.symmetric(horizontal: 10.0),
-        //         child: OutlinedButton(
-        //           onPressed: () {
-        //             _formKey.currentState!.save();
-        //             setState(() {
-        //               isEditingEnabled = false;
-        //             });
-        //             ActualUpdate();
-        //           }, 
-        //           child: const Text("SAVE")
-        //         ) 
-        //       ),
-        //       const SizedBox(height: 8,),
-        //       Container(
-        //         padding: const EdgeInsets.symmetric(horizontal: 10.0),
-        //         child: OutlinedButton(
-        //           onPressed: () {
-        //               setState(() {
-        //               isEditingEnabled = true;
-        //             });
-        //           }, 
-        //           child: const Text("EDIT")
-        //         ) 
-        //       ),
-        //       const SizedBox(height: 16,),
-        //       //InputField(label: "NAME", widgetField: TextFormField(enabled: isEditingEnabled, initialValue: model.fname, onSaved: (value)=>{model.fname=value!},)),
-        //       inputField(editor: nameC , label: "Name"),
-        //       const SizedBox(height: 16,),
-        //       //InputField(label: "EMAIL", widgetField: TextFormField(enabled: isEditingEnabled, initialValue: email, onSaved: (value)=>{email=value!},)),
-        //       inputField(editor: emailC, label: "EMAIL"),
-        //       const SizedBox(height: 16,),
-        //       //InputField(label: "PHONE NUMBER", widgetField: TextFormField(enabled: isEditingEnabled, initialValue: phoneNumber, onSaved: (value)=>{phoneNumber=value!},)),
-        //       inputField(editor: phoneNoC, label: "PHONE No"),
-        //       const SizedBox(height: 16,),
-        //       //InputField(label: "LOCATION", widgetField: TextFormField(enabled: isEditingEnabled, initialValue: location, onSaved: (value)=>{location=value!},)),
-        //       inputField(editor: locationC,label: "LOCATION",),
-        //       const SizedBox(height: 16,),
-        //       InputField(label: "ABOUT ME", widgetField: TextFormField(controller: descripC, maxLines: 10,)),
-        //       const SizedBox(height: 16,),
-        //       InputField(label: "EDUCATION", widgetField: TextFormField(controller: qualificationC, maxLines: 10,)),
-        //       //inputArray(editor: qualificationC),
-        //       const SizedBox(height: 16,),
-        //       InputField(label: "WORK EXPERIENCE", widgetField: TextFormField(controller: workExperienceC, maxLines: 10,)),
-        //       const SizedBox(height: 16,),
-        //       InputField(label: "LINKS", widgetField: TextFormField(enabled: isEditingEnabled, initialValue: links, onSaved: (value)=>{links=value!}, maxLines: 10,)),
-        //       const SizedBox(height: 16,),
-        //     ],
-        //   )
-        // )
         )
       )
     );
@@ -300,6 +240,14 @@ class SectionDuplicate extends StatefulWidget {
 
 class SectionDuplicateState extends State<SectionDuplicate> {
   List<Widget> widgets = [];
+  
+  void remove(int index) {
+      print(widgets);
+      widgets.removeAt(index);
+      setState(() {
+      });
+    }
+
   void add() {
     int index = widgets.length;
     widgets.add(
@@ -308,10 +256,7 @@ class SectionDuplicateState extends State<SectionDuplicate> {
           widget.target,
           OutlinedButton(
             onPressed: (){
-              print(widgets);
-              widgets.removeAt(index);
-              setState(() {
-              });
+              remove(index);
             }, 
             child: Text("-"),),
         ],
@@ -334,18 +279,44 @@ class SectionDuplicateState extends State<SectionDuplicate> {
   }
 }
 
-class SectionBuilder extends StatefulWidget {
+class Links extends StatefulWidget {
+  int id;
+  Links({required this.id});
+
   @override
-  SectionBuilderState createState() => SectionBuilderState();
+  LinksState createState() => LinksState();
 }
 
-class SectionBuilderState extends State<SectionBuilder> {
-  void remove() {
+class LinksState extends State<Links> {
+  Map data = {};
+  TextEditingController linkName = TextEditingController();
+  TextEditingController linkURL = TextEditingController();
+
+  @override
+  void initState() {
+    save();
+    super.initState();
+  }
+
+  void save() {
+    data[widget.id] = {
+      "linkName": linkName.text,
+      "linkURL": linkURL.text
+    };
+  }
+
+  void remove(int id) {
+    data.remove(id);
   }
 
   @override
-  Widget build(BuildContext build) {
-    return Text("");
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        SectionInput(inputWidget: TextFormField(controller: linkName, textAlign: TextAlign.right,),),
+        SectionInput(inputWidget: TextFormField(controller: linkURL, textAlign: TextAlign.right,),),
+      ],
+    );
   }
 }
 
