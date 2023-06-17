@@ -124,14 +124,14 @@ class ProfileState extends State<Profile> {
                       Column(
                         children: [
                           const SectionHeading(heading: "ABOUT ME", align: Alignment.topLeft,),
-                          SectionInput(inputWidget: TextFormField(controller: descripC, maxLines: 9,),),
+                          SectionInput(inputWidget: TextFormField(controller: descripC, maxLines: 9, decoration: InputDecoration(border: OutlineInputBorder(),),),),
                         ],
                       ),
                       const SizedBox(height: 10,),
                       Column(
                         children: [
                           const SectionHeading(heading: "EDUCATION"),
-                          SectionDuplicate(target: SectionInput(inputWidget: TextFormField(controller: descripC, maxLines: 9,),),),
+                          SectionDuplicate(target: SectionInput(inputWidget: TextFormField(controller: descripC, maxLines: 9, decoration: InputDecoration(border: OutlineInputBorder(),),),),),
                           // SectionInput(inputWidget: TextFormField(controller: qualificationC, maxLines: 9,),),
                         ],
                       ),
@@ -139,7 +139,7 @@ class ProfileState extends State<Profile> {
                       Column(
                         children: [
                           const SectionHeading(heading: "WORK EXPERIENCE"),
-                          SectionInput(inputWidget: TextFormField(controller: workExperienceC, maxLines: 9,),),
+                          SectionInput(inputWidget: TextFormField(controller: workExperienceC, maxLines: 9, decoration: InputDecoration(border: OutlineInputBorder(),),),),
                         ],
                       ),
 
@@ -157,11 +157,11 @@ class ProfileState extends State<Profile> {
                         child: Column(
                           children: [
                           const SectionHeading(heading: "PERSONAL model", align: Alignment.topRight,),
-                          SectionInput(inputWidget: TextInputField(editor: fnameC, align: TextAlign.right,),),
-                          SectionInput(inputWidget: TextFormField(controller: lnameC, textAlign: TextAlign.right,),),
-                          SectionInput(inputWidget: TextFormField(controller: emailC, textAlign: TextAlign.right,),),
-                          SectionInput(inputWidget: TextFormField(controller: phoneNoC, textAlign: TextAlign.right,),),
-                          SectionInput(inputWidget: TextFormField(controller: locationC, textAlign: TextAlign.right,),),
+                          SectionInput(inputWidget: TextInputField(editor: fnameC, align: TextAlign.right, ),),
+                          SectionInput(inputWidget: TextFormField(controller: lnameC, textAlign: TextAlign.right, decoration: InputDecoration(border: OutlineInputBorder(),),),),
+                          SectionInput(inputWidget: TextFormField(controller: emailC, textAlign: TextAlign.right, decoration: InputDecoration(border: OutlineInputBorder(),),),),
+                          SectionInput(inputWidget: TextFormField(controller: phoneNoC, textAlign: TextAlign.right, decoration: InputDecoration(border: OutlineInputBorder(),),),),
+                          SectionInput(inputWidget: TextFormField(controller: locationC, textAlign: TextAlign.right, decoration: InputDecoration(border: OutlineInputBorder(),),),),
                           ],
                         ),
                       ),
@@ -311,10 +311,10 @@ class LinksState extends State<Links> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Row(
       children: [
-        SectionInput(inputWidget: TextFormField(controller: linkName, textAlign: TextAlign.right,),),
-        SectionInput(inputWidget: TextFormField(controller: linkURL, textAlign: TextAlign.right,),),
+        SectionInput(inputWidget: TextFormField(controller: linkName, textAlign: TextAlign.right, decoration: InputDecoration(border: OutlineInputBorder(),),),),
+        // SectionInput(inputWidget: TextFormField(controller: linkURL, textAlign: TextAlign.right,),),
       ],
     );
   }
