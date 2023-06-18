@@ -16,3 +16,9 @@ class StringsEmployment {
   static const appHeadingTitle="Create CV";
   static const appsubHeadingTitle="Section C: Employment History";
 }
+
+class StringsSkill {
+  static const appBarTitle="AI CV Generator";
+  static const appHeadingTitle="Create CV";
+  static const appsubHeadingTitle="Section D: Skills";
+}
