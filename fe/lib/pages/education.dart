@@ -24,6 +24,130 @@ class EducationDetailsFormState extends State<EducationDetailsForm> {
   TextEditingController startDate = TextEditingController();
   TextEditingController endDate = TextEditingController();
 
+  @override
+  Widget build(BuildContext context) {
+    // Build a Form widget using the _formKey created above.
+    return Form(
+      key: _formKey,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget> [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Center (
+              child: ConstrainedBox(
+                constraints: BoxConstraints.tight(const Size(550,50)),
+                child: TextFormField(
+                  // The validator receives the text that the user has entered.
+                  controller: institution,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter some text';
+                    }
+                    return null;
+                  },
+                  decoration: const InputDecoration(  
+                    icon: Icon(Icons.person),  
+                    //hintText: 'Enter your name',  
+                    labelText: 'Institution',
+                    enabledBorder: OutlineInputBorder(),
+                  ), 
+                ),
+              ),
+            ),
+          ),
+
+
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Center (
+              child: ConstrainedBox(
+                constraints: BoxConstraints.tight(const Size(550,50)),
+                child: TextFormField(
+                  // The validator receives the text that the user has entered.
+                  controller: qualification,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter some text';
+                    }
+                    return null;
+                  },
+                  decoration: const InputDecoration(  
+                    icon: Icon(Icons.person),  
+                    //hintText: 'Enter your last name',  
+                    labelText: 'Qualification', 
+                    enabledBorder: OutlineInputBorder(),
+                  ), 
+                ),
+              ),
+            ),
+          ),
+
+
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Center (
+              child: ConstrainedBox(
+              constraints: BoxConstraints.tight(const Size(550,50)),
+                child: TextFormField(
+                  controller: startDate,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter some text';
+                    }
+                    return null;
+                  },
+                  decoration: const InputDecoration(  
+                    icon: Icon(Icons.email),  
+                    //hintText: 'Enter your email',  
+                    labelText: 'Start Date',
+                    enabledBorder: OutlineInputBorder(),  
+                  ), 
+                ),
+              ),
+            ),
+          ),
+
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Center (
+              child: ConstrainedBox(
+              constraints: BoxConstraints.tight(const Size(550,50)),
+                child: TextFormField(
+                  controller: endDate,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter some text';
+                    }
+                    return null;
+                  },
+                  decoration: const InputDecoration(  
+                    icon: Icon(Icons.email),  
+                    //hintText: 'Enter your email',  
+                    labelText: 'End Date',
+                    enabledBorder: OutlineInputBorder(),  
+                  ), 
+                ),
+              ),
+            ),
+          ),
+
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Center (
+              child: ElevatedButton(
+                onPressed: () {},
+                child: const Text('Save & Proceed'),
+              ),
+            ),
+          ),
+        
+        ],
+      ),
+    );
+  }
+}
+
   //MaterialApp
 }
 
