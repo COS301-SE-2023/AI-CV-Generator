@@ -177,6 +177,24 @@ class EducationDetailsFormState extends State<EducationDetailsForm> {
       ],
     );
 
-  //MaterialApp
+  CreateEducation({super.key});
+
+    @override
+    Widget build(BuildContext context) {
+      return MaterialApp(
+        title: StringsQualifications.appBarTitle,
+        home: Scaffold (
+          appBar: AppBar(
+            title: const Text(StringsQualifications.appBarTitle),
+          ),
+          body: ListView(
+            children: <Widget>[
+              titleSection,
+              const EducationDetailsForm(),
+            ],
+          ),
+        ),
+      );
+  }//MaterialApp
 }
 
