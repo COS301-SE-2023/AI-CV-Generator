@@ -175,5 +175,21 @@ class EmploymentSection extends StatelessWidget {
 
   EmploymentSection({super.key});
   
-    //MaterialApp
+    @override
+    Widget build(BuildContext context) {
+      return MaterialApp(
+        title: StringsEmployment.appBarTitle,
+        home: Scaffold (
+          appBar: AppBar(
+            title: const Text(StringsEmployment.appBarTitle),
+          ),
+          body: ListView(
+            children: <Widget>[
+              titleSection,
+              const EmploymentForm(),
+            ],
+          ),
+        ),
+      );
+  }//MaterialApp
 }
