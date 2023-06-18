@@ -1,19 +1,18 @@
-import 'package:flutter/material.dart';
 
 class StringsPersonal {
-  static final appBarTitle="AI CV Generator";
-  static final appHeadingTitle="Create CV";
-  static final appsubHeadingTitle="Section A: Personal Details";
+  static const appBarTitle="AI CV Generator";
+  static const appHeadingTitle="Create CV";
+  static const appsubHeadingTitle="Section A: Personal Details";
 }
 
 class StringsQualifications {
-  static final appBarTitle="AI CV Generator";
-  static final appHeadingTitle="Create CV";
-  static final appsubHeadingTitle="Section B: Qualifications";
+  static const appBarTitle="AI CV Generator";
+  static const appHeadingTitle="Create CV";
+  static const appsubHeadingTitle="Section B: Qualifications";
 }
 
 class StringsEmployment {
-  static final appBarTitle="AI CV Generator";
-  static final appHeadingTitle="Create CV";
-  static final appsubHeadingTitle="Section C: Employment History";
+  static const appBarTitle="AI CV Generator";
+  static const appHeadingTitle="Create CV";
+  static const appsubHeadingTitle="Section C: Employment History";
 }
