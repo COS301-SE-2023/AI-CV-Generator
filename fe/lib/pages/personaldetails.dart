@@ -1,4 +1,6 @@
-import 'package:ai_cv_generator/pages/education.dart';
+// ignore_for_file: must_be_immutable
+
+import 'package:ai_cv_generator/pages/qualifications.dart';
 import 'package:ai_cv_generator/pages/strings.dart';
 import 'package:flutter/material.dart';
 
@@ -19,6 +21,11 @@ class PersonalDetailsFormState extends State<PersonalDetailsForm> {
   // Create a global key that uniquely identifies the Form widget
   // and allows validation of the form
   final _formKey = GlobalKey<FormState>();
+  TextEditingController name = TextEditingController();
+  TextEditingController lname = TextEditingController();
+  TextEditingController email = TextEditingController();
+  TextEditingController cell = TextEditingController();
+  TextEditingController address= TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +42,7 @@ class PersonalDetailsFormState extends State<PersonalDetailsForm> {
                 constraints: BoxConstraints.tight(const Size(550,50)),
                 child: TextFormField(
                   // The validator receives the text that the user has entered.
+                  controller: name,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter some text';
@@ -43,8 +51,7 @@ class PersonalDetailsFormState extends State<PersonalDetailsForm> {
                   },
                   decoration: const InputDecoration(  
                     icon: Icon(Icons.person),  
-                    hintText: 'Enter your name',  
-                    labelText: 'Name',
+                    labelText: 'First Name',
                     enabledBorder: OutlineInputBorder(),
                   ), 
                 ),
@@ -58,7 +65,7 @@ class PersonalDetailsFormState extends State<PersonalDetailsForm> {
               child: ConstrainedBox(
                 constraints: BoxConstraints.tight(const Size(550,50)),
                 child: TextFormField(
-                  // The validator receives the text that the user has entered.
+                  controller: lname,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter some text';
@@ -67,7 +74,6 @@ class PersonalDetailsFormState extends State<PersonalDetailsForm> {
                   },
                   decoration: const InputDecoration(  
                     icon: Icon(Icons.person),  
-                    hintText: 'Enter your last name',  
                     labelText: 'Last Name', 
                     enabledBorder: OutlineInputBorder(),
                   ), 
@@ -76,13 +82,13 @@ class PersonalDetailsFormState extends State<PersonalDetailsForm> {
             ),
           ),
 
-                    Padding(
+          Padding(
             padding: const EdgeInsets.all(8.0),
             child: Center (
               child: ConstrainedBox(
               constraints: BoxConstraints.tight(const Size(550,50)),
                 child: TextFormField(
-                  // The validator receives the text that the user has entered.
+                  controller: email,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter some text';
@@ -90,8 +96,7 @@ class PersonalDetailsFormState extends State<PersonalDetailsForm> {
                     return null;
                   },
                   decoration: const InputDecoration(  
-                    icon: Icon(Icons.email),  
-                    hintText: 'Enter your email',  
+                    icon: Icon(Icons.email),
                     labelText: 'Email',
                     enabledBorder: OutlineInputBorder(),  
                   ), 
@@ -100,13 +105,13 @@ class PersonalDetailsFormState extends State<PersonalDetailsForm> {
             ),
           ),
 
-                    Padding(
+          Padding(
             padding: const EdgeInsets.all(8.0),
             child: Center (
               child: ConstrainedBox(
               constraints: BoxConstraints.tight(const Size(550,50)),
                 child: TextFormField(
-                // The validator receives the text that the user has entered.
+                  controller: cell,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter some text';
@@ -114,8 +119,7 @@ class PersonalDetailsFormState extends State<PersonalDetailsForm> {
                     return null;
                   },
                   decoration: const InputDecoration(  
-                    icon: Icon(Icons.phone),  
-                    hintText: 'Enter your contact number',  
+                    icon: Icon(Icons.phone),
                     labelText: 'Contact Number',  
                     enabledBorder: OutlineInputBorder(),
                   ), 
@@ -124,13 +128,13 @@ class PersonalDetailsFormState extends State<PersonalDetailsForm> {
             ),
           ),
 
-                    Padding(
+          Padding(
             padding: const EdgeInsets.all(8.0),
             child: Center (
               child: ConstrainedBox(
               constraints: BoxConstraints.tight(const Size(550,50)),
                 child: TextFormField(
-                // The validator receives the text that the user has entered.
+                  controller: address,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter some text';
@@ -139,8 +143,7 @@ class PersonalDetailsFormState extends State<PersonalDetailsForm> {
                   },
                   
                   decoration: const InputDecoration(  
-                    icon: Icon(Icons.home),  
-                    hintText: 'Enter your address',  
+                    icon: Icon(Icons.home),
                     labelText: 'Address',  
                     enabledBorder: OutlineInputBorder(),
                   ), 
@@ -153,21 +156,7 @@ class PersonalDetailsFormState extends State<PersonalDetailsForm> {
             padding: const EdgeInsets.all(20.0),
             child: Center (
               child: ElevatedButton(
-                onPressed: () {
-                  // Validate returns true if the form is valid, or false otherwise.
-                  if (_formKey.currentState!.validate()) {
-                    // If the form is valid, display a snackbar. In the real world,
-                    // you'd often call a server or save the information in a database.
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Processing Data')),
-                    );
-                  }
-
-                  Navigator.push(
-                  context,
-                    MaterialPageRoute(builder: (context) => const QualificationsForm()),
-                  );
-                },
+                onPressed: () {},
                 child: const Text('Save & Proceed'),
               ),
             ),
@@ -182,33 +171,33 @@ class PersonalDetailsFormState extends State<PersonalDetailsForm> {
 class Create extends StatelessWidget {
 
   //titleSection widget
-    Widget titleSection=Container(
-    child:Column (
+    Widget titleSection=const Column (
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: <Widget> [
         Padding (
-          padding: const EdgeInsets.all(8.0),
+          padding: EdgeInsets.all(8.0),
             child: Text (
               StringsPersonal.appHeadingTitle,
-              style: const TextStyle (
+              style: TextStyle (
                 fontSize: 30.0,
             ),
           ),
         ),
         
         Padding (
-          padding: const EdgeInsets.all(8.0),
+          padding: EdgeInsets.all(8.0),
             child: Text (
               StringsPersonal.appsubHeadingTitle,
-              style: const TextStyle (
+              style: TextStyle (
                 fontSize: 20.0,
               ),
           ),
         ),
         
       ],
-    ),
-  );
+    );
+
+  Create({super.key});
 
     @override
     Widget build(BuildContext context) {
@@ -216,7 +205,7 @@ class Create extends StatelessWidget {
         title: StringsPersonal.appBarTitle,
         home: Scaffold (
           appBar: AppBar(
-            title: Text(StringsPersonal.appBarTitle),
+            title: const Text(StringsPersonal.appBarTitle),
           ),
           body: ListView(
             children: <Widget>[
