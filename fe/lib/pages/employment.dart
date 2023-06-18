@@ -16,3 +16,14 @@ class EmploymentForm extends StatefulWidget {
 
 // Create a corresponding State class.
 // This class holds data related to the form.
+class EmploymentFormState extends State<EmploymentForm> {
+  // Create a global key that uniquely identifies the Form widget
+  // and allows validation of the form
+  final _formKey = GlobalKey<FormState>();
+  TextEditingController company = TextEditingController();
+  TextEditingController jobTitle = TextEditingController();
+  TextEditingController startDate = TextEditingController();
+  TextEditingController endDate = TextEditingController();
+
+  //MaterialApp
+}
