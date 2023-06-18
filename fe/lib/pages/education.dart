@@ -164,6 +164,19 @@ class EducationDetailsFormState extends State<EducationDetailsForm> {
           ),
         ),
         
-        //MaterialApp
+        Padding (
+          padding: EdgeInsets.all(8.0),
+            child: Text (
+              StringsQualifications.appsubHeadingTitle,
+              style: TextStyle (
+                fontSize: 20.0,
+              ),
+          ),
+        ),
+        
+      ],
+    );
+
+  //MaterialApp
 }
 
