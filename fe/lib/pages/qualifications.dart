@@ -3,20 +3,20 @@
 import 'package:ai_cv_generator/pages/strings.dart';
 import 'package:flutter/material.dart';
 
-void main () => runApp(CreateEducation());
+void main () => runApp(QualificationsSection());
 
-class EducationDetailsForm extends StatefulWidget {
-  const EducationDetailsForm({super.key});
+class QualificationsDetailsForm extends StatefulWidget {
+  const QualificationsDetailsForm({super.key});
 
   @override
-  EducationDetailsFormState createState() {
-    return EducationDetailsFormState();
+  QualificationsDetailsFormState createState() {
+    return QualificationsDetailsFormState();
   }
 }
 
 // Create a corresponding State class.
 // This class holds data related to the form.
-class EducationDetailsFormState extends State<EducationDetailsForm> {
+class QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
 
   final _formKey = GlobalKey<FormState>();
   TextEditingController institution = TextEditingController();
@@ -148,7 +148,7 @@ class EducationDetailsFormState extends State<EducationDetailsForm> {
   }
 }
 
-  class CreateEducation extends StatelessWidget {
+  class QualificationsSection extends StatelessWidget {
 
   //titleSection widget
     Widget titleSection=const Column (
@@ -177,7 +177,7 @@ class EducationDetailsFormState extends State<EducationDetailsForm> {
       ],
     );
 
-  CreateEducation({super.key});
+  QualificationsSection({super.key});
 
     @override
     Widget build(BuildContext context) {
@@ -190,7 +190,7 @@ class EducationDetailsFormState extends State<EducationDetailsForm> {
           body: ListView(
             children: <Widget>[
               titleSection,
-              const EducationDetailsForm(),
+              const QualificationsDetailsForm(),
             ],
           ),
         ),
