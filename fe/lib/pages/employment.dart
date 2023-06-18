@@ -144,5 +144,36 @@ class EmploymentFormState extends State<EmploymentForm> {
 }
 
 
-//MaterialApp
+class EmploymentSection extends StatelessWidget {
+
+  //titleSection widget
+  Widget titleSection=const Column (
+    mainAxisAlignment: MainAxisAlignment.spaceAround,
+    children: <Widget> [
+      Padding (
+        padding: EdgeInsets.all(8.0),
+          child: Text (
+            StringsEmployment.appHeadingTitle,
+            style: TextStyle (
+              fontSize: 30.0,
+          ),
+        ),
+      ),
+      
+      Padding (
+        padding: EdgeInsets.all(8.0),
+          child: Text (
+            StringsEmployment.appsubHeadingTitle,
+            style: TextStyle (
+              fontSize: 20.0,
+            ),
+        ),
+      ),
+      
+    ],
+  );
+
+  EmploymentSection({super.key});
+  
+    //MaterialApp
 }
