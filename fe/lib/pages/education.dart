@@ -148,6 +148,22 @@ class EducationDetailsFormState extends State<EducationDetailsForm> {
   }
 }
 
-  //MaterialApp
+  class CreateEducation extends StatelessWidget {
+
+  //titleSection widget
+    Widget titleSection=const Column (
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: <Widget> [
+        Padding (
+          padding: EdgeInsets.all(8.0),
+            child: Text (
+              StringsQualifications.appHeadingTitle,
+              style: TextStyle (
+                fontSize: 30.0,
+            ),
+          ),
+        ),
+        
+        //MaterialApp
 }
 
