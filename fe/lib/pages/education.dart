@@ -16,4 +16,14 @@ class EducationDetailsForm extends StatefulWidget {
 
 // Create a corresponding State class.
 // This class holds data related to the form.
+class EducationDetailsFormState extends State<EducationDetailsForm> {
+
+  final _formKey = GlobalKey<FormState>();
+  TextEditingController institution = TextEditingController();
+  TextEditingController qualification = TextEditingController();
+  TextEditingController startDate = TextEditingController();
+  TextEditingController endDate = TextEditingController();
+
+  //MaterialApp
+}
 
