@@ -209,7 +209,7 @@ Widget _buildEndDField() {
   
   Widget _buildBackButton() {
     return SizedBox(
-      width: 150,
+      width: 140,
       height: 30,
       child: ElevatedButton(
         onPressed: () {
@@ -222,7 +222,7 @@ Widget _buildEndDField() {
 
   Widget _buildSubmitButton() {
     return SizedBox(
-      width: 150,
+      width: 140,
       height: 30,
       child: ElevatedButton(
         onPressed: () {
