@@ -88,6 +88,7 @@ class _SkillsFormState extends State<SkillsForm> {
             _buildSkillField1(),
             _buildSkillField2(),
             _buildSkillField3(),
+            _buildAddButton(),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget> [
@@ -168,6 +169,19 @@ class _SkillsFormState extends State<SkillsForm> {
     );
   }
 
+  Widget _buildAddButton() {
+    return ElevatedButton(
+        onPressed: () {
+            _submitAdd();
+          },
+          style: ElevatedButton.styleFrom(
+            shape: const StadiumBorder(),
+            padding: const EdgeInsets.all(10.0),
+          ),
+          child: const Icon(Icons.add),
+      );
+  }
+
 
   Widget _buildBackButton() {
     return SizedBox(
@@ -177,6 +191,9 @@ class _SkillsFormState extends State<SkillsForm> {
         onPressed: () {
             _submitBack();
           },
+          style: ElevatedButton.styleFrom(
+            padding: const EdgeInsets.all(10.0),
+          ),
           child: const Text('Back'),
       )
     );
@@ -190,10 +207,17 @@ class _SkillsFormState extends State<SkillsForm> {
         onPressed: () {
             _submitForm();
           },
+          style: ElevatedButton.styleFrom(
+            padding: const EdgeInsets.all(10.0),
+          ),
           child: const Text('Save & Proceed'),
       )
     );
     
+  }
+
+  void _submitAdd() {
+    //
   }
 
   void _submitBack() {
