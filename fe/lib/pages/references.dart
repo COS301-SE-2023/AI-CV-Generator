@@ -85,6 +85,7 @@ class _ReferencesFormState extends State<ReferencesForm> {
             _buildFullNameField(),
             _buildRelationshipField(),
             _buildContactDetailsField(),
+            _buildAddButton(),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget> [
@@ -165,6 +166,19 @@ class _ReferencesFormState extends State<ReferencesForm> {
     );
   }
 
+  Widget _buildAddButton() {
+    return ElevatedButton(
+        onPressed: () {
+            _submitAdd();
+          },
+          style: ElevatedButton.styleFrom(
+            shape: const StadiumBorder(),
+            padding: const EdgeInsets.all(10.0),
+          ),
+          child: const Icon(Icons.add),
+      );
+  }
+
 
   Widget _buildBackButton() {
     return SizedBox(
@@ -191,6 +205,10 @@ class _ReferencesFormState extends State<ReferencesForm> {
       )
     );
     
+  }
+
+  void _submitAdd() {
+    //
   }
 
   void _submitBack() {
