@@ -42,9 +42,22 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
       appBar: AppBar(
         title: const Text(StringsQualifications.appBarTitle),
       ),
-      body: Center (
-        child: _buildForm(),
-      )
+      body: Center ( 
+        child: SizedBox(
+            width: 650,
+            height: 500,
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0),
+              ),
+              elevation: 3,
+              child: _buildForm(),
+            ),
+          ),
+        ),
+      ),
     );
   }
 
