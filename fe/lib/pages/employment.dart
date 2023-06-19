@@ -88,6 +88,7 @@ class _EmploymentDetailsFormState extends State<EmploymentDetailsForm> {
             _buildJobTitleField(),
             _buildStartDField(),
             _buildEndDField(),
+            _buildAddButton(),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget> [
@@ -193,6 +194,19 @@ Widget _buildEndDField() {
     );
   }
 
+  Widget _buildAddButton() {
+    return ElevatedButton(
+        onPressed: () {
+            _submitAdd();
+          },
+          style: ElevatedButton.styleFrom(
+            shape: const StadiumBorder(),
+            padding: const EdgeInsets.all(10.0),
+          ),
+          child: const Icon(Icons.add),
+      );
+  }
+
   Widget _buildBackButton() {
     return SizedBox(
       width: 150,
@@ -218,6 +232,10 @@ Widget _buildEndDField() {
       )
     );
     
+  }
+
+  void _submitAdd() {
+    //
   }
 
   void _submitBack() {
