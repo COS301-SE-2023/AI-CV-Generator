@@ -1,5 +1,6 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:ai_cv_generator/pages/preview.dart';
 import 'package:ai_cv_generator/pages/skills.dart';
 import 'package:ai_cv_generator/pages/strings.dart';
 import 'package:flutter/material.dart';
@@ -182,7 +183,7 @@ class _ReferencesFormState extends State<ReferencesForm> {
 
   Widget _buildBackButton() {
     return SizedBox(
-      width: 150,
+      width: 140,
       height: 30,
       child: ElevatedButton(
         onPressed: () {
@@ -195,7 +196,7 @@ class _ReferencesFormState extends State<ReferencesForm> {
 
   Widget _buildSubmitButton() {
     return SizedBox(
-      width: 150,
+      width: 140,
       height: 30,
       child: ElevatedButton(
         onPressed: () {
@@ -219,9 +220,9 @@ class _ReferencesFormState extends State<ReferencesForm> {
   }
 
   void _submitForm() {
-    /*Navigator.push(
+    Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => const ReferencesForm()));*/
+        builder: (context) => const Preview()));
   }
 }
