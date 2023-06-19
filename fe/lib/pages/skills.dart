@@ -185,7 +185,7 @@ class _SkillsFormState extends State<SkillsForm> {
 
   Widget _buildBackButton() {
     return SizedBox(
-      width: 150,
+      width: 140,
       height: 30,
       child: ElevatedButton(
         onPressed: () {
@@ -201,7 +201,7 @@ class _SkillsFormState extends State<SkillsForm> {
 
   Widget _buildSubmitButton() {
     return SizedBox(
-      width: 150,
+      width: 140,
       height: 30,
       child: ElevatedButton(
         onPressed: () {
