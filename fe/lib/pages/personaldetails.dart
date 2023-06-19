@@ -42,21 +42,32 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
       appBar: AppBar(
         title: const Text(StringsPersonal.appBarTitle),
       ),
-      body: Center ( 
-        child: SizedBox(
+      body: ListView(
+        children: [
+          titleSection,
+          Center ( 
+          child: SizedBox(
             width: 650,
-            height: 500,
+            height: 376,
             child: Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding: const EdgeInsets.fromLTRB(32, 7, 32, 32),
               child: Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20.0),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                elevation: 3,
+                child: _buildForm(),
               ),
-              elevation: 3,
-              child: _buildForm(),
             ),
           ),
         ),
+        Center (
+          child: Container(
+              padding: const EdgeInsets.all(8.0),
+              child: _buildSubmitButton(),
+            )
+          ),
+        ],
       ),
     );
   }
@@ -83,13 +94,11 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            titleSection,
             _buildNameField(),
             _buildLastNameField(),
             _buildEmailField(),
             _buildCellField(),
             _buildAddrField(),
-            _buildSubmitButton(),
           ],
         ));
   }
