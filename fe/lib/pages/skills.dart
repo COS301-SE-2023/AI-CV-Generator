@@ -31,7 +31,11 @@ class SkillsForm extends StatefulWidget {
 class _SkillsFormState extends State<SkillsForm> {
   final _formKey = GlobalKey<FormState>();
 
-  TextEditingController skill = TextEditingController();
+  TextEditingController skill1 = TextEditingController();
+  TextEditingController skill2 = TextEditingController();
+  TextEditingController skill3 = TextEditingController();
+  TextEditingController skill4 = TextEditingController();
+  TextEditingController skill5 = TextEditingController();
   
   @override
   Widget build(BuildContext context) {
@@ -39,9 +43,22 @@ class _SkillsFormState extends State<SkillsForm> {
       appBar: AppBar(
         title: const Text(StringsSkill.appBarTitle),
       ),
-      body: Center (
-        child: _buildForm(),
-      )
+      body: Center ( 
+        child: SizedBox(
+            width: 650,
+            height: 500,
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0),
+              ),
+              elevation: 3,
+              child: _buildForm(),
+            ),
+          ),
+        ),
+      ),
     );
   }
 
@@ -68,7 +85,9 @@ class _SkillsFormState extends State<SkillsForm> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             titleSection,
-            _buildSkillField(),
+            _buildSkillField1(),
+            _buildSkillField2(),
+            _buildSkillField3(),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget> [
@@ -86,14 +105,56 @@ class _SkillsFormState extends State<SkillsForm> {
         ));
   }
 
-  Widget _buildSkillField() {
+  Widget _buildSkillField1() {
     return Container (
       padding: const EdgeInsets.all(8.0),
       constraints: BoxConstraints.tight(const Size(550,65)),
       child: TextFormField(
-        controller: skill,
+        controller: skill1,
         decoration: const InputDecoration(
-          labelText: 'Skill',
+          labelText: 'Skill 1',
+          enabledBorder: OutlineInputBorder(),
+        ),
+        // ignore: body_might_complete_normally_nullable
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'Please enter some text';
+          }
+          return null;
+        },
+      )
+    );
+  }
+
+  Widget _buildSkillField2() {
+    return Container (
+      padding: const EdgeInsets.all(8.0),
+      constraints: BoxConstraints.tight(const Size(550,65)),
+      child: TextFormField(
+        controller: skill2,
+        decoration: const InputDecoration(
+          labelText: 'Skill 2',
+          enabledBorder: OutlineInputBorder(),
+        ),
+        // ignore: body_might_complete_normally_nullable
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'Please enter some text';
+          }
+          return null;
+        },
+      )
+    );
+  }
+
+  Widget _buildSkillField3() {
+    return Container (
+      padding: const EdgeInsets.all(8.0),
+      constraints: BoxConstraints.tight(const Size(550,65)),
+      child: TextFormField(
+        controller: skill3,
+        decoration: const InputDecoration(
+          labelText: 'Skill 3',
           enabledBorder: OutlineInputBorder(),
         ),
         // ignore: body_might_complete_normally_nullable
