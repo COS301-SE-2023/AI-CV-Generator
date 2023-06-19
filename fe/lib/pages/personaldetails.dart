@@ -4,186 +4,53 @@ import 'package:ai_cv_generator/pages/qualifications.dart';
 import 'package:ai_cv_generator/pages/strings.dart';
 import 'package:flutter/material.dart';
 
-void main () => runApp(Create());
+void main () => runApp(const PersonalDetails());
+
+class PersonalDetails extends StatelessWidget {
+  const PersonalDetails({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const MaterialApp(
+      title: StringsPersonal.appBarTitle,
+      home: PersonalDetailsForm(),
+    );
+  }
+}
 
 class PersonalDetailsForm extends StatefulWidget {
   const PersonalDetailsForm({super.key});
 
   @override
-  PersonalDetailsFormState createState() {
-    return PersonalDetailsFormState();
+  State<StatefulWidget> createState() {
+    return _PersonalDetailsFormState();
   }
 }
 
-// Create a corresponding State class.
-// This class holds data related to the form.
-class PersonalDetailsFormState extends State<PersonalDetailsForm> {
-  // Create a global key that uniquely identifies the Form widget
-  // and allows validation of the form
+class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
   final _formKey = GlobalKey<FormState>();
-  TextEditingController name = TextEditingController();
+
+  TextEditingController fname = TextEditingController();
   TextEditingController lname = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController cell = TextEditingController();
-  TextEditingController address= TextEditingController();
+  TextEditingController address = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    // Build a Form widget using the _formKey created above.
-    return Form(
-      key: _formKey,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget> [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Center (
-              child: ConstrainedBox(
-                constraints: BoxConstraints.tight(const Size(550,50)),
-                child: TextFormField(
-                  // The validator receives the text that the user has entered.
-                  controller: name,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter some text';
-                    }
-                    return null;
-                  },
-                  decoration: const InputDecoration(  
-                    icon: Icon(Icons.person),  
-                    labelText: 'First Name',
-                    enabledBorder: OutlineInputBorder(),
-                  ), 
-                ),
-              ),
-            ),
-          ),
-
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Center (
-              child: ConstrainedBox(
-                constraints: BoxConstraints.tight(const Size(550,50)),
-                child: TextFormField(
-                  controller: lname,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter some text';
-                    }
-                    return null;
-                  },
-                  decoration: const InputDecoration(  
-                    icon: Icon(Icons.person),  
-                    labelText: 'Last Name', 
-                    enabledBorder: OutlineInputBorder(),
-                  ), 
-                ),
-              ),
-            ),
-          ),
-
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Center (
-              child: ConstrainedBox(
-              constraints: BoxConstraints.tight(const Size(550,50)),
-                child: TextFormField(
-                  controller: email,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter some text';
-                    }
-                    return null;
-                  },
-                  decoration: const InputDecoration(  
-                    icon: Icon(Icons.email),
-                    labelText: 'Email',
-                    enabledBorder: OutlineInputBorder(),  
-                  ), 
-                ),
-              ),
-            ),
-          ),
-
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Center (
-              child: ConstrainedBox(
-              constraints: BoxConstraints.tight(const Size(550,50)),
-                child: TextFormField(
-                  controller: cell,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter some text';
-                    }
-                    return null;
-                  },
-                  decoration: const InputDecoration(  
-                    icon: Icon(Icons.phone),
-                    labelText: 'Contact Number',  
-                    enabledBorder: OutlineInputBorder(),
-                  ), 
-                ),
-              ),
-            ),
-          ),
-
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Center (
-              child: ConstrainedBox(
-              constraints: BoxConstraints.tight(const Size(550,50)),
-                child: TextFormField(
-                  controller: address,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter some text';
-                    }
-                    return null;
-                  },
-                  
-                  decoration: const InputDecoration(  
-                    icon: Icon(Icons.home),
-                    labelText: 'Address',  
-                    enabledBorder: OutlineInputBorder(),
-                  ), 
-                ),
-              ),
-            ),
-          ),
-          
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Center (
-              child: ElevatedButton(
-                onPressed: () {},
-                child: const Text('Save & Proceed'),
-              ),
-            ),
-          ),
-        ],
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(StringsPersonal.appBarTitle),
       ),
+      body: Center (
+        child: _buildForm(),
+      )
     );
   }
-}
 
-
-class Create extends StatelessWidget {
-
-  //titleSection widget
-    Widget titleSection=const Column (
+  Widget titleSection=const Column (
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: <Widget> [
-        Padding (
-          padding: EdgeInsets.all(8.0),
-            child: Text (
-              StringsPersonal.appHeadingTitle,
-              style: TextStyle (
-                fontSize: 30.0,
-            ),
-          ),
-        ),
-        
         Padding (
           padding: EdgeInsets.all(8.0),
             child: Text (
@@ -193,27 +60,150 @@ class Create extends StatelessWidget {
               ),
           ),
         ),
-        
       ],
     );
 
-  Create({super.key});
 
-    @override
-    Widget build(BuildContext context) {
-      return MaterialApp(
-        title: StringsPersonal.appBarTitle,
-        home: Scaffold (
-          appBar: AppBar(
-            title: const Text(StringsPersonal.appBarTitle),
-          ),
-          body: ListView(
-            children: <Widget>[
-              titleSection,
-              const PersonalDetailsForm(),
-            ],
-          ),
+  Widget _buildForm() {
+    return Form(
+        key: _formKey,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            titleSection,
+            _buildNameField(),
+            _buildLastNameField(),
+            _buildEmailField(),
+            _buildCellField(),
+            _buildAddrField(),
+            _buildSubmitButton(),
+          ],
+        ));
+  }
+
+  Widget _buildNameField() {
+    return Container (
+      padding: const EdgeInsets.all(8.0),
+      constraints: BoxConstraints.tight(const Size(550,65)),
+      child: TextFormField(
+        controller: fname,
+        decoration: const InputDecoration(
+          labelText: 'First Name',
+          enabledBorder: OutlineInputBorder(),
+          icon: Icon(Icons.person),
         ),
-      );
-  }//MaterialApp
+        // ignore: body_might_complete_normally_nullable
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'Please enter some text';
+          }
+          return null;
+        },
+      )
+    );
+  }
+
+  Widget _buildLastNameField() {
+    return Container (
+      padding: const EdgeInsets.all(8.0),
+      constraints: BoxConstraints.tight(const Size(550,65)),
+      child: TextFormField(
+        controller: lname,
+        decoration: const InputDecoration(
+          labelText: 'Last Name',
+          enabledBorder: OutlineInputBorder(),
+          icon: Icon(Icons.person),
+        ),
+        // ignore: body_might_complete_normally_nullable
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'Please enter some text';
+          }
+          return null;
+        },
+      )
+    );
+  }
+
+  Widget _buildEmailField() {
+    return Container (
+      padding: const EdgeInsets.all(8.0),
+      constraints: BoxConstraints.tight(const Size(550,65)),
+      child: TextFormField(
+        controller: email,
+        decoration: const InputDecoration(
+          labelText: 'Email',
+          enabledBorder: OutlineInputBorder(),
+          icon: Icon(Icons.email),
+        ),
+        // ignore: body_might_complete_normally_nullable
+        validator: (value) {
+          if (!RegExp(r"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
+          .hasMatch(value!)) {
+            return 'This is not a valid email';
+          }
+        },
+      )
+    );
+  }
+
+  Widget _buildCellField() {
+    return Container (
+      padding: const EdgeInsets.all(8.0),
+      constraints: BoxConstraints.tight(const Size(550,65)),
+      child: TextFormField(
+        controller: cell,
+        decoration: const InputDecoration(
+          labelText: 'Contact Number',
+          enabledBorder: OutlineInputBorder(),
+          icon: Icon(Icons.phone),
+        ),
+        // ignore: body_might_complete_normally_nullable
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'Please enter some text';
+          }
+          return null;
+        },
+      )
+    );
+  }
+
+  Widget _buildAddrField() {
+    return Container (
+      padding: const EdgeInsets.all(8.0),
+      constraints: BoxConstraints.tight(const Size(550,65)),
+      child: TextFormField(
+        controller: address,
+        decoration: const InputDecoration(
+          labelText: 'Address',
+          enabledBorder: OutlineInputBorder(),
+          icon: Icon(Icons.home),
+        ),
+        // ignore: body_might_complete_normally_nullable
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'Please enter some text';
+          }
+          return null;
+        },
+      )
+    );
+  }
+
+  Widget _buildSubmitButton() {
+    return ElevatedButton(
+      onPressed: () {
+        _submitForm();
+      },
+      child: const Text('Save & Proceed'),
+    );
+  }
+
+  void _submitForm() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const QualificationsDetailsForm()));
+  }
 }
