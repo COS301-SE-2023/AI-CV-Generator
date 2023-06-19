@@ -1,169 +1,56 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:ai_cv_generator/pages/employment.dart';
+import 'package:ai_cv_generator/pages/personaldetails.dart';
 import 'package:ai_cv_generator/pages/strings.dart';
 import 'package:flutter/material.dart';
 
-void main () => runApp(QualificationsSection());
+void main () => runApp(const QualificationsDetails());
+
+class QualificationsDetails extends StatelessWidget {
+  const QualificationsDetails({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const MaterialApp(
+      title: StringsQualifications.appBarTitle,
+      home: QualificationsDetailsForm(),
+    );
+  }
+}
 
 class QualificationsDetailsForm extends StatefulWidget {
   const QualificationsDetailsForm({super.key});
 
   @override
-  QualificationsDetailsFormState createState() {
-    return QualificationsDetailsFormState();
+  State<StatefulWidget> createState() {
+    return _QualificationsDetailsFormState();
   }
 }
 
-// Create a corresponding State class.
-// This class holds data related to the form.
-class QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
-
+class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
   final _formKey = GlobalKey<FormState>();
-  TextEditingController institution = TextEditingController();
+
+  TextEditingController institution= TextEditingController();
   TextEditingController qualification = TextEditingController();
   TextEditingController startDate = TextEditingController();
   TextEditingController endDate = TextEditingController();
-
+  
   @override
   Widget build(BuildContext context) {
-    // Build a Form widget using the _formKey created above.
-    return Form(
-      key: _formKey,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget> [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Center (
-              child: ConstrainedBox(
-                constraints: BoxConstraints.tight(const Size(550,50)),
-                child: TextFormField(
-                  // The validator receives the text that the user has entered.
-                  controller: institution,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter some text';
-                    }
-                    return null;
-                  },
-                  decoration: const InputDecoration(  
-                    icon: Icon(Icons.person),  
-                    //hintText: 'Enter your name',  
-                    labelText: 'Institution',
-                    enabledBorder: OutlineInputBorder(),
-                  ), 
-                ),
-              ),
-            ),
-          ),
-
-
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Center (
-              child: ConstrainedBox(
-                constraints: BoxConstraints.tight(const Size(550,50)),
-                child: TextFormField(
-                  // The validator receives the text that the user has entered.
-                  controller: qualification,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter some text';
-                    }
-                    return null;
-                  },
-                  decoration: const InputDecoration(  
-                    icon: Icon(Icons.person),  
-                    //hintText: 'Enter your last name',  
-                    labelText: 'Qualification', 
-                    enabledBorder: OutlineInputBorder(),
-                  ), 
-                ),
-              ),
-            ),
-          ),
-
-
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Center (
-              child: ConstrainedBox(
-              constraints: BoxConstraints.tight(const Size(550,50)),
-                child: TextFormField(
-                  controller: startDate,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter some text';
-                    }
-                    return null;
-                  },
-                  decoration: const InputDecoration(  
-                    icon: Icon(Icons.email),  
-                    //hintText: 'Enter your email',  
-                    labelText: 'Start Date',
-                    enabledBorder: OutlineInputBorder(),  
-                  ), 
-                ),
-              ),
-            ),
-          ),
-
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Center (
-              child: ConstrainedBox(
-              constraints: BoxConstraints.tight(const Size(550,50)),
-                child: TextFormField(
-                  controller: endDate,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter some text';
-                    }
-                    return null;
-                  },
-                  decoration: const InputDecoration(  
-                    icon: Icon(Icons.email),  
-                    //hintText: 'Enter your email',  
-                    labelText: 'End Date',
-                    enabledBorder: OutlineInputBorder(),  
-                  ), 
-                ),
-              ),
-            ),
-          ),
-
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Center (
-              child: ElevatedButton(
-                onPressed: () {},
-                child: const Text('Save & Proceed'),
-              ),
-            ),
-          ),
-        
-        ],
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(StringsQualifications.appBarTitle),
       ),
+      body: Center (
+        child: _buildForm(),
+      )
     );
   }
-}
 
-  class QualificationsSection extends StatelessWidget {
-
-  //titleSection widget
-    Widget titleSection=const Column (
+  Widget titleSection=const Column (
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: <Widget> [
-        Padding (
-          padding: EdgeInsets.all(8.0),
-            child: Text (
-              StringsQualifications.appHeadingTitle,
-              style: TextStyle (
-                fontSize: 30.0,
-            ),
-          ),
-        ),
-        
         Padding (
           padding: EdgeInsets.all(8.0),
             child: Text (
@@ -173,28 +60,164 @@ class QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
               ),
           ),
         ),
-        
       ],
     );
 
-  QualificationsSection({super.key});
 
-    @override
-    Widget build(BuildContext context) {
-      return MaterialApp(
-        title: StringsQualifications.appBarTitle,
-        home: Scaffold (
-          appBar: AppBar(
-            title: const Text(StringsQualifications.appBarTitle),
-          ),
-          body: ListView(
-            children: <Widget>[
-              titleSection,
-              const QualificationsDetailsForm(),
-            ],
-          ),
+  Widget _buildForm() {
+    return Form(
+        key: _formKey,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            titleSection,
+            _buildInstitutionField(),
+            _buildQualificationField(),
+            _buildStartDField(),
+            _buildEndDField(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget> [
+                Container(
+                  padding: const EdgeInsets.all(8.0),
+                  child: _buildBackButton(),
+                ),
+                Container(
+                  padding: const EdgeInsets.all(8.0),
+                  child: _buildSubmitButton(),
+                ),
+              ],
+            ),
+          ],
+        ));
+  }
+
+  Widget _buildInstitutionField() {
+    return Container (
+      padding: const EdgeInsets.all(8.0),
+      constraints: BoxConstraints.tight(const Size(550,65)),
+      child: TextFormField(
+        controller: institution,
+        decoration: const InputDecoration(
+          labelText: 'Institution',
+          enabledBorder: OutlineInputBorder(),
+          icon: Icon(Icons.school),
         ),
-      );
-  }//MaterialApp
-}
+        // ignore: body_might_complete_normally_nullable
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'Please enter some text';
+          }
+          return null;
+        },
+      )
+    );
+  }
 
+  Widget _buildQualificationField() {
+    return Container (
+      padding: const EdgeInsets.all(8.0),
+      constraints: BoxConstraints.tight(const Size(550,65)),
+      child: TextFormField(
+        controller: qualification,
+        decoration: const InputDecoration(
+          labelText: 'Qualification',
+          enabledBorder: OutlineInputBorder(),
+          icon: Icon(Icons.school),
+        ),
+        // ignore: body_might_complete_normally_nullable
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'Please enter some text';
+          }
+          return null;
+        },
+      )
+    );
+  }
+
+  Widget _buildStartDField() {
+    return Container (
+      padding: const EdgeInsets.all(8.0),
+      constraints: BoxConstraints.tight(const Size(550,65)),
+      child: TextFormField(
+        controller: startDate,
+        decoration: const InputDecoration(
+          labelText: 'Start Date',
+          enabledBorder: OutlineInputBorder(),
+          icon: Icon(Icons.calendar_month),
+        ),
+        // ignore: body_might_complete_normally_nullable
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'Please enter a date';
+          }
+          return null;
+        },
+      )
+    );
+  }
+
+Widget _buildEndDField() {
+    return Container (
+      padding: const EdgeInsets.all(8.0),
+      constraints: BoxConstraints.tight(const Size(550,65)),
+      child: TextFormField(
+        controller: endDate,
+        decoration: const InputDecoration(
+          labelText: 'End Date',
+          enabledBorder: OutlineInputBorder(),
+          icon: Icon(Icons.calendar_month),
+        ),
+        // ignore: body_might_complete_normally_nullable
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'Please enter a date';
+          }
+          return null;
+        },
+      )
+    );
+  }
+  
+  Widget _buildBackButton() {
+    return SizedBox(
+      width: 150,
+      height: 30,
+      child: ElevatedButton(
+        onPressed: () {
+            _submitBack();
+          },
+          child: const Text('Back'),
+      )
+    );
+  }
+
+  Widget _buildSubmitButton() {
+    return SizedBox(
+      width: 150,
+      height: 30,
+      child: ElevatedButton(
+        onPressed: () {
+            _submitForm();
+          },
+          child: const Text('Save & Proceed'),
+      )
+    );
+    
+  }
+
+  void _submitBack() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const PersonalDetailsForm()));
+  }
+
+  void _submitForm() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const EmploymentDetails()));
+  }
+}
