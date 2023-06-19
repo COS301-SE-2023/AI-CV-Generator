@@ -205,12 +205,17 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
   }
 
   Widget _buildSubmitButton() {
-    return ElevatedButton(
-      onPressed: () {
-        _submitForm();
-      },
-      child: const Text('Save & Proceed'),
+    return SizedBox(
+      width: 150,
+      height: 30,
+      child: ElevatedButton(
+        onPressed: () {
+            _submitForm();
+          },
+          child: const Text('Save & Proceed'),
+      )
     );
+    
   }
 
   void _submitForm() {
