@@ -41,22 +41,46 @@ class _ReferencesFormState extends State<ReferencesForm> {
       appBar: AppBar(
         title: const Text(StringsReferences.appBarTitle),
       ),
-      body: Center ( 
-        child: SizedBox(
+      body: ListView(
+        children: [
+          titleSection,
+          Center ( 
+          child: SizedBox(
             width: 650,
-            height: 500,
+            height: 245,
             child: Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding: const EdgeInsets.fromLTRB(32, 7, 32, 32),
               child: Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20.0),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                elevation: 3,
+                child: _buildForm(),
               ),
-              elevation: 3,
-              child: _buildForm(),
             ),
           ),
         ),
-      ),
+        Center (
+          child: Container ( 
+            padding: const EdgeInsets.all(8.0),
+            child: _buildAddButton(),
+          )
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget> [
+            Container(
+              padding: const EdgeInsets.all(8.0),
+              child: _buildBackButton(),
+            ),
+            Container(
+              padding: const EdgeInsets.all(8.0),
+              child: _buildSubmitButton(),
+            ),
+          ],
+        ),
+        ],
+      )
     );
   }
 
@@ -82,24 +106,9 @@ class _ReferencesFormState extends State<ReferencesForm> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            titleSection,
             _buildFullNameField(),
             _buildRelationshipField(),
             _buildContactDetailsField(),
-            _buildAddButton(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget> [
-                Container(
-                  padding: const EdgeInsets.all(8.0),
-                  child: _buildBackButton(),
-                ),
-                Container(
-                  padding: const EdgeInsets.all(8.0),
-                  child: _buildSubmitButton(),
-                ),
-              ],
-            ),
           ],
         ));
   }
