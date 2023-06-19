@@ -36,32 +36,7 @@ class _EmploymentDetailsFormState extends State<EmploymentDetailsForm> {
   TextEditingController startDate = TextEditingController();
   TextEditingController endDate = TextEditingController();
   
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(StringsEmployment.appBarTitle),
-      ),
-      body: Center ( 
-        child: SizedBox(
-            width: 650,
-            height: 500,
-            child: Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20.0),
-              ),
-              elevation: 3,
-              child: _buildForm(),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget titleSection=const Column (
+    Widget titleSection=const Column (
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: <Widget> [
         Padding (
@@ -76,6 +51,57 @@ class _EmploymentDetailsFormState extends State<EmploymentDetailsForm> {
       ],
     );
 
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(StringsEmployment.appBarTitle),
+      ),
+      body: ListView(
+        children: [
+          titleSection,
+          Center ( 
+          child: SizedBox(
+            width: 650,
+            height: 310,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(32, 7, 32, 32),
+              child: Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                elevation: 3,
+                child: _buildForm(),
+              ),
+            ),
+          ),
+        ),
+        Center (
+          child: Container ( 
+            padding: const EdgeInsets.all(8.0),
+            child: _buildAddButton(),
+          )
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget> [
+            Container(
+              padding: const EdgeInsets.all(8.0),
+              child: _buildBackButton(),
+            ),
+            Container(
+              padding: const EdgeInsets.all(8.0),
+              child: _buildSubmitButton(),
+            ),
+          ],
+        ),
+        ],
+      )
+    );
+  }
+
+
+
 
   Widget _buildForm() {
     return Form(
@@ -83,26 +109,12 @@ class _EmploymentDetailsFormState extends State<EmploymentDetailsForm> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            titleSection,
             _buildCompanyField(),
             _buildJobTitleField(),
             _buildStartDField(),
             _buildEndDField(),
-            _buildAddButton(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget> [
-                Container(
-                  padding: const EdgeInsets.all(8.0),
-                  child: _buildBackButton(),
-                ),
-                Container(
-                  padding: const EdgeInsets.all(8.0),
-                  child: _buildSubmitButton(),
-                ),
-              ],
-            ),
-          ],
+            //_buildAddButton()
+            ],
         ));
   }
 
@@ -158,6 +170,7 @@ class _EmploymentDetailsFormState extends State<EmploymentDetailsForm> {
         controller: startDate,
         decoration: const InputDecoration(
           labelText: 'Start Date',
+          hintText: 'mm/dd/yyy',
           enabledBorder: OutlineInputBorder(),
           icon: Icon(Icons.calendar_month),
         ),
@@ -180,6 +193,7 @@ Widget _buildEndDField() {
         controller: endDate,
         decoration: const InputDecoration(
           labelText: 'End Date',
+          hintText: 'mm/dd/yyy',
           enabledBorder: OutlineInputBorder(),
           icon: Icon(Icons.calendar_month),
         ),
@@ -201,7 +215,7 @@ Widget _buildEndDField() {
           },
           style: ElevatedButton.styleFrom(
             shape: const StadiumBorder(),
-            padding: const EdgeInsets.all(10.0),
+            padding: const EdgeInsets.all(8.0),
           ),
           child: const Icon(Icons.add),
       );
