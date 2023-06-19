@@ -22,3 +22,9 @@ class StringsSkill {
   static const appHeadingTitle="Create CV";
   static const appsubHeadingTitle="Section D: Skills";
 }
+
+class StringsReferences {
+  static const appBarTitle="AI CV Generator";
+  static const appHeadingTitle="Create CV";
+  static const appsubHeadingTitle="Section E: References";
+}
