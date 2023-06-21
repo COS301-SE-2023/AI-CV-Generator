@@ -46,24 +46,14 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
         children: [
           titleSection,
           Center ( 
-          child: SizedBox(
-            width: 650,
-            height: 376,
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(32, 7, 32, 32),
-              child: Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                elevation: 3,
-                child: _buildForm(),
-              ),
+            child: Container ( 
+            padding: const EdgeInsets.all(25.0),
+            child: _buildForm(),
             ),
-          ),
         ),
         Center (
           child: Container(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(4.0),
               child: _buildSubmitButton(),
             )
           ),
@@ -110,6 +100,7 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
       child: TextFormField(
         controller: fname,
         decoration: const InputDecoration(
+          contentPadding: EdgeInsets.all(5.0),
           labelText: 'First Name',
           enabledBorder: OutlineInputBorder(),
           icon: Icon(Icons.person),
@@ -132,6 +123,7 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
       child: TextFormField(
         controller: lname,
         decoration: const InputDecoration(
+          contentPadding: EdgeInsets.all(5.0),
           labelText: 'Last Name',
           enabledBorder: OutlineInputBorder(),
           icon: Icon(Icons.person),
@@ -154,6 +146,7 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
       child: TextFormField(
         controller: email,
         decoration: const InputDecoration(
+          contentPadding: EdgeInsets.all(5.0),
           labelText: 'Email',
           enabledBorder: OutlineInputBorder(),
           icon: Icon(Icons.email),
@@ -176,6 +169,7 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
       child: TextFormField(
         controller: cell,
         decoration: const InputDecoration(
+          contentPadding: EdgeInsets.all(5.0),
           labelText: 'Contact Number',
           enabledBorder: OutlineInputBorder(),
           icon: Icon(Icons.phone),
@@ -198,6 +192,7 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
       child: TextFormField(
         controller: address,
         decoration: const InputDecoration(
+          contentPadding: EdgeInsets.all(5.0),
           labelText: 'Address',
           enabledBorder: OutlineInputBorder(),
           icon: Icon(Icons.home),

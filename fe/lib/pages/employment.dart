@@ -31,10 +31,12 @@ class EmploymentDetailsForm extends StatefulWidget {
 class _EmploymentDetailsFormState extends State<EmploymentDetailsForm> {
   final _formKey = GlobalKey<FormState>();
 
-  TextEditingController company = TextEditingController();
-  TextEditingController jobTitle = TextEditingController();
-  TextEditingController startDate = TextEditingController();
-  TextEditingController endDate = TextEditingController();
+  TextEditingController company1 = TextEditingController();
+  TextEditingController jobTitle1 = TextEditingController();
+  TextEditingController company2 = TextEditingController();
+  TextEditingController jobTitle2 = TextEditingController();
+  TextEditingController duration1 = TextEditingController();
+  TextEditingController duration2 = TextEditingController();
   
     Widget titleSection=const Column (
       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -61,24 +63,14 @@ class _EmploymentDetailsFormState extends State<EmploymentDetailsForm> {
         children: [
           titleSection,
           Center ( 
-          child: SizedBox(
-            width: 650,
-            height: 310,
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(32, 7, 32, 32),
-              child: Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                elevation: 3,
-                child: _buildForm(),
-              ),
+            child: Container ( 
+            padding: const EdgeInsets.all(25.0),
+            child: _buildForm(),
             ),
-          ),
         ),
         Center (
           child: Container ( 
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(20.0),
             child: _buildAddButton(),
           )
         ),
@@ -86,11 +78,11 @@ class _EmploymentDetailsFormState extends State<EmploymentDetailsForm> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget> [
             Container(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(10.0),
               child: _buildBackButton(),
             ),
             Container(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(10.0),
               child: _buildSubmitButton(),
             ),
           ],
@@ -109,22 +101,56 @@ class _EmploymentDetailsFormState extends State<EmploymentDetailsForm> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            _buildCompanyField(),
-            _buildJobTitleField(),
-            _buildStartDField(),
-            _buildEndDField(),
+            _buildCompanyField1(),
+            _buildJobTitleField1(),
+            _buildDurationField1(),
+            _buildSeparator(),
+            _buildCompanyField2(),
+            _buildJobTitleField2(),
+            _buildDurationField2(),
             //_buildAddButton()
             ],
         ));
   }
 
-  Widget _buildCompanyField() {
+  Widget _buildSeparator() {
+    return Container (
+      padding: const EdgeInsets.all(8.0),
+      constraints: BoxConstraints.tight(const Size(550,25)),
+    );
+  }
+
+
+  Widget _buildCompanyField1() {
     return Container (
       padding: const EdgeInsets.all(8.0),
       constraints: BoxConstraints.tight(const Size(550,65)),
       child: TextFormField(
-        controller: company,
+        controller: company1,
         decoration: const InputDecoration(
+          contentPadding: EdgeInsets.all(5.0),
+          labelText: 'Company',
+          enabledBorder: OutlineInputBorder(),
+          icon: Icon(Icons.work),
+        ),
+        // ignore: body_might_complete_normally_nullable
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'Please enter some text';
+          }
+          return null;
+        },
+      )
+    );
+  }
+  Widget _buildCompanyField2() {
+    return Container (
+      padding: const EdgeInsets.all(8.0),
+      constraints: BoxConstraints.tight(const Size(550,65)),
+      child: TextFormField(
+        controller: company2,
+        decoration: const InputDecoration(
+          contentPadding: EdgeInsets.all(5.0),
           labelText: 'Company',
           enabledBorder: OutlineInputBorder(),
           icon: Icon(Icons.work),
@@ -140,13 +166,36 @@ class _EmploymentDetailsFormState extends State<EmploymentDetailsForm> {
     );
   }
 
-  Widget _buildJobTitleField() {
+  Widget _buildJobTitleField1() {
     return Container (
       padding: const EdgeInsets.all(8.0),
       constraints: BoxConstraints.tight(const Size(550,65)),
       child: TextFormField(
-        controller: jobTitle,
+        controller: jobTitle1,
         decoration: const InputDecoration(
+          contentPadding: EdgeInsets.all(5.0),
+          labelText: 'Job Title',
+          enabledBorder: OutlineInputBorder(),
+          icon: Icon(Icons.person),
+        ),
+        // ignore: body_might_complete_normally_nullable
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'Please enter some text';
+          }
+          return null;
+        },
+      )
+    );
+  }
+  Widget _buildJobTitleField2() {
+    return Container (
+      padding: const EdgeInsets.all(8.0),
+      constraints: BoxConstraints.tight(const Size(550,65)),
+      child: TextFormField(
+        controller: jobTitle2,
+        decoration: const InputDecoration(
+          contentPadding: EdgeInsets.all(5.0),
           labelText: 'Job Title',
           enabledBorder: OutlineInputBorder(),
           icon: Icon(Icons.person),
@@ -162,17 +211,41 @@ class _EmploymentDetailsFormState extends State<EmploymentDetailsForm> {
     );
   }
 
-  Widget _buildStartDField() {
+  Widget _buildDurationField1() {
     return Container (
       padding: const EdgeInsets.all(8.0),
       constraints: BoxConstraints.tight(const Size(550,65)),
       child: TextFormField(
-        controller: startDate,
+        controller: duration1,
         decoration: const InputDecoration(
-          labelText: 'Start Date',
-          hintText: 'mm/dd/yyy',
+          contentPadding: EdgeInsets.all(5.0),
+          labelText: 'Employment Duration',
+          hintText: 'MM/DD/YYYY - MM/DD/YYYY',
           enabledBorder: OutlineInputBorder(),
-          icon: Icon(Icons.calendar_month),
+          icon: Icon(Icons.date_range),
+        ),
+        // ignore: body_might_complete_normally_nullable
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'Please enter a date';
+          }
+          return null;
+        },
+      )
+    );
+  }
+  Widget _buildDurationField2() {
+    return Container (
+      padding: const EdgeInsets.all(8.0),
+      constraints: BoxConstraints.tight(const Size(550,65)),
+      child: TextFormField(
+        controller: duration2,
+        decoration: const InputDecoration(
+          contentPadding: EdgeInsets.all(5.0),
+          labelText: 'Employment Duration',
+          hintText: 'MM/DD/YYYY - MM/DD/YYYY',
+          enabledBorder: OutlineInputBorder(),
+          icon: Icon(Icons.date_range),
         ),
         // ignore: body_might_complete_normally_nullable
         validator: (value) {
@@ -185,28 +258,6 @@ class _EmploymentDetailsFormState extends State<EmploymentDetailsForm> {
     );
   }
 
-Widget _buildEndDField() {
-    return Container (
-      padding: const EdgeInsets.all(8.0),
-      constraints: BoxConstraints.tight(const Size(550,65)),
-      child: TextFormField(
-        controller: endDate,
-        decoration: const InputDecoration(
-          labelText: 'End Date',
-          hintText: 'mm/dd/yyy',
-          enabledBorder: OutlineInputBorder(),
-          icon: Icon(Icons.calendar_month),
-        ),
-        // ignore: body_might_complete_normally_nullable
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return 'Please enter a date';
-          }
-          return null;
-        },
-      )
-    );
-  }
 
   Widget _buildAddButton() {
     return ElevatedButton(

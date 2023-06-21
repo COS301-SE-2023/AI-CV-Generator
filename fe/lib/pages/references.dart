@@ -31,9 +31,12 @@ class ReferencesForm extends StatefulWidget {
 class _ReferencesFormState extends State<ReferencesForm> {
   final _formKey = GlobalKey<FormState>();
 
-  TextEditingController fullName = TextEditingController();
-  TextEditingController relationship = TextEditingController();
-  TextEditingController contactDetails = TextEditingController();
+  TextEditingController fullName1 = TextEditingController();
+  TextEditingController relationship1 = TextEditingController();
+  TextEditingController contactDetails1 = TextEditingController();
+  TextEditingController fullName2 = TextEditingController();
+  TextEditingController relationship2 = TextEditingController();
+  TextEditingController contactDetails2 = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -45,24 +48,14 @@ class _ReferencesFormState extends State<ReferencesForm> {
         children: [
           titleSection,
           Center ( 
-          child: SizedBox(
-            width: 650,
-            height: 245,
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(32, 7, 32, 32),
-              child: Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                elevation: 3,
-                child: _buildForm(),
-              ),
+            child: Container ( 
+            padding: const EdgeInsets.all(25.0),
+            child: _buildForm(),
             ),
-          ),
         ),
         Center (
           child: Container ( 
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(20.0),
             child: _buildAddButton(),
           )
         ),
@@ -70,11 +63,11 @@ class _ReferencesFormState extends State<ReferencesForm> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget> [
             Container(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(10.0),
               child: _buildBackButton(),
             ),
             Container(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(10.0),
               child: _buildSubmitButton(),
             ),
           ],
@@ -106,20 +99,53 @@ class _ReferencesFormState extends State<ReferencesForm> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            _buildFullNameField(),
-            _buildRelationshipField(),
-            _buildContactDetailsField(),
+            _buildFullNameField1(),
+            _buildRelationshipField1(),
+            _buildContactDetailsField1(),
+            _buildSeparator(),
+            _buildFullNameField2(),
+            _buildRelationshipField2(),
+            _buildContactDetailsField2(),
           ],
         ));
   }
 
-  Widget _buildFullNameField() {
+  Widget _buildSeparator() {
+    return Container (
+      padding: const EdgeInsets.all(8.0),
+      constraints: BoxConstraints.tight(const Size(550,25)),
+    );
+  }
+
+  Widget _buildFullNameField1() {
     return Container (
       padding: const EdgeInsets.all(8.0),
       constraints: BoxConstraints.tight(const Size(550,65)),
       child: TextFormField(
-        controller: fullName,
+        controller: fullName1,
         decoration: const InputDecoration(
+          contentPadding: EdgeInsets.all(5.0),
+          labelText: 'Full Name',
+          enabledBorder: OutlineInputBorder(),
+        ),
+        // ignore: body_might_complete_normally_nullable
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'Please enter some text';
+          }
+          return null;
+        },
+      )
+    );
+  }
+  Widget _buildFullNameField2() {
+    return Container (
+      padding: const EdgeInsets.all(8.0),
+      constraints: BoxConstraints.tight(const Size(550,65)),
+      child: TextFormField(
+        controller: fullName2,
+        decoration: const InputDecoration(
+          contentPadding: EdgeInsets.all(5.0),
           labelText: 'Full Name',
           enabledBorder: OutlineInputBorder(),
         ),
@@ -134,13 +160,35 @@ class _ReferencesFormState extends State<ReferencesForm> {
     );
   }
 
-  Widget _buildRelationshipField() {
+  Widget _buildRelationshipField1() {
     return Container (
       padding: const EdgeInsets.all(8.0),
       constraints: BoxConstraints.tight(const Size(550,65)),
       child: TextFormField(
-        controller: relationship,
+        controller: relationship1,
         decoration: const InputDecoration(
+          contentPadding: EdgeInsets.all(5.0),
+          labelText: 'Relationship',
+          enabledBorder: OutlineInputBorder(),
+        ),
+        // ignore: body_might_complete_normally_nullable
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'Please enter some text';
+          }
+          return null;
+        },
+      )
+    );
+  }
+  Widget _buildRelationshipField2() {
+    return Container (
+      padding: const EdgeInsets.all(8.0),
+      constraints: BoxConstraints.tight(const Size(550,65)),
+      child: TextFormField(
+        controller: relationship2,
+        decoration: const InputDecoration(
+          contentPadding: EdgeInsets.all(5.0),
           labelText: 'Relationship',
           enabledBorder: OutlineInputBorder(),
         ),
@@ -155,14 +203,36 @@ class _ReferencesFormState extends State<ReferencesForm> {
     );
   }
 
-  Widget _buildContactDetailsField() {
+  Widget _buildContactDetailsField1() {
     return Container (
       padding: const EdgeInsets.all(8.0),
       constraints: BoxConstraints.tight(const Size(550,65)),
       child: TextFormField(
-        controller: contactDetails,
+        controller: contactDetails1,
         decoration: const InputDecoration(
-          labelText: 'Contact Details',
+          contentPadding: EdgeInsets.all(5.0),
+          labelText: 'Contact Number',
+          enabledBorder: OutlineInputBorder(),
+        ),
+        // ignore: body_might_complete_normally_nullable
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'Please enter some text';
+          }
+          return null;
+        },
+      )
+    );
+  }
+  Widget _buildContactDetailsField2() {
+    return Container (
+      padding: const EdgeInsets.all(8.0),
+      constraints: BoxConstraints.tight(const Size(550,65)),
+      child: TextFormField(
+        controller: contactDetails2,
+        decoration: const InputDecoration(
+          contentPadding: EdgeInsets.all(5.0),
+          labelText: 'Contact Number',
           enabledBorder: OutlineInputBorder(),
         ),
         // ignore: body_might_complete_normally_nullable

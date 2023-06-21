@@ -62,24 +62,14 @@ class _SkillsFormState extends State<SkillsForm> {
         children: [
           titleSection,
           Center ( 
-          child: SizedBox(
-            width: 650,
-            height: 250,
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(32, 7, 32, 32),
-              child: Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                elevation: 3,
-                child: _buildForm(),
-              ),
+            child: Container ( 
+            padding: const EdgeInsets.all(25.0),
+            child: _buildForm(),
             ),
-          ),
         ),
         Center (
           child: Container ( 
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(20.0),
             child: _buildAddButton(),
           )
         ),
@@ -87,11 +77,11 @@ class _SkillsFormState extends State<SkillsForm> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget> [
             Container(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(10.0),
               child: _buildBackButton(),
             ),
             Container(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(10.0),
               child: _buildSubmitButton(),
             ),
           ],
@@ -122,6 +112,7 @@ class _SkillsFormState extends State<SkillsForm> {
       child: TextFormField(
         controller: skill1,
         decoration: const InputDecoration(
+          contentPadding: EdgeInsets.all(5.0),
           labelText: 'Skill 1',
           enabledBorder: OutlineInputBorder(),
         ),
@@ -143,6 +134,7 @@ class _SkillsFormState extends State<SkillsForm> {
       child: TextFormField(
         controller: skill2,
         decoration: const InputDecoration(
+          contentPadding: EdgeInsets.all(5.0),
           labelText: 'Skill 2',
           enabledBorder: OutlineInputBorder(),
         ),
@@ -164,6 +156,7 @@ class _SkillsFormState extends State<SkillsForm> {
       child: TextFormField(
         controller: skill3,
         decoration: const InputDecoration(
+          contentPadding: EdgeInsets.all(5.0),
           labelText: 'Skill 3',
           enabledBorder: OutlineInputBorder(),
         ),

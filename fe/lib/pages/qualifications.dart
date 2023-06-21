@@ -31,10 +31,12 @@ class QualificationsDetailsForm extends StatefulWidget {
 class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
   final _formKey = GlobalKey<FormState>();
 
-  TextEditingController institution= TextEditingController();
-  TextEditingController qualification = TextEditingController();
-  TextEditingController startDate = TextEditingController();
-  TextEditingController endDate = TextEditingController();
+  TextEditingController institution1 = TextEditingController();
+  TextEditingController institution2 = TextEditingController();
+  TextEditingController qualification1 = TextEditingController();
+  TextEditingController qualification2 = TextEditingController();
+  TextEditingController gradDate1 = TextEditingController();
+  TextEditingController gradDate2 = TextEditingController();
   
   @override
   Widget build(BuildContext context) {
@@ -46,24 +48,14 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
         children: [
           titleSection,
           Center ( 
-          child: SizedBox(
-            width: 650,
-            height: 310,
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(32, 7, 32, 32),
-              child: Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                elevation: 3,
-                child: _buildForm(),
-              ),
+            child: Container ( 
+            padding: const EdgeInsets.all(25.0),
+            child: _buildForm(),
             ),
-          ),
         ),
         Center (
           child: Container ( 
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(20.0),
             child: _buildAddButton(),
           )
         ),
@@ -71,11 +63,11 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget> [
             Container(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(10.0),
               child: _buildBackButton(),
             ),
             Container(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(10.0),
               child: _buildSubmitButton(),
             ),
           ],
@@ -107,22 +99,58 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            _buildInstitutionField(),
-            _buildQualificationField(),
-            _buildStartDField(),
-            _buildEndDField(),
+            _buildInstitutionField1(),
+            _buildQualificationField1(),
+            _buildGraduationField1(),
+            _buildSeparator(),
+            _buildInstitution2Field(),
+            _buildQualification2Field(),
+            _buildGraduationField2(),
+            //_buildStartDField(),
+            //_buildEndDField(),
           ],
         ));
   }
 
-  Widget _buildInstitutionField() {
+  Widget _buildSeparator() {
+    return Container (
+      padding: const EdgeInsets.all(8.0),
+      constraints: BoxConstraints.tight(const Size(550,25)),
+    );
+  }
+
+
+  Widget _buildInstitutionField1() {
     return Container (
       padding: const EdgeInsets.all(8.0),
       constraints: BoxConstraints.tight(const Size(550,65)),
       child: TextFormField(
-        controller: institution,
+        controller: institution1,
         decoration: const InputDecoration(
-          labelText: 'Institution',
+          contentPadding: EdgeInsets.all(5.0),
+          labelText: 'Institution 1',
+          enabledBorder: OutlineInputBorder(),
+          icon: Icon(Icons.school),
+        ),
+        // ignore: body_might_complete_normally_nullable
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'Please enter some text';
+          }
+          return null;
+        },
+      )
+    );
+  }
+  Widget _buildInstitution2Field() {
+    return Container (
+      padding: const EdgeInsets.all(8.0),
+      constraints: BoxConstraints.tight(const Size(550,65)),
+      child: TextFormField(
+        controller: institution2,
+        decoration: const InputDecoration(
+          contentPadding: EdgeInsets.all(5.0),
+          labelText: 'Institution 2',
           enabledBorder: OutlineInputBorder(),
           icon: Icon(Icons.school),
         ),
@@ -137,16 +165,17 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
     );
   }
 
-  Widget _buildQualificationField() {
+  Widget _buildQualificationField1() {
     return Container (
       padding: const EdgeInsets.all(8.0),
       constraints: BoxConstraints.tight(const Size(550,65)),
       child: TextFormField(
-        controller: qualification,
+        controller: qualification1,
         decoration: const InputDecoration(
-          labelText: 'Qualification',
+          contentPadding: EdgeInsets.all(5.0),
+          labelText: 'Qualification 1',
           enabledBorder: OutlineInputBorder(),
-          icon: Icon(Icons.school),
+          icon: Icon(Icons.article),
         ),
         // ignore: body_might_complete_normally_nullable
         validator: (value) {
@@ -158,44 +187,70 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
       )
     );
   }
-
-  Widget _buildStartDField() {
+  Widget _buildQualification2Field() {
     return Container (
       padding: const EdgeInsets.all(8.0),
       constraints: BoxConstraints.tight(const Size(550,65)),
       child: TextFormField(
-        controller: startDate,
+        controller: qualification2,
         decoration: const InputDecoration(
-          labelText: 'Start Date',
+          contentPadding: EdgeInsets.all(5.0),
+          labelText: 'Qualification 2',
           enabledBorder: OutlineInputBorder(),
-          icon: Icon(Icons.calendar_month),
+          icon: Icon(Icons.article),
         ),
         // ignore: body_might_complete_normally_nullable
         validator: (value) {
           if (value == null || value.isEmpty) {
-            return 'Please enter a date';
+            return 'Please enter some text';
           }
           return null;
         },
       )
     );
   }
+  
 
-Widget _buildEndDField() {
+  Widget _buildGraduationField1() {
     return Container (
       padding: const EdgeInsets.all(8.0),
       constraints: BoxConstraints.tight(const Size(550,65)),
       child: TextFormField(
-        controller: endDate,
+        controller: gradDate1,
         decoration: const InputDecoration(
-          labelText: 'End Date',
+          contentPadding: EdgeInsets.all(5.0),
+          labelText: 'Date Obtained',
+          hintText: 'DD/MM/YYYY',
           enabledBorder: OutlineInputBorder(),
-          icon: Icon(Icons.calendar_month),
+          icon: Icon(Icons.date_range),
         ),
         // ignore: body_might_complete_normally_nullable
         validator: (value) {
           if (value == null || value.isEmpty) {
-            return 'Please enter a date';
+            return 'Please enter some text';
+          }
+          return null;
+        },
+      )
+    );
+  }
+  Widget _buildGraduationField2() {
+    return Container (
+      padding: const EdgeInsets.all(8.0),
+      constraints: BoxConstraints.tight(const Size(550,65)),
+      child: TextFormField(
+        controller: gradDate2,
+        decoration: const InputDecoration(
+          contentPadding: EdgeInsets.all(5.0),
+          labelText: 'Date Obtained',
+          hintText: 'DD/MM/YYYY',
+          enabledBorder: OutlineInputBorder(),
+          icon: Icon(Icons.date_range),
+        ),
+        // ignore: body_might_complete_normally_nullable
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'Please enter some text';
           }
           return null;
         },
