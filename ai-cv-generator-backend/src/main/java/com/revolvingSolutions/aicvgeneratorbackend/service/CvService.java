@@ -15,25 +15,36 @@ public class CvService {
     @Autowired
     CvRepository cvRepository;
 
-    public void addCV(CvEntity cv)
+    public String addCV(CvEntity cv)
     {
         cvRepository.save(cv);
+        return "CV added successfully";
     }
 
-    public void deleteCV(CvEntity cv)
+    public String deleteCV(CvEntity cv)
     {
-        cvRepository.delete(cv);
+        try{
+            if(((CvRepository) cv).existsById(cv.getUserid()))
+            {
+                cvRepository.delete(cv);
+                return "CV deleted successfully";
+            }
+        }
+        catch(Exception e){}
+        return null;
     }
 
-    public void updateCV(CvEntity cv)
+    public String updateCV(CvEntity cv)
     {
         try{
             if(((CvRepository) cv).existsById(cv.getUserid()))
             {
                 cvRepository.save(cv);
+                return "CV updated successfully";
             }
         }
         catch(Exception e){}
+        return null;
     }
 
     /*public String getName() {
