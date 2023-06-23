@@ -122,8 +122,11 @@ class ProfileState extends State<Profile> {
                     padding: EdgeInsets.only(right: 16),
                     children: [
 
+
+
                       Column(
                         children: [
+                          CVHistory(),
                           const SectionHeading(heading: "ABOUT ME", align: Alignment.topLeft,),
                           SectionInput(inputWidget: TextFormField(controller: descripC, maxLines: 9, decoration: InputDecoration(border: OutlineInputBorder(),),),),
                         ],
@@ -411,5 +414,17 @@ class InputFieldState extends State<InputField> {
         ],
       ),
     );
+  }
+}
+
+class CVHistory extends StatefulWidget {
+  @override
+  CVHistoryState createState() => CVHistoryState();
+}
+
+class CVHistoryState extends State<CVHistory> {
+  @override
+  Widget build(BuildContext context) {
+    return Text("");
   }
 }
