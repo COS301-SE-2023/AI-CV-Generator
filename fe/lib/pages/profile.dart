@@ -110,7 +110,7 @@ class ProfileState extends State<Profile> {
       body: Container( 
         color: Colors.white,
         child:Padding(
-          padding: const EdgeInsets.symmetric(vertical: 42, horizontal: 42),
+          padding: const EdgeInsets.symmetric(vertical: 42, horizontal: 60),
           child: Form(
             key: _formKey,
             child: Row(
@@ -119,6 +119,7 @@ class ProfileState extends State<Profile> {
                 Expanded(
                   flex: 2,
                   child: ListView(
+                    padding: EdgeInsets.only(right: 16),
                     children: [
 
                       Column(
@@ -152,23 +153,28 @@ class ProfileState extends State<Profile> {
                 Expanded(
                   flex: 1,
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Expanded(
-                        child: Column(
+                      const SectionHeading(heading: "PROFILE", align: Alignment.topRight,),
+                      Container(
+                        width: 200,
+                        child:
+                         Column(
                           children: [
-                          const SectionHeading(heading: "PERSONAL model", align: Alignment.topRight,),
-                          SectionInput(inputWidget: TextInputField(editor: fnameC, align: TextAlign.right, ),),
-                          SectionInput(inputWidget: TextFormField(controller: lnameC, textAlign: TextAlign.right, decoration: InputDecoration(border: OutlineInputBorder(),),),),
-                          SectionInput(inputWidget: TextFormField(controller: emailC, textAlign: TextAlign.right, decoration: InputDecoration(border: OutlineInputBorder(),),),),
-                          SectionInput(inputWidget: TextFormField(controller: phoneNoC, textAlign: TextAlign.right, decoration: InputDecoration(border: OutlineInputBorder(),),),),
-                          SectionInput(inputWidget: TextFormField(controller: locationC, textAlign: TextAlign.right, decoration: InputDecoration(border: OutlineInputBorder(),),),),
+                            SectionInput(inputWidget: TextFormField(controller: fnameC, textAlign: TextAlign.right, decoration: InputDecoration(border: InputBorder.none,),),),
+                            SectionInput(inputWidget: TextFormField(controller: lnameC, textAlign: TextAlign.right, decoration: InputDecoration(border: InputBorder.none,),),),
+                            SectionInput(inputWidget: TextFormField(controller: emailC, textAlign: TextAlign.right, decoration: InputDecoration(border: InputBorder.none,),),),
+                            SectionInput(inputWidget: TextFormField(controller: locationC, textAlign: TextAlign.right, decoration: InputDecoration(border: InputBorder.none,),),),
+                            SectionInput(inputWidget: TextFormField(controller: phoneNoC, textAlign: TextAlign.right, decoration: InputDecoration(border: InputBorder.none,),),),
                           ],
-                        ),
+                        )
                       ),
+                      const SectionHeading(heading: "LINKS"),
                       Expanded(
-                        child: Column(
+                          child: ListView(
+                          padding: EdgeInsets.only(right: 16),
                           children: [
-                          const SectionHeading(heading: "LINKS"),
                           SectionDuplicate(target: SectionInput(inputWidget: Links(id: 0,)),),
                           ],
                         ),
@@ -253,12 +259,17 @@ class SectionDuplicateState extends State<SectionDuplicate> {
     widgets.add(
       Column(
         children: [
+          SizedBox(height: 16,),
           widget.target,
-          OutlinedButton(
-            onPressed: (){
-              remove(index);
-            }, 
-            child: Text("-"),),
+          SizedBox(height: 16,),
+          Align(
+            alignment: Alignment.topRight,
+            child: OutlinedButton(
+              onPressed: (){
+                remove(index);
+              }, 
+              child: Text("-"),),
+          )
         ],
       )
     );
@@ -313,8 +324,34 @@ class LinksState extends State<Links> {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        SectionInput(inputWidget: TextFormField(controller: linkName, textAlign: TextAlign.right, decoration: InputDecoration(border: OutlineInputBorder(),),),),
-        // SectionInput(inputWidget: TextFormField(controller: linkURL, textAlign: TextAlign.right,),),
+        Expanded(
+          child: Container(
+            child: SectionInput(
+              inputWidget: TextFormField(
+              controller: linkName, 
+              textAlign: TextAlign.right,
+              onEditingComplete:() {
+                save();
+              },
+              decoration: InputDecoration(border: OutlineInputBorder(),),
+              ),
+              ),
+            ),
+        ),
+          SizedBox(width: 10,),
+          Expanded(
+            child: Container(
+              child: SectionInput(
+                inputWidget: TextFormField(
+                controller: linkURL,
+                textAlign: TextAlign.right,
+                onEditingComplete:() {
+                  save();
+                },
+                decoration: InputDecoration(border: OutlineInputBorder(),),),
+              ),
+            )
+          )
       ],
     );
   }
