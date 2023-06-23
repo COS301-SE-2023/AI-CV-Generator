@@ -122,11 +122,15 @@ class ProfileState extends State<Profile> {
                     padding: EdgeInsets.only(right: 16),
                     children: [
 
-
+                      Column(
+                        children: [
+                          const SectionHeading(heading: "CVs", align: Alignment.topLeft,),
+                          CVHistory(),
+                        ],
+                      ),
 
                       Column(
                         children: [
-                          CVHistory(),
                           const SectionHeading(heading: "ABOUT ME", align: Alignment.topLeft,),
                           SectionInput(inputWidget: TextFormField(controller: descripC, maxLines: 9, decoration: InputDecoration(border: OutlineInputBorder(),),),),
                         ],
@@ -147,6 +151,7 @@ class ProfileState extends State<Profile> {
                         ],
                       ),
 
+                      
                     ],
                   ),
                 ),
@@ -425,6 +430,18 @@ class CVHistory extends StatefulWidget {
 class CVHistoryState extends State<CVHistory> {
   @override
   Widget build(BuildContext context) {
-    return Text("");
+    return Container(
+      child: Wrap(
+        children: [
+          SizedBox(width: 150, height: 200, child: Container(color: Colors.blue),),
+          SizedBox(width: 150, height: 200, child: Container(color: Colors.green),),
+          SizedBox(width: 150, height: 200, child: Container(color: Colors.blue),),
+          SizedBox(width: 150, height: 200, child: Container(color: Colors.purple),),
+          SizedBox(width: 150, height: 200, child: Container(color: Colors.blue),),
+          SizedBox(width: 150, height: 200, child: Container(color: Colors.yellow),),
+          SizedBox(width: 150, height: 200, child: Container(color: Colors.blue),),
+        ], 
+      ),  
+    );
   }
 }
