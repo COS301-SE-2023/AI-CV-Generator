@@ -1,5 +1,8 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:ai_cv_generator/pages/shareCV.dart';
+import 'package:pdf/widgets.dart' as pw;
 import 'details.dart';
 
 
@@ -24,6 +27,22 @@ class _generatedCVState extends State<generatedCV> {
       });
     });
     _controller.text = response;
+  }
+
+  Future<Uint8List> makePdf() async {
+    final pdf = pw.Document();
+    pdf.addPage(
+      pw.Page(
+        build: (context) {
+          return pw.Column(
+            children: [
+
+            ]
+          );
+        }
+      )
+    );
+    return pdf.save();
   }
 
   @override
