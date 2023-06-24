@@ -124,20 +124,20 @@ class ProfileState extends State<Profile> {
                 Expanded(
                   flex: 2,
                   child: ListView(
-                    padding: EdgeInsets.only(right: 16),
+                    padding: const EdgeInsets.only(right: 16),
                     children: [
 
                       Column(
                         children: [
                           const SectionHeading(heading: "ABOUT ME", align: Alignment.topLeft,),
-                          SectionInput(inputWidget: TextFormField(controller: descripC, maxLines: 9, decoration: InputDecoration(border: OutlineInputBorder(),),),),
+                          SectionInput(inputWidget: TextFormField(controller: descripC, maxLines: 9, decoration: const InputDecoration(border: OutlineInputBorder(),),),),
                         ],
                       ),
                       const SizedBox(height: 10,),
                       Column(
                         children: [
                           const SectionHeading(heading: "EDUCATION"),
-                          SectionDuplicate(target: SectionInput(inputWidget: TextFormField(controller: descripC, maxLines: 9, decoration: InputDecoration(border: OutlineInputBorder(),),),),),
+                          SectionDuplicate(target: SectionInput(inputWidget: TextFormField(controller: descripC, maxLines: 9, decoration: const InputDecoration(border: OutlineInputBorder(),),),),),
                           // SectionInput(inputWidget: TextFormField(controller: qualificationC, maxLines: 9,),),
                         ],
                       ),
@@ -145,13 +145,13 @@ class ProfileState extends State<Profile> {
                       Column(
                         children: [
                           const SectionHeading(heading: "WORK EXPERIENCE"),
-                          SectionInput(inputWidget: TextFormField(controller: workExperienceC, maxLines: 9, decoration: InputDecoration(border: OutlineInputBorder(),),),),
+                          SectionInput(inputWidget: TextFormField(controller: workExperienceC, maxLines: 9, decoration: const InputDecoration(border: OutlineInputBorder(),),),),
                         ],
                       ),
 
-                      Column(
+                      const Column(
                         children: [
-                          const SectionHeading(heading: "CVs", align: Alignment.topLeft,),
+                          SectionHeading(heading: "CVs", align: Alignment.topLeft,),
                           CVHistory(),
                         ],
                       ),
@@ -169,23 +169,23 @@ class ProfileState extends State<Profile> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       const SectionHeading(heading: "PROFILE", align: Alignment.topRight,),
-                      Container(
+                      SizedBox(
                         width: 200,
                         child:
                          Column(
                           children: [
-                            SectionInput(inputWidget: TextFormField(controller: fnameC, textAlign: TextAlign.right, decoration: InputDecoration(border: InputBorder.none,),),),
-                            SectionInput(inputWidget: TextFormField(controller: lnameC, textAlign: TextAlign.right, decoration: InputDecoration(border: InputBorder.none,),),),
-                            SectionInput(inputWidget: TextFormField(controller: emailC, textAlign: TextAlign.right, decoration: InputDecoration(border: InputBorder.none,),),),
-                            SectionInput(inputWidget: TextFormField(controller: locationC, textAlign: TextAlign.right, decoration: InputDecoration(border: InputBorder.none,),),),
-                            SectionInput(inputWidget: TextFormField(controller: phoneNoC, textAlign: TextAlign.right, decoration: InputDecoration(border: InputBorder.none,),),),
+                            SectionInput(inputWidget: TextFormField(controller: fnameC, textAlign: TextAlign.right, decoration: const InputDecoration(border: InputBorder.none,),),),
+                            SectionInput(inputWidget: TextFormField(controller: lnameC, textAlign: TextAlign.right, decoration: const InputDecoration(border: InputBorder.none,),),),
+                            SectionInput(inputWidget: TextFormField(controller: emailC, textAlign: TextAlign.right, decoration: const InputDecoration(border: InputBorder.none,),),),
+                            SectionInput(inputWidget: TextFormField(controller: locationC, textAlign: TextAlign.right, decoration: const InputDecoration(border: InputBorder.none,),),),
+                            SectionInput(inputWidget: TextFormField(controller: phoneNoC, textAlign: TextAlign.right, decoration: const InputDecoration(border: InputBorder.none,),),),
                           ],
                         )
                       ),
                       const SectionHeading(heading: "LINKS"),
                       Expanded(
                           child: ListView(
-                          padding: EdgeInsets.only(right: 16),
+                          padding: const EdgeInsets.only(right: 16),
                           children: [
                           SectionDuplicate(target: SectionInput(inputWidget: Links(links: linkCol)),),
                           ],
@@ -250,7 +250,7 @@ class SectionInputState extends State<SectionInput> {
 
 class SectionDuplicate extends StatefulWidget {
   Widget target;
-  SectionDuplicate({required this.target});
+  SectionDuplicate({super.key, required this.target});
 
   @override
   SectionDuplicateState createState() => SectionDuplicateState();
@@ -271,16 +271,16 @@ class SectionDuplicateState extends State<SectionDuplicate> {
     widgets.add(
       Column(
         children: [
-          SizedBox(height: 16,),
+          const SizedBox(height: 16,),
           widget.target,
-          SizedBox(height: 16,),
+          const SizedBox(height: 16,),
           Align(
             alignment: Alignment.topRight,
             child: OutlinedButton(
               onPressed: (){
                 remove(index);
               }, 
-              child: Text("-"),),
+              child: const Text("-"),),
           )
         ],
       )
@@ -294,9 +294,9 @@ class SectionDuplicateState extends State<SectionDuplicate> {
     return Column(
       children: [
         ...widgets,
-        SizedBox(height: 8,),
-        OutlinedButton(onPressed: (){add();}, child: Text("+")),
-        SizedBox(height: 16,),
+        const SizedBox(height: 8,),
+        OutlinedButton(onPressed: (){add();}, child: const Text("+")),
+        const SizedBox(height: 16,),
       ]
     );
   }
@@ -304,7 +304,7 @@ class SectionDuplicateState extends State<SectionDuplicate> {
 
 class Links extends StatefulWidget {
   List links;
-  Links({required this.links});
+  Links({super.key, required this.links});
 
   @override
   LinksState createState() => LinksState();
@@ -345,12 +345,12 @@ class LinksState extends State<Links> {
               onEditingComplete:() {
                 // save();
               },
-              decoration: InputDecoration(border: OutlineInputBorder(),),
+              decoration: const InputDecoration(border: OutlineInputBorder(),),
               ),
               ),
             ),
         ),
-          SizedBox(width: 10,),
+          const SizedBox(width: 10,),
           Expanded(
             child: Container(
               child: SectionInput(
@@ -360,7 +360,7 @@ class LinksState extends State<Links> {
                 onEditingComplete:() {
                   // save();
                 },
-                decoration: InputDecoration(border: OutlineInputBorder(),),),
+                decoration: const InputDecoration(border: OutlineInputBorder(),),),
               ),
             )
           )
@@ -427,6 +427,8 @@ class InputFieldState extends State<InputField> {
 }
 
 class CVHistory extends StatefulWidget {
+  const CVHistory({super.key});
+
   @override
   CVHistoryState createState() => CVHistoryState();
 }
@@ -434,7 +436,7 @@ class CVHistory extends StatefulWidget {
 class CVHistoryState extends State<CVHistory> {
   @override
   Widget build(BuildContext context) {
-    return Container(height: 200, child:
+    return const SizedBox(height: 200, child:
     SingleChildScrollView(child: 
     Wrap(
         spacing: 8,
