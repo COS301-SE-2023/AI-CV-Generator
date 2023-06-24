@@ -1,5 +1,6 @@
 import 'package:ai_cv_generator/dio/client/userApi.dart';
 import 'package:ai_cv_generator/models/user/Employment.dart';
+import 'package:ai_cv_generator/models/user/Link.dart';
 import 'package:ai_cv_generator/models/user/Qualification.dart';
 import 'package:ai_cv_generator/models/user/UserModel.dart';
 // import 'package:ai_cv_generator/models/user/link.dart';
@@ -26,6 +27,10 @@ class ProfileState extends State<Profile> {
 
   @override
   Widget build(BuildContext context) {
+    Employment employmentData = Employment(company: "company", title: "title", start_date: DateTime.now(), end_date: DateTime.now(), empid: 0);
+
+    List<Link> linkCol = [Link(url: "yahoo", linkid: 0), Link(url: "google", linkid: 1), Link(url: "bing", linkid: 2),];
+
     String email =  model.email != null ? model.email! : "No email...";
     String phoneNumber =  model.phoneNumber != null? model.phoneNumber!:"No phone number...";
     String location = model.location != null ? model.location!:"No location...";
@@ -182,7 +187,7 @@ class ProfileState extends State<Profile> {
                           child: ListView(
                           padding: EdgeInsets.only(right: 16),
                           children: [
-                          SectionDuplicate(target: SectionInput(inputWidget: Links(id: 0,)),),
+                          SectionDuplicate(target: SectionInput(inputWidget: Links(links: linkCol)),),
                           ],
                         ),
                       ),
@@ -298,8 +303,8 @@ class SectionDuplicateState extends State<SectionDuplicate> {
 }
 
 class Links extends StatefulWidget {
-  int id;
-  Links({required this.id});
+  List links;
+  Links({required this.links});
 
   @override
   LinksState createState() => LinksState();
@@ -312,16 +317,16 @@ class LinksState extends State<Links> {
 
   @override
   void initState() {
-    save();
+    // save();
     super.initState();
   }
 
-  void save() {
-    data[widget.id] = {
-      "linkName": linkName.text,
-      "linkURL": linkURL.text
-    };
-  }
+  // void save() {
+  //   data[widget.id] = {
+  //     "linkName": linkName.text,
+  //     "linkURL": linkURL.text
+  //   };
+  // }
 
   void remove(int id) {
     data.remove(id);
@@ -338,7 +343,7 @@ class LinksState extends State<Links> {
               controller: linkName, 
               textAlign: TextAlign.right,
               onEditingComplete:() {
-                save();
+                // save();
               },
               decoration: InputDecoration(border: OutlineInputBorder(),),
               ),
@@ -353,7 +358,7 @@ class LinksState extends State<Links> {
                 controller: linkURL,
                 textAlign: TextAlign.right,
                 onEditingComplete:() {
-                  save();
+                  // save();
                 },
                 decoration: InputDecoration(border: OutlineInputBorder(),),),
               ),
