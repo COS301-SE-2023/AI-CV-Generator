@@ -1,5 +1,6 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:ai_cv_generator/pages/navdrawer.dart';
 import 'package:ai_cv_generator/pages/preview.dart';
 import 'package:ai_cv_generator/pages/skills.dart';
 import 'package:ai_cv_generator/pages/strings.dart';
@@ -40,8 +41,9 @@ class _ReferencesFormState extends State<ReferencesForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const NavDrawer(),
       appBar: AppBar(
-        title: const Text(StringsReferences.appBarTitle),
+        title: const Text(StringsReferences.appHeadingTitle),
       ),
       body: ListView(
         children: [
