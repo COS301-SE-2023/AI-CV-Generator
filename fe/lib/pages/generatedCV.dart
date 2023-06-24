@@ -21,7 +21,7 @@ Future<Uint8List> makePdf() async {
         pageFormat: PdfPageFormat.a4,
         build: (pw.Context context) {
           return pw.Center(
-            child: pw.Text('Hello World', style: pw.TextStyle(font: ttf, fontSize: 40)),
+            child: pw.Text('Hello World'),
           ); // Center
         }
       )
@@ -68,11 +68,13 @@ class _generatedCVState extends State<generatedCV> {
                   alignment: Alignment.topLeft,
                   child: OutlinedButton(
                     onPressed: () async {
-                      Uint8List bytes = await makePdf();
-                      PlatformFile file = PlatformFile(name: "GeneratedFile.pdf",size: bytes.length,bytes: bytes,);
-                      await FileApi.uploadFile(file: file);
                       setState(() {
-                        PdfPreviewPage();
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => MyAppforPDf()
+                          ),
+                        );
                       });
                     },
                     child: const Text("Generate")
@@ -118,17 +120,89 @@ class _generatedCVState extends State<generatedCV> {
     );
   }
 }
-class PdfPreviewPage extends StatelessWidget {
-  const PdfPreviewPage({Key? key}) : super(key: key);
-
+class MyAppforPDf extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('PDF Preview'),
+    return MaterialApp(
+      title: '',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
       ),
-      body: PdfPreview(
-        build: (context) => makePdf(),
+      home: PdfTest(),
+    );
+  }
+}
+
+class PdfTest extends StatelessWidget {
+  final pdf = pw.Document();
+  writeOnPdf() {
+    pdf.addPage(
+      pw.MultiPage(
+        pageFormat: PdfPageFormat.a4,
+        margin: pw.EdgeInsets.all(32),
+        build: (pw.Context context) {
+          return <pw.Widget>[
+            pw.Header(
+              level: 0,
+              child: pw.Text("1st header"),
+            ),
+            pw.Paragraph(text: "TEST PDF"),
+            pw.Paragraph(text: "TEST PDF"),
+            pw.Paragraph(text: "TEST PDF"),
+            pw.Paragraph(text: "TEST PDF"),
+            pw.Paragraph(text: "TEST PDF"),
+            pw.Paragraph(text: "TEST PDF"),
+            pw.Header(level: 1, child: pw.Text("2nd ehader")),
+            pw.Paragraph(text: "TEST PDF"),
+            pw.Paragraph(text: "TEST PDF"),
+            pw.Paragraph(text: "TEST PDF"),
+            pw.Paragraph(text: "TEST PDF"),
+            pw.Paragraph(text: "TEST PDF"),
+            pw.Paragraph(text: "TEST PDF"),
+            pw.Paragraph(text: "TEST PDF"),
+            pw.Paragraph(text: "TEST PDF"),
+            pw.Paragraph(text: "TEST PDF"),
+          ];
+        },
+      ),
+    );
+  }
+  PlatformFile? file;
+  Future savePdf() async {
+    Uint8List bytes = await pdf.save();
+    file = PlatformFile(name: "gen.pdf", size: bytes.length,bytes: bytes);
+    await FileApi.uploadFile(file: file);
+  }
+
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(),
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              "PDF TUTORIAL",
+              style: TextStyle(fontSize: 34),
+            )
+          ],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          writeOnPdf();
+          await savePdf();
+
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => PdfWindow(file: file,)
+            ),
+          );
+        },
+        child: Icon(Icons.save),
       ),
     );
   }
