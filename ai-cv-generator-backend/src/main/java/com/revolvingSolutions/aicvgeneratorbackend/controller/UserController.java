@@ -35,6 +35,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @CrossOrigin(value="*")
@@ -56,9 +58,10 @@ public class UserController {
     }
     @PostMapping(value="/file")
     public ResponseEntity<String> uploadFile(
-            @RequestParam("file")MultipartFile file
+            @RequestParam("file")MultipartFile file,
+            @RequestParam("cover")MultipartFile cover
             ) {
-        return ResponseEntity.ok(service.uploadFile(file));
+        return ResponseEntity.ok(service.uploadFile(file,cover));
     }
 
     @PostMapping(value="/shareFile")

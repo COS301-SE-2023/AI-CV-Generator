@@ -48,6 +48,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.sql.Date;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -287,6 +288,7 @@ public class UserService {
                 .build();
     }
 
+    @Transactional
     public GetFilesResponse getFile() {
         return GetFilesResponse.builder()
                 .files(fileRepository.getFilesFromUser(getAuthenticatedUser().getUsername()))
@@ -310,13 +312,14 @@ public class UserService {
             return ResponseEntity.notFound().build();
         }
     }
-    public String uploadFile(MultipartFile request) {
+    public String uploadFile(MultipartFile request, MultipartFile cover) {
         try {
             FileEntity file = FileEntity.builder()
                     .user(getAuthenticatedUser())
                     .filename(request.getOriginalFilename())
                     .filetype(request.getContentType())
                     .data(request.getBytes())
+                    .cover(cover.getBytes())
                     .build();
             fileRepository.save(file);
             return "Success";

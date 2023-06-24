@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:ai_cv_generator/dio/client/dioClient.dart';
@@ -6,6 +7,7 @@ import 'package:ai_cv_generator/dio/request/FileRequests/ShareFileRequest.dart';
 import 'package:ai_cv_generator/dio/response/FileResponses/ShareFileResponse.dart';
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:pdfx/pdfx.dart';
 
 class FileApi extends DioClient {
   static Future<Response?> uploadFile(
@@ -15,10 +17,16 @@ class FileApi extends DioClient {
     }
   ) async {
     if (file == null) return null;
+    PdfDocument doc = await PdfDocument.openData(file.bytes as FutureOr<Uint8List>);
+    PdfPage page = await doc.getPage(1);
+    final pageImage = await page.render(width: 20, height: 20);
     FormData formData = FormData.fromMap({
       "file": MultipartFile.fromBytes(
         file.bytes as List<int>, filename: file.name,
       ),
+      "cover": MultipartFile.fromBytes(
+        pageImage!.bytes as List<int>
+      )
     });
 
     try {
