@@ -1,5 +1,6 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:ai_cv_generator/pages/navdrawer.dart';
 import 'package:ai_cv_generator/pages/qualifications.dart';
 import 'package:ai_cv_generator/pages/strings.dart';
 import 'package:flutter/material.dart';
@@ -39,8 +40,9 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const NavDrawer(),
       appBar: AppBar(
-        title: const Text(StringsPersonal.appBarTitle),
+        title: const Text(StringsPersonal.appHeadingTitle),
       ),
       body: ListView(
         children: [
