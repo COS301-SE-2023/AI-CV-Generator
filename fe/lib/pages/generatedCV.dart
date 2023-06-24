@@ -1,4 +1,3 @@
-import 'dart:typed_data';
 
 import 'package:ai_cv_generator/dio/client/fileApi.dart';
 import 'package:ai_cv_generator/pages/pdf_window.dart';
@@ -8,7 +7,6 @@ import 'package:ai_cv_generator/pages/shareCV.dart';
 import 'package:flutter/services.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
-import 'package:printing/printing.dart';
 import 'details.dart';
 
 
@@ -72,7 +70,7 @@ class _generatedCVState extends State<generatedCV> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => MyAppforPDf()
+                            builder: (context) => const MyAppforPDf()
                           ),
                         );
                       });
@@ -121,6 +119,8 @@ class _generatedCVState extends State<generatedCV> {
   }
 }
 class MyAppforPDf extends StatelessWidget {
+  const MyAppforPDf({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -135,11 +135,13 @@ class MyAppforPDf extends StatelessWidget {
 
 class PdfTest extends StatelessWidget {
   final pdf = pw.Document();
+
+  PdfTest({super.key});
   writeOnPdf() {
     pdf.addPage(
       pw.MultiPage(
         pageFormat: PdfPageFormat.a4,
-        margin: pw.EdgeInsets.all(32),
+        margin: const pw.EdgeInsets.all(32),
         build: (pw.Context context) {
           return <pw.Widget>[
             pw.Header(
@@ -174,17 +176,20 @@ class PdfTest extends StatelessWidget {
     await FileApi.uploadFile(file: file);
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
-      body: Container(
+      appBar: AppBar(
+        title: const Text("Temporary page"),
+      ),
+      body: const SizedBox(
         width: double.infinity,
         height: double.infinity,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              "PDF TUTORIAL",
+              "Generator",
               style: TextStyle(fontSize: 34),
             )
           ],
@@ -202,7 +207,7 @@ class PdfTest extends StatelessWidget {
             ),
           );
         },
-        child: Icon(Icons.save),
+        child: const Icon(Icons.save),
       ),
     );
   }
