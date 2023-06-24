@@ -1,7 +1,7 @@
 
 import 'package:ai_cv_generator/dio/client/dioClient.dart';
 import 'package:ai_cv_generator/dio/request/AuthRequests/RefreshRequest.dart';
-import 'package:ai_cv_generator/dio/response/AuthResponse.dart';
+import 'package:ai_cv_generator/dio/response/AuthResponses/AuthResponse.dart';
 import 'package:dio/dio.dart';
 
 class TokenRevalidator extends Interceptor {

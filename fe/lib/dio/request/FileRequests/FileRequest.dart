@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'generated/FileRequest.g.dart';
+part 'FileRequest.g.dart';
 
 @JsonSerializable()
 class FileRequest {

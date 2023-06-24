@@ -16,6 +16,7 @@ import com.revolvingSolutions.aicvgeneratorbackend.request.details.qualification
 import com.revolvingSolutions.aicvgeneratorbackend.request.details.qualification.UpdateQualificationRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.file.DownloadFileRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.details.employment.RemoveEmploymentRequest;
+import com.revolvingSolutions.aicvgeneratorbackend.request.user.GenerateUrlRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.user.UpdateUserRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.response.details.employment.AddEmploymentResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.details.employment.RemoveEmploymentResponse;
@@ -27,6 +28,7 @@ import com.revolvingSolutions.aicvgeneratorbackend.response.details.qualificatio
 import com.revolvingSolutions.aicvgeneratorbackend.response.details.qualification.RemoveQualificationResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.details.qualification.UpdateQualificationResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.file.GetFilesResponse;
+import com.revolvingSolutions.aicvgeneratorbackend.response.user.GenerateUrlResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.user.GetUserResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.user.UpdateUserResponse;
 import jakarta.transaction.Transactional;
@@ -43,6 +45,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.sql.Date;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.List;
 
 @Service
@@ -54,6 +59,8 @@ public class UserService {
     private final EmploymentRepository employmentRepository;
     private final QualificationRepository qualificationRepository;
     private final LinkRepository linkRepository;
+    private final ShareRepository shareRepository;
+
     private final PasswordEncoder encoder;
     public GetUserResponse getUser() {
         UserEntity dbuser = getAuthenticatedUser();
@@ -300,7 +307,7 @@ public class UserService {
                             new ByteArrayResource(file.getData())
                     );
         } catch (Exception e) {
-            throw new FileNotFoundException(request.getFilename()+" was not found in users folder ,Error: "+e.getMessage());
+            return ResponseEntity.notFound().build();
         }
     }
     public String uploadFile(MultipartFile request) {
@@ -318,6 +325,52 @@ public class UserService {
         }
     }
 
+    @Transactional
+    public GenerateUrlResponse generateUrl(
+            GenerateUrlRequest request
+    ) {
+        try {
+            update();
+            List<FileModel> files = fileRepository.getFileFromUser(getAuthenticatedUser().getUsername(),request.getFilename());
+            if (files.size() != 1) {
+                throw new Exception("Failed",null);
+            }
+            FileModel file = files.get(0);
+            shareRepository.save(
+                    ShareEntity.builder()
+                            .filetype(file.getFiletype())
+                            .filename(file.getFilename())
+                            .data(file.getData())
+                            .ExpireDate(Date.from(Instant.now().plusMillis(request.getDuration().toMillis())))
+                            .build()
+            );
+            return GenerateUrlResponse.builder()
+                    .generatedUrl(request.getBase()+"share/"+shareRepository.findByFilename(file.getFilename()).orElseThrow().getUuid().toString())
+                    .build();
+        } catch (Exception e) {
+            throw new FileNotFoundException(request.getFilename()+" was not found!");
+        }
+    }
+
+    public GenerateUrlResponse generateUrlFromFile(String base, MultipartFile file, Duration duration) {
+        try {
+            update();
+            shareRepository.save(
+                    ShareEntity.builder()
+                            .filetype(file.getContentType())
+                            .filename(file.getOriginalFilename())
+                            .data(file.getBytes())
+                            .ExpireDate(Date.from(Instant.now().plusMillis(duration.toMillis())))
+                            .build()
+            );
+            return GenerateUrlResponse.builder()
+                    .generatedUrl(base+"share/"+shareRepository.findByFilename(file.getOriginalFilename()).orElseThrow().getUuid().toString())
+                    .build();
+        } catch (Exception e) {
+            throw new UnknownErrorException("File exception!: "+e.getMessage());
+        }
+    }
+
     private UserEntity getAuthenticatedUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
@@ -326,5 +379,10 @@ public class UserService {
             return user_;
         }
         throw new UnknownErrorException("This should not be possible");
+    }
+
+    private void update() {
+        shareRepository.deleteAllInBatch(shareRepository.getExpiredURLs(java.util.Date.from(Instant.now())));
+        shareRepository.flush();
     }
 }

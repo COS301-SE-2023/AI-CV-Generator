@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'generated/RefreshRequest.g.dart';
+part 'RefreshRequest.g.dart';
 
 @JsonSerializable()
 class RefreshRequest {

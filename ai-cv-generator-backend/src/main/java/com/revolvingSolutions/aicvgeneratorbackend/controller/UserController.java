@@ -1,5 +1,6 @@
 package com.revolvingSolutions.aicvgeneratorbackend.controller;
 
+import com.revolvingSolutions.aicvgeneratorbackend.exception.FileNotFoundException;
 import com.revolvingSolutions.aicvgeneratorbackend.exception.NotIndatabaseException;
 import com.revolvingSolutions.aicvgeneratorbackend.request.details.employment.AddEmploymentRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.details.employment.RemoveEmploymentRequest;
@@ -11,6 +12,7 @@ import com.revolvingSolutions.aicvgeneratorbackend.request.details.qualification
 import com.revolvingSolutions.aicvgeneratorbackend.request.details.qualification.RemoveQualificationRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.details.qualification.UpdateQualificationRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.file.DownloadFileRequest;
+import com.revolvingSolutions.aicvgeneratorbackend.request.user.GenerateUrlRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.user.UpdateUserRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.response.details.employment.AddEmploymentResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.details.employment.RemoveEmploymentResponse;
@@ -22,6 +24,7 @@ import com.revolvingSolutions.aicvgeneratorbackend.response.details.qualificatio
 import com.revolvingSolutions.aicvgeneratorbackend.response.details.qualification.RemoveQualificationResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.details.qualification.UpdateQualificationResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.file.GetFilesResponse;
+import com.revolvingSolutions.aicvgeneratorbackend.response.user.GenerateUrlResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.user.GetUserResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.user.UpdateUserResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.service.UserService;
@@ -30,6 +33,8 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.time.Duration;
 
 @RestController
 @CrossOrigin(value="*")
@@ -54,6 +59,15 @@ public class UserController {
             @RequestParam("file")MultipartFile file
             ) {
         return ResponseEntity.ok(service.uploadFile(file));
+    }
+
+    @PostMapping(value="/shareFile")
+    public ResponseEntity<GenerateUrlResponse> uploadFileAndShare(
+            @RequestParam("file")MultipartFile file,
+            @RequestParam("Duration")Duration duration,
+            @RequestParam("base") String base
+            ) {
+        return ResponseEntity.ok(service.generateUrlFromFile(base,file,duration));
     }
 
     @PostMapping(value="/retfile")
@@ -140,6 +154,17 @@ public class UserController {
         try {
             return ResponseEntity.ok(service.updateLink_(request));
         } catch (NotIndatabaseException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PostMapping(value="/share")
+    public ResponseEntity<GenerateUrlResponse> generateURL(
+            @RequestBody GenerateUrlRequest request
+            ) {
+        try {
+            return ResponseEntity.ok(service.generateUrl(request));
+        } catch (FileNotFoundException e) {
             return ResponseEntity.notFound().build();
         }
     }

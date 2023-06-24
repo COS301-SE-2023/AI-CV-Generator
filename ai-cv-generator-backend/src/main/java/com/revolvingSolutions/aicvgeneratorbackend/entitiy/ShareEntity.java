@@ -1,33 +1,31 @@
 package com.revolvingSolutions.aicvgeneratorbackend.entitiy;
 
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
+import java.util.Date;
+import java.util.UUID;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity()
-@Table(name="files")
-public class FileEntity{
+@Entity
+@Table(name = "sharedUrls")
+public class ShareEntity {
     @Id
-    @GeneratedValue
-    public Integer fileid;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(unique = true)
+    private UUID uuid;
 
-    @ManyToOne()
-    @JoinColumn(name = "uid", referencedColumnName = "userid")
-    @JsonBackReference
-    public UserEntity user;
-
+    @Column(nullable = false)
     public String filename;
     public String filetype;
+
+    public Date ExpireDate;
 
     @Lob
     public byte[] data;
