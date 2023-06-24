@@ -25,7 +25,7 @@ public class FileEntity{
     @JoinColumn(name = "uid", referencedColumnName = "userid")
     @JsonBackReference
     public UserEntity user;
-    @Column(unique = true,nullable = false)
+
     public String filename;
     public String filetype;
 

@@ -51,7 +51,7 @@ void shareCVModal(BuildContext context) {
                     const SizedBox(width: 16,),
                     InkWell(
                       onTap: () async {
-                        String linkToCV = await FileApi.generateUrl(filename: "DocumentTest.pdf", duration: const Duration(minutes: 10));
+                        String linkToCV = await FileApi.generateUrl(filename: "DocumentTest.pdf", duration: const Duration(days: 0,hours: 0,minutes: 1,seconds: 0,milliseconds: 0));
                         Clipboard.setData(ClipboardData(text: linkToCV));
                         // ScaffoldMessenger.of(context).showSnackBar(
                         //   SnackBar(

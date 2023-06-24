@@ -1,6 +1,7 @@
 
 import 'package:ai_cv_generator/api/pdfApi.dart';
 import 'package:ai_cv_generator/dio/client/fileApi.dart';
+import 'package:ai_cv_generator/pages/pdfWinLink.dart';
 import 'package:ai_cv_generator/pages/pdf_window.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
@@ -16,6 +17,7 @@ class _createPageState extends State<createPage> {
   Map data = {};
   PlatformFile? file;
   bool fileAvail = false;
+  bool linkFile = false;
   @override
   Widget build(BuildContext context) {
     
@@ -58,7 +60,9 @@ class _createPageState extends State<createPage> {
               ),
               fileAvail == true ?
               Expanded(
-                child: ClipRRect(
+                child: 
+                linkFile == false ?
+                ClipRRect(
                   borderRadius: BorderRadius.circular(20),
                   child: Scaffold(
                     appBar: AppBar(
@@ -78,7 +82,11 @@ class _createPageState extends State<createPage> {
                         onPressed: () {
                           if (file == null) {return;}
                             FileApi.uploadFile(file: file);
-                          
+
+                          setState(() {
+                            fileAvail = true;
+                            linkFile = true;
+                          });
                         },
                       ),
                       backgroundColor: Colors.blueGrey[900],
@@ -93,7 +101,7 @@ class _createPageState extends State<createPage> {
                         child: PdfWindow(file: file),
                     )
                   ),
-                )
+                ) : pdfWinLink(file: file,)
               ) : const Text("")
           ],
         )
