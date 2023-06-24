@@ -1,6 +1,8 @@
 // ignore_for_file: must_be_immutable
-
+import 'dart:io';
+import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import 'package:ai_cv_generator/pages/employment.dart';
+import 'package:ai_cv_generator/pages/navdrawer.dart';
 import 'package:ai_cv_generator/pages/references.dart';
 import 'package:ai_cv_generator/pages/strings.dart';
 import 'package:flutter/material.dart';
@@ -36,11 +38,34 @@ class _PreviewFormState extends State<PreviewForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const NavDrawer(),
       appBar: AppBar(
-        title: const Text(StringsSkill.appBarTitle),
+        title: const Text(StringsSkill.appHeadingTitle),
       ),
-      body: Center ( 
-        child: _buildForm(),
+      body: ListView(
+        children: [
+          titleSection,
+          Center (
+            child: _buildForm(),
+          ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget> [
+            Container(
+              padding: const EdgeInsets.all(10.0),
+              child: _buildBackButton(),
+            ),
+            Container(
+              padding: const EdgeInsets.all(10.0),
+              child: _buildSubmitButton(),
+            ),
+            Container(
+              padding: const EdgeInsets.all(10.0),
+              child: _buildExportButton(),
+            ),
+          ],
+        ),
+        ],
       ),
     );
   }
@@ -67,24 +92,20 @@ class _PreviewFormState extends State<PreviewForm> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            titleSection,
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget> [
-                _buildBackButton(),
-                Container(
-                  padding: const EdgeInsets.all(8.0),
-                  child: _buildSubmitButton(),
-                ),
-                Container(
-                  padding: const EdgeInsets.all(8.0),
-                  child: _buildExportButton(),
-                ),
-              ],
-            ),
+              _buildPreview(),
           ],
-        ));
+        ),
+    );
   }
+
+  Widget _buildPreview() {
+    return SizedBox(
+      width: 600.0,
+      height: 800.0,
+      child: SfPdfViewer.asset('assets/Resume 1.pdf'),
+    );
+  }
+   
 
   Widget _buildBackButton() {
     return SizedBox(
