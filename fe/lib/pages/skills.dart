@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:ai_cv_generator/pages/employment.dart';
+import 'package:ai_cv_generator/pages/navdrawer.dart';
 import 'package:ai_cv_generator/pages/references.dart';
 import 'package:ai_cv_generator/pages/strings.dart';
 import 'package:flutter/material.dart';
@@ -55,8 +56,9 @@ class _SkillsFormState extends State<SkillsForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const NavDrawer(),
       appBar: AppBar(
-        title: const Text(StringsSkill.appBarTitle),
+        title: const Text(StringsSkill.appHeadingTitle),
       ),
       body: ListView(
         children: [
