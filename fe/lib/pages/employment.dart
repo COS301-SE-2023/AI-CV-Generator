@@ -1,4 +1,5 @@
 // ignore_for_file: must_be_immutable
+import 'package:ai_cv_generator/pages/navdrawer.dart';
 import 'package:date_field/date_field.dart';
 import 'package:ai_cv_generator/pages/qualifications.dart';
 import 'package:ai_cv_generator/pages/skills.dart';
@@ -56,8 +57,9 @@ class _EmploymentDetailsFormState extends State<EmploymentDetailsForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const NavDrawer(),
       appBar: AppBar(
-        title: const Text(StringsEmployment.appBarTitle),
+        title: const Text(StringsEmployment.appHeadingTitle),
       ),
       body: ListView(
         children: [
