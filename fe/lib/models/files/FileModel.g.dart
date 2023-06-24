@@ -7,13 +7,13 @@ part of 'FileModel.dart';
 // **************************************************************************
 
 FileModel _$FileModelFromJson(Map<String, dynamic> json) => FileModel(
-      name: json['name'] as String,
-      size: json['size'] as int,
-      bytes: const Uint8ListConverter().fromJson(json['bytes'] as List<int>),
+      filename: json['filename'] as String,
+      filetype: json['filetype'] as String,
+      cover: const Uint8ListConverter().fromJson(json['cover'] as List<int>),
     );
 
 Map<String, dynamic> _$FileModelToJson(FileModel instance) => <String, dynamic>{
-      'name': instance.name,
-      'size': instance.size,
-      'bytes': const Uint8ListConverter().toJson(instance.bytes),
+      'filename': instance.filename,
+      'filetype': instance.filetype,
+      'cover': const Uint8ListConverter().toJson(instance.cover),
     };
