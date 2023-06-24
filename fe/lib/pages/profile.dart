@@ -30,8 +30,6 @@ class ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     Employment employmentData = Employment(company: "company", title: "title", start_date: DateTime.now(), end_date: DateTime.now(), empid: 0);
 
-    List<Link> linkCol = [Link(url: "yahoo", linkid: 0), Link(url: "google", linkid: 1), Link(url: "bing", linkid: 2),];
-
     String email =  model.email != null ? model.email! : "No email...";
     String phoneNumber =  model.phoneNumber != null? model.phoneNumber!:"No phone number...";
     String location = model.location != null ? model.location!:"No location...";
@@ -56,8 +54,6 @@ class ProfileState extends State<Profile> {
     }
     if (qualifications== null || qualifications.isEmpty) education = "No education listed...";
     
-
-    String links = "Not ready yet";
     TextEditingController fnameC = TextEditingController(text: model.fname);
     TextEditingController lnameC = TextEditingController(text: model.lname);
     TextEditingController emailC = TextEditingController(text: email);
@@ -66,7 +62,6 @@ class ProfileState extends State<Profile> {
     TextEditingController descripC = TextEditingController(text: aboutMe);
     TextEditingController workExperienceC = TextEditingController();
     TextEditingController qualificationC = TextEditingController();
-    // TextEditingController linksC = TextEditingController();
 
     GlobalKey<LinksSectionState> linksKey = GlobalKey<LinksSectionState>();
     LinksSection linkC = LinksSection(key: linksKey, links: model.links != null ? model.links! : []);
@@ -99,7 +94,6 @@ class ProfileState extends State<Profile> {
     descripC.addListener(update);
     workExperienceC.addListener(update);
     qualificationC.addListener(update);
-    // linksC.addListener(update);
 
     
     return Scaffold(
