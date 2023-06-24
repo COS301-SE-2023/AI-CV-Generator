@@ -5,6 +5,7 @@ import 'package:ai_cv_generator/models/user/Qualification.dart';
 import 'package:ai_cv_generator/models/user/UserModel.dart';
 // import 'package:ai_cv_generator/models/user/link.dart';
 import 'package:flutter/material.dart';
+import 'linksView.dart';
 
 class Profile extends StatefulWidget {
   Profile({super.key,required this.model});
@@ -65,7 +66,11 @@ class ProfileState extends State<Profile> {
     TextEditingController descripC = TextEditingController(text: aboutMe);
     TextEditingController workExperienceC = TextEditingController();
     TextEditingController qualificationC = TextEditingController();
-    TextEditingController linksC = TextEditingController();
+    // TextEditingController linksC = TextEditingController();
+
+    GlobalKey<LinksSectionState> linksKey = GlobalKey<LinksSectionState>();
+    LinksSection linkC = LinksSection(key: linksKey, links: model.links != null ? model.links! : []);
+
     DateTime time = DateTime.now();
     void ActualUpdate() {
       print("Actual Update");
@@ -75,6 +80,7 @@ class ProfileState extends State<Profile> {
       model.phoneNumber = phoneNoC.text;
       model.description = descripC.text;
       model.location = locationC.text;
+      model.links = linksKey.currentState?.update();
       userApi.updateUser(user: model);
     }
     void update() {
@@ -93,7 +99,7 @@ class ProfileState extends State<Profile> {
     descripC.addListener(update);
     workExperienceC.addListener(update);
     qualificationC.addListener(update);
-    linksC.addListener(update);
+    // linksC.addListener(update);
 
     
     return Scaffold(
@@ -187,7 +193,7 @@ class ProfileState extends State<Profile> {
                           child: ListView(
                           padding: const EdgeInsets.only(right: 16),
                           children: [
-                          SectionDuplicate(target: SectionInput(inputWidget: Links(links: linkCol)),),
+                          linkC,
                           ],
                         ),
                       ),
