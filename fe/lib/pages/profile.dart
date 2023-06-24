@@ -115,19 +115,12 @@ class ProfileState extends State<Profile> {
             key: _formKey,
             child: Row(
               children: [
-
+                
                 Expanded(
                   flex: 2,
                   child: ListView(
                     padding: EdgeInsets.only(right: 16),
                     children: [
-
-                      Column(
-                        children: [
-                          const SectionHeading(heading: "CVs", align: Alignment.topLeft,),
-                          CVHistory(),
-                        ],
-                      ),
 
                       Column(
                         children: [
@@ -151,7 +144,13 @@ class ProfileState extends State<Profile> {
                         ],
                       ),
 
-                      
+                      Column(
+                        children: [
+                          const SectionHeading(heading: "CVs", align: Alignment.topLeft,),
+                          CVHistory(),
+                        ],
+                      ),
+                                          
                     ],
                   ),
                 ),
@@ -430,18 +429,26 @@ class CVHistory extends StatefulWidget {
 class CVHistoryState extends State<CVHistory> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Wrap(
+    return Container(height: 200, child:
+    SingleChildScrollView(child: 
+    Wrap(
+        spacing: 8,
+        runSpacing: 8,
         children: [
-          SizedBox(width: 150, height: 200, child: Container(color: Colors.blue),),
-          SizedBox(width: 150, height: 200, child: Container(color: Colors.green),),
-          SizedBox(width: 150, height: 200, child: Container(color: Colors.blue),),
-          SizedBox(width: 150, height: 200, child: Container(color: Colors.purple),),
-          SizedBox(width: 150, height: 200, child: Container(color: Colors.blue),),
-          SizedBox(width: 150, height: 200, child: Container(color: Colors.yellow),),
-          SizedBox(width: 150, height: 200, child: Container(color: Colors.blue),),
+          //testing containers
+          // SizedBox(width: 150, height: 200, child: Container(color: Colors.green),),
+          // SizedBox(width: 150, height: 200, child: Container(color: Colors.blue),),
+          // SizedBox(width: 150, height: 200, child: Container(color: Colors.green),),
+          // SizedBox(width: 150, height: 200, child: Container(color: Colors.blue),),
+          // SizedBox(width: 150, height: 200, child: Container(color: Colors.purple),),
+          // SizedBox(width: 150, height: 200, child: Container(color: Colors.green),),
+          // SizedBox(width: 150, height: 200, child: Container(color: Colors.blue),),
+          // SizedBox(width: 150, height: 200, child: Container(color: Colors.green),),
+          // SizedBox(width: 150, height: 200, child: Container(color: Colors.yellow),),
+          // SizedBox(width: 150, height: 200, child: Container(color: Colors.green),),
+          // SizedBox(width: 150, height: 200, child: Container(color: Colors.blue),),
+          // SizedBox(width: 150, height: 200, child: Container(color: Colors.green),),
         ], 
-      ),  
-    );
+    )));
   }
 }
