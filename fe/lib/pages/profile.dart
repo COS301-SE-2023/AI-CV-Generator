@@ -60,8 +60,8 @@ class ProfileState extends State<Profile> {
     TextEditingController phoneNoC = TextEditingController(text: phoneNumber);
     TextEditingController locationC = TextEditingController(text: location);
     TextEditingController descripC = TextEditingController(text: aboutMe);
-    TextEditingController workExperienceC = TextEditingController();
     TextEditingController qualificationC = TextEditingController();
+    TextEditingController workExperienceC = TextEditingController();
 
     GlobalKey<LinksSectionState> linksKey = GlobalKey<LinksSectionState>();
     LinksSection linkC = LinksSection(key: linksKey, links: model.links != null ? model.links! : []);
