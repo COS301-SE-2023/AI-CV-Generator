@@ -5,7 +5,7 @@ import com.revolvingSolutions.aicvgeneratorbackend.exception.RefreshException;
 import com.revolvingSolutions.aicvgeneratorbackend.repository.RefreshTokenRepository;
 import com.revolvingSolutions.aicvgeneratorbackend.repository.UserRepository;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -14,16 +14,15 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class RefreshTokenService {
 
     @Value("${app.tokenExpire-factor}")
-    private Long refreshTokenExpirefactor;
+    private final Long refreshTokenExpirefactor;
 
-    @Autowired
-    private RefreshTokenRepository refreshTokenRepository;
+    private final RefreshTokenRepository refreshTokenRepository;
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     public Optional<RefreshToken> findByToken(String token) {
         return refreshTokenRepository.findByToken(token);
@@ -32,7 +31,7 @@ public class RefreshTokenService {
     public RefreshToken createRefreshToken(int userId) {
         RefreshToken refreshToken = new RefreshToken();
 
-        refreshToken.setUser(userRepository.findById(userId).get());
+        refreshToken.setUser(userRepository.findById(userId).orElseThrow());
         refreshToken.setExpiryDate(Instant.now().plusMillis(1000*60*refreshTokenExpirefactor*2));
         refreshToken.setToken(UUID.randomUUID().toString());
 
@@ -50,7 +49,7 @@ public class RefreshTokenService {
     }
 
     @Transactional
-    public int deleteByUserId(int userId) {
-        return refreshTokenRepository.deleteByUser(userRepository.findById(userId).get());
+    public void deleteByUserId(int userId) {
+        refreshTokenRepository.deleteByUser(userRepository.findById(userId).orElseThrow());
     }
 }
