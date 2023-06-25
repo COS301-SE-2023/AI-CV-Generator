@@ -28,5 +28,5 @@ public class QualificationEntity {
     public String qualification;
     public String intstitution;
     public Date date;
-    public Date end;
+    public Date endo;
 }

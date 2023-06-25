@@ -106,7 +106,7 @@ public class UserService {
                 .qualification(request.getQualification().getQualification())
                 .intstitution(request.getQualification().getIntstitution())
                 .date(request.getQualification().getDate())
-                .end(request.getQualification().getEnd())
+                .endo(request.getQualification().getEndo())
                 .build();
         qualificationRepository.saveAndFlush(qua);
         return AddQualificationResponse.builder()
@@ -237,7 +237,7 @@ public class UserService {
             prev.setQualification(request.getQualification().getQualification());
             prev.setIntstitution(request.getQualification().getIntstitution());
             prev.setDate(request.getQualification().getDate());
-            prev.setEnd(request.getQualification().getEnd());
+            prev.setEndo(request.getQualification().getEndo());
             qualificationRepository.saveAndFlush(prev);
             return UpdateQualificationResponse.builder()
                     .qualifications(getQualifications())
