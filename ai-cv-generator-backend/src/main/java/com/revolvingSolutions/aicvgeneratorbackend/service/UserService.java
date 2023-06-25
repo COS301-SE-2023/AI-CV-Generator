@@ -28,7 +28,6 @@ import com.revolvingSolutions.aicvgeneratorbackend.response.details.qualificatio
 import com.revolvingSolutions.aicvgeneratorbackend.response.details.qualification.RemoveQualificationResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.details.qualification.UpdateQualificationResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.file.GetFilesResponse;
-import com.revolvingSolutions.aicvgeneratorbackend.response.file.InnerResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.user.GenerateUrlResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.user.GetUserResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.user.UpdateUserResponse;
@@ -49,7 +48,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.sql.Date;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -293,7 +291,7 @@ public class UserService {
 
     @Transactional
     public GetFilesResponse getFiles() {
-        List<FileModel> files = fileRepository.getFilesFromUser(getAuthenticatedUser().getUsername());
+        List<FileModelForList> files = fileRepository.getFilesFromUser(getAuthenticatedUser().getUsername());
         return GetFilesResponse.builder()
                 .files(files)
                 .build();
