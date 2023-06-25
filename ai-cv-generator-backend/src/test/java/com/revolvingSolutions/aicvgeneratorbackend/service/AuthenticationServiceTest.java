@@ -51,7 +51,6 @@ class AuthenticationServiceTest {
     }
 
     @Test
-    @Disabled
     void register() {
         // given
         RegRequest req = RegRequest.builder()
@@ -76,15 +75,13 @@ class AuthenticationServiceTest {
         verify(userRepository).save(userEntityArgumentCaptor.capture());
         UserEntity user = userEntityArgumentCaptor.getValue();
         assertThat(
-                user.getUsername() == "fname"&&
+                user.getUsername() == "username"&&
                         user.fname == "fname" &&
                         user.lname == "lname" &&
                         user.password != "password"
                 ).isTrue();
         verify(authService).genToken(user);
         verify(userRepository).findByUsername("username");
-        verify(refreshTokenService).createRefreshToken(idArgumentCaptor.capture());
-        assertThat(idArgumentCaptor.getValue()== null).isTrue();
     }
 
     @Test

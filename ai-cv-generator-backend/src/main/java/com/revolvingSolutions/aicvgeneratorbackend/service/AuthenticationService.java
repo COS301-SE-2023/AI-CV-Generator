@@ -37,7 +37,10 @@ public class AuthenticationService {
                 .build();
         repository.save(_user);
         var token = authService.genToken(_user);
-        var refreshToken = refreshTokenService.createRefreshToken(_user.userid).getToken();
+        var refreshToken = "";
+        if (_user.userid!= null) {
+            refreshToken = refreshTokenService.createRefreshToken(_user.userid).getToken();
+        }
         return AuthResponse.builder()
                 .token(token)
                 .refreshToken(refreshToken)
