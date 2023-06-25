@@ -66,7 +66,7 @@ class ProfileState extends State<Profile> {
     print(model.links);
     GlobalKey<LinksSectionState> linksKey = GlobalKey<LinksSectionState>();
     LinksSection linkC = LinksSection(key: linksKey, links: model.links != null ? model.links! : []);
-    GlobalKey<LinksSectionState> qualificationsKey = GlobalKey<LinksSectionState>();
+    GlobalKey<QualificationsSectionState> qualificationsKey = GlobalKey<QualificationsSectionState>();
     QualificationsSection qualificationsC = QualificationsSection(key: qualificationsKey, qualifications: model.qualifications != null ? model.qualifications! : []);
 
     DateTime time = DateTime.now();
