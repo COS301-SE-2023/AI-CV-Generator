@@ -82,7 +82,7 @@ public class UserController {
 
     @GetMapping(value="/files")
     public ResponseEntity<GetFilesResponse> getFiles() {
-        return ResponseEntity.ok(service.getFile());
+        return ResponseEntity.ok(service.getFiles());
     }
 
     @PostMapping(value="/addEmp")

@@ -28,6 +28,7 @@ import com.revolvingSolutions.aicvgeneratorbackend.response.details.qualificatio
 import com.revolvingSolutions.aicvgeneratorbackend.response.details.qualification.RemoveQualificationResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.details.qualification.UpdateQualificationResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.file.GetFilesResponse;
+import com.revolvingSolutions.aicvgeneratorbackend.response.file.InnerResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.user.GenerateUrlResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.user.GetUserResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.user.UpdateUserResponse;
@@ -291,9 +292,10 @@ public class UserService {
     }
 
     @Transactional
-    public GetFilesResponse getFile() {
+    public GetFilesResponse getFiles() {
+        List<FileModel> files = fileRepository.getFilesFromUser(getAuthenticatedUser().getUsername());
         return GetFilesResponse.builder()
-                .files(fileRepository.getFilesFromUser(getAuthenticatedUser().getUsername()))
+                .files(files)
                 .build();
     }
 
