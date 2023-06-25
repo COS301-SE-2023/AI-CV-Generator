@@ -28,7 +28,7 @@ class QualificationsSectionState extends State<QualificationsSection> {
   }
 
   void add(Qualification info) {
-    int linkId = get_id();
+    int objectId = get_id();
     TextEditingController qualificationC = TextEditingController();
     TextEditingController instatutionC = TextEditingController();
     TextEditingController dateC = TextEditingController();
@@ -36,28 +36,28 @@ class QualificationsSectionState extends State<QualificationsSection> {
     qualificationC.text = info.qualification;
     instatutionC.text = info.instatution;
 
-    qualificationsMap[linkId] = {
+    qualificationsMap[objectId] = {
       'quaid': info.quaid,
       'qualification': qualificationC,
       'instatution': instatutionC,
       'date': dateC,
     };
 
-    qualificationsMap[linkId]['widget'] = (
+    qualificationsMap[objectId]['widget'] = (
       Column(
         children: [
           SizedBox(height: 16,),
           QualificationsField(
-            qualificationC: qualificationsMap[linkId]['qualification'],
-            instatutionC: qualificationsMap[linkId]['instatution'],
-            dateC: qualificationsMap[linkId]['date'],
+            qualificationC: qualificationsMap[objectId]['qualification'],
+            instatutionC: qualificationsMap[objectId]['instatution'],
+            dateC: qualificationsMap[objectId]['date'],
             ),
           SizedBox(height: 16,),
           Align(
             alignment: Alignment.topRight,
             child: OutlinedButton(
               onPressed: (){
-                remove(linkId);
+                remove(objectId);
               }, 
               child: Text('-'),),
           )
@@ -66,10 +66,10 @@ class QualificationsSectionState extends State<QualificationsSection> {
     );
   }
 
-  void remove(int linkId) {
+  void remove(int objectId) {
     print('removed:');
-    print(qualificationsMap[linkId]['quaid'].text);
-    qualificationsMap.remove(linkId);
+    print(qualificationsMap[objectId]['qualification'].text);
+    qualificationsMap.remove(objectId);
     setState(() {});
   }
 
@@ -96,9 +96,9 @@ class QualificationsSectionState extends State<QualificationsSection> {
         ...populate(),
         SizedBox(height: 8,),
         OutlinedButton(onPressed: (){
-          // var newQualification = Qualification(qualification: qualification, instatution: instatution, date: date, quaid: quaid);
-          // widget.qualifications.add(newQualification);
-          // add(newQualification);
+          var newQualification = Qualification(qualification: '', instatution: '', date: DateTime.now(), quaid: get_id());
+          widget.qualifications.add(newQualification);
+          add(newQualification);
           setState(() {});
         }, child: Text('+')),
         SizedBox(height: 16,),
@@ -122,7 +122,7 @@ class QualificationsFieldState extends State<QualificationsField> {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Container(
+        Expanded(
           child: TextFormField(
           controller: widget.instatutionC,
           textAlign: TextAlign.right,
@@ -132,7 +132,8 @@ class QualificationsFieldState extends State<QualificationsField> {
             ),
           ),
         ),
-        Container(
+        SizedBox(width: 8,),
+        Expanded(
           child: TextFormField(
           controller: widget.qualificationC,
           textAlign: TextAlign.right,
@@ -142,14 +143,24 @@ class QualificationsFieldState extends State<QualificationsField> {
             ),
           ),
         ),
-        Container(
+        SizedBox(width: 8,),
+        Expanded(
           child: TextFormField(
           controller: widget.dateC,
           textAlign: TextAlign.right,
           decoration: InputDecoration(
-            hintText: "",
+            hintText: "Date",
             border: OutlineInputBorder(),
             ),
+            onTap: () {
+              setState(() {
+                datePicker(context).then((value) {
+                if(value != null) {
+                  widget.dateC.text = value.start.year.toString() + ' - ' + value.end.year.toString();
+                }
+              });
+              });
+            },
           ),
         ),
       ],
@@ -157,17 +168,25 @@ class QualificationsFieldState extends State<QualificationsField> {
   }
 }
 
-void datePicker(BuildContext context) {
-  showDialog(context: context, builder: (BuildContext context) {
-    return Container(
-      child: CalendarDatePicker(
-        initialDate: DateTime.now(),
-        firstDate: DateTime.now(),
-        lastDate: DateTime.now(),
-        onDateChanged:(value) {
-        },
-      ),
-    );
+String getDate(BuildContext context) {
+  var date = 'hello';
+  datePicker(context).then((value) {
+    if(value != null) {
+      date = value.start.year.toString() + ' - ' + value.end.year.toString();
+      print("not null");
+      print(date);
+    }
   });
+  print(date);
+  return date;
+}
+
+Future<DateTimeRange?> datePicker(BuildContext context) async {
+  return showDateRangePicker(
+      context: context, 
+      firstDate: DateTime.now().subtract(const Duration(days:365*100)),
+      lastDate: DateTime.now(),
+      initialEntryMode: DatePickerEntryMode.input,
+    );
 }
 
