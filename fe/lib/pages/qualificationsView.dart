@@ -76,7 +76,15 @@ class QualificationsSectionState extends State<QualificationsSection> {
   List<Qualification> update() {
     List<Qualification> QualificationCol = [];
     qualificationsMap.forEach((key, value) {
-      // QualificationCol.add(Qualification(quaid: qualificationsMap[key]["quaid"].text, Qualificationid: qualificationsMap[key]["Qualificationid"]));
+      QualificationCol.add(
+        Qualification(
+          quaid: int.parse(qualificationsMap[key]['quaid'].text),
+          qualification: qualificationsMap[key]['qualification'].text,
+          instatution: qualificationsMap[key]['instatution'].text,
+          date: qualificationsMap[key]['date'],
+          end: qualificationsMap[key]['end']
+        )
+      );
     });
     return QualificationCol;
   }
@@ -145,34 +153,27 @@ class QualificationsFieldState extends State<QualificationsField> {
         ),
         SizedBox(width: 8,),
         Expanded(
-          child: Container(
-            decoration: BoxDecoration(border: Border.all(width: 1)),
-            child: Text(""),
-          ),
-        ),
-        // Expanded(
-        //   child: GestureDetector(
-        //     onTap: () {
-        //       setState(() {
-        //         datePicker(context).then((value) {
-        //         if(value != null) {
-        //           widget.dateC.text = value.start.year.toString() + ' - ' + value.end.year.toString();
-        //         }
-        //       });
-        //       });
-        //     },
-        //   child: Text( widget.dateC.text
-          //   enabled: false,
-          // controller: widget.dateC,
-          // textAlign: TextAlign.center,
-          // decoration: InputDecoration(
-          //   hintText: "Date",
-          //   border: OutlineInputBorder(),
-          //   ),
+          child: GestureDetector(
+            onTap: () {
+              setState(() {
+                datePicker(context).then((value) {
+                if(value != null) {
+                  widget.dateC.text = value.start.year.toString() + ' - ' + value.end.year.toString();
+                }
+              });
+              });
+            },
+          child: TextFormField(
+            enabled: false,
+          controller: widget.dateC,
+          textAlign: TextAlign.center,
+          decoration: InputDecoration(
+            hintText: "Date",
+            border: OutlineInputBorder(),
+            ),
 
-          // ),
-        // )
-        // ),
+          ),
+        )),
       ],
     );
   }
