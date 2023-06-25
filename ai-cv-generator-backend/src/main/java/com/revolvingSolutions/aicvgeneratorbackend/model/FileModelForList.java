@@ -11,4 +11,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class FileModelForList {
     private String filename;
+    private byte[] cover;
 }
