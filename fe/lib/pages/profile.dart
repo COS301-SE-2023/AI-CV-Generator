@@ -6,6 +6,7 @@ import 'package:ai_cv_generator/models/user/UserModel.dart';
 // import 'package:ai_cv_generator/models/user/link.dart';
 import 'package:flutter/material.dart';
 import 'linksView.dart';
+import 'qualificationsView.dart';
 
 class Profile extends StatefulWidget {
   Profile({super.key,required this.model});
@@ -38,21 +39,21 @@ class ProfileState extends State<Profile> {
     String education = "";
     List<Employment>? employhistory = model.employhistory;
     if (employhistory != null)
-    for (int n=0; n <employhistory.length; n++) {
-      workExperience += "${employhistory[n].company} ";
-      workExperience += "${employhistory[n].title} ";
-      workExperience += "${employhistory[n].start_date}-";
-      workExperience += "${employhistory[n].end_date}\n";
-    }
-    if (employhistory == null || employhistory.isEmpty) workExperience = "No Work expierience listed...";
+    // for (int n=0; n <employhistory.length; n++) {
+    //   workExperience += "${employhistory[n].company} ";
+    //   workExperience += "${employhistory[n].title} ";
+    //   workExperience += "${employhistory[n].start_date}-";
+    //   workExperience += "${employhistory[n].end_date}\n";
+    // }
+    // if (employhistory == null || employhistory.isEmpty) workExperience = "No Work expierience listed...";
     List<Qualification>? qualifications = model.qualifications;
-    if (qualifications!= null)
-    for (int n=0; n<qualifications.length; n++) {
-      education += "${qualifications[n].qualification} ";
-      education += "${qualifications[n].instatution} ";
-      education += "${qualifications[n].date.toString()}\n";
-    }
-    if (qualifications== null || qualifications.isEmpty) education = "No education listed...";
+    // if (qualifications!= null)
+    // for (int n=0; n<qualifications.length; n++) {
+    //   education += "${qualifications[n].qualification} ";
+    //   education += "${qualifications[n].instatution} ";
+    //   education += "${qualifications[n].date.toString()}\n";
+    // }
+    // if (qualifications== null || qualifications.isEmpty) education = "No education listed...";
     
     TextEditingController fnameC = TextEditingController(text: model.fname);
     TextEditingController lnameC = TextEditingController(text: model.lname);
@@ -62,9 +63,11 @@ class ProfileState extends State<Profile> {
     TextEditingController descripC = TextEditingController(text: aboutMe);
     TextEditingController qualificationC = TextEditingController();
     TextEditingController workExperienceC = TextEditingController();
-
+    print(model.links);
     GlobalKey<LinksSectionState> linksKey = GlobalKey<LinksSectionState>();
     LinksSection linkC = LinksSection(key: linksKey, links: model.links != null ? model.links! : []);
+    GlobalKey<LinksSectionState> qualificationsKey = GlobalKey<LinksSectionState>();
+    QualificationsSection qualificationsC = QualificationsSection(key: qualificationsKey, qualifications: model.qualifications != null ? model.qualifications! : []);
 
     DateTime time = DateTime.now();
     void ActualUpdate() {
@@ -76,6 +79,8 @@ class ProfileState extends State<Profile> {
       model.description = descripC.text;
       model.location = locationC.text;
       model.links = linksKey.currentState?.update();
+      // model.qualifications = qualificationsKey.currentState?.update();
+      // model.employhistory = employhistoryKey.currentState?.update();
       userApi.updateUser(user: model);
     }
     void update() {
@@ -137,17 +142,18 @@ class ProfileState extends State<Profile> {
                       Column(
                         children: [
                           const SectionHeading(heading: "EDUCATION"),
-                          SectionDuplicate(target: SectionInput(inputWidget: TextFormField(controller: descripC, maxLines: 9, decoration: const InputDecoration(border: OutlineInputBorder(),),),),),
-                          // SectionInput(inputWidget: TextFormField(controller: qualificationC, maxLines: 9,),),
+                          qualificationsC,                          
+                      //     SectionDuplicate(target: SectionInput(inputWidget: TextFormField(controller: descripC, maxLines: 9, decoration: const InputDecoration(border: OutlineInputBorder(),),),),),
+                      //     // SectionInput(inputWidget: TextFormField(controller: qualificationC, maxLines: 9,),),
                         ],
                       ),
                       const SizedBox(height: 10,),
-                      Column(
-                        children: [
-                          const SectionHeading(heading: "WORK EXPERIENCE"),
-                          SectionInput(inputWidget: TextFormField(controller: workExperienceC, maxLines: 9, decoration: const InputDecoration(border: OutlineInputBorder(),),),),
-                        ],
-                      ),
+                      // Column(
+                      //   children: [
+                      //     const SectionHeading(heading: "WORK EXPERIENCE"),
+                      //     SectionInput(inputWidget: TextFormField(controller: workExperienceC, maxLines: 9, decoration: const InputDecoration(border: OutlineInputBorder(),),),),
+                      //   ],
+                      // ),
 
                       const Column(
                         children: [
