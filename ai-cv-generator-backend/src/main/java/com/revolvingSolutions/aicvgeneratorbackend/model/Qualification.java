@@ -16,4 +16,5 @@ public class Qualification {
     private String qualification;
     private String intstitution;
     private Date date;
+    private Date end;
 }
