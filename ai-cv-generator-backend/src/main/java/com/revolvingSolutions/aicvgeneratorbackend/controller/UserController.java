@@ -29,12 +29,15 @@ import com.revolvingSolutions.aicvgeneratorbackend.response.user.GetUserResponse
 import com.revolvingSolutions.aicvgeneratorbackend.response.user.UpdateUserResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.internal.log.SubSystemLogging;
 import org.springframework.core.io.Resource;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.Duration;
+import java.util.Date;
 
 @RestController
 @CrossOrigin(value="*")
@@ -64,10 +67,12 @@ public class UserController {
     @PostMapping(value="/shareFile")
     public ResponseEntity<GenerateUrlResponse> uploadFileAndShare(
             @RequestParam("file")MultipartFile file,
-            @RequestParam("Duration")Duration duration,
+            @RequestParam("Date")@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date duration,
             @RequestParam("base") String base
             ) {
-        return ResponseEntity.ok(service.generateUrlFromFile(base,file,duration));
+        GenerateUrlResponse response = service.generateUrlFromFile(base,file,duration);
+        System.out.println("Iam here"+response.getGeneratedUrl());
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping(value="/retfile")

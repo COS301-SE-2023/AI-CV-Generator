@@ -44,7 +44,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import java.sql.Date;
+import java.util.Date;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
@@ -351,7 +351,7 @@ public class UserService {
         }
     }
 
-    public GenerateUrlResponse generateUrlFromFile(String base, MultipartFile file, Duration duration) {
+    public GenerateUrlResponse generateUrlFromFile(String base, MultipartFile file, Date date) {
         try {
             update();
             shareRepository.save(
@@ -359,7 +359,7 @@ public class UserService {
                             .filetype(file.getContentType())
                             .filename(file.getOriginalFilename())
                             .data(file.getBytes())
-                            .ExpireDate(Date.from(Instant.now().plusMillis(duration.toMillis())))
+                            .ExpireDate(date)
                             .build()
             );
             return GenerateUrlResponse.builder()
