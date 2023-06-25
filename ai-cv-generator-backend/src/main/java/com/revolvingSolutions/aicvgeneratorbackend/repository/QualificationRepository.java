@@ -9,6 +9,6 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface QualificationRepository extends JpaRepository<QualificationEntity,Integer> {
-    @Query("SELECT new com.revolvingSolutions.aicvgeneratorbackend.model.Qualification(f.quaid,f.qualification,f.intstitution,f.date) FROM QualificationEntity f WHERE f.user.username = ?1")
+    @Query("SELECT new com.revolvingSolutions.aicvgeneratorbackend.model.Qualification(f.quaid,f.qualification,f.intstitution,f.date,f.endo) FROM QualificationEntity f WHERE f.user.username = ?1")
     public List<Qualification> getQualificationsFromUser(String username);
 }
