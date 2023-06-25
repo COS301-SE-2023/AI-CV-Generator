@@ -35,6 +35,7 @@ class QualificationsSectionState extends State<QualificationsSection> {
 
     qualificationC.text = info.qualification;
     instatutionC.text = info.instatution;
+    dateC.text = dateTimeToString(info.date, info.endo);
 
     qualificationsMap[objectId] = {
       'quaid': info.quaid,
@@ -67,8 +68,6 @@ class QualificationsSectionState extends State<QualificationsSection> {
   }
 
   void remove(int objectId) {
-    print('removed:');
-    print(qualificationsMap[objectId]['qualification'].text);
     qualificationsMap.remove(objectId);
     setState(() {});
   }
@@ -76,13 +75,14 @@ class QualificationsSectionState extends State<QualificationsSection> {
   List<Qualification> update() {
     List<Qualification> QualificationCol = [];
     qualificationsMap.forEach((key, value) {
+      DateTimeRange dateTimeRange = stringToDateTimeRange(qualificationsMap[key]['date'].text);
       QualificationCol.add(
         Qualification(
-          quaid: int.parse(qualificationsMap[key]['quaid'].text),
+          quaid: qualificationsMap[key]['quaid'],
           qualification: qualificationsMap[key]['qualification'].text,
           instatution: qualificationsMap[key]['instatution'].text,
           date: qualificationsMap[key]['date'],
-          end: qualificationsMap[key]['end']
+          endo: qualificationsMap[key]['end']
         )
       );
     });
@@ -104,7 +104,7 @@ class QualificationsSectionState extends State<QualificationsSection> {
         ...populate(),
         SizedBox(height: 8,),
         OutlinedButton(onPressed: (){
-          var newQualification = Qualification(qualification: '', instatution: '', date: DateTime.now(), quaid: get_id());
+          var newQualification = Qualification(qualification: '', instatution: '', date: DateTime.now(), quaid: get_id(),endo: DateTime.now());
           widget.qualifications.add(newQualification);
           add(newQualification);
           setState(() {});
@@ -126,6 +126,13 @@ class QualificationsField extends StatefulWidget {
 }
 
 class QualificationsFieldState extends State<QualificationsField> {
+  TextEditingController displayDateC = TextEditingController();
+  @override
+void initState() {
+  displayDateC.text = displayDateTimeRange(stringToDateTimeRange(widget.dateC.text));
+  super.initState();
+}
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -133,9 +140,9 @@ class QualificationsFieldState extends State<QualificationsField> {
         Expanded(
           child: TextFormField(
           controller: widget.instatutionC,
-          textAlign: TextAlign.right,
+          textAlign: TextAlign.center,
           decoration: InputDecoration(
-            hintText: "",
+            hintText: "Institution",
             border: OutlineInputBorder(),
             ),
           ),
@@ -144,9 +151,9 @@ class QualificationsFieldState extends State<QualificationsField> {
         Expanded(
           child: TextFormField(
           controller: widget.qualificationC,
-          textAlign: TextAlign.right,
+          textAlign: TextAlign.center,
           decoration: InputDecoration(
-            hintText: "",
+            hintText: "Qualification",
             border: OutlineInputBorder(),
             ),
           ),
@@ -157,39 +164,40 @@ class QualificationsFieldState extends State<QualificationsField> {
             onTap: () {
               setState(() {
                 datePicker(context).then((value) {
-                if(value != null) {
-                  widget.dateC.text = value.start.year.toString() + ' - ' + value.end.year.toString();
-                }
-              });
+                  if(value != null) {
+                    widget.dateC.text = dateTimeToString(value.start, value.end);
+                    displayDateC.text = displayDateTimeRange(value);
+                  }
+                });
               });
             },
-          child: TextFormField(
-            enabled: false,
-          controller: widget.dateC,
-          textAlign: TextAlign.center,
-          decoration: InputDecoration(
-            hintText: "Date",
-            border: OutlineInputBorder(),
-            ),
-
+            child: TextFormField(
+              enabled: false,
+              controller: displayDateC,
+              textAlign: TextAlign.center,
+              decoration: InputDecoration(
+                hintText: "Date",
+                border: OutlineInputBorder(),
+                ),
+              ),
           ),
-        )),
+        ),
       ],
     );
   }
 }
 
-String getDate(BuildContext context) {
-  var date = 'hello';
-  datePicker(context).then((value) {
-    if(value != null) {
-      date = value.start.year.toString() + ' - ' + value.end.year.toString();
-      print("not null");
-      print(date);
-    }
-  });
-  print(date);
-  return date;
+String dateTimeToString(DateTime start, DateTime end) {
+  return start.toString() + "/" + end.toString();
+}
+
+DateTimeRange stringToDateTimeRange(String text) {
+  List<String> dates = text.split('/');
+  return DateTimeRange(start: DateTime.parse(dates[0]), end: DateTime.parse(dates[1]));
+}
+
+String displayDateTimeRange(DateTimeRange dateTimeRange) {
+  return dateTimeRange.start.year.toString() + " - " + dateTimeRange.end.year.toString();
 }
 
 Future<DateTimeRange?> datePicker(BuildContext context) async {
