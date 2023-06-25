@@ -1,5 +1,8 @@
+import 'dart:typed_data';
+
 import 'package:ai_cv_generator/dio/client/fileApi.dart';
 import 'package:ai_cv_generator/dio/client/userApi.dart';
+import 'package:ai_cv_generator/models/files/FileModel.dart';
 import 'package:ai_cv_generator/models/user/Employment.dart';
 import 'package:ai_cv_generator/models/user/Link.dart';
 import 'package:ai_cv_generator/models/user/Qualification.dart';
@@ -80,7 +83,8 @@ class ProfileState extends State<Profile> {
       model.description = descripC.text;
       model.location = locationC.text;
       model.links = linksKey.currentState?.update();
-      // model.qualifications = qualificationsKey.currentState?.update();
+      print(qualificationsKey.currentState?.update());
+      model.qualifications = qualificationsKey.currentState?.update();
       // model.employhistory = employhistoryKey.currentState?.update();
       userApi.updateUser(user: model);
     }
@@ -374,37 +378,37 @@ class CVHistory extends StatefulWidget {
 }
 
 class CVHistoryState extends State<CVHistory> {
+  List<Widget> images = [];
   @override
-  void initState() {
-    FileApi.getFiles().then((value) {
-      if(value != null) {
-        print(value.length);
-      }
+  // void initState() {
+  //   FileApi.getFiles().then((value) {
+  //     if(value != null) {
+  //       value.forEach((element) {
+  //         add(element.cover);
+  //       });
+  //     }
+  //   });
+  //   super.initState();
+  // }
+
+  void add(Uint8List cover) {
+    images.add(
+      Image.memory(cover)
+    );
+    setState(() {
+      
     });
-    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return const SizedBox(height: 200, child:
+    return SizedBox(height: 200, child:
     SingleChildScrollView(child: 
     Wrap(
         spacing: 8,
         runSpacing: 8,
         children: [
-          //testing containers
-          // SizedBox(width: 150, height: 200, child: Container(color: Colors.green),),
-          // SizedBox(width: 150, height: 200, child: Container(color: Colors.blue),),
-          // SizedBox(width: 150, height: 200, child: Container(color: Colors.green),),
-          // SizedBox(width: 150, height: 200, child: Container(color: Colors.blue),),
-          // SizedBox(width: 150, height: 200, child: Container(color: Colors.purple),),
-          // SizedBox(width: 150, height: 200, child: Container(color: Colors.green),),
-          // SizedBox(width: 150, height: 200, child: Container(color: Colors.blue),),
-          // SizedBox(width: 150, height: 200, child: Container(color: Colors.green),),
-          // SizedBox(width: 150, height: 200, child: Container(color: Colors.yellow),),
-          // SizedBox(width: 150, height: 200, child: Container(color: Colors.green),),
-          // SizedBox(width: 150, height: 200, child: Container(color: Colors.blue),),
-          // SizedBox(width: 150, height: 200, child: Container(color: Colors.green),),
+          ...images,
         ], 
     )));
   }
