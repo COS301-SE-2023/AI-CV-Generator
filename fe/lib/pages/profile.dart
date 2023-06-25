@@ -1,3 +1,4 @@
+import 'package:ai_cv_generator/dio/client/fileApi.dart';
 import 'package:ai_cv_generator/dio/client/userApi.dart';
 import 'package:ai_cv_generator/models/user/Employment.dart';
 import 'package:ai_cv_generator/models/user/Link.dart';
@@ -373,6 +374,16 @@ class CVHistory extends StatefulWidget {
 }
 
 class CVHistoryState extends State<CVHistory> {
+  @override
+  void initState() {
+    FileApi.getFiles().then((value) {
+      if(value != null) {
+        print(value.length);
+      }
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return const SizedBox(height: 200, child:
