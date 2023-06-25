@@ -33,7 +33,7 @@ class RefreshTokenServiceTest {
     @BeforeEach
     void setUp() {
         closeable = MockitoAnnotations.openMocks(this);
-        refreshTokenService = new RefreshTokenService((long) 20,refreshTokenRepository,userRepository);
+        refreshTokenService = new RefreshTokenService(refreshTokenRepository,userRepository);
     }
 
     @AfterEach
