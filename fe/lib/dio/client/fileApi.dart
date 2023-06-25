@@ -83,18 +83,18 @@ class FileApi extends DioClient {
     return url;
   }
 
-  static Future<String?> generateUrlFromNewFile({
-    required PlatformFile file,
-    required Duration duration
+  static Future<String> generateUrlFromNewFile({
+    required PlatformFile? file,
+    required DateTime date
   }) async {
     String url = "";
     try {
-      if (file == null) return null;
+      if (file == null) return "";
       FormData formData = FormData.fromMap({
         "file": MultipartFile.fromBytes(
           file.bytes as List<int>, filename: file.name,
         ),
-        "Duration": duration,
+        "Date": date.toIso8601String(),
         "base": "http://${Uri.base.host}:${Uri.base.port}/"
       });
       Response response = await DioClient.dio.post(

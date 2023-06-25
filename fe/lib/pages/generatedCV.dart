@@ -1,6 +1,4 @@
 
-import 'package:ai_cv_generator/dio/client/fileApi.dart';
-import 'package:ai_cv_generator/pages/create_CV.dart';
 import 'package:ai_cv_generator/pages/pdf_window.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -114,8 +112,11 @@ class _generatedCVState extends State<generatedCV> {
             bottom: 18.0, // Adjust the position of the floating button
             right: 18.0,
             child: FloatingActionButton(
-              onPressed: () {
-                shareCVModal(context);
+              onPressed: () async {
+                await savePdf();
+                if (file != null) {
+                  shareCVModal(context,file);
+                }
               },
               child: const Icon(Icons.download),
             ),
@@ -134,6 +135,7 @@ class _generatedCVState extends State<generatedCV> {
                   ),
                 );
               },
+              child: const Icon(Icons.save),
             ),
           )
         

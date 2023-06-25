@@ -1,9 +1,12 @@
 import 'package:ai_cv_generator/dio/client/fileApi.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-void shareCVModal(BuildContext context) {
+void shareCVModal(BuildContext context,PlatformFile? f) {
   TextEditingController emailC = TextEditingController();
+  PlatformFile? file = f;
+
 
   showDialog(
     context: context,
@@ -20,11 +23,6 @@ void shareCVModal(BuildContext context) {
                 const Text(
                   'SHARE',
                   style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 16.0),
-                const Text(
-                  'EMAIL',
-                  style: TextStyle(fontSize: 16.0),
                 ),
                 const SizedBox(height: 8.0),
                 TextField(
@@ -43,21 +41,18 @@ void shareCVModal(BuildContext context) {
                   children: [
                     ElevatedButton(
                       onPressed: () {
-                        print(emailC.text);
-                        Navigator.of(context).pop();
+                        
                       },
-                      child: const Text('Submit'),
+                      child: const Text('Export to PDF'),
                     ),
                     const SizedBox(width: 16,),
                     InkWell(
                       onTap: () async {
-                        String linkToCV = await FileApi.generateUrl(filename: "DocumentTest.pdf", duration: const Duration(days: 0,hours: 0,minutes: 1,seconds: 0,milliseconds: 0));
+                        await FileApi.uploadFile(file: file);
+                        DateTime now =  DateTime.now();
+                        DateTime then = now.add(Duration(days: 	3));
+                        String linkToCV = await FileApi.generateUrl(filename: file!.name,duration: Duration(days: 0,hours: 1));
                         Clipboard.setData(ClipboardData(text: linkToCV));
-                        // ScaffoldMessenger.of(context).showSnackBar(
-                        //   SnackBar(
-                        //     content: Text('Copied'),
-                        //   ),
-                        // );
                       },
                       child: const Row(
                         children: [
