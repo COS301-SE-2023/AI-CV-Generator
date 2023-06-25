@@ -145,24 +145,34 @@ class QualificationsFieldState extends State<QualificationsField> {
         ),
         SizedBox(width: 8,),
         Expanded(
-          child: TextFormField(
-          controller: widget.dateC,
-          textAlign: TextAlign.right,
-          decoration: InputDecoration(
-            hintText: "Date",
-            border: OutlineInputBorder(),
-            ),
-            onTap: () {
-              setState(() {
-                datePicker(context).then((value) {
-                if(value != null) {
-                  widget.dateC.text = value.start.year.toString() + ' - ' + value.end.year.toString();
-                }
-              });
-              });
-            },
+          child: Container(
+            decoration: BoxDecoration(border: Border.all(width: 1)),
+            child: Text(""),
           ),
         ),
+        // Expanded(
+        //   child: GestureDetector(
+        //     onTap: () {
+        //       setState(() {
+        //         datePicker(context).then((value) {
+        //         if(value != null) {
+        //           widget.dateC.text = value.start.year.toString() + ' - ' + value.end.year.toString();
+        //         }
+        //       });
+        //       });
+        //     },
+        //   child: Text( widget.dateC.text
+          //   enabled: false,
+          // controller: widget.dateC,
+          // textAlign: TextAlign.center,
+          // decoration: InputDecoration(
+          //   hintText: "Date",
+          //   border: OutlineInputBorder(),
+          //   ),
+
+          // ),
+        // )
+        // ),
       ],
     );
   }
