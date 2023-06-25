@@ -18,7 +18,7 @@ import java.util.UUID;
 public class RefreshTokenService {
 
     @Value("${app.tokenExpire-factor}")
-    private final Long refreshTokenExpirefactor;
+    private Long refreshTokenExpirefactor;
 
     private final RefreshTokenRepository refreshTokenRepository;
 
