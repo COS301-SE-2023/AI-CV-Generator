@@ -113,7 +113,9 @@ class LinksFieldState extends State<LinksField> {
       child: TextFormField(
       controller: widget.urlC,
       textAlign: TextAlign.right,
-      decoration: InputDecoration(border: OutlineInputBorder(),),
+      decoration: InputDecoration(
+        hintText: "insert url",
+        border: OutlineInputBorder(),),
       ),
     );
   }
