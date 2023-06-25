@@ -8,14 +8,9 @@ part 'FileModel.g.dart';
 @JsonSerializable()
 class FileModel {
   String filename;
-  String filetype;
-  @Uint8ListConverter()
-  Uint8List cover;
 
   FileModel({
-    required this.filename,
-    required this.filetype,
-    required this.cover
+    required this.filename
   });
 
   factory FileModel.fromJson(Map<String, dynamic> json) => _$FileModelFromJson(json);
