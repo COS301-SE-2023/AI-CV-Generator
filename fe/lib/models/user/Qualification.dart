@@ -9,14 +9,14 @@ class Qualification {
     required this.instatution,
     required this.date,
     required this.quaid,
-    required this.end
+    required this.endo
   });
 
   int quaid;
   String qualification;
   String instatution;
   DateTime date;
-  DateTime end;
+  DateTime endo;
 
   factory Qualification.fromJson(Map<String, dynamic> json) => _$QualificationFromJson(json);
   Map<String, dynamic> toJson() => _$QualificationToJson(this);
