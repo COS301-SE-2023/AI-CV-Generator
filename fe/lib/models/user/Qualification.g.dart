@@ -11,6 +11,7 @@ Qualification _$QualificationFromJson(Map<String, dynamic> json) =>
       qualification: json['qualification'] as String,
       instatution: json['instatution'] as String,
       date: DateTime.parse(json['date'] as String),
+      end: DateTime.parse(json['end'] as String),
       quaid: json['quaid'] as int,
     );
 
