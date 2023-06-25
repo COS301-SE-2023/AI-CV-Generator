@@ -83,7 +83,6 @@ class ProfileState extends State<Profile> {
       model.description = descripC.text;
       model.location = locationC.text;
       model.links = linksKey.currentState?.update();
-      print(qualificationsKey.currentState?.update());
       model.qualifications = qualificationsKey.currentState?.update();
       // model.employhistory = employhistoryKey.currentState?.update();
       userApi.updateUser(user: model);
@@ -393,7 +392,7 @@ class CVHistoryState extends State<CVHistory> {
 
   void add(Uint8List cover) {
     images.add(
-      Image.memory(cover)
+      Image.memory(cover, fit: BoxFit.scaleDown,)
     );
     setState(() {
       
