@@ -34,6 +34,7 @@ class ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     Employment employmentData = Employment(company: "company", title: "title", start_date: DateTime.now(), end_date: DateTime.now(), empid: 0);
+    Qualification qualificationData = Qualification(qualification: 'BSC IT', instatution: 'University of Cape Town', date: DateTime.now(), quaid: 0, endo: DateTime.now());
 
     String email =  model.email != null ? model.email! : "No email...";
     String phoneNumber =  model.phoneNumber != null? model.phoneNumber!:"No phone number...";
@@ -83,7 +84,13 @@ class ProfileState extends State<Profile> {
       model.description = descripC.text;
       model.location = locationC.text;
       model.links = linksKey.currentState?.update();
-      print(qualificationsKey.currentState?.update());
+      print("Qualifications data before backend");
+      qualificationsKey.currentState?.update().forEach((element) {
+        print(element.instatution);
+        print(element.qualification);
+        print(element.date);
+        print(element.endo);
+      });
       model.qualifications = qualificationsKey.currentState?.update();
       // model.employhistory = employhistoryKey.currentState?.update();
       userApi.updateUser(user: model);
@@ -379,26 +386,41 @@ class CVHistory extends StatefulWidget {
 
 class CVHistoryState extends State<CVHistory> {
   List<Widget> images = [];
+  List<Widget> files = [];
   @override
-  // void initState() {
-  //   FileApi.getFiles().then((value) {
-  //     if(value != null) {
-  //       value.forEach((element) {
-  //         add(element.cover);
-  //       });
-  //     }
-  //   });
-  //   super.initState();
-  // }
+  void initState() {
+    FileApi.getFiles().then((value) {
+      if(value != null) {
+        value.forEach((element) {
+          add(element.filename);
+        });
+      }
+    });
+    super.initState();
+  }
 
-  void add(Uint8List cover) {
-    images.add(
-      Image.memory(cover)
+  void add(String filename) {
+    files.add(
+      OutlinedButton(
+        onPressed: () async {
+          FileApi.requestFile(filename: filename);
+        },
+        child: Text(filename),
+      ),
     );
     setState(() {
       
     });
   }
+
+  // void add(Uint8List cover) {
+  //   images.add(
+  //     Image.memory(cover)
+  //   );
+  //   setState(() {
+      
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -408,7 +430,7 @@ class CVHistoryState extends State<CVHistory> {
         spacing: 8,
         runSpacing: 8,
         children: [
-          ...images,
+          ...files,
         ], 
     )));
   }
