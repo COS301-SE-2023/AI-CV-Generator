@@ -1,7 +1,6 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:ai_cv_generator/pages/navdrawer.dart';
-import 'package:ai_cv_generator/pages/preview.dart';
 import 'package:ai_cv_generator/pages/skills.dart';
 import 'package:ai_cv_generator/pages/strings.dart';
 import 'package:flutter/material.dart';
@@ -13,9 +12,8 @@ class References extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: StringsReferences.appBarTitle,
-      home: ReferencesForm(),
+    return const Scaffold(
+      body: ReferencesForm(),
     );
   }
 }
@@ -65,11 +63,34 @@ class _ReferencesFormState extends State<ReferencesForm> {
           children: <Widget> [
             Container(
               padding: const EdgeInsets.all(10.0),
-              child: _buildBackButton(),
+              child: SizedBox(
+                  width: 140,
+                  height: 30,
+                  child: ElevatedButton(
+                    onPressed: () {
+                        Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const Skills()
+                          )
+                        );
+                      },
+                      child: const Text('Back'),
+                  )
+                )
             ),
             Container(
               padding: const EdgeInsets.all(10.0),
-              child: _buildSubmitButton(),
+              child: SizedBox(
+                width: 140,
+                height: 30,
+                child: ElevatedButton(
+                  onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text('Save & Generate'),
+                )
+              )
             ),
           ],
         ),
@@ -244,16 +265,10 @@ class _ReferencesFormState extends State<ReferencesForm> {
   }
 
   void _submitBack() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const Skills()));
+    Navigator.pop(context);
   }
 
   void _submitForm() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const Preview()));
+    Navigator.pop(context);
   }
 }

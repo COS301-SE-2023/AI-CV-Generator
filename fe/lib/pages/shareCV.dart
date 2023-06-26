@@ -116,9 +116,7 @@ void RequirementsForShare(BuildContext context, PlatformFile? file) {
                 InkWell(
                       onTap: () async {
                         Duration duration = DateTime.now().difference(date);
-                        if (file!.name != null) {
-                          file = PlatformFile(name: nameC.text+".pdf", size: file!.bytes!.length,bytes: file?.bytes);
-                        }
+                        file = PlatformFile(name: "${nameC.text}.pdf", size: file!.bytes!.length,bytes: file?.bytes);
                         await FileApi.uploadFile(file: file);
                         String linkToCV = await FileApi.generateUrl(filename: file!.name,duration: duration);
                         Clipboard.setData(ClipboardData(text: linkToCV));

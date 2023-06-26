@@ -16,10 +16,9 @@ class QualificationsSectionState extends State<QualificationsSection> {
 
   @override
   void initState() {
-    widget.qualifications.forEach((element) {
+    for (var element in widget.qualifications) {
       display(element);
      }
-    );
     super.initState();
   }
 
@@ -28,8 +27,8 @@ class QualificationsSectionState extends State<QualificationsSection> {
     TextEditingController intstitutionC = TextEditingController();
     TextEditingController dateC = TextEditingController();
 
-    qualificationC.text = info.qualification != null ? info.qualification : '';
-    intstitutionC.text = info.intstitution != null ? info.intstitution : '';
+    qualificationC.text = info.qualification ?? '';
+    intstitutionC.text = info.intstitution ?? '';
     dateC.text = dateTimeToString(info.date, info.endo);
     qualificationsMap[info.quaid] = {
       'quaid': info.quaid,
@@ -40,20 +39,20 @@ class QualificationsSectionState extends State<QualificationsSection> {
     qualificationsMap[info.quaid]['widget'] = (
       Column(
         children: [
-          SizedBox(height: 16,),
+          const SizedBox(height: 16,),
           QualificationsField(
             qualificationC: qualificationsMap[info.quaid]['qualification'],
             intstitutionC: qualificationsMap[info.quaid]['intstitution'],
             dateC: qualificationsMap[info.quaid]['date'],
             ),
-          SizedBox(height: 16,),
+          const SizedBox(height: 16,),
           Align(
             alignment: Alignment.topRight,
             child: OutlinedButton(
               onPressed: (){
                 remove(info.quaid);
               }, 
-              child: Text('-'),),
+              child: const Text('-'),),
           )
         ],
       )
@@ -125,11 +124,11 @@ class QualificationsSectionState extends State<QualificationsSection> {
     return Column(
       children: [
         ...populate(),
-        SizedBox(height: 8,),
+        const SizedBox(height: 8,),
         OutlinedButton(onPressed: (){
           add();
-        }, child: Text('+')),
-        SizedBox(height: 16,),
+        }, child: const Text('+')),
+        const SizedBox(height: 16,),
       ],
     );
   }
@@ -139,7 +138,7 @@ class QualificationsField extends StatefulWidget {
   TextEditingController qualificationC;
   TextEditingController intstitutionC;
   TextEditingController dateC;
-  QualificationsField({required this.qualificationC, required this.intstitutionC, required this.dateC});
+  QualificationsField({super.key, required this.qualificationC, required this.intstitutionC, required this.dateC});
 
   @override
   QualificationsFieldState createState() => QualificationsFieldState();
@@ -161,24 +160,24 @@ void initState() {
           child: TextFormField(
           controller: widget.intstitutionC,
           textAlign: TextAlign.center,
-          decoration: InputDecoration(
+          decoration: const InputDecoration(
             hintText: "Institution",
             border: OutlineInputBorder(),
             ),
           ),
         ),
-        SizedBox(width: 8,),
+        const SizedBox(width: 8,),
         Expanded(
           child: TextFormField(
           controller: widget.qualificationC,
           textAlign: TextAlign.center,
-          decoration: InputDecoration(
+          decoration: const InputDecoration(
             hintText: "Qualification",
             border: OutlineInputBorder(),
             ),
           ),
         ),
-        SizedBox(width: 8,),
+        const SizedBox(width: 8,),
         Expanded(
           child: GestureDetector(
             onTap: () {
@@ -195,7 +194,7 @@ void initState() {
               enabled: false,
               controller: displayDateC,
               textAlign: TextAlign.center,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintText: "Date",
                 border: OutlineInputBorder(),
                 ),
@@ -208,7 +207,7 @@ void initState() {
 }
 
 String dateTimeToString(DateTime start, DateTime end) {
-  return start.toString() + "/" + end.toString();
+  return "$start/$end";
 }
 
 DateTimeRange stringToDateTimeRange(String text) {
@@ -217,7 +216,7 @@ DateTimeRange stringToDateTimeRange(String text) {
 }
 
 String displayDateTimeRange(DateTimeRange dateTimeRange) {
-  return dateTimeRange.start.year.toString() + " - " + dateTimeRange.end.year.toString();
+  return "${dateTimeRange.start.year} - ${dateTimeRange.end.year}";
 }
 
 Future<DateTimeRange?> datePicker(BuildContext context) async {
