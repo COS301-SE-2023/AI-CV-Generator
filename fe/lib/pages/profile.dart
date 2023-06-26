@@ -57,7 +57,7 @@ class ProfileState extends State<Profile> {
     GlobalKey<QualificationsSectionState> employhistoryKey = GlobalKey<QualificationsSectionState>();
     LinksSection linkC = LinksSection(key: linksKey, links: model.links != null ? model.links! : []);
     QualificationsSection qualificationsC = QualificationsSection(key: qualificationsKey, qualifications: model.qualifications != null ? model.qualifications! : []);
-    EmploymentSection employmentC = EmploymentSection(key: employhistoryKey, employment: model.employhistory != null ? model.employhistory! : []);
+    EmploymentSection employmentC = EmploymentSection(key: employhistoryKey, employment: model.employmenthistory != null ? model.employmenthistory! : []);
 
     DateTime time = DateTime.now();
     void ActualUpdate() {

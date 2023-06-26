@@ -17,7 +17,7 @@ class UserModel {
   String? location;
   String? description;
   List<Qualification>? qualifications;
-  List<Employment>? employhistory;
+  List<Employment>? employmenthistory;
   List<Link>? links;
   
   

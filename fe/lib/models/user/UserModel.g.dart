@@ -18,7 +18,7 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) => UserModel(
       ..qualifications = (json['qualifications'] as List<dynamic>?)
           ?.map((e) => Qualification.fromJson(e as Map<String, dynamic>))
           .toList()
-      ..employhistory = (json['employhistory'] as List<dynamic>?)
+      ..employmenthistory = (json['employmenthistory'] as List<dynamic>?)
           ?.map((e) => Employment.fromJson(e as Map<String, dynamic>))
           .toList()
       ..links = (json['links'] as List<dynamic>?)
@@ -34,6 +34,6 @@ Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
       'location': instance.location,
       'description': instance.description,
       'qualifications': instance.qualifications,
-      'employhistory': instance.employhistory,
+      'employmenthistory': instance.employmenthistory,
       'links': instance.links,
     };
