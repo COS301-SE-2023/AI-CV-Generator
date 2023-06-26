@@ -83,11 +83,11 @@ class UserControllerTest {
     void uploadFile() {
         // given
         MultipartFile file = new MockMultipartFile("File", (byte[]) null);
-        MultipartFile cover;
+        MultipartFile cover = new MockMultipartFile("File", (byte[]) null);
         // when
-        userController.uploadFile(file);
+        userController.uploadFile(file,cover);
         // then
-        verify(userService).uploadFile(file);
+        verify(userService).uploadFile(file,cover);
     }
 
     @Test
@@ -107,7 +107,7 @@ class UserControllerTest {
         // when
         userController.getFiles();
         // then
-        verify(userService).getFile();
+        verify(userService).getFiles();
     }
 
     @Test
