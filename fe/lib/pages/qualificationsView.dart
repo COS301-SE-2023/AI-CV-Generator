@@ -35,7 +35,7 @@ class QualificationsSectionState extends State<QualificationsSection> {
     TextEditingController dateC = TextEditingController();
 
     qualificationC.text = info.qualification != null ? info.qualification : '';
-    instatutionC.text = info.instatution != null ? info.instatution : '';
+    instatutionC.text = info.intstitution != null ? info.intstitution : '';
     dateC.text = dateTimeToString(info.date, info.endo);
 
     qualificationsMap[objectId] = {
@@ -71,7 +71,7 @@ class QualificationsSectionState extends State<QualificationsSection> {
   void add() {
     var newQualification = Qualification(
       qualification: '',
-      instatution: '',
+      intstitution: '',
       date: DateTime.now(),
       quaid: 0,
       endo: DateTime.now()
@@ -95,7 +95,7 @@ class QualificationsSectionState extends State<QualificationsSection> {
     Qualification? updatedQualification = getQualification(key);
       if(updatedQualification != null) {
         print("&&&&&&&&&&&&&");
-        print(updatedQualification.instatution);
+        print(updatedQualification.intstitution);
         print(updatedQualification.qualification);
         print(updatedQualification.date);
         print(updatedQualification.endo);
@@ -112,7 +112,7 @@ class QualificationsSectionState extends State<QualificationsSection> {
 
     Qualification newQualification = Qualification(
       qualification: qualificationsMap[objectId]['qualification'].text,
-      instatution: qualificationsMap[objectId]['instatution'].text,
+      intstitution: qualificationsMap[objectId]['instatution'].text,
       quaid: 0,
       date: dateTimeRange.start,
       endo: dateTimeRange.end,

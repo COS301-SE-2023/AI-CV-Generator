@@ -124,11 +124,13 @@ class userApi extends DioClient {
     required Qualification qualification
   }) async {
     try {
+      print(qualification.intstitution);
       AddQualificationRequest request = AddQualificationRequest(qualification: qualification);
       Response resp = await DioClient.dio.post(
         'api/User/addQua',
         data: request.toJson()
         );
+      print(resp.data);
       return QualificationsResponse.fromJson(resp.data).qualifications;
     } on DioError catch (e) {
       DioClient.handleError(e);

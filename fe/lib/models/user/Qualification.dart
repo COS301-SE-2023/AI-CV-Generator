@@ -6,7 +6,7 @@ part 'Qualification.g.dart';
 class Qualification {
   Qualification({
     required this.qualification,
-    required this.instatution,
+    required this.intstitution,
     required this.date,
     required this.quaid,
     required this.endo
@@ -14,7 +14,7 @@ class Qualification {
 
   int quaid;
   String qualification;
-  String instatution;
+  String intstitution;
   DateTime date;
   DateTime endo;
 
