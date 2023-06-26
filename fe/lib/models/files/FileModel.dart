@@ -3,9 +3,7 @@ import 'dart:typed_data';
 import 'package:ai_cv_generator/models/files/Unit8listConverter.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'FileModel.g.dart';
-
-@JsonSerializable()
+part 'FileModel.ga.dart';
 class FileModel {
   String filename;
   Uint8List cover;

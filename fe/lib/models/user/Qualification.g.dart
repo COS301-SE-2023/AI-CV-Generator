@@ -11,8 +11,8 @@ Qualification _$QualificationFromJson(Map<String, dynamic> json) =>
       qualification: json['qualification'] as String,
       instatution: json['instatution'] as String,
       date: DateTime.parse(json['date'] as String),
-      endo: DateTime.parse(json['endo'] as String),
       quaid: json['quaid'] as int,
+      endo: DateTime.parse(json['endo'] as String),
     );
 
 Map<String, dynamic> _$QualificationToJson(Qualification instance) =>
@@ -21,5 +21,5 @@ Map<String, dynamic> _$QualificationToJson(Qualification instance) =>
       'qualification': instance.qualification,
       'instatution': instance.instatution,
       'date': instance.date.toIso8601String(),
-      'endo': instance.date.toIso8601String()
+      'endo': instance.endo.toIso8601String(),
     };

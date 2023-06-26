@@ -1,12 +1,18 @@
 import 'package:ai_cv_generator/dio/client/dioClient.dart';
 import 'package:ai_cv_generator/dio/request/AuthRequests/LoginRequest.dart';
 import 'package:ai_cv_generator/dio/request/AuthRequests/RegisterRequest.dart';
+import 'package:ai_cv_generator/dio/request/DetailsRequests/Qualification/AddQualificationRequest.dart';
 import 'package:ai_cv_generator/dio/request/UserRequests/UpdateUserRequest.dart';
 import 'package:ai_cv_generator/dio/response/AuthResponses/AuthResponse.dart';
 import 'package:ai_cv_generator/dio/response/UserResponses/UserResponse.dart';
+import 'package:ai_cv_generator/models/user/Qualification.dart';
 import 'package:ai_cv_generator/models/user/UserModel.dart';
 
 import 'package:dio/dio.dart';
+
+import '../request/DetailsRequests/Qualification/RemoveQualificationRequest.dart';
+import '../request/DetailsRequests/Qualification/UpdateQualificationRequest.dart';
+import '../response/DetailsResponses/QualificationsResponse.dart';
 
 class userApi extends DioClient {
   static Future<UserModel?> getUser() async {
@@ -100,5 +106,53 @@ class userApi extends DioClient {
     }
     Response resp = await DioClient.dio.get('api/Users');
     print("Response: ${resp.data}");
+  }
+
+  static Future<List<Qualification>?> addQulaification({
+    required Qualification qualification
+  }) async {
+    try {
+      AddQualificationRequest request = AddQualificationRequest(qualification: qualification);
+      Response resp = await DioClient.dio.post(
+        'api/User/addQua',
+        data: request.toJson()
+        );
+      return QualificationsResponse.fromJson(resp.data).qualifications;
+    } on DioError catch (e) {
+      DioClient.handleError(e);
+    }
+    return null;
+  }
+
+  static Future<List<Qualification>?> removeQulaification({
+    required Qualification qualification
+  }) async {
+    try {
+      RemoveQualificationRequest request = RemoveQualificationRequest(qualification: qualification);
+      Response resp = await DioClient.dio.post(
+        'api/User/remQua',
+        data: request.toJson()
+        );
+      return QualificationsResponse.fromJson(resp.data).qualifications;
+    } on DioError catch (e) {
+      DioClient.handleError(e);
+    }
+    return null;
+  }
+
+  static Future<List<Qualification>?> updateQulaification({
+    required Qualification qualification
+  }) async {
+    try {
+      UpdateQualificationRequest request = UpdateQualificationRequest(qualification: qualification);
+      Response resp = await DioClient.dio.post(
+        'api/User/updateQua',
+        data: request.toJson()
+        );
+      return QualificationsResponse.fromJson(resp.data).qualifications;
+    } on DioError catch (e) {
+      DioClient.handleError(e);
+    }
+    return null;
   }
 }
