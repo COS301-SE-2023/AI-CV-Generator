@@ -14,9 +14,11 @@ class QualificationsDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: StringsQualifications.appBarTitle,
-      home: QualificationsDetailsForm(),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(StringsQualifications.appBarTitle)
+      ),
+      body:const QualificationsDetailsForm(),
     );
   }
 }
@@ -67,11 +69,37 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
           children: <Widget> [
             Container(
               padding: const EdgeInsets.all(10.0),
-              child: _buildBackButton(),
+              child: SizedBox(
+                width: 140,
+                height: 30,
+                child: ElevatedButton(
+                  onPressed: () {
+                      Navigator.pushReplacement(
+                        context,
+                          MaterialPageRoute(
+                          builder: (context) => const PersonalDetails())
+                        );
+                    },
+                    child: const Text('Back'),
+                )
+              ),
             ),
             Container(
               padding: const EdgeInsets.all(10.0),
-              child: _buildSubmitButton(),
+              child: SizedBox(
+                width: 140,
+                height: 30,
+                child: ElevatedButton(
+                  onPressed: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const EmploymentDetails())
+                        );
+                    },
+                    child: const Text('Save & Proceed'),
+                )
+              )
             ),
           ],
         ),

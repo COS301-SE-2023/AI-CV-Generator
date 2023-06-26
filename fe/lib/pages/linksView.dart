@@ -16,10 +16,9 @@ class LinksSectionState extends State<LinksSection> {
 
   @override
   void initState() {
-    widget.links.forEach((element) {
+    for (var element in widget.links) {
       display(element);
      }
-    );
     super.initState();
   }
 
@@ -36,16 +35,16 @@ class LinksSectionState extends State<LinksSection> {
     linksMap[info.linkid]['widget'] = (
       Column(
         children: [
-          SizedBox(height: 16,),
+          const SizedBox(height: 16,),
           LinksField(urlC: linksMap[info.linkid]['url']),
-          SizedBox(height: 16,),
+          const SizedBox(height: 16,),
           Align(
             alignment: Alignment.topRight,
             child: OutlinedButton(
               onPressed: (){
                 remove(info.linkid);
               }, 
-              child: Text('-'),),
+              child: const Text('-'),),
           )
         ],
       )
@@ -114,11 +113,11 @@ class LinksSectionState extends State<LinksSection> {
     return Column(
       children: [
         ...populate(),
-        SizedBox(height: 8,),
+        const SizedBox(height: 8,),
         OutlinedButton(onPressed: (){
           add();
-        }, child: Text('+')),
-        SizedBox(height: 16,),
+        }, child: const Text('+')),
+        const SizedBox(height: 16,),
       ],
     );
   }
@@ -126,7 +125,7 @@ class LinksSectionState extends State<LinksSection> {
 
 class LinksField extends StatefulWidget {
   TextEditingController urlC;
-  LinksField({required this.urlC});
+  LinksField({super.key, required this.urlC});
 
   @override
   LinksFieldState createState() => LinksFieldState();
@@ -139,7 +138,7 @@ class LinksFieldState extends State<LinksField> {
       child: TextFormField(
       controller: widget.urlC,
       textAlign: TextAlign.center,
-      decoration: InputDecoration(
+      decoration: const InputDecoration(
         hintText: "Url",
         border: OutlineInputBorder(),),
       ),

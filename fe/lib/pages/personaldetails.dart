@@ -12,9 +12,8 @@ class PersonalDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: StringsPersonal.appBarTitle,
-      home: PersonalDetailsForm(),
+    return  const Scaffold(
+      body: PersonalDetailsForm(),
     );
   }
 }
@@ -56,7 +55,19 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
         Center (
           child: Container(
               padding: const EdgeInsets.all(4.0),
-              child: _buildSubmitButton(),
+              child: SizedBox(
+                width: 150,
+                height: 30,
+                child: ElevatedButton(
+                  onPressed: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const QualificationsDetailsForm()));
+                    },
+                    child: const Text('Save & Proceed'),
+                )
+              ),
             )
           ),
         ],

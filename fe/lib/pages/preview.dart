@@ -1,11 +1,9 @@
 // ignore_for_file: must_be_immutable
-import 'dart:io';
-import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
-import 'package:ai_cv_generator/pages/employment.dart';
 import 'package:ai_cv_generator/pages/navdrawer.dart';
 import 'package:ai_cv_generator/pages/references.dart';
 import 'package:ai_cv_generator/pages/strings.dart';
 import 'package:flutter/material.dart';
+import 'package:pdf_render/pdf_render_widgets.dart';
 
 void main () => runApp(const Preview());
 
@@ -102,7 +100,7 @@ class _PreviewFormState extends State<PreviewForm> {
     return SizedBox(
       width: 600.0,
       height: 800.0,
-      child: SfPdfViewer.asset('assets/Resume 1.pdf'),
+      child: PdfViewer.openAsset('assets/Resume 1.pdf'),
     );
   }
    
@@ -148,7 +146,7 @@ class _PreviewFormState extends State<PreviewForm> {
       height: 30,
       child: ElevatedButton(
         onPressed: () {
-            _submitForm();
+            //shareCVModal(context, f);
           },
           style: ElevatedButton.styleFrom(
             padding: const EdgeInsets.all(10.0),
