@@ -73,7 +73,7 @@ class FileApi extends DioClient {
         );
       Uint8List data = Uint8List.fromList(response.data.toList() as List<int>);
       PlatformFile file = PlatformFile(
-        name: "",
+        name: filename,
         size: data.length,
         bytes: data,
       );
