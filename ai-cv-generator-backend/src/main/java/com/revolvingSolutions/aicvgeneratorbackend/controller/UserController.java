@@ -100,7 +100,7 @@ public class UserController {
     }
 
     @PostMapping(value="/updateEmp")
-    public ResponseEntity<Object> updateEmployment(
+    public ResponseEntity<UpdateEmploymentResponse> updateEmployment(
             @RequestBody UpdateEmploymentRequest request
     ) {
         try {
@@ -125,7 +125,7 @@ public class UserController {
     }
 
     @PostMapping(value="/updateQua")
-    public ResponseEntity<Object> updateQualification(
+    public ResponseEntity<UpdateQualificationResponse> updateQualification(
             @RequestBody UpdateQualificationRequest request
     ) {
         try {
@@ -151,7 +151,7 @@ public class UserController {
     }
 
     @PostMapping(value="/updateLink")
-    public ResponseEntity<Object> updateLink(
+    public ResponseEntity<UpdateLinkResponse> updateLink(
             @RequestBody UpdateLinkRequest request
     ) {
         try {
