@@ -13,7 +13,6 @@ class QualificationsSection extends StatefulWidget {
 class QualificationsSectionState extends State<QualificationsSection> {
   final blankQualification = Qualification(qualification: '', intstitution: '', date: DateTime.now(), quaid: 0, endo: DateTime.now());
   Map qualificationsMap = {};
-  int id = 0;
 
   @override
   void initState() {
