@@ -1,3 +1,4 @@
+import 'package:ai_cv_generator/api/DownloadService.dart';
 import 'package:ai_cv_generator/dio/client/fileApi.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +31,7 @@ void shareCVModal(BuildContext context,PlatformFile? f) {
                   children: [
                     ElevatedButton(
                       onPressed: () {
-                        
+                        DownloadService.download(file!.bytes!.toList(), downloadName: file.name);
                       },
                       child: const Text('Export to PDF'),
                     ),
