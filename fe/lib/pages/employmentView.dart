@@ -16,6 +16,7 @@ class EmploymentSectionState extends State<EmploymentSection> {
 
   @override
   void initState() {
+    print(widget.employment.length);
     widget.employment.forEach((element) {
       display(element);
      }
@@ -63,10 +64,10 @@ class EmploymentSectionState extends State<EmploymentSection> {
 
   void add() {
     userApi.addEmployment(employment: blankEmployment).then((value) {
-      // Employment newEmployment = getCorrect(value!)!;
-      // print(newEmployment.empid);
-      // display(newEmployment);
-      // setState(() {});
+      Employment newEmployment = getCorrect(value!)!;
+      print(newEmployment.empid);
+      display(newEmployment);
+      setState(() {});
     });
   }
 
