@@ -84,14 +84,7 @@ class ProfileState extends State<Profile> {
       model.description = descripC.text;
       model.location = locationC.text;
       model.links = linksKey.currentState?.update();
-      print("Qualifications data before backend");
-      qualificationsKey.currentState?.update().forEach((element) {
-        print(element.instatution);
-        print(element.qualification);
-        print(element.date);
-        print(element.endo);
-      });
-      model.qualifications = qualificationsKey.currentState?.update();
+      qualificationsKey.currentState?.update();
       // model.employhistory = employhistoryKey.currentState?.update();
       userApi.updateUser(user: model);
     }
@@ -424,14 +417,17 @@ class CVHistoryState extends State<CVHistory> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(height: 200, child:
-    SingleChildScrollView(child: 
-    Wrap(
-        spacing: 8,
-        runSpacing: 8,
-        children: [
-          ...files,
-        ], 
-    )));
+    return SizedBox(
+      height: 200, 
+      child: SingleChildScrollView(
+        child: Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: [
+              ...files,
+            ], 
+        )
+      )
+    );
   }
 }
