@@ -1,10 +1,4 @@
-// GENERATED CODE - DO NOT MODIFY BY HAND
-
 part of 'FileModel.dart';
-
-// **************************************************************************
-// JsonSerializableGenerator
-// **************************************************************************
 
 FileModel _$FileModelFromJson(Map<String, dynamic> json) => FileModel(
       cover: convertStringToUint8List(json['cover']),

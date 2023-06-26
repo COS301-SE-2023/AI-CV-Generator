@@ -7,6 +7,7 @@ import 'package:ai_cv_generator/models/user/Employment.dart';
 import 'package:ai_cv_generator/models/user/Link.dart';
 import 'package:ai_cv_generator/models/user/Qualification.dart';
 import 'package:ai_cv_generator/models/user/UserModel.dart';
+// import 'package:ai_cv_generator/models/user/link.dart';
 import 'package:flutter/material.dart';
 import 'linksView.dart';
 import 'qualificationsView.dart';
@@ -32,10 +33,32 @@ class ProfileState extends State<Profile> {
 
   @override
   Widget build(BuildContext context) {
+    Employment employmentData = Employment(company: "company", title: "title", start_date: DateTime.now(), end_date: DateTime.now(), empid: 0);
+    Qualification qualificationData = Qualification(qualification: 'BSC IT', intstitution: 'University of Cape Town', date: DateTime.now(), quaid: 0, endo: DateTime.now());
+
     String email =  model.email != null ? model.email! : "No email...";
     String phoneNumber =  model.phoneNumber != null? model.phoneNumber!:"No phone number...";
     String location = model.location != null ? model.location!:"No location...";
     String aboutMe = model.description!= null? model.description!:"No description...";
+    String workExperience = "";
+    String education = "";
+    List<Employment>? employhistory = model.employhistory;
+    if (employhistory != null)
+    // for (int n=0; n <employhistory.length; n++) {
+    //   workExperience += "${employhistory[n].company} ";
+    //   workExperience += "${employhistory[n].title} ";
+    //   workExperience += "${employhistory[n].start_date}-";
+    //   workExperience += "${employhistory[n].end_date}\n";
+    // }
+    // if (employhistory == null || employhistory.isEmpty) workExperience = "No Work expierience listed...";
+    List<Qualification>? qualifications = model.qualifications;
+    // if (qualifications!= null)
+    // for (int n=0; n<qualifications.length; n++) {
+    //   education += "${qualifications[n].qualification} ";
+    //   education += "${qualifications[n].instatution} ";
+    //   education += "${qualifications[n].date.toString()}\n";
+    // }
+    // if (qualifications== null || qualifications.isEmpty) education = "No education listed...";
     
     TextEditingController fnameC = TextEditingController(text: model.fname);
     TextEditingController lnameC = TextEditingController(text: model.lname);
@@ -43,7 +66,9 @@ class ProfileState extends State<Profile> {
     TextEditingController phoneNoC = TextEditingController(text: phoneNumber);
     TextEditingController locationC = TextEditingController(text: location);
     TextEditingController descripC = TextEditingController(text: aboutMe);
-
+    TextEditingController qualificationC = TextEditingController();
+    TextEditingController workExperienceC = TextEditingController();
+    print(model.links);
     GlobalKey<LinksSectionState> linksKey = GlobalKey<LinksSectionState>();
     LinksSection linkC = LinksSection(key: linksKey, links: model.links != null ? model.links! : []);
     GlobalKey<QualificationsSectionState> qualificationsKey = GlobalKey<QualificationsSectionState>();
@@ -59,7 +84,7 @@ class ProfileState extends State<Profile> {
       model.description = descripC.text;
       model.location = locationC.text;
       model.links = linksKey.currentState?.update();
-      model.qualifications = qualificationsKey.currentState?.update();
+      qualificationsKey.currentState?.update();
       // model.employhistory = employhistoryKey.currentState?.update();
       userApi.updateUser(user: model);
     }
@@ -77,6 +102,9 @@ class ProfileState extends State<Profile> {
     phoneNoC.addListener(update);
     locationC.addListener(update);
     descripC.addListener(update);
+    workExperienceC.addListener(update);
+    qualificationC.addListener(update);
+
     
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -120,6 +148,8 @@ class ProfileState extends State<Profile> {
                         children: [
                           const SectionHeading(heading: "EDUCATION"),
                           qualificationsC,                          
+                      //     SectionDuplicate(target: SectionInput(inputWidget: TextFormField(controller: descripC, maxLines: 9, decoration: const InputDecoration(border: OutlineInputBorder(),),),),),
+                      //     // SectionInput(inputWidget: TextFormField(controller: qualificationC, maxLines: 9,),),
                         ],
                       ),
                       const SizedBox(height: 10,),
@@ -229,6 +259,60 @@ class SectionInputState extends State<SectionInput> {
   }
 }
 
+class SectionDuplicate extends StatefulWidget {
+  Widget target;
+  SectionDuplicate({super.key, required this.target});
+
+  @override
+  SectionDuplicateState createState() => SectionDuplicateState();
+}
+
+class SectionDuplicateState extends State<SectionDuplicate> {
+  List<Widget> widgets = [];
+  
+  void remove(int index) {
+      print(widgets);
+      widgets.removeAt(index);
+      setState(() {
+      });
+    }
+
+  void add() {
+    int index = widgets.length;
+    widgets.add(
+      Column(
+        children: [
+          const SizedBox(height: 16,),
+          widget.target,
+          const SizedBox(height: 16,),
+          Align(
+            alignment: Alignment.topRight,
+            child: OutlinedButton(
+              onPressed: (){
+                remove(index);
+              }, 
+              child: const Text("-"),),
+          )
+        ],
+      )
+    );
+    setState(() {
+    });
+  }
+
+  @override
+  Widget build(BuildContext build) {
+    return Column(
+      children: [
+        ...widgets,
+        const SizedBox(height: 8,),
+        OutlinedButton(onPressed: (){add();}, child: const Text("+")),
+        const SizedBox(height: 16,),
+      ]
+    );
+  }
+}
+
 class TextInputField extends StatefulWidget {
   final TextEditingController editor;
   final TextAlign align;
@@ -295,37 +379,55 @@ class CVHistory extends StatefulWidget {
 
 class CVHistoryState extends State<CVHistory> {
   List<Widget> images = [];
+  List<Widget> files = [];
   @override
-  // void initState() {
-  //   FileApi.getFiles().then((value) {
-  //     if(value != null) {
-  //       value.forEach((element) {
-  //         add(element.cover);
-  //       });
-  //     }
-  //   });
-  //   super.initState();
-  // }
+  void initState() {
+    FileApi.getFiles().then((value) {
+      if(value != null) {
+        value.forEach((element) {
+          add(element.filename);
+        });
+      }
+    });
+    super.initState();
+  }
 
-  void add(Uint8List cover) {
-    images.add(
-      Image.memory(cover, fit: BoxFit.scaleDown,)
+  void add(String filename) {
+    files.add(
+      OutlinedButton(
+        onPressed: () async {
+          FileApi.requestFile(filename: filename);
+        },
+        child: Text(filename),
+      ),
     );
     setState(() {
       
     });
   }
 
+  // void add(Uint8List cover) {
+  //   images.add(
+  //     Image.memory(cover)
+  //   );
+  //   setState(() {
+      
+  //   });
+  // }
+
   @override
   Widget build(BuildContext context) {
-    return SizedBox(height: 200, child:
-    SingleChildScrollView(child: 
-    Wrap(
-        spacing: 8,
-        runSpacing: 8,
-        children: [
-          ...images,
-        ], 
-    )));
+    return SizedBox(
+      height: 200, 
+      child: SingleChildScrollView(
+        child: Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: [
+              ...files,
+            ], 
+        )
+      )
+    );
   }
 }

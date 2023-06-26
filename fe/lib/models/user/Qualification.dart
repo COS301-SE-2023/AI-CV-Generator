@@ -6,17 +6,17 @@ part 'Qualification.g.dart';
 class Qualification {
   Qualification({
     required this.qualification,
-    required this.instatution,
+    required this.intstitution,
     required this.date,
     required this.quaid,
-    required this.end
+    required this.endo
   });
 
   int quaid;
   String qualification;
-  String instatution;
+  String intstitution;
   DateTime date;
-  DateTime end;
+  DateTime endo;
 
   factory Qualification.fromJson(Map<String, dynamic> json) => _$QualificationFromJson(json);
   Map<String, dynamic> toJson() => _$QualificationToJson(this);
