@@ -179,6 +179,7 @@ class userApi extends DioClient {
         'api/User/addEmp',
         data: request.toJson()
       );
+      print(resp.data);
       return EmploymentResponse.fromJson(resp.data).employees;
     } on DioError catch(e) {
       DioClient.handleError(e);
@@ -209,6 +210,7 @@ class userApi extends DioClient {
         'api/User/updateEmp',
         data: request.toJson()
       );
+      print(resp.data);
       return EmploymentResponse.fromJson(resp.data).employees;
     } on DioError catch(e) {
       DioClient.handleError(e);
