@@ -35,7 +35,7 @@ class ProfileState extends State<Profile> {
 
   @override
   Widget build(BuildContext context) {
-    Employment employmentData = Employment(company: "company", title: "title", start_date: DateTime.now(), end_date: DateTime.now(), empid: 0);
+    Employment employmentData = Employment(company: "company", title: "title", startdate: DateTime.now(), enddate: DateTime.now(), empid: 0);
     Qualification qualificationData = Qualification(qualification: 'BSC IT', intstitution: 'University of Cape Town', date: DateTime.now(), quaid: 0, endo: DateTime.now());
 
     String email =  model.email != null ? model.email! : "No email...";

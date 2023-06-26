@@ -206,7 +206,7 @@ class userApi extends DioClient {
     try {
       UpdateEmploymentRequest request = UpdateEmploymentRequest(employment: employment);
       Response resp = await DioClient.dio.post(
-        'api/User/remEmp',
+        'api/User/updateEmp',
         data: request.toJson()
       );
       return EmploymentResponse.fromJson(resp.data).employees;
