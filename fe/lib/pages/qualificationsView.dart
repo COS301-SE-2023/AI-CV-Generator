@@ -11,55 +11,48 @@ class QualificationsSection extends StatefulWidget {
 }
 
 class QualificationsSectionState extends State<QualificationsSection> {
+  final blankQualification = Qualification(qualification: '', intstitution: '', date: DateTime.now(), quaid: 0, endo: DateTime.now());
   Map qualificationsMap = {};
   int id = 0;
 
   @override
   void initState() {
     widget.qualifications.forEach((element) {
-      print(element.qualification);
       display(element);
      }
     );
     super.initState();
   }
 
-  int get_id() {
-    return id++;
-  }
-
   void display(Qualification info) {
-    int objectId = get_id();
     TextEditingController qualificationC = TextEditingController();
-    TextEditingController instatutionC = TextEditingController();
+    TextEditingController intstitutionC = TextEditingController();
     TextEditingController dateC = TextEditingController();
 
     qualificationC.text = info.qualification != null ? info.qualification : '';
-    instatutionC.text = info.intstitution != null ? info.intstitution : '';
+    intstitutionC.text = info.intstitution != null ? info.intstitution : '';
     dateC.text = dateTimeToString(info.date, info.endo);
-
-    qualificationsMap[objectId] = {
+    qualificationsMap[info.quaid] = {
       'quaid': info.quaid,
       'qualification': qualificationC,
-      'instatution': instatutionC,
+      'intstitution': intstitutionC,
       'date': dateC,
     };
-
-    qualificationsMap[objectId]['widget'] = (
+    qualificationsMap[info.quaid]['widget'] = (
       Column(
         children: [
           SizedBox(height: 16,),
           QualificationsField(
-            qualificationC: qualificationsMap[objectId]['qualification'],
-            instatutionC: qualificationsMap[objectId]['instatution'],
-            dateC: qualificationsMap[objectId]['date'],
+            qualificationC: qualificationsMap[info.quaid]['qualification'],
+            intstitutionC: qualificationsMap[info.quaid]['intstitution'],
+            dateC: qualificationsMap[info.quaid]['date'],
             ),
           SizedBox(height: 16,),
           Align(
             alignment: Alignment.topRight,
             child: OutlinedButton(
               onPressed: (){
-                remove(objectId);
+                remove(info.quaid);
               }, 
               child: Text('-'),),
           )
@@ -69,18 +62,14 @@ class QualificationsSectionState extends State<QualificationsSection> {
   }
 
   void add() {
-    var newQualification = Qualification(
-      qualification: '',
-      intstitution: '',
-      date: DateTime.now(),
-      quaid: 0,
-      endo: DateTime.now()
-    );
-    userApi.addQulaification(qualification: newQualification);
-    display(newQualification);
+    userApi.addQulaification(qualification: blankQualification).then((value) {
+      Qualification newQualification = getCorrect(value!)!;
+      display(newQualification);
+      setState(() {});
+    });
   }
 
-  void remove(int objectId) {
+  void remove(int objectId) async {
     Qualification? oldQualification = getQualification(objectId);
     if(oldQualification == null) {
       return;
@@ -90,15 +79,10 @@ class QualificationsSectionState extends State<QualificationsSection> {
     setState(() {});
   }
 
-  void update() {
+  void update() async {
     qualificationsMap.forEach((key, value) {
     Qualification? updatedQualification = getQualification(key);
       if(updatedQualification != null) {
-        print("&&&&&&&&&&&&&");
-        print(updatedQualification.intstitution);
-        print(updatedQualification.qualification);
-        print(updatedQualification.date);
-        print(updatedQualification.endo);
         userApi.updateQulaification(qualification: updatedQualification);
       }
     });
@@ -112,12 +96,21 @@ class QualificationsSectionState extends State<QualificationsSection> {
 
     Qualification newQualification = Qualification(
       qualification: qualificationsMap[objectId]['qualification'].text,
-      intstitution: qualificationsMap[objectId]['instatution'].text,
-      quaid: 0,
+      intstitution: qualificationsMap[objectId]['intstitution'].text,
+      quaid: qualificationsMap[objectId]['quaid'],
       date: dateTimeRange.start,
       endo: dateTimeRange.end,
     );
     return newQualification;
+  }
+
+  Qualification? getCorrect(List<Qualification> list) {
+    for(var i = 0; i <= list.length-1; i++) {
+      if(qualificationsMap.containsKey(list[i].quaid) == false) {
+        return list[i];
+      }
+    }
+    return null;
   }
 
   List<Widget> populate() {
@@ -136,7 +129,6 @@ class QualificationsSectionState extends State<QualificationsSection> {
         SizedBox(height: 8,),
         OutlinedButton(onPressed: (){
           add();
-          setState(() {});
         }, child: Text('+')),
         SizedBox(height: 16,),
       ],
@@ -146,9 +138,9 @@ class QualificationsSectionState extends State<QualificationsSection> {
 
 class QualificationsField extends StatefulWidget {
   TextEditingController qualificationC;
-  TextEditingController instatutionC;
+  TextEditingController intstitutionC;
   TextEditingController dateC;
-  QualificationsField({required this.qualificationC, required this.instatutionC, required this.dateC});
+  QualificationsField({required this.qualificationC, required this.intstitutionC, required this.dateC});
 
   @override
   QualificationsFieldState createState() => QualificationsFieldState();
@@ -168,7 +160,7 @@ void initState() {
       children: [
         Expanded(
           child: TextFormField(
-          controller: widget.instatutionC,
+          controller: widget.intstitutionC,
           textAlign: TextAlign.center,
           decoration: InputDecoration(
             hintText: "Institution",
