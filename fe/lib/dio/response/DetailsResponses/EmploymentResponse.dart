@@ -1,6 +1,5 @@
 
 import 'package:ai_cv_generator/models/user/Employment.dart';
-import 'package:ai_cv_generator/models/user/Qualification.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'EmploymentResponse.g.dart';

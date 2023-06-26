@@ -1,4 +1,3 @@
-import 'dart:io';
 
 import 'package:ai_cv_generator/dio/client/dioClient.dart';
 import 'package:ai_cv_generator/dio/request/AuthRequests/LoginRequest.dart';
@@ -184,6 +183,7 @@ class userApi extends DioClient {
     } on DioError catch(e) {
       DioClient.handleError(e);
     }
+    return null;
   }
 
   static Future<List<Employment>?> RemoveEmployment({
@@ -199,6 +199,7 @@ class userApi extends DioClient {
     } on DioError catch(e) {
       DioClient.handleError(e);
     }
+    return null;
   }
 
   static Future<List<Employment>?> UpdateEmployment({
@@ -215,6 +216,7 @@ class userApi extends DioClient {
     } on DioError catch(e) {
       DioClient.handleError(e);
     }
+    return null;
   }
 
   static Future<List<lin.Link>?> AddLink({

@@ -30,7 +30,6 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/':(context) => const Login(),
-        //Route for shareCV will be added later
       },
     );
   }
