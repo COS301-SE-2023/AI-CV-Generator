@@ -1,10 +1,21 @@
+import 'dart:io';
+
 import 'package:ai_cv_generator/dio/client/dioClient.dart';
 import 'package:ai_cv_generator/dio/request/AuthRequests/LoginRequest.dart';
 import 'package:ai_cv_generator/dio/request/AuthRequests/RegisterRequest.dart';
+import 'package:ai_cv_generator/dio/request/DetailsRequests/Employment/AddEmploymentRequest.dart';
+import 'package:ai_cv_generator/dio/request/DetailsRequests/Employment/RemoveEmploymentRequest.dart';
+import 'package:ai_cv_generator/dio/request/DetailsRequests/Employment/UpdateEmploymentRequest.dart';
+import 'package:ai_cv_generator/dio/request/DetailsRequests/Link/AddLinkRequest.dart';
+import 'package:ai_cv_generator/dio/request/DetailsRequests/Link/RemoveLinkRequest.dart';
+import 'package:ai_cv_generator/dio/request/DetailsRequests/Link/UpdateLinkRequest.dart';
 import 'package:ai_cv_generator/dio/request/DetailsRequests/Qualification/AddQualificationRequest.dart';
 import 'package:ai_cv_generator/dio/request/UserRequests/UpdateUserRequest.dart';
 import 'package:ai_cv_generator/dio/response/AuthResponses/AuthResponse.dart';
+import 'package:ai_cv_generator/dio/response/DetailsResponses/EmploymentResponse.dart';
+import 'package:ai_cv_generator/dio/response/DetailsResponses/LinkResponse.dart';
 import 'package:ai_cv_generator/dio/response/UserResponses/UserResponse.dart';
+import 'package:ai_cv_generator/models/user/Employment.dart';
 import 'package:ai_cv_generator/models/user/Qualification.dart';
 import 'package:ai_cv_generator/models/user/UserModel.dart';
 
@@ -13,6 +24,7 @@ import 'package:dio/dio.dart';
 import '../request/DetailsRequests/Qualification/RemoveQualificationRequest.dart';
 import '../request/DetailsRequests/Qualification/UpdateQualificationRequest.dart';
 import '../response/DetailsResponses/QualificationsResponse.dart';
+import 'package:ai_cv_generator/models/user/Link.dart' as lin;
 
 class userApi extends DioClient {
   static Future<UserModel?> getUser() async {
@@ -155,4 +167,98 @@ class userApi extends DioClient {
     }
     return null;
   }
+
+  static Future<List<Employment>?> addEmployment({
+    required Employment employment
+  }) async {
+    try {
+      AddEmploymentRequest request = AddEmploymentRequest(employment: employment);
+      Response resp = await DioClient.dio.post(
+        'api/User/addEmp',
+        data: request.toJson()
+      );
+      return EmploymentResponse.fromJson(resp.data).employees;
+    } on DioError catch(e) {
+      DioClient.handleError(e);
+    }
+  }
+
+  static Future<List<Employment>?> RemoveEmployment({
+    required Employment employment
+  }) async {
+    try {
+      RemoveEmploymentRequest request = RemoveEmploymentRequest(employment: employment);
+      Response resp = await DioClient.dio.post(
+        'api/User/remEmp',
+        data: request.toJson()
+      );
+      return EmploymentResponse.fromJson(resp.data).employees;
+    } on DioError catch(e) {
+      DioClient.handleError(e);
+    }
+  }
+
+  static Future<List<Employment>?> UpdateEmployment({
+    required Employment employment
+  }) async {
+    try {
+      UpdateEmploymentRequest request = UpdateEmploymentRequest(employment: employment);
+      Response resp = await DioClient.dio.post(
+        'api/User/remEmp',
+        data: request.toJson()
+      );
+      return EmploymentResponse.fromJson(resp.data).employees;
+    } on DioError catch(e) {
+      DioClient.handleError(e);
+    }
+  }
+
+  static Future<List<lin.Link>?> AddLink({
+    required lin.Link link
+  }) async {
+    try {
+      AddLinkRequest request = AddLinkRequest(link: link);
+      Response resp = await DioClient.dio.post(
+        'api/User/addLink',
+        data: request.toJson()
+      );
+      return LinkResponse.fromJson(resp.data).links;
+    } on DioError catch (e) {
+      DioClient.handleError(e);
+    }
+    return null;
+  }
+
+  static Future<List<lin.Link>?> RemoveLink({
+    required lin.Link link
+  }) async {
+    try {
+      RemoveLinkRequest request = RemoveLinkRequest(link: link);
+      Response resp = await DioClient.dio.post(
+        'api/User/addLink',
+        data: request.toJson()
+      );
+      return LinkResponse.fromJson(resp.data).links;
+    } on DioError catch (e) {
+      DioClient.handleError(e);
+    }
+    return null;
+  }
+
+  static Future<List<lin.Link>?> UpdateLink({
+    required lin.Link link
+  }) async {
+    try {
+      UpdateLinkRequest request = UpdateLinkRequest(link: link);
+      Response resp = await DioClient.dio.post(
+        'api/User/addLink',
+        data: request.toJson()
+      );
+      return LinkResponse.fromJson(resp.data).links;
+    } on DioError catch (e) {
+      DioClient.handleError(e);
+    }
+    return null;
+  }
+  
 }
