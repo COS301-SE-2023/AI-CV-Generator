@@ -81,8 +81,8 @@ class QualificationsSectionState extends State<QualificationsSection> {
           quaid: qualificationsMap[key]['quaid'],
           qualification: qualificationsMap[key]['qualification'].text,
           instatution: qualificationsMap[key]['instatution'].text,
-          date: qualificationsMap[key]['date'],
-          endo: qualificationsMap[key]['end']
+          date: dateTimeRange.start,
+          endo: dateTimeRange.end,
         )
       );
     });
