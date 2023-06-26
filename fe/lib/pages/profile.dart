@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:ai_cv_generator/dio/client/fileApi.dart';
@@ -9,6 +10,7 @@ import 'package:ai_cv_generator/models/user/Qualification.dart';
 import 'package:ai_cv_generator/models/user/UserModel.dart';
 // import 'package:ai_cv_generator/models/user/link.dart';
 import 'package:flutter/material.dart';
+import 'pdf_window.dart';
 import 'linksView.dart';
 import 'qualificationsView.dart';
 
@@ -385,18 +387,24 @@ class CVHistoryState extends State<CVHistory> {
     FileApi.getFiles().then((value) {
       if(value != null) {
         value.forEach((element) {
-          add(element.filename);
+          // add(element.filename);
         });
       }
     });
     super.initState();
   }
 
-  void add(String filename) {
+  void add(String filename, BuildContext context) {
     files.add(
       OutlinedButton(
         onPressed: () async {
           FileApi.requestFile(filename: filename);
+          showDialog(
+            context: context,
+            builder: (context) {
+            return Text('data');
+          }
+          );
         },
         child: Text(filename),
       ),
@@ -404,6 +412,10 @@ class CVHistoryState extends State<CVHistory> {
     setState(() {
       
     });
+  }
+
+  void modal() {
+
   }
 
   // void add(Uint8List cover) {
