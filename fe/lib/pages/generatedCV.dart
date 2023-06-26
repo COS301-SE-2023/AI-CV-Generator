@@ -7,25 +7,6 @@ import 'package:flutter/services.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'details.dart';
-
-
-Future<Uint8List> makePdf() async {
-    final font = await rootBundle.load("assets/fonts/OpenSans-Regular.ttf");
-    final ttf = pw.Font.ttf(font);
-    final pdf = pw.Document();
-    pdf.addPage(
-      pw.Page(
-        pageFormat: PdfPageFormat.a4,
-        build: (pw.Context context) {
-          return pw.Center(
-            child: pw.Text('Hello World'),
-          ); // Center
-        }
-      )
-    );
-    return await pdf.save();
-  }
-
 class generatedCV extends StatefulWidget {
   const generatedCV({super.key});
 
@@ -49,10 +30,13 @@ class _generatedCVState extends State<generatedCV> {
     _controller.text = response;
   }
   PlatformFile? file;
+  bool saved = false;
   Future savePdf() async {
-    Uint8List bytes = await pdf.save();
-    file = PlatformFile(name: "gen.pdf", size: bytes.length,bytes: bytes);
-    // await FileApi.uploadFile(file: file);
+    if (!saved) {
+      Uint8List bytes = await pdf.save();
+      file = PlatformFile(name: "gen.pdf", size: bytes.length,bytes: bytes);
+      saved = true;
+    }
   }
   writeOnPdf() {
     pdf.addPage(
@@ -113,7 +97,10 @@ class _generatedCVState extends State<generatedCV> {
             right: 18.0,
             child: FloatingActionButton(
               onPressed: () async {
-                await savePdf();
+                if (!saved) {
+                  writeOnPdf();
+                  await savePdf();
+                }
                 if (file != null) {
                   shareCVModal(context,file);
                 }
@@ -126,8 +113,10 @@ class _generatedCVState extends State<generatedCV> {
             left: 18.0,
             child: FloatingActionButton(
               onPressed: () async {
-                writeOnPdf();
-                await savePdf();
+                if (!saved) {
+                  writeOnPdf();
+                  await savePdf();
+                }
                 Navigator.push(
                   context,
                   MaterialPageRoute(
