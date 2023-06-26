@@ -17,10 +17,9 @@ class EmploymentSectionState extends State<EmploymentSection> {
   @override
   void initState() {
     print(widget.employment.length);
-    widget.employment.forEach((element) {
+    for (var element in widget.employment) {
       display(element);
      }
-    );
     super.initState();
   }
 
@@ -29,8 +28,8 @@ class EmploymentSectionState extends State<EmploymentSection> {
     TextEditingController companyC = TextEditingController();
     TextEditingController dateC = TextEditingController();
 
-    titleC.text = info.title != null ? info.title : '';
-    companyC.text = info.company != null ? info.company : '';
+    titleC.text = info.title ?? '';
+    companyC.text = info.company ?? '';
     dateC.text = dateTimeToString(info.startdate, info.enddate);
 
     employmentMap[info.empid] = {
@@ -42,20 +41,20 @@ class EmploymentSectionState extends State<EmploymentSection> {
     employmentMap[info.empid]['widget'] = (
       Column(
         children: [
-          SizedBox(height: 16,),
+          const SizedBox(height: 16,),
           EmploymentField(
             titleC: employmentMap[info.empid]['title'],
             companyC: employmentMap[info.empid]['company'],
             dateC: employmentMap[info.empid]['date'],
             ),
-          SizedBox(height: 16,),
+          const SizedBox(height: 16,),
           Align(
             alignment: Alignment.topRight,
             child: OutlinedButton(
               onPressed: (){
                 remove(info.empid);
               }, 
-              child: Text('-'),),
+              child: const Text('-'),),
           )
         ],
       )
@@ -128,11 +127,11 @@ class EmploymentSectionState extends State<EmploymentSection> {
     return Column(
       children: [
         ...populate(),
-        SizedBox(height: 8,),
+        const SizedBox(height: 8,),
         OutlinedButton(onPressed: (){
           add();
-        }, child: Text('+')),
-        SizedBox(height: 16,),
+        }, child: const Text('+')),
+        const SizedBox(height: 16,),
       ],
     );
   }
@@ -142,7 +141,7 @@ class EmploymentField extends StatefulWidget {
   TextEditingController titleC;
   TextEditingController companyC;
   TextEditingController dateC;
-  EmploymentField({required this.titleC, required this.companyC, required this.dateC});
+  EmploymentField({super.key, required this.titleC, required this.companyC, required this.dateC});
 
   @override
   EmploymentFieldState createState() => EmploymentFieldState();
@@ -164,24 +163,24 @@ void initState() {
           child: TextFormField(
           controller: widget.companyC,
           textAlign: TextAlign.center,
-          decoration: InputDecoration(
+          decoration: const InputDecoration(
             hintText: "Company",
             border: OutlineInputBorder(),
             ),
           ),
         ),
-        SizedBox(width: 8,),
+        const SizedBox(width: 8,),
         Expanded(
           child: TextFormField(
           controller: widget.titleC,
           textAlign: TextAlign.center,
-          decoration: InputDecoration(
+          decoration: const InputDecoration(
             hintText: "Title",
             border: OutlineInputBorder(),
             ),
           ),
         ),
-        SizedBox(width: 8,),
+        const SizedBox(width: 8,),
         Expanded(
           child: GestureDetector(
             onTap: () {
@@ -198,7 +197,7 @@ void initState() {
               enabled: false,
               controller: displayDateC,
               textAlign: TextAlign.center,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintText: "Date",
                 border: OutlineInputBorder(),
                 ),
@@ -211,7 +210,7 @@ void initState() {
 }
 
 String dateTimeToString(DateTime start, DateTime end) {
-  return start.toString() + "/" + end.toString();
+  return "$start/$end";
 }
 
 DateTimeRange stringToDateTimeRange(String text) {
@@ -220,7 +219,7 @@ DateTimeRange stringToDateTimeRange(String text) {
 }
 
 String displayDateTimeRange(DateTimeRange dateTimeRange) {
-  return dateTimeRange.start.year.toString() + " - " + dateTimeRange.end.year.toString();
+  return "${dateTimeRange.start.year} - ${dateTimeRange.end.year}";
 }
 
 Future<DateTimeRange?> datePicker(BuildContext context) async {

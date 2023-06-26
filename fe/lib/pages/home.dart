@@ -1,6 +1,7 @@
 
 import 'package:ai_cv_generator/pages/generatedCV.dart';
 import 'package:ai_cv_generator/pages/createPage.dart';
+import 'package:ai_cv_generator/pages/navdrawer.dart';
 import 'package:flutter/material.dart';
 import '../models/user/UserModel.dart';
 import 'profile.dart';
@@ -20,13 +21,9 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
+      drawer: const NavDrawer(),
       appBar: AppBar(
           backgroundColor: Colors.lightBlue,
-          leading: IconButton(
-            icon: const Icon(Icons.menu),
-            onPressed: () => {
-            },
-          ),
         actions: [
 
           Transform.scale(

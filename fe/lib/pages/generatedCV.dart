@@ -1,5 +1,6 @@
 
 import 'package:ai_cv_generator/pages/pdf_window.dart';
+import 'package:ai_cv_generator/pages/personaldetails.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:ai_cv_generator/pages/shareCV.dart';
@@ -68,6 +69,12 @@ class _generatedCVState extends State<generatedCV> {
                   child: OutlinedButton(
                     onPressed: () async {
                       setState(() {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const PersonalDetails()
+                          ),
+                        );
                         createCV();
                       });
                     },
