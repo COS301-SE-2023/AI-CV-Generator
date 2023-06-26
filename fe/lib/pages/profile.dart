@@ -54,10 +54,10 @@ class ProfileState extends State<Profile> {
     TextEditingController workExperienceC = TextEditingController();
     GlobalKey<LinksSectionState> linksKey = GlobalKey<LinksSectionState>();
     GlobalKey<QualificationsSectionState> qualificationsKey = GlobalKey<QualificationsSectionState>();
-    GlobalKey<QualificationsSectionState> employhistoryKey = GlobalKey<QualificationsSectionState>();
+    GlobalKey<EmploymentSectionState> employhistoryKey = GlobalKey<EmploymentSectionState>();
     LinksSection linkC = LinksSection(key: linksKey, links: model.links != null ? model.links! : []);
     QualificationsSection qualificationsC = QualificationsSection(key: qualificationsKey, qualifications: model.qualifications != null ? model.qualifications! : []);
-    EmploymentSection employmentC = EmploymentSection(key: employhistoryKey, employment: model.employmenthistory != null ? model.employmenthistory! : []);
+    EmploymentSection employmentC = EmploymentSection(key: employhistoryKey, employment: model.employmenthistory != null ? model.employmenthistory! : [Employment(company: 'ERROR', title: 'ERORR', startdate: DateTime.now(), enddate: DateTime.now(), empid: 0)]);
 
     DateTime time = DateTime.now();
     void ActualUpdate() {
