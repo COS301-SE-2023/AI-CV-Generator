@@ -6,7 +6,6 @@
 
 #include "generated_plugin_registrant.h"
 
-#include <url_launcher_linux/url_launcher_plugin.h>
 #include <flutter_secure_storage_linux/flutter_secure_storage_linux_plugin.h>
 #include <printing/printing_plugin.h>
 

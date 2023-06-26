@@ -5,9 +5,6 @@
 import FlutterMacOS
 import Foundation
 
-import device_info_plus
-import syncfusion_pdfviewer_macos
-import url_launcher_macos
 import device_info_plus_macos
 import flutter_secure_storage_macos
 import pdf_render
