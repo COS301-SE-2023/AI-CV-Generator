@@ -48,3 +48,52 @@ Map content = {
   "achievements": "Recipient of the XYZ University Marketing Excellence Award (2022)\nLed a team of volunteers in organizing a successful charity event, raising \$10,000 for a local nonprofit organization.",
   "References": "Available upon request"
 };
+
+String description = """
+I am a dedicated and detail-oriented accountant with a passion for numbers and financial analysis. With several years of experience in the field, I have developed a strong understanding of accounting principles and practices, and I am committed to providing accurate and timely financial reporting.
+""";
+
+String jobA = """ 
+ABC Accounting Firm
+
+Role: Staff Accountant
+
+Responsibilities: Prepared financial statements, reconciled accounts, managed accounts payable and receivable, and provided support for tax preparation.
+Achievements: Developed strong accounting skills and earned a promotion to Senior Accountant after two years of consistent performance.
+""";
+
+String jobB = """
+XYZ Manufacturing
+
+Role: Cost Accountant
+
+Responsibilities: Conducted cost analysis on products, maintained inventory records, and prepared financial reports for the management team. Collaborated with other departments to optimize production costs and improve profitability.
+Achievements: Led a successful cost-saving initiative that resulted in a 10% reduction in production costs. Implemented new inventory management software that improved accuracy and efficiency.
+""";
+
+String jobC = """
+DEF Consulting
+
+Role: Financial Analyst
+
+Responsibilities: Conducted financial analysis and forecast modeling for clients, prepared budgets and financial reports, and provided recommendations for improving financial performance. Conducted audits to ensure compliance with regulatory requirements.
+Achievements: Developed and implemented a new financial reporting system for a major client that improved accuracy and saved over \$100,000 per year. Led a successful audit that resulted in a client saving \$50,000 in potential fines and penalties.
+""";
+
+String refA = """
+John Smith, CPA
+Tax Manager at ABC Accounting Firm
+johnsmith@abcaccountingfirm.com, (555) 123-4567
+""";
+
+String refB = """
+Sarah Johnson
+CFO at XYZ Manufacturing
+sarahjohnson@xyzmanufacturing.com, (555) 987-6543
+""";
+
+String refC = """
+Jane Doe
+CEO at DEF Consulting
+janedoe@defconsulting.com, (555) 555-1212
+""";
