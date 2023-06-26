@@ -1,57 +1,58 @@
 import 'package:ai_cv_generator/dio/client/userApi.dart';
 import 'package:flutter/material.dart';
-import 'package:ai_cv_generator/models/user/Qualification.dart';
+import 'package:ai_cv_generator/models/user/Employment.dart';
 
-class QualificationsSection extends StatefulWidget {
-  List<Qualification> qualifications;
-  QualificationsSection({super.key, required this.qualifications});
+class EmploymentSection extends StatefulWidget {
+  List<Employment> employment;
+  EmploymentSection({super.key, required this.employment});
 
   @override
-  QualificationsSectionState createState() => QualificationsSectionState();
+  EmploymentSectionState createState() => EmploymentSectionState();
 }
 
-class QualificationsSectionState extends State<QualificationsSection> {
-  final blankQualification = Qualification(qualification: '', intstitution: '', date: DateTime.now(), quaid: 0, endo: DateTime.now());
-  Map qualificationsMap = {};
+class EmploymentSectionState extends State<EmploymentSection> {
+  final blankEmployment = Employment(title: '', company: '', startdate: DateTime.now(), empid: 0, enddate: DateTime.now());
+  Map employmentMap = {};
 
   @override
   void initState() {
-    widget.qualifications.forEach((element) {
+    widget.employment.forEach((element) {
       display(element);
      }
     );
     super.initState();
   }
 
-  void display(Qualification info) {
-    TextEditingController qualificationC = TextEditingController();
-    TextEditingController intstitutionC = TextEditingController();
+  void display(Employment info) {
+    TextEditingController titleC = TextEditingController();
+    TextEditingController companyC = TextEditingController();
     TextEditingController dateC = TextEditingController();
 
-    qualificationC.text = info.qualification != null ? info.qualification : '';
-    intstitutionC.text = info.intstitution != null ? info.intstitution : '';
-    dateC.text = dateTimeToString(info.date, info.endo);
-    qualificationsMap[info.quaid] = {
-      'quaid': info.quaid,
-      'qualification': qualificationC,
-      'intstitution': intstitutionC,
+    titleC.text = info.title != null ? info.title : '';
+    companyC.text = info.company != null ? info.company : '';
+    dateC.text = dateTimeToString(info.startdate, info.enddate);
+
+    employmentMap[info.empid] = {
+      'empid': info.empid,
+      'title': titleC,
+      'company': companyC,
       'date': dateC,
     };
-    qualificationsMap[info.quaid]['widget'] = (
+    employmentMap[info.empid]['widget'] = (
       Column(
         children: [
           SizedBox(height: 16,),
-          QualificationsField(
-            qualificationC: qualificationsMap[info.quaid]['qualification'],
-            intstitutionC: qualificationsMap[info.quaid]['intstitution'],
-            dateC: qualificationsMap[info.quaid]['date'],
+          EmploymentField(
+            titleC: employmentMap[info.empid]['title'],
+            companyC: employmentMap[info.empid]['company'],
+            dateC: employmentMap[info.empid]['date'],
             ),
           SizedBox(height: 16,),
           Align(
             alignment: Alignment.topRight,
             child: OutlinedButton(
               onPressed: (){
-                remove(info.quaid);
+                remove(info.empid);
               }, 
               child: Text('-'),),
           )
@@ -61,51 +62,52 @@ class QualificationsSectionState extends State<QualificationsSection> {
   }
 
   void add() {
-    userApi.addQulaification(qualification: blankQualification).then((value) {
-      Qualification newQualification = getCorrect(value!)!;
-      display(newQualification);
-      setState(() {});
+    userApi.addEmployment(employment: blankEmployment).then((value) {
+      // Employment newEmployment = getCorrect(value!)!;
+      // print(newEmployment.empid);
+      // display(newEmployment);
+      // setState(() {});
     });
   }
 
   void remove(int objectId) async {
-    Qualification? oldQualification = getQualification(objectId);
-    if(oldQualification == null) {
+    Employment? oldEmployment = getEmployment(objectId);
+    if(oldEmployment == null) {
       return;
     }
-    userApi.removeQulaification(qualification: oldQualification);
-    qualificationsMap.remove(objectId);
+    userApi.RemoveEmployment(employment: oldEmployment);
+    employmentMap.remove(objectId);
     setState(() {});
   }
 
   void update() async {
-    qualificationsMap.forEach((key, value) {
-    Qualification? updatedQualification = getQualification(key);
-      if(updatedQualification != null) {
-        userApi.updateQulaification(qualification: updatedQualification);
+    employmentMap.forEach((key, value) {
+    Employment? updatedEmployment = getEmployment(key);
+      if(updatedEmployment != null) {
+        userApi.UpdateEmployment(employment: updatedEmployment);
       }
     });
   }
 
-  Qualification? getQualification(int objectId) {
-    if(qualificationsMap.containsKey(objectId) == false) {
+  Employment? getEmployment(int objectId) {
+    if(employmentMap.containsKey(objectId) == false) {
       return null;
     }
-    DateTimeRange dateTimeRange = stringToDateTimeRange(qualificationsMap[objectId]['date'].text);
+    DateTimeRange dateTimeRange = stringToDateTimeRange(employmentMap[objectId]['date'].text);
 
-    Qualification newQualification = Qualification(
-      qualification: qualificationsMap[objectId]['qualification'].text,
-      intstitution: qualificationsMap[objectId]['intstitution'].text,
-      quaid: qualificationsMap[objectId]['quaid'],
-      date: dateTimeRange.start,
-      endo: dateTimeRange.end,
+    Employment newEmployment = Employment(
+      title: employmentMap[objectId]['title'].text,
+      company: employmentMap[objectId]['company'].text,
+      empid: employmentMap[objectId]['empid'],
+      startdate: dateTimeRange.start,
+      enddate: dateTimeRange.end,
     );
-    return newQualification;
+    return newEmployment;
   }
 
-  Qualification? getCorrect(List<Qualification> list) {
+  Employment? getCorrect(List<Employment> list) {
     for(var i = 0; i <= list.length-1; i++) {
-      if(qualificationsMap.containsKey(list[i].quaid) == false) {
+      if(employmentMap.containsKey(list[i].empid) == false) {
         return list[i];
       }
     }
@@ -114,8 +116,8 @@ class QualificationsSectionState extends State<QualificationsSection> {
 
   List<Widget> populate() {
     List<Widget> linkWidgets = [];
-    qualificationsMap.forEach((key, value) {
-      linkWidgets.add(qualificationsMap[key]['widget']);
+    employmentMap.forEach((key, value) {
+      linkWidgets.add(employmentMap[key]['widget']);
     });
     return linkWidgets;
   }
@@ -135,17 +137,17 @@ class QualificationsSectionState extends State<QualificationsSection> {
   }
 }
 
-class QualificationsField extends StatefulWidget {
-  TextEditingController qualificationC;
-  TextEditingController intstitutionC;
+class EmploymentField extends StatefulWidget {
+  TextEditingController titleC;
+  TextEditingController companyC;
   TextEditingController dateC;
-  QualificationsField({required this.qualificationC, required this.intstitutionC, required this.dateC});
+  EmploymentField({required this.titleC, required this.companyC, required this.dateC});
 
   @override
-  QualificationsFieldState createState() => QualificationsFieldState();
+  EmploymentFieldState createState() => EmploymentFieldState();
 }
 
-class QualificationsFieldState extends State<QualificationsField> {
+class EmploymentFieldState extends State<EmploymentField> {
   TextEditingController displayDateC = TextEditingController();
   @override
 void initState() {
@@ -159,10 +161,10 @@ void initState() {
       children: [
         Expanded(
           child: TextFormField(
-          controller: widget.intstitutionC,
+          controller: widget.companyC,
           textAlign: TextAlign.center,
           decoration: InputDecoration(
-            hintText: "Institution",
+            hintText: "Company",
             border: OutlineInputBorder(),
             ),
           ),
@@ -170,10 +172,10 @@ void initState() {
         SizedBox(width: 8,),
         Expanded(
           child: TextFormField(
-          controller: widget.qualificationC,
+          controller: widget.titleC,
           textAlign: TextAlign.center,
           decoration: InputDecoration(
-            hintText: "Qualification",
+            hintText: "Title",
             border: OutlineInputBorder(),
             ),
           ),
