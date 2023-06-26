@@ -1,11 +1,15 @@
+import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:ai_cv_generator/dio/client/dioClient.dart';
 import 'package:ai_cv_generator/dio/request/FileRequests/FileRequest.dart';
 import 'package:ai_cv_generator/dio/request/FileRequests/ShareFileRequest.dart';
+import 'package:ai_cv_generator/dio/response/FileResponses/GetFilesResponse.dart';
 import 'package:ai_cv_generator/dio/response/FileResponses/ShareFileResponse.dart';
+import 'package:ai_cv_generator/models/files/FileModel.dart';
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:pdfx/pdfx.dart';
 
 class FileApi extends DioClient {
   static Future<Response?> uploadFile(
@@ -15,9 +19,15 @@ class FileApi extends DioClient {
     }
   ) async {
     if (file == null) return null;
+    PdfDocument doc = await PdfDocument.openData(file.bytes as FutureOr<Uint8List>);
+    PdfPage page = await doc.getPage(1);
+    PdfPageImage? pageImage = await page.render(width: 20, height: 20);
     FormData formData = FormData.fromMap({
       "file": MultipartFile.fromBytes(
         file.bytes as List<int>, filename: file.name,
+      ),
+      "cover": MultipartFile.fromBytes(
+        pageImage?.bytes as List<int>, filename: file.name
       ),
     });
 
@@ -30,6 +40,17 @@ class FileApi extends DioClient {
         },
       );
       return response;
+    } on DioError catch(e) {
+      DioClient.handleError(e);
+    }
+    return null;
+  }
+
+  static Future<List<FileModel>?> getFiles() async {
+    try {
+      Response response = await DioClient.dio.get('api/User/files');
+      GetFilesResponse resp = GetFilesResponse.fromJson(response.data);
+      return resp.files;
     } on DioError catch(e) {
       DioClient.handleError(e);
     }
@@ -52,7 +73,7 @@ class FileApi extends DioClient {
         );
       Uint8List data = Uint8List.fromList(response.data.toList() as List<int>);
       PlatformFile file = PlatformFile(
-        name: "",
+        name: filename,
         size: data.length,
         bytes: data,
       );

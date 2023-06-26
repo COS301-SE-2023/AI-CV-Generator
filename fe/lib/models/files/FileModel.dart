@@ -3,20 +3,14 @@ import 'dart:typed_data';
 import 'package:ai_cv_generator/models/files/Unit8listConverter.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'FileModel.g.dart';
-
-@JsonSerializable()
+part 'FileModel.ga.dart';
 class FileModel {
-
-  String name;
-  int size;
-  @Uint8ListConverter()
-  Uint8List bytes;
+  String filename;
+  Uint8List cover;
 
   FileModel({
-    required this.name,
-    required this.size,
-    required this.bytes
+    required this.filename,
+    required this.cover
   });
 
   factory FileModel.fromJson(Map<String, dynamic> json) => _$FileModelFromJson(json);

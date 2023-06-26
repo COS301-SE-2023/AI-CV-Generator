@@ -31,4 +31,7 @@ public class FileEntity{
 
     @Lob
     public byte[] data;
+
+    @Lob
+    public byte[] cover;
 }

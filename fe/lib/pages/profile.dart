@@ -1,8 +1,20 @@
+import 'dart:io';
+import 'dart:typed_data';
+
+import 'package:ai_cv_generator/dio/client/fileApi.dart';
 import 'package:ai_cv_generator/dio/client/userApi.dart';
+import 'package:ai_cv_generator/models/files/FileModel.dart';
 import 'package:ai_cv_generator/models/user/Employment.dart';
+import 'package:ai_cv_generator/models/user/Link.dart';
 import 'package:ai_cv_generator/models/user/Qualification.dart';
 import 'package:ai_cv_generator/models/user/UserModel.dart';
+import 'package:ai_cv_generator/pages/employmentView.dart';
+import 'package:file_picker/file_picker.dart';
+// import 'package:ai_cv_generator/models/user/link.dart';
 import 'package:flutter/material.dart';
+import 'pdf_window.dart';
+import 'linksView.dart';
+import 'qualificationsView.dart';
 
 class Profile extends StatefulWidget {
   Profile({super.key,required this.model});
@@ -31,35 +43,22 @@ class ProfileState extends State<Profile> {
     String aboutMe = model.description!= null? model.description!:"No description...";
     String workExperience = "";
     String education = "";
-    List<Employment>? employhistory = model.employhistory;
-    if (employhistory != null)
-    for (int n=0; n <employhistory.length; n++) {
-      workExperience += "${employhistory[n].company} ";
-      workExperience += "${employhistory[n].title} ";
-      workExperience += "${employhistory[n].start_date}-";
-      workExperience += "${employhistory[n].end_date}\n";
-    }
-    if (employhistory == null || employhistory.isEmpty) workExperience = "No Work expierience listed...";
-    List<Qualification>? qualifications = model.qualifications;
-    if (qualifications!= null)
-    for (int n=0; n<qualifications.length; n++) {
-      education += "${qualifications[n].qualification} ";
-      education += "${qualifications[n].instatution} ";
-      education += "${qualifications[n].date.toString()}\n";
-    }
-    if (qualifications== null || qualifications.isEmpty) education = "No education listed...";
     
-
-    String links = "Not ready yet";
     TextEditingController fnameC = TextEditingController(text: model.fname);
     TextEditingController lnameC = TextEditingController(text: model.lname);
     TextEditingController emailC = TextEditingController(text: email);
     TextEditingController phoneNoC = TextEditingController(text: phoneNumber);
     TextEditingController locationC = TextEditingController(text: location);
     TextEditingController descripC = TextEditingController(text: aboutMe);
-    TextEditingController workExperienceC = TextEditingController();
     TextEditingController qualificationC = TextEditingController();
-    TextEditingController linksC = TextEditingController();
+    TextEditingController workExperienceC = TextEditingController();
+    GlobalKey<LinksSectionState> linksKey = GlobalKey<LinksSectionState>();
+    GlobalKey<QualificationsSectionState> qualificationsKey = GlobalKey<QualificationsSectionState>();
+    GlobalKey<QualificationsSectionState> employhistoryKey = GlobalKey<QualificationsSectionState>();
+    LinksSection linkC = LinksSection(key: linksKey, links: model.links != null ? model.links! : []);
+    QualificationsSection qualificationsC = QualificationsSection(key: qualificationsKey, qualifications: model.qualifications != null ? model.qualifications! : []);
+    EmploymentSection employmentC = EmploymentSection(key: employhistoryKey, employment: model.employmenthistory != null ? model.employmenthistory! : []);
+
     DateTime time = DateTime.now();
     void ActualUpdate() {
       print("Actual Update");
@@ -69,6 +68,9 @@ class ProfileState extends State<Profile> {
       model.phoneNumber = phoneNoC.text;
       model.description = descripC.text;
       model.location = locationC.text;
+      linksKey.currentState?.update();
+      qualificationsKey.currentState?.update();
+      employhistoryKey.currentState?.update();
       userApi.updateUser(user: model);
     }
     void update() {
@@ -87,7 +89,6 @@ class ProfileState extends State<Profile> {
     descripC.addListener(update);
     workExperienceC.addListener(update);
     qualificationC.addListener(update);
-    linksC.addListener(update);
 
     
     return Scaffold(
@@ -109,38 +110,46 @@ class ProfileState extends State<Profile> {
       body: Container( 
         color: Colors.white,
         child:Padding(
-          padding: const EdgeInsets.symmetric(vertical: 42, horizontal: 42),
+          padding: const EdgeInsets.symmetric(vertical: 42, horizontal: 60),
           child: Form(
             key: _formKey,
             child: Row(
               children: [
-
+                
                 Expanded(
                   flex: 2,
                   child: ListView(
+                    padding: const EdgeInsets.only(right: 16),
                     children: [
 
                       Column(
                         children: [
                           const SectionHeading(heading: "ABOUT ME", align: Alignment.topLeft,),
-                          SectionInput(inputWidget: TextFormField(controller: descripC, maxLines: 9,),),
+                          SectionInput(inputWidget: TextFormField(controller: descripC, maxLines: 9, decoration: const InputDecoration(border: OutlineInputBorder(),),),),
                         ],
                       ),
                       const SizedBox(height: 10,),
                       Column(
                         children: [
                           const SectionHeading(heading: "EDUCATION"),
-                          SectionInput(inputWidget: TextFormField(controller: qualificationC, maxLines: 9,),),
+                          qualificationsC,                          
                         ],
                       ),
                       const SizedBox(height: 10,),
                       Column(
                         children: [
                           const SectionHeading(heading: "WORK EXPERIENCE"),
-                          SectionInput(inputWidget: TextFormField(controller: workExperienceC, maxLines: 9,),),
+                          employmentC,
                         ],
                       ),
 
+                      Column(
+                        children: [
+                          SectionHeading(heading: "CVs", align: Alignment.topLeft,),
+                          CVHistory(context: context,),
+                        ],
+                      ),
+                                          
                     ],
                   ),
                 ),
@@ -150,94 +159,38 @@ class ProfileState extends State<Profile> {
                 Expanded(
                   flex: 1,
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Expanded(
-                        child: Column(
+                      const SectionHeading(heading: "PROFILE", align: Alignment.topRight,),
+                      SizedBox(
+                        width: 200,
+                        child:
+                         Column(
                           children: [
-                          const SectionHeading(heading: "PERSONAL model", align: Alignment.topRight,),
-                          SectionInput(inputWidget: TextInputField(editor: fnameC, align: TextAlign.right,),),
-                          SectionInput(inputWidget: TextFormField(controller: lnameC, textAlign: TextAlign.right,),),
-                          SectionInput(inputWidget: TextFormField(controller: emailC, textAlign: TextAlign.right,),),
-                          SectionInput(inputWidget: TextFormField(controller: phoneNoC, textAlign: TextAlign.right,),),
-                          SectionInput(inputWidget: TextFormField(controller: locationC, textAlign: TextAlign.right,),),
+                            SectionInput(inputWidget: TextFormField(controller: fnameC, textAlign: TextAlign.right, decoration: const InputDecoration(border: InputBorder.none,),),),
+                            SectionInput(inputWidget: TextFormField(controller: lnameC, textAlign: TextAlign.right, decoration: const InputDecoration(border: InputBorder.none,),),),
+                            SectionInput(inputWidget: TextFormField(controller: emailC, textAlign: TextAlign.right, decoration: const InputDecoration(border: InputBorder.none,),),),
+                            SectionInput(inputWidget: TextFormField(controller: locationC, textAlign: TextAlign.right, decoration: const InputDecoration(border: InputBorder.none,),),),
+                            SectionInput(inputWidget: TextFormField(controller: phoneNoC, textAlign: TextAlign.right, decoration: const InputDecoration(border: InputBorder.none,),),),
                           ],
-                        ),
+                        )
                       ),
+                      const SectionHeading(heading: "LINKS"),
                       Expanded(
-                        child: Column(
+                          child: ListView(
+                          padding: const EdgeInsets.only(right: 16),
                           children: [
-                          const SectionHeading(heading: "LINKS"),
-                          SectionInput(inputWidget: TextFormField(controller: linksC,),),
+                          linkC,
                           ],
                         ),
                       ),
                     ],
                   )
                 ),
-
               ],
             ),
           )
-        // child: Form(
-        //   key: _formKey,
-        //   child: ListView(
-        //     children: [
-        //       const CircleAvatar(
-        //         radius: 50,
-        //         // backgroundImage: AssetImage(imagePath),
-        //         backgroundColor: Colors.blue,
-        //       ),
-        //       const SizedBox(height: 16,),
-        //       Container(
-        //         padding: const EdgeInsets.symmetric(horizontal: 10.0),
-        //         child: OutlinedButton(
-        //           onPressed: () {
-        //             _formKey.currentState!.save();
-        //             setState(() {
-        //               isEditingEnabled = false;
-        //             });
-        //             ActualUpdate();
-        //           }, 
-        //           child: const Text("SAVE")
-        //         ) 
-        //       ),
-        //       const SizedBox(height: 8,),
-        //       Container(
-        //         padding: const EdgeInsets.symmetric(horizontal: 10.0),
-        //         child: OutlinedButton(
-        //           onPressed: () {
-        //               setState(() {
-        //               isEditingEnabled = true;
-        //             });
-        //           }, 
-        //           child: const Text("EDIT")
-        //         ) 
-        //       ),
-        //       const SizedBox(height: 16,),
-        //       //InputField(label: "NAME", widgetField: TextFormField(enabled: isEditingEnabled, initialValue: model.fname, onSaved: (value)=>{model.fname=value!},)),
-        //       inputField(editor: nameC , label: "Name"),
-        //       const SizedBox(height: 16,),
-        //       //InputField(label: "EMAIL", widgetField: TextFormField(enabled: isEditingEnabled, initialValue: email, onSaved: (value)=>{email=value!},)),
-        //       inputField(editor: emailC, label: "EMAIL"),
-        //       const SizedBox(height: 16,),
-        //       //InputField(label: "PHONE NUMBER", widgetField: TextFormField(enabled: isEditingEnabled, initialValue: phoneNumber, onSaved: (value)=>{phoneNumber=value!},)),
-        //       inputField(editor: phoneNoC, label: "PHONE No"),
-        //       const SizedBox(height: 16,),
-        //       //InputField(label: "LOCATION", widgetField: TextFormField(enabled: isEditingEnabled, initialValue: location, onSaved: (value)=>{location=value!},)),
-        //       inputField(editor: locationC,label: "LOCATION",),
-        //       const SizedBox(height: 16,),
-        //       InputField(label: "ABOUT ME", widgetField: TextFormField(controller: descripC, maxLines: 10,)),
-        //       const SizedBox(height: 16,),
-        //       InputField(label: "EDUCATION", widgetField: TextFormField(controller: qualificationC, maxLines: 10,)),
-        //       //inputArray(editor: qualificationC),
-        //       const SizedBox(height: 16,),
-        //       InputField(label: "WORK EXPERIENCE", widgetField: TextFormField(controller: workExperienceC, maxLines: 10,)),
-        //       const SizedBox(height: 16,),
-        //       InputField(label: "LINKS", widgetField: TextFormField(enabled: isEditingEnabled, initialValue: links, onSaved: (value)=>{links=value!}, maxLines: 10,)),
-        //       const SizedBox(height: 16,),
-        //     ],
-        //   )
-        // )
         )
       )
     );
@@ -285,6 +238,60 @@ class SectionInputState extends State<SectionInput> {
   Widget build(BuildContext context) {
     return Container(
       child: widget.inputWidget,
+    );
+  }
+}
+
+class SectionDuplicate extends StatefulWidget {
+  Widget target;
+  SectionDuplicate({super.key, required this.target});
+
+  @override
+  SectionDuplicateState createState() => SectionDuplicateState();
+}
+
+class SectionDuplicateState extends State<SectionDuplicate> {
+  List<Widget> widgets = [];
+  
+  void remove(int index) {
+      print(widgets);
+      widgets.removeAt(index);
+      setState(() {
+      });
+    }
+
+  void add() {
+    int index = widgets.length;
+    widgets.add(
+      Column(
+        children: [
+          const SizedBox(height: 16,),
+          widget.target,
+          const SizedBox(height: 16,),
+          Align(
+            alignment: Alignment.topRight,
+            child: OutlinedButton(
+              onPressed: (){
+                remove(index);
+              }, 
+              child: const Text("-"),),
+          )
+        ],
+      )
+    );
+    setState(() {
+    });
+  }
+
+  @override
+  Widget build(BuildContext build) {
+    return Column(
+      children: [
+        ...widgets,
+        const SizedBox(height: 8,),
+        OutlinedButton(onPressed: (){add();}, child: const Text("+")),
+        const SizedBox(height: 16,),
+      ]
     );
   }
 }
@@ -342,6 +349,73 @@ class InputFieldState extends State<InputField> {
           )
         ],
       ),
+    );
+  }
+}
+
+class CVHistory extends StatefulWidget {
+  final BuildContext context;
+  const CVHistory({super.key, required this.context});
+
+  @override
+  CVHistoryState createState() => CVHistoryState();
+}
+
+class CVHistoryState extends State<CVHistory> {
+  List<Widget> list = [];
+
+  @override
+  void initState() {
+    FileApi.getFiles().then((value) {
+      value!.forEach((element) {
+        list.add(add(element.filename));
+      });
+        setState(() {
+      });
+    });
+    super.initState();
+  }
+
+  Widget add(String filename,) {
+    return OutlinedButton(
+        onPressed: ()  {
+          FileApi.requestFile(filename: filename).then((value) {
+            showDialog(
+              context: widget.context,
+              builder: (context) {
+                return Dialog(
+                  child: PdfWindow(file: value,)
+                );
+            });
+          });
+
+        },
+        child: Text(filename),
+    );
+}
+
+  // void add(Uint8List cover) {
+  //   images.add(
+  //     Image.memory(cover)
+  //   );
+  //   setState(() {
+      
+  //   });
+  // }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 200, 
+      child: SingleChildScrollView(
+        child: Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: [
+              ...list,
+            ], 
+        )
+      )
     );
   }
 }
