@@ -1,3 +1,4 @@
+import 'package:ai_cv_generator/dio/client/userApi.dart';
 import 'package:flutter/material.dart';
 import 'package:ai_cv_generator/models/user/Qualification.dart';
 
@@ -17,7 +18,7 @@ class QualificationsSectionState extends State<QualificationsSection> {
   void initState() {
     widget.qualifications.forEach((element) {
       print(element.qualification);
-      add(element);
+      display(element);
      }
     );
     super.initState();
@@ -27,14 +28,14 @@ class QualificationsSectionState extends State<QualificationsSection> {
     return id++;
   }
 
-  void add(Qualification info) {
+  void display(Qualification info) {
     int objectId = get_id();
     TextEditingController qualificationC = TextEditingController();
     TextEditingController instatutionC = TextEditingController();
     TextEditingController dateC = TextEditingController();
 
-    qualificationC.text = info.qualification;
-    instatutionC.text = info.instatution;
+    qualificationC.text = info.qualification != null ? info.qualification : '';
+    instatutionC.text = info.instatution != null ? info.instatution : '';
     dateC.text = dateTimeToString(info.date, info.endo);
 
     qualificationsMap[objectId] = {
@@ -67,26 +68,56 @@ class QualificationsSectionState extends State<QualificationsSection> {
     );
   }
 
+  void add() {
+    var newQualification = Qualification(
+      qualification: '',
+      instatution: '',
+      date: DateTime.now(),
+      quaid: 0,
+      endo: DateTime.now()
+    );
+    userApi.addQulaification(qualification: newQualification);
+    display(newQualification);
+  }
+
   void remove(int objectId) {
+    Qualification? oldQualification = getQualification(objectId);
+    if(oldQualification == null) {
+      return;
+    }
+    userApi.removeQulaification(qualification: oldQualification);
     qualificationsMap.remove(objectId);
     setState(() {});
   }
 
-  List<Qualification> update() {
-    List<Qualification> QualificationCol = [];
+  void update() {
     qualificationsMap.forEach((key, value) {
-      DateTimeRange dateTimeRange = stringToDateTimeRange(qualificationsMap[key]['date'].text);
-      QualificationCol.add(
-        Qualification(
-          quaid: qualificationsMap[key]['quaid'],
-          qualification: qualificationsMap[key]['qualification'].text,
-          instatution: qualificationsMap[key]['instatution'].text,
-          date: dateTimeRange.start,
-          endo: dateTimeRange.end,
-        )
-      );
+    Qualification? updatedQualification = getQualification(key);
+      if(updatedQualification != null) {
+        print("&&&&&&&&&&&&&");
+        print(updatedQualification.instatution);
+        print(updatedQualification.qualification);
+        print(updatedQualification.date);
+        print(updatedQualification.endo);
+        userApi.updateQulaification(qualification: updatedQualification);
+      }
     });
-    return QualificationCol;
+  }
+
+  Qualification? getQualification(int objectId) {
+    if(qualificationsMap.containsKey(objectId) == false) {
+      return null;
+    }
+    DateTimeRange dateTimeRange = stringToDateTimeRange(qualificationsMap[objectId]['date'].text);
+
+    Qualification newQualification = Qualification(
+      qualification: qualificationsMap[objectId]['qualification'].text,
+      instatution: qualificationsMap[objectId]['instatution'].text,
+      quaid: 0,
+      date: dateTimeRange.start,
+      endo: dateTimeRange.end,
+    );
+    return newQualification;
   }
 
   List<Widget> populate() {
@@ -104,9 +135,7 @@ class QualificationsSectionState extends State<QualificationsSection> {
         ...populate(),
         SizedBox(height: 8,),
         OutlinedButton(onPressed: (){
-          var newQualification = Qualification(qualification: '', instatution: '', date: DateTime.now(), quaid: get_id(),endo: DateTime.now());
-          widget.qualifications.add(newQualification);
-          add(newQualification);
+          add();
           setState(() {});
         }, child: Text('+')),
         SizedBox(height: 16,),
