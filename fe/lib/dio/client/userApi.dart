@@ -237,7 +237,7 @@ class userApi extends DioClient {
     try {
       RemoveLinkRequest request = RemoveLinkRequest(link: link);
       Response resp = await DioClient.dio.post(
-        'api/User/addLink',
+        'api/User/remLink',
         data: request.toJson()
       );
       return LinkResponse.fromJson(resp.data).links;
@@ -253,7 +253,7 @@ class userApi extends DioClient {
     try {
       UpdateLinkRequest request = UpdateLinkRequest(link: link);
       Response resp = await DioClient.dio.post(
-        'api/User/addLink',
+        'api/User/updateLink',
         data: request.toJson()
       );
       return LinkResponse.fromJson(resp.data).links;
