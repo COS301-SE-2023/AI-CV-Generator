@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ai_cv_generator/models/user/Link.dart';
+import 'package:ai_cv_generator/dio/client/userApi.dart';
 
 class LinksSection extends StatefulWidget {
   List<Link> links;
@@ -10,45 +11,39 @@ class LinksSection extends StatefulWidget {
 }
 
 class LinksSectionState extends State<LinksSection> {
+  final blankLink = Link(url: '', linkid: 0);
   Map linksMap = {};
-  int id = 0;
 
   @override
   void initState() {
     widget.links.forEach((element) {
-      print(element.url);
-      add(element);
+      display(element);
      }
     );
     super.initState();
   }
 
-  int get_id() {
-    return id++;
-  }
-
-  void add(Link info) {
-    int linkId = get_id();
+  void display(Link info) {
     TextEditingController urlC = TextEditingController();
 
     urlC.text = info.url;
 
-    linksMap[linkId] = {
+    linksMap[info.linkid] = {
       'url': urlC,
       'linkid': info.linkid,
     };
 
-    linksMap[linkId]['widget'] = (
+    linksMap[info.linkid]['widget'] = (
       Column(
         children: [
           SizedBox(height: 16,),
-          LinksField(urlC: linksMap[linkId]['url']),
+          LinksField(urlC: linksMap[info.linkid]['url']),
           SizedBox(height: 16,),
           Align(
             alignment: Alignment.topRight,
             child: OutlinedButton(
               onPressed: (){
-                remove(linkId);
+                remove(info.linkid);
               }, 
               child: Text('-'),),
           )
@@ -57,19 +52,32 @@ class LinksSectionState extends State<LinksSection> {
     );
   }
 
-  void remove(int linkId) {
-    print('removed:');
-    print(linksMap[linkId]['url'].text);
-    linksMap.remove(linkId);
+  void add() {
+    userApi.AddLink(link: blankLink).then((value) {
+      Link newLink = getCorrect(value!)!;
+      print(newLink.linkid);
+      display(newLink);
+      setState(() {});
+    });
+  }
+
+  void remove(int objectId) async {
+    Link? oldLink = getLink(objectId);
+    if(oldLink == null) {
+      return;
+    }
+    userApi.RemoveLink(link: oldLink);
+    linksMap.remove(objectId);
     setState(() {});
   }
 
-  List<Link> update() {
-    List<Link> linkCol = [];
+  void update() async {
     linksMap.forEach((key, value) {
-      linkCol.add(Link(url: linksMap[key]["url"].text, linkid: linksMap[key]["linkid"]));
+    Link? updatedLink = getLink(key);
+      if(updatedLink != null) {
+        userApi.UpdateLink(link: updatedLink);
+      }
     });
-    return linkCol;
   }
 
   List<Widget> populate() {
@@ -79,6 +87,27 @@ class LinksSectionState extends State<LinksSection> {
     });
     return linkWidgets;
   }
+  
+  Link? getCorrect(List<Link> list) {
+    for(var i = 0; i <= list.length-1; i++) {
+      if(linksMap.containsKey(list[i].linkid) == false) {
+        return list[i];
+      }
+    }
+    return null;
+  }
+
+  Link? getLink(int objectId) {
+    if(linksMap.containsKey(objectId) == false) {
+      return null;
+    }
+
+    Link newLink = Link(
+      linkid: linksMap[objectId]['linkid'],
+      url: linksMap[objectId]['url'].text,
+    );
+    return newLink;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -87,10 +116,7 @@ class LinksSectionState extends State<LinksSection> {
         ...populate(),
         SizedBox(height: 8,),
         OutlinedButton(onPressed: (){
-          var newLink = Link(url: '', linkid: 0);
-          widget.links.add(newLink);
-          add(newLink);
-          setState(() {});
+          add();
         }, child: Text('+')),
         SizedBox(height: 16,),
       ],
