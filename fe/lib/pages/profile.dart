@@ -85,7 +85,7 @@ class ProfileState extends State<Profile> {
       model.phoneNumber = phoneNoC.text;
       model.description = descripC.text;
       model.location = locationC.text;
-      model.links = linksKey.currentState?.update();
+      // model.links = linksKey.currentState?.update();
       qualificationsKey.currentState?.update();
       // model.employhistory = employhistoryKey.currentState?.update();
       userApi.updateUser(user: model);
@@ -398,13 +398,14 @@ class CVHistoryState extends State<CVHistory> {
     files.add(
       OutlinedButton(
         onPressed: () async {
-          FileApi.requestFile(filename: filename);
-          showDialog(
-            context: context,
-            builder: (context) {
-            return Text('data');
-          }
+          FileApi.requestFile(filename: filename).then((value) {
+            showDialog(
+              context: context,
+              builder: (context) {
+              return PdfWindow(file: value,);
+              }
           );
+          });
         },
         child: Text(filename),
       ),
