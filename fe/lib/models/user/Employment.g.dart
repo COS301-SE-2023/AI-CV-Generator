@@ -9,8 +9,8 @@ part of 'Employment.dart';
 Employment _$EmploymentFromJson(Map<String, dynamic> json) => Employment(
       company: json['company'] as String,
       title: json['title'] as String,
-      start_date: DateTime.parse(json['start_date'] as String),
-      end_date: DateTime.parse(json['end_date'] as String),
+      startdate: DateTime.parse(json['startdate'] as String),
+      enddate: DateTime.parse(json['enddate'] as String),
       empid: json['empid'] as int,
     );
 
@@ -18,7 +18,7 @@ Map<String, dynamic> _$EmploymentToJson(Employment instance) =>
     <String, dynamic>{
       'company': instance.company,
       'title': instance.title,
-      'start_date': instance.start_date.toIso8601String(),
-      'end_date': instance.end_date.toIso8601String(),
+      'startdate': instance.startdate.toIso8601String(),
+      'enddate': instance.enddate.toIso8601String(),
       'empid': instance.empid,
     };

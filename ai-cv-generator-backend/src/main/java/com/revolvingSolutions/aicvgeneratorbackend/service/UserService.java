@@ -70,7 +70,9 @@ public class UserService {
                                 .lname(dbuser.getLname())
                                 .username(dbuser.getUsername())
                                 .email(dbuser.getEmail())
-                                .description(dbuser.getLocation())
+                                .location(dbuser.getLocation())
+                                .phoneNumber(dbuser.getPhoneNumber())
+                                .description(dbuser.getDescription())
                                 .employmenthistory(getEmployments())
                                 .qualifications(getQualifications())
                                 .links(getLinks())
@@ -103,6 +105,7 @@ public class UserService {
                 .qualification(request.getQualification().getQualification())
                 .intstitution(request.getQualification().getIntstitution())
                 .date(request.getQualification().getDate())
+                .endo(request.getQualification().getEndo())
                 .build();
         qualificationRepository.saveAndFlush(qua);
         return AddQualificationResponse.builder()
@@ -233,6 +236,7 @@ public class UserService {
             prev.setQualification(request.getQualification().getQualification());
             prev.setIntstitution(request.getQualification().getIntstitution());
             prev.setDate(request.getQualification().getDate());
+            prev.setEndo(request.getQualification().getEndo());
             qualificationRepository.saveAndFlush(prev);
             return UpdateQualificationResponse.builder()
                     .qualifications(getQualifications())
@@ -286,9 +290,11 @@ public class UserService {
                 .build();
     }
 
-    public GetFilesResponse getFile() {
+    @Transactional
+    public GetFilesResponse getFiles() {
+        List<FileModelForList> files = fileRepository.getFilesFromUser(getAuthenticatedUser().getUsername());
         return GetFilesResponse.builder()
-                .files(fileRepository.getFilesFromUser(getAuthenticatedUser().getUsername()))
+                .files(files)
                 .build();
     }
 
@@ -309,13 +315,14 @@ public class UserService {
             return ResponseEntity.notFound().build();
         }
     }
-    public String uploadFile(MultipartFile request) {
+    public String uploadFile(MultipartFile request, MultipartFile cover) {
         try {
             FileEntity file = FileEntity.builder()
                     .user(getAuthenticatedUser())
                     .filename(request.getOriginalFilename())
                     .filetype(request.getContentType())
                     .data(request.getBytes())
+                    .cover(cover.getBytes())
                     .build();
             fileRepository.save(file);
             return "Success";

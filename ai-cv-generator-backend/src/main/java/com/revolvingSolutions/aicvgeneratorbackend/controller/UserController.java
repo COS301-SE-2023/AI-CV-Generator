@@ -37,6 +37,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Date;
 
 @RestController
@@ -59,9 +61,10 @@ public class UserController {
     }
     @PostMapping(value="/file")
     public ResponseEntity<String> uploadFile(
-            @RequestParam("file")MultipartFile file
+            @RequestParam("file")MultipartFile file,
+            @RequestParam("cover")MultipartFile cover
             ) {
-        return ResponseEntity.ok(service.uploadFile(file));
+        return ResponseEntity.ok(service.uploadFile(file,cover));
     }
 
     @PostMapping(value="/shareFile")
@@ -84,7 +87,7 @@ public class UserController {
 
     @GetMapping(value="/files")
     public ResponseEntity<GetFilesResponse> getFiles() {
-        return ResponseEntity.ok(service.getFile());
+        return ResponseEntity.ok(service.getFiles());
     }
 
     @PostMapping(value="/addEmp")
@@ -102,7 +105,7 @@ public class UserController {
     }
 
     @PostMapping(value="/updateEmp")
-    public ResponseEntity<Object> updateEmployment(
+    public ResponseEntity<UpdateEmploymentResponse> updateEmployment(
             @RequestBody UpdateEmploymentRequest request
     ) {
         try {
@@ -127,7 +130,7 @@ public class UserController {
     }
 
     @PostMapping(value="/updateQua")
-    public ResponseEntity<Object> updateQualification(
+    public ResponseEntity<UpdateQualificationResponse> updateQualification(
             @RequestBody UpdateQualificationRequest request
     ) {
         try {
@@ -153,7 +156,7 @@ public class UserController {
     }
 
     @PostMapping(value="/updateLink")
-    public ResponseEntity<Object> updateLink(
+    public ResponseEntity<UpdateLinkResponse> updateLink(
             @RequestBody UpdateLinkRequest request
     ) {
         try {
