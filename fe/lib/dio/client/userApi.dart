@@ -32,7 +32,7 @@ class userApi extends DioClient {
       Response response = await DioClient.dio.get('api/User/user');
       print('User Info: ${response.data}');
       user = UserResponse.fromJson(response.data).user;
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       DioClient.handleError(e);
     }
     return user;
@@ -54,7 +54,7 @@ class userApi extends DioClient {
       print('User updated: ${response.data}');
 
       updateduser = UserResponse.fromJson(response.data).user;
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       DioClient.handleError(e);
     }
 
@@ -76,7 +76,7 @@ class userApi extends DioClient {
       DioClient.SetAuth(resp.token);
       DioClient.SetRefresh(resp.refreshToken);
       return true;
-    } on DioError catch (e) {
+    } on DioException catch (e) {
      DioClient.handleError(e);
     }
     return false;
@@ -99,7 +99,7 @@ class userApi extends DioClient {
       DioClient.SetAuth(resp.token);
       DioClient.SetRefresh(resp.refreshToken);
       return "1";
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       DioClient.handleError(e);
       return e.message;
     }
@@ -112,7 +112,7 @@ class userApi extends DioClient {
     try {
       Response resp = await DioClient.dio.get('api/User/test');
       print("Response: "+resp.data);
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       DioClient.handleError(e);
     }
     Response resp = await DioClient.dio.get('api/Users');
@@ -131,7 +131,7 @@ class userApi extends DioClient {
         );
       print(resp.data);
       return QualificationsResponse.fromJson(resp.data).qualifications;
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       DioClient.handleError(e);
     }
     return null;
@@ -147,7 +147,7 @@ class userApi extends DioClient {
         data: request.toJson()
         );
       return QualificationsResponse.fromJson(resp.data).qualifications;
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       DioClient.handleError(e);
     }
     return null;
@@ -163,7 +163,7 @@ class userApi extends DioClient {
         data: request.toJson()
         );
       return QualificationsResponse.fromJson(resp.data).qualifications;
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       DioClient.handleError(e);
     }
     return null;
@@ -180,7 +180,7 @@ class userApi extends DioClient {
       );
       print(resp.data);
       return EmploymentResponse.fromJson(resp.data).employees;
-    } on DioError catch(e) {
+    } on DioException catch(e) {
       DioClient.handleError(e);
     }
     return null;
@@ -196,7 +196,7 @@ class userApi extends DioClient {
         data: request.toJson()
       );
       return EmploymentResponse.fromJson(resp.data).employees;
-    } on DioError catch(e) {
+    } on DioException catch(e) {
       DioClient.handleError(e);
     }
     return null;
@@ -213,7 +213,7 @@ class userApi extends DioClient {
       );
       print(resp.data);
       return EmploymentResponse.fromJson(resp.data).employees;
-    } on DioError catch(e) {
+    } on DioException catch(e) {
       DioClient.handleError(e);
     }
     return null;
@@ -229,7 +229,7 @@ class userApi extends DioClient {
         data: request.toJson()
       );
       return LinkResponse.fromJson(resp.data).links;
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       DioClient.handleError(e);
     }
     return null;
@@ -245,7 +245,7 @@ class userApi extends DioClient {
         data: request.toJson()
       );
       return LinkResponse.fromJson(resp.data).links;
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       DioClient.handleError(e);
     }
     return null;
@@ -261,7 +261,7 @@ class userApi extends DioClient {
         data: request.toJson()
       );
       return LinkResponse.fromJson(resp.data).links;
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       DioClient.handleError(e);
     }
     return null;
