@@ -9,6 +9,8 @@ highlight their strengths and experiences.
 The AI CV Generator aims to aid job seekers in creating appealing job application
 documents that will increase their chances of acquiring a job.
 
+ [![codecov](https://codecov.io/gh/<TheStoryOfChampion>/<AI-CV-Generator>/branch/main/graph/badge.svg)](https://codecov.io/gh/<TheStoryOfChampion>/<AI-CV-Generator>)
+
 [link to google Doc](https://docs.google.com/document/d/1Midl1dNrDYABMpphBpfqwYncG0IV9M4xypMFUMdOG-I/edit?usp=sharing)
 
 [link to Demo 1 presentation](https://docs.google.com/presentation/d/1Qho91ar10-T4J-gPNWZYJirUlumxQ54s/edit?usp=sharing&ouid=116448994185217402077&rtpof=true&sd=true)
