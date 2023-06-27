@@ -15,11 +15,12 @@ class TokenRevalidator extends Interceptor {
   }
 
   @override
-  void onError(DioError err, ErrorInterceptorHandler handler) async {
+  void onError(DioException err, ErrorInterceptorHandler handler) async {
     if (err.requestOptions.path.contains("auth")) {
       return handler.next(err);
     }
-    if (err.response?.statusCode == 403 ) {
+    if (err.response?.statusCode == 403) {
+      
       print("Intercepting to refresh!");
       try {
         RefreshRequest req = RefreshRequest(refreshToken: DioClient.refreshToken);
@@ -44,7 +45,7 @@ class TokenRevalidator extends Interceptor {
         } else {
           return handler.next(err);
         }
-      } on DioError {
+      } on DioException {
         print("Refresh failed!\nSign in again!");
         return handler.next(err);
       }

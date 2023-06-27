@@ -40,7 +40,7 @@ class FileApi extends DioClient {
         },
       );
       return response;
-    } on DioError catch(e) {
+    } on DioException catch(e) {
       DioClient.handleError(e);
     }
     return null;
@@ -51,7 +51,7 @@ class FileApi extends DioClient {
       Response response = await DioClient.dio.get('api/User/files');
       GetFilesResponse resp = GetFilesResponse.fromJson(response.data);
       return resp.files;
-    } on DioError catch(e) {
+    } on DioException catch(e) {
       DioClient.handleError(e);
     }
     return null;
@@ -78,7 +78,7 @@ class FileApi extends DioClient {
         bytes: data,
       );
       return file;
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       DioClient.handleError(e);
     }
     

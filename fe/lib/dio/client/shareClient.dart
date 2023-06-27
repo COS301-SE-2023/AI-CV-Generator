@@ -43,7 +43,7 @@ class ShareApi {
         bytes: data,
       );
       return file;
-    } on DioError catch(e) {
+    } on DioException catch(e) {
       DioClient.handleError(e);
     }
     return null;

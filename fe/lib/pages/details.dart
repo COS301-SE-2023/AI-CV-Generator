@@ -1,42 +1,29 @@
-String details = """John Smith
-123 Main Street, Anytown, USA
-Phone: (123) 456-7890 | Email: johnsmith@email.com
+String details = """
 
-Objective
-Results-driven professional with strong organizational and communication skills seeking a challenging position in the marketing field to utilize my expertise in driving brand growth and customer engagement.
+I am a dedicated and detail-oriented accountant with a passion for numbers and financial analysis. With several years of experience in the field, I have developed a strong understanding of accounting principles and practices, and I am committed to providing accurate and timely financial reporting.
 
-Education
-Bachelor of Business Administration, Marketing | XYZ University | Anytown, USA | 2018-2022
+ABC Accounting Firm
 
-Relevant coursework: Marketing Strategy, Consumer Behavior, Digital Marketing, Market Research
-Experience
-Marketing Intern | ABC Company | Anytown, USA | Summer 2021
+Role: Staff Accountant
 
-Assisted in developing and implementing social media campaigns, resulting in a 20% increase in follower engagement.
-Conducted market research to identify target demographics and refine marketing strategies.
-Collaborated with cross-functional teams to create compelling content for online platforms.
-Sales Representative | XYZ Corporation | Anytown, USA | 2019-2021
+Responsibilities: Prepared financial statements, reconciled accounts, managed accounts payable and receivable, and provided support for tax preparation.
+Achievements: Developed strong accounting skills and earned a promotion to Senior Accountant after two years of consistent performance.
 
-Achieved and consistently exceeded monthly sales targets, generating \$500,000 in revenue within the first year.
-Cultivated and maintained strong relationships with key clients, resulting in a 30% increase in customer retention.
-Conducted product demonstrations and presentations to potential customers, effectively communicating value propositions.
+XYZ Manufacturing
 
-Skills
-Marketing strategy development and implementation
-Social media management and content creation
-Market research and data analysis
-Customer relationship management
-Sales and negotiation techniques
-Strong written and verbal communication skills
-Proficient in Microsoft Office Suite and Google Analytics
-Achievements
+Role: Cost Accountant
 
-Recipient of the XYZ University Marketing Excellence Award (2022)
-Led a team of volunteers in organizing a successful charity event, raising '\$10,000 for a local nonprofit organization.
-References
-Available upon request
+Responsibilities: Conducted cost analysis on products, maintained inventory records, and prepared financial reports for the management team. Collaborated with other departments to optimize production costs and improve profitability.
+Achievements: Led a successful cost-saving initiative that resulted in a 10% reduction in production costs. Implemented new inventory management software that improved accuracy and efficiency.
 
-Please note that this is just a sample CV and can be customized based on your specific skills, experiences, and qualifications.""";
+John Smith, CPA
+Tax Manager at ABC Accounting Firm
+johnsmith@abcaccountingfirm.com, (555) 123-4567
+
+Sarah Johnson
+CFO at XYZ Manufacturing
+sarahjohnson@xyzmanufacturing.com, (555) 987-6543
+""";
 
 Map content = {
   "personalDetails": "John Smith\n123 Main Street, Anytown, USA\nPhone: (123) 456-7890 | Email: johnsmith@email.com",

@@ -40,7 +40,7 @@ class Tester extends Interceptor {
 
   //Logs Errors
   @override
-  void onError(DioError err, ErrorInterceptorHandler handler) {
+  void onError(DioException err, ErrorInterceptorHandler handler) {
     if (!test) return super.onError(err, handler);
     print(
       'Error [${err.response?.statusCode}] => at Path: ${err.requestOptions.path}',
