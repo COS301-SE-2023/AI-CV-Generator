@@ -15,6 +15,8 @@ documents that will increase their chances of acquiring a job.
 
 [link to Demo 1 presentation](https://docs.google.com/presentation/d/1Qho91ar10-T4J-gPNWZYJirUlumxQ54s/edit?usp=sharing&ouid=116448994185217402077&rtpof=true&sd=true)
 
+[link to Demo 2 presentation](https://docs.google.com/presentation/d/1CIFVxeWi5tOaU3reQZI2o9W0In96vWp3/edit?usp=sharing&ouid=116448994185217402077&rtpof=true&sd=true)
+
 [link to Coding Standards Doc](https://docs.google.com/document/d/1Gtp9jmQquUp5D-hwBgRWAdjDGtrOWXoTiI5AjR2kRCs/edit?usp=sharing)
 
 ## The Team
