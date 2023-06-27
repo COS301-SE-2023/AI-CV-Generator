@@ -16,20 +16,6 @@ Role: Cost Accountant
 Responsibilities: Conducted cost analysis on products, maintained inventory records, and prepared financial reports for the management team. Collaborated with other departments to optimize production costs and improve profitability.
 Achievements: Led a successful cost-saving initiative that resulted in a 10% reduction in production costs. Implemented new inventory management software that improved accuracy and efficiency.
 
-ABC Accounting Firm
-
-Role: Staff Accountant
-
-Responsibilities: Prepared financial statements, reconciled accounts, managed accounts payable and receivable, and provided support for tax preparation.
-Achievements: Developed strong accounting skills and earned a promotion to Senior Accountant after two years of consistent performance.
-
-XYZ Manufacturing
-
-Role: Cost Accountant
-
-Responsibilities: Conducted cost analysis on products, maintained inventory records, and prepared financial reports for the management team. Collaborated with other departments to optimize production costs and improve profitability.
-Achievements: Led a successful cost-saving initiative that resulted in a 10% reduction in production costs. Implemented new inventory management software that improved accuracy and efficiency.
-
 John Smith, CPA
 Tax Manager at ABC Accounting Firm
 johnsmith@abcaccountingfirm.com, (555) 123-4567

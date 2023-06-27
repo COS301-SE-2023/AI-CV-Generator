@@ -31,7 +31,7 @@ class _generatedCVState extends State<generatedCV> {
         response += '$value\n\n';
       });
     });
-    _controller.text = response;
+    _controller.text = details;
   }
   PlatformFile? file;
   bool saved = false;
