@@ -142,6 +142,7 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
       padding: const EdgeInsets.all(8.0),
       constraints: BoxConstraints.tight(const Size(550,65)),
       child: TextFormField(
+        key: const Key("Institution input"),
         controller: institution1,
         decoration: const InputDecoration(
           contentPadding: EdgeInsets.all(5.0),
@@ -165,6 +166,7 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
       padding: const EdgeInsets.all(8.0),
       constraints: BoxConstraints.tight(const Size(550,65)),
       child: TextFormField(
+        key: const Key("Qualification input"),
         controller: qualification1,
         decoration: const InputDecoration(
           contentPadding: EdgeInsets.all(5.0),
@@ -189,6 +191,7 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
       padding: const EdgeInsets.all(8.0),
       constraints: BoxConstraints.tight(const Size(550,65)),
       child: DateTimeFormField(
+        key: const Key("Graduation input"),
         //controller: _timeController1,
         decoration: const InputDecoration(
           border: OutlineInputBorder(),

@@ -111,6 +111,7 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
       padding: const EdgeInsets.all(8.0),
       constraints: BoxConstraints.tight(const Size(550,65)),
       child: TextFormField(
+        key: const Key("Name input"),
         controller: fname,
         decoration: const InputDecoration(
           contentPadding: EdgeInsets.all(5.0),
@@ -134,6 +135,7 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
       padding: const EdgeInsets.all(8.0),
       constraints: BoxConstraints.tight(const Size(550,65)),
       child: TextFormField(
+        key: const Key("Last Name input"),
         controller: lname,
         decoration: const InputDecoration(
           contentPadding: EdgeInsets.all(5.0),
@@ -157,6 +159,7 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
       padding: const EdgeInsets.all(8.0),
       constraints: BoxConstraints.tight(const Size(550,65)),
       child: TextFormField(
+        key: const Key("Email input"),
         controller: email,
         decoration: const InputDecoration(
           contentPadding: EdgeInsets.all(5.0),
@@ -180,6 +183,7 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
       padding: const EdgeInsets.all(8.0),
       constraints: BoxConstraints.tight(const Size(550,65)),
       child: TextFormField(
+        key: const Key("Cell input"),
         controller: cell,
         decoration: const InputDecoration(
           contentPadding: EdgeInsets.all(5.0),
@@ -203,6 +207,7 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
       padding: const EdgeInsets.all(8.0),
       constraints: BoxConstraints.tight(const Size(550,65)),
       child: TextFormField(
+        key: const Key("Address input"),
         controller: address,
         decoration: const InputDecoration(
           contentPadding: EdgeInsets.all(5.0),

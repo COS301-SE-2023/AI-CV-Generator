@@ -134,6 +134,7 @@ class _ReferencesFormState extends State<ReferencesForm> {
       padding: const EdgeInsets.all(8.0),
       constraints: BoxConstraints.tight(const Size(550,65)),
       child: TextFormField(
+        key: const Key("Name input"),
         controller: fullName1,
         decoration: const InputDecoration(
           contentPadding: EdgeInsets.all(5.0),
@@ -156,6 +157,7 @@ class _ReferencesFormState extends State<ReferencesForm> {
       padding: const EdgeInsets.all(8.0),
       constraints: BoxConstraints.tight(const Size(550,65)),
       child: TextFormField(
+        key: const Key("Job Title input"),
         controller: jobTitle,
         decoration: const InputDecoration(
           contentPadding: EdgeInsets.all(5.0),
@@ -178,6 +180,7 @@ class _ReferencesFormState extends State<ReferencesForm> {
       padding: const EdgeInsets.all(8.0),
       constraints: BoxConstraints.tight(const Size(550,65)),
       child: TextFormField(
+        key: const Key("Cell input"),
         controller: number,
         decoration: const InputDecoration(
           contentPadding: EdgeInsets.all(5.0),
@@ -201,6 +204,7 @@ class _ReferencesFormState extends State<ReferencesForm> {
       padding: const EdgeInsets.all(8.0),
       constraints: BoxConstraints.tight(const Size(550,65)),
       child: TextFormField(
+        key: const Key("Email input"),
         controller: email,
         decoration: const InputDecoration(
           contentPadding: EdgeInsets.all(5.0),

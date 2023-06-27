@@ -142,6 +142,7 @@ class _EmploymentDetailsFormState extends State<EmploymentDetailsForm> {
       padding: const EdgeInsets.all(8.0),
       constraints: BoxConstraints.tight(const Size(550,65)),
       child: TextFormField(
+        key: const Key("Company input"),
         controller: company1,
         decoration: const InputDecoration(
           contentPadding: EdgeInsets.all(5.0),
@@ -165,6 +166,7 @@ class _EmploymentDetailsFormState extends State<EmploymentDetailsForm> {
       padding: const EdgeInsets.all(8.0),
       constraints: BoxConstraints.tight(const Size(550,65)),
       child: TextFormField(
+        key: const Key("Job Title input"),
         controller: jobTitle1,
         decoration: const InputDecoration(
           contentPadding: EdgeInsets.all(5.0),
