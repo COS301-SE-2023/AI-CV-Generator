@@ -42,7 +42,7 @@ class _generatedCVState extends State<generatedCV> {
       saved = true;
     }
   }
-  writeOnPdf() {
+  writeOnPdf(UserModel user) {
     pdf.addPage(
       pw.MultiPage(
         pageFormat: PdfPageFormat.a4,
@@ -62,17 +62,17 @@ class _generatedCVState extends State<generatedCV> {
                       children: [
                         alterText("Contact", fontSubHeading),
                         relatedSpacing,
-                        alterText("0829876453", fontText),
+                        alterText(user.phoneNumber.toString(), fontText),
                         unRelatedSpacing,
                         unRelatedSpacing,
                         alterText("Email", fontSubHeading),
                         relatedSpacing,
-                        alterText("averyq@gmail.com", fontText),
+                        alterText(user.email!, fontText),
                         unRelatedSpacing,
                         unRelatedSpacing,
                         alterText("Address", fontSubHeading),
                         relatedSpacing,
-                        alterText("Pretoria, Gauteng", fontText),
+                        alterText(user.location!, fontText),
                         unRelatedSpacing,
                         unRelatedSpacing,
                         alterText("Education", fontSubHeading),
@@ -114,7 +114,7 @@ class _generatedCVState extends State<generatedCV> {
                           child: pw.Column(
                             crossAxisAlignment: pw.CrossAxisAlignment.start,
                             children: [
-                              alterText("Avery Quinn", fontHeading),
+                              alterText(user.fname + " " + user.lname, fontHeading),
                               relatedSpacing,
                               alterText("Accountant", fontSubHeading),
                             ]
@@ -246,7 +246,7 @@ class _generatedCVState extends State<generatedCV> {
               onPressed: () async {
                 if (!saved) {
                   user = await userApi.getUser();
-                  writeOnPdf();
+                  writeOnPdf(user!);
                   await savePdf();
                 }
                 if (file != null) {
@@ -263,7 +263,7 @@ class _generatedCVState extends State<generatedCV> {
               onPressed: () async {
                 if (!saved) {
                   user = await userApi.getUser();
-                  writeOnPdf();
+                  writeOnPdf(user!);
                   await savePdf();
                 }
                 Navigator.push(
