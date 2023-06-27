@@ -1,16 +1,25 @@
 package com.revolvingSolutions.aicvgeneratorbackend.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.List;
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
-    public String name;
-    public String userid;
-
-    public User() {
-        userid = "";
-        name = "";
-    }
-
-    public User(String na,String uid) {
-        userid = uid;
-        name = na;
-    }
+    public String fname;
+    public String lname;
+    public String username;
+    public String email;
+    public String phoneNumber;
+    public String location;
+    public String description;
+    public List<Employment> employmenthistory;
+    public List<Qualification> qualifications;
+    public List<Link> links;
 }

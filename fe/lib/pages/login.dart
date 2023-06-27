@@ -1,3 +1,5 @@
+import 'package:ai_cv_generator/dio/client/userApi.dart';
+import 'package:ai_cv_generator/pages/Register.dart';
 import 'package:ai_cv_generator/pages/home.dart';
 import 'package:flutter/material.dart';
  
@@ -8,12 +10,12 @@ class Login extends StatelessWidget {
  
   @override
   Widget build(BuildContext context) {
-    return  MaterialApp(
+    return  const MaterialApp(
       title: _title,
-      home: const Scaffold(
-        //appBar: AppBar(title: const Text(_title)),
-        body: const MyStatefulWidget(),
+      home: Scaffold(
+        body: MyStatefulWidget(),
       ),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
@@ -28,6 +30,8 @@ class MyStatefulWidget extends StatefulWidget {
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   TextEditingController nameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+
+  bool Error = false;
  
   @override
   Widget build(BuildContext context) {
@@ -38,7 +42,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             Container(
                 alignment: Alignment.center,
                 padding: const EdgeInsets.all(10),
-                child: Image(image: ResizeImage(AssetImage('assets/images/logo.png'),width:350,height:350),)
+                child: const Image(image: ResizeImage(AssetImage('assets/images/logo.png'),width:350,height:350),)
                 ),
             Container(
                 alignment: Alignment.center,
@@ -48,7 +52,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   style: TextStyle(fontSize: 20),
                 )),
             Container(
-              padding: const EdgeInsets.fromLTRB(300, 10, 300, 10),
+              padding: const EdgeInsets.fromLTRB(500, 10, 500, 10),
               child: TextField(
                 controller: nameController,
                 decoration: const InputDecoration(
@@ -58,7 +62,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               ),
             ),
             Container(
-              padding: const EdgeInsets.fromLTRB(300, 10, 300, 10),
+              padding: const EdgeInsets.fromLTRB(500, 10, 500, 10),
               child: TextField(
                 obscureText: true,
                 controller: passwordController,
@@ -74,18 +78,29 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             ),
             Container(
                 height: 50,
-                padding: const EdgeInsets.fromLTRB(300, 0, 300, 0),
+                padding: const EdgeInsets.fromLTRB(600, 0, 600, 0),
                 child: ElevatedButton(
                   child: const Text('Login'),
-                  onPressed: () {
-                    // Implement Login functionality later
-                    // Just move to app for now
-                    Navigator.push(context, MaterialPageRoute(
-                      builder: (context) => Home()
+                  onPressed: () async {
+                    bool resp = await userApi.login(username: nameController.text,password: passwordController.text);
+                    if (resp) {
+                      Error = false;
+                      Navigator.push(context, MaterialPageRoute(
+                      builder: (context) => const Home()
                     ));
+                    } else {
+                      setState(() {
+                        Error = true;
+                      });
+                    }
                   },
                 )
             ),
+            Error ?
+            const Center(child: Text("Password or Email invalid",style: TextStyle(
+              color: Colors.red,
+              backgroundColor: Color.fromARGB(0, 186, 40, 40)
+            ),)) : const Text(""),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
@@ -95,11 +110,16 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     'Create Account',
                     style: TextStyle(fontSize: 20),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(
+                      builder: (context) => const RegisterPage()
+                    ));
+                  },
                 )
               ],
             ),
           ],
-        ));
+        )
+      );
   }
 }

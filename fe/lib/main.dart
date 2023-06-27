@@ -1,9 +1,20 @@
-import 'package:flutter/material.dart';
-import 'package:ai_cv_generator/pages/home.dart';
+import 'package:ai_cv_generator/dio/client/shareClient.dart';
 import 'package:ai_cv_generator/pages/login.dart';
+import 'package:ai_cv_generator/pages/pdf_window.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const MyApp());
+
+Future<void> main() async {
+  Uri myurl = Uri.base; //get complete url
+  print(myurl.path);
+  if (myurl.path.contains("/share/")) {
+    String uuid = myurl.pathSegments.last;
+    PlatformFile? file = await ShareApi.retrieveFile(uuid: uuid);
+    runApp(ShareCVApp(file: file));
+  } else {
+    runApp(const MyApp());
+  }
 }
 
 //Run: flutter clean
@@ -15,11 +26,27 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'AI-CV-GENERATOR_DEMO1_build',
+      debugShowCheckedModeBanner: false,
       initialRoute: '/',
       routes: {
-        
-        '/mainPage':(context) => Home(),
-        '/':(context) => Login() 
+        '/':(context) => const Login(),
+      },
+    );
+  }
+}
+
+class ShareCVApp extends StatelessWidget {
+  ShareCVApp({super.key, required this.file});
+  PlatformFile? file;
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'AI-CV-GENERATOR_DEMO1_build',
+      debugShowCheckedModeBanner: false,
+      initialRoute: '/',
+      routes: {
+        '/':(context) => PdfWindow(file: file),
+        //Route for shareCV will be added later
       },
     );
   }

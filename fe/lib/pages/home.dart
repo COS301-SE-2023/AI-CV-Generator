@@ -1,59 +1,76 @@
-import 'package:ai_cv_generator/pages/createCV.dart';
-import 'package:ai_cv_generator/pages/importCV.dart';
+
+import 'package:ai_cv_generator/pages/generatedCV.dart';
+import 'package:ai_cv_generator/pages/createPage.dart';
+import 'package:ai_cv_generator/pages/navdrawer.dart';
 import 'package:flutter/material.dart';
-import 'importCV.dart';
+import '../models/user/UserModel.dart';
+import 'profile.dart';
+import 'package:ai_cv_generator/dio/client/userApi.dart';
 
 class Home extends StatefulWidget {
+  const Home({super.key});
+
+
   @override
   _HomeState createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
-  int _selectedIndex = 1;
   Map data = {};
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static final List<Widget> _widgetOptions = <Widget>[
-    ImportCV(),
-    CreateCV(),
-    const Text(
-      'Profile stub',
-      style: optionStyle,
-    ),
-  ];
-
+  TextEditingController searchC = TextEditingController();
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return  Scaffold(
+      drawer: const NavDrawer(),
       appBar: AppBar(
-        title: const Center(child: Text("AI-CV Generator"),)
-      ),
-      body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.upload),
-            label: 'Import',
+          backgroundColor: Colors.lightBlue,
+        actions: [
+
+          Transform.scale(
+            scale: 0.8,
+            child: SizedBox(
+              width: 400,
+              child: SearchBar(
+                controller: searchC,
+                leading: IconButton(
+                  icon: const Icon(
+                    color: Colors.black,
+                    Icons.search,
+                    ),
+                  onPressed: () => {
+                    print(searchC.text)
+                  },
+                ),
+                onChanged: (value)=>{
+                  print(value)
+                } ,
+              ),
+            ),
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.add),
-            label: 'Create',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle_outlined),
-            label: 'Profile',
-          ),
+
+          IconButton(
+            onPressed: () async {
+              UserModel? mode = await userApi.getUser();
+              if (mode != null) {
+                Navigator.of(context).push(
+                MaterialPageRoute(builder: (c)=>  Profile(model: mode,))
+              );
+              }
+            }, 
+            icon: const Icon(Icons.account_circle)
+            ),
+        
         ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[800],
-        onTap: _onItemTapped,
+      ),
+      body: const Center(
+        child: Row(
+          children: [
+            Expanded(child: createPage()),
+            Expanded(child: generatedCV())
+          ],
+        ),
       ),
     );
   }
 }
+
