@@ -77,7 +77,7 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
                       Navigator.pushReplacement(
                         context,
                           MaterialPageRoute(
-                          builder: (context) => const PersonalDetails())
+                          builder: (context) =>  PersonalDetails())
                         );
                     },
                     child: const Text('Back'),

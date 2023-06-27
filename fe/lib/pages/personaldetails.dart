@@ -1,21 +1,26 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:ai_cv_generator/dio/client/userApi.dart';
+import 'package:ai_cv_generator/models/user/UserModel.dart';
 import 'package:ai_cv_generator/pages/navdrawer.dart';
 import 'package:ai_cv_generator/pages/qualifications.dart';
 import 'package:ai_cv_generator/pages/strings.dart';
 import 'package:flutter/material.dart';
 
-void main () => runApp(const PersonalDetails());
+void main () => runApp( PersonalDetails());
 
 class PersonalDetails extends StatelessWidget {
-  const PersonalDetails({super.key});
-
+  PersonalDetails({super.key});
   @override
   Widget build(BuildContext context) {
     return  const Scaffold(
       body: PersonalDetailsForm(),
     );
   }
+}
+
+Future<UserModel?> getUser() async {
+  return await userApi.getUser();
 }
 
 class PersonalDetailsForm extends StatefulWidget {
@@ -29,15 +34,36 @@ class PersonalDetailsForm extends StatefulWidget {
 
 class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
   final _formKey = GlobalKey<FormState>();
-
   TextEditingController fname = TextEditingController();
   TextEditingController lname = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController cell = TextEditingController();
   TextEditingController address = TextEditingController();
+  UserModel? user;
+  void updateUser() async {
+    user!.fname = fname.text;
+    user!.lname = lname.text;
+    user!.email = email.text;
+    user!.phoneNumber = cell.text;
+    user!.location = address.text;
+    await userApi.updateUser(user: user!);
+  }
+
+  void getUser() async {
+    user = await userApi.getUser();
+    fname.text = user!.fname;
+    lname.text = user!.lname;
+    email.text = user!.email!;
+    cell.text = user!.phoneNumber!;
+    address.text = user!.location!;
+  }
+
 
   @override
   Widget build(BuildContext context) {
+    getUser();
+    
+
     return Scaffold(
       drawer: const NavDrawer(),
       appBar: AppBar(
@@ -59,7 +85,8 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
                 width: 150,
                 height: 30,
                 child: ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
+                      updateUser();
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(

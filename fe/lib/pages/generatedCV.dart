@@ -212,7 +212,7 @@ class _generatedCVState extends State<generatedCV> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const PersonalDetails()
+                            builder: (context) => PersonalDetails()
                           ),
                         );
                         createCV();
