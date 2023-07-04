@@ -11,7 +11,7 @@ void main(){
     await tester.enterText(addNameField, "Joe Smith");
     await tester.pump();
 
-    expect(find.text("Test Fail"), findsOneWidget);
+    expect(find.text("Joe Smith"), findsOneWidget);
 });
 
 testWidgets("Add job title", (WidgetTester tester) async {
