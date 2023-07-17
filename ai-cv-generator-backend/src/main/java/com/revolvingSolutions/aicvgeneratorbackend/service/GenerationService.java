@@ -19,6 +19,7 @@ public class GenerationService {
         return GenerationResponse.builder()
                 .cvData(
                         CVData.builder()
+                                .tempdata("tempdata")
                                 .build()
                 )
                 .build();
