@@ -1,10 +1,12 @@
 package com.revolvingSolutions.aicvgeneratorbackend.controller;
 
 
+import com.revolvingSolutions.aicvgeneratorbackend.request.generation.GenerationRequest;
+import com.revolvingSolutions.aicvgeneratorbackend.response.generation.GenerationResponse;
+import com.revolvingSolutions.aicvgeneratorbackend.service.GenerationService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 //Will have to do with actual generation of the CV
 @RestController
@@ -12,5 +14,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(path = "/generate")
 @RequiredArgsConstructor
 public class GenerationController {
+    private final GenerationService generationService;
 
+    @PostMapping(value = "/gen")
+    public ResponseEntity<GenerationResponse> generate(
+            @RequestBody GenerationRequest request
+            ) {
+        return ResponseEntity.ok(
+                generationService.generateCV(
+                        request
+                )
+        );
+    }
 }
