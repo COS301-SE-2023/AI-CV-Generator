@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface ProfileImageRepository extends JpaRepository<Integer, ProfileImageEntity> {
-    @Query("SELECT new  FROM FileEntity f WHERE f.user.username = ?1")
+public interface ProfileImageRepository extends JpaRepository<ProfileImageEntity,Integer> {
+    @Query("SELECT new com.revolvingSolutions.aicvgeneratorbackend.model.ProfileImageModel(f.imgdata) FROM ProfileImageEntity f WHERE f.user.username = ?1")
     public ProfileImageEntity getProfileImageFromUser(String username);
 }

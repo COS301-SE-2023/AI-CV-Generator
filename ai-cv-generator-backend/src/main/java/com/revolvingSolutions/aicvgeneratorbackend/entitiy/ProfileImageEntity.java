@@ -22,5 +22,6 @@ public class ProfileImageEntity {
     private UserEntity user;
 
     @Column(nullable = false)
+    @Lob
     private byte[] imgdata;
 }
