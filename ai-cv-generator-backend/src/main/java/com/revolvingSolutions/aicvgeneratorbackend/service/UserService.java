@@ -16,6 +16,7 @@ import com.revolvingSolutions.aicvgeneratorbackend.request.details.qualification
 import com.revolvingSolutions.aicvgeneratorbackend.request.details.qualification.UpdateQualificationRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.file.DownloadFileRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.details.employment.RemoveEmploymentRequest;
+import com.revolvingSolutions.aicvgeneratorbackend.request.profileImage.UpdateProfileImageRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.user.GenerateUrlRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.user.UpdateUserRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.response.details.employment.AddEmploymentResponse;
@@ -28,6 +29,8 @@ import com.revolvingSolutions.aicvgeneratorbackend.response.details.qualificatio
 import com.revolvingSolutions.aicvgeneratorbackend.response.details.qualification.RemoveQualificationResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.details.qualification.UpdateQualificationResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.file.GetFilesResponse;
+import com.revolvingSolutions.aicvgeneratorbackend.response.profileImage.GetProfileImageResponse;
+import com.revolvingSolutions.aicvgeneratorbackend.response.profileImage.UpdateProfileImageResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.user.GenerateUrlResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.user.GetUserResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.user.UpdateUserResponse;
@@ -59,6 +62,7 @@ public class UserService {
     private final QualificationRepository qualificationRepository;
     private final LinkRepository linkRepository;
     private final ShareRepository shareRepository;
+    private final ProfileImageRepository profileImageRepository;
 
     private final PasswordEncoder encoder;
     public GetUserResponse getUser() {
@@ -375,6 +379,31 @@ public class UserService {
         } catch (Exception e) {
             throw new UnknownErrorException("File exception!: "+e.getMessage());
         }
+    }
+
+    @Transactional
+    public GetProfileImageResponse getProfileImage() {
+        return GetProfileImageResponse.builder()
+                .img(
+                    profileImageRepository.getProfileImageFromUser(getAuthenticatedUser().getUsername())
+                )
+                .build();
+    }
+
+    @Transactional
+    public UpdateProfileImageResponse updateProfileImage(
+            UpdateProfileImageRequest request
+    ) {
+        ProfileImageEntity img = profileImageRepository.getProfileImageEntity(getAuthenticatedUser().getUsername());
+        img.setImgdata(request.getImgdata());
+        profileImageRepository.save(img);
+        return UpdateProfileImageResponse.builder()
+                .img(
+                        ProfileImageModel.builder()
+                                .imgdata(img.getImgdata())
+                                .build()
+                )
+                .build();
     }
 
     private UserEntity getAuthenticatedUser() {
