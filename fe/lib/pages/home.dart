@@ -5,11 +5,19 @@ import 'package:ai_cv_generator/pages/generatedCV.dart';
 import 'package:ai_cv_generator/pages/createPage.dart';
 import 'package:ai_cv_generator/pages/navdrawer.dart';
 import 'package:ai_cv_generator/pages/pdfWinLink.dart';
+import 'package:ai_cv_generator/pages/pdf_window.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:pdfx/pdfx.dart';
 import '../models/user/UserModel.dart';
 import 'profile.dart';
 import 'package:ai_cv_generator/dio/client/userApi.dart';
+import 'dart:async';
+import 'package:file_picker/file_picker.dart';
+import 'dart:typed_data';
+import 'package:flutter/material.dart';
+import 'package:pdfx/pdfx.dart';
+import 'package:ai_cv_generator/pages/shareCV.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -68,7 +76,7 @@ class _HomeState extends State<Home> {
       ),
       body: Center(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 70, vertical: 24),
+          padding: EdgeInsets.symmetric(horizontal: 128, vertical: 24),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -155,18 +163,18 @@ class GenerateState extends State<Generate> {
   PlatformFile? file;
   bool fileAvail = false;
   bool linkFile = false;
-  TextStyle textStyle = TextStyle(color: Colors.black);
+  TextStyle textStyle = TextStyle(color: Colors.black, fontSize: 12);
   TextEditingController filenameC = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Container(
       // color: Colors.pink,
-      padding: EdgeInsets.symmetric(horizontal: 24),
+      padding: EdgeInsets.symmetric(horizontal: 0),
       child: Column(
         children: [
           Row(
             children: [
-              Expanded(flex: 1, child: Container(color: Colors.grey, height:44, child: TextButton(
+              Expanded(flex: 1, child: Container(color: Colors.grey, height:40, child: TextButton(
                 onPressed: () async {
                   file = await pdfAPI.pick_cvfile();
                   if (file == null) {return;}
@@ -180,28 +188,44 @@ class GenerateState extends State<Generate> {
                       });
                 }, child: Text("UPLOAD", style: textStyle),),)),
               SizedBox(width: 8,),
-              Expanded(flex: 1, child: Container(color: Colors.grey, height:44, child:TextButton(
+              Expanded(flex: 1, child: Container(color: Colors.grey, height:40, child:TextButton(
                 onPressed: () {
-
+                  if(fileAvail == true) {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return PdfView(
+                          controller: PdfController(document: PdfDocument.openData(file!.bytes as FutureOr<Uint8List>)),
+                          scrollDirection: Axis.horizontal,
+                          pageSnapping: false,
+                        );
+                    });
+                  }
                 }, child: Text("PREVIEW", style: textStyle),),)),
               SizedBox(width: 48,),
-              Expanded(flex: 2, child: Text(filenameC.text, ),),
+              Expanded(flex: 2, child: Text(filenameC.text, style: textStyle ),),
             ],
           ),
-          SizedBox(height: 16,),
+          SizedBox(height: 12,),
+          if(fileAvail == true)
           Container(
             color: Colors.grey,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Expanded(child: Container(height:44, child:TextButton(onPressed: (){}, child: Text("GENERATE", style: textStyle),),)),
-                Expanded(child: Container(height: 44, child: TextButton(onPressed: (){}, child: Text("SHARE", style: textStyle),),),),
-                Expanded(child: Container(height: 44, child: TextButton(onPressed: (){}, child: Text("DOWNLOAD", style: textStyle),),),),
-                Expanded(child: Container(height: 44, child: TextButton(onPressed: (){}, child: Text("EXPAND", style: textStyle),),),),
+                Expanded(child: Container(height:40, child:TextButton(onPressed: (){}, child: Text("GENERATE", style: textStyle),),)),
+                Expanded(child: Container(height: 40, child: TextButton(
+                  onPressed: () {
+                    if (file != null) {
+                      shareCVModal(context,file);
+                    }
+                  }, child: Text("SHARE", style: textStyle),),),),
+                Expanded(child: Container(height: 40, child: TextButton(onPressed: (){}, child: Text("DOWNLOAD", style: textStyle),),),),
+                Expanded(child: Container(height: 40, child: TextButton(onPressed: (){}, child: Text("EXPAND", style: textStyle),),),),
               ],
             ),
           ),
-          SizedBox(height: 8,),
+          SizedBox(height: 4,),
           Expanded(child: Container(
             color: Colors.grey,
           ),),
@@ -269,4 +293,3 @@ class GenerateState extends State<Generate> {
 //     );
 //   }
 // }
-
