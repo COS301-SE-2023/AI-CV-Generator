@@ -219,7 +219,7 @@ class GenerateState extends State<Generate> {
                 Expanded(child: Container(height: 40, child: TextButton(
                   onPressed: () {
                     if (uploadFile != null) {
-                      shareCVModal(context, generatedFile);
+                      RequirementsForShare(context, generatedFile);
                     }
                   }, child: Text("SHARE", style: textStyle),),),),
                 Expanded(child: Container(height: 40, child: TextButton(
