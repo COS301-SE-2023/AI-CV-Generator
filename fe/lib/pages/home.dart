@@ -35,21 +35,21 @@ class _HomeState extends State<Home> {
             scale: 0.8,
             child: SizedBox(
               width: 400,
-              child: SearchBar(
-                controller: searchC,
-                leading: IconButton(
-                  icon: const Icon(
-                    color: Colors.black,
-                    Icons.search,
-                    ),
-                  onPressed: () => {
-                    print(searchC.text)
-                  },
-                ),
-                onChanged: (value)=>{
-                  print(value)
-                } ,
-              ),
+              // child: SearchBar(
+              //   controller: searchC,
+              //   leading: IconButton(
+              //     icon: const Icon(
+              //       color: Colors.black,
+              //       Icons.search,
+              //       ),
+              //     onPressed: () => {
+              //       print(searchC.text)
+              //     },
+              //   ),
+              //   onChanged: (value)=>{
+              //     print(value)
+              //   } ,
+              // ),
             ),
           ),
 
