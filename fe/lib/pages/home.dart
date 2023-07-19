@@ -163,8 +163,6 @@ class Generate extends StatefulWidget {
 class GenerateState extends State<Generate> {
   PlatformFile? uploadFile;
   PlatformFile? generatedFile;
-  bool fileAvail = false;
-  bool linkFile = false;
   TextStyle textStyle = TextStyle(color: Colors.black, fontSize: 12);
   TextEditingController filenameC = TextEditingController();
   @override
@@ -179,20 +177,18 @@ class GenerateState extends State<Generate> {
               Expanded(flex: 1, child: Container(color: Colors.grey, height:40, child: TextButton(
                 onPressed: () async {
                   uploadFile = await pdfAPI.pick_cvfile();
-                  if (uploadFile == null) {return;}
-                  filenameC.text = uploadFile!.name;
-                  fileAvail = true;
-                      FileApi.uploadFile(file: uploadFile);
+                  if(uploadFile != null) {                    
+                    filenameC.text = uploadFile!.name;
+                    FileApi.uploadFile(file: uploadFile);
+                    setState(() {
+                    });
+                  }
 
-                      setState(() {
-                        fileAvail = true;
-                        linkFile = true;
-                      });
                 }, child: Text("UPLOAD", style: textStyle),),)),
               SizedBox(width: 8,),
               Expanded(flex: 1, child: Container(color: Colors.grey, height:40, child:TextButton(
                 onPressed: () {
-                  if(fileAvail == true) {
+                  if(uploadFile != null) {
                     showDialog(
                       context: context,
                       builder: (BuildContext context) {
@@ -209,7 +205,7 @@ class GenerateState extends State<Generate> {
             ],
           ),
           SizedBox(height: 12,),
-          if(fileAvail == true)
+          if(uploadFile != null)
           Container(
             color: Colors.grey,
             child: Row(
@@ -218,17 +214,29 @@ class GenerateState extends State<Generate> {
                 Expanded(child: Container(height:40, child:TextButton(onPressed: (){}, child: Text("GENERATE", style: textStyle),),)),
                 Expanded(child: Container(height: 40, child: TextButton(
                   onPressed: () {
-                    if (uploadFile != null) {
+                    if (generatedFile != null) {
                       RequirementsForShare(context, generatedFile);
                     }
                   }, child: Text("SHARE", style: textStyle),),),),
                 Expanded(child: Container(height: 40, child: TextButton(
                   onPressed: () {
-                    if (uploadFile != null) {
+                    if (generatedFile != null) {
                       DownloadService.download(generatedFile!.bytes!.toList(), downloadName: generatedFile!.name);
                     }
                   }, child: Text("DOWNLOAD", style: textStyle),),),),
-                Expanded(child: Container(height: 40, child: TextButton(onPressed: (){}, child: Text("EXPAND", style: textStyle),),),),
+                Expanded(child: Container(height: 40, child: TextButton(onPressed: () {
+                  if(generatedFile != null) {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return PdfView(
+                          controller: PdfController(document: PdfDocument.openData(generatedFile!.bytes as FutureOr<Uint8List>)),
+                          scrollDirection: Axis.horizontal,
+                          pageSnapping: false,
+                        );
+                    });  
+                  }
+                }, child: Text("EXPAND", style: textStyle),),),),
               ],
             ),
           ),
