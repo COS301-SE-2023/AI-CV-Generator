@@ -1,4 +1,5 @@
 
+import 'package:ai_cv_generator/api/DownloadService.dart';
 import 'package:ai_cv_generator/dio/client/fileApi.dart';
 import 'package:ai_cv_generator/api/pdfApi.dart';
 import 'package:ai_cv_generator/pages/generatedCV.dart';
@@ -160,7 +161,8 @@ class Generate extends StatefulWidget {
 }
 
 class GenerateState extends State<Generate> {
-  PlatformFile? file;
+  PlatformFile? uploadFile;
+  PlatformFile? generatedFile;
   bool fileAvail = false;
   bool linkFile = false;
   TextStyle textStyle = TextStyle(color: Colors.black, fontSize: 12);
@@ -176,11 +178,11 @@ class GenerateState extends State<Generate> {
             children: [
               Expanded(flex: 1, child: Container(color: Colors.grey, height:40, child: TextButton(
                 onPressed: () async {
-                  file = await pdfAPI.pick_cvfile();
-                  if (file == null) {return;}
-                  filenameC.text = file!.name;
+                  uploadFile = await pdfAPI.pick_cvfile();
+                  if (uploadFile == null) {return;}
+                  filenameC.text = uploadFile!.name;
                   fileAvail = true;
-                      FileApi.uploadFile(file: file);
+                      FileApi.uploadFile(file: uploadFile);
 
                       setState(() {
                         fileAvail = true;
@@ -195,7 +197,7 @@ class GenerateState extends State<Generate> {
                       context: context,
                       builder: (BuildContext context) {
                         return PdfView(
-                          controller: PdfController(document: PdfDocument.openData(file!.bytes as FutureOr<Uint8List>)),
+                          controller: PdfController(document: PdfDocument.openData(uploadFile!.bytes as FutureOr<Uint8List>)),
                           scrollDirection: Axis.horizontal,
                           pageSnapping: false,
                         );
@@ -216,11 +218,16 @@ class GenerateState extends State<Generate> {
                 Expanded(child: Container(height:40, child:TextButton(onPressed: (){}, child: Text("GENERATE", style: textStyle),),)),
                 Expanded(child: Container(height: 40, child: TextButton(
                   onPressed: () {
-                    if (file != null) {
-                      shareCVModal(context,file);
+                    if (uploadFile != null) {
+                      shareCVModal(context, generatedFile);
                     }
                   }, child: Text("SHARE", style: textStyle),),),),
-                Expanded(child: Container(height: 40, child: TextButton(onPressed: (){}, child: Text("DOWNLOAD", style: textStyle),),),),
+                Expanded(child: Container(height: 40, child: TextButton(
+                  onPressed: () {
+                    if (uploadFile != null) {
+                      DownloadService.download(generatedFile!.bytes!.toList(), downloadName: generatedFile!.name);
+                    }
+                  }, child: Text("DOWNLOAD", style: textStyle),),),),
                 Expanded(child: Container(height: 40, child: TextButton(onPressed: (){}, child: Text("EXPAND", style: textStyle),),),),
               ],
             ),
