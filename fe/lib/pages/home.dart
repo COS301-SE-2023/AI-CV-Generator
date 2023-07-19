@@ -95,7 +95,7 @@ class _HomeState extends State<Home> {
                       ),
                       Expanded(
                         flex: 10,
-                        child: Text(""),
+                        child: Container(color: Colors.grey,),
                       ),
                     ],
                   ),
@@ -138,10 +138,10 @@ class PastCVsState extends State<PastCVs> {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(24.0),
-      color: Colors.grey,
+      // color: Colors.grey,
       child: Align(
-        alignment: Alignment.topCenter,
-        child: Text("PASTCVs", style: TextStyle(fontSize: 16),),
+        alignment: Alignment.bottomCenter,
+        child: Text("PastCVs", style: TextStyle(fontSize: 16),),
       ),
     );
   }
