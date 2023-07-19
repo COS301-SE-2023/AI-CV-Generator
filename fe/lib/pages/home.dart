@@ -1,12 +1,7 @@
-
 import 'package:ai_cv_generator/api/DownloadService.dart';
 import 'package:ai_cv_generator/dio/client/fileApi.dart';
 import 'package:ai_cv_generator/api/pdfApi.dart';
-import 'package:ai_cv_generator/pages/generatedCV.dart';
-import 'package:ai_cv_generator/pages/createPage.dart';
 import 'package:ai_cv_generator/pages/navdrawer.dart';
-import 'package:ai_cv_generator/pages/pdfWinLink.dart';
-import 'package:ai_cv_generator/pages/pdf_window.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:pdfx/pdfx.dart';
@@ -14,10 +9,7 @@ import '../models/user/UserModel.dart';
 import 'profile.dart';
 import 'package:ai_cv_generator/dio/client/userApi.dart';
 import 'dart:async';
-import 'package:file_picker/file_picker.dart';
 import 'dart:typed_data';
-import 'package:flutter/material.dart';
-import 'package:pdfx/pdfx.dart';
 import 'package:ai_cv_generator/pages/shareCV.dart';
 
 class Home extends StatefulWidget {
@@ -242,7 +234,7 @@ class GenerateState extends State<Generate> {
           ),
           SizedBox(height: 4,),
           Expanded(child: Container(
-            color: Colors.grey,
+            color: Colors.grey.withOpacity(0.9),
           ),),
         ],
       ),
