@@ -113,7 +113,10 @@ class ProfileState extends State<Profile> {
           padding: const EdgeInsets.symmetric(vertical: 42, horizontal: 60),
           child: Form(
             key: _formKey,
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 48),
             child: Row(
+              
               children: [
                 
                 Expanded(
@@ -191,6 +194,7 @@ class ProfileState extends State<Profile> {
               ],
             ),
           )
+          )
         )
       )
     );
@@ -238,60 +242,6 @@ class SectionInputState extends State<SectionInput> {
   Widget build(BuildContext context) {
     return Container(
       child: widget.inputWidget,
-    );
-  }
-}
-
-class SectionDuplicate extends StatefulWidget {
-  Widget target;
-  SectionDuplicate({super.key, required this.target});
-
-  @override
-  SectionDuplicateState createState() => SectionDuplicateState();
-}
-
-class SectionDuplicateState extends State<SectionDuplicate> {
-  List<Widget> widgets = [];
-  
-  void remove(int index) {
-      print(widgets);
-      widgets.removeAt(index);
-      setState(() {
-      });
-    }
-
-  void add() {
-    int index = widgets.length;
-    widgets.add(
-      Column(
-        children: [
-          const SizedBox(height: 16,),
-          widget.target,
-          const SizedBox(height: 16,),
-          Align(
-            alignment: Alignment.topRight,
-            child: OutlinedButton(
-              onPressed: (){
-                remove(index);
-              }, 
-              child: const Text("-"),),
-          )
-        ],
-      )
-    );
-    setState(() {
-    });
-  }
-
-  @override
-  Widget build(BuildContext build) {
-    return Column(
-      children: [
-        ...widgets,
-        const SizedBox(height: 8,),
-        OutlinedButton(onPressed: (){add();}, child: const Text("+")),
-        const SizedBox(height: 16,),
-      ]
     );
   }
 }
