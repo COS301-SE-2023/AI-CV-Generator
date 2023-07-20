@@ -2,6 +2,7 @@ import 'package:ai_cv_generator/dio/client/fileApi.dart';
 import 'package:ai_cv_generator/dio/client/userApi.dart';
 import 'package:ai_cv_generator/models/user/Employment.dart';
 import 'package:ai_cv_generator/models/user/UserModel.dart';
+import 'package:ai_cv_generator/pages/elements/elements.dart';
 import 'package:ai_cv_generator/pages/employmentView.dart';
 import 'package:flutter/material.dart';
 import 'pdf_window.dart';
@@ -108,25 +109,27 @@ class ProfileState extends State<Profile> {
                   child: ListView(
                     padding: const EdgeInsets.only(right: 128),
                     children: [
-                      Column(
-                        children: [
-                          const SectionHeading(heading: "ABOUT ME", align: Alignment.topLeft,),
-                          SectionInput(inputWidget: TextFormField(controller: descripC, maxLines: 9, style: TextStyle(fontSize: 16), decoration: const InputDecoration(border: OutlineInputBorder(), hintText: "INSERT A DESCRIPTION ABOUT YOURSELF"),),),
-                        ],
+                      SectionContainer(
+                        child: Column(
+                          children: [
+                            SectionHeading(text: "ABOUT ME", alignment: Alignment.topLeft,),
+                            SectionInput(inputWidget: TextFormField(controller: descripC, maxLines: 9, style: TextStyle(fontSize: 16), decoration: const InputDecoration(border: OutlineInputBorder(), hintText: "INSERT A DESCRIPTION ABOUT YOURSELF"),),),
+                          ],
+                        ),
                       ),
                       const SizedBox(height: 16,),
                       qualificationsC,
                       const SizedBox(height: 10,),
                       Column(
                         children: [
-                          const SectionHeading(heading: "WORK EXPERIENCE"),
+                          SectionHeading(text: "WORK EXPERIENCE"),
                           employmentC,
                         ],
                       ),
 
                       Column(
                         children: [
-                          SectionHeading(heading: "CVs", align: Alignment.topLeft,),
+                          SectionHeading(text: "CVs", alignment: Alignment.topLeft,),
                           CVHistory(context: context,),
                         ],
                       ),
@@ -143,7 +146,7 @@ class ProfileState extends State<Profile> {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      const SectionHeading(heading: "PROFILE", align: Alignment.topRight,),
+                      SectionHeading(text: "PROFILE", alignment: Alignment.topRight,),
                       SizedBox(
                         width: 300,
                         child:
@@ -158,7 +161,7 @@ class ProfileState extends State<Profile> {
                           ],
                         )
                       ),
-                      const SectionHeading(heading: "LINKS"),
+                      SectionHeading(text: "LINKS"),
                       Expanded(
                         child: ListView(
                         padding: const EdgeInsets.only(right: 16),
@@ -175,35 +178,6 @@ class ProfileState extends State<Profile> {
           )
         )
       )
-      )
-    );
-  }
-}
-
-class SectionHeading extends StatelessWidget {
-  final String heading;
-  final Alignment? align;
-  const SectionHeading({super.key, required this.heading, this.align});
-
-  @override
-  Widget build(BuildContext context) {
-
-    return Align(
-      alignment: align != null? align!: Alignment.topLeft,
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 16.0),
-        child: Column(
-          children: [
-            Text(
-              heading,
-              style: const TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            // SizedBox(height: 16),
-          ],
-        )
       )
     );
   }
