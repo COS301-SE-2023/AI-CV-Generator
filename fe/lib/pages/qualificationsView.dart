@@ -1,6 +1,7 @@
 import 'package:ai_cv_generator/dio/client/userApi.dart';
 import 'package:flutter/material.dart';
 import 'package:ai_cv_generator/models/user/Qualification.dart';
+import 'elements/elements.dart';
 
 class QualificationsSection extends StatefulWidget {
   List<Qualification> qualifications;
@@ -40,21 +41,20 @@ class QualificationsSectionState extends State<QualificationsSection> {
     qualificationsMap[info.quaid]['widget'] = (
       Column(
         children: [
-          SizedBox(height: 16,),
           QualificationsField(
             qualificationC: qualificationsMap[info.quaid]['qualification'],
             intstitutionC: qualificationsMap[info.quaid]['intstitution'],
             dateC: qualificationsMap[info.quaid]['date'],
             ),
-          SizedBox(height: 16,),
           Align(
             alignment: Alignment.topRight,
-            child: OutlinedButton(
+            child: IconButton(
               onPressed: (){
                 remove(info.quaid);
               }, 
-              child: Text('-'),),
-          )
+              icon: Icon(Icons.remove)),
+          ),
+          SizedBox(height: 8,),
         ],
       )
     );
@@ -122,15 +122,23 @@ class QualificationsSectionState extends State<QualificationsSection> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ...populate(),
-        SizedBox(height: 8,),
-        OutlinedButton(onPressed: (){
-          add();
-        }, child: Text('+')),
-        SizedBox(height: 16,),
-      ],
+    return SectionContainer(
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              SectionHeading(text: "EDUCATION",),
+              IconButton(onPressed: () {
+                add();
+              }, icon: Icon(Icons.add)),
+            ],
+          ),  
+          SizedBox(height: 16,),
+          ...populate(),
+          SizedBox(height: 8,),
+        ]
+      )
     );
   }
 }
@@ -155,54 +163,59 @@ void initState() {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: TextFormField(
-          controller: widget.intstitutionC,
-          textAlign: TextAlign.center,
-          decoration: InputDecoration(
-            hintText: "Institution",
-            border: OutlineInputBorder(),
-            ),
-          ),
-        ),
-        SizedBox(width: 8,),
-        Expanded(
-          child: TextFormField(
-          controller: widget.qualificationC,
-          textAlign: TextAlign.center,
-          decoration: InputDecoration(
-            hintText: "Qualification",
-            border: OutlineInputBorder(),
-            ),
-          ),
-        ),
-        SizedBox(width: 8,),
-        Expanded(
-          child: GestureDetector(
-            onTap: () {
-              setState(() {
-                datePicker(context).then((value) {
-                  if(value != null) {
-                    widget.dateC.text = dateTimeToString(value.start, value.end);
-                    displayDateC.text = displayDateTimeRange(value);
-                  }
-                });
-              });
-            },
+    return Container(
+      // color: Colors.grey,
+      padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
+      child: Row(
+        children: [
+          Expanded(
             child: TextFormField(
-              enabled: false,
-              controller: displayDateC,
+            // style: TextStyle(fontSize: 5),
+            controller: widget.intstitutionC,
+            textAlign: TextAlign.center,
+            decoration: InputDecoration(
+              hintText: "Institution",
+              border: OutlineInputBorder(),
+              ),
+            ),
+          ),
+          SizedBox(width: 60,),
+          Expanded(
+            child: TextFormField(
+              controller: widget.qualificationC,
               textAlign: TextAlign.center,
               decoration: InputDecoration(
-                hintText: "Date",
+                hintText: "Qualification",
                 border: OutlineInputBorder(),
-                ),
               ),
+            ),
           ),
-        ),
-      ],
+          SizedBox(width: 60,),
+          Expanded(
+            child: GestureDetector(
+              onTap: () {
+                setState(() {
+                  datePicker(context).then((value) {
+                    if(value != null) {
+                      widget.dateC.text = dateTimeToString(value.start, value.end);
+                      displayDateC.text = displayDateTimeRange(value);
+                    }
+                  });
+                });
+              },
+              child: TextFormField(
+                enabled: false,
+                controller: displayDateC,
+                textAlign: TextAlign.center,
+                decoration: InputDecoration(
+                  hintText: "Date",
+                  border: OutlineInputBorder(),
+                  ),
+                ),
+            ),
+          ),
+        ],
+      )
     );
   }
 }
@@ -228,4 +241,3 @@ Future<DateTimeRange?> datePicker(BuildContext context) async {
       initialEntryMode: DatePickerEntryMode.input,
     );
 }
-
