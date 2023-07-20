@@ -14,7 +14,6 @@ class Profile extends StatefulWidget {
   Profile({super.key,required this.model});
   UserModel model;
 
-
   @override
   ProfileState createState() => ProfileState(model: model);
 }
@@ -24,7 +23,7 @@ bool isEditingEnabled = false;
 class ProfileState extends State<Profile> {
   final _formKey = GlobalKey<FormState>();
   UserModel model;
-
+  Image? image;
   ProfileState({
     required this.model
   });
@@ -37,7 +36,7 @@ class ProfileState extends State<Profile> {
     String aboutMe = model.description!= null? model.description!:"No description...";
     String workExperience = "";
     String education = "";
-    
+    Image img = image!;
     TextEditingController fnameC = TextEditingController(text: model.fname);
     TextEditingController lnameC = TextEditingController(text: model.lname);
     TextEditingController emailC = TextEditingController(text: email);
@@ -84,7 +83,6 @@ class ProfileState extends State<Profile> {
     workExperienceC.addListener(update);
     qualificationC.addListener(update);
 
-    
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
