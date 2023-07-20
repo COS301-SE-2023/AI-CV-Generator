@@ -44,7 +44,7 @@ public class AuthControllerIntTest {
                 )
                 .accept(MediaType.ALL);
         MvcResult result = mockMvc.perform(request).andReturn();
-        assertThat(result.getResponse().getContentAsString() != "" && result.getResponse().getStatus() == 403).isTrue();
+        assertThat(!result.getResponse().getContentAsString().equals("") && result.getResponse().getStatus() == 403).isTrue();
     }
 
     @Test
