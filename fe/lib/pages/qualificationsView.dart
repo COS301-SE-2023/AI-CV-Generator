@@ -136,7 +136,6 @@ class QualificationsSectionState extends State<QualificationsSection> {
           ),  
           SizedBox(height: 16,),
           ...populate(),
-          SizedBox(height: 8,),
         ]
       )
     );
