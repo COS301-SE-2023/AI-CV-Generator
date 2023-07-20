@@ -16,7 +16,6 @@ import com.revolvingSolutions.aicvgeneratorbackend.request.details.qualification
 import com.revolvingSolutions.aicvgeneratorbackend.request.details.qualification.UpdateQualificationRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.file.DownloadFileRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.details.employment.RemoveEmploymentRequest;
-import com.revolvingSolutions.aicvgeneratorbackend.request.profileImage.UpdateProfileImageRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.user.GenerateUrlRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.user.UpdateUserRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.response.details.employment.AddEmploymentResponse;
@@ -29,8 +28,6 @@ import com.revolvingSolutions.aicvgeneratorbackend.response.details.qualificatio
 import com.revolvingSolutions.aicvgeneratorbackend.response.details.qualification.RemoveQualificationResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.details.qualification.UpdateQualificationResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.file.GetFilesResponse;
-import com.revolvingSolutions.aicvgeneratorbackend.response.profileImage.GetProfileImageResponse;
-import com.revolvingSolutions.aicvgeneratorbackend.response.profileImage.UpdateProfileImageResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.user.GenerateUrlResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.user.GetUserResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.user.UpdateUserResponse;
@@ -48,7 +45,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import java.util.Date;
-import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
 
@@ -382,28 +378,52 @@ public class UserService {
     }
 
     @Transactional
-    public GetProfileImageResponse getProfileImage() {
-        return GetProfileImageResponse.builder()
-                .img(
-                    profileImageRepository.getProfileImageFromUser(getAuthenticatedUser().getUsername())
-                )
-                .build();
+    public ResponseEntity<Resource> getProfileImage() {
+        try {
+            ProfileImageEntity img = profileImageRepository.findByUser(getAuthenticatedUser()).orElseThrow();
+            return ResponseEntity.ok()
+                    .contentType(MediaType.parseMediaType(img.getType()))
+                    .header(
+                            HttpHeaders.CONTENT_DISPOSITION,
+                            "attachment; filename=\"" + "profimage" + "\""
+                    )
+                    .body(
+                            new ByteArrayResource(img.getImgdata())
+                    );
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @Transactional
-    public UpdateProfileImageResponse updateProfileImage(
-            UpdateProfileImageRequest request
+    public ResponseEntity<Resource> updateProfileImage(
+            MultipartFile file
     ) {
-        ProfileImageEntity img = profileImageRepository.getProfileImageEntity(getAuthenticatedUser().getUsername());
-        img.setImgdata(request.getImgdata());
-        profileImageRepository.save(img);
-        return UpdateProfileImageResponse.builder()
-                .img(
-                        ProfileImageModel.builder()
-                                .imgdata(img.getImgdata())
-                                .build()
-                )
-                .build();
+        try {
+
+
+            ProfileImageEntity img = profileImageRepository.findByUser(getAuthenticatedUser()).orElse(
+                    ProfileImageEntity.builder()
+                            .user(getAuthenticatedUser())
+                            .imgdata(file.getBytes())
+                            .type(file.getContentType())
+                            .build()
+            );
+            img.setImgdata(file.getBytes());
+            img.setType(file.getContentType());
+            profileImageRepository.save(img);
+            return ResponseEntity.ok()
+                    .contentType(MediaType.parseMediaType(img.getType()))
+                    .header(
+                            HttpHeaders.CONTENT_DISPOSITION,
+                            "attachment; filename=\"" + "profimage" + "\""
+                    )
+                    .body(
+                            new ByteArrayResource(img.getImgdata())
+                    );
+        } catch (Exception e) {
+            return  ResponseEntity.notFound().build();
+        }
     }
 
     private UserEntity getAuthenticatedUser() {

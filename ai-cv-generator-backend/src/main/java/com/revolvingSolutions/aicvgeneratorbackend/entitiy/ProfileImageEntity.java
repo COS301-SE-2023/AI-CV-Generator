@@ -24,4 +24,7 @@ public class ProfileImageEntity {
     @Column(nullable = false)
     @Lob
     private byte[] imgdata;
+
+    @Column(nullable = false)
+    private String type;
 }
