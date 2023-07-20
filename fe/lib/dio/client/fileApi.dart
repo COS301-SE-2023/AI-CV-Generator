@@ -1,7 +1,5 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:typed_data';
-import 'dart:ui';
 
 import 'package:ai_cv_generator/dio/client/dioClient.dart';
 import 'package:ai_cv_generator/dio/request/FileRequests/FileRequest.dart';
@@ -59,7 +57,7 @@ class FileApi extends DioClient {
       );
       Uint8List data = Uint8List.fromList(response.data.toList() as List<int>);
       return Image.memory(data);
-    } on DioException catch (e) {
+    } on DioException {
       return Image.asset('assets/images/NicePng_watsapp-icon-png_9332131.png');
     }
   }
@@ -85,6 +83,7 @@ class FileApi extends DioClient {
     } on DioException catch (e) {
       DioClient.handleError(e);
     }
+    return null;
   }
 
   static Future<List<FileModel>?> getFiles() async {

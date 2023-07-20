@@ -20,7 +20,7 @@ class generatedCV extends StatefulWidget {
 class _generatedCVState extends State<generatedCV> {
 
   Map data = content;
-  UserModel? user = null;
+  UserModel? user;
   final TextEditingController _controller = TextEditingController();
   final pdf = pw.Document();
   void createCV() {
@@ -114,7 +114,7 @@ class _generatedCVState extends State<generatedCV> {
                           child: pw.Column(
                             crossAxisAlignment: pw.CrossAxisAlignment.start,
                             children: [
-                              alterText(user.fname + " " + user.lname, fontHeading),
+                              alterText("${user.fname} ${user.lname}", fontHeading),
                               relatedSpacing,
                               alterText("Accountant", fontSubHeading),
                             ]
@@ -131,7 +131,7 @@ class _generatedCVState extends State<generatedCV> {
                               alterText("Experience", fontSubHeading),
                               pw.SizedBox(height: 16),
                               pw.Padding(
-                                padding: pw.EdgeInsets.symmetric(horizontal: 12.0),
+                                padding: const pw.EdgeInsets.symmetric(horizontal: 12.0),
                                 child: pw.Column(
                                   crossAxisAlignment: pw.CrossAxisAlignment.start,
                                   children: [
@@ -158,7 +158,7 @@ class _generatedCVState extends State<generatedCV> {
                         pw.Align(
                           alignment: pw.Alignment.centerLeft,
                           child: pw.Padding(
-                            padding: pw.EdgeInsets.symmetric(horizontal: 12.0),
+                            padding: const pw.EdgeInsets.symmetric(horizontal: 12.0),
                             child: pw.Wrap(
                               crossAxisAlignment: pw.WrapCrossAlignment.start,
                               runSpacing: 16,
@@ -212,7 +212,7 @@ class _generatedCVState extends State<generatedCV> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => PersonalDetails()
+                            builder: (context) => const PersonalDetails()
                           ),
                         );
                         createCV();
