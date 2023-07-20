@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:ai_cv_generator/models/user/Employment.dart';
 
 class EmploymentSection extends StatefulWidget {
-  List<Employment> employment;
-  EmploymentSection({super.key, required this.employment});
+  final List<Employment> employment;
+  const EmploymentSection({super.key, required this.employment});
 
   @override
   EmploymentSectionState createState() => EmploymentSectionState();
@@ -28,8 +28,8 @@ class EmploymentSectionState extends State<EmploymentSection> {
     TextEditingController companyC = TextEditingController();
     TextEditingController dateC = TextEditingController();
 
-    titleC.text = info.title ?? '';
-    companyC.text = info.company ?? '';
+    titleC.text = info.title;
+    companyC.text = info.company;
     dateC.text = dateTimeToString(info.startdate, info.enddate);
 
     employmentMap[info.empid] = {
@@ -138,10 +138,10 @@ class EmploymentSectionState extends State<EmploymentSection> {
 }
 
 class EmploymentField extends StatefulWidget {
-  TextEditingController titleC;
-  TextEditingController companyC;
-  TextEditingController dateC;
-  EmploymentField({super.key, required this.titleC, required this.companyC, required this.dateC});
+  final TextEditingController titleC;
+  final TextEditingController companyC;
+  final TextEditingController dateC;
+  const EmploymentField({super.key, required this.titleC, required this.companyC, required this.dateC});
 
   @override
   EmploymentFieldState createState() => EmploymentFieldState();

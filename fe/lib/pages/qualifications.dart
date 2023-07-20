@@ -36,11 +36,7 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
   final _formKey = GlobalKey<FormState>();
 
   TextEditingController institution1 = TextEditingController();
-  //TextEditingController institution2 = TextEditingController();
   TextEditingController qualification1 = TextEditingController();
-  //TextEditingController qualification2 = TextEditingController();
-  final TextEditingController _timeController1 = TextEditingController();
-  //TextEditingController gradDate2 = TextEditingController();
   
   @override
   Widget build(BuildContext context) {

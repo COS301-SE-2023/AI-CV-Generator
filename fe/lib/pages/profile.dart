@@ -4,39 +4,32 @@ import 'package:ai_cv_generator/dio/client/userApi.dart';
 import 'package:ai_cv_generator/models/user/Employment.dart';
 import 'package:ai_cv_generator/models/user/UserModel.dart';
 import 'package:ai_cv_generator/pages/employmentView.dart';
-// import 'package:ai_cv_generator/models/user/link.dart';
 import 'package:flutter/material.dart';
 import 'pdf_window.dart';
 import 'linksView.dart';
 import 'qualificationsView.dart';
 
 class Profile extends StatefulWidget {
-  Profile({super.key,required this.model});
-  UserModel model;
+  const Profile({super.key,required this.model});
+  final UserModel model;
 
   @override
-  ProfileState createState() => ProfileState(model: model);
+  ProfileState createState() => ProfileState();
 }
 
 bool isEditingEnabled = false;
 
 class ProfileState extends State<Profile> {
   final _formKey = GlobalKey<FormState>();
-  UserModel model;
   Image? image;
-  ProfileState({
-    required this.model
-  });
 
   @override
   Widget build(BuildContext context) {
+    UserModel model = widget.model;
     String email =  model.email != null ? model.email! : "No email...";
     String phoneNumber =  model.phoneNumber != null? model.phoneNumber!:"No phone number...";
     String location = model.location != null ? model.location!:"No location...";
     String aboutMe = model.description!= null? model.description!:"No description...";
-    String workExperience = "";
-    String education = "";
-    Image img = image!;
     TextEditingController fnameC = TextEditingController(text: model.fname);
     TextEditingController lnameC = TextEditingController(text: model.lname);
     TextEditingController emailC = TextEditingController(text: email);
@@ -53,8 +46,7 @@ class ProfileState extends State<Profile> {
     EmploymentSection employmentC = EmploymentSection(key: employhistoryKey, employment: model.employmenthistory != null ? model.employmenthistory! : [Employment(company: 'ERROR', title: 'ERORR', startdate: DateTime.now(), enddate: DateTime.now(), empid: 0)]);
 
     DateTime time = DateTime.now();
-    void ActualUpdate() {
-      print("Actual Update");
+    void actualupdate() {
       model.fname = fnameC.text;
       model.lname = lnameC.text;
       model.email = emailC.text;
@@ -69,7 +61,7 @@ class ProfileState extends State<Profile> {
     void update() {
         DateTime nTime = DateTime.now();
         if (nTime.second - time.second > 30) {
-          ActualUpdate();
+          actualupdate();
           time = nTime;
         }
     }
@@ -92,7 +84,7 @@ class ProfileState extends State<Profile> {
             color: Color.fromARGB(255, 0, 63, 114),
           ), 
           onPressed: () { 
-            ActualUpdate();
+            actualupdate();
             Navigator.pop(context);
           },
         ),
@@ -210,7 +202,6 @@ class SectionHeading extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            // SizedBox(height: 16),
           ],
         )
       )
@@ -235,8 +226,8 @@ class SectionInputState extends State<SectionInput> {
 }
 
 class SectionDuplicate extends StatefulWidget {
-  Widget target;
-  SectionDuplicate({super.key, required this.target});
+  final Widget target;
+  const SectionDuplicate({super.key, required this.target});
 
   @override
   SectionDuplicateState createState() => SectionDuplicateState();
@@ -246,7 +237,6 @@ class SectionDuplicateState extends State<SectionDuplicate> {
   List<Widget> widgets = [];
   
   void remove(int index) {
-      print(widgets);
       widgets.removeAt(index);
       setState(() {
       });
@@ -385,15 +375,6 @@ class CVHistoryState extends State<CVHistory> {
         child: Text(filename),
     );
 }
-
-  // void add(Uint8List cover) {
-  //   images.add(
-  //     Image.memory(cover)
-  //   );
-  //   setState(() {
-      
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {

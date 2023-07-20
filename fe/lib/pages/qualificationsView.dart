@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:ai_cv_generator/models/user/Qualification.dart';
 
 class QualificationsSection extends StatefulWidget {
-  List<Qualification> qualifications;
-  QualificationsSection({super.key, required this.qualifications});
+  final List<Qualification> qualifications;
+  const QualificationsSection({super.key, required this.qualifications});
 
   @override
   QualificationsSectionState createState() => QualificationsSectionState();
@@ -27,8 +27,8 @@ class QualificationsSectionState extends State<QualificationsSection> {
     TextEditingController intstitutionC = TextEditingController();
     TextEditingController dateC = TextEditingController();
 
-    qualificationC.text = info.qualification ?? '';
-    intstitutionC.text = info.intstitution ?? '';
+    qualificationC.text = info.qualification;
+    intstitutionC.text = info.intstitution;
     dateC.text = dateTimeToString(info.date, info.endo);
     qualificationsMap[info.quaid] = {
       'quaid': info.quaid,
@@ -135,10 +135,10 @@ class QualificationsSectionState extends State<QualificationsSection> {
 }
 
 class QualificationsField extends StatefulWidget {
-  TextEditingController qualificationC;
-  TextEditingController intstitutionC;
-  TextEditingController dateC;
-  QualificationsField({super.key, required this.qualificationC, required this.intstitutionC, required this.dateC});
+  final TextEditingController qualificationC;
+  final TextEditingController intstitutionC;
+  final TextEditingController dateC;
+  const QualificationsField({super.key, required this.qualificationC, required this.intstitutionC, required this.dateC});
 
   @override
   QualificationsFieldState createState() => QualificationsFieldState();

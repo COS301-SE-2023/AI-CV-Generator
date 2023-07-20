@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 
 
 Future<void> main() async {
-  Uri myurl = Uri.base; //get complete url
+  Uri myurl = Uri.base;
   print(myurl.path);
   if (myurl.path.contains("/share/")) {
     String uuid = myurl.pathSegments.last;
@@ -17,9 +17,6 @@ Future<void> main() async {
   }
 }
 
-//Run: flutter clean
-//     flutter run
-//     Choose between Windows,Chrome,Edge application
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
@@ -36,8 +33,8 @@ class MyApp extends StatelessWidget {
 }
 
 class ShareCVApp extends StatelessWidget {
-  ShareCVApp({super.key, required this.file});
-  PlatformFile? file;
+  const ShareCVApp({super.key, required this.file});
+  final PlatformFile? file;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -46,7 +43,6 @@ class ShareCVApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/':(context) => PdfWindow(file: file),
-        //Route for shareCV will be added later
       },
     );
   }

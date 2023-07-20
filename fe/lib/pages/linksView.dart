@@ -3,8 +3,8 @@ import 'package:ai_cv_generator/models/user/Link.dart';
 import 'package:ai_cv_generator/dio/client/userApi.dart';
 
 class LinksSection extends StatefulWidget {
-  List<Link> links;
-  LinksSection({super.key, required this.links});
+  final List<Link> links;
+  const LinksSection({super.key, required this.links});
 
   @override
   LinksSectionState createState() => LinksSectionState();
@@ -124,8 +124,8 @@ class LinksSectionState extends State<LinksSection> {
 }
 
 class LinksField extends StatefulWidget {
-  TextEditingController urlC;
-  LinksField({super.key, required this.urlC});
+  final TextEditingController urlC;
+  const LinksField({super.key, required this.urlC});
 
   @override
   LinksFieldState createState() => LinksFieldState();

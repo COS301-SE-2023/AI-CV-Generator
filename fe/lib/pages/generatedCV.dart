@@ -10,25 +10,22 @@ import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import '../models/user/UserModel.dart';
 import 'details.dart';
-class generatedCV extends StatefulWidget {
-  const generatedCV({super.key});
+class GeneratedCV extends StatefulWidget {
+  const GeneratedCV({super.key});
 
   @override
-  _generatedCVState createState() => _generatedCVState();
+  GeneratedCVState createState() => GeneratedCVState();
 }
 
-class _generatedCVState extends State<generatedCV> {
+class GeneratedCVState extends State<GeneratedCV> {
 
   Map data = content;
   UserModel? user;
   final TextEditingController _controller = TextEditingController();
   final pdf = pw.Document();
   void createCV() {
-    String response = '';
     setState(() {
       data.forEach((key, value) {
-        response += '$key\n';
-        response += '$value\n\n';
       });
     });
     _controller.text = details;

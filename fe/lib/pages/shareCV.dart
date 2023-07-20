@@ -6,7 +6,6 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
 void shareCVModal(BuildContext context,PlatformFile? f) {
-  TextEditingController emailC = TextEditingController();
   PlatformFile? file = f;
 
 
@@ -39,7 +38,7 @@ void shareCVModal(BuildContext context,PlatformFile? f) {
                 
                     ElevatedButton(
                       onPressed: () {
-                        RequirementsForShare(context, file);
+                        requirementsforshare(context, file);
                       }, 
                       child: const Text("Share via Link")
                     )
@@ -54,10 +53,9 @@ void shareCVModal(BuildContext context,PlatformFile? f) {
   );
 }
 
-void RequirementsForShare(BuildContext context, PlatformFile? file) {
+void requirementsforshare(BuildContext context, PlatformFile? file) {
   TextEditingController nameC = TextEditingController();
   TextEditingController timeInput = TextEditingController();
-  PlatformFile? fi = file;
   DateTime date = DateTime.now();
 
   showDialog(
@@ -98,13 +96,11 @@ void RequirementsForShare(BuildContext context, PlatformFile? file) {
                         );
                     
                     if(pickedTime != null ){
-                        print(pickedTime.format(context));   //output 10:51 PM
+                        print(pickedTime.format(context));
                         DateTime parsedTime = DateFormat.jm().parse(pickedTime.format(context).toString());
-                        //converting to DateTime so that we can further format on different pattern.
-                        print(parsedTime); //output 1970-01-01 22:53:00.000
+                        print(parsedTime);
                         String formattedTime = DateFormat('dd:HH:mm:ss').format(parsedTime);
-                        print(formattedTime); //output 14:59:00
-                        //DateFormat() is from intl package, you can format the time on any pattern you need.
+                        print(formattedTime);
                         date = parsedTime;
                         timeInput.text = formattedTime;
                     }else{
