@@ -37,19 +37,13 @@ class ProfileState extends State<Profile> {
 
   @override
   Widget build(BuildContext context) {
-    String email =  model.email != null ? model.email! : "No email...";
-    String phoneNumber =  model.phoneNumber != null? model.phoneNumber!:"No phone number...";
-    String location = model.location != null ? model.location!:"No location...";
-    String aboutMe = model.description!= null? model.description!:"No description...";
-    String workExperience = "";
-    String education = "";
     
     TextEditingController fnameC = TextEditingController(text: model.fname);
     TextEditingController lnameC = TextEditingController(text: model.lname);
-    TextEditingController emailC = TextEditingController(text: email);
-    TextEditingController phoneNoC = TextEditingController(text: phoneNumber);
-    TextEditingController locationC = TextEditingController(text: location);
-    TextEditingController descripC = TextEditingController(text: aboutMe);
+    TextEditingController emailC = TextEditingController(text: model.email);
+    TextEditingController phoneNoC = TextEditingController(text: model.phoneNumber);
+    TextEditingController locationC = TextEditingController(text: model.location);
+    TextEditingController descripC = TextEditingController(text: model.description);
     TextEditingController qualificationC = TextEditingController();
     TextEditingController workExperienceC = TextEditingController();
     GlobalKey<LinksSectionState> linksKey = GlobalKey<LinksSectionState>();
@@ -115,20 +109,17 @@ class ProfileState extends State<Profile> {
             key: _formKey,
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 48),
-            child: Row(
-              
-              children: [
-                
-                Expanded(
+              child: Row(
+                children: [
+                  Expanded(
                   flex: 2,
                   child: ListView(
                     padding: const EdgeInsets.only(right: 16),
                     children: [
-
                       Column(
                         children: [
                           const SectionHeading(heading: "ABOUT ME", align: Alignment.topLeft,),
-                          SectionInput(inputWidget: TextFormField(controller: descripC, maxLines: 9, decoration: const InputDecoration(border: OutlineInputBorder(),),),),
+                          SectionInput(inputWidget: TextFormField(controller: descripC, maxLines: 9, decoration: const InputDecoration(border: OutlineInputBorder(), hintText: "INSERT A DESCRIPTION ABOUT YOURSELF"),),),
                         ],
                       ),
                       const SizedBox(height: 10,),
@@ -157,9 +148,9 @@ class ProfileState extends State<Profile> {
                   ),
                 ),
                 
-                const SizedBox(width: 15,),
+                  const SizedBox(width: 15,),
                 
-                Expanded(
+                  Expanded(
                   flex: 1,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
@@ -171,11 +162,11 @@ class ProfileState extends State<Profile> {
                         child:
                          Column(
                           children: [
-                            SectionInput(inputWidget: TextFormField(controller: fnameC, textAlign: TextAlign.right, decoration: const InputDecoration(border: InputBorder.none,),),),
-                            SectionInput(inputWidget: TextFormField(controller: lnameC, textAlign: TextAlign.right, decoration: const InputDecoration(border: InputBorder.none,),),),
-                            SectionInput(inputWidget: TextFormField(controller: emailC, textAlign: TextAlign.right, decoration: const InputDecoration(border: InputBorder.none,),),),
-                            SectionInput(inputWidget: TextFormField(controller: locationC, textAlign: TextAlign.right, decoration: const InputDecoration(border: InputBorder.none,),),),
-                            SectionInput(inputWidget: TextFormField(controller: phoneNoC, textAlign: TextAlign.right, decoration: const InputDecoration(border: InputBorder.none,),),),
+                            SectionInput(inputWidget: TextFormField(controller: fnameC, textAlign: TextAlign.right, decoration: const InputDecoration(border: InputBorder.none, hintText: "INSERT FIRSTNAME"),),),
+                            SectionInput(inputWidget: TextFormField(controller: lnameC, textAlign: TextAlign.right, decoration: const InputDecoration(border: InputBorder.none, hintText: "INSERT LASTNAME"),),),
+                            SectionInput(inputWidget: TextFormField(controller: emailC, textAlign: TextAlign.right, decoration: const InputDecoration(border: InputBorder.none, hintText: "INSERT EMAIL"),),),
+                            SectionInput(inputWidget: TextFormField(controller: locationC, textAlign: TextAlign.right, decoration: const InputDecoration(border: InputBorder.none, hintText: "INSERT ADDRESS"),),),
+                            SectionInput(inputWidget: TextFormField(controller: phoneNoC, textAlign: TextAlign.right, decoration: const InputDecoration(border: InputBorder.none, hintText: "INSERT PHONENUMBER"),),),
                           ],
                         )
                       ),
@@ -191,9 +182,9 @@ class ProfileState extends State<Profile> {
                     ],
                   )
                 ),
-              ],
-            ),
-          )
+                ],
+              ),
+            )
           )
         )
       )
