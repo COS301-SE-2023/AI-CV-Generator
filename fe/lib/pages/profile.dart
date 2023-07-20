@@ -98,23 +98,23 @@ class ProfileState extends State<Profile> {
             Navigator.pop(context);
           },
         ),
-        backgroundColor: Colors.transparent,
-        shadowColor: Colors.transparent,
+      actions: [
+        IconButton(onPressed: () {}, icon: const Icon(Icons.account_circle)),
+      ],
       ),
-      body: Container( 
+      body: SafeArea(
+        child: Container( 
         color: Colors.white,
         child:Padding(
-          padding: const EdgeInsets.symmetric(vertical: 42, horizontal: 60),
+          padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 72),
           child: Form(
             key: _formKey,
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 48),
-              child: Row(
+            child: Row(
                 children: [
                   Expanded(
                   flex: 2,
                   child: ListView(
-                    padding: const EdgeInsets.only(right: 16),
+                    padding: const EdgeInsets.only(right: 48),
                     children: [
                       Column(
                         children: [
@@ -172,11 +172,11 @@ class ProfileState extends State<Profile> {
                       ),
                       const SectionHeading(heading: "LINKS"),
                       Expanded(
-                          child: ListView(
-                          padding: const EdgeInsets.only(right: 16),
-                          children: [
+                        child: ListView(
+                        padding: const EdgeInsets.only(right: 16),
+                        children: [
                           linkC,
-                          ],
+                        ],
                         ),
                       ),
                     ],
@@ -184,9 +184,9 @@ class ProfileState extends State<Profile> {
                 ),
                 ],
               ),
-            )
           )
         )
+      )
       )
     );
   }
