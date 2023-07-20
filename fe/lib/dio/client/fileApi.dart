@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:typed_data';
+import 'dart:ui';
 
 import 'package:ai_cv_generator/dio/client/dioClient.dart';
 import 'package:ai_cv_generator/dio/request/FileRequests/FileRequest.dart';
@@ -9,6 +11,7 @@ import 'package:ai_cv_generator/dio/response/FileResponses/ShareFileResponse.dar
 import 'package:ai_cv_generator/models/files/FileModel.dart';
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/material.dart';
 import 'package:pdfx/pdfx.dart';
 
 class FileApi extends DioClient {
@@ -44,6 +47,48 @@ class FileApi extends DioClient {
       DioClient.handleError(e);
     }
     return null;
+  }
+
+  static Future<Image?> getProfileImage() async {
+    try {
+      Response response = await DioClient.dio.get(
+        'api/User/profimg',
+        options: Options(
+            responseType: ResponseType.bytes
+        )
+      );
+      Uint8List data = Uint8List.fromList(response.data.toList() as List<int>);
+      return Image.memory(data);
+    } on DioException catch (e) {
+      if (e.response?.statusCode == 404) {
+        return Image.asset('assets/images/NicePng_watsapp-icon-png_9332131.png');
+      } else {
+        DioClient.handleError(e);
+      }
+    }
+  }
+
+  static Future<Image?> updateProfileImage({
+    required Image img
+  }) async {
+    try {
+      FormData formData = FormData.fromMap({
+        "img": MultipartFile.fromBytes(
+         img as List<int>
+        )
+      });
+      Response response = await DioClient.dio.post(
+        'api/User/updateprofimg',
+        data: formData ,
+        options: Options(
+            responseType: ResponseType.bytes
+        )
+      );
+      Uint8List data = Uint8List.fromList(response.data.toList() as List<int>);
+      return Image.memory(data);
+    } on DioException catch (e) {
+      DioClient.handleError(e);
+    }
   }
 
   static Future<List<FileModel>?> getFiles() async {

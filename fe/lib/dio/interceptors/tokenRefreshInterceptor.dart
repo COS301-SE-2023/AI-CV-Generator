@@ -6,6 +6,8 @@ import 'package:dio/dio.dart';
 
 class TokenRevalidator extends Interceptor {
 
+  bool revalidate = true;
+
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     if (!options.path.contains("auth")) {
@@ -19,8 +21,8 @@ class TokenRevalidator extends Interceptor {
     if (err.requestOptions.path.contains("auth")) {
       return handler.next(err);
     }
-    if (err.response?.statusCode == 403) {
-      
+    if (err.response?.statusCode == 403 && revalidate) {
+      revalidate = false;
       print("Intercepting to refresh!");
       try {
         RefreshRequest req = RefreshRequest(refreshToken: DioClient.refreshToken);
@@ -35,13 +37,14 @@ class TokenRevalidator extends Interceptor {
           final options = Options(
             method: err.requestOptions.method
           );
-          return handler.resolve(
+          handler.resolve(
             await DioClient.dio.request<dynamic>(
               err.requestOptions.path,
               data: err.requestOptions.data,
               queryParameters: err.requestOptions.queryParameters,
               options: options
           ));
+          revalidate = true;
         } else {
           return handler.next(err);
         }

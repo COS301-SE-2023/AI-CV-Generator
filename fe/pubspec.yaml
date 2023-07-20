@@ -84,6 +84,7 @@ flutter:
     - assets/json/users/update/test_id.json
     - assets/json/users/retrieve/Nathan.json
     - assets/Resume 1.pdf
+    - assets/images/NicePng_watsapp-icon-png_9332131.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
