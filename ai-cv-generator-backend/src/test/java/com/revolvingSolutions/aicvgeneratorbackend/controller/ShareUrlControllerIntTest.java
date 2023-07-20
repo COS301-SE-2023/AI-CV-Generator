@@ -1,7 +1,7 @@
 package com.revolvingSolutions.aicvgeneratorbackend.controller;
 
 import com.revolvingSolutions.aicvgeneratorbackend.service.AuthService;
-import com.revolvingSolutions.aicvgeneratorbackend.service.AuthenticationService;
+import com.revolvingSolutions.aicvgeneratorbackend.service.ShareService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,9 +20,8 @@ import org.springframework.web.context.WebApplicationContext;
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
 @ExtendWith(SpringExtension.class)
-@WebMvcTest(AuthController.class)
-public class AuthControllerIntTest {
-
+@WebMvcTest(ShareUrlController.class)
+public class ShareUrlControllerIntTest {
     @Autowired
     private MockMvc mockMvc;
 
@@ -30,10 +29,10 @@ public class AuthControllerIntTest {
     private WebApplicationContext webApplicationContext;
 
     @MockBean
-    private AuthenticationService service;
+    private ShareService shareService;
 
     @MockBean
-    private AuthService service1;
+    private AuthService service;
 
     @BeforeEach
     public void setup()
@@ -42,49 +41,15 @@ public class AuthControllerIntTest {
     }
 
     @Test
-    void register() throws Exception {
+    void getSharedFile() throws Exception{
         RequestBuilder request = MockMvcRequestBuilders
-                .post("/api/auth/reg")
+                .post("/share")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(
                         "{\n" +
-                        "    \"username\":\"Chris\",\n" +
-                        "    \"fname\":\"Nathan\",\n" +
-                        "    \"lname\":\"Opperman\",\n" +
-                        "    \"password\":\"Stup\"\n" +
-                        "}"
-                )
-                .accept(MediaType.ALL);
-        MvcResult result = mockMvc.perform(request).andReturn();
-        System.out.println(result.getResponse().getContentAsString());
-        assertThat(result.getResponse().getContentAsString() != "" && result.getResponse().getStatus() == 200).isTrue();
-    }
-
-    @Test
-    void authenticate() throws Exception {
-        RequestBuilder request = MockMvcRequestBuilders
-                .post("/api/auth/authenticate")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(
-                        "{\n" +
-                        "\t\"username\":\"Chris\",\n" +
-                        "    \"password\":\"Stup\"\n" +
-                        "}"
-                )
-                .accept(MediaType.ALL);
-        MvcResult result = mockMvc.perform(request).andReturn();
-        assertThat(result.getResponse().getStatus() == 200).isTrue();
-
-    }
-
-    @Test
-    void refresh() throws Exception {
-        RequestBuilder request = MockMvcRequestBuilders
-                .post("/api/auth/refresh")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(
-                        "{\n" +
-                        "    \"refreshToken\": \"{{refresh}}\"\n" +
+                        "    \"filename\":\"DocumentTest.pdf\",\n" +
+                        "    \"base\":\"http://localhost:8080/\",\n" +
+                        "    \"duration\":\"PT0H2M30S\"\n" +
                         "}"
                 )
                 .accept(MediaType.ALL);
@@ -95,12 +60,14 @@ public class AuthControllerIntTest {
     @Test
     void testForNegativeResponse() throws Exception {
         RequestBuilder request = MockMvcRequestBuilders
-                .post("/api/auth/register")
+                .post("/incorrect_endpoint")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(
                         "{\n" +
-                        "    \"refreshToken\": \"{{refresh}}\"\n" +
-                        "}"
+                                "    \"filename\":\"DocumentTest.pdf\",\n" +
+                                "    \"base\":\"http://localhost:8080/\",\n" +
+                                "    \"duration\":\"PT0H2M30S\"\n" +
+                                "}"
                 )
                 .accept(MediaType.ALL);
         MvcResult result = mockMvc.perform(request).andReturn();
