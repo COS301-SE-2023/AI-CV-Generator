@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-//This class will query OpenAI api to build CV with generated subsections
 @Service
 @RequiredArgsConstructor
 public class GenerationService {

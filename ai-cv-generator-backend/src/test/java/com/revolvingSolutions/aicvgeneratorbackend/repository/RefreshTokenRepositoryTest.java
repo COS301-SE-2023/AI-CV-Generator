@@ -13,7 +13,6 @@ import java.time.Instant;
 import java.util.UUID;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 class RefreshTokenRepositoryTest {

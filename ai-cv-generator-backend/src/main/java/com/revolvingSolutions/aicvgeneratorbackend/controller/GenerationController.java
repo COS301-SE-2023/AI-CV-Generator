@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-//Will have to do with actual generation of the CV
 @RestController
 @CrossOrigin(value="*")
 @RequestMapping(path = "/generate")
