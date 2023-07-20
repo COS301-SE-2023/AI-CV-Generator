@@ -1,16 +1,8 @@
-import 'dart:io';
-import 'dart:typed_data';
-
 import 'package:ai_cv_generator/dio/client/fileApi.dart';
 import 'package:ai_cv_generator/dio/client/userApi.dart';
-import 'package:ai_cv_generator/models/files/FileModel.dart';
 import 'package:ai_cv_generator/models/user/Employment.dart';
-import 'package:ai_cv_generator/models/user/Link.dart';
-import 'package:ai_cv_generator/models/user/Qualification.dart';
 import 'package:ai_cv_generator/models/user/UserModel.dart';
 import 'package:ai_cv_generator/pages/employmentView.dart';
-import 'package:file_picker/file_picker.dart';
-// import 'package:ai_cv_generator/models/user/link.dart';
 import 'package:flutter/material.dart';
 import 'pdf_window.dart';
 import 'linksView.dart';
@@ -106,29 +98,24 @@ class ProfileState extends State<Profile> {
         child: Container( 
         color: Colors.white,
         child:Padding(
-          padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 72),
+          padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 128),
           child: Form(
             key: _formKey,
             child: Row(
                 children: [
                   Expanded(
-                  flex: 2,
+                  flex: 3,
                   child: ListView(
-                    padding: const EdgeInsets.only(right: 48),
+                    padding: const EdgeInsets.only(right: 128),
                     children: [
                       Column(
                         children: [
                           const SectionHeading(heading: "ABOUT ME", align: Alignment.topLeft,),
-                          SectionInput(inputWidget: TextFormField(controller: descripC, maxLines: 9, decoration: const InputDecoration(border: OutlineInputBorder(), hintText: "INSERT A DESCRIPTION ABOUT YOURSELF"),),),
+                          SectionInput(inputWidget: TextFormField(controller: descripC, maxLines: 9, style: TextStyle(fontSize: 16), decoration: const InputDecoration(border: OutlineInputBorder(), hintText: "INSERT A DESCRIPTION ABOUT YOURSELF"),),),
                         ],
                       ),
-                      const SizedBox(height: 10,),
-                      Column(
-                        children: [
-                          const SectionHeading(heading: "EDUCATION"),
-                          qualificationsC,                          
-                        ],
-                      ),
+                      const SizedBox(height: 16,),
+                      qualificationsC,
                       const SizedBox(height: 10,),
                       Column(
                         children: [
@@ -158,15 +145,16 @@ class ProfileState extends State<Profile> {
                     children: [
                       const SectionHeading(heading: "PROFILE", align: Alignment.topRight,),
                       SizedBox(
-                        width: 200,
+                        width: 300,
                         child:
                          Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            SectionInput(inputWidget: TextFormField(controller: fnameC, textAlign: TextAlign.right, decoration: const InputDecoration(border: InputBorder.none, hintText: "INSERT FIRSTNAME"),),),
-                            SectionInput(inputWidget: TextFormField(controller: lnameC, textAlign: TextAlign.right, decoration: const InputDecoration(border: InputBorder.none, hintText: "INSERT LASTNAME"),),),
-                            SectionInput(inputWidget: TextFormField(controller: emailC, textAlign: TextAlign.right, decoration: const InputDecoration(border: InputBorder.none, hintText: "INSERT EMAIL"),),),
-                            SectionInput(inputWidget: TextFormField(controller: locationC, textAlign: TextAlign.right, decoration: const InputDecoration(border: InputBorder.none, hintText: "INSERT ADDRESS"),),),
-                            SectionInput(inputWidget: TextFormField(controller: phoneNoC, textAlign: TextAlign.right, decoration: const InputDecoration(border: InputBorder.none, hintText: "INSERT PHONENUMBER"),),),
+                            SectionInput(inputWidget: TextFormField(controller: fnameC, textAlign: TextAlign.right, style: TextStyle(fontSize: 20), decoration: const InputDecoration(border: InputBorder.none, hintStyle: TextStyle(fontSize: 16), hintText: "INSERT FIRSTNAME"),),),
+                            SectionInput(inputWidget: TextFormField(controller: lnameC, textAlign: TextAlign.right, style: TextStyle(fontSize: 20), decoration: const InputDecoration(border: InputBorder.none, hintStyle: TextStyle(fontSize: 16), hintText: "INSERT LASTNAME"),),),
+                            SectionInput(inputWidget: TextFormField(controller: emailC, textAlign: TextAlign.right, style: TextStyle(fontSize: 20), decoration: const InputDecoration(border: InputBorder.none, hintStyle: TextStyle(fontSize: 16), hintText: "INSERT EMAIL"),),),
+                            SectionInput(inputWidget: TextFormField(controller: locationC, textAlign: TextAlign.right, style: TextStyle(fontSize: 20), decoration: const InputDecoration(border: InputBorder.none, hintStyle: TextStyle(fontSize: 16), hintText: "INSERT ADDRESS"),),),
+                            SectionInput(inputWidget: TextFormField(controller: phoneNoC, textAlign: TextAlign.right, style: TextStyle(fontSize: 20), decoration: const InputDecoration(border: InputBorder.none, hintStyle: TextStyle(fontSize: 16), hintText: "INSERT PHONENUMBER"),),),
                           ],
                         )
                       ),
@@ -347,7 +335,7 @@ class CVHistoryState extends State<CVHistory> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 200, 
+      height: 160, 
       child: SingleChildScrollView(
         child: Wrap(
             spacing: 8,
