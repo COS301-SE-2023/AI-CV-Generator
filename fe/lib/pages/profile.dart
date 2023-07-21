@@ -37,8 +37,6 @@ class ProfileState extends State<Profile> {
     TextEditingController phoneNoC = TextEditingController(text: model.phoneNumber);
     TextEditingController locationC = TextEditingController(text: model.location);
     TextEditingController descripC = TextEditingController(text: model.description);
-    TextEditingController qualificationC = TextEditingController();
-    TextEditingController workExperienceC = TextEditingController();
     GlobalKey<LinksSectionState> linksKey = GlobalKey<LinksSectionState>();
     GlobalKey<QualificationsSectionState> qualificationsKey = GlobalKey<QualificationsSectionState>();
     GlobalKey<EmploymentSectionState> employhistoryKey = GlobalKey<EmploymentSectionState>();
@@ -74,10 +72,7 @@ class ProfileState extends State<Profile> {
     phoneNoC.addListener(update);
     locationC.addListener(update);
     descripC.addListener(update);
-    workExperienceC.addListener(update);
-    qualificationC.addListener(update);
 
-    
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -113,27 +108,22 @@ class ProfileState extends State<Profile> {
                         child: Column(
                           children: [
                             SectionHeading(text: "ABOUT ME", alignment: Alignment.topLeft,),
-                            SectionInput(inputWidget: TextFormField(controller: descripC, maxLines: 9, style: TextStyle(fontSize: 16), decoration: const InputDecoration(border: OutlineInputBorder(), hintText: "INSERT A DESCRIPTION ABOUT YOURSELF"),),),
+                            SectionInput(inputWidget: TextFormField(controller: descripC, maxLines: 5, style: TextStyle(fontSize: 16), decoration: const InputDecoration(border: OutlineInputBorder(), hintText: "INSERT A DESCRIPTION ABOUT YOURSELF"),),),
                           ],
                         ),
                       ),
                       const SizedBox(height: 16,),
-                      qualificationsC,
-                      const SizedBox(height: 10,),
-                      Column(
-                        children: [
-                          SectionHeading(text: "WORK EXPERIENCE"),
-                          employmentC,
-                        ],
-                      ),
-
-                      Column(
-                        children: [
-                          SectionHeading(text: "CVs", alignment: Alignment.topLeft,),
-                          CVHistory(context: context,),
-                        ],
-                      ),
-                                          
+                      // qualificationsC,
+                      employmentC,
+                      const SizedBox(height: 16,),
+                      SectionContainer(
+                        child: Column(
+                          children: [
+                            SectionHeading(text: "CVs", alignment: Alignment.topLeft,),
+                            CVHistory(context: context,),
+                          ],
+                        ),
+                      )                  
                     ],
                   ),
                 ),
