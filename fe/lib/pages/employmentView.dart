@@ -44,13 +44,13 @@ class EmploymentSectionState extends State<EmploymentSection> {
     employmentMap[info.empid]['widget'] = (
       Column(
         children: [
-          SizedBox(height: 16,),
+          SizedBox(height: 4,),
           EmploymentField(
             titleC: employmentMap[info.empid]['title'],
             companyC: employmentMap[info.empid]['company'],
             dateC: employmentMap[info.empid]['date'],
             ),
-          SizedBox(height: 16,),
+          SizedBox(height: 4,),
         ],
       )
     );
@@ -124,6 +124,7 @@ class EmploymentSectionState extends State<EmploymentSection> {
               child: Text('-'),),
           )
         );
+        linkWidgets.add(SizedBox(height: 4,),);
       }
     });
     return linkWidgets;
@@ -146,7 +147,9 @@ class EmploymentSectionState extends State<EmploymentSection> {
             ],
             actions: [
               IconButton(onPressed: () {
+                if(editing == false) {
                   add();
+                }
               }, icon: Icon(Icons.add)),
               IconButton(onPressed: () {
                   edit();
@@ -199,7 +202,7 @@ void initState() {
           controller: widget.titleC,
           textAlign: TextAlign.center,
           decoration: InputDecoration(
-            hintText: "Title",
+            hintText: "Position Held",
             border: OutlineInputBorder(),
             ),
           ),
