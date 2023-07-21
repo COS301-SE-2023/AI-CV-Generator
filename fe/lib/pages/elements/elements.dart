@@ -71,3 +71,37 @@ class SectionTextFormFieldState extends State<SectionTextFormField> {
     );
   }
 }
+
+class SectionHeadingBar extends StatefulWidget {
+  List<Widget>? children = [];
+  List<Widget>? actions = [];
+  SectionHeadingBar({super.key, required this.children, this.actions});
+
+  @override
+  SectionHeadingBarState createState() => SectionHeadingBarState();
+}
+
+class SectionHeadingBarState extends State<SectionHeadingBar> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              ...widget.children!
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              ...widget.actions!
+            ],
+          )
+        ]
+      )
+    );
+  }
+}
