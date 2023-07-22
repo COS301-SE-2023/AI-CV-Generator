@@ -14,6 +14,8 @@ class QualificationsSection extends StatefulWidget {
 class QualificationsSectionState extends State<QualificationsSection> {
   final blankQualification = Qualification(qualification: '', intstitution: '', date: DateTime.now(), quaid: 0, endo: DateTime.now());
   Map qualificationsMap = {};
+  List<Map> institution = [];
+  bool editing = false;
 
   @override
   void initState() {
@@ -41,20 +43,13 @@ class QualificationsSectionState extends State<QualificationsSection> {
     qualificationsMap[info.quaid]['widget'] = (
       Column(
         children: [
+          SizedBox(height: 4,),
           QualificationsField(
             qualificationC: qualificationsMap[info.quaid]['qualification'],
             intstitutionC: qualificationsMap[info.quaid]['intstitution'],
             dateC: qualificationsMap[info.quaid]['date'],
             ),
-          Align(
-            alignment: Alignment.topRight,
-            child: IconButton(
-              onPressed: (){
-                remove(info.quaid);
-              }, 
-              icon: Icon(Icons.remove)),
-          ),
-          SizedBox(height: 8,),
+          SizedBox(height: 4,),
         ],
       )
     );
@@ -66,6 +61,14 @@ class QualificationsSectionState extends State<QualificationsSection> {
       display(newQualification);
       setState(() {});
     });
+  }
+
+  void addInstitution() {
+    institution;
+  }
+
+  void addQualification() {
+    
   }
 
   void remove(int objectId) async {
@@ -116,8 +119,27 @@ class QualificationsSectionState extends State<QualificationsSection> {
     List<Widget> linkWidgets = [];
     qualificationsMap.forEach((key, value) {
       linkWidgets.add(qualificationsMap[key]['widget']);
+      if(editing == true) {
+        linkWidgets.add(
+          Align(
+            alignment: Alignment.topRight,
+            child: IconButton(
+              onPressed: (){
+                remove(key);
+              }, 
+              icon: Icon(Icons.remove)),
+          ),
+        );
+        linkWidgets.add(SizedBox(height: 4,),);
+      }
     });
     return linkWidgets;
+  }
+
+  edit() {
+    setState(() {
+      editing = !editing;
+    });
   }
 
   @override
@@ -125,15 +147,21 @@ class QualificationsSectionState extends State<QualificationsSection> {
     return SectionContainer(
       child: Column(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          SectionHeadingBar(
             children: [
               SectionHeading(text: "EDUCATION",),
-              IconButton(onPressed: () {
-                add();
-              }, icon: Icon(Icons.add)),
             ],
-          ),  
+            actions: [
+              IconButton(onPressed: () {
+                if(editing == false) {
+                  add();
+                }
+              }, icon: Icon(Icons.add)),
+              IconButton(onPressed: () {
+                  edit();
+              }, icon: Icon(Icons.edit)),
+            ],
+          ),
           SizedBox(height: 16,),
           ...populate(),
         ]
@@ -155,43 +183,40 @@ class QualificationsField extends StatefulWidget {
 class QualificationsFieldState extends State<QualificationsField> {
   TextEditingController displayDateC = TextEditingController();
   @override
-void initState() {
-  displayDateC.text = displayDateTimeRange(stringToDateTimeRange(widget.dateC.text));
-  super.initState();
-}
+  void initState() {
+    displayDateC.text = displayDateTimeRange(stringToDateTimeRange(widget.dateC.text));
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
       // color: Colors.grey,
       padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
-      child: Row(
+      child: Column(
         children: [
-          Expanded(
-            child: TextFormField(
-            // style: TextStyle(fontSize: 5),
+            TextFormField(
+            style: TextStyle(fontSize: 20),
             controller: widget.intstitutionC,
-            textAlign: TextAlign.center,
+            textAlign: TextAlign.right,
             decoration: InputDecoration(
-              hintText: "Institution",
-              border: OutlineInputBorder(),
+              hintText: "INSTITUTION NAME",
+              border: InputBorder.none
               ),
             ),
-          ),
-          SizedBox(width: 60,),
-          Expanded(
-            child: TextFormField(
-              controller: widget.qualificationC,
-              textAlign: TextAlign.center,
-              decoration: InputDecoration(
-                hintText: "Qualification",
-                border: OutlineInputBorder(),
+            SizedBox(width: 8,),
+            TextFormField(
+            // style: TextStyle(fontSize: 5),
+            controller: widget.qualificationC,
+            textAlign: TextAlign.right,
+            decoration: InputDecoration(
+              hintText: "QUALIFICATION NAME",
+              hintStyle: TextStyle(fontSize: 15),
+              border: InputBorder.none
               ),
             ),
-          ),
-          SizedBox(width: 60,),
-          Expanded(
-            child: GestureDetector(
+            SizedBox(width: 8,),
+            GestureDetector(
               onTap: () {
                 setState(() {
                   datePicker(context).then((value) {
@@ -205,16 +230,65 @@ void initState() {
               child: TextFormField(
                 enabled: false,
                 controller: displayDateC,
-                textAlign: TextAlign.center,
+                textAlign: TextAlign.right,
                 decoration: InputDecoration(
                   hintText: "Date",
-                  border: OutlineInputBorder(),
+                  border: InputBorder.none,
                   ),
                 ),
             ),
-          ),
-        ],
+          ],
       )
+      // child: Row(
+      //   children: [
+      //     Expanded(
+      //       child: TextFormField(
+      //       // style: TextStyle(fontSize: 5),
+      //       controller: widget.intstitutionC,
+      //       textAlign: TextAlign.center,
+      //       decoration: InputDecoration(
+      //         hintText: "Institution",
+      //         border: OutlineInputBorder(),
+      //         ),
+      //       ),
+      //     ),
+      //     SizedBox(width: 8,),
+      //     Expanded(
+      //       child: TextFormField(
+      //         controller: widget.qualificationC,
+      //         textAlign: TextAlign.center,
+      //         decoration: InputDecoration(
+      //           hintText: "Qualification",
+      //           border: OutlineInputBorder(),
+      //         ),
+      //       ),
+      //     ),
+      //     SizedBox(width: 8,),
+      //     Expanded(
+      //       child: GestureDetector(
+      //         onTap: () {
+      //           setState(() {
+      //             datePicker(context).then((value) {
+      //               if(value != null) {
+      //                 widget.dateC.text = dateTimeToString(value.start, value.end);
+      //                 displayDateC.text = displayDateTimeRange(value);
+      //               }
+      //             });
+      //           });
+      //         },
+      //         child: TextFormField(
+      //           enabled: false,
+      //           controller: displayDateC,
+      //           textAlign: TextAlign.center,
+      //           decoration: InputDecoration(
+      //             hintText: "Date",
+      //             border: OutlineInputBorder(),
+      //             ),
+      //           ),
+      //       ),
+      //     ),
+      //   ],
+      // )
     );
   }
 }
