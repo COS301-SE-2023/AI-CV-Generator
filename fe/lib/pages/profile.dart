@@ -97,74 +97,72 @@ class ProfileState extends State<Profile> {
           padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 128),
           child: Form(
             key: _formKey,
-            child: Row(
-                children: [
-                  Expanded(
-                  flex: 3,
-                  child: ListView(
-                    padding: const EdgeInsets.only(right: 128),
-                    children: [
-                      SectionContainer(
-                        child: Column(
-                          children: [
-                            SectionHeading(text: "ABOUT ME", alignment: Alignment.topLeft,),
-                            SectionInput(inputWidget: TextFormField(controller: descripC, maxLines: 5, style: TextStyle(fontSize: 16), decoration: const InputDecoration(border: OutlineInputBorder(), hintText: "INSERT A DESCRIPTION ABOUT YOURSELF"),),),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 16,),
-                      // qualificationsC,
-                      employmentC,
-                      const SizedBox(height: 16,),
-                      SectionContainer(
-                        child: Column(
-                          children: [
-                            SectionHeading(text: "CVs", alignment: Alignment.topLeft,),
-                            CVHistory(context: context,),
-                          ],
-                        ),
-                      )                  
-                    ],
-                  ),
-                ),
-                
-                  const SizedBox(width: 15,),
-                
-                  Expanded(
-                  flex: 1,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      SectionHeading(text: "PROFILE", alignment: Alignment.topRight,),
-                      SizedBox(
-                        width: 300,
-                        child:
-                         Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            SectionInput(inputWidget: TextFormField(controller: fnameC, textAlign: TextAlign.right, style: TextStyle(fontSize: 20), decoration: const InputDecoration(border: InputBorder.none, hintStyle: TextStyle(fontSize: 16), hintText: "INSERT FIRSTNAME"),),),
-                            SectionInput(inputWidget: TextFormField(controller: lnameC, textAlign: TextAlign.right, style: TextStyle(fontSize: 20), decoration: const InputDecoration(border: InputBorder.none, hintStyle: TextStyle(fontSize: 16), hintText: "INSERT LASTNAME"),),),
-                            SectionInput(inputWidget: TextFormField(controller: emailC, textAlign: TextAlign.right, style: TextStyle(fontSize: 20), decoration: const InputDecoration(border: InputBorder.none, hintStyle: TextStyle(fontSize: 16), hintText: "INSERT EMAIL"),),),
-                            SectionInput(inputWidget: TextFormField(controller: locationC, textAlign: TextAlign.right, style: TextStyle(fontSize: 20), decoration: const InputDecoration(border: InputBorder.none, hintStyle: TextStyle(fontSize: 16), hintText: "INSERT ADDRESS"),),),
-                            SectionInput(inputWidget: TextFormField(controller: phoneNoC, textAlign: TextAlign.right, style: TextStyle(fontSize: 20), decoration: const InputDecoration(border: InputBorder.none, hintStyle: TextStyle(fontSize: 16), hintText: "INSERT PHONENUMBER"),),),
-                          ],
-                        )
-                      ),
-                      SectionHeading(text: "LINKS"),
-                      Expanded(
-                        child: ListView(
-                        padding: const EdgeInsets.only(right: 16),
+            child: ListView(
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      flex: 4,
+                      child: Column(
                         children: [
-                          linkC,
+                          SectionContainer(
+                            child: Column(
+                              children: [
+                                SectionHeading(text: "ABOUT ME", alignment: Alignment.topLeft,),
+                                SectionInput(inputWidget: TextFormField(controller: descripC, maxLines: 5, style: TextStyle(fontSize: 16), decoration: const InputDecoration(border: OutlineInputBorder(), hintText: "INSERT A DESCRIPTION ABOUT YOURSELF"),),),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(height: 16,),
+                          employmentC,
+                          const SizedBox(height: 16,),
+                          SectionContainer(
+                            child: Column(
+                              children: [
+                                SectionHeading(text: "CVs", alignment: Alignment.topLeft,),
+                                CVHistory(context: context,),
+                              ],
+                            ),
+                          )                  
                         ],
-                        ),
                       ),
-                    ],
-                  )
+                    ),
+                  
+                    const SizedBox(width: 48,),
+                  
+                    Expanded(
+                    flex: 2,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        SectionHeading(text: "PROFILE", alignment: Alignment.topRight,),
+                        SizedBox(
+                          width: 300,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              SectionInput(inputWidget: TextFormField(controller: fnameC, textAlign: TextAlign.right, style: TextStyle(fontSize: 20), decoration: const InputDecoration(border: InputBorder.none, hintStyle: TextStyle(fontSize: 16), hintText: "INSERT FIRSTNAME"),),),
+                              SectionInput(inputWidget: TextFormField(controller: lnameC, textAlign: TextAlign.right, style: TextStyle(fontSize: 20), decoration: const InputDecoration(border: InputBorder.none, hintStyle: TextStyle(fontSize: 16), hintText: "INSERT LASTNAME"),),),
+                              SectionInput(inputWidget: TextFormField(controller: emailC, textAlign: TextAlign.right, style: TextStyle(fontSize: 20), decoration: const InputDecoration(border: InputBorder.none, hintStyle: TextStyle(fontSize: 16), hintText: "INSERT EMAIL"),),),
+                              SectionInput(inputWidget: TextFormField(controller: locationC, textAlign: TextAlign.right, style: TextStyle(fontSize: 20), decoration: const InputDecoration(border: InputBorder.none, hintStyle: TextStyle(fontSize: 16), hintText: "INSERT ADDRESS"),),),
+                              SectionInput(inputWidget: TextFormField(controller: phoneNoC, textAlign: TextAlign.right, style: TextStyle(fontSize: 20), decoration: const InputDecoration(border: InputBorder.none, hintStyle: TextStyle(fontSize: 16), hintText: "INSERT PHONENUMBER"),),),
+                            ],
+                          )
+                        ),
+                        const SizedBox(width: 16,),
+                        qualificationsC,
+                        const SizedBox(width: 16,),
+                        SectionHeading(text: "LINKS"),
+                        linkC
+                      ],
+                      )
+                    ),
+                  ],
                 ),
-                ],
-              ),
+            ],),
+
           )
         )
       )
