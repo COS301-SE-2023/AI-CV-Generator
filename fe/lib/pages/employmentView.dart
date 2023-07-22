@@ -117,12 +117,12 @@ class EmploymentSectionState extends State<EmploymentSection> {
         linkWidgets.add(
           Align(
             alignment: Alignment.topRight,
-            child: OutlinedButton(
-              onPressed: () {
+            child: IconButton(
+              onPressed: (){
                 remove(key);
               }, 
-              child: Text('-'),),
-          )
+              icon: Icon(Icons.remove)),
+          ),
         );
         linkWidgets.add(SizedBox(height: 4,),);
       }
