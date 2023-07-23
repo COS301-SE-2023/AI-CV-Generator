@@ -104,7 +104,7 @@ class ProfileState extends State<Profile> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Expanded(
-                      flex: 3,
+                      flex: 4,
                       child: Column(
                         children: [
                           SectionContainer(
@@ -140,14 +140,14 @@ class ProfileState extends State<Profile> {
                         children: [
                           SectionHeading(text: "PROFILE", alignment: Alignment.topRight,),
                           Row(
-                            // mainAxisAlignment: MainAxisAlignment.end,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Expanded(
-                                child: IconButton(
-                                  icon: Icon(Icons.account_circle, size: 128,),
-                                  onPressed: () {
-                                  },
-                                ),
+                              IconButton(
+                                icon: Icon(Icons.account_circle, size: 128,),
+                                onPressed: () {
+                                  
+                                },
                               ),
 
                               SizedBox(
