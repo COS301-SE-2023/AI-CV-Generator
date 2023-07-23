@@ -1,6 +1,7 @@
 package com.revolvingSolutions.aicvgeneratorbackend.conf;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -13,6 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 @Configuration
 @EnableWebSecurity
@@ -29,14 +31,18 @@ public class SecureConf {
                         new Customizer<CsrfConfigurer<HttpSecurity>>() {
                             @Override
                             public void customize(CsrfConfigurer<HttpSecurity> httpSecurityCsrfConfigurer) {
-                                httpSecurityCsrfConfigurer.disable();
+                                if (false) {
+                                    httpSecurityCsrfConfigurer.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+                                } else {
+                                    httpSecurityCsrfConfigurer.disable();
+                                }
                             }
                         }
                 )
                 .cors(new Customizer<CorsConfigurer<HttpSecurity>>() {
                     @Override
                     public void customize(CorsConfigurer<HttpSecurity> httpSecurityCorsConfigurer) {
-                        
+
                     }
                 })
                 .authorizeHttpRequests(
@@ -44,7 +50,7 @@ public class SecureConf {
                             @Override
                             public void customize(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry authorizationManagerRequestMatcherRegistry) {
                                 authorizationManagerRequestMatcherRegistry
-                                        .requestMatchers("/api/auth/**","/share/**")
+                                        .requestMatchers("/api/auth/**","/share/**","/csrf")
                                         .permitAll()
                                         .anyRequest()
                                         .authenticated();

@@ -78,6 +78,7 @@ public class AuthService {
         if (!name.equals(details.getUsername())) return false;
         final Claims cl = extract(token);
         cl.setExpiration(Date.from(Instant.now()));
+
         return true;
     }
 
