@@ -13,7 +13,6 @@ class Profile extends StatefulWidget {
   Profile({super.key,required this.model});
   UserModel model;
 
-
   @override
   ProfileState createState() => ProfileState(model: model);
 }
@@ -132,35 +131,34 @@ class ProfileState extends State<Profile> {
                     const SizedBox(width: 48,),
                   
                     Expanded(
-                    flex: 1,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        SectionHeading(text: "PROFILE", alignment: Alignment.topRight,),
-                        SizedBox(
-                          width: 300,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              SectionInput(inputWidget: TextFormField(controller: fnameC, textAlign: TextAlign.right, style: TextStyle(fontSize: 20), decoration: const InputDecoration(border: InputBorder.none, hintStyle: TextStyle(fontSize: 16), hintText: "INSERT FIRSTNAME"),),),
-                              SectionInput(inputWidget: TextFormField(controller: lnameC, textAlign: TextAlign.right, style: TextStyle(fontSize: 20), decoration: const InputDecoration(border: InputBorder.none, hintStyle: TextStyle(fontSize: 16), hintText: "INSERT LASTNAME"),),),
-                              SectionInput(inputWidget: TextFormField(controller: emailC, textAlign: TextAlign.right, style: TextStyle(fontSize: 20), decoration: const InputDecoration(border: InputBorder.none, hintStyle: TextStyle(fontSize: 16), hintText: "INSERT EMAIL"),),),
-                              SectionInput(inputWidget: TextFormField(controller: locationC, textAlign: TextAlign.right, style: TextStyle(fontSize: 20), decoration: const InputDecoration(border: InputBorder.none, hintStyle: TextStyle(fontSize: 16), hintText: "INSERT ADDRESS"),),),
-                              SectionInput(inputWidget: TextFormField(controller: phoneNoC, textAlign: TextAlign.right, style: TextStyle(fontSize: 20), decoration: const InputDecoration(border: InputBorder.none, hintStyle: TextStyle(fontSize: 16), hintText: "INSERT PHONENUMBER"),),),
-                            ],
-                          )
-                        ),
-                        const SizedBox(width: 16,),
-                        qualificationsC,
-                        const SizedBox(width: 16,),
-                        SectionHeading(text: "LINKS"),
-                        linkC
-                      ],
-                      )
-                    ),
-                  ],
-                ),
+                      flex: 1,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          SectionHeading(text: "PROFILE", alignment: Alignment.topRight,),
+                          SizedBox(
+                            width: 300,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                SectionInput(inputWidget: TextFormField(controller: fnameC, textAlign: TextAlign.right, style: TextStyle(fontSize: 20), decoration: const InputDecoration(border: InputBorder.none, hintStyle: TextStyle(fontSize: 16), hintText: "INSERT FIRSTNAME"),),),
+                                SectionInput(inputWidget: TextFormField(controller: lnameC, textAlign: TextAlign.right, style: TextStyle(fontSize: 20), decoration: const InputDecoration(border: InputBorder.none, hintStyle: TextStyle(fontSize: 16), hintText: "INSERT LASTNAME"),),),
+                                SectionInput(inputWidget: TextFormField(controller: emailC, textAlign: TextAlign.right, style: TextStyle(fontSize: 20), decoration: const InputDecoration(border: InputBorder.none, hintStyle: TextStyle(fontSize: 16), hintText: "INSERT EMAIL"),),),
+                                SectionInput(inputWidget: TextFormField(controller: locationC, textAlign: TextAlign.right, style: TextStyle(fontSize: 20), decoration: const InputDecoration(border: InputBorder.none, hintStyle: TextStyle(fontSize: 16), hintText: "INSERT ADDRESS"),),),
+                                SectionInput(inputWidget: TextFormField(controller: phoneNoC, textAlign: TextAlign.right, style: TextStyle(fontSize: 20), decoration: const InputDecoration(border: InputBorder.none, hintStyle: TextStyle(fontSize: 16), hintText: "INSERT PHONENUMBER"),),),
+                              ],
+                            )
+                          ),
+                          const SizedBox(height: 16,),
+                          qualificationsC,
+                          const SizedBox(height: 16,),
+                          linkC
+                        ],
+                        )
+                      ),
+                    ],
+                  ),
             ],),
 
           )
@@ -283,7 +281,7 @@ class CVHistoryState extends State<CVHistory> {
         },
         child: Text(filename),
     );
-}
+  }
 
   // void add(Uint8List cover) {
   //   images.add(
@@ -296,8 +294,7 @@ class CVHistoryState extends State<CVHistory> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 160, 
+    return Container(
       child: SingleChildScrollView(
         child: Wrap(
             spacing: 8,
