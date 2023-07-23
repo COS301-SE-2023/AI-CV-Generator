@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ai_cv_generator/models/user/Link.dart';
 import 'package:ai_cv_generator/dio/client/userApi.dart';
+import 'elements/elements.dart';
 
 class LinksSection extends StatefulWidget {
   List<Link> links;
@@ -13,6 +14,7 @@ class LinksSection extends StatefulWidget {
 class LinksSectionState extends State<LinksSection> {
   final blankLink = Link(url: '', linkid: 0);
   Map linksMap = {};
+  bool editing = false;
 
   @override
   void initState() {
@@ -36,17 +38,9 @@ class LinksSectionState extends State<LinksSection> {
     linksMap[info.linkid]['widget'] = (
       Column(
         children: [
-          SizedBox(height: 16,),
+          SizedBox(height: 4,),
           LinksField(urlC: linksMap[info.linkid]['url']),
-          SizedBox(height: 16,),
-          Align(
-            alignment: Alignment.topRight,
-            child: OutlinedButton(
-              onPressed: (){
-                remove(info.linkid);
-              }, 
-              child: Text('-'),),
-          )
+          SizedBox(height: 4,),
         ],
       )
     );
@@ -84,6 +78,19 @@ class LinksSectionState extends State<LinksSection> {
     List<Widget> linkWidgets = [];
     linksMap.forEach((key, value) {
       linkWidgets.add(linksMap[key]['widget']);
+      if(editing == true) {
+        linkWidgets.add(
+          Align(
+            alignment: Alignment.topRight,
+            child: IconButton(
+              onPressed: (){
+                remove(key);
+              }, 
+              icon: Icon(Icons.remove)),
+          ),
+        );
+        linkWidgets.add(SizedBox(height: 4,),);
+      }
     });
     return linkWidgets;
   }
@@ -109,17 +116,36 @@ class LinksSectionState extends State<LinksSection> {
     return newLink;
   }
 
+  edit() {
+    setState(() {
+      editing = !editing;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ...populate(),
-        SizedBox(height: 8,),
-        OutlinedButton(onPressed: (){
-          add();
-        }, child: Text('+')),
-        SizedBox(height: 16,),
-      ],
+    return SectionContainer(
+      child: Column(
+        children: [
+          SectionHeadingBar(
+            children: [
+              SectionHeading(text: "LINKS",),
+            ],
+            actions: [
+              IconButton(onPressed: () {
+                if(editing == false) {
+                  add();
+                }
+              }, icon: Icon(Icons.add)),
+              IconButton(onPressed: () {
+                  edit();
+              }, icon: Icon(Icons.edit)),
+            ],
+          ),
+          SizedBox(height: 16,),
+          ...populate(),
+        ]
+      )
     );
   }
 }
@@ -140,7 +166,7 @@ class LinksFieldState extends State<LinksField> {
       controller: widget.urlC,
       textAlign: TextAlign.center,
       decoration: InputDecoration(
-        hintText: "Url",
+        hintText: "URL",
         border: OutlineInputBorder(),),
       ),
     );
