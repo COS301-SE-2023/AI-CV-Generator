@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -57,28 +58,28 @@ class AuthenticationServiceTest {
                 .username("username")
                 .password("password")
                 .build();
+        MockHttpServletRequest actualRequest = new MockHttpServletRequest();
         // when
-        authenticationService.register(req);
+        authenticationService.register(req,actualRequest);
         // then
         ArgumentCaptor<String> usernameArgCapture = ArgumentCaptor.forClass(String.class);
         ArgumentCaptor<UserEntity> userEntityArgumentCaptor = ArgumentCaptor.forClass(UserEntity.class);
         ArgumentCaptor<String> passwordArgumentCaptor = ArgumentCaptor.forClass(String.class);
-        ArgumentCaptor<Integer> idArgumentCaptor = ArgumentCaptor.forClass(Integer.class);
         verify(userRepository).findByUsername(usernameArgCapture.capture());
         String username = usernameArgCapture.getValue();
-        assertThat(username == "username").isTrue();
+        assertThat(username .equals("username")).isTrue();
         verify(passwordEncoder).encode(passwordArgumentCaptor.capture());
         String password = passwordArgumentCaptor.getValue();
-        assertThat(password == "password");
+        assertThat(password.equals("password"));
         verify(userRepository).save(userEntityArgumentCaptor.capture());
         UserEntity user = userEntityArgumentCaptor.getValue();
         assertThat(
-                user.getUsername() == "username"&&
-                        user.fname == "fname" &&
-                        user.lname == "lname" &&
-                        user.password != "password"
+                user.getUsername().equals("username")&&
+                        user.fname.equals("fname") &&
+                        user.lname.equals("lname") &&
+                        !user.password.equals("password")
                 ).isTrue();
-        verify(authService).genToken(user);
+        verify(authService).genToken(user,"127.0.0.1");
         verify(userRepository).findByUsername("username");
     }
 
