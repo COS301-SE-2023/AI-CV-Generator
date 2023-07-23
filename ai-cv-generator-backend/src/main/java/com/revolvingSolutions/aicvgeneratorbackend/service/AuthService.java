@@ -29,6 +29,10 @@ public class AuthService {
         return extractCl(token,Claims::getSubject);
     }
 
+    public String getClientIP(String token) {
+        return extract(token).get("ip", String.class);
+    }
+
     private Claims extract(String token) {
         return Jwts.parserBuilder().setSigningKey(
                 getKey()
@@ -48,11 +52,14 @@ public class AuthService {
     }
 
     public String genToken(
-            UserDetails details
+            UserDetails details,
+            String ip
     ) {
+        HashMap<String,Object> Claims = new HashMap<>();
+        Claims.put("ip",ip);
         return Jwts
                 .builder()
-                .setClaims(new HashMap<>())
+                .setClaims(Claims)
                 .setSubject(details.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 1000L *60 *Integer.parseInt(expFactor)))
@@ -81,4 +88,5 @@ public class AuthService {
     private Date getExpirationDate(String token) {
         return extractCl(token, Claims::getExpiration);
     }
+
 }

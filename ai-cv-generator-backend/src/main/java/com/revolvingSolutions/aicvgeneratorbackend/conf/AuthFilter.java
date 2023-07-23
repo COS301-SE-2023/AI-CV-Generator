@@ -39,7 +39,8 @@ public class AuthFilter extends OncePerRequestFilter {
         if (header != null && header.startsWith("Bearer")) {
             final String token = header.substring(7);
             final String username = authService.getUsername(token);
-            if (username != null) {
+            final String ip = authService.getClientIP(token);
+            if (username != null || getClientIp(request).equals(ip)) {
                 if (SecurityContextHolder.getContext().getAuthentication() == null) {
                     UserDetails details = uDetailService.loadUserByUsername(username);
                     if (authService.validate(token,details)) {
@@ -56,5 +57,16 @@ public class AuthFilter extends OncePerRequestFilter {
             filterChain.doFilter(request,response);
             return;
         }
+    }
+
+    private static String getClientIp(HttpServletRequest request) {
+        String remoteAddr = "";
+        if (request != null) {
+            remoteAddr = request.getHeader("X-FORWARDED-FOR");
+            if (remoteAddr == null || "".equals(remoteAddr)) {
+                remoteAddr = request.getRemoteAddr();
+            }
+        }
+        return remoteAddr;
     }
 }
