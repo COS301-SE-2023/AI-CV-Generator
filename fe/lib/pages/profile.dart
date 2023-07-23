@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'pdf_window.dart';
 import 'linksView.dart';
 import 'qualificationsView.dart';
+import 'elements/elements.dart';
 
 class Profile extends StatefulWidget {
   Profile({super.key,required this.model});
@@ -86,17 +87,18 @@ class ProfileState extends State<Profile> {
           },
         ),
       actions: [
-        IconButton(onPressed: () {}, icon: const Icon(Icons.account_circle)),
+        IconButton(onPressed: () {}, 
+        icon: const Icon(Icons.account_circle, size: profileButtonSize,)),
+        SizedBox(width: 16,)
       ],
       ),
       body: SafeArea(
         child: Container( 
         color: Colors.white,
-        child:Padding(
-          padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 128),
           child: Form(
             key: _formKey,
             child: ListView(
+              padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 128),
               children: [
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -163,7 +165,6 @@ class ProfileState extends State<Profile> {
 
           )
         )
-      )
       )
     );
   }

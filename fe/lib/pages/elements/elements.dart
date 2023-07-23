@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 Color backdrop = Colors.grey.withOpacity(0.1);
+const double? profileButtonSize = 32.0;
 
 class SectionHeading extends StatefulWidget {
   String text;
