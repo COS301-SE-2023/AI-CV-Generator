@@ -345,15 +345,15 @@ class CVHistory extends StatefulWidget {
 }
 
 class CVHistoryState extends State<CVHistory> {
-  List<RawImage> list = [];
+  List<Widget> list = [];
 
   @override
   void initState() {
     FileApi.getFiles().then((value) {
       for (var element in value!) {
-        paint_.decodeImageFromPixels(element.cover,20,20,paint_.PixelFormat.rgba8888, (result) {list.add(RawImage(image: result,)); setState(() {
+        //paint_.decodeImageFromPixels(element.cover,20,20,paint_.PixelFormat.rgba8888, (result) {list.add(RawImage(image: result,)); setState(() {
           
-        });});
+        list.add(add(element.filename));
       }
         setState(() {
       });

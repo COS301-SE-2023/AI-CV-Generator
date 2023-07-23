@@ -79,6 +79,24 @@ class UserControllerTest {
     }
 
     @Test
+    void getProfileImage() {
+        // when
+        userController.getProfileImage();
+        // then
+        verify(userService).getProfileImage();
+    }
+
+    @Test
+    void updateProfileImage() {
+        // given
+        MultipartFile img = new MockMultipartFile("img", (byte[]) null);
+        // when
+        userController.updateProfileImage(img);
+        // then
+        verify(userService).updateProfileImage(img);
+    }
+
+    @Test
     void uploadFile() {
         // given
         MultipartFile file = new MockMultipartFile("File", (byte[]) null);
