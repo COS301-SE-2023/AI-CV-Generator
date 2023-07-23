@@ -9,8 +9,10 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.*;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.LogoutHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -18,6 +20,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecureConf {
     private final AuthFilter authentificationFilter;
     private final AuthenticationProvider authProvider;
+    private final LogoutHandler logoutHandler;
 
     @Bean
     public SecurityFilterChain secureFilterChain(HttpSecurity httpSecure) throws Exception{
@@ -62,8 +65,22 @@ public class SecureConf {
                 )
                 .addFilterBefore(
                         authentificationFilter, UsernamePasswordAuthenticationFilter.class
-                );
-
+                )
+                .logout(new Customizer<LogoutConfigurer<HttpSecurity>>() {
+                    @Override
+                    public void customize(LogoutConfigurer<HttpSecurity> httpSecurityLogoutConfigurer) {
+                        httpSecurityLogoutConfigurer.addLogoutHandler(
+                                logoutHandler
+                        )
+                                .logoutSuccessHandler(
+                                        (
+                                                (request, response, authentication) ->
+                                                        SecurityContextHolder.clearContext()
+                                        )
+                                )
+                                .logoutUrl("/api/auth/logout");
+                    }
+                });
 
         return httpSecure.build();
     }
