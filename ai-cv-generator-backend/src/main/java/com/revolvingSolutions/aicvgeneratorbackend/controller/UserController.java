@@ -185,9 +185,11 @@ public class UserController {
         }
     }
 
-    @GetMapping(value = "/test")
-    public ResponseEntity<String> test() {
-        return ResponseEntity.ok("Hello auth is working");
+    @PostMapping(value = "/test")
+    public ResponseEntity<Resource> test(
+            @RequestBody DownloadFileRequest request
+    ) {
+        return service.getFileCover(request);
     }
 
 }

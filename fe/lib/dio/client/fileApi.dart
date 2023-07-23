@@ -11,6 +11,7 @@ import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:pdfx/pdfx.dart';
+import 'package:pdf_render/pdf_render.dart' as render;
 
 class FileApi extends DioClient {
   static Future<Response?> uploadFile(
@@ -20,15 +21,15 @@ class FileApi extends DioClient {
     }
   ) async {
     if (file == null) return null;
-    PdfDocument doc = await PdfDocument.openData(file.bytes as FutureOr<Uint8List>);
-    PdfPage page = await doc.getPage(1);
-    PdfPageImage? pageImage = await page.render(width: 20, height: 20);
+    final pdf = await render.PdfDocument.openData(file.bytes!);
+    final page = await pdf.getPage(1);
+    final imagepage = await page.render(width: 20,height: 20);
     FormData formData = FormData.fromMap({
       "file": MultipartFile.fromBytes(
         file.bytes as List<int>, filename: file.name,
       ),
       "cover": MultipartFile.fromBytes(
-        pageImage?.bytes as List<int>, filename: file.name
+        imagepage.pixels as List<int>, filename: file.name
       ),
     });
 
@@ -90,6 +91,7 @@ class FileApi extends DioClient {
     try {
       Response response = await DioClient.dio.get('api/User/files');
       GetFilesResponse resp = GetFilesResponse.fromJson(response.data);
+      
       return resp.files;
     } on DioException catch(e) {
       DioClient.handleError(e);

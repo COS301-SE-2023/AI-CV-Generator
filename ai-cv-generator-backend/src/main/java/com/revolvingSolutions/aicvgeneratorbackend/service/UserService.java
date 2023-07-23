@@ -315,6 +315,24 @@ public class UserService {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @Transactional
+    public ResponseEntity<Resource> getFileCover(DownloadFileRequest request) {
+        try {
+            FileModel file = fileRepository.getFileFromUser(getAuthenticatedUser().getUsername(), request.getFilename()).get(0);
+            return ResponseEntity.ok()
+                    .contentType(MediaType.parseMediaType(file.getFiletype()))
+                    .header(
+                            HttpHeaders.CONTENT_DISPOSITION,
+                            "attachment; filename=\"" + file.getFilename() + "\""
+                    )
+                    .body(
+                            new ByteArrayResource(file.getCover())
+                    );
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
     public String uploadFile(MultipartFile request, MultipartFile cover) {
         try {
             FileEntity file = FileEntity.builder()

@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'pdf_window.dart';
 import 'linksView.dart';
 import 'qualificationsView.dart';
+import 'dart:ui'as paint_;
 
 class Profile extends StatefulWidget {
   const Profile({super.key,required this.model});
@@ -344,13 +345,15 @@ class CVHistory extends StatefulWidget {
 }
 
 class CVHistoryState extends State<CVHistory> {
-  List<Widget> list = [];
+  List<RawImage> list = [];
 
   @override
   void initState() {
     FileApi.getFiles().then((value) {
       for (var element in value!) {
-        list.add(add(element.filename));
+        paint_.decodeImageFromPixels(element.cover,20,20,paint_.PixelFormat.rgba8888, (result) {list.add(RawImage(image: result,)); setState(() {
+          
+        });});
       }
         setState(() {
       });
@@ -387,8 +390,42 @@ class CVHistoryState extends State<CVHistory> {
             children: [
               ...list,
             ], 
-        )
+        ) 
       )
     );
+  }
+}
+
+class UIImage extends StatelessWidget {
+  final paint_.Image image;
+
+  const UIImage({
+    required this.image,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomPaint(painter: _UIImagePainter(image));
+  }
+}
+
+class _UIImagePainter extends CustomPainter {
+  final paint_.Image image;
+
+  _UIImagePainter(this.image);
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    canvas.drawImageRect(
+      image,
+      Rect.fromLTWH(0, 0, image.width.toDouble(), image.height.toDouble()),
+      Rect.fromLTWH(0, 0, size.width, size.height),
+      Paint(),
+    );
+  }
+
+  @override
+  bool shouldRepaint(_UIImagePainter oldDelegate) {
+    return image != oldDelegate.image;
   }
 }
