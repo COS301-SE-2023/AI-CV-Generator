@@ -13,9 +13,9 @@ class Skills extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: StringsSkill.appBarTitle,
-      home: SkillsForm(),
+    return  const Scaffold(
+      
+      body: SkillsForm(),
     );
   }
 }
@@ -80,11 +80,42 @@ class _SkillsFormState extends State<SkillsForm> {
           children: <Widget> [
             Container(
               padding: const EdgeInsets.all(10.0),
-              child: _buildBackButton(),
+              child: SizedBox(
+                width: 140,
+                height: 30,
+                child: ElevatedButton(
+                  onPressed: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const EmploymentDetails())
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.all(10.0),
+                    ),
+                    child: const Text('Back'),
+                )
+              ),
             ),
             Container(
               padding: const EdgeInsets.all(10.0),
-              child: _buildSubmitButton(),
+              child: SizedBox(
+                width: 140,
+                height: 30,
+                child: ElevatedButton(
+                  onPressed: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const References()));
+                    },
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.all(10.0),
+                    ),
+                    child: const Text('Save & Proceed'),
+                )
+              ),
             ),
           ],
         ),

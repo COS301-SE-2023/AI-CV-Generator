@@ -13,9 +13,8 @@ class EmploymentDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: StringsEmployment.appBarTitle,
-      home: EmploymentDetailsForm(),
+    return const Scaffold(
+      body: EmploymentDetailsForm(),
     );
   }
 }
@@ -81,11 +80,37 @@ class _EmploymentDetailsFormState extends State<EmploymentDetailsForm> {
           children: <Widget> [
             Container(
               padding: const EdgeInsets.all(10.0),
-              child: _buildBackButton(),
+              child: SizedBox(
+                width: 140,
+                height: 30,
+                child: ElevatedButton(
+                  onPressed: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const QualificationsDetailsForm()));
+                    },
+                    child: const Text('Back'),
+                )
+              ),
             ),
             Container(
               padding: const EdgeInsets.all(10.0),
-              child: _buildSubmitButton(),
+              child: SizedBox(
+                width: 140,
+                height: 30,
+                child: ElevatedButton(
+                  onPressed: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const Skills()
+                          )
+                        );
+                    },
+                    child: const Text('Save & Proceed'),
+                )
+              ),
             ),
           ],
         ),
@@ -117,6 +142,7 @@ class _EmploymentDetailsFormState extends State<EmploymentDetailsForm> {
       padding: const EdgeInsets.all(8.0),
       constraints: BoxConstraints.tight(const Size(550,65)),
       child: TextFormField(
+        key: const Key("Company input"),
         controller: company1,
         decoration: const InputDecoration(
           contentPadding: EdgeInsets.all(5.0),
@@ -140,6 +166,7 @@ class _EmploymentDetailsFormState extends State<EmploymentDetailsForm> {
       padding: const EdgeInsets.all(8.0),
       constraints: BoxConstraints.tight(const Size(550,65)),
       child: TextFormField(
+        key: const Key("Job Title input"),
         controller: jobTitle1,
         decoration: const InputDecoration(
           contentPadding: EdgeInsets.all(5.0),

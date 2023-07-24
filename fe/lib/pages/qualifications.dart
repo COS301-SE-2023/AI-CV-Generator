@@ -14,9 +14,11 @@ class QualificationsDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: StringsQualifications.appBarTitle,
-      home: QualificationsDetailsForm(),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(StringsQualifications.appBarTitle)
+      ),
+      body:const QualificationsDetailsForm(),
     );
   }
 }
@@ -67,11 +69,37 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
           children: <Widget> [
             Container(
               padding: const EdgeInsets.all(10.0),
-              child: _buildBackButton(),
+              child: SizedBox(
+                width: 140,
+                height: 30,
+                child: ElevatedButton(
+                  onPressed: () {
+                      Navigator.pushReplacement(
+                        context,
+                          MaterialPageRoute(
+                          builder: (context) =>  PersonalDetails())
+                        );
+                    },
+                    child: const Text('Back'),
+                )
+              ),
             ),
             Container(
               padding: const EdgeInsets.all(10.0),
-              child: _buildSubmitButton(),
+              child: SizedBox(
+                width: 140,
+                height: 30,
+                child: ElevatedButton(
+                  onPressed: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const EmploymentDetails())
+                        );
+                    },
+                    child: const Text('Save & Proceed'),
+                )
+              )
             ),
           ],
         ),
@@ -114,6 +142,7 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
       padding: const EdgeInsets.all(8.0),
       constraints: BoxConstraints.tight(const Size(550,65)),
       child: TextFormField(
+        key: const Key("Institution input"),
         controller: institution1,
         decoration: const InputDecoration(
           contentPadding: EdgeInsets.all(5.0),
@@ -137,6 +166,7 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
       padding: const EdgeInsets.all(8.0),
       constraints: BoxConstraints.tight(const Size(550,65)),
       child: TextFormField(
+        key: const Key("Qualification input"),
         controller: qualification1,
         decoration: const InputDecoration(
           contentPadding: EdgeInsets.all(5.0),
@@ -161,6 +191,7 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
       padding: const EdgeInsets.all(8.0),
       constraints: BoxConstraints.tight(const Size(550,65)),
       child: DateTimeFormField(
+        key: const Key("Graduation input"),
         //controller: _timeController1,
         decoration: const InputDecoration(
           border: OutlineInputBorder(),
