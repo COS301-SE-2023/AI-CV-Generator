@@ -15,6 +15,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -33,12 +34,12 @@ public class SecureConf {
                             public void customize(CsrfConfigurer<HttpSecurity> httpSecurityCsrfConfigurer) {
                                 if (false) {
                                     httpSecurityCsrfConfigurer.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+                                    httpSecurityCsrfConfigurer.csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler());
                                 } else {
                                     httpSecurityCsrfConfigurer.disable();
                                 }
                             }
-                        }
-                )
+                        }                )
                 .cors(new Customizer<CorsConfigurer<HttpSecurity>>() {
                     @Override
                     public void customize(CorsConfigurer<HttpSecurity> httpSecurityCorsConfigurer) {
@@ -46,47 +47,38 @@ public class SecureConf {
                     }
                 })
                 .authorizeHttpRequests(
-                        new Customizer<AuthorizeHttpRequestsConfigurer<org.springframework.security.config.annotation.web.builders.HttpSecurity>.AuthorizationManagerRequestMatcherRegistry>() {
-                            @Override
-                            public void customize(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry authorizationManagerRequestMatcherRegistry) {
+                        (authorizationManagerRequestMatcherRegistry) ->
                                 authorizationManagerRequestMatcherRegistry
                                         .requestMatchers("/api/auth/**","/share/**","/csrf")
                                         .permitAll()
                                         .anyRequest()
-                                        .authenticated();
-                            }
-                        }
+                                        .authenticated()
                 )
-                .sessionManagement(new Customizer<SessionManagementConfigurer<HttpSecurity>>() {
-                    @Override
-                    public void customize(SessionManagementConfigurer<HttpSecurity> httpSecuritySessionManagementConfigurer) {
-                        httpSecuritySessionManagementConfigurer
-                                .sessionCreationPolicy(
-                                        SessionCreationPolicy.STATELESS
-                                );
-                    }
-                })
+                .sessionManagement(
+                        (httpSecuritySessionManagementConfigurer) ->
+                            httpSecuritySessionManagementConfigurer.sessionCreationPolicy(
+                                    SessionCreationPolicy.STATELESS
+                            )
+                )
                 .authenticationProvider(
                     authProvider
                 )
                 .addFilterBefore(
                         authentificationFilter, UsernamePasswordAuthenticationFilter.class
                 )
-                .logout(new Customizer<LogoutConfigurer<HttpSecurity>>() {
-                    @Override
-                    public void customize(LogoutConfigurer<HttpSecurity> httpSecurityLogoutConfigurer) {
-                        httpSecurityLogoutConfigurer.addLogoutHandler(
-                                logoutHandler
-                        )
-                                .logoutSuccessHandler(
-                                        (
-                                                (request, response, authentication) ->
-                                                        SecurityContextHolder.clearContext()
-                                        )
+                .logout(
+                        (httpSecurityLogoutConfigurer) ->
+                                httpSecurityLogoutConfigurer.addLogoutHandler(
+                                        logoutHandler
                                 )
-                                .logoutUrl("/api/auth/logout");
-                    }
-                });
+                                        .logoutSuccessHandler(
+                                                (
+                                                        (request, response, authentication) ->
+                                                                SecurityContextHolder.clearContext()
+                                                )
+                                        )
+                                        .logoutUrl("/api/auth/logout")
+                );
 
         return httpSecure.build();
     }
