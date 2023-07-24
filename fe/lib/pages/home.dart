@@ -72,6 +72,7 @@ class _HomeState extends State<Home> {
             },
             child: Text("ABOUT", style: TextStyle(color: Colors.black)),
           ),
+          SizedBox(width: 100,),
           IconButton(
             onPressed: () async {
               if (model != null) {
