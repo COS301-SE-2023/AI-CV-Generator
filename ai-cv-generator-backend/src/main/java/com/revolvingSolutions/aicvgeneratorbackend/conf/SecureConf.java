@@ -43,8 +43,7 @@ public class SecureConf {
                                     httpSecurityCsrfConfigurer.disable();
                                 }
                             }
-                        }
-                )
+                        }                )
                 .cors(new Customizer<CorsConfigurer<HttpSecurity>>() {
                     @Override
                     public void customize(CorsConfigurer<HttpSecurity> httpSecurityCorsConfigurer) {
