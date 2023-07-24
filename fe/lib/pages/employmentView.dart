@@ -1,6 +1,7 @@
 import 'package:ai_cv_generator/dio/client/userApi.dart';
 import 'package:flutter/material.dart';
 import 'package:ai_cv_generator/models/user/Employment.dart';
+import 'elements/elements.dart';
 
 class EmploymentSection extends StatefulWidget {
   List<Employment> employment;
@@ -13,6 +14,7 @@ class EmploymentSection extends StatefulWidget {
 class EmploymentSectionState extends State<EmploymentSection> {
   final blankEmployment = Employment(title: '', company: '', startdate: DateTime.now(), empid: 0, enddate: DateTime.now());
   Map employmentMap = {};
+  bool editing = false;
 
   @override
   void initState() {
@@ -41,21 +43,13 @@ class EmploymentSectionState extends State<EmploymentSection> {
     employmentMap[info.empid]['widget'] = (
       Column(
         children: [
-          const SizedBox(height: 16,),
+          SizedBox(height: 4,),
           EmploymentField(
             titleC: employmentMap[info.empid]['title'],
             companyC: employmentMap[info.empid]['company'],
             dateC: employmentMap[info.empid]['date'],
             ),
-          const SizedBox(height: 16,),
-          Align(
-            alignment: Alignment.topRight,
-            child: OutlinedButton(
-              onPressed: (){
-                remove(info.empid);
-              }, 
-              child: const Text('-'),),
-          )
+          SizedBox(height: 4,),
         ],
       )
     );
@@ -118,21 +112,53 @@ class EmploymentSectionState extends State<EmploymentSection> {
     List<Widget> linkWidgets = [];
     employmentMap.forEach((key, value) {
       linkWidgets.add(employmentMap[key]['widget']);
+      if(editing == true) {
+        linkWidgets.add(
+          Align(
+            alignment: Alignment.topRight,
+            child: IconButton(
+              onPressed: (){
+                remove(key);
+              }, 
+              icon: Icon(Icons.remove)),
+          ),
+        );
+        linkWidgets.add(SizedBox(height: 4,),);
+      }
     });
     return linkWidgets;
   }
 
+  edit() {
+    setState(() {
+      editing = !editing;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ...populate(),
-        const SizedBox(height: 8,),
-        OutlinedButton(onPressed: (){
-          add();
-        }, child: const Text('+')),
-        const SizedBox(height: 16,),
-      ],
+    return SectionContainer(
+      child: Column(
+        children: [
+          SectionHeadingBar(
+            children: [
+              SectionHeading(text: "WORK EXPERIENCE",),
+            ],
+            actions: [
+              IconButton(onPressed: () {
+                if(editing == false) {
+                  add();
+                }
+              }, icon: Icon(Icons.add)),
+              IconButton(onPressed: () {
+                  edit();
+              }, icon: Icon(Icons.edit)),
+            ],
+          ),
+          SizedBox(height: 16,),
+          ...populate(),
+        ]
+      )
     );
   }
 }
@@ -174,8 +200,8 @@ void initState() {
           child: TextFormField(
           controller: widget.titleC,
           textAlign: TextAlign.center,
-          decoration: const InputDecoration(
-            hintText: "Title",
+          decoration: InputDecoration(
+            hintText: "Position Held",
             border: OutlineInputBorder(),
             ),
           ),
