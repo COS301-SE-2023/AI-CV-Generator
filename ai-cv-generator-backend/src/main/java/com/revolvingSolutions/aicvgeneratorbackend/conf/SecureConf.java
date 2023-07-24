@@ -1,9 +1,9 @@
 package com.revolvingSolutions.aicvgeneratorbackend.conf;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -15,6 +15,11 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
@@ -31,8 +36,9 @@ public class SecureConf {
                         new Customizer<CsrfConfigurer<HttpSecurity>>() {
                             @Override
                             public void customize(CsrfConfigurer<HttpSecurity> httpSecurityCsrfConfigurer) {
-                                if (false) {
+                                if (true) {
                                     httpSecurityCsrfConfigurer.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+                                    httpSecurityCsrfConfigurer.csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler());
                                 } else {
                                     httpSecurityCsrfConfigurer.disable();
                                 }
@@ -42,51 +48,55 @@ public class SecureConf {
                 .cors(new Customizer<CorsConfigurer<HttpSecurity>>() {
                     @Override
                     public void customize(CorsConfigurer<HttpSecurity> httpSecurityCorsConfigurer) {
-
+                        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+                        CorsConfiguration configuration = new CorsConfiguration();
+                        configuration.setMaxAge(3600L);
+                        configuration.setAllowedMethods(
+                                Arrays.asList(
+                                        HttpMethod.GET.name(),
+                                        HttpMethod.POST.name(),
+                                        HttpMethod.PUT.name(),
+                                        HttpMethod.OPTIONS.name()
+                                )
+                        );
+                        configuration.addAllowedOriginPattern("http://localhost:**");
+                        source.registerCorsConfiguration("/**",configuration);
+                        httpSecurityCorsConfigurer.configurationSource(source);
                     }
                 })
                 .authorizeHttpRequests(
-                        new Customizer<AuthorizeHttpRequestsConfigurer<org.springframework.security.config.annotation.web.builders.HttpSecurity>.AuthorizationManagerRequestMatcherRegistry>() {
-                            @Override
-                            public void customize(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry authorizationManagerRequestMatcherRegistry) {
+                        (authorizationManagerRequestMatcherRegistry) ->
                                 authorizationManagerRequestMatcherRegistry
                                         .requestMatchers("/api/auth/**","/share/**","/csrf")
                                         .permitAll()
                                         .anyRequest()
-                                        .authenticated();
-                            }
-                        }
+                                        .authenticated()
                 )
-                .sessionManagement(new Customizer<SessionManagementConfigurer<HttpSecurity>>() {
-                    @Override
-                    public void customize(SessionManagementConfigurer<HttpSecurity> httpSecuritySessionManagementConfigurer) {
-                        httpSecuritySessionManagementConfigurer
-                                .sessionCreationPolicy(
-                                        SessionCreationPolicy.STATELESS
-                                );
-                    }
-                })
+                .sessionManagement(
+                        (httpSecuritySessionManagementConfigurer) ->
+                            httpSecuritySessionManagementConfigurer.sessionCreationPolicy(
+                                    SessionCreationPolicy.STATELESS
+                            )
+                )
                 .authenticationProvider(
                     authProvider
                 )
                 .addFilterBefore(
                         authentificationFilter, UsernamePasswordAuthenticationFilter.class
                 )
-                .logout(new Customizer<LogoutConfigurer<HttpSecurity>>() {
-                    @Override
-                    public void customize(LogoutConfigurer<HttpSecurity> httpSecurityLogoutConfigurer) {
-                        httpSecurityLogoutConfigurer.addLogoutHandler(
-                                logoutHandler
-                        )
-                                .logoutSuccessHandler(
-                                        (
-                                                (request, response, authentication) ->
-                                                        SecurityContextHolder.clearContext()
-                                        )
+                .logout(
+                        (httpSecurityLogoutConfigurer) ->
+                                httpSecurityLogoutConfigurer.addLogoutHandler(
+                                        logoutHandler
                                 )
-                                .logoutUrl("/api/auth/logout");
-                    }
-                });
+                                        .logoutSuccessHandler(
+                                                (
+                                                        (request, response, authentication) ->
+                                                                SecurityContextHolder.clearContext()
+                                                )
+                                        )
+                                        .logoutUrl("/api/auth/logout")
+                );
 
         return httpSecure.build();
     }
