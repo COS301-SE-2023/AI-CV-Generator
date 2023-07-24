@@ -1,6 +1,7 @@
 import 'package:ai_cv_generator/api/DownloadService.dart';
 import 'package:ai_cv_generator/dio/client/fileApi.dart';
 import 'package:ai_cv_generator/api/pdfApi.dart';
+import 'package:ai_cv_generator/pages/about.dart';
 import 'package:ai_cv_generator/pages/navdrawer.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +23,18 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   Map data = {};
+  UserModel? model;
   TextEditingController searchC = TextEditingController();
+
+  @override
+  void initState() {
+    userApi.getUser().then((value) {
+      model = value;
+    });
+    super.initState();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
@@ -52,13 +64,19 @@ class _HomeState extends State<Home> {
               // ),
             ),
           ),
-
+          TextButton(
+            onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (c)=>  AboutPage())
+              );
+            },
+            child: Text("ABOUT", style: TextStyle(color: Colors.black)),
+          ),
           IconButton(
             onPressed: () async {
-              UserModel? mode = await userApi.getUser();
-              if (mode != null) {
+              if (model != null) {
                 Navigator.of(context).push(
-                MaterialPageRoute(builder: (c)=>  Profile(model: mode,))
+                MaterialPageRoute(builder: (c)=>  Profile(model: model!,))
               );
               }
             }, 
