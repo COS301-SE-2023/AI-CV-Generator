@@ -11,26 +11,21 @@ import 'qualificationsView.dart';
 import 'elements/elements.dart';
 
 class Profile extends StatefulWidget {
-  Profile({super.key,required this.model});
-  UserModel model;
+  Profile({super.key});
 
   @override
-  ProfileState createState() => ProfileState(model: model);
+  ProfileState createState() => ProfileState();
 }
 
 bool isEditingEnabled = false;
 
 class ProfileState extends State<Profile> {
   final _formKey = GlobalKey<FormState>();
-  UserModel model;
-
-  ProfileState({
-    required this.model
-  });
+  
 
   @override
   Widget build(BuildContext context) {
-    
+    UserModel model = ModalRoute.of(context)!.settings.arguments as UserModel;
     TextEditingController fnameC = TextEditingController(text: model.fname);
     TextEditingController lnameC = TextEditingController(text: model.lname);
     TextEditingController emailC = TextEditingController(text: model.email);

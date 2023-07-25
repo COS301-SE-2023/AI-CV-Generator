@@ -16,7 +16,6 @@ import 'package:ai_cv_generator/pages/shareCV.dart';
 class Home extends StatefulWidget {
   const Home({super.key});
 
-
   @override
   _HomeState createState() => _HomeState();
 }
@@ -76,9 +75,7 @@ class _HomeState extends State<Home> {
           IconButton(
             onPressed: () async {
               if (model != null) {
-                Navigator.of(context).push(
-                MaterialPageRoute(builder: (c)=>  Profile(model: model!,))
-              );
+                Navigator.pushNamed(context, '/profile', arguments: model);
               }
             }, 
             icon: const Icon(Icons.account_circle)
