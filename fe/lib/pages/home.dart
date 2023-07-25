@@ -4,6 +4,7 @@ import 'package:ai_cv_generator/api/pdfApi.dart';
 import 'package:ai_cv_generator/pages/navdrawer.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:pdfx/pdfx.dart';
 import '../models/user/UserModel.dart';
 import 'package:ai_cv_generator/dio/client/userApi.dart';
@@ -70,7 +71,7 @@ class _HomeState extends State<Home> {
           IconButton(
             onPressed: () async {
               model = await userApi.getUser();
-              Image image = await FileApi.getProfileImage();
+              Image? image = await FileApi.getProfileImage();
               if (model != null && image != null) {
                 Navigator.pushNamed(context, '/profile', arguments: 
                 {

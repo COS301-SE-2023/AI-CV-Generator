@@ -1,13 +1,17 @@
+import 'dart:typed_data';
+
 import 'package:ai_cv_generator/dio/client/fileApi.dart';
 import 'package:ai_cv_generator/dio/client/userApi.dart';
 import 'package:ai_cv_generator/models/user/Employment.dart';
 import 'package:ai_cv_generator/models/user/UserModel.dart';
 import 'package:ai_cv_generator/pages/elements/elements.dart';
 import 'package:ai_cv_generator/pages/employmentView.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'pdf_window.dart';
 import 'linksView.dart';
 import 'qualificationsView.dart';
+import 'package:image_picker_web/image_picker_web.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -20,7 +24,6 @@ bool isEditingEnabled = false;
 
 class ProfileState extends State<Profile> {
   final _formKey = GlobalKey<FormState>();
-
   
 
   @override
@@ -28,8 +31,7 @@ class ProfileState extends State<Profile> {
     Map map = ModalRoute.of(context)!.settings.arguments as Map<String,dynamic>;
 
     UserModel model = map["model"];
-    Image image = map["image"];
-
+    Image? image = map["image"];
     TextEditingController fnameC = TextEditingController(text: model.fname);
     TextEditingController lnameC = TextEditingController(text: model.lname);
     TextEditingController emailC = TextEditingController(text: model.email);
@@ -69,6 +71,13 @@ class ProfileState extends State<Profile> {
     phoneNoC.addListener(update);
     locationC.addListener(update);
     descripC.addListener(update);
+
+    void updateImage(Image img) {
+    setState ((){ 
+          image = Image(image:img.image );
+        
+      });
+}
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -141,13 +150,25 @@ class ProfileState extends State<Profile> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               InkWell(
-                                child: Container(
+                                child: SizedBox(
                                   width: 110,
                                   height: 110,
-                                  child: Image(image: image.image),
+                                  child: image,
                                 ),
-                                onTap: () {
-                                  
+                                onTap: () async {
+                                  final imgByte =  await ImagePickerWeb.getImageAsBytes();
+                                  final changed = await FileApi.updateProfileImage(img: imgByte!);
+                                  image = changed;
+                                  Navigator.popAndPushNamed(
+                                   context, '/profile', arguments: 
+                                      {
+                                        "model": model,
+                                        "image": image
+                                      }
+                                  );
+                                  setState(() {
+                                    
+                                  });
                                 },
                               )
                               ,
@@ -182,7 +203,31 @@ class ProfileState extends State<Profile> {
       )
     );
   }
-}
+  
+  InkWell widget_(Image? image) {
+    return 
+      InkWell(
+          child: Container(
+            width: 110,
+            height: 110,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: image!.image,
+                fit: BoxFit.cover,
+              ),
+            )),
+          onTap: () async {
+            final imgByte =  await ImagePickerWeb.getImageAsBytes();
+            final changed = await FileApi.updateProfileImage(img: imgByte!);
+            image = changed;
+            
+            setState(() {
+              
+            });
+          },
+        );
+    }
+  }
 
 class SectionInput extends StatefulWidget {
   final Widget inputWidget;

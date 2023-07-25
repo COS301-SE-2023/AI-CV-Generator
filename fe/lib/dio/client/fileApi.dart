@@ -47,30 +47,29 @@ class FileApi extends DioClient {
     return null;
   }
 
-  static Future<Image> getProfileImage() async {
-    
-    await Dio().get(
+  static Future<Image?> getProfileImage() async {
+    Image? image = Image.asset('assets/images/NicePng_watsapp-icon-png_9332131.png');
+    await DioClient.dio.get(
       'api/User/profimg',
       options: Options(
           responseType: ResponseType.bytes
       )
     ).then((value) {
       Uint8List data = Uint8List.fromList(value.data.toList() as List<int>);
-      return Image.memory(data);
-    }).catchError(() {
-      
+      image = Image.memory(data);
     });
-    return Image.asset('assets/images/NicePng_watsapp-icon-png_9332131.png');
+    return image;
     
   }
 
   static Future<Image?> updateProfileImage({
-    required Image img
+    required Uint8List img
   }) async {
+    Image? image = Image.asset('assets/images/NicePng_watsapp-icon-png_9332131.png');
     try {
       FormData formData = FormData.fromMap({
         "img": MultipartFile.fromBytes(
-         img as List<int>
+         img as List<int>, filename: "profimage"
         )
       });
       Response response = await DioClient.dio.post(
@@ -81,11 +80,11 @@ class FileApi extends DioClient {
         )
       );
       Uint8List data = Uint8List.fromList(response.data.toList() as List<int>);
-      return Image.memory(data);
+      image = Image.memory(data);
     } on DioException catch (e) {
       DioClient.handleError(e);
     }
-    return null;
+    return image;
   }
 
   static Future<List<FileModel>?> getFiles() async {

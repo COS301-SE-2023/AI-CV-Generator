@@ -49,6 +49,7 @@ dependencies:
   printing: ^5.11.0
   intl: ^0.18.1
   url_launcher_web: ^2.0.17
+  image_picker_web: ^3.0.0+1
 
 dev_dependencies:
   flutter_test:
