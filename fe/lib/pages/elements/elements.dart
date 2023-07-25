@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 Color backdrop = Colors.grey.withOpacity(0.1);
 const double profileButtonSize = 32.0;
+const primaryColour = const Color(0xFFFDA187);
 const secondaryColour = Color(0xFFEA6D79);
 
 ThemeData mainTheme = ThemeData(
   primaryColor: const Color(0xFFFDA187),
-  appBarTheme: const AppBarTheme(color: Color(0xFFFDA187)),
+  appBarTheme: const AppBarTheme(color: secondaryColour),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ButtonStyle(
-      backgroundColor: MaterialStateProperty.all(secondaryColour),
+      backgroundColor: MaterialStateProperty.all(primaryColour),
     ),
   ),
 );

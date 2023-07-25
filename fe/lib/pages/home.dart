@@ -180,10 +180,10 @@ class GenerateState extends State<Generate> {
         children: [
           Row(
             children: [
-              Expanded(
-                flex: 1,
+              Container(
                 child: Container(
-                  color: Colors.grey, height:40, 
+                  height: 40,
+                  width: 100, 
                   child: ElevatedButton(
                     onPressed: () async {
                       uploadFile = await pdfAPI.pick_cvfile();
@@ -197,12 +197,11 @@ class GenerateState extends State<Generate> {
                   ),
                 )
               ),
-              const SizedBox(width: 8,),
-              Expanded(
-                flex: 1,
+              const SizedBox(width: 43,),
+              Container(
                 child: Container(
-                  color: Colors.grey,
-                  height:40,
+                  height: 40,
+                  width: 100,
                   child: ElevatedButton(
                     onPressed: () {
                       if(uploadFile != null) {
@@ -235,13 +234,13 @@ class GenerateState extends State<Generate> {
           const SizedBox(height: 12,),
           if(uploadFile != null)
           Container(
-            color: Colors.grey,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Expanded(
+                Container(
                   child: SizedBox(
                     height:40,
+                    width: 100,
                     child:ElevatedButton(
                       onPressed: (){
 
@@ -250,9 +249,10 @@ class GenerateState extends State<Generate> {
                     ),
                   )
                 ),
-                Expanded(
+                Container(
                   child: SizedBox(
                     height: 40,
+                    width: 100,
                     child: ElevatedButton(
                       onPressed: () {
                         if (generatedFile != null) {
@@ -263,9 +263,10 @@ class GenerateState extends State<Generate> {
                     ),
                   ),
                 ),
-                Expanded(
+                Container(
                   child: SizedBox(
                     height: 40,
+                    width: 100,
                     child: ElevatedButton(
                       onPressed: () {
                         if (generatedFile != null) {
@@ -275,9 +276,10 @@ class GenerateState extends State<Generate> {
                     ),
                   ),
                 ),
-                Expanded(
+                Container(
                   child: SizedBox(
                     height: 40,
+                    width: 100,
                     child: ElevatedButton(
                       onPressed: () {
                         if(generatedFile != null) {
