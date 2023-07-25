@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 Color backdrop = Colors.grey.withOpacity(0.1);
-const double? profileButtonSize = 32.0;
+const double profileButtonSize = 32.0;
 const secondaryColour = Color(0xFFEA6D79);
 
 ThemeData mainTheme = ThemeData(
-  primaryColor: Color(0xFFFDA187),
-  appBarTheme: AppBarTheme(color: Color(0xFFFDA187)),
+  primaryColor: const Color(0xFFFDA187),
+  appBarTheme: const AppBarTheme(color: Color(0xFFFDA187)),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ButtonStyle(
       backgroundColor: MaterialStateProperty.all(secondaryColour),
@@ -37,7 +37,7 @@ class SectionHeadingState extends State<SectionHeading> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
           ],
         )
       )
@@ -47,7 +47,7 @@ class SectionHeadingState extends State<SectionHeading> {
 
 class SectionContainer extends StatefulWidget {
   final child;
-  SectionContainer({super.key, required this.child});
+  const SectionContainer({super.key, required this.child});
 
   @override
   SectionContainerState createState() => SectionContainerState();
@@ -57,7 +57,7 @@ class SectionContainerState extends State<SectionContainer> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 48, vertical: 24),
+      padding: const EdgeInsets.symmetric(horizontal: 48, vertical: 24),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         color: backdrop
@@ -69,7 +69,7 @@ class SectionContainerState extends State<SectionContainer> {
 
 class SectionTextFormField extends StatefulWidget {
   final child;
-  SectionTextFormField({super.key, required this.child});
+  const SectionTextFormField({super.key, required this.child});
 
   @override
   SectionTextFormFieldState createState() => SectionTextFormFieldState();

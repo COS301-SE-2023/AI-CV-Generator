@@ -19,10 +19,9 @@ class QualificationsSectionState extends State<QualificationsSection> {
 
   @override
   void initState() {
-    widget.qualifications.forEach((element) {
+    for (var element in widget.qualifications) {
       display(element);
      }
-    );
     super.initState();
   }
 
@@ -43,13 +42,13 @@ class QualificationsSectionState extends State<QualificationsSection> {
     qualificationsMap[info.quaid]['widget'] = (
       Column(
         children: [
-          SizedBox(height: 4,),
+          const SizedBox(height: 4,),
           QualificationsField(
             qualificationC: qualificationsMap[info.quaid]['qualification'],
             intstitutionC: qualificationsMap[info.quaid]['intstitution'],
             dateC: qualificationsMap[info.quaid]['date'],
             ),
-          SizedBox(height: 4,),
+          const SizedBox(height: 4,),
         ],
       )
     );
@@ -127,10 +126,10 @@ class QualificationsSectionState extends State<QualificationsSection> {
               onPressed: (){
                 remove(key);
               }, 
-              icon: Icon(Icons.remove)),
+              icon: const Icon(Icons.remove)),
           ),
         );
-        linkWidgets.add(SizedBox(height: 4,),);
+        linkWidgets.add(const SizedBox(height: 4,),);
       }
     });
     return linkWidgets;
@@ -148,21 +147,21 @@ class QualificationsSectionState extends State<QualificationsSection> {
       child: Column(
         children: [
           SectionHeadingBar(
-            children: [
-              SectionHeading(text: "EDUCATION",),
-            ],
             actions: [
               IconButton(onPressed: () {
                 if(editing == false) {
                   add();
                 }
-              }, icon: Icon(Icons.add)),
+              }, icon: const Icon(Icons.add)),
               IconButton(onPressed: () {
                   edit();
-              }, icon: Icon(Icons.edit)),
+              }, icon: const Icon(Icons.edit)),
+            ],
+            children: [
+              SectionHeading(text: "EDUCATION",),
             ],
           ),
-          SizedBox(height: 16,),
+          const SizedBox(height: 16,),
           ...populate(),
         ]
       )
@@ -174,7 +173,7 @@ class QualificationsField extends StatefulWidget {
   TextEditingController qualificationC;
   TextEditingController intstitutionC;
   TextEditingController dateC;
-  QualificationsField({required this.qualificationC, required this.intstitutionC, required this.dateC});
+  QualificationsField({super.key, required this.qualificationC, required this.intstitutionC, required this.dateC});
 
   @override
   QualificationsFieldState createState() => QualificationsFieldState();
@@ -192,30 +191,30 @@ class QualificationsFieldState extends State<QualificationsField> {
   Widget build(BuildContext context) {
     return Container(
       // color: Colors.grey,
-      padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 8),
       child: Column(
         children: [
             TextFormField(
-            style: TextStyle(fontSize: 20),
+            style: const TextStyle(fontSize: 20),
             controller: widget.intstitutionC,
             textAlign: TextAlign.right,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               hintText: "INSTITUTION NAME",
               border: InputBorder.none
               ),
             ),
-            SizedBox(width: 8,),
+            const SizedBox(width: 8,),
             TextFormField(
             // style: TextStyle(fontSize: 5),
             controller: widget.qualificationC,
             textAlign: TextAlign.right,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               hintText: "QUALIFICATION NAME",
               hintStyle: TextStyle(fontSize: 15),
               border: InputBorder.none
               ),
             ),
-            SizedBox(width: 8,),
+            const SizedBox(width: 8,),
             GestureDetector(
               onTap: () {
                 setState(() {
@@ -231,7 +230,7 @@ class QualificationsFieldState extends State<QualificationsField> {
                 enabled: false,
                 controller: displayDateC,
                 textAlign: TextAlign.right,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   hintText: "Date",
                   border: InputBorder.none,
                   ),
@@ -294,7 +293,7 @@ class QualificationsFieldState extends State<QualificationsField> {
 }
 
 String dateTimeToString(DateTime start, DateTime end) {
-  return start.toString() + "/" + end.toString();
+  return "$start/$end";
 }
 
 DateTimeRange stringToDateTimeRange(String text) {
@@ -303,7 +302,7 @@ DateTimeRange stringToDateTimeRange(String text) {
 }
 
 String displayDateTimeRange(DateTimeRange dateTimeRange) {
-  return dateTimeRange.start.year.toString() + " - " + dateTimeRange.end.year.toString();
+  return "${dateTimeRange.start.year} - ${dateTimeRange.end.year}";
 }
 
 Future<DateTimeRange?> datePicker(BuildContext context) async {

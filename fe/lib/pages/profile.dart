@@ -8,10 +8,9 @@ import 'package:flutter/material.dart';
 import 'pdf_window.dart';
 import 'linksView.dart';
 import 'qualificationsView.dart';
-import 'elements/elements.dart';
 
 class Profile extends StatefulWidget {
-  Profile({super.key});
+  const Profile({super.key});
 
   @override
   ProfileState createState() => ProfileState();
@@ -83,7 +82,7 @@ class ProfileState extends State<Profile> {
       actions: [
         IconButton(onPressed: () {}, 
         icon: const Icon(Icons.account_circle, size: profileButtonSize,)),
-        SizedBox(width: 16,)
+        const SizedBox(width: 16,)
       ],
       ),
       body: SafeArea(
@@ -105,7 +104,7 @@ class ProfileState extends State<Profile> {
                             child: Column(
                               children: [
                                 SectionHeading(text: "ABOUT ME", alignment: Alignment.topLeft,),
-                                SectionInput(inputWidget: TextFormField(controller: descripC, maxLines: 5, style: TextStyle(fontSize: 16), decoration: const InputDecoration(border: OutlineInputBorder(), hintText: "INSERT A DESCRIPTION ABOUT YOURSELF"),),),
+                                SectionInput(inputWidget: TextFormField(controller: descripC, maxLines: 5, style: const TextStyle(fontSize: 16), decoration: const InputDecoration(border: OutlineInputBorder(), hintText: "INSERT A DESCRIPTION ABOUT YOURSELF"),),),
                               ],
                             ),
                           ),
@@ -138,7 +137,7 @@ class ProfileState extends State<Profile> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               IconButton(
-                                icon: Icon(Icons.account_circle, size: 128,),
+                                icon: const Icon(Icons.account_circle, size: 128,),
                                 onPressed: () {
                                   
                                 },
@@ -149,11 +148,11 @@ class ProfileState extends State<Profile> {
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    SectionInput(inputWidget: TextFormField(controller: fnameC, textAlign: TextAlign.right, style: TextStyle(fontSize: 20), decoration: const InputDecoration(border: InputBorder.none, hintStyle: TextStyle(fontSize: 16), hintText: "INSERT FIRSTNAME"),),),
-                                    SectionInput(inputWidget: TextFormField(controller: lnameC, textAlign: TextAlign.right, style: TextStyle(fontSize: 20), decoration: const InputDecoration(border: InputBorder.none, hintStyle: TextStyle(fontSize: 16), hintText: "INSERT LASTNAME"),),),
-                                    SectionInput(inputWidget: TextFormField(controller: emailC, textAlign: TextAlign.right, style: TextStyle(fontSize: 20), decoration: const InputDecoration(border: InputBorder.none, hintStyle: TextStyle(fontSize: 16), hintText: "INSERT EMAIL"),),),
-                                    SectionInput(inputWidget: TextFormField(controller: locationC, textAlign: TextAlign.right, style: TextStyle(fontSize: 20), decoration: const InputDecoration(border: InputBorder.none, hintStyle: TextStyle(fontSize: 16), hintText: "INSERT ADDRESS"),),),
-                                    SectionInput(inputWidget: TextFormField(controller: phoneNoC, textAlign: TextAlign.right, style: TextStyle(fontSize: 20), decoration: const InputDecoration(border: InputBorder.none, hintStyle: TextStyle(fontSize: 16), hintText: "INSERT PHONENUMBER"),),),
+                                    SectionInput(inputWidget: TextFormField(controller: fnameC, textAlign: TextAlign.right, style: const TextStyle(fontSize: 20), decoration: const InputDecoration(border: InputBorder.none, hintStyle: TextStyle(fontSize: 16), hintText: "INSERT FIRSTNAME"),),),
+                                    SectionInput(inputWidget: TextFormField(controller: lnameC, textAlign: TextAlign.right, style: const TextStyle(fontSize: 20), decoration: const InputDecoration(border: InputBorder.none, hintStyle: TextStyle(fontSize: 16), hintText: "INSERT LASTNAME"),),),
+                                    SectionInput(inputWidget: TextFormField(controller: emailC, textAlign: TextAlign.right, style: const TextStyle(fontSize: 20), decoration: const InputDecoration(border: InputBorder.none, hintStyle: TextStyle(fontSize: 16), hintText: "INSERT EMAIL"),),),
+                                    SectionInput(inputWidget: TextFormField(controller: locationC, textAlign: TextAlign.right, style: const TextStyle(fontSize: 20), decoration: const InputDecoration(border: InputBorder.none, hintStyle: TextStyle(fontSize: 16), hintText: "INSERT ADDRESS"),),),
+                                    SectionInput(inputWidget: TextFormField(controller: phoneNoC, textAlign: TextAlign.right, style: const TextStyle(fontSize: 20), decoration: const InputDecoration(border: InputBorder.none, hintStyle: TextStyle(fontSize: 16), hintText: "INSERT PHONENUMBER"),),),
                                   ],
                                 ),
                               )

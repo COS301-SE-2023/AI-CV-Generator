@@ -1,7 +1,8 @@
-import 'package:ai_cv_generator/pages/navdrawer.dart';
 import 'package:flutter/material.dart';
 
 class AboutPage extends StatefulWidget {
+  const AboutPage({super.key});
+
   @override
   AboutPageState createState() => AboutPageState();
 }
@@ -24,7 +25,7 @@ class AboutPageState extends State<AboutPage> {
       actions: [
         IconButton(onPressed: () {}, 
         icon: const Icon(Icons.account_circle, size: 32,)),
-        SizedBox(width: 16,)
+        const SizedBox(width: 16,)
       ],
       ),
       body: SafeArea(
@@ -33,21 +34,21 @@ class AboutPageState extends State<AboutPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text("ABOUT US", style: TextStyle(fontSize: 60),),
-            SizedBox(height: 24,),
+            const Text("ABOUT US", style: TextStyle(fontSize: 60),),
+            const SizedBox(height: 24,),
             Container(
               decoration: BoxDecoration(
                 color: Colors.grey.withOpacity(0.2),
               ),
-              padding: EdgeInsets.all(24),
+              padding: const EdgeInsets.all(24),
               
               width: 600,
-              child: Text(
+              child: const Text(
                 style: TextStyle(fontSize: 18), 
                 "A challenge for job seekers in South Africa is the creation of an effective CV, cover letter, or email that can make them stand out to potential employers. Many job seekers lack the necessary knowledge and skills to craft high-quality job application documents that highlight their strengths and experiences. The AI CV Generator aims to aid job seekers in creating appealing job application documents that will increase their chances of acquiring a job."
               ),
             ),
-            SizedBox(height: 200,),
+            const SizedBox(height: 200,),
           ],
         ),
       ))

@@ -43,13 +43,13 @@ class EmploymentSectionState extends State<EmploymentSection> {
     employmentMap[info.empid]['widget'] = (
       Column(
         children: [
-          SizedBox(height: 4,),
+          const SizedBox(height: 4,),
           EmploymentField(
             titleC: employmentMap[info.empid]['title'],
             companyC: employmentMap[info.empid]['company'],
             dateC: employmentMap[info.empid]['date'],
             ),
-          SizedBox(height: 4,),
+          const SizedBox(height: 4,),
         ],
       )
     );
@@ -120,10 +120,10 @@ class EmploymentSectionState extends State<EmploymentSection> {
               onPressed: (){
                 remove(key);
               }, 
-              icon: Icon(Icons.remove)),
+              icon: const Icon(Icons.remove)),
           ),
         );
-        linkWidgets.add(SizedBox(height: 4,),);
+        linkWidgets.add(const SizedBox(height: 4,),);
       }
     });
     return linkWidgets;
@@ -141,21 +141,21 @@ class EmploymentSectionState extends State<EmploymentSection> {
       child: Column(
         children: [
           SectionHeadingBar(
-            children: [
-              SectionHeading(text: "WORK EXPERIENCE",),
-            ],
             actions: [
               IconButton(onPressed: () {
                 if(editing == false) {
                   add();
                 }
-              }, icon: Icon(Icons.add)),
+              }, icon: const Icon(Icons.add)),
               IconButton(onPressed: () {
                   edit();
-              }, icon: Icon(Icons.edit)),
+              }, icon: const Icon(Icons.edit)),
+            ],
+            children: [
+              SectionHeading(text: "WORK EXPERIENCE",),
             ],
           ),
-          SizedBox(height: 16,),
+          const SizedBox(height: 16,),
           ...populate(),
         ]
       )
@@ -200,7 +200,7 @@ void initState() {
           child: TextFormField(
           controller: widget.titleC,
           textAlign: TextAlign.center,
-          decoration: InputDecoration(
+          decoration: const InputDecoration(
             hintText: "Position Held",
             border: OutlineInputBorder(),
             ),

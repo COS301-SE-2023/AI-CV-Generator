@@ -10,7 +10,6 @@ import 'package:ai_cv_generator/models/files/FileModel.dart';
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:pdfx/pdfx.dart';
 import 'package:pdf_render/pdf_render.dart' as render;
 
 class FileApi extends DioClient {
@@ -29,7 +28,7 @@ class FileApi extends DioClient {
         file.bytes as List<int>, filename: file.name,
       ),
       "cover": MultipartFile.fromBytes(
-        imagepage.pixels as List<int>, filename: file.name
+        imagepage.pixels, filename: file.name
       ),
     });
 

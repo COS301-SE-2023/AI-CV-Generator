@@ -1,5 +1,4 @@
 import 'package:ai_cv_generator/dio/client/userApi.dart';
-import 'package:ai_cv_generator/pages/home.dart';
 import 'package:flutter/material.dart';
  
 class RegisterPage extends StatelessWidget {
@@ -9,7 +8,7 @@ class RegisterPage extends StatelessWidget {
  
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
         body: MyStatefulWidget(),
     );
   }

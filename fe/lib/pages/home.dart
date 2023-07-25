@@ -1,13 +1,11 @@
 import 'package:ai_cv_generator/api/DownloadService.dart';
 import 'package:ai_cv_generator/dio/client/fileApi.dart';
 import 'package:ai_cv_generator/api/pdfApi.dart';
-import 'package:ai_cv_generator/pages/about.dart';
 import 'package:ai_cv_generator/pages/navdrawer.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:pdfx/pdfx.dart';
 import '../models/user/UserModel.dart';
-import 'profile.dart';
 import 'package:ai_cv_generator/dio/client/userApi.dart';
 import 'dart:async';
 import 'dart:typed_data';
@@ -43,7 +41,7 @@ class _HomeState extends State<Home> {
 
           Transform.scale(
             scale: 0.8,
-            child: SizedBox(
+            child: const SizedBox(
               width: 400,
               // child: SearchBar(
               //   controller: searchC,
@@ -66,9 +64,9 @@ class _HomeState extends State<Home> {
             onPressed: () {
                 Navigator.pushNamed(context, '/about');
             },
-            child: Text("ABOUT", style: TextStyle(color: Colors.black)),
+            child: const Text("ABOUT", style: TextStyle(color: Colors.black)),
           ),
-          SizedBox(width: 100,),
+          const SizedBox(width: 100,),
           IconButton(
             onPressed: () async {
               model = await userApi.getUser();
@@ -82,26 +80,26 @@ class _HomeState extends State<Home> {
       ),
       body: Center(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 128, vertical: 24),
+          padding: const EdgeInsets.symmetric(horizontal: 128, vertical: 24),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Expanded(
+              const Expanded(
                 flex: 2,
                 child:Templates()
               ),
-              SizedBox(width: 24,),
-              Expanded(
+              const SizedBox(width: 24,),
+              const Expanded(
                 flex: 3,
                 child:Generate(),
               ),
-              SizedBox(width: 24,),
+              const SizedBox(width: 24,),
               Expanded(
                 flex: 2,
                 child: Container(
                   child: Column(
                     children: [
-                      Expanded(
+                      const Expanded(
                         flex: 2,
                         child: PastCVs(),
                       ),
@@ -122,6 +120,8 @@ class _HomeState extends State<Home> {
 }
 
 class Templates extends StatefulWidget {
+  const Templates({super.key});
+
   @override
   TemplatesState createState() => TemplatesState();
 }
@@ -130,9 +130,9 @@ class TemplatesState extends State<Templates> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(24.0),
+      padding: const EdgeInsets.all(24.0),
       color: Colors.grey,
-      child: Align(
+      child: const Align(
         alignment: Alignment.topCenter,
         child: Text("Templates", style: TextStyle(fontSize: 16),),
       ),
@@ -141,6 +141,8 @@ class TemplatesState extends State<Templates> {
 }
 
 class PastCVs extends StatefulWidget {
+  const PastCVs({super.key});
+
   @override
   PastCVsState createState() => PastCVsState();
 }
@@ -149,8 +151,8 @@ class PastCVsState extends State<PastCVs> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(24.0),
-      child: Align(
+      padding: const EdgeInsets.all(24.0),
+      child: const Align(
         alignment: Alignment.bottomCenter,
         child: Text("PastCVs", style: TextStyle(fontSize: 16),),
       ),
@@ -159,6 +161,8 @@ class PastCVsState extends State<PastCVs> {
 }
 
 class Generate extends StatefulWidget {
+  const Generate({super.key});
+
   @override
   GenerateState createState() => GenerateState();
 }
@@ -166,12 +170,12 @@ class Generate extends StatefulWidget {
 class GenerateState extends State<Generate> {
   PlatformFile? uploadFile;
   PlatformFile? generatedFile;
-  TextStyle textStyle = TextStyle(color: Colors.black, fontSize: 12);
+  TextStyle textStyle = const TextStyle(color: Colors.black, fontSize: 12);
   TextEditingController filenameC = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 0),
+      padding: const EdgeInsets.symmetric(horizontal: 0),
       child: Column(
         children: [
           Row(
@@ -193,7 +197,7 @@ class GenerateState extends State<Generate> {
                   ),
                 )
               ),
-              SizedBox(width: 8,),
+              const SizedBox(width: 8,),
               Expanded(
                 flex: 1,
                 child: Container(
@@ -218,7 +222,7 @@ class GenerateState extends State<Generate> {
                   ),
                 )
               ),
-              SizedBox(width: 48,),
+              const SizedBox(width: 48,),
               Expanded(
                 flex: 2,
                 child: Text(
@@ -228,7 +232,7 @@ class GenerateState extends State<Generate> {
               ),
             ],
           ),
-          SizedBox(height: 12,),
+          const SizedBox(height: 12,),
           if(uploadFile != null)
           Container(
             color: Colors.grey,
@@ -236,7 +240,7 @@ class GenerateState extends State<Generate> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
-                  child: Container(
+                  child: SizedBox(
                     height:40,
                     child:ElevatedButton(
                       onPressed: (){
@@ -247,7 +251,7 @@ class GenerateState extends State<Generate> {
                   )
                 ),
                 Expanded(
-                  child: Container(
+                  child: SizedBox(
                     height: 40,
                     child: ElevatedButton(
                       onPressed: () {
@@ -260,7 +264,7 @@ class GenerateState extends State<Generate> {
                   ),
                 ),
                 Expanded(
-                  child: Container(
+                  child: SizedBox(
                     height: 40,
                     child: ElevatedButton(
                       onPressed: () {
@@ -272,7 +276,7 @@ class GenerateState extends State<Generate> {
                   ),
                 ),
                 Expanded(
-                  child: Container(
+                  child: SizedBox(
                     height: 40,
                     child: ElevatedButton(
                       onPressed: () {
@@ -295,7 +299,7 @@ class GenerateState extends State<Generate> {
               ],
             ),
           ),
-          SizedBox(height: 4,),
+          const SizedBox(height: 4,),
           Expanded(
             child: Container(
               color: Colors.grey.withOpacity(0.9),

@@ -37,9 +37,9 @@ class LinksSectionState extends State<LinksSection> {
     linksMap[info.linkid]['widget'] = (
       Column(
         children: [
-          SizedBox(height: 4,),
+          const SizedBox(height: 4,),
           LinksField(urlC: linksMap[info.linkid]['url']),
-          SizedBox(height: 4,),
+          const SizedBox(height: 4,),
         ],
       )
     );
@@ -85,10 +85,10 @@ class LinksSectionState extends State<LinksSection> {
               onPressed: (){
                 remove(key);
               }, 
-              icon: Icon(Icons.remove)),
+              icon: const Icon(Icons.remove)),
           ),
         );
-        linkWidgets.add(SizedBox(height: 4,),);
+        linkWidgets.add(const SizedBox(height: 4,),);
       }
     });
     return linkWidgets;
@@ -127,21 +127,21 @@ class LinksSectionState extends State<LinksSection> {
       child: Column(
         children: [
           SectionHeadingBar(
-            children: [
-              SectionHeading(text: "LINKS",),
-            ],
             actions: [
               IconButton(onPressed: () {
                 if(editing == false) {
                   add();
                 }
-              }, icon: Icon(Icons.add)),
+              }, icon: const Icon(Icons.add)),
               IconButton(onPressed: () {
                   edit();
-              }, icon: Icon(Icons.edit)),
+              }, icon: const Icon(Icons.edit)),
+            ],
+            children: [
+              SectionHeading(text: "LINKS",),
             ],
           ),
-          SizedBox(height: 16,),
+          const SizedBox(height: 16,),
           ...populate(),
         ]
       )
@@ -164,7 +164,7 @@ class LinksFieldState extends State<LinksField> {
       child: TextFormField(
       controller: widget.urlC,
       textAlign: TextAlign.center,
-      decoration: InputDecoration(
+      decoration: const InputDecoration(
         hintText: "URL",
         border: OutlineInputBorder(),),
       ),
