@@ -187,7 +187,7 @@ class GenerateState extends State<Generate> {
           Row(
             children: [
               Container(
-                child: Container(
+                child: SizedBox(
                   height: 40,
                   width: 100, 
                   child: ElevatedButton(
@@ -205,7 +205,7 @@ class GenerateState extends State<Generate> {
               ),
               const SizedBox(width: 43,),
               Container(
-                child: Container(
+                child: SizedBox(
                   height: 40,
                   width: 100,
                   child: ElevatedButton(

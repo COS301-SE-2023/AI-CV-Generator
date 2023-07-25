@@ -49,7 +49,7 @@ class FileApi extends DioClient {
 
   static Future<Image?> getProfileImage() async {
     Image? image = Image.asset('assets/images/NicePng_watsapp-icon-png_9332131.png');
-    await DioClient.dio.get(
+    await Dio().get(
       'api/User/profimg',
       options: Options(
           responseType: ResponseType.bytes
@@ -57,7 +57,10 @@ class FileApi extends DioClient {
     ).then((value) {
       Uint8List data = Uint8List.fromList(value.data.toList() as List<int>);
       image = Image.memory(data);
+    }).catchError((error) {
+      
     });
+    print("Hey");
     return image;
     
   }
@@ -69,7 +72,7 @@ class FileApi extends DioClient {
     try {
       FormData formData = FormData.fromMap({
         "img": MultipartFile.fromBytes(
-         img as List<int>, filename: "profimage"
+         img, filename: "profimage"
         )
       });
       Response response = await DioClient.dio.post(

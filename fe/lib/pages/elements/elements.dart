@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 Color backdrop = Colors.grey.withOpacity(0.1);
 const double profileButtonSize = 32.0;
-const primaryColour = const Color(0xFFFDA187);
+const primaryColour = Color(0xFFFDA187);
 const secondaryColour = Color(0xFFEA6D79);
 
 ThemeData mainTheme = ThemeData(
