@@ -70,8 +70,13 @@ class _HomeState extends State<Home> {
           IconButton(
             onPressed: () async {
               model = await userApi.getUser();
-              if (model != null) {
-                Navigator.pushNamed(context, '/profile', arguments: model);
+              Image image = await FileApi.getProfileImage();
+              if (model != null && image != null) {
+                Navigator.pushNamed(context, '/profile', arguments: 
+                {
+                  "model": model,
+                  "image": image
+                });
               }
             }, 
             icon: const Icon(Icons.account_circle)

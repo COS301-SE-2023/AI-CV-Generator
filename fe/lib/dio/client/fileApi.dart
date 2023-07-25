@@ -47,19 +47,21 @@ class FileApi extends DioClient {
     return null;
   }
 
-  static Future<Image?> getProfileImage() async {
-    try {
-      Response response = await DioClient.dio.get(
-        'api/User/profimg',
-        options: Options(
-            responseType: ResponseType.bytes
-        )
-      );
-      Uint8List data = Uint8List.fromList(response.data.toList() as List<int>);
+  static Future<Image> getProfileImage() async {
+    
+    await Dio().get(
+      'api/User/profimg',
+      options: Options(
+          responseType: ResponseType.bytes
+      )
+    ).then((value) {
+      Uint8List data = Uint8List.fromList(value.data.toList() as List<int>);
       return Image.memory(data);
-    } on DioException {
-      return Image.asset('assets/images/NicePng_watsapp-icon-png_9332131.png');
-    }
+    }).catchError(() {
+      
+    });
+    return Image.asset('assets/images/NicePng_watsapp-icon-png_9332131.png');
+    
   }
 
   static Future<Image?> updateProfileImage({

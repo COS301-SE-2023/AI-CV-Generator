@@ -20,11 +20,16 @@ bool isEditingEnabled = false;
 
 class ProfileState extends State<Profile> {
   final _formKey = GlobalKey<FormState>();
+
   
 
   @override
   Widget build(BuildContext context) {
-    UserModel model = ModalRoute.of(context)!.settings.arguments as UserModel;
+    Map map = ModalRoute.of(context)!.settings.arguments as Map<String,dynamic>;
+
+    UserModel model = map["model"];
+    Image image = map["image"];
+
     TextEditingController fnameC = TextEditingController(text: model.fname);
     TextEditingController lnameC = TextEditingController(text: model.lname);
     TextEditingController emailC = TextEditingController(text: model.email);
@@ -37,7 +42,6 @@ class ProfileState extends State<Profile> {
     LinksSection linkC = LinksSection(key: linksKey, links: model.links != null ? model.links! : []);
     QualificationsSection qualificationsC = QualificationsSection(key: qualificationsKey, qualifications: model.qualifications != null ? model.qualifications! : []);
     EmploymentSection employmentC = EmploymentSection(key: employhistoryKey, employment: model.employmenthistory != null ? model.employmenthistory! : [Employment(company: 'ERROR', title: 'ERORR', startdate: DateTime.now(), enddate: DateTime.now(), empid: 0)]);
-
     DateTime time = DateTime.now();
     void actualupdate() {
       model.fname = fnameC.text;
@@ -136,13 +140,17 @@ class ProfileState extends State<Profile> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              IconButton(
-                                icon: const Icon(Icons.account_circle, size: 128,),
-                                onPressed: () {
+                              InkWell(
+                                child: Container(
+                                  width: 110,
+                                  height: 110,
+                                  child: Image(image: image.image),
+                                ),
+                                onTap: () {
                                   
                                 },
-                              ),
-
+                              )
+                              ,
                               SizedBox(
                                 width: 300,
                                 child: Column(
