@@ -37,8 +37,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.Date;
 
 @RestController
-@CrossOrigin(value="*")
 @RequestMapping(path = "/api/User")
+@CrossOrigin("*")
 @RequiredArgsConstructor
 public class UserController {
     private final UserService service;

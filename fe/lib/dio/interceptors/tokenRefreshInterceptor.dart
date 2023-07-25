@@ -9,9 +9,9 @@ class TokenRevalidator extends Interceptor {
   bool revalidate = true;
 
   @override
-  void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
+  void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
     if (!options.path.contains("auth")) {
-      options.headers['Authorization'] = "Bearer ${DioClient.authToken}";
+      options.headers['Authorization'] = "Bearer ${await DioClient.authToken()}";
     }   
     return handler.next(options);
   }
@@ -25,7 +25,7 @@ class TokenRevalidator extends Interceptor {
       revalidate = false;
       print("Intercepting to refresh!");
       try {
-        RefreshRequest req = RefreshRequest(refreshToken: DioClient.refreshToken);
+        RefreshRequest req = RefreshRequest(refreshToken: await DioClient.refreshToken());
         Response resp = await DioClient.dio.post(
           "api/auth/refresh",
           data: req.toJson()

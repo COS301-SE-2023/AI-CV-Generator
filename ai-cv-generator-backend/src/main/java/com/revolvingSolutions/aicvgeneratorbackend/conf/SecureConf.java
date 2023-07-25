@@ -8,7 +8,8 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.*;
+import org.springframework.security.config.annotation.web.configurers.CorsConfigurer;
+import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -17,6 +18,7 @@ import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
@@ -36,33 +38,41 @@ public class SecureConf {
                         new Customizer<CsrfConfigurer<HttpSecurity>>() {
                             @Override
                             public void customize(CsrfConfigurer<HttpSecurity> httpSecurityCsrfConfigurer) {
-                                if (true) {
+                                if (false) {
                                     httpSecurityCsrfConfigurer.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
                                     httpSecurityCsrfConfigurer.csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler());
                                 } else {
                                     httpSecurityCsrfConfigurer.disable();
                                 }
                             }
-                        }                )
-                .cors(new Customizer<CorsConfigurer<HttpSecurity>>() {
-                    @Override
-                    public void customize(CorsConfigurer<HttpSecurity> httpSecurityCorsConfigurer) {
-                        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-                        CorsConfiguration configuration = new CorsConfiguration();
-                        configuration.setMaxAge(3600L);
-                        configuration.setAllowedMethods(
-                                Arrays.asList(
-                                        HttpMethod.GET.name(),
-                                        HttpMethod.POST.name(),
-                                        HttpMethod.PUT.name(),
-                                        HttpMethod.OPTIONS.name()
-                                )
-                        );
-                        configuration.addAllowedOriginPattern("http://localhost:**");
-                        source.registerCorsConfiguration("/**",configuration);
-                        httpSecurityCorsConfigurer.configurationSource(source);
-                    }
-                })
+                        }
+//                        (csrf) ->
+//                                csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+//                                        .csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler())
+                )
+                .cors(
+                        new Customizer<CorsConfigurer<HttpSecurity>>() {
+                            @Override
+                            public void customize(CorsConfigurer<HttpSecurity> httpSecurityCorsConfigurer) {
+//                                UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//                                CorsConfiguration configuration = new CorsConfiguration();
+//                                configuration.setMaxAge(3600L);
+//                                configuration.setAllowedMethods(
+//                                        Arrays.asList(
+//                                                HttpMethod.GET.name(),
+//                                                HttpMethod.POST.name(),
+//                                                HttpMethod.PUT.name(),
+//                                                HttpMethod.OPTIONS.name()
+//                                        )
+//                                );
+//                                configuration.addAllowedOriginPattern("http://localhost:**");
+//                                source.registerCorsConfiguration("/**", configuration);
+//                                httpSecurityCorsConfigurer.configurationSource(source);
+                            }
+                        }
+//                        (cors) ->
+//                                cors.configurationSource(configurationSource())
+                )
                 .authorizeHttpRequests(
                         (authorizationManagerRequestMatcherRegistry) ->
                                 authorizationManagerRequestMatcherRegistry
@@ -72,8 +82,8 @@ public class SecureConf {
                                         .authenticated()
                 )
                 .sessionManagement(
-                        (httpSecuritySessionManagementConfigurer) ->
-                            httpSecuritySessionManagementConfigurer.sessionCreationPolicy(
+                        (sessionManagement) ->
+                            sessionManagement.sessionCreationPolicy(
                                     SessionCreationPolicy.STATELESS
                             )
                 )
@@ -84,8 +94,8 @@ public class SecureConf {
                         authentificationFilter, UsernamePasswordAuthenticationFilter.class
                 )
                 .logout(
-                        (httpSecurityLogoutConfigurer) ->
-                                httpSecurityLogoutConfigurer.addLogoutHandler(
+                        (logout) ->
+                                logout.addLogoutHandler(
                                         logoutHandler
                                 )
                                         .logoutSuccessHandler(
@@ -98,5 +108,23 @@ public class SecureConf {
                 );
 
         return httpSecure.build();
+    }
+
+    @Bean
+    public CorsConfigurationSource configurationSource() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setMaxAge(3600L);
+        configuration.setAllowedMethods(
+                Arrays.asList(
+                        HttpMethod.GET.name(),
+                        HttpMethod.POST.name(),
+                        HttpMethod.PUT.name(),
+                        HttpMethod.OPTIONS.name()
+                )
+        );
+        configuration.addAllowedOriginPattern("http://localhost:**");
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 }

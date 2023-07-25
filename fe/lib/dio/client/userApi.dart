@@ -19,6 +19,7 @@ import 'package:ai_cv_generator/models/user/Qualification.dart';
 import 'package:ai_cv_generator/models/user/UserModel.dart';
 
 import 'package:dio/dio.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../request/DetailsRequests/Qualification/RemoveQualificationRequest.dart';
 import '../request/DetailsRequests/Qualification/UpdateQualificationRequest.dart';
