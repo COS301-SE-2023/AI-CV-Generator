@@ -77,8 +77,7 @@ class _HomeState extends State<Home> {
               }
             }, 
             icon: const Icon(Icons.account_circle)
-            ),
-        
+          ),
         ],
       ),
       body: Center(
@@ -97,7 +96,6 @@ class _HomeState extends State<Home> {
                 child:Generate(),
               ),
               SizedBox(width: 24,),
-
               Expanded(
                 flex: 2,
                 child: Container(
@@ -152,7 +150,6 @@ class PastCVsState extends State<PastCVs> {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(24.0),
-      // color: Colors.grey,
       child: Align(
         alignment: Alignment.bottomCenter,
         child: Text("PastCVs", style: TextStyle(fontSize: 16),),
@@ -174,40 +171,61 @@ class GenerateState extends State<Generate> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // color: Colors.pink,
       padding: EdgeInsets.symmetric(horizontal: 0),
       child: Column(
         children: [
           Row(
             children: [
-              Expanded(flex: 1, child: Container(color: Colors.grey, height:40, child: TextButton(
-                onPressed: () async {
-                  uploadFile = await pdfAPI.pick_cvfile();
-                  if(uploadFile != null) {                    
-                    filenameC.text = uploadFile!.name;
-                    FileApi.uploadFile(file: uploadFile);
-                    setState(() {
-                    });
-                  }
-
-                }, child: Text("UPLOAD", style: textStyle),),)),
+              Expanded(
+                flex: 1,
+                child: Container(
+                  color: Colors.grey, height:40, 
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      uploadFile = await pdfAPI.pick_cvfile();
+                      if(uploadFile != null) {                    
+                        filenameC.text = uploadFile!.name;
+                        FileApi.uploadFile(file: uploadFile);
+                        setState(() {});
+                      }
+                    }, 
+                    child: Text("UPLOAD", style: textStyle),
+                  ),
+                )
+              ),
               SizedBox(width: 8,),
-              Expanded(flex: 1, child: Container(color: Colors.grey, height:40, child:TextButton(
-                onPressed: () {
-                  if(uploadFile != null) {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return PdfView(
-                          controller: PdfController(document: PdfDocument.openData(uploadFile!.bytes as FutureOr<Uint8List>)),
-                          scrollDirection: Axis.horizontal,
-                          pageSnapping: false,
+              Expanded(
+                flex: 1,
+                child: Container(
+                  color: Colors.grey,
+                  height:40,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      if(uploadFile != null) {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return PdfView(
+                              controller: PdfController(document: PdfDocument.openData(uploadFile!.bytes as FutureOr<Uint8List>)),
+                              scrollDirection: Axis.horizontal,
+                              pageSnapping: false,
+                            );
+                          }
                         );
-                    });
-                  }
-                }, child: Text("PREVIEW", style: textStyle),),)),
+                      }
+                    },
+                    child: Text("PREVIEW", style: textStyle),
+                  ),
+                )
+              ),
               SizedBox(width: 48,),
-              Expanded(flex: 2, child: Text(filenameC.text, style: textStyle ),),
+              Expanded(
+                flex: 2,
+                child: Text(
+                  filenameC.text,
+                  style: textStyle
+                ),
+              ),
             ],
           ),
           SizedBox(height: 12,),
@@ -217,39 +235,72 @@ class GenerateState extends State<Generate> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Expanded(child: Container(height:40, child:TextButton(onPressed: (){}, child: Text("GENERATE", style: textStyle),),)),
-                Expanded(child: Container(height: 40, child: TextButton(
-                  onPressed: () {
-                    if (generatedFile != null) {
-                      RequirementsForShare(context, generatedFile);
-                    }
-                  }, child: Text("SHARE", style: textStyle),),),),
-                Expanded(child: Container(height: 40, child: TextButton(
-                  onPressed: () {
-                    if (generatedFile != null) {
-                      DownloadService.download(generatedFile!.bytes!.toList(), downloadName: generatedFile!.name);
-                    }
-                  }, child: Text("DOWNLOAD", style: textStyle),),),),
-                Expanded(child: Container(height: 40, child: TextButton(onPressed: () {
-                  if(generatedFile != null) {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return PdfView(
-                          controller: PdfController(document: PdfDocument.openData(generatedFile!.bytes as FutureOr<Uint8List>)),
-                          scrollDirection: Axis.horizontal,
-                          pageSnapping: false,
-                        );
-                    });  
-                  }
-                }, child: Text("EXPAND", style: textStyle),),),),
+                Expanded(
+                  child: Container(
+                    height:40,
+                    child:ElevatedButton(
+                      onPressed: (){
+
+                      }, 
+                      child: Text("GENERATE", style: textStyle),
+                    ),
+                  )
+                ),
+                Expanded(
+                  child: Container(
+                    height: 40,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        if (generatedFile != null) {
+                          RequirementsForShare(context, generatedFile);
+                        }
+                      },
+                      child: Text("SHARE", style: textStyle),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    height: 40,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        if (generatedFile != null) {
+                          DownloadService.download(generatedFile!.bytes!.toList(), downloadName: generatedFile!.name);
+                        }
+                      }, child: Text("DOWNLOAD", style: textStyle),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    height: 40,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        if(generatedFile != null) {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return PdfView(
+                                controller: PdfController(document: PdfDocument.openData(generatedFile!.bytes as FutureOr<Uint8List>)),
+                                scrollDirection: Axis.horizontal,
+                                pageSnapping: false,
+                              );
+                            }
+                          );  
+                        }
+                      }, child: Text("EXPAND", style: textStyle)
+                    )
+                  ),
+                ),
               ],
             ),
           ),
           SizedBox(height: 4,),
-          Expanded(child: Container(
-            color: Colors.grey.withOpacity(0.9),
-          ),),
+          Expanded(
+            child: Container(
+              color: Colors.grey.withOpacity(0.9),
+            ),
+          ),
         ],
       ),
     );
