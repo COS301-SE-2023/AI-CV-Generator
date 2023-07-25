@@ -1,5 +1,6 @@
 import 'package:ai_cv_generator/dio/client/shareClient.dart';
 import 'package:ai_cv_generator/pages/Register.dart';
+import 'package:ai_cv_generator/pages/about.dart';
 import 'package:ai_cv_generator/pages/home.dart';
 import 'package:ai_cv_generator/pages/login.dart';
 import 'package:ai_cv_generator/pages/pdf_window.dart';
@@ -44,6 +45,7 @@ class MyApp extends StatelessWidget {
         '/register':(context) => const RegisterPage(),
         '/home':(context) => const Home(),
         '/profile':(context) => Profile(),
+        '/about':(context) => AboutPage(),
       },
     );
   }

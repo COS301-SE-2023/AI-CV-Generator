@@ -39,7 +39,6 @@ class _HomeState extends State<Home> {
     return  Scaffold(
       drawer: const NavDrawer(),
       appBar: AppBar(
-          backgroundColor: Colors.lightBlue,
         actions: [
 
           Transform.scale(
@@ -65,15 +64,14 @@ class _HomeState extends State<Home> {
           ),
           TextButton(
             onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(builder: (c)=>  AboutPage())
-              );
+                Navigator.pushNamed(context, '/about');
             },
             child: Text("ABOUT", style: TextStyle(color: Colors.black)),
           ),
           SizedBox(width: 100,),
           IconButton(
             onPressed: () async {
+              model = await userApi.getUser();
               if (model != null) {
                 Navigator.pushNamed(context, '/profile', arguments: model);
               }
