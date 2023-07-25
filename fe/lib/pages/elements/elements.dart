@@ -2,6 +2,16 @@ import 'package:flutter/material.dart';
 Color backdrop = Colors.grey.withOpacity(0.1);
 const double? profileButtonSize = 32.0;
 
+ThemeData mainTheme = ThemeData(
+  primaryColor: Color(0xFFFDA187),
+  appBarTheme: AppBarTheme(color: Color(0xFFFDA187)),
+  elevatedButtonTheme: ElevatedButtonThemeData(
+    style: ButtonStyle(
+      backgroundColor: MaterialStateProperty.all(Color(0xFFEA6D79)),
+    ),
+  ),
+);
+
 class SectionHeading extends StatefulWidget {
   String text;
   Alignment? alignment = Alignment.topLeft;
