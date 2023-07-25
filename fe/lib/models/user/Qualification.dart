@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-part 'Qualification.g.dart';
+part 'Qualification.ga.dart';
 
 
 @JsonSerializable()

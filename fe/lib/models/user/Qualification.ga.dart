@@ -10,9 +10,9 @@ Qualification _$QualificationFromJson(Map<String, dynamic> json) =>
     Qualification(
       qualification: json['qualification'] as String,
       intstitution: json['intstitution'] as String,
-      date: DateTime.parse(json['date'] as String),
+      date: DateTime.fromMillisecondsSinceEpoch(json['date'] as int),
       quaid: json['quaid'] as int,
-      endo: DateTime.parse(json['endo'] as String),
+      endo: DateTime.fromMillisecondsSinceEpoch(json['endo'] as int),
     );
 
 Map<String, dynamic> _$QualificationToJson(Qualification instance) =>
