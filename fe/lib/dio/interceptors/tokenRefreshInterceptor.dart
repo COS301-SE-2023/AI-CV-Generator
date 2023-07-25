@@ -6,10 +6,12 @@ import 'package:dio/dio.dart';
 
 class TokenRevalidator extends Interceptor {
 
+  bool revalidate = true;
+
   @override
-  void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
+  void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
     if (!options.path.contains("auth")) {
-      options.headers['Authorization'] = "Bearer ${DioClient.authToken}";
+      options.headers['Authorization'] = "Bearer ${await DioClient.authToken()}";
     }   
     return handler.next(options);
   }
@@ -19,11 +21,11 @@ class TokenRevalidator extends Interceptor {
     if (err.requestOptions.path.contains("auth")) {
       return handler.next(err);
     }
-    if (err.response?.statusCode == 403) {
-      
+    if (err.response?.statusCode == 403 && revalidate) {
+      revalidate = false;
       print("Intercepting to refresh!");
       try {
-        RefreshRequest req = RefreshRequest(refreshToken: DioClient.refreshToken);
+        RefreshRequest req = RefreshRequest(refreshToken: await DioClient.refreshToken());
         Response resp = await DioClient.dio.post(
           "api/auth/refresh",
           data: req.toJson()
@@ -35,13 +37,14 @@ class TokenRevalidator extends Interceptor {
           final options = Options(
             method: err.requestOptions.method
           );
-          return handler.resolve(
+          handler.resolve(
             await DioClient.dio.request<dynamic>(
               err.requestOptions.path,
               data: err.requestOptions.data,
               queryParameters: err.requestOptions.queryParameters,
               options: options
           ));
+          revalidate = true;
         } else {
           return handler.next(err);
         }

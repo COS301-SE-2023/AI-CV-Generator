@@ -1,12 +1,10 @@
 import 'dart:typed_data';
 
-import 'package:ai_cv_generator/dio/client/userApi.dart';
 import 'package:ai_cv_generator/pages/pdf_window.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
-import '../models/user/UserModel.dart';
 import 'details.dart';
 
 class Templates {
@@ -107,7 +105,7 @@ class Templates {
                               alterText("Experience", fontSubHeading),
                               pw.SizedBox(height: 16),
                               pw.Padding(
-                                padding: pw.EdgeInsets.symmetric(horizontal: 12.0),
+                                padding: const pw.EdgeInsets.symmetric(horizontal: 12.0),
                                 child: pw.Column(
                                   crossAxisAlignment: pw.CrossAxisAlignment.start,
                                   children: [
@@ -134,7 +132,7 @@ class Templates {
                         pw.Align(
                           alignment: pw.Alignment.centerLeft,
                           child: pw.Padding(
-                            padding: pw.EdgeInsets.symmetric(horizontal: 12.0),
+                            padding: const pw.EdgeInsets.symmetric(horizontal: 12.0),
                             child: pw.Wrap(
                               crossAxisAlignment: pw.WrapCrossAlignment.start,
                               runSpacing: 16,

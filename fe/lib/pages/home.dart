@@ -252,7 +252,7 @@ class GenerateState extends State<Generate> {
                     child: ElevatedButton(
                       onPressed: () {
                         if (generatedFile != null) {
-                          RequirementsForShare(context, generatedFile);
+                          requirementsforshare(context, generatedFile);
                         }
                       },
                       child: Text("SHARE", style: textStyle),

@@ -4,8 +4,8 @@ import 'package:ai_cv_generator/models/user/Qualification.dart';
 import 'elements/elements.dart';
 
 class QualificationsSection extends StatefulWidget {
-  List<Qualification> qualifications;
-  QualificationsSection({super.key, required this.qualifications});
+  final List<Qualification> qualifications;
+  const QualificationsSection({super.key, required this.qualifications});
 
   @override
   QualificationsSectionState createState() => QualificationsSectionState();
@@ -31,8 +31,8 @@ class QualificationsSectionState extends State<QualificationsSection> {
     TextEditingController intstitutionC = TextEditingController();
     TextEditingController dateC = TextEditingController();
 
-    qualificationC.text = info.qualification != null ? info.qualification : '';
-    intstitutionC.text = info.intstitution != null ? info.intstitution : '';
+    qualificationC.text = info.qualification;
+    intstitutionC.text = info.intstitution;
     dateC.text = dateTimeToString(info.date, info.endo);
     qualificationsMap[info.quaid] = {
       'quaid': info.quaid,

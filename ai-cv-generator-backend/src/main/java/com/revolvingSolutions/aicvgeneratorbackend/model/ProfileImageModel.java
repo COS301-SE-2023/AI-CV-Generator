@@ -1,4 +1,4 @@
-package com.revolvingSolutions.aicvgeneratorbackend.request.generation;
+package com.revolvingSolutions.aicvgeneratorbackend.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class GenerationRequest {
-    private String TempData;
+public class ProfileImageModel {
+    private byte[] imgdata;
 }

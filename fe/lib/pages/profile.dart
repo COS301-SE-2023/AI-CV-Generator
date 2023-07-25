@@ -40,8 +40,7 @@ class ProfileState extends State<Profile> {
     EmploymentSection employmentC = EmploymentSection(key: employhistoryKey, employment: model.employmenthistory != null ? model.employmenthistory! : [Employment(company: 'ERROR', title: 'ERORR', startdate: DateTime.now(), enddate: DateTime.now(), empid: 0)]);
 
     DateTime time = DateTime.now();
-    void ActualUpdate() {
-      print("Actual Update");
+    void actualupdate() {
       model.fname = fnameC.text;
       model.lname = lnameC.text;
       model.email = emailC.text;
@@ -56,7 +55,7 @@ class ProfileState extends State<Profile> {
     void update() {
         DateTime nTime = DateTime.now();
         if (nTime.second - time.second > 30) {
-          ActualUpdate();
+          actualupdate();
           time = nTime;
         }
     }
@@ -77,7 +76,7 @@ class ProfileState extends State<Profile> {
             color: Color.fromARGB(255, 0, 63, 114),
           ), 
           onPressed: () { 
-            ActualUpdate();
+            actualupdate();
             Navigator.pop(context);
           },
         ),
@@ -266,6 +265,8 @@ class CVHistoryState extends State<CVHistory> {
   void initState() {
     FileApi.getFiles().then((value) {
       for (var element in value!) {
+        //paint_.decodeImageFromPixels(element.cover,20,20,paint_.PixelFormat.rgba8888, (result) {list.add(RawImage(image: result,)); setState(() {
+          
         list.add(add(element.filename));
       }
         setState(() {
@@ -311,7 +312,7 @@ class CVHistoryState extends State<CVHistory> {
             children: [
               ...list,
             ], 
-        )
+        ) 
       )
     );
   }

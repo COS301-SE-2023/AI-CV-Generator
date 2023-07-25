@@ -1,25 +1,23 @@
 import 'package:ai_cv_generator/pages/profile.dart';
 import 'package:flutter/material.dart';
 
-class inputField extends StatefulWidget {
-  TextEditingController editor;
-  String? text;
-  String label;
-  inputField({super.key, 
+class InputField_ extends StatefulWidget {
+  final TextEditingController editor;
+  final String label;
+  const InputField_({super.key, 
     required this.editor,
     required this.label
   });
   @override
-  State<StatefulWidget> createState() => _inputFieldState();
+  State<StatefulWidget> createState() => InputFieldState();
 
 }
 
-class _inputFieldState extends State<inputField> {
+class InputFieldState extends State<InputField_> {
 
   @override
   Widget build(BuildContext context) {
     TextEditingController editor = widget.editor;
-    //editor.text = widget.text != null ? widget.text!:"";
     return InputField(label: widget.label, widgetField: TextFormField(
       autocorrect: true,
       controller: editor,
