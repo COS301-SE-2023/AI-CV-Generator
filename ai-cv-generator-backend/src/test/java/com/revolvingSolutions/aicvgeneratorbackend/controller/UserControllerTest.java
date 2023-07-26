@@ -18,7 +18,6 @@ import com.revolvingSolutions.aicvgeneratorbackend.request.user.UpdateUserReques
 import com.revolvingSolutions.aicvgeneratorbackend.service.UserService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -77,6 +76,24 @@ class UserControllerTest {
         );
         // then
         verify(userService).updateUser(req);
+    }
+
+    @Test
+    void getProfileImage() {
+        // when
+        userController.getProfileImage();
+        // then
+        verify(userService).getProfileImage();
+    }
+
+    @Test
+    void updateProfileImage() {
+        // given
+        MultipartFile img = new MockMultipartFile("img", (byte[]) null);
+        // when
+        userController.updateProfileImage(img);
+        // then
+        verify(userService).updateProfileImage(img);
     }
 
     @Test

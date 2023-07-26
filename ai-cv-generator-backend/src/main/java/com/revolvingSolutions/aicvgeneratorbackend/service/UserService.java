@@ -45,7 +45,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import java.util.Date;
-import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
 
@@ -59,6 +58,7 @@ public class UserService {
     private final QualificationRepository qualificationRepository;
     private final LinkRepository linkRepository;
     private final ShareRepository shareRepository;
+    private final ProfileImageRepository profileImageRepository;
 
     private final PasswordEncoder encoder;
     public GetUserResponse getUser() {
@@ -315,6 +315,24 @@ public class UserService {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @Transactional
+    public ResponseEntity<Resource> getFileCover(DownloadFileRequest request) {
+        try {
+            FileModel file = fileRepository.getFileFromUser(getAuthenticatedUser().getUsername(), request.getFilename()).get(0);
+            return ResponseEntity.ok()
+                    .contentType(MediaType.parseMediaType(file.getFiletype()))
+                    .header(
+                            HttpHeaders.CONTENT_DISPOSITION,
+                            "attachment; filename=\"" + file.getFilename() + "\""
+                    )
+                    .body(
+                            new ByteArrayResource(file.getCover())
+                    );
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
     public String uploadFile(MultipartFile request, MultipartFile cover) {
         try {
             FileEntity file = FileEntity.builder()
@@ -374,6 +392,55 @@ public class UserService {
                     .build();
         } catch (Exception e) {
             throw new UnknownErrorException("File exception!: "+e.getMessage());
+        }
+    }
+
+    @Transactional
+    public ResponseEntity<Resource> getProfileImage() {
+        try {
+            ProfileImageEntity img = profileImageRepository.findByUser(getAuthenticatedUser()).orElseThrow();
+            return ResponseEntity.ok()
+                    .contentType(MediaType.parseMediaType(img.getType()))
+                    .header(
+                            HttpHeaders.CONTENT_DISPOSITION,
+                            "attachment; filename=\"" + "profimage" + "\""
+                    )
+                    .body(
+                            new ByteArrayResource(img.getImgdata())
+                    );
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @Transactional
+    public ResponseEntity<Resource> updateProfileImage(
+            MultipartFile file
+    ) {
+        try {
+
+
+            ProfileImageEntity img = profileImageRepository.findByUser(getAuthenticatedUser()).orElse(
+                    ProfileImageEntity.builder()
+                            .user(getAuthenticatedUser())
+                            .imgdata(file.getBytes())
+                            .type(file.getContentType())
+                            .build()
+            );
+            img.setImgdata(file.getBytes());
+            img.setType(file.getContentType());
+            profileImageRepository.save(img);
+            return ResponseEntity.ok()
+                    .contentType(MediaType.parseMediaType(img.getType()))
+                    .header(
+                            HttpHeaders.CONTENT_DISPOSITION,
+                            "attachment; filename=\"" + "profimage" + "\""
+                    )
+                    .body(
+                            new ByteArrayResource(img.getImgdata())
+                    );
+        } catch (Exception e) {
+            return  ResponseEntity.notFound().build();
         }
     }
 

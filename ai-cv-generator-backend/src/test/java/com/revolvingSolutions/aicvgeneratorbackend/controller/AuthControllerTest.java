@@ -9,8 +9,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.mock.web.MockHttpServletRequest;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 
 class AuthControllerTest {
@@ -41,10 +41,11 @@ class AuthControllerTest {
                 .username("Username")
                 .password("Password")
                 .build();
+        MockHttpServletRequest request = new MockHttpServletRequest();
         // when
-        authController.register(req);
+        authController.register(req,request);
         // then
-        verify(authenticationService).register(req);
+        verify(authenticationService).register(req,request);
     }
 
     @Test
@@ -54,10 +55,11 @@ class AuthControllerTest {
                 .username("Username")
                 .password("Password")
                 .build();
+        MockHttpServletRequest request = new MockHttpServletRequest();
         // when
-        authController.authenticate(req);
+        authController.authenticate(req,request);
         // then
-        verify(authenticationService).authenticate(req);
+        verify(authenticationService).authenticate(req,request);
     }
 
     @Test
@@ -66,9 +68,10 @@ class AuthControllerTest {
         RefreshRequest req = RefreshRequest.builder()
                 .refreshToken("token")
                 .build();
+        MockHttpServletRequest request = new MockHttpServletRequest();
         // when
-        authController.refresh(req);
+        authController.refresh(req,request);
         // then
-        verify(authenticationService).refresh(req);
+        verify(authenticationService).refresh(req,request);
     }
 }

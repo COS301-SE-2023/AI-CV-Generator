@@ -1,6 +1,4 @@
 import 'package:ai_cv_generator/dio/client/userApi.dart';
-import 'package:ai_cv_generator/pages/Register.dart';
-import 'package:ai_cv_generator/pages/home.dart';
 import 'package:flutter/material.dart';
  
 class Login extends StatelessWidget {
@@ -10,12 +8,8 @@ class Login extends StatelessWidget {
  
   @override
   Widget build(BuildContext context) {
-    return  const MaterialApp(
-      title: _title,
-      home: Scaffold(
+    return const Scaffold(
         body: MyStatefulWidget(),
-      ),
-      debugShowCheckedModeBanner: false,
     );
   }
 }
@@ -85,9 +79,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     bool resp = await userApi.login(username: nameController.text,password: passwordController.text);
                     if (resp) {
                       Error = false;
-                      Navigator.push(context, MaterialPageRoute(
-                      builder: (context) => const Home()
-                    ));
+                      Navigator.pushNamed(context, '/home');
                     } else {
                       setState(() {
                         Error = true;
@@ -111,9 +103,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     style: TextStyle(fontSize: 20),
                   ),
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(
-                      builder: (context) => const RegisterPage()
-                    ));
+                    Navigator.pushNamed(context, '/register');
                   },
                 )
               ],

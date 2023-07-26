@@ -9,7 +9,8 @@ import 'package:ai_cv_generator/dio/response/FileResponses/ShareFileResponse.dar
 import 'package:ai_cv_generator/models/files/FileModel.dart';
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:pdfx/pdfx.dart';
+import 'package:flutter/material.dart';
+import 'package:pdf_render/pdf_render.dart' as render;
 
 class FileApi extends DioClient {
   static Future<Response?> uploadFile(
@@ -19,15 +20,15 @@ class FileApi extends DioClient {
     }
   ) async {
     if (file == null) return null;
-    PdfDocument doc = await PdfDocument.openData(file.bytes as FutureOr<Uint8List>);
-    PdfPage page = await doc.getPage(1);
-    PdfPageImage? pageImage = await page.render(width: 20, height: 20);
+    final pdf = await render.PdfDocument.openData(file.bytes!);
+    final page = await pdf.getPage(1);
+    final imagepage = await page.render(width: 20,height: 20);
     FormData formData = FormData.fromMap({
       "file": MultipartFile.fromBytes(
         file.bytes as List<int>, filename: file.name,
       ),
       "cover": MultipartFile.fromBytes(
-        pageImage?.bytes as List<int>, filename: file.name
+        imagepage.pixels, filename: file.name
       ),
     });
 
@@ -46,10 +47,54 @@ class FileApi extends DioClient {
     return null;
   }
 
+  static Future<Image?> getProfileImage() async {
+    Image? image = Image.asset('assets/images/NicePng_watsapp-icon-png_9332131.png');
+    await Dio().get(
+      'api/User/profimg',
+      options: Options(
+          responseType: ResponseType.bytes
+      )
+    ).then((value) {
+      Uint8List data = Uint8List.fromList(value.data.toList() as List<int>);
+      image = Image.memory(data);
+    }).catchError((error) {
+      
+    });
+    print("Hey");
+    return image;
+    
+  }
+
+  static Future<Image?> updateProfileImage({
+    required Uint8List img
+  }) async {
+    Image? image = Image.asset('assets/images/NicePng_watsapp-icon-png_9332131.png');
+    try {
+      FormData formData = FormData.fromMap({
+        "img": MultipartFile.fromBytes(
+         img, filename: "profimage"
+        )
+      });
+      Response response = await DioClient.dio.post(
+        'api/User/updateprofimg',
+        data: formData ,
+        options: Options(
+            responseType: ResponseType.bytes
+        )
+      );
+      Uint8List data = Uint8List.fromList(response.data.toList() as List<int>);
+      image = Image.memory(data);
+    } on DioException catch (e) {
+      DioClient.handleError(e);
+    }
+    return image;
+  }
+
   static Future<List<FileModel>?> getFiles() async {
     try {
       Response response = await DioClient.dio.get('api/User/files');
       GetFilesResponse resp = GetFilesResponse.fromJson(response.data);
+      
       return resp.files;
     } on DioException catch(e) {
       DioClient.handleError(e);

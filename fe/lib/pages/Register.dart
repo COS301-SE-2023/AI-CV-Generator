@@ -1,5 +1,4 @@
 import 'package:ai_cv_generator/dio/client/userApi.dart';
-import 'package:ai_cv_generator/pages/home.dart';
 import 'package:flutter/material.dart';
  
 class RegisterPage extends StatelessWidget {
@@ -9,12 +8,8 @@ class RegisterPage extends StatelessWidget {
  
   @override
   Widget build(BuildContext context) {
-    return  const MaterialApp(
-      title: _title,
-      home: Scaffold(
+    return const Scaffold(
         body: MyStatefulWidget(),
-      ),
-      debugShowCheckedModeBanner: false,
     );
   }
 }
@@ -160,9 +155,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     String? resp = await userApi.register(username: nameController.text,password: passwordController.text,fname: fnameController.text,lname: lnameController.text);
                     if (resp!= null && resp == "1") {
                       Error = false;
-                      Navigator.push(context, MaterialPageRoute(
-                      builder: (context) => const Home()
-                    ));
+                      Navigator.pushNamed(context, '/home');
                     } else if (resp != null) {
                       setState(() {
                         errorMessage.text = "Invalid username or password";

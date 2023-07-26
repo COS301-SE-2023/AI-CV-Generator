@@ -1,10 +1,11 @@
 import 'package:ai_cv_generator/dio/client/userApi.dart';
 import 'package:flutter/material.dart';
 import 'package:ai_cv_generator/models/user/Qualification.dart';
+import 'elements/elements.dart';
 
 class QualificationsSection extends StatefulWidget {
-  List<Qualification> qualifications;
-  QualificationsSection({super.key, required this.qualifications});
+  final List<Qualification> qualifications;
+  const QualificationsSection({super.key, required this.qualifications});
 
   @override
   QualificationsSectionState createState() => QualificationsSectionState();
@@ -13,6 +14,8 @@ class QualificationsSection extends StatefulWidget {
 class QualificationsSectionState extends State<QualificationsSection> {
   final blankQualification = Qualification(qualification: '', intstitution: '', date: DateTime.now(), quaid: 0, endo: DateTime.now());
   Map qualificationsMap = {};
+  List<Map> institution = [];
+  bool editing = false;
 
   @override
   void initState() {
@@ -27,8 +30,8 @@ class QualificationsSectionState extends State<QualificationsSection> {
     TextEditingController intstitutionC = TextEditingController();
     TextEditingController dateC = TextEditingController();
 
-    qualificationC.text = info.qualification ?? '';
-    intstitutionC.text = info.intstitution ?? '';
+    qualificationC.text = info.qualification;
+    intstitutionC.text = info.intstitution;
     dateC.text = dateTimeToString(info.date, info.endo);
     qualificationsMap[info.quaid] = {
       'quaid': info.quaid,
@@ -39,21 +42,13 @@ class QualificationsSectionState extends State<QualificationsSection> {
     qualificationsMap[info.quaid]['widget'] = (
       Column(
         children: [
-          const SizedBox(height: 16,),
+          const SizedBox(height: 4,),
           QualificationsField(
             qualificationC: qualificationsMap[info.quaid]['qualification'],
             intstitutionC: qualificationsMap[info.quaid]['intstitution'],
             dateC: qualificationsMap[info.quaid]['date'],
             ),
-          const SizedBox(height: 16,),
-          Align(
-            alignment: Alignment.topRight,
-            child: OutlinedButton(
-              onPressed: (){
-                remove(info.quaid);
-              }, 
-              child: const Text('-'),),
-          )
+          const SizedBox(height: 4,),
         ],
       )
     );
@@ -65,6 +60,14 @@ class QualificationsSectionState extends State<QualificationsSection> {
       display(newQualification);
       setState(() {});
     });
+  }
+
+  void addInstitution() {
+    institution;
+  }
+
+  void addQualification() {
+    
   }
 
   void remove(int objectId) async {
@@ -115,21 +118,53 @@ class QualificationsSectionState extends State<QualificationsSection> {
     List<Widget> linkWidgets = [];
     qualificationsMap.forEach((key, value) {
       linkWidgets.add(qualificationsMap[key]['widget']);
+      if(editing == true) {
+        linkWidgets.add(
+          Align(
+            alignment: Alignment.topRight,
+            child: IconButton(
+              onPressed: (){
+                remove(key);
+              }, 
+              icon: const Icon(Icons.remove)),
+          ),
+        );
+        linkWidgets.add(const SizedBox(height: 4,),);
+      }
     });
     return linkWidgets;
   }
 
+  edit() {
+    setState(() {
+      editing = !editing;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ...populate(),
-        const SizedBox(height: 8,),
-        OutlinedButton(onPressed: (){
-          add();
-        }, child: const Text('+')),
-        const SizedBox(height: 16,),
-      ],
+    return SectionContainer(
+      child: Column(
+        children: [
+          SectionHeadingBar(
+            actions: [
+              IconButton(onPressed: () {
+                if(editing == false) {
+                  add();
+                }
+              }, icon: const Icon(Icons.add)),
+              IconButton(onPressed: () {
+                  edit();
+              }, icon: const Icon(Icons.edit)),
+            ],
+            children: [
+              SectionHeading(text: "EDUCATION",),
+            ],
+          ),
+          const SizedBox(height: 16,),
+          ...populate(),
+        ]
+      )
     );
   }
 }
@@ -147,61 +182,61 @@ class QualificationsField extends StatefulWidget {
 class QualificationsFieldState extends State<QualificationsField> {
   TextEditingController displayDateC = TextEditingController();
   @override
-void initState() {
-  displayDateC.text = displayDateTimeRange(stringToDateTimeRange(widget.dateC.text));
-  super.initState();
-}
+  void initState() {
+    displayDateC.text = displayDateTimeRange(stringToDateTimeRange(widget.dateC.text));
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: TextFormField(
-          controller: widget.intstitutionC,
-          textAlign: TextAlign.center,
-          decoration: const InputDecoration(
-            hintText: "Institution",
-            border: OutlineInputBorder(),
-            ),
-          ),
-        ),
-        const SizedBox(width: 8,),
-        Expanded(
-          child: TextFormField(
-          controller: widget.qualificationC,
-          textAlign: TextAlign.center,
-          decoration: const InputDecoration(
-            hintText: "Qualification",
-            border: OutlineInputBorder(),
-            ),
-          ),
-        ),
-        const SizedBox(width: 8,),
-        Expanded(
-          child: GestureDetector(
-            onTap: () {
-              setState(() {
-                datePicker(context).then((value) {
-                  if(value != null) {
-                    widget.dateC.text = dateTimeToString(value.start, value.end);
-                    displayDateC.text = displayDateTimeRange(value);
-                  }
-                });
-              });
-            },
-            child: TextFormField(
-              enabled: false,
-              controller: displayDateC,
-              textAlign: TextAlign.center,
-              decoration: const InputDecoration(
-                hintText: "Date",
-                border: OutlineInputBorder(),
-                ),
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 8),
+      child: Column(
+        children: [
+            TextFormField(
+            style: const TextStyle(fontSize: 20),
+            controller: widget.intstitutionC,
+            textAlign: TextAlign.right,
+            decoration: const InputDecoration(
+              hintText: "INSTITUTION NAME",
+              border: InputBorder.none
               ),
-          ),
-        ),
-      ],
+            ),
+            const SizedBox(width: 8,),
+            TextFormField(
+            // style: TextStyle(fontSize: 5),
+            controller: widget.qualificationC,
+            textAlign: TextAlign.right,
+            decoration: const InputDecoration(
+              hintText: "QUALIFICATION NAME",
+              hintStyle: TextStyle(fontSize: 15),
+              border: InputBorder.none
+              ),
+            ),
+            const SizedBox(width: 8,),
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  datePicker(context).then((value) {
+                    if(value != null) {
+                      widget.dateC.text = dateTimeToString(value.start, value.end);
+                      displayDateC.text = displayDateTimeRange(value);
+                    }
+                  });
+                });
+              },
+              child: TextFormField(
+                enabled: false,
+                controller: displayDateC,
+                textAlign: TextAlign.right,
+                decoration: const InputDecoration(
+                  hintText: "Date",
+                  border: InputBorder.none,
+                  ),
+                ),
+            ),
+          ],
+      )
     );
   }
 }
@@ -227,4 +262,3 @@ Future<DateTimeRange?> datePicker(BuildContext context) async {
       initialEntryMode: DatePickerEntryMode.input,
     );
 }
-

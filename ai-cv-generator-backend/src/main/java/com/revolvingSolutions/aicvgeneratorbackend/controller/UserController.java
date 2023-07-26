@@ -29,21 +29,16 @@ import com.revolvingSolutions.aicvgeneratorbackend.response.user.GetUserResponse
 import com.revolvingSolutions.aicvgeneratorbackend.response.user.UpdateUserResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.internal.log.SubSystemLogging;
 import org.springframework.core.io.Resource;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.time.Duration;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Date;
 
 @RestController
-@CrossOrigin(value="*")
 @RequestMapping(path = "/api/User")
+@CrossOrigin("*")
 @RequiredArgsConstructor
 public class UserController {
     private final UserService service;
@@ -59,6 +54,19 @@ public class UserController {
             ) {
         return ResponseEntity.ok(service.updateUser(request));
     }
+
+    @GetMapping(value = "/profimg")
+    public ResponseEntity<Resource> getProfileImage() {
+        return service.getProfileImage();
+    }
+
+    @PostMapping(value = "/updateprofimg")
+    public ResponseEntity<Resource> updateProfileImage(
+            @RequestParam("img")MultipartFile img
+            ) {
+        return  service.updateProfileImage(img);
+    }
+
     @PostMapping(value="/file")
     public ResponseEntity<String> uploadFile(
             @RequestParam("file")MultipartFile file,
@@ -177,9 +185,11 @@ public class UserController {
         }
     }
 
-    @GetMapping(value = "/test")
-    public ResponseEntity<String> test() {
-        return ResponseEntity.ok("Hello auth is working");
+    @PostMapping(value = "/test")
+    public ResponseEntity<Resource> test(
+            @RequestBody DownloadFileRequest request
+    ) {
+        return service.getFileCover(request);
     }
 
 }
