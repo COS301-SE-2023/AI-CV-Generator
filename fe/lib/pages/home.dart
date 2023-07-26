@@ -37,7 +37,16 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     if(model == null) {
-      return Text("Loading Screen");
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CircularProgressIndicator(),
+            SizedBox(height: 20),
+            Text('LOADING', style: Theme.of(context).textTheme.bodyMedium),
+          ],
+        ),
+      );
     }
     return  Scaffold(
       drawer: const NavDrawer(),
@@ -60,15 +69,7 @@ class _HomeState extends State<Home> {
             cursor: SystemMouseCursors.click,
             child: GestureDetector(
               onTap: () async {
-                model = await userApi.getUser();
-                Image? image = await FileApi.getProfileImage();
-                if (model != null && image != null) {
-                  Navigator.pushNamed(context, '/profile', arguments: 
-                  {
-                    "model": model,
-                    "image": image
-                  });
-                }
+                Navigator.pushNamed(context, '/profile');
               }, 
               child: Row(
                 children: [

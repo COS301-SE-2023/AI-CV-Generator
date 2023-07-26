@@ -22,42 +22,58 @@ bool isEditingEnabled = false;
 
 class ProfileState extends State<Profile> {
   final _formKey = GlobalKey<FormState>();
+  UserModel? model;
+  Image? image;
   @override
   void initState() {
-    
+    userApi.getUser().then((value) async {
+      if(value != null){
+        model = value;
+        image = await FileApi.getProfileImage();
+        setState(() {});
+      }
+    });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    Map map = ModalRoute.of(context)!.settings.arguments as Map<String,dynamic>;
-
-    UserModel model = map["model"];
-    Image? image = map["image"];
-    TextEditingController fnameC = TextEditingController(text: model.fname);
-    TextEditingController lnameC = TextEditingController(text: model.lname);
-    TextEditingController emailC = TextEditingController(text: model.email);
-    TextEditingController phoneNoC = TextEditingController(text: model.phoneNumber);
-    TextEditingController locationC = TextEditingController(text: model.location);
-    TextEditingController descripC = TextEditingController(text: model.description);
+    if(model == null) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CircularProgressIndicator(),
+            SizedBox(height: 20),
+            Text('LOADING', style: Theme.of(context).textTheme.bodyMedium),
+          ],
+        ),
+      );
+    }
+    TextEditingController fnameC = TextEditingController(text: model!.fname);
+    TextEditingController lnameC = TextEditingController(text: model!.lname);
+    TextEditingController emailC = TextEditingController(text: model!.email);
+    TextEditingController phoneNoC = TextEditingController(text: model!.phoneNumber);
+    TextEditingController locationC = TextEditingController(text: model!.location);
+    TextEditingController descripC = TextEditingController(text: model!.description);
     GlobalKey<LinksSectionState> linksKey = GlobalKey<LinksSectionState>();
     GlobalKey<QualificationsSectionState> qualificationsKey = GlobalKey<QualificationsSectionState>();
     GlobalKey<EmploymentSectionState> employhistoryKey = GlobalKey<EmploymentSectionState>();
-    LinksSection linkC = LinksSection(key: linksKey, links: model.links != null ? model.links! : []);
-    QualificationsSection qualificationsC = QualificationsSection(key: qualificationsKey, qualifications: model.qualifications != null ? model.qualifications! : []);
-    EmploymentSection employmentC = EmploymentSection(key: employhistoryKey, employment: model.employmenthistory != null ? model.employmenthistory! : [Employment(company: 'ERROR', title: 'ERORR', startdate: DateTime.now(), enddate: DateTime.now(), empid: 0)]);
+    LinksSection linkC = LinksSection(key: linksKey, links: model!.links != null ? model!.links! : []);
+    QualificationsSection qualificationsC = QualificationsSection(key: qualificationsKey, qualifications: model!.qualifications != null ? model!.qualifications! : []);
+    EmploymentSection employmentC = EmploymentSection(key: employhistoryKey, employment: model!.employmenthistory != null ? model!.employmenthistory! : [Employment(company: 'ERROR', title: 'ERORR', startdate: DateTime.now(), enddate: DateTime.now(), empid: 0)]);
     DateTime time = DateTime.now();
     void actualupdate() {
-      model.fname = fnameC.text;
-      model.lname = lnameC.text;
-      model.email = emailC.text;
-      model.phoneNumber = phoneNoC.text;
-      model.description = descripC.text;
-      model.location = locationC.text;
+      model!.fname = fnameC.text;
+      model!.lname = lnameC.text;
+      model!.email = emailC.text;
+      model!.phoneNumber = phoneNoC.text;
+      model!.description = descripC.text;
+      model!.location = locationC.text;
       linksKey.currentState?.update();
       qualificationsKey.currentState?.update();
       employhistoryKey.currentState?.update();
-      userApi.updateUser(user: model);
+      userApi.updateUser(user: model!);
     }
     
     void update() {
@@ -162,16 +178,8 @@ class ProfileState extends State<Profile> {
                                   final imgByte =  await ImagePickerWeb.getImageAsBytes();
                                   final changed = await FileApi.updateProfileImage(img: imgByte!);
                                   image = changed;
-                                  Navigator.popAndPushNamed(
-                                   context, '/profile', arguments: 
-                                      {
-                                        "model": model,
-                                        "image": image
-                                      }
-                                  );
-                                  setState(() {
-                                    
-                                  });
+                                  Navigator.popAndPushNamed(context, '/profile');
+                                  setState(() {});
                                 },
                               )
                               ,
