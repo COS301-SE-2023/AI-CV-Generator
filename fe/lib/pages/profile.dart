@@ -22,7 +22,11 @@ bool isEditingEnabled = false;
 
 class ProfileState extends State<Profile> {
   final _formKey = GlobalKey<FormState>();
-  
+  @override
+  void initState() {
+    
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,6 +59,7 @@ class ProfileState extends State<Profile> {
       employhistoryKey.currentState?.update();
       userApi.updateUser(user: model);
     }
+    
     void update() {
         DateTime nTime = DateTime.now();
         if (nTime.second - time.second > 30) {
@@ -287,7 +292,6 @@ class InputFieldState extends State<InputField> {
           Container(
             decoration: BoxDecoration(
               border: Border.all(
-                color: Colors.grey,
                 width: 1.0,
               ),
               borderRadius: BorderRadius.circular(8.0),
