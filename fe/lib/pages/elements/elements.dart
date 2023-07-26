@@ -13,7 +13,7 @@ var surfaceColour = Colors.grey.withOpacity(0.2);
 const onSurfaceColour = Colors.black;
 
 ThemeData mainTheme = ThemeData(
-  appBarTheme: AppBarTheme(
+  appBarTheme: const AppBarTheme(
     toolbarTextStyle: TextStyle(fontSize: 16, color: onSurfaceColour)
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(

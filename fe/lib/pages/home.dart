@@ -9,7 +9,6 @@ import 'package:pdfx/pdfx.dart';
 import '../models/user/UserModel.dart';
 import 'package:ai_cv_generator/dio/client/userApi.dart';
 import 'dart:async';
-import 'dart:typed_data';
 import 'package:ai_cv_generator/pages/shareCV.dart';
 
 class Home extends StatefulWidget {
@@ -41,8 +40,8 @@ class _HomeState extends State<Home> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            CircularProgressIndicator(),
-            SizedBox(height: 20),
+            const CircularProgressIndicator(),
+            const SizedBox(height: 20),
             Text('LOADING', style: Theme.of(context).textTheme.bodyMedium),
           ],
         ),
@@ -74,9 +73,9 @@ class _HomeState extends State<Home> {
               child: Row(
                 children: [
                   Text(model!.fname,),
-                  SizedBox(width: 4,),
+                  const SizedBox(width: 4,),
                   const Icon(Icons.account_circle),
-                  SizedBox(width: 16,),
+                  const SizedBox(width: 16,),
                 ],
               )
             ),

@@ -26,25 +26,30 @@ class ProfileState extends State<Profile> {
   Image? image;
   @override
   void initState() {
-    userApi.getUser().then((value) async {
+    userApi.getUser().then((value) {
       if(value != null){
         model = value;
-        image = await FileApi.getProfileImage();
         setState(() {});
       }
+    });
+    FileApi.getProfileImage().then((value) {
+      image = value;
+      setState(() {
+        
+      });
     });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    if(model == null) {
+    if(model == null || image == null) {
       return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            CircularProgressIndicator(),
-            SizedBox(height: 20),
+            const CircularProgressIndicator(),
+            const SizedBox(height: 20),
             Text('LOADING', style: Theme.of(context).textTheme.bodyMedium),
           ],
         ),
@@ -178,7 +183,7 @@ class ProfileState extends State<Profile> {
                                   final imgByte =  await ImagePickerWeb.getImageAsBytes();
                                   final changed = await FileApi.updateProfileImage(img: imgByte!);
                                   image = changed;
-                                  Navigator.popAndPushNamed(context, '/profile');
+                                  //Navigator.popAndPushNamed(context, '/profile');
                                   setState(() {});
                                 },
                               )
