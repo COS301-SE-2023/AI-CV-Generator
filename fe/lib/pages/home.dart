@@ -28,6 +28,7 @@ class _HomeState extends State<Home> {
   void initState() {
     userApi.getUser().then((value) {
       model = value;
+      setState(() {});
     });
     super.initState();
   }
@@ -35,53 +36,50 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    if(model == null) {
+      return Text("Loading Screen");
+    }
     return  Scaffold(
       drawer: const NavDrawer(),
       appBar: AppBar(
         actions: [
-
           Transform.scale(
             scale: 0.8,
             child: const SizedBox(
               width: 400,
-              // child: SearchBar(
-              //   controller: searchC,
-              //   leading: IconButton(
-              //     icon: const Icon(
-              //       color: Colors.black,
-              //       Icons.search,
-              //       ),
-              //     onPressed: () => {
-              //       print(searchC.text)
-              //     },
-              //   ),
-              //   onChanged: (value)=>{
-              //     print(value)
-              //   } ,
-              // ),
             ),
           ),
           TextButton(
             onPressed: () {
                 Navigator.pushNamed(context, '/about');
             },
-            child: const Text("ABOUT", style: TextStyle(color: Colors.black)),
+            child: Text("ABOUT", style: Theme.of(context).appBarTheme.toolbarTextStyle),
           ),
           const SizedBox(width: 100,),
-          IconButton(
-            onPressed: () async {
-              model = await userApi.getUser();
-              Image? image = await FileApi.getProfileImage();
-              if (model != null && image != null) {
-                Navigator.pushNamed(context, '/profile', arguments: 
-                {
-                  "model": model,
-                  "image": image
-                });
-              }
-            }, 
-            icon: const Icon(Icons.account_circle)
-          ),
+          MouseRegion(
+            cursor: SystemMouseCursors.click,
+            child: GestureDetector(
+              onTap: () async {
+                model = await userApi.getUser();
+                Image? image = await FileApi.getProfileImage();
+                if (model != null && image != null) {
+                  Navigator.pushNamed(context, '/profile', arguments: 
+                  {
+                    "model": model,
+                    "image": image
+                  });
+                }
+              }, 
+              child: Row(
+                children: [
+                  Text(model!.fname,),
+                  SizedBox(width: 4,),
+                  const Icon(Icons.account_circle),
+                  SizedBox(width: 16,),
+                ],
+              )
+            ),
+          )
         ],
       ),
       body: Center(
@@ -111,7 +109,9 @@ class _HomeState extends State<Home> {
                       ),
                       Expanded(
                         flex: 10,
-                        child: Container(color: Colors.grey,),
+                        child: Container(
+                          color: Theme.of(context).colorScheme.surface,
+                        ),
                       ),
                     ],
                   ),
@@ -137,7 +137,7 @@ class TemplatesState extends State<Templates> {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(24.0),
-      color: Colors.grey,
+      color: Theme.of(context).colorScheme.surface,
       child: const Align(
         alignment: Alignment.topCenter,
         child: Text("Templates", style: TextStyle(fontSize: 16),),
@@ -176,7 +176,7 @@ class Generate extends StatefulWidget {
 class GenerateState extends State<Generate> {
   PlatformFile? uploadFile;
   PlatformFile? generatedFile;
-  TextStyle textStyle = const TextStyle(color: Colors.black, fontSize: 12);
+  TextStyle textStyle = const TextStyle(fontSize: 12);
   TextEditingController filenameC = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -310,7 +310,7 @@ class GenerateState extends State<Generate> {
           const SizedBox(height: 4,),
           Expanded(
             child: Container(
-              color: Colors.grey.withOpacity(0.9),
+              color: Theme.of(context).colorScheme.surface,
             ),
           ),
         ],
@@ -318,62 +318,3 @@ class GenerateState extends State<Generate> {
     );
   }
 }
-
-// class _HomeState extends State<Home> {
-//   Map data = {};
-//   TextEditingController searchC = TextEditingController();
-//   @override
-//   Widget build(BuildContext context) {
-//     return  Scaffold(
-//       drawer: const NavDrawer(),
-//       appBar: AppBar(
-//           backgroundColor: Colors.lightBlue,
-//         actions: [
-
-//           Transform.scale(
-//             scale: 0.8,
-//             child: SizedBox(
-//               width: 400,
-//               child: SearchBar(
-//                 controller: searchC,
-//                 leading: IconButton(
-//                   icon: const Icon(
-//                     color: Colors.black,
-//                     Icons.search,
-//                     ),
-//                   onPressed: () => {
-//                     print(searchC.text)
-//                   },
-//                 ),
-//                 onChanged: (value)=>{
-//                   print(value)
-//                 } ,
-//               ),
-//             ),
-//           ),
-
-//           IconButton(
-//             onPressed: () async {
-//               UserModel? mode = await userApi.getUser();
-//               if (mode != null) {
-//                 Navigator.of(context).push(
-//                 MaterialPageRoute(builder: (c)=>  Profile(model: mode,))
-//               );
-//               }
-//             }, 
-//             icon: const Icon(Icons.account_circle)
-//             ),
-        
-//         ],
-//       ),
-//       body: const Center(
-//         child: Row(
-//           children: [
-//             Expanded(child: createPage()),
-//             Expanded(child: generatedCV())
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
