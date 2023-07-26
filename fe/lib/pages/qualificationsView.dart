@@ -190,7 +190,6 @@ class QualificationsFieldState extends State<QualificationsField> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // color: Colors.grey,
       padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 8),
       child: Column(
         children: [
@@ -238,56 +237,6 @@ class QualificationsFieldState extends State<QualificationsField> {
             ),
           ],
       )
-      // child: Row(
-      //   children: [
-      //     Expanded(
-      //       child: TextFormField(
-      //       // style: TextStyle(fontSize: 5),
-      //       controller: widget.intstitutionC,
-      //       textAlign: TextAlign.center,
-      //       decoration: InputDecoration(
-      //         hintText: "Institution",
-      //         border: OutlineInputBorder(),
-      //         ),
-      //       ),
-      //     ),
-      //     SizedBox(width: 8,),
-      //     Expanded(
-      //       child: TextFormField(
-      //         controller: widget.qualificationC,
-      //         textAlign: TextAlign.center,
-      //         decoration: InputDecoration(
-      //           hintText: "Qualification",
-      //           border: OutlineInputBorder(),
-      //         ),
-      //       ),
-      //     ),
-      //     SizedBox(width: 8,),
-      //     Expanded(
-      //       child: GestureDetector(
-      //         onTap: () {
-      //           setState(() {
-      //             datePicker(context).then((value) {
-      //               if(value != null) {
-      //                 widget.dateC.text = dateTimeToString(value.start, value.end);
-      //                 displayDateC.text = displayDateTimeRange(value);
-      //               }
-      //             });
-      //           });
-      //         },
-      //         child: TextFormField(
-      //           enabled: false,
-      //           controller: displayDateC,
-      //           textAlign: TextAlign.center,
-      //           decoration: InputDecoration(
-      //             hintText: "Date",
-      //             border: OutlineInputBorder(),
-      //             ),
-      //           ),
-      //       ),
-      //     ),
-      //   ],
-      // )
     );
   }
 }
