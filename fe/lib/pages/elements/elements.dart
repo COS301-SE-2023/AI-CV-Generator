@@ -1,16 +1,38 @@
 import 'package:flutter/material.dart';
 Color backdrop = Colors.grey.withOpacity(0.1);
 const double profileButtonSize = 32.0;
-const primaryColour = Color(0xFFFDA187);
-const secondaryColour = Color(0xFFEA6D79);
+const primaryColour = Color(0xFFEA6D79);
+const onPrimaryColour = Colors.black;
+const secondaryColour = Color(0xFFFDA187);
+const onSecondaryColour = Colors.black;
+const errorColour = Colors.red;
+const onErrorColour = Colors.black;
+const backgroundColour = Colors.white;
+const onBackgroundColour = Colors.black;
+var surfaceColour = Colors.grey.withOpacity(0.2);
+const onSurfaceColour = Colors.black;
 
 ThemeData mainTheme = ThemeData(
-  primaryColor: const Color(0xFFFDA187),
-  appBarTheme: const AppBarTheme(color: secondaryColour),
+  appBarTheme: AppBarTheme(
+    toolbarTextStyle: TextStyle(fontSize: 16, color: onSurfaceColour)
+  ),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ButtonStyle(
-      backgroundColor: MaterialStateProperty.all(primaryColour),
+      backgroundColor: MaterialStateProperty.all(secondaryColour),
     ),
+  ),
+  colorScheme: ColorScheme(
+    brightness: Brightness.light,
+    primary: primaryColour,
+    onPrimary: onPrimaryColour,
+    secondary: secondaryColour,
+    onSecondary: onSecondaryColour,
+    error: errorColour,
+    onError: onErrorColour,
+    background: backgroundColour,
+    onBackground: onBackgroundColour,
+    surface: surfaceColour,
+    onSurface: onSurfaceColour
   ),
 );
 
@@ -61,7 +83,7 @@ class SectionContainerState extends State<SectionContainer> {
       padding: const EdgeInsets.symmetric(horizontal: 48, vertical: 24),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        color: backdrop
+        color: Theme.of(context).colorScheme.surface
       ),
       child: widget.child,
     );
