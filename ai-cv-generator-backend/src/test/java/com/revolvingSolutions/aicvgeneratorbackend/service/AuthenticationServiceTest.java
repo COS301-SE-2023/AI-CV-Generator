@@ -2,6 +2,7 @@ package com.revolvingSolutions.aicvgeneratorbackend.service;
 
 import com.revolvingSolutions.aicvgeneratorbackend.entitiy.UserEntity;
 import com.revolvingSolutions.aicvgeneratorbackend.repository.UserRepository;
+import com.revolvingSolutions.aicvgeneratorbackend.request.auth.AuthRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.auth.RegRequest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -85,6 +86,18 @@ class AuthenticationServiceTest {
 
     @Test
     void authenticate() {
+        // given
+        AuthRequest req = AuthRequest.builder()
+                .username("username")
+                .password("password")
+                .build();
+        MockHttpServletRequest actualRequest = new MockHttpServletRequest();
+        // when
+        ArgumentCaptor<String> usernameArgumentCaptor = ArgumentCaptor.forClass(String.class);
+        ArgumentCaptor<UserEntity> userEntityArgumentCaptor = ArgumentCaptor.forClass(UserEntity.class);
+
+        verify(userRepository).findByUsername(usernameArgumentCaptor.capture());
+
     }
 
     @Test
