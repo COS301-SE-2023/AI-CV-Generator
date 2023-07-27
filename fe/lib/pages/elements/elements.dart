@@ -174,7 +174,7 @@ class SectionInputState extends State<SectionInput> {
 
 class HoverEffect extends StatelessWidget {
   final Widget child;
-  HoverEffect({super.key, required this.child});
+  const HoverEffect({super.key, required this.child});
 
   @override
   Widget build(BuildContext buildContext) {

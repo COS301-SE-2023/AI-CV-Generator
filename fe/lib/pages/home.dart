@@ -37,7 +37,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     if(model == null) {
-      return LoadingScreen();
+      return const LoadingScreen();
     }
     return  Scaffold(
       drawer: const NavDrawer(),
