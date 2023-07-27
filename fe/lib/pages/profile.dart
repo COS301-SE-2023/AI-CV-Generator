@@ -101,7 +101,6 @@ class ProfileState extends State<Profile> {
         leading: IconButton(
           icon: const Icon(
             Icons.arrow_back,
-            color: Color.fromARGB(255, 0, 63, 114),
           ), 
           onPressed: () { 
             actualupdate();
