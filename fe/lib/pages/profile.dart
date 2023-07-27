@@ -109,7 +109,7 @@ class ProfileState extends State<Profile> {
         ),
       actions: [
         IconButton(onPressed: () {}, 
-        icon: const Icon(Icons.account_circle, size: profileButtonSize,)),
+        icon: const Icon(Icons.account_circle, size: profileButtonSize,), ),
         const SizedBox(width: 16,)
       ],
       ),
@@ -128,11 +128,20 @@ class ProfileState extends State<Profile> {
                       flex: 4,
                       child: Column(
                         children: [
+                          SizedBox(height: 101,),
                           SectionContainer(
                             child: Column(
                               children: [
                                 SectionHeading(text: "ABOUT ME", alignment: Alignment.topLeft,),
-                                TextFormField(controller: descripC, maxLines: 5, style: const TextStyle(fontSize: 16), decoration: const InputDecoration(border: OutlineInputBorder(), hintText: "INSERT A DESCRIPTION ABOUT YOURSELF"),),
+                                TextFormField(
+                                  controller: descripC,
+                                  maxLines: 5,
+                                  style: Theme.of(context).textTheme.bodyLarge,
+                                  decoration: const InputDecoration(
+                                    border: OutlineInputBorder(),
+                                    hintText: "INSERT A DESCRIPTION ABOUT YOURSELF"
+                                  ),
+                                ),
                               ],
                             ),
                           ),
@@ -151,7 +160,7 @@ class ProfileState extends State<Profile> {
                       ),
                     ),
                   
-                    const SizedBox(width: 48,),
+                    const SizedBox(width: 72,),
                   
                     Expanded(
                       flex: 2,
@@ -159,48 +168,60 @@ class ProfileState extends State<Profile> {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          SectionHeading(text: "PROFILE", alignment: Alignment.topRight,),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            SizedBox(child: SectionInput(controller: fnameC, hint: "FIRST NAME", fontSize: 48,), width: 140),
+                            SizedBox(width: 4,),
+                            SizedBox(child: SectionInput(controller: lnameC, hint: "LAST NAME", fontSize: 48,), width: 140),
+                          ],
+                        ),
+                          // SectionHeading(text: "PROFILE", alignment: Alignment.topRight,),
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              MouseRegion(
-                                cursor: SystemMouseCursors.click,
-                                child: GestureDetector(
-                                  onTap: () async {
-                                    final imgByte =  await ImagePickerWeb.getImageAsBytes();
-                                    if(imgByte != null){
-                                      final changed = await FileApi.updateProfileImage(img: imgByte!);
-                                      image = changed;
-                                      setState(() {});
-                                    }
-                                  },
-                                  child: CircleAvatar(
-                                    radius: 55.0,
-                                    backgroundColor: Theme.of(context).colorScheme.secondary,
+                              Expanded(
+                                flex: 1,
+                                child: MouseRegion(
+                                  cursor: SystemMouseCursors.click,
+                                  child: GestureDetector(
+                                    onTap: () async {
+                                      final imgByte =  await ImagePickerWeb.getImageAsBytes();
+                                      if(imgByte != null){
+                                        final changed = await FileApi.updateProfileImage(img: imgByte!);
+                                        image = changed;
+                                        setState(() {});
+                                      }
+                                    },
                                     child: CircleAvatar(
-                                      radius: 50.0,
-                                      backgroundImage: image!.image,
+                                      radius: 65.0,
+                                      backgroundColor: Theme.of(context).colorScheme.secondary,
+                                      child: CircleAvatar(
+                                        radius: 60.0,
+                                        backgroundImage: image!.image,
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
-                              SizedBox(
-                                width: 300,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    SectionInput(controller: fnameC, hint: "FIRST NAME"),
-                                    SectionInput(controller: lnameC, hint: "LAST NAME"),
-                                    SectionInput(controller: emailC, hint: "EMAIL"),
-                                    SectionInput(controller: locationC, hint: "ADDRESS"),
-                                    SectionInput(controller: phoneNoC, hint: "PHONE NUMBER"),
-                                  ],
+                              Expanded(
+                                flex: 2,
+                                child: SizedBox(
+                                  width: 300,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      SectionInput(controller: emailC, hint: "EMAIL"),
+                                      SectionInput(controller: locationC, hint: "ADDRESS"),
+                                      SectionInput(controller: phoneNoC, hint: "PHONE NUMBER"),
+                                    ],
+                                  ),
                                 ),
                               )
                             ]
                           ),
-                          const SizedBox(height: 16,),
+                          const SizedBox(height: 106,),
                           qualificationsC,
                           const SizedBox(height: 16,),
                           linkC
