@@ -160,7 +160,7 @@ class ProfileState extends State<Profile> {
                       ),
                     ),
                   
-                    const SizedBox(width: 72,),
+                    const SizedBox(width: 128,),
                   
                     Expanded(
                       flex: 2,
