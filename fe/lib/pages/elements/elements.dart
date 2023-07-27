@@ -10,7 +10,7 @@ const errorColour = Colors.red;
 const onErrorColour = Colors.black;
 const backgroundColour = Colors.white;
 const onBackgroundColour = Colors.black;
-var surfaceColour = Colors.grey.withOpacity(0.2);
+var surfaceColour = Colors.grey.withOpacity(0.1);
 const onSurfaceColour = Colors.black;
 
 ThemeData mainTheme = ThemeData(
@@ -83,14 +83,14 @@ class SectionContainer extends StatefulWidget {
 class SectionContainerState extends State<SectionContainer> {
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return HoverEffect(child:Container(
       padding: const EdgeInsets.symmetric(horizontal: 48, vertical: 24),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         color: Theme.of(context).colorScheme.surface
       ),
       child: widget.child,
-    );
+    ));
   }
 }
 
@@ -148,7 +148,8 @@ class SectionHeadingBarState extends State<SectionHeadingBar> {
 class SectionInput extends StatefulWidget {
   final TextEditingController controller;
   String? hint = "";
-  SectionInput({super.key, required this.controller, this.hint});
+  double? fontSize;
+  SectionInput({super.key, required this.controller, this.hint, this.fontSize});
   @override
   SectionInputState createState() => SectionInputState();
 }
@@ -156,15 +157,31 @@ class SectionInput extends StatefulWidget {
 class SectionInputState extends State<SectionInput> {
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      controller: widget.controller, 
-      textAlign: TextAlign.right, 
-      style: Theme.of(context).textTheme.titleLarge,
-      decoration: InputDecoration(
-        border: InputBorder.none,
-        hintStyle: const TextStyle(fontSize: 16),
-        hintText: widget.hint,
+    return HoverEffect(
+      child: TextFormField(
+        controller: widget.controller, 
+        textAlign: TextAlign.right, 
+        style:  widget.fontSize != null ? TextStyle(fontSize: widget.fontSize) : Theme.of(context).textTheme.titleLarge,
+        decoration: InputDecoration(
+          border: InputBorder.none,
+          hintStyle: const TextStyle(fontSize: 16),
+          hintText: widget.hint,
+        )
       )
+    );
+  }
+}
+
+class HoverEffect extends StatelessWidget {
+  final Widget child;
+  HoverEffect({super.key, required this.child});
+
+  @override
+  Widget build(BuildContext buildContext) {
+    return InkWell(
+      highlightColor: primaryColour,
+      hoverColor: primaryColour,
+      child: child,
     );
   }
 }
