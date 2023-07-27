@@ -3,6 +3,7 @@ package com.revolvingSolutions.aicvgeneratorbackend.conf;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.Customizer;
@@ -38,40 +39,11 @@ public class SecureConf {
                         new Customizer<CsrfConfigurer<HttpSecurity>>() {
                             @Override
                             public void customize(CsrfConfigurer<HttpSecurity> httpSecurityCsrfConfigurer) {
-                                if (false) {
-                                    httpSecurityCsrfConfigurer.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
-                                    httpSecurityCsrfConfigurer.csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler());
-                                } else {
+
                                     httpSecurityCsrfConfigurer.disable();
-                                }
+
                             }
                         }
-//                        (csrf) ->
-//                                csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-//                                        .csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler())
-                )
-                .cors(
-                        new Customizer<CorsConfigurer<HttpSecurity>>() {
-                            @Override
-                            public void customize(CorsConfigurer<HttpSecurity> httpSecurityCorsConfigurer) {
-//                                UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//                                CorsConfiguration configuration = new CorsConfiguration();
-//                                configuration.setMaxAge(3600L);
-//                                configuration.setAllowedMethods(
-//                                        Arrays.asList(
-//                                                HttpMethod.GET.name(),
-//                                                HttpMethod.POST.name(),
-//                                                HttpMethod.PUT.name(),
-//                                                HttpMethod.OPTIONS.name()
-//                                        )
-//                                );
-//                                configuration.addAllowedOriginPattern("http://localhost:**");
-//                                source.registerCorsConfiguration("/**", configuration);
-//                                httpSecurityCorsConfigurer.configurationSource(source);
-                            }
-                        }
-//                        (cors) ->
-//                                cors.configurationSource(configurationSource())
                 )
                 .authorizeHttpRequests(
                         (authorizationManagerRequestMatcherRegistry) ->
@@ -110,20 +82,30 @@ public class SecureConf {
         return httpSecure.build();
     }
 
-    @Bean
-    public CorsConfigurationSource configurationSource() {
+    private CorsConfigurationSource configurationSource() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setMaxAge(3600L);
+        configuration.setAllowedHeaders(Arrays.asList(
+                HttpHeaders.AUTHORIZATION,
+                HttpHeaders.CONTENT_TYPE,
+                "X-XSRF-TOKEN",
+                HttpHeaders.ACCEPT,
+                HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN,
+                "Origin",
+                "X-Requested-With"
+        ));
         configuration.setAllowedMethods(
                 Arrays.asList(
                         HttpMethod.GET.name(),
                         HttpMethod.POST.name(),
                         HttpMethod.PUT.name(),
-                        HttpMethod.OPTIONS.name()
+                        HttpMethod.OPTIONS.name(),
+                        HttpMethod.PATCH.name(),
+                        HttpMethod.DELETE.name()
                 )
         );
-        configuration.addAllowedOriginPattern("http://localhost:**");
+        configuration.addAllowedOrigin("http://localhost:**");
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
