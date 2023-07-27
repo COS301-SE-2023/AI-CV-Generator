@@ -190,7 +190,7 @@ void initState() {
           controller: widget.companyC,
           textAlign: TextAlign.center,
           decoration: const InputDecoration(
-            hintText: "Company",
+            hintText: "Organisation",
             border: OutlineInputBorder(),
             ),
           ),
