@@ -184,11 +184,11 @@ class ProfileState extends State<Profile> {
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    SectionInput(inputWidget: TextFormField(controller: fnameC, textAlign: TextAlign.right, style: const TextStyle(fontSize: 20), decoration: const InputDecoration(border: InputBorder.none, hintStyle: TextStyle(fontSize: 16), hintText: "INSERT FIRSTNAME"),),),
-                                    SectionInput(inputWidget: TextFormField(controller: lnameC, textAlign: TextAlign.right, style: const TextStyle(fontSize: 20), decoration: const InputDecoration(border: InputBorder.none, hintStyle: TextStyle(fontSize: 16), hintText: "INSERT LASTNAME"),),),
-                                    SectionInput(inputWidget: TextFormField(controller: emailC, textAlign: TextAlign.right, style: const TextStyle(fontSize: 20), decoration: const InputDecoration(border: InputBorder.none, hintStyle: TextStyle(fontSize: 16), hintText: "INSERT EMAIL"),),),
-                                    SectionInput(inputWidget: TextFormField(controller: locationC, textAlign: TextAlign.right, style: const TextStyle(fontSize: 20), decoration: const InputDecoration(border: InputBorder.none, hintStyle: TextStyle(fontSize: 16), hintText: "INSERT ADDRESS"),),),
-                                    SectionInput(inputWidget: TextFormField(controller: phoneNoC, textAlign: TextAlign.right, style: const TextStyle(fontSize: 20), decoration: const InputDecoration(border: InputBorder.none, hintStyle: TextStyle(fontSize: 16), hintText: "INSERT PHONENUMBER"),),),
+                                    SectionInput(inputWidget: TextFormField(controller: fnameC, textAlign: TextAlign.right, style: const TextStyle(fontSize: 20), decoration: const InputDecoration(border: InputBorder.none, hintStyle: TextStyle(fontSize: 16), hintText: "FIRSTNAME"),),),
+                                    SectionInput(inputWidget: TextFormField(controller: lnameC, textAlign: TextAlign.right, style: const TextStyle(fontSize: 20), decoration: const InputDecoration(border: InputBorder.none, hintStyle: TextStyle(fontSize: 16), hintText: "LASTNAME"),),),
+                                    SectionInput(inputWidget: TextFormField(controller: emailC, textAlign: TextAlign.right, style: const TextStyle(fontSize: 20), decoration: const InputDecoration(border: InputBorder.none, hintStyle: TextStyle(fontSize: 16), hintText: "EMAIL"),),),
+                                    SectionInput(inputWidget: TextFormField(controller: locationC, textAlign: TextAlign.right, style: const TextStyle(fontSize: 20), decoration: const InputDecoration(border: InputBorder.none, hintStyle: TextStyle(fontSize: 16), hintText: "ADDRESS"),),),
+                                    SectionInput(inputWidget: TextFormField(controller: phoneNoC, textAlign: TextAlign.right, style: const TextStyle(fontSize: 20), decoration: const InputDecoration(border: InputBorder.none, hintStyle: TextStyle(fontSize: 16), hintText: "PHONENUMBER"),),),
                                   ],
                                 ),
                               )
