@@ -1,5 +1,4 @@
 import 'dart:typed_data';
-
 import 'package:ai_cv_generator/pages/pdf_window.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +15,6 @@ class Templates {
   final pw.Widget unRelatedSpacing = pw.SizedBox(height: 16);
 
   void writeOnPdf() async {
-    // UserModel? mode = await userApi.getUser();
     pdf.addPage(
       pw.MultiPage(
         pageFormat: PdfPageFormat.a4,

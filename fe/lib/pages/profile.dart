@@ -304,8 +304,6 @@ class CVHistoryState extends State<CVHistory> {
   void initState() {
     FileApi.getFiles().then((value) {
       for (var element in value!) {
-        //paint_.decodeImageFromPixels(element.cover,20,20,paint_.PixelFormat.rgba8888, (result) {list.add(RawImage(image: result,)); setState(() {
-          
         list.add(add(element.filename));
       }
         setState(() {
@@ -331,16 +329,6 @@ class CVHistoryState extends State<CVHistory> {
         child: Text(filename),
     );
   }
-
-  // void add(Uint8List cover) {
-  //   images.add(
-  //     Image.memory(cover)
-  //   );
-  //   setState(() {
-      
-  //   });
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Container(
