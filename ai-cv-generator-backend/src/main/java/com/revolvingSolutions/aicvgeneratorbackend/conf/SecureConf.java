@@ -39,8 +39,14 @@ public class SecureConf {
                         new Customizer<CsrfConfigurer<HttpSecurity>>() {
                             @Override
                             public void customize(CsrfConfigurer<HttpSecurity> httpSecurityCsrfConfigurer) {
-
                                     httpSecurityCsrfConfigurer.disable();
+                            }
+                        }
+                )
+                .cors(
+                        new Customizer<CorsConfigurer<HttpSecurity>>() {
+                            @Override
+                            public void customize(CorsConfigurer<HttpSecurity> httpSecurityCorsConfigurer) {
 
                             }
                         }
