@@ -79,7 +79,7 @@ public class AuthenticationService {
 
     }
 
-    private static String getClientIp(HttpServletRequest request) {
+    public String getClientIp(HttpServletRequest request) {
         String remoteAddr = "";
         if (request != null) {
             remoteAddr = request.getHeader("X-FORWARDED-FOR");
