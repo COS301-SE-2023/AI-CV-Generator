@@ -164,7 +164,7 @@ class SectionInputState extends State<SectionInput> {
         style:  widget.fontSize != null ? TextStyle(fontSize: widget.fontSize) : Theme.of(context).textTheme.titleLarge,
         decoration: InputDecoration(
           border: InputBorder.none,
-          hintStyle: const TextStyle(fontSize: 16),
+          hintStyle: Theme.of(context).textTheme.titleLarge,
           hintText: widget.hint,
         )
       )

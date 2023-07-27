@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ai_cv_generator/pages/elements/elements.dart';
 
 class AboutPage extends StatefulWidget {
   const AboutPage({super.key});
@@ -37,10 +38,10 @@ class AboutPageState extends State<AboutPage> {
             const SizedBox(height: 24,),
             Container(
               decoration: BoxDecoration(
-                color: Colors.grey.withOpacity(0.2),
+                color: Theme.of(context).colorScheme.surface,
+                borderRadius: BorderRadius.circular(20.0),
               ),
               padding: const EdgeInsets.all(24),
-              
               width: 600,
               child: const Text(
                 style: TextStyle(fontSize: 18), 
