@@ -5,6 +5,7 @@ import 'package:ai_cv_generator/models/user/Employment.dart';
 import 'package:ai_cv_generator/models/user/UserModel.dart';
 import 'package:ai_cv_generator/pages/elements/elements.dart';
 import 'package:ai_cv_generator/pages/employmentView.dart';
+import 'package:ai_cv_generator/pages/loadingScreen.dart';
 import 'package:flutter/material.dart';
 import 'pdf_window.dart';
 import 'linksView.dart';
@@ -44,16 +45,7 @@ class ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     if(model == null || image == null) {
-      return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const CircularProgressIndicator(),
-            const SizedBox(height: 20),
-            Text('LOADING', style: Theme.of(context).textTheme.bodyMedium),
-          ],
-        ),
-      );
+      return LoadingScreen();
     }
     TextEditingController fnameC = TextEditingController(text: model!.fname);
     TextEditingController lnameC = TextEditingController(text: model!.lname);
