@@ -1,16 +1,20 @@
 
+import 'dart:typed_data';
+
 import 'package:ai_cv_generator/dio/client/fileApi.dart';
 import 'package:ai_cv_generator/dio/client/userApi.dart';
 import 'package:ai_cv_generator/models/user/Employment.dart';
 import 'package:ai_cv_generator/models/user/UserModel.dart';
 import 'package:ai_cv_generator/pages/elements/elements.dart';
 import 'package:ai_cv_generator/pages/employmentView.dart';
+import 'package:ai_cv_generator/pages/imageCropper.dart';
 import 'package:ai_cv_generator/pages/loadingScreen.dart';
 import 'package:flutter/material.dart';
 import 'pdf_window.dart';
 import 'linksView.dart';
 import 'qualificationsView.dart';
 import 'package:image_picker_web/image_picker_web.dart';
+import 'dart:ui' as ui;
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -45,7 +49,7 @@ class ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     if(model == null || image == null) {
-      return LoadingScreen();
+      return const LoadingScreen();
     }
     TextEditingController fnameC = TextEditingController(text: model!.fname);
     TextEditingController lnameC = TextEditingController(text: model!.lname);
@@ -128,7 +132,7 @@ class ProfileState extends State<Profile> {
                       flex: 4,
                       child: Column(
                         children: [
-                          SizedBox(height: 101,),
+                          const SizedBox(height: 101,),
                           SectionContainer(
                             child: Column(
                               children: [
@@ -171,9 +175,9 @@ class ProfileState extends State<Profile> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            SizedBox(child: SectionInput(controller: fnameC, hint: "FIRST NAME", fontSize: 48,), width: 140),
-                            SizedBox(width: 4,),
-                            SizedBox(child: SectionInput(controller: lnameC, hint: "LAST NAME", fontSize: 48,), width: 140),
+                            SizedBox(width: 140, child: SectionInput(controller: fnameC, hint: "FIRST NAME", fontSize: 48,)),
+                            const SizedBox(width: 4,),
+                            SizedBox(width: 140, child: SectionInput(controller: lnameC, hint: "LAST NAME", fontSize: 48,)),
                           ],
                         ),
                           // SectionHeading(text: "PROFILE", alignment: Alignment.topRight,),
@@ -187,12 +191,14 @@ class ProfileState extends State<Profile> {
                                   cursor: SystemMouseCursors.click,
                                   child: GestureDetector(
                                     onTap: () async {
-                                      final imgByte =  await ImagePickerWeb.getImageAsBytes();
-                                      if(imgByte != null){
-                                        final changed = await FileApi.updateProfileImage(img: imgByte!);
-                                        image = changed;
-                                        setState(() {});
-                                      }
+                                      Uint8List? imgByte =  await ImagePickerWeb.getImageAsBytes();
+                                        imgByte = await imagecrop(context, imgByte!);
+                                        if(imgByte != null){
+                                          final changed = await FileApi.updateProfileImage(img: imgByte);
+                                          image = changed;
+                                          setState(() {});
+                                        }
+                                       
                                     },
                                     child: CircleAvatar(
                                       radius: 65.0,

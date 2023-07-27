@@ -49,6 +49,8 @@ dependencies:
   intl: ^0.18.1
   url_launcher_web: ^2.0.17
   image_picker_web: ^3.0.0+1
+  crop_image: ^1.0.10
+  crop_your_image: ^0.7.5
 
 dev_dependencies:
   flutter_test:
