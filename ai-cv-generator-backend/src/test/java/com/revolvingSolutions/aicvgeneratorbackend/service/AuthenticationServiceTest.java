@@ -77,7 +77,7 @@ class AuthenticationServiceTest {
                 user.getUsername().equals("username")&&
                         user.fname.equals("fname") &&
                         user.lname.equals("lname") &&
-                        !user.password.equals("password")
+                        user.password != "password"
                 ).isTrue();
         verify(authService).genToken(user,"127.0.0.1");
         verify(userRepository).findByUsername("username");

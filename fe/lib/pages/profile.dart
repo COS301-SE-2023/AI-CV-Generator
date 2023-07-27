@@ -183,7 +183,6 @@ class ProfileState extends State<Profile> {
                                   final imgByte =  await ImagePickerWeb.getImageAsBytes();
                                   final changed = await FileApi.updateProfileImage(img: imgByte!);
                                   image = changed;
-                                  //Navigator.popAndPushNamed(context, '/profile');
                                   setState(() {});
                                 },
                               )
