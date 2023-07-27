@@ -16,7 +16,6 @@ class AboutPageState extends State<AboutPage> {
         leading: IconButton(
           icon: const Icon(
             Icons.arrow_back,
-            color: Color.fromARGB(255, 0, 63, 114),
           ), 
           onPressed: () { 
             Navigator.pop(context);

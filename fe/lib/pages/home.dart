@@ -1,6 +1,7 @@
 import 'package:ai_cv_generator/api/DownloadService.dart';
 import 'package:ai_cv_generator/dio/client/fileApi.dart';
 import 'package:ai_cv_generator/api/pdfApi.dart';
+import 'package:ai_cv_generator/pages/loadingScreen.dart';
 import 'package:ai_cv_generator/pages/navdrawer.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -36,16 +37,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     if(model == null) {
-      return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const CircularProgressIndicator(),
-            const SizedBox(height: 20),
-            Text('LOADING', style: Theme.of(context).textTheme.bodyMedium),
-          ],
-        ),
-      );
+      return LoadingScreen();
     }
     return  Scaffold(
       drawer: const NavDrawer(),

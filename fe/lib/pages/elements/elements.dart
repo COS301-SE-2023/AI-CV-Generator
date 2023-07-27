@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-Color backdrop = Colors.grey.withOpacity(0.1);
+const white = Colors.white;
+const black = Colors.black;
 const double profileButtonSize = 32.0;
 const primaryColour = Color(0xFFEA6D79);
 const onPrimaryColour = Colors.black;
@@ -14,7 +15,9 @@ const onSurfaceColour = Colors.black;
 
 ThemeData mainTheme = ThemeData(
   appBarTheme: const AppBarTheme(
-    toolbarTextStyle: TextStyle(fontSize: 16, color: onSurfaceColour)
+    toolbarTextStyle: TextStyle(fontSize: 16, color: onSurfaceColour),
+    actionsIconTheme: IconThemeData(color: white, size: 32),
+    iconTheme: IconThemeData(color: white)
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ButtonStyle(
@@ -58,6 +61,7 @@ class SectionHeadingState extends State<SectionHeading> {
               style: const TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
+                color: secondaryColour
               ),
             ),
             const SizedBox(height: 16),

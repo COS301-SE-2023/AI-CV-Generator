@@ -62,14 +62,6 @@ class QualificationsSectionState extends State<QualificationsSection> {
     });
   }
 
-  void addInstitution() {
-    institution;
-  }
-
-  void addQualification() {
-    
-  }
-
   void remove(int objectId) async {
     Qualification? oldQualification = getQualification(objectId);
     if(oldQualification == null) {
@@ -152,7 +144,7 @@ class QualificationsSectionState extends State<QualificationsSection> {
                 if(editing == false) {
                   add();
                 }
-              }, icon: const Icon(Icons.add)),
+              }, icon: const Icon(Icons.add,)),
               IconButton(onPressed: () {
                   edit();
               }, icon: const Icon(Icons.edit)),
