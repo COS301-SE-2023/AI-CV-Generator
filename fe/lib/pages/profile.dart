@@ -128,7 +128,7 @@ class ProfileState extends State<Profile> {
                       flex: 4,
                       child: Column(
                         children: [
-                          SizedBox(height: 101,),
+                          SizedBox(height: 178,),
                           SectionContainer(
                             child: Column(
                               children: [
@@ -168,43 +168,32 @@ class ProfileState extends State<Profile> {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            SizedBox(child: SectionInput(controller: fnameC, hint: "FIRST NAME", fontSize: 48,), width: 140),
-                            SizedBox(width: 4,),
-                            SizedBox(child: SectionInput(controller: lnameC, hint: "LAST NAME", fontSize: 48,), width: 140),
-                          ],
-                        ),
-                          // SectionHeading(text: "PROFILE", alignment: Alignment.topRight,),
+                          MouseRegion(
+                            cursor: SystemMouseCursors.click,
+                            child: GestureDetector(
+                              onTap: () async {
+                                final imgByte =  await ImagePickerWeb.getImageAsBytes();
+                                if(imgByte != null){
+                                  final changed = await FileApi.updateProfileImage(img: imgByte!);
+                                  image = changed;
+                                  setState(() {});
+                                }
+                              },
+                              child: CircleAvatar(
+                                radius: 65.0,
+                                backgroundColor: Theme.of(context).colorScheme.secondary,
+                                child: CircleAvatar(
+                                  radius: 60.0,
+                                  backgroundImage: image!.image,
+                                ),
+                              ),
+                            ),
+                          ),
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Expanded(
-                                flex: 1,
-                                child: MouseRegion(
-                                  cursor: SystemMouseCursors.click,
-                                  child: GestureDetector(
-                                    onTap: () async {
-                                      final imgByte =  await ImagePickerWeb.getImageAsBytes();
-                                      if(imgByte != null){
-                                        final changed = await FileApi.updateProfileImage(img: imgByte!);
-                                        image = changed;
-                                        setState(() {});
-                                      }
-                                    },
-                                    child: CircleAvatar(
-                                      radius: 65.0,
-                                      backgroundColor: Theme.of(context).colorScheme.secondary,
-                                      child: CircleAvatar(
-                                        radius: 60.0,
-                                        backgroundImage: image!.image,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
+
                               Expanded(
                                 flex: 2,
                                 child: SizedBox(
@@ -212,6 +201,9 @@ class ProfileState extends State<Profile> {
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
+                                      SectionInput(controller: fnameC, hint: "FIRST NAME", fontSize: 32,),
+                                      SizedBox(width: 4,),
+                                      SectionInput(controller: lnameC, hint: "LAST NAME", fontSize: 32,),
                                       SectionInput(controller: emailC, hint: "EMAIL"),
                                       SectionInput(controller: locationC, hint: "ADDRESS"),
                                       SectionInput(controller: phoneNoC, hint: "PHONE NUMBER"),
@@ -221,7 +213,7 @@ class ProfileState extends State<Profile> {
                               )
                             ]
                           ),
-                          const SizedBox(height: 106,),
+                          const SizedBox(height: 16,),
                           qualificationsC,
                           const SizedBox(height: 16,),
                           linkC
