@@ -1,11 +1,14 @@
 
 
+import 'dart:typed_data';
+
 import 'package:ai_cv_generator/dio/client/fileApi.dart';
 import 'package:ai_cv_generator/dio/client/userApi.dart';
 import 'package:ai_cv_generator/models/user/Employment.dart';
 import 'package:ai_cv_generator/models/user/UserModel.dart';
 import 'package:ai_cv_generator/pages/elements/elements.dart';
 import 'package:ai_cv_generator/pages/employmentView.dart';
+import 'package:ai_cv_generator/pages/imageCropper.dart';
 import 'package:ai_cv_generator/pages/loadingScreen.dart';
 import 'package:flutter/material.dart';
 import 'pdf_window.dart';
@@ -173,7 +176,8 @@ class ProfileState extends State<Profile> {
                             cursor: SystemMouseCursors.click,
                             child: GestureDetector(
                               onTap: () async {
-                                final imgByte =  await ImagePickerWeb.getImageAsBytes();
+                                Uint8List? imgByte =  await ImagePickerWeb.getImageAsBytes();
+                                imgByte = await imagecrop(context, imgByte!);
                                 if(imgByte != null){
                                   final changed = await FileApi.updateProfileImage(img: imgByte);
                                   image = changed;
