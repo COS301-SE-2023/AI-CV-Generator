@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:ai_cv_generator/pages/elements/elements.dart';
 
 class AboutPage extends StatefulWidget {
   const AboutPage({super.key});

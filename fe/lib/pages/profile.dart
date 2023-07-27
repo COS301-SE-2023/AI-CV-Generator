@@ -1,5 +1,4 @@
 
-import 'dart:typed_data';
 
 import 'package:ai_cv_generator/dio/client/fileApi.dart';
 import 'package:ai_cv_generator/dio/client/userApi.dart';
@@ -7,7 +6,6 @@ import 'package:ai_cv_generator/models/user/Employment.dart';
 import 'package:ai_cv_generator/models/user/UserModel.dart';
 import 'package:ai_cv_generator/pages/elements/elements.dart';
 import 'package:ai_cv_generator/pages/employmentView.dart';
-import 'package:ai_cv_generator/pages/imageCropper.dart';
 import 'package:ai_cv_generator/pages/loadingScreen.dart';
 import 'package:flutter/material.dart';
 import 'pdf_window.dart';
@@ -131,7 +129,7 @@ class ProfileState extends State<Profile> {
                       flex: 4,
                       child: Column(
                         children: [
-                          SizedBox(height: 178,),
+                          const SizedBox(height: 178,),
                           SectionContainer(
                             child: Column(
                               children: [
@@ -177,7 +175,7 @@ class ProfileState extends State<Profile> {
                               onTap: () async {
                                 final imgByte =  await ImagePickerWeb.getImageAsBytes();
                                 if(imgByte != null){
-                                  final changed = await FileApi.updateProfileImage(img: imgByte!);
+                                  final changed = await FileApi.updateProfileImage(img: imgByte);
                                   image = changed;
                                   setState(() {});
                                 }
@@ -205,7 +203,7 @@ class ProfileState extends State<Profile> {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       SectionInput(controller: fnameC, hint: "FIRST NAME", fontSize: 32,),
-                                      SizedBox(width: 4,),
+                                      const SizedBox(width: 4,),
                                       SectionInput(controller: lnameC, hint: "LAST NAME", fontSize: 32,),
                                       SectionInput(controller: emailC, hint: "EMAIL"),
                                       SectionInput(controller: locationC, hint: "ADDRESS"),
