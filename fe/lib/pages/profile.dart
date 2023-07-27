@@ -132,7 +132,7 @@ class ProfileState extends State<Profile> {
                             child: Column(
                               children: [
                                 SectionHeading(text: "ABOUT ME", alignment: Alignment.topLeft,),
-                                SectionInput(inputWidget: TextFormField(controller: descripC, maxLines: 5, style: const TextStyle(fontSize: 16), decoration: const InputDecoration(border: OutlineInputBorder(), hintText: "INSERT A DESCRIPTION ABOUT YOURSELF"),),),
+                                TextFormField(controller: descripC, maxLines: 5, style: const TextStyle(fontSize: 16), decoration: const InputDecoration(border: OutlineInputBorder(), hintText: "INSERT A DESCRIPTION ABOUT YOURSELF"),),
                               ],
                             ),
                           ),
@@ -185,29 +185,16 @@ class ProfileState extends State<Profile> {
                                   ),
                                 ),
                               ),
-                              // InkWell(
-                              //   child: SizedBox(
-                              //     width: 110,
-                              //     height: 110,
-                              //     child: image,
-                              //   ),
-                              //   onTap: () async {
-                              //     final imgByte =  await ImagePickerWeb.getImageAsBytes();
-                              //     final changed = await FileApi.updateProfileImage(img: imgByte!);
-                              //     image = changed;
-                              //     setState(() {});
-                              //   },
-                              // ),
                               SizedBox(
                                 width: 300,
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    SectionInput(inputWidget: TextFormField(controller: fnameC, textAlign: TextAlign.right, style: const TextStyle(fontSize: 20), decoration: const InputDecoration(border: InputBorder.none, hintStyle: TextStyle(fontSize: 16), hintText: "FIRSTNAME"),),),
-                                    SectionInput(inputWidget: TextFormField(controller: lnameC, textAlign: TextAlign.right, style: const TextStyle(fontSize: 20), decoration: const InputDecoration(border: InputBorder.none, hintStyle: TextStyle(fontSize: 16), hintText: "LASTNAME"),),),
-                                    SectionInput(inputWidget: TextFormField(controller: emailC, textAlign: TextAlign.right, style: const TextStyle(fontSize: 20), decoration: const InputDecoration(border: InputBorder.none, hintStyle: TextStyle(fontSize: 16), hintText: "EMAIL"),),),
-                                    SectionInput(inputWidget: TextFormField(controller: locationC, textAlign: TextAlign.right, style: const TextStyle(fontSize: 20), decoration: const InputDecoration(border: InputBorder.none, hintStyle: TextStyle(fontSize: 16), hintText: "ADDRESS"),),),
-                                    SectionInput(inputWidget: TextFormField(controller: phoneNoC, textAlign: TextAlign.right, style: const TextStyle(fontSize: 20), decoration: const InputDecoration(border: InputBorder.none, hintStyle: TextStyle(fontSize: 16), hintText: "PHONENUMBER"),),),
+                                    SectionInput(controller: fnameC, hint: "FIRST NAME"),
+                                    SectionInput(controller: lnameC, hint: "LAST NAME"),
+                                    SectionInput(controller: emailC, hint: "EMAIL"),
+                                    SectionInput(controller: locationC, hint: "ADDRESS"),
+                                    SectionInput(controller: phoneNoC, hint: "PHONE NUMBER"),
                                   ],
                                 ),
                               )
@@ -227,46 +214,6 @@ class ProfileState extends State<Profile> {
           )
         )
       )
-    );
-  }
-  
-  InkWell widget_(Image? image) {
-    return 
-      InkWell(
-          child: Container(
-            width: 110,
-            height: 110,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: image!.image,
-                fit: BoxFit.cover,
-              ),
-            )),
-          onTap: () async {
-            final imgByte =  await ImagePickerWeb.getImageAsBytes();
-            final changed = await FileApi.updateProfileImage(img: imgByte!);
-            image = changed;
-            
-            setState(() {
-              
-            });
-          },
-        );
-    }
-  }
-
-class SectionInput extends StatefulWidget {
-  final Widget inputWidget;
-  const SectionInput({super.key, required this.inputWidget});
-  @override
-  SectionInputState createState() => SectionInputState();
-}
-
-class SectionInputState extends State<SectionInput> {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: widget.inputWidget,
     );
   }
 }

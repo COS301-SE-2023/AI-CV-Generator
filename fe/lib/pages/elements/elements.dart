@@ -144,3 +144,27 @@ class SectionHeadingBarState extends State<SectionHeadingBar> {
     );
   }
 }
+
+class SectionInput extends StatefulWidget {
+  final TextEditingController controller;
+  String? hint = "";
+  SectionInput({super.key, required this.controller, this.hint});
+  @override
+  SectionInputState createState() => SectionInputState();
+}
+
+class SectionInputState extends State<SectionInput> {
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      controller: widget.controller, 
+      textAlign: TextAlign.right, 
+      style: Theme.of(context).textTheme.titleLarge,
+      decoration: InputDecoration(
+        border: InputBorder.none,
+        hintStyle: const TextStyle(fontSize: 16),
+        hintText: widget.hint,
+      )
+    );
+  }
+}
