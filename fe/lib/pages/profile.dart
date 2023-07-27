@@ -164,20 +164,40 @@ class ProfileState extends State<Profile> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              InkWell(
-                                child: SizedBox(
-                                  width: 110,
-                                  height: 110,
-                                  child: image,
+                              MouseRegion(
+                                cursor: SystemMouseCursors.click,
+                                child: GestureDetector(
+                                  onTap: () async {
+                                    final imgByte =  await ImagePickerWeb.getImageAsBytes();
+                                    if(imgByte != null){
+                                      final changed = await FileApi.updateProfileImage(img: imgByte!);
+                                      image = changed;
+                                      setState(() {});
+                                    }
+                                  },
+                                  child: CircleAvatar(
+                                    radius: 55.0,
+                                    backgroundColor: Theme.of(context).colorScheme.secondary,
+                                    child: CircleAvatar(
+                                      radius: 50.0,
+                                      backgroundImage: image!.image,
+                                    ),
+                                  ),
                                 ),
-                                onTap: () async {
-                                  final imgByte =  await ImagePickerWeb.getImageAsBytes();
-                                  final changed = await FileApi.updateProfileImage(img: imgByte!);
-                                  image = changed;
-                                  setState(() {});
-                                },
-                              )
-                              ,
+                              ),
+                              // InkWell(
+                              //   child: SizedBox(
+                              //     width: 110,
+                              //     height: 110,
+                              //     child: image,
+                              //   ),
+                              //   onTap: () async {
+                              //     final imgByte =  await ImagePickerWeb.getImageAsBytes();
+                              //     final changed = await FileApi.updateProfileImage(img: imgByte!);
+                              //     image = changed;
+                              //     setState(() {});
+                              //   },
+                              // ),
                               SizedBox(
                                 width: 300,
                                 child: Column(
