@@ -14,7 +14,6 @@ import 'pdf_window.dart';
 import 'linksView.dart';
 import 'qualificationsView.dart';
 import 'package:image_picker_web/image_picker_web.dart';
-import 'dart:ui' as ui;
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -193,11 +192,9 @@ class ProfileState extends State<Profile> {
                                     onTap: () async {
                                       Uint8List? imgByte =  await ImagePickerWeb.getImageAsBytes();
                                         imgByte = await imagecrop(context, imgByte!);
-                                        if(imgByte != null){
-                                          final changed = await FileApi.updateProfileImage(img: imgByte);
-                                          image = changed;
-                                          setState(() {});
-                                        }
+                                        final changed = await FileApi.updateProfileImage(img: imgByte);
+                                        image = changed;
+                                        setState(() {});
                                        
                                     },
                                     child: CircleAvatar(

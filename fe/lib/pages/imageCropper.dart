@@ -10,6 +10,8 @@ import 'package:flutter/material.dart';
     context: context, 
     builder: (BuildContext context)  {
       return Dialog(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
         child: Scaffold(
           body: Center(
             child: Crop(
@@ -19,11 +21,9 @@ import 'package:flutter/material.dart';
                 imgdata = image;
                 Navigator.pop(context);
               },
-              initialArea: Rect.fromLTWH(240, 212, 800, 600),
+              initialArea: const Rect.fromLTWH(240, 212, 800, 600),
               withCircleUi: true,
               fixArea: false,
-              baseColor: Colors.blue.shade900,
-              maskColor: Colors.white.withAlpha(100),
               radius: 20,
             ) 
           ),  
@@ -31,14 +31,14 @@ import 'package:flutter/material.dart';
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              ElevatedButton(
+              TextButton(
                 onPressed: () {
-                  controller.crop();
-                }, 
-                child: const Text("Done")
-              )
+                  controller.cropCircle();
+                },
+                child: const Text('Done'),
+              ),
             ],
-          ),
+          )
         )
       );
     }
