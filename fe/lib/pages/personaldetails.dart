@@ -2,7 +2,9 @@
 import 'package:ai_cv_generator/dio/client/userApi.dart';
 import 'package:ai_cv_generator/models/user/UserModel.dart';
 import 'package:ai_cv_generator/pages/navdrawer.dart';
+import 'package:ai_cv_generator/pages/qualifications.dart';
 import 'package:ai_cv_generator/pages/strings.dart';
+import 'package:ai_cv_generator/pages/questionaireModal.dart';
 import 'package:flutter/material.dart';
 
 void main () => runApp( const PersonalDetails());
@@ -60,13 +62,11 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
   @override
   Widget build(BuildContext context) {
     getUser();
-    
-
     return Scaffold(
       drawer: const NavDrawer(),
       body: ListView(
         children: [
-          const SizedBox(height: 64,),
+          SizedBox(height: 64,),
           titleSection,
           Center ( 
             child: Container ( 
@@ -81,7 +81,8 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
               child: const Text('Save and Proceed'),
               onPressed: () async {
                 updateUser();
-                Navigator.pushNamed(context, "/qualificationsdetails");
+                Navigator.of(context).pop();
+                showQuestionaireModal(context, QualificationsDetailsForm());
               },
             )
           ),

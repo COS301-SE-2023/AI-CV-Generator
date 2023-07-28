@@ -42,11 +42,6 @@ class MyApp extends StatelessWidget {
         '/home':(context) => const Home(),
         '/profile':(context) => const Profile(),
         '/about':(context) => const AboutPage(),
-        '/personaldetails':(context) => const PersonalDetails(),
-        '/qualificationsdetails':(context) => const QualificationsDetailsForm(),
-        '/employmentdetails':(context) => const EmploymentDetails(),
-        '/skills':(context) => const Skills(),
-        '/references':(context) => const References(),
       },
     );
   }

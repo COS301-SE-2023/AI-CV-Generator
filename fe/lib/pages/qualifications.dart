@@ -1,6 +1,9 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:ai_cv_generator/pages/employment.dart';
 import 'package:ai_cv_generator/pages/navdrawer.dart';
+import 'package:ai_cv_generator/pages/personaldetails.dart';
+import 'package:ai_cv_generator/pages/questionaireModal.dart';
 import 'package:ai_cv_generator/pages/strings.dart';
 import 'package:date_field/date_field.dart';
 import 'package:flutter/material.dart';
@@ -40,12 +43,9 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: const NavDrawer(),
-      appBar: AppBar(
-        title: const Text(StringsQualifications.appHeadingTitle),
-      ),
       body: ListView(
         children: [
-          const SizedBox(height: 64,),
+          SizedBox(height: 64,),
           titleSection,
           Center ( 
             child: Container ( 
@@ -69,7 +69,8 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
                 height: 30,
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, "/personaldetails");
+                    Navigator.of(context).pop();
+                    showQuestionaireModal(context, PersonalDetails());
                   }, child: const Text('Back'),
                 )
               ),
@@ -81,7 +82,8 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
                 height: 30,
                 child: ElevatedButton(
                   onPressed: () {
-                      Navigator.pushNamed(context, "/employmentdetails");
+                    Navigator.of(context).pop();
+                    showQuestionaireModal(context, EmploymentDetails());
                   }, child: const Text('Save & Proceed'),
                 )
               )
