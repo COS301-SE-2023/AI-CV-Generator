@@ -186,7 +186,18 @@ class GenerateState extends State<Generate> {
                   width: 100, 
                   child: ElevatedButton(
                     onPressed: () async {
-                      Navigator.pushNamed(context, "/personaldetails");
+                      showDialog(
+                        context: context, 
+                        builder: (BuildContext context) {
+                          return Dialog(
+                            child: IntrinsicWidth(
+                              child: PersonalDetails()
+                            )
+                            
+                          );
+                        }
+                      );
+                      // Navigator.pushNamed(context, "/personaldetails");
                     }, 
                     child: Text("NEW", style: textStyle),
                   ),

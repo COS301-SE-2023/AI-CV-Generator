@@ -62,6 +62,7 @@ class _SkillsFormState extends State<SkillsForm> {
       ),
       body: ListView(
         children: [
+          SizedBox(height: 64,),
           titleSection,
           Center ( 
             child: Container ( 

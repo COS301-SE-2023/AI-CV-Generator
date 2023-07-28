@@ -1,5 +1,4 @@
 // ignore_for_file: must_be_immutable
-
 import 'package:ai_cv_generator/dio/client/userApi.dart';
 import 'package:ai_cv_generator/models/user/UserModel.dart';
 import 'package:ai_cv_generator/pages/navdrawer.dart';
@@ -66,11 +65,9 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
 
     return Scaffold(
       drawer: const NavDrawer(),
-      appBar: AppBar(
-        title: const Text(StringsPersonal.appHeadingTitle),
-      ),
       body: ListView(
         children: [
+          SizedBox(height: 64,),
           titleSection,
           Center ( 
             child: Container ( 
@@ -78,20 +75,15 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
             child: _buildForm(),
             ),
         ),
-        Center (
-          child: Container(
-              padding: const EdgeInsets.all(4.0),
-              child: SizedBox(
-                width: 150,
-                height: 30,
-                child: ElevatedButton(
-                  onPressed: () async {
-                      updateUser();
-                      Navigator.pushNamed(context, "/qualificationsdetails");
-                  },
-                    child: const Text('Save & Proceed'),
-                )
-              ),
+        Container(
+            height: 50,
+            padding: const EdgeInsets.fromLTRB(600, 0, 600, 0),
+            child: ElevatedButton(
+              child: const Text('Save and Proceed'),
+              onPressed: () async {
+                updateUser();
+                Navigator.pushNamed(context, "/qualificationsdetails");
+              },
             )
           ),
         ],
