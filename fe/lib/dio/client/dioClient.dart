@@ -4,8 +4,6 @@ import 'package:ai_cv_generator/dio/interceptors/tokenRefreshInterceptor.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../interceptors/Mockinterceptor.dart';
-
 class DioClient {
   static final Dio _dio = Dio(
     BaseOptions(
@@ -21,7 +19,6 @@ class DioClient {
   ) ..interceptors.addAll(
     [
       Logger(log: true),
-      MockInterceptor(throwError: false, intercept: false),
       HeaderAdder(),
       TokenRevalidator()
     ]
@@ -32,8 +29,7 @@ class DioClient {
   
 
   // Extreamely temporary (implementing secure method later on)
-  // static String authToken ="";
-  // static String refreshToken = "";
+  // Keeping as is until final demo
 
   static Future<String> authToken() async {
     final SharedPreferences pref = await SharedPreferences.getInstance();

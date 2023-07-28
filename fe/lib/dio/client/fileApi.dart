@@ -142,7 +142,7 @@ class FileApi extends DioClient {
       );
       ShareFileResponse resp =ShareFileResponse.fromJson(response.data);
       url = resp.generatedUrl;
-    } on DioError catch(e) {
+    } on DioException catch(e) {
       DioClient.handleError(e);
     }
     return url;
@@ -171,7 +171,7 @@ class FileApi extends DioClient {
         );
       ShareFileResponse resp =ShareFileResponse.fromJson(response.data);
         url = resp.generatedUrl;
-    } on DioError catch(e) {
+    } on DioException catch(e) {
       DioClient.handleError(e);
     }
     return url;
