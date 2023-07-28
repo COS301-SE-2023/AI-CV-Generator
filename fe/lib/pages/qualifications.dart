@@ -184,12 +184,6 @@ class TextMonitorWidget extends StatefulWidget {
 }
 
 class TextMonitorWidgetState extends State<TextMonitorWidget> {
-  TextEditingController displayDateC = TextEditingController();
-  @override
-  void initState() {
-    displayDateC.text = displayDateTimeRange(stringToDateTimeRange(widget.dateC.text));
-    super.initState();
-  }
   populate() {
     widget.column.children.add(_buildInstitutionField(widget.institutionC));
     widget.column.children.add(_buildQualificationField(widget.qualificationC));
@@ -245,12 +239,6 @@ class TextMonitorWidgetState extends State<TextMonitorWidget> {
   }
 
   Widget _buildGraduationField() {
-    // datePicker(context).then((value) {
-    //   if(value != null) {
-    //     widget.dateC.text = dateTimeToString(value.start, value.end);
-    //     displayDateC.text = displayDateTimeRange(value);
-    //   }
-    // });
     return Container (
       padding: const EdgeInsets.all(8.0),
       constraints: BoxConstraints.tight(const Size(550,65)),
@@ -274,26 +262,4 @@ class TextMonitorWidgetState extends State<TextMonitorWidget> {
     populate();
     return widget.column;
   }
-}
-
-String dateTimeToString(DateTime start, DateTime end) {
-  return "$start/$end";
-}
-
-DateTimeRange stringToDateTimeRange(String text) {
-  List<String> dates = text.split('/');
-  return DateTimeRange(start: DateTime.parse(dates[0]), end: DateTime.parse(dates[1]));
-}
-
-String displayDateTimeRange(DateTimeRange dateTimeRange) {
-  return "${dateTimeRange.start.year} - ${dateTimeRange.end.year}";
-}
-
-Future<DateTimeRange?> datePicker(BuildContext context) async {
-  return showDateRangePicker(
-      context: context, 
-      firstDate: DateTime.now().subtract(const Duration(days:365*100)),
-      lastDate: DateTime.now(),
-      initialEntryMode: DatePickerEntryMode.input,
-    );
 }
