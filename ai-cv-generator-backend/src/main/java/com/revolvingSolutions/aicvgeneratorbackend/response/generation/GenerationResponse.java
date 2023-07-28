@@ -11,5 +11,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GenerationResponse {
-    private CVData cvData;
+    private String temp;
 }

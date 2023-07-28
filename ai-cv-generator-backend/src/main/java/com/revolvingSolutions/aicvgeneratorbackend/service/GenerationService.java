@@ -11,21 +11,14 @@ import org.springframework.web.client.RestTemplate;
 @Service
 @RequiredArgsConstructor
 public class GenerationService {
-    @Value("${app.openAIKey}")
-    private String OpenAIKey;
-
-    @Value("${app.api.host.baseurl}")
-    private String baseurl;
 
     @Autowired
     private RestTemplate restTemplate;
 
     public GenerationResponse generateCV(GenerationRequest request) {
         return GenerationResponse.builder()
-                .cvData(
-                        CVData.builder()
-                                .tempdata("tempdata")
-                                .build()
+                .temp(
+                        ""
                 )
                 .build();
     }
