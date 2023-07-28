@@ -20,6 +20,14 @@ public class LangChainService {
                 .build();
     }
 
+    public GenerationResponse jythonGenerateCV(
+            GenerationRequest request
+    ) {
+        return  GenerationResponse.builder()
+                .temp(interact(generationAgent, request.getAdjustedModel().toString()))
+                .build();
+    }
+
     private static String interact(GenerationAgent agent, String userMessage) {
         System.out.println("==========================================================================================");
         System.out.println("[User]: " + userMessage);

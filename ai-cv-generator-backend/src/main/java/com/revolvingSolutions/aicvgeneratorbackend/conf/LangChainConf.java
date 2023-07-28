@@ -32,7 +32,7 @@ public class LangChainConf {
                 apikey,
                 modelName,
                 temperature,
-                10.0,
+                1.0,
                 100,
                 0.0,0.0,
                 Duration.ofMinutes(2),
@@ -45,7 +45,7 @@ public class LangChainConf {
     public GenerationAgent generationAgent(ChatLanguageModel chatLanguageModel) {
         return AiServices.builder(GenerationAgent.class)
                 .chatLanguageModel(chatLanguageModel)
-                .chatMemory(MessageWindowChatMemory.withCapacity(20))
+                .chatMemory(MessageWindowChatMemory.withCapacity(40))
                 .build();
     }
 }
