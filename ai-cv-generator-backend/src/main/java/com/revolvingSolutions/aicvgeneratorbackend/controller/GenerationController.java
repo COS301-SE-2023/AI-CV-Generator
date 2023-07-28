@@ -4,13 +4,10 @@ package com.revolvingSolutions.aicvgeneratorbackend.controller;
 import com.revolvingSolutions.aicvgeneratorbackend.request.generation.GenerationRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.response.generation.GenerationResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.generation.MockGenerationResponse;
-import com.revolvingSolutions.aicvgeneratorbackend.service.GenerationService;
 import com.revolvingSolutions.aicvgeneratorbackend.service.LangChainService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Random;
 
 @RestController
 @CrossOrigin(value="*")

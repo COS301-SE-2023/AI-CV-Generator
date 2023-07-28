@@ -1,7 +1,9 @@
 package com.revolvingSolutions.aicvgeneratorbackend.controller;
 
+import com.revolvingSolutions.aicvgeneratorbackend.model.User;
 import com.revolvingSolutions.aicvgeneratorbackend.request.generation.GenerationRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.service.GenerationService;
+import com.revolvingSolutions.aicvgeneratorbackend.service.LangChainService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,7 +17,7 @@ class GenerationControllerTest {
     private GenerationController generationController;
 
     @Mock
-    private GenerationService generationService;
+    private LangChainService generationService;
 
     AutoCloseable closeable;
     @BeforeEach
@@ -33,7 +35,9 @@ class GenerationControllerTest {
     void generate() {
         // given
         GenerationRequest request = GenerationRequest.builder()
-                .TempData("temp")
+                .adjustedModel(
+                        User.builder().build()
+                )
                 .build();
         // when
         generationController.generate(request);
