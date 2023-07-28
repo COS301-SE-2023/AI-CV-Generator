@@ -1,8 +1,6 @@
 // ignore_for_file: must_be_immutable
 import 'package:ai_cv_generator/pages/navdrawer.dart';
 import 'package:date_field/date_field.dart';
-import 'package:ai_cv_generator/pages/qualifications.dart';
-import 'package:ai_cv_generator/pages/skills.dart';
 import 'package:ai_cv_generator/pages/strings.dart';
 import 'package:flutter/material.dart';
 
@@ -61,7 +59,7 @@ class _EmploymentDetailsFormState extends State<EmploymentDetailsForm> {
       ),
       body: ListView(
         children: [
-          SizedBox(height: 64,),
+          const SizedBox(height: 64,),
           titleSection,
           Center ( 
             child: Container ( 

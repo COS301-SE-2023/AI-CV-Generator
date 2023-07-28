@@ -189,7 +189,7 @@ class GenerateState extends State<Generate> {
                       showDialog(
                         context: context, 
                         builder: (BuildContext context) {
-                          return Dialog(
+                          return const Dialog(
                             child: IntrinsicWidth(
                               child: PersonalDetails()
                             )
