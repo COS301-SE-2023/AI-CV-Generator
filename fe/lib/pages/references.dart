@@ -41,6 +41,16 @@ class _ReferencesFormState extends State<ReferencesForm> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: const NavDrawer(),
+      appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(
+            Icons.close,
+          ), 
+          onPressed: () async { 
+            Navigator.pop(context);
+          },
+        ),
+      ),
       body: ListView(
         children: [
           const SizedBox(height: 64,),

@@ -64,29 +64,44 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
     getUser();
     return Scaffold(
       drawer: const NavDrawer(),
-      body: ListView(
-        children: [
-          SizedBox(height: 64,),
-          titleSection,
-          Center ( 
-            child: Container ( 
-            padding: const EdgeInsets.all(25.0),
-            child: _buildForm(),
-            ),
+      appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(
+            Icons.close,
+          ), 
+          onPressed: () async { 
+            Navigator.pop(context);
+          },
         ),
-        Container(
-            height: 50,
-            padding: const EdgeInsets.fromLTRB(600, 0, 600, 0),
-            child: ElevatedButton(
-              child: const Text('Save and Proceed'),
-              onPressed: () async {
-                updateUser();
-                Navigator.of(context).pop();
-                showQuestionaireModal(context, QualificationsDetailsForm());
-              },
-            )
-          ),
-        ],
+      ),
+      body: Center(
+        child: Column(
+          children: [
+            Expanded(
+              child: titleSection,
+            ),
+            Expanded(
+              flex: 4,
+              child: Container ( 
+                padding: const EdgeInsets.all(25.0),
+                child: _buildForm(),
+              ),
+            ),
+            SizedBox(
+              height: 50,
+              width: 150,
+              child: ElevatedButton(
+                child: const Text('Save and Proceed'),
+                onPressed: () async {
+                  updateUser();
+                  Navigator.of(context).pop();
+                  showQuestionaireModal(context, QualificationsDetailsForm());
+                },
+              ),
+            ),
+            SizedBox(height: 64,),
+          ],
+        ),
       ),
     );
   }

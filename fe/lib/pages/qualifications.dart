@@ -43,55 +43,67 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: const NavDrawer(),
-      body: ListView(
-        children: [
-          SizedBox(height: 64,),
-          titleSection,
-          Center ( 
-            child: Container ( 
-            padding: const EdgeInsets.all(25.0),
-            child: _buildForm(),
+      appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(
+            Icons.close,
+          ), 
+          onPressed: () async { 
+            Navigator.pop(context);
+          },
+        ),
+      ),
+      body: Center(
+        child: Column(
+          children: [
+            Expanded(
+              child: titleSection,
             ),
-        ),
-        SizedBox(height: 64,),
-        Center (
-          child: Container ( 
-            padding: const EdgeInsets.all(20.0),
-            child: _buildAddButton(),
-          )
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget> [
-            Container(
-              padding: const EdgeInsets.all(10.0),
-              child: SizedBox(
-                width: 140,
-                height: 30,
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                    showQuestionaireModal(context, PersonalDetails());
-                  }, child: const Text('Back'),
-                )
+            Expanded(
+              flex: 4,
+              child: Container ( 
+                padding: const EdgeInsets.all(25.0),
+                child: _buildForm(),
               ),
             ),
-            Container(
-              padding: const EdgeInsets.all(10.0),
-              child: SizedBox(
-                width: 140,
-                height: 30,
+          Center (
+            child: Container ( 
+              padding: const EdgeInsets.all(20.0),
+              child: _buildAddButton(),
+            )
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget> [
+              SizedBox(
+                height: 50,
+                width: 150,
                 child: ElevatedButton(
-                  onPressed: () {
+                  child: const Text('Back'),
+                  onPressed: () async {
+                    Navigator.of(context).pop();
+                    showQuestionaireModal(context, PersonalDetails());
+                  },
+                ),
+              ),
+              SizedBox(width: 64,),
+              SizedBox(
+                height: 50,
+                width: 150,
+                child: ElevatedButton(
+                  child: const Text('Save and Proceed'),
+                  onPressed: () async {
                     Navigator.of(context).pop();
                     showQuestionaireModal(context, EmploymentDetailsForm());
-                  }, child: const Text('Save & Proceed'),
-                )
-              )
-            ),
+                  },
+                ),
+              ),
+
+            ],
+          ),
+            SizedBox(height: 64,),
           ],
-        ),
-        ],
+        )
       )
     );
   }
