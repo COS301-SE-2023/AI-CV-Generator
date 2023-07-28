@@ -1,5 +1,6 @@
 package com.revolvingSolutions.aicvgeneratorbackend.request.generation;
 
+import com.revolvingSolutions.aicvgeneratorbackend.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,5 +11,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GenerationRequest {
-    private String TempData;
+    private User adjustedModel;
 }

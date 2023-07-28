@@ -11,5 +11,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CVData {
-    public String tempdata;
+    public String fname;
+    public String lname;
+    public String location;
+    public String description;
 }
