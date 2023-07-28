@@ -14,7 +14,7 @@ var surfaceColour = Colors.grey.withOpacity(0.1);
 const onSurfaceColour = Colors.black;
 
 ThemeData mainTheme = ThemeData(
-  buttonTheme: ButtonThemeData(
+  buttonTheme: const ButtonThemeData(
     hoverColor: black
   ),
   appBarTheme: const AppBarTheme(
@@ -152,8 +152,8 @@ class SectionInput extends StatefulWidget {
   final TextEditingController controller;
   String? hint = "";
   double? fontSize;
-  double? height = null;
-  double? width = null;
+  double? height;
+  double? width;
   SectionInput({super.key, required this.controller, this.hint, this.fontSize, this.height, this.width});
   @override
   SectionInputState createState() => SectionInputState();

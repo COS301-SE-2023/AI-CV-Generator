@@ -2,7 +2,6 @@
 import 'package:ai_cv_generator/dio/client/userApi.dart';
 import 'package:ai_cv_generator/models/user/UserModel.dart';
 import 'package:ai_cv_generator/pages/navdrawer.dart';
-import 'package:ai_cv_generator/pages/qualifications.dart';
 import 'package:ai_cv_generator/pages/strings.dart';
 import 'package:flutter/material.dart';
 
@@ -67,7 +66,7 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
       drawer: const NavDrawer(),
       body: ListView(
         children: [
-          SizedBox(height: 64,),
+          const SizedBox(height: 64,),
           titleSection,
           Center ( 
             child: Container ( 

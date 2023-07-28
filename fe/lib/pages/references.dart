@@ -1,7 +1,6 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:ai_cv_generator/pages/navdrawer.dart';
-import 'package:ai_cv_generator/pages/skills.dart';
 import 'package:ai_cv_generator/pages/strings.dart';
 import 'package:flutter/material.dart';
 
@@ -45,7 +44,7 @@ class _ReferencesFormState extends State<ReferencesForm> {
       ),
       body: ListView(
         children: [
-          SizedBox(height: 64,),
+          const SizedBox(height: 64,),
           titleSection,
           Center ( 
             child: Container ( 
