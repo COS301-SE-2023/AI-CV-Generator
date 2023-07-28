@@ -84,11 +84,8 @@ class _EmploymentDetailsFormState extends State<EmploymentDetailsForm> {
                 height: 30,
                 child: ElevatedButton(
                   onPressed: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const QualificationsDetailsForm()));
-                    },
+                    Navigator.pushNamed(context, "/qualificationsdetails");
+                  },
                     child: const Text('Back'),
                 )
               ),
@@ -100,13 +97,8 @@ class _EmploymentDetailsFormState extends State<EmploymentDetailsForm> {
                 height: 30,
                 child: ElevatedButton(
                   onPressed: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const Skills()
-                          )
-                        );
-                    },
+                    Navigator.pushNamed(context, "/skills");
+                  },
                     child: const Text('Save & Proceed'),
                 )
               ),
@@ -267,16 +259,10 @@ class _EmploymentDetailsFormState extends State<EmploymentDetailsForm> {
   }
 
   void _submitBack() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const QualificationsDetails()));
+    Navigator.pushNamed(context, "/qualificationsdetails");
   }
 
   void _submitForm() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const Skills()));
+    Navigator.pushNamed(context, "/skills");
   }
 }

@@ -61,7 +61,7 @@ class ProfileState extends State<Profile> {
     QualificationsSection qualificationsC = QualificationsSection(key: qualificationsKey, qualifications: model!.qualifications != null ? model!.qualifications! : []);
     EmploymentSection employmentC = EmploymentSection(key: employhistoryKey, employment: model!.employmenthistory != null ? model!.employmenthistory! : [Employment(company: 'ERROR', title: 'ERORR', startdate: DateTime.now(), enddate: DateTime.now(), empid: 0)]);
     DateTime time = DateTime.now();
-    void actualupdate() {
+    Future<void> actualupdate() async {
       model!.fname = fnameC.text;
       model!.lname = lnameC.text;
       model!.email = emailC.text;
@@ -71,7 +71,7 @@ class ProfileState extends State<Profile> {
       linksKey.currentState?.update();
       qualificationsKey.currentState?.update();
       employhistoryKey.currentState?.update();
-      userApi.updateUser(user: model!);
+      await userApi.updateUser(user: model!);
     }
     
     void update() {
@@ -103,8 +103,8 @@ class ProfileState extends State<Profile> {
           icon: const Icon(
             Icons.arrow_back,
           ), 
-          onPressed: () { 
-            actualupdate();
+          onPressed: () async { 
+            await actualupdate();
             Navigator.pop(context);
           },
         ),

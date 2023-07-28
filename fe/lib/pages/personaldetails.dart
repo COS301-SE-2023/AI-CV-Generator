@@ -87,11 +87,8 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
                 child: ElevatedButton(
                   onPressed: () async {
                       updateUser();
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const QualificationsDetailsForm()));
-                    },
+                      Navigator.pushNamed(context, "/qualificationsdetails");
+                  },
                     child: const Text('Save & Proceed'),
                 )
               ),
@@ -268,9 +265,6 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
   }
 
   void _submitForm() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const QualificationsDetailsForm()));
+    Navigator.pushNamed(context, "/qualificationsdetails");
   }
 }

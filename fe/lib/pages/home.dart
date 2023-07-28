@@ -3,6 +3,7 @@ import 'package:ai_cv_generator/dio/client/fileApi.dart';
 import 'package:ai_cv_generator/api/pdfApi.dart';
 import 'package:ai_cv_generator/pages/loadingScreen.dart';
 import 'package:ai_cv_generator/pages/navdrawer.dart';
+import 'package:ai_cv_generator/pages/personaldetails.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -22,7 +23,6 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   Map data = {};
   UserModel? model;
-  TextEditingController searchC = TextEditingController();
 
   @override
   void initState() {
@@ -61,6 +61,8 @@ class _HomeState extends State<Home> {
             child: GestureDetector(
               onTap: () async {
                 Navigator.pushNamed(context, '/profile');
+                model = await userApi.getUser();
+                setState(() {});
               }, 
               child: Row(
                 children: [
@@ -178,6 +180,19 @@ class GenerateState extends State<Generate> {
         children: [
           Row(
             children: [
+              Container(
+                child: SizedBox(
+                  height: 40,
+                  width: 100, 
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      Navigator.pushNamed(context, "/personaldetails");
+                    }, 
+                    child: Text("NEW", style: textStyle),
+                  ),
+                )
+              ),
+              const SizedBox(width: 43,),
               Container(
                 child: SizedBox(
                   height: 40,

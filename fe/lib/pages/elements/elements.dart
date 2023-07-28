@@ -18,7 +18,7 @@ ThemeData mainTheme = ThemeData(
     hoverColor: black
   ),
   appBarTheme: const AppBarTheme(
-    toolbarTextStyle: TextStyle(fontSize: 16, color: onSurfaceColour),
+    toolbarTextStyle: TextStyle(fontSize: 16, color: white),
     actionsIconTheme: IconThemeData(color: white, size: 32),
     iconTheme: IconThemeData(color: white)
   ),

@@ -68,13 +68,8 @@ class _ReferencesFormState extends State<ReferencesForm> {
                   height: 30,
                   child: ElevatedButton(
                     onPressed: () {
-                        Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const Skills()
-                          )
-                        );
-                      },
+                      Navigator.pushNamed(context, "/skills");
+                    },
                       child: const Text('Back'),
                   )
                 )
@@ -86,7 +81,8 @@ class _ReferencesFormState extends State<ReferencesForm> {
                 height: 30,
                 child: ElevatedButton(
                   onPressed: () {
-                      Navigator.pop(context);
+                      Navigator.of(context).popUntil(ModalRoute.withName('/home'));
+                      Navigator.of(context).pushReplacementNamed('/home');
                     },
                     child: const Text('Save & Generate'),
                 )
@@ -269,10 +265,10 @@ class _ReferencesFormState extends State<ReferencesForm> {
   }
 
   void _submitBack() {
-    Navigator.pop(context);
+    Navigator.pushNamed(context, "/skills");
   }
 
   void _submitForm() {
-    Navigator.pop(context);
+    Navigator.popAndPushNamed(context, "/home");
   }
 }
