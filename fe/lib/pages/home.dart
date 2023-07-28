@@ -4,6 +4,7 @@ import 'package:ai_cv_generator/api/pdfApi.dart';
 import 'package:ai_cv_generator/pages/loadingScreen.dart';
 import 'package:ai_cv_generator/pages/navdrawer.dart';
 import 'package:ai_cv_generator/pages/personaldetails.dart';
+import 'package:ai_cv_generator/pages/qualifications.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -189,8 +190,9 @@ class GenerateState extends State<Generate> {
                       showDialog(
                         context: context, 
                         builder: (BuildContext context) {
-                          return const Dialog(
-                            child: IntrinsicWidth(
+                          return Dialog(
+                            child: ConstrainedBox(
+                              constraints: BoxConstraints(),
                               child: PersonalDetails()
                             )
                             

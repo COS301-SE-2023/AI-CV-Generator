@@ -1,6 +1,8 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:ai_cv_generator/pages/navdrawer.dart';
+import 'package:ai_cv_generator/pages/questionaireModal.dart';
+import 'package:ai_cv_generator/pages/skills.dart';
 import 'package:ai_cv_generator/pages/strings.dart';
 import 'package:flutter/material.dart';
 
@@ -39,9 +41,6 @@ class _ReferencesFormState extends State<ReferencesForm> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: const NavDrawer(),
-      appBar: AppBar(
-        title: const Text(StringsReferences.appHeadingTitle),
-      ),
       body: ListView(
         children: [
           const SizedBox(height: 64,),
@@ -68,7 +67,8 @@ class _ReferencesFormState extends State<ReferencesForm> {
                   height: 30,
                   child: ElevatedButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, "/skills");
+                      Navigator.of(context).pop();
+                      showQuestionaireModal(context, Skills());
                     },
                       child: const Text('Back'),
                   )
@@ -81,9 +81,8 @@ class _ReferencesFormState extends State<ReferencesForm> {
                 height: 30,
                 child: ElevatedButton(
                   onPressed: () {
-                      Navigator.of(context).popUntil(ModalRoute.withName('/home'));
-                      Navigator.of(context).pushReplacementNamed('/home');
-                    },
+                    Navigator.of(context).pop();
+                  },
                     child: const Text('Save & Generate'),
                 )
               )
