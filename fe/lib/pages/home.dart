@@ -4,7 +4,6 @@ import 'package:ai_cv_generator/api/pdfApi.dart';
 import 'package:ai_cv_generator/pages/loadingScreen.dart';
 import 'package:ai_cv_generator/pages/navdrawer.dart';
 import 'package:ai_cv_generator/pages/personaldetails.dart';
-import 'package:ai_cv_generator/pages/questionaireModal.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -187,7 +186,18 @@ class GenerateState extends State<Generate> {
                   width: 100, 
                   child: ElevatedButton(
                     onPressed: () async {
-                      showQuestionaireModal(context, PersonalDetails());
+                      showDialog(
+                        context: context, 
+                        builder: (BuildContext context) {
+                          return const Dialog(
+                            child: IntrinsicWidth(
+                              child: PersonalDetails()
+                            )
+                            
+                          );
+                        }
+                      );
+                      // Navigator.pushNamed(context, "/personaldetails");
                     }, 
                     child: Text("NEW", style: textStyle),
                   ),

@@ -40,6 +40,11 @@ ThemeData mainTheme = ThemeData(
     surface: surfaceColour,
     onSurface: onSurfaceColour
   ),
+  pageTransitionsTheme: const PageTransitionsTheme(
+    builders: {
+      TargetPlatform.windows: CupertinoPageTransitionsBuilder()
+    },
+  ),
 );
 
 class SectionHeading extends StatefulWidget {

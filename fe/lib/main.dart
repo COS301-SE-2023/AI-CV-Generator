@@ -43,6 +43,29 @@ class MyApp extends StatelessWidget {
         '/profile':(context) => const Profile(),
         '/about':(context) => const AboutPage(),
       },
+      onGenerateRoute: (settings) {
+        if (settings.name == '/profile') {
+          return PageRouteBuilder(
+            settings: settings,
+            pageBuilder: (context,animation, secondaryAnimation ) => const Profile(),
+            transitionsBuilder: (context, animation, secondaryAnimation, child) {
+              const begin = Offset(0.0, 1.0);
+              const end = Offset.zero;
+              const curve = Curves.ease;
+
+              var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+              return SlideTransition(
+                position: animation.drive(tween),
+                child: child,
+              );
+            },
+            transitionDuration: Duration.zero,
+            reverseTransitionDuration: const Duration(seconds: 2)
+          );
+        }
+        return MaterialPageRoute(builder: (context)=> const Home());
+      },
     );
   }
 }
