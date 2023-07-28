@@ -67,6 +67,7 @@ class _EmploymentDetailsFormState extends State<EmploymentDetailsForm> {
             child: _buildForm(),
             ),
         ),
+        SizedBox(height: 64,),
         Center (
           child: Container ( 
             padding: const EdgeInsets.all(20.0),
@@ -84,7 +85,7 @@ class _EmploymentDetailsFormState extends State<EmploymentDetailsForm> {
                 child: ElevatedButton(
                   onPressed: () {
                     Navigator.of(context).pop();
-                    showQuestionaireModal(context, QualificationsDetails());
+                    showQuestionaireModal(context, QualificationsDetailsForm());
                   },
                     child: const Text('Back'),
                 )
@@ -98,7 +99,7 @@ class _EmploymentDetailsFormState extends State<EmploymentDetailsForm> {
                 child: ElevatedButton(
                   onPressed: () {
                     Navigator.of(context).pop();
-                    showQuestionaireModal(context, Skills());
+                    showQuestionaireModal(context, SkillsForm());
                   },
                     child: const Text('Save & Proceed'),
                 )

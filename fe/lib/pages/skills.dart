@@ -68,6 +68,7 @@ class _SkillsFormState extends State<SkillsForm> {
             child: _buildForm(),
             ),
         ),
+        SizedBox(height: 64,),
         Center (
           child: Container ( 
             padding: const EdgeInsets.all(20.0),
