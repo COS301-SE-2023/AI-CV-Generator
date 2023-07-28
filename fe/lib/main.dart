@@ -1,10 +1,15 @@
 import 'package:ai_cv_generator/dio/client/shareClient.dart';
 import 'package:ai_cv_generator/pages/Register.dart';
 import 'package:ai_cv_generator/pages/about.dart';
+import 'package:ai_cv_generator/pages/employment.dart';
 import 'package:ai_cv_generator/pages/home.dart';
 import 'package:ai_cv_generator/pages/login.dart';
 import 'package:ai_cv_generator/pages/pdf_window.dart';
+import 'package:ai_cv_generator/pages/personaldetails.dart';
 import 'package:ai_cv_generator/pages/profile.dart';
+import 'package:ai_cv_generator/pages/qualifications.dart';
+import 'package:ai_cv_generator/pages/references.dart';
+import 'package:ai_cv_generator/pages/skills.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:ai_cv_generator/pages/elements/elements.dart';
@@ -37,6 +42,11 @@ class MyApp extends StatelessWidget {
         '/home':(context) => const Home(),
         '/profile':(context) => const Profile(),
         '/about':(context) => const AboutPage(),
+        '/personaldetails':(context) => const PersonalDetails(),
+        '/qualificationsdetails':(context) => const QualificationsDetailsForm(),
+        '/employmentdetails':(context) => const EmploymentDetails(),
+        '/skills':(context) => const Skills(),
+        '/references':(context) => const References(),
       },
     );
   }

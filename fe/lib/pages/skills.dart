@@ -85,12 +85,8 @@ class _SkillsFormState extends State<SkillsForm> {
                 height: 30,
                 child: ElevatedButton(
                   onPressed: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const EmploymentDetails())
-                      );
-                    },
+                    Navigator.pushNamed(context, "/employmentdetails");
+                  },
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.all(10.0),
                     ),
@@ -105,10 +101,7 @@ class _SkillsFormState extends State<SkillsForm> {
                 height: 30,
                 child: ElevatedButton(
                   onPressed: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const References()));
+                    Navigator.pushNamed(context, "/references");
                     },
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.all(10.0),
@@ -256,16 +249,10 @@ class _SkillsFormState extends State<SkillsForm> {
   }
 
   void _submitBack() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const EmploymentDetails()));
+    Navigator.pushNamed(context, "/employmentdetails");
   }
 
   void _submitForm() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const References()));
+    Navigator.pushNamed(context, "/references");
   }
 }
