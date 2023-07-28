@@ -129,7 +129,7 @@ class ProfileState extends State<Profile> {
                       flex: 4,
                       child: Column(
                         children: [
-                          const SizedBox(height: 178,),
+                          const SizedBox(height: 140,),
                           SectionContainer(
                             child: Column(
                               children: [
@@ -191,31 +191,25 @@ class ProfileState extends State<Profile> {
                               ),
                             ),
                           ),
+                          const SizedBox(height: 16,),
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            // mainAxisSize: MainAxisSize.min,
                             children: [
-
-                              Expanded(
-                                flex: 2,
-                                child: SizedBox(
-                                  width: 300,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      SectionInput(controller: fnameC, hint: "FIRST NAME", fontSize: 32,),
-                                      const SizedBox(width: 4,),
-                                      SectionInput(controller: lnameC, hint: "LAST NAME", fontSize: 32,),
-                                      SectionInput(controller: emailC, hint: "EMAIL"),
-                                      SectionInput(controller: locationC, hint: "ADDRESS"),
-                                      SectionInput(controller: phoneNoC, hint: "PHONE NUMBER"),
-                                    ],
-                                  ),
-                                ),
-                              )
+                              Flexible(
+                                child: SectionInput(controller: fnameC, hint: "FIRST NAME", fontSize: 24,)
+                              ),
+                              const SizedBox(width: 8,),
+                              Flexible(
+                                child: SectionInput(controller: lnameC, hint: "LAST NAME", fontSize: 24,)
+                              ),
                             ]
                           ),
-                          const SizedBox(height: 16,),
+                          SectionInput(controller: emailC, hint: "EMAIL", height: 34),
+                          SectionInput(controller: locationC, hint: "ADDRESS", height: 34),
+                          SectionInput(controller: phoneNoC, hint: "PHONE NUMBER", height: 34,),
+                          const SizedBox(height: 55,),
                           qualificationsC,
                           const SizedBox(height: 16,),
                           linkC

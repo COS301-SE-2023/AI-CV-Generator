@@ -14,6 +14,9 @@ var surfaceColour = Colors.grey.withOpacity(0.1);
 const onSurfaceColour = Colors.black;
 
 ThemeData mainTheme = ThemeData(
+  buttonTheme: ButtonThemeData(
+    hoverColor: black
+  ),
   appBarTheme: const AppBarTheme(
     toolbarTextStyle: TextStyle(fontSize: 16, color: onSurfaceColour),
     actionsIconTheme: IconThemeData(color: white, size: 32),
@@ -59,7 +62,7 @@ class SectionHeadingState extends State<SectionHeading> {
             Text(
               widget.text,
               style: const TextStyle(
-                fontSize: 24,
+                fontSize: 16,
                 fontWeight: FontWeight.bold,
                 color: secondaryColour
               ),
@@ -149,7 +152,9 @@ class SectionInput extends StatefulWidget {
   final TextEditingController controller;
   String? hint = "";
   double? fontSize;
-  SectionInput({super.key, required this.controller, this.hint, this.fontSize});
+  double? height = null;
+  double? width = null;
+  SectionInput({super.key, required this.controller, this.hint, this.fontSize, this.height, this.width});
   @override
   SectionInputState createState() => SectionInputState();
 }
@@ -157,14 +162,16 @@ class SectionInput extends StatefulWidget {
 class SectionInputState extends State<SectionInput> {
   @override
   Widget build(BuildContext context) {
-    return HoverEffect(
+    return SizedBox(
+      height: widget.height,
+      width: widget.width,
       child: TextFormField(
         controller: widget.controller, 
         textAlign: TextAlign.right, 
-        style:  widget.fontSize != null ? TextStyle(fontSize: widget.fontSize) : Theme.of(context).textTheme.titleLarge,
+        style:  widget.fontSize != null ? TextStyle(fontSize: widget.fontSize) : Theme.of(context).textTheme.titleMedium,
         decoration: InputDecoration(
           border: InputBorder.none,
-          hintStyle: Theme.of(context).textTheme.titleLarge,
+          hintStyle: widget.fontSize != null ? TextStyle(fontSize: widget.fontSize) : Theme.of(context).textTheme.titleMedium,
           hintText: widget.hint,
         )
       )
