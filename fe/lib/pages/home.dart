@@ -189,8 +189,9 @@ class GenerateState extends State<Generate> {
                       showDialog(
                         context: context, 
                         builder: (BuildContext context) {
-                          return const Dialog(
-                            child: IntrinsicWidth(
+                          return Dialog(
+                            child: ConstrainedBox(
+                              constraints: BoxConstraints(maxWidth: 800),
                               child: PersonalDetails()
                             )
                             

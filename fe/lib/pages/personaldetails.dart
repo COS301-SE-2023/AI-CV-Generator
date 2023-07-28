@@ -89,7 +89,7 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
             ),
             SizedBox(
               height: 50,
-              width: 150,
+                width: 150,
               child: ElevatedButton(
                 child: const Text('Save and Proceed'),
                 onPressed: () async {

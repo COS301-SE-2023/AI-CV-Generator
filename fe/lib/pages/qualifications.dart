@@ -8,22 +8,6 @@ import 'package:ai_cv_generator/pages/strings.dart';
 import 'package:date_field/date_field.dart';
 import 'package:flutter/material.dart';
 
-void main () => runApp(const QualificationsDetails());
-
-class QualificationsDetails extends StatelessWidget {
-  const QualificationsDetails({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(StringsQualifications.appBarTitle)
-      ),
-      body:const QualificationsDetailsForm(),
-    );
-  }
-}
-
 class QualificationsDetailsForm extends StatefulWidget {
   const QualificationsDetailsForm({super.key});
 
@@ -35,10 +19,59 @@ class QualificationsDetailsForm extends StatefulWidget {
 
 class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
   final _formKey = GlobalKey<FormState>();
+  Map data = {};
+  Column column = Column(children: [],);
 
-  TextEditingController institution1 = TextEditingController();
-  TextEditingController qualification1 = TextEditingController();
+  @override
+  void initState() {
+    add();
+    super.initState();
+  }
+
+  populate() {
+    return column;
+  }
+
+  remove(UniqueKey key) {
+    var index = -1;
+    for(int i = 0; i < column.children.length; i++) {
+      if(key  == column.children[i].key) {
+        index = i;
+        break;
+      }
+    }
+    if(index > -1) {
+      column.children.removeAt(index);
+      column.children.removeAt(index);
+      column.children.removeAt(index);
+      setState(() {});
+    }
+  }
   
+  add() {
+    UniqueKey key = UniqueKey();
+    column.children.add(TextMonitorWidget(key: key));
+    column.children.add(
+      Padding(
+        padding: EdgeInsets.only(left: 500),
+        child: IconButton(
+        onPressed: () {
+          remove(key);
+        }, icon: const Icon(Icons.remove)
+      ),
+      )
+    );
+    column.children.add(SizedBox(height: 16,));
+
+    setState(() {});
+  }
+
+  getData() {
+    column.children.forEach((element) {
+      print((element as TextMonitorWidget).getdata());
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,43 +94,50 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
             ),
             Expanded(
               flex: 4,
-              child: Container ( 
-                padding: const EdgeInsets.all(25.0),
-                child: _buildForm(),
+              child: ListView(
+                children: [
+                  ...populate().children
+                ],
               ),
             ),
-          Center (
-            child: Container ( 
-              padding: const EdgeInsets.all(20.0),
-              child: _buildAddButton(),
-            )
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget> [
-              SizedBox(
-                height: 50,
-                width: 150,
+            Align(
+              alignment: Alignment.topCenter,
+              child: Container ( 
+                padding: const EdgeInsets.all(20.0),
                 child: ElevatedButton(
-                  child: const Text('Back'),
+                  child: const Text('Add'),
                   onPressed: () async {
-                    Navigator.of(context).pop();
-                    showQuestionaireModal(context, PersonalDetails());
+                    add();
                   },
                 ),
-              ),
-              SizedBox(width: 64,),
-              SizedBox(
-                height: 50,
-                width: 150,
-                child: ElevatedButton(
-                  child: const Text('Save and Proceed'),
-                  onPressed: () async {
-                    Navigator.of(context).pop();
-                    showQuestionaireModal(context, EmploymentDetailsForm());
-                  },
+              )
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget> [
+                SizedBox(
+                  height: 50,
+                  width: 150,
+                  child: ElevatedButton(
+                    child: const Text('Back'),
+                    onPressed: () async {
+                      Navigator.of(context).pop();
+                      showQuestionaireModal(context, PersonalDetails());
+                    },
+                  ),
                 ),
-              ),
+                SizedBox(width: 64,),
+                SizedBox(
+                  height: 50,
+                  width: 150,
+                  child: ElevatedButton(
+                    child: const Text('Save and Proceed'),
+                    onPressed: () async {
+                      Navigator.of(context).pop();
+                      showQuestionaireModal(context, EmploymentDetailsForm());
+                    },
+                  ),
+                ),
 
             ],
           ),
@@ -122,28 +162,47 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
         ),
       ],
     );
+}
 
+class TextMonitorWidget extends StatefulWidget {
+  Column column = Column(children: [],);
+  TextEditingController institutionC = TextEditingController();
+  TextEditingController qualificationC= TextEditingController();
+  TextEditingController dateC = TextEditingController();
+  TextMonitorWidget({super.key,});
 
-  Widget _buildForm() {
-    return Form(
-        key: _formKey,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            _buildInstitutionField(),
-            _buildQualificationField(),
-            _buildGraduationField(),
-          ],
-        ));
+  getdata() {
+    return {
+      "institution": institutionC.text,
+      "qualification": qualificationC.text,
+      "date": dateC.text
+    };
   }
 
-  Widget _buildInstitutionField() {
+  @override
+  TextMonitorWidgetState createState() => TextMonitorWidgetState();
+}
+
+class TextMonitorWidgetState extends State<TextMonitorWidget> {
+  TextEditingController displayDateC = TextEditingController();
+  @override
+  void initState() {
+    displayDateC.text = displayDateTimeRange(stringToDateTimeRange(widget.dateC.text));
+    super.initState();
+  }
+  populate() {
+    widget.column.children.add(_buildInstitutionField(widget.institutionC));
+    widget.column.children.add(_buildQualificationField(widget.qualificationC));
+    widget.column.children.add(_buildGraduationField());
+  }
+
+  Widget _buildInstitutionField(TextEditingController controller) {
     return Container (
       padding: const EdgeInsets.all(8.0),
       constraints: BoxConstraints.tight(const Size(550,65)),
       child: TextFormField(
         key: const Key("Institution input"),
-        controller: institution1,
+        controller: controller,
         decoration: const InputDecoration(
           contentPadding: EdgeInsets.all(5.0),
           labelText: 'Institution',
@@ -161,13 +220,13 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
     );
   }
 
-  Widget _buildQualificationField() {
+  Widget _buildQualificationField(TextEditingController controller) {
     return Container (
       padding: const EdgeInsets.all(8.0),
       constraints: BoxConstraints.tight(const Size(550,65)),
       child: TextFormField(
         key: const Key("Qualification input"),
-        controller: qualification1,
+        controller: controller,
         decoration: const InputDecoration(
           contentPadding: EdgeInsets.all(5.0),
           labelText: 'Qualification',
@@ -184,9 +243,14 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
       )
     );
   }
-  
 
   Widget _buildGraduationField() {
+    // datePicker(context).then((value) {
+    //   if(value != null) {
+    //     widget.dateC.text = dateTimeToString(value.start, value.end);
+    //     displayDateC.text = displayDateTimeRange(value);
+    //   }
+    // });
     return Container (
       padding: const EdgeInsets.all(8.0),
       constraints: BoxConstraints.tight(const Size(550,65)),
@@ -205,56 +269,31 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
     );
   }
 
-
-  Widget _buildAddButton() {
-    return ElevatedButton(
-        onPressed: () {
-            _submitAdd();
-          },
-          style: ElevatedButton.styleFrom(
-            shape: const StadiumBorder(),
-            padding: const EdgeInsets.all(10.0),
-          ),
-          child: const Icon(Icons.add),
-      );
+  @override
+  Widget build(BuildContext context) {
+    populate();
+    return widget.column;
   }
-  
-  Widget _buildBackButton() {
-    return SizedBox(
-      width: 140,
-      height: 30,
-      child: ElevatedButton(
-        onPressed: () {
-            _submitBack();
-          },
-          child: const Text('Back'),
-      )
+}
+
+String dateTimeToString(DateTime start, DateTime end) {
+  return "$start/$end";
+}
+
+DateTimeRange stringToDateTimeRange(String text) {
+  List<String> dates = text.split('/');
+  return DateTimeRange(start: DateTime.parse(dates[0]), end: DateTime.parse(dates[1]));
+}
+
+String displayDateTimeRange(DateTimeRange dateTimeRange) {
+  return "${dateTimeRange.start.year} - ${dateTimeRange.end.year}";
+}
+
+Future<DateTimeRange?> datePicker(BuildContext context) async {
+  return showDateRangePicker(
+      context: context, 
+      firstDate: DateTime.now().subtract(const Duration(days:365*100)),
+      lastDate: DateTime.now(),
+      initialEntryMode: DatePickerEntryMode.input,
     );
-  }
-
-  Widget _buildSubmitButton() {
-    return SizedBox(
-      width: 140,
-      height: 30,
-      child: ElevatedButton(
-        onPressed: () {
-            _submitForm();
-          },
-          child: const Text('Save & Proceed'),
-      )
-    );
-    
-  }
-
-  void _submitAdd() {
-    //
-  }
-
-  void _submitBack() {
-    Navigator.pushNamed(context, "/personaldetails");
-  }
-
-  void _submitForm() {
-    Navigator.pushNamed(context, "/employmentdetails");
-  }
 }
