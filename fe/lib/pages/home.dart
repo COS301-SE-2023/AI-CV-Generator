@@ -184,6 +184,18 @@ class GenerateState extends State<Generate> {
                   width: 100, 
                   child: ElevatedButton(
                     onPressed: () async {
+                    }, 
+                    child: Text("NEW", style: textStyle),
+                  ),
+                )
+              ),
+              const SizedBox(width: 43,),
+              Container(
+                child: SizedBox(
+                  height: 40,
+                  width: 100, 
+                  child: ElevatedButton(
+                    onPressed: () async {
                       uploadFile = await pdfAPI.pick_cvfile();
                       if(uploadFile != null) {                    
                         filenameC.text = uploadFile!.name;
