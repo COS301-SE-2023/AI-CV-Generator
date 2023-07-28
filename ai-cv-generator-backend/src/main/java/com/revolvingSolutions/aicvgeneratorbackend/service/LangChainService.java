@@ -2,8 +2,10 @@ package com.revolvingSolutions.aicvgeneratorbackend.service;
 
 
 import com.revolvingSolutions.aicvgeneratorbackend.agent.GenerationAgent;
+import com.revolvingSolutions.aicvgeneratorbackend.model.CVData;
 import com.revolvingSolutions.aicvgeneratorbackend.request.generation.GenerationRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.response.generation.GenerationResponse;
+import com.revolvingSolutions.aicvgeneratorbackend.response.generation.MockGenerationResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +27,19 @@ public class LangChainService {
     ) {
         return  GenerationResponse.builder()
                 .temp(interact(generationAgent, request.getAdjustedModel().toString()))
+                .build();
+    }
+
+    public MockGenerationResponse mockGenerateCV(
+            GenerationRequest request
+    ) {
+        return MockGenerationResponse.builder()
+                .mockgeneratedUser(
+                        request.getAdjustedModel()
+                )
+                .extradata(
+                    "Any additions?"
+                )
                 .build();
     }
 
