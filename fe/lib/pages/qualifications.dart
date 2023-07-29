@@ -1,5 +1,7 @@
 // ignore_for_file: must_be_immutable
-
+import 'package:ai_cv_generator/dio/client/userApi.dart';
+import 'package:ai_cv_generator/models/user/Qualification.dart';
+import 'package:ai_cv_generator/models/user/UserModel.dart';
 import 'package:ai_cv_generator/pages/employment.dart';
 import 'package:ai_cv_generator/pages/navdrawer.dart';
 import 'package:ai_cv_generator/pages/personaldetails.dart';
@@ -18,18 +20,43 @@ class QualificationsDetailsForm extends StatefulWidget {
 }
 
 class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
-  final _formKey = GlobalKey<FormState>();
+  // final _formKey = GlobalKey<FormState>();
   Map data = {};
   Column column = Column(children: [],);
 
   @override
   void initState() {
-    add();
+    getUser().then((value) {
+      if(value != null) {
+        if(value.qualifications == null) {
+          add();
+          return;
+        }
+      }
+      for(int i = 0; i < value!.qualifications!.length; i++) {
+        Qualification qualification = value.qualifications![i];
+        UniqueKey key = UniqueKey();
+        column.children.add(TextMonitorWidget(key: key, institution: qualification.intstitution, qualification: qualification.qualification, start: qualification.date, end: qualification.endo));
+        column.children.add(
+          Padding(
+            padding: EdgeInsets.only(left: 500),
+            child: IconButton(
+            onPressed: () {
+              remove(key);
+            }, icon: const Icon(Icons.remove)
+          ),
+          )
+        );
+        column.children.add(SizedBox(height: 16,));
+      }
+        setState(() {});
+      },
+    );
     super.initState();
   }
 
-  populate() {
-    return column;
+  Future<UserModel?> getUser() async {
+    return await userApi.getUser();
   }
 
   remove(UniqueKey key) {
@@ -48,7 +75,7 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
     }
   }
   
-  add() {
+  add() async {
     UniqueKey key = UniqueKey();
     column.children.add(TextMonitorWidget(key: key));
     column.children.add(
@@ -66,7 +93,7 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
     setState(() {});
   }
 
-  getData() {
+  update() {
     column.children.forEach((element) {
       print((element as TextMonitorWidget).getdata());
     });
@@ -96,7 +123,7 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
               flex: 4,
               child: ListView(
                 children: [
-                  ...populate().children
+                  ...column.children
                 ],
               ),
             ),
@@ -167,15 +194,19 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
 class TextMonitorWidget extends StatefulWidget {
   Column column = Column(children: [],);
   TextEditingController institutionC = TextEditingController();
-  TextEditingController qualificationC= TextEditingController();
-  TextEditingController dateC = TextEditingController();
-  TextMonitorWidget({super.key,});
+  TextEditingController qualificationC = TextEditingController();
+  String? institution = "";
+  String? qualification = "";
+  DateTime? start = null;
+  DateTime? end = null;
+  TextMonitorWidget({super.key, this.institution, this.qualification, this.start, this.end});
 
   getdata() {
     return {
       "institution": institutionC.text,
       "qualification": qualificationC.text,
-      "date": dateC.text
+      "start": start,
+      "end": end
     };
   }
 
@@ -184,6 +215,13 @@ class TextMonitorWidget extends StatefulWidget {
 }
 
 class TextMonitorWidgetState extends State<TextMonitorWidget> {
+  @override
+  void initState() {
+    widget.institutionC.text = widget.institution != null ? widget.institution! : "";
+    widget.qualificationC.text = widget.qualification != null ? widget.qualification! : "";
+    super.initState();
+  }
+
   populate() {
     widget.column.children.add(_buildInstitutionField(widget.institutionC));
     widget.column.children.add(_buildQualificationField(widget.qualificationC));
@@ -240,21 +278,50 @@ class TextMonitorWidgetState extends State<TextMonitorWidget> {
 
   Widget _buildGraduationField() {
     return Container (
+      width: 100,
       padding: const EdgeInsets.all(8.0),
       constraints: BoxConstraints.tight(const Size(550,65)),
-      child: DateTimeFormField(
-        key: const Key("Graduation input"),
-        //controller: _timeController1,
-        decoration: const InputDecoration(
-          border: OutlineInputBorder(),
-          contentPadding: EdgeInsets.all(5.0),
-          labelText: 'Date Obtained',
-          enabledBorder: OutlineInputBorder(),
-          icon: Icon(Icons.date_range),
-        ),
-        mode: DateTimeFieldPickerMode.date,
+      child: Row(
+        children: [
+          Expanded(
+            child: DateTimeFormField(
+              initialValue: widget.start,
+              onDateSelected: (value) {
+                widget.start = value;
+              },
+              key: const Key("Graduation input"),
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                contentPadding: EdgeInsets.all(5.0),
+                labelText: 'Start Date',
+                enabledBorder: OutlineInputBorder(),
+                icon: Icon(Icons.date_range),
+              ),
+              mode: DateTimeFieldPickerMode.date,
+            )
+          ),
+          SizedBox(width: 16,),
+          Expanded(
+            child: DateTimeFormField(
+              initialValue: widget.end,
+              onDateSelected: (value) {
+                widget.end = value;
+              },
+              key: const Key("Graduation input"),
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                contentPadding: EdgeInsets.all(5.0),
+                labelText: 'End Date',
+                enabledBorder: OutlineInputBorder(),
+                icon: Icon(Icons.date_range),
+              ),
+              mode: DateTimeFieldPickerMode.date,
+            )
+          ),
+        ],
       )
     );
+      
   }
 
   @override
