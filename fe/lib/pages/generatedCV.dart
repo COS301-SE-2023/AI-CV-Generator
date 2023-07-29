@@ -206,12 +206,12 @@ class GeneratedCVState extends State<GeneratedCV> {
                   child: OutlinedButton(
                     onPressed: () async {
                       setState(() {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const PersonalDetails()
-                          ),
-                        );
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //     builder: (context) => const PersonalDetailsForm(user: user)
+                        //   ),
+                        // );
                         createCV();
                       });
                     },
