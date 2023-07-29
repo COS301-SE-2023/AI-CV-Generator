@@ -31,6 +31,11 @@ class NavDrawer extends StatelessWidget {
             title: const Text('Profile'),
             onTap: () => {Navigator.pushNamed(context, '/profile')},
           ),
+          ListTile(
+            leading: const Icon(Icons.group),
+            title: const Text('About'),
+            onTap: () => {Navigator.pushNamed(context, '/about')},
+          ),
           // ListTile(
           //   leading: const Icon(Icons.settings),
           //   title: const Text('Settings'),
