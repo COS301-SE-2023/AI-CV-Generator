@@ -1,6 +1,7 @@
 import 'package:ai_cv_generator/api/DownloadService.dart';
 import 'package:ai_cv_generator/dio/client/fileApi.dart';
 import 'package:ai_cv_generator/api/pdfApi.dart';
+import 'package:ai_cv_generator/pages/cvHistory.dart';
 import 'package:ai_cv_generator/pages/loadingScreen.dart';
 import 'package:ai_cv_generator/pages/navdrawer.dart';
 import 'package:ai_cv_generator/pages/personaldetails.dart';
@@ -105,6 +106,9 @@ class _HomeState extends State<Home> {
                         flex: 10,
                         child: Container(
                           color: Theme.of(context).colorScheme.surface,
+                          child: SizedBox.expand(
+                            child: Center(child: CVHistory(context: context),)
+                          )
                         ),
                       ),
                     ],
