@@ -130,7 +130,7 @@ class ProfileState extends State<Profile> {
                       flex: 4,
                       child: Column(
                         children: [
-                          const SizedBox(height: 140,),
+                          const SizedBox(height: 184,),
                           SectionContainer(
                             child: Column(
                               children: [
@@ -193,9 +193,9 @@ class ProfileState extends State<Profile> {
                             ),
                           ),
                           const SizedBox(height: 16,),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.end,
+                          Wrap(
+                            // crossAxisAlignment: CrossAxisAlignment.start,
+                            // mainAxisAlignment: MainAxisAlignment.end,
                             // mainAxisSize: MainAxisSize.min,
                             children: [
                               Flexible(
