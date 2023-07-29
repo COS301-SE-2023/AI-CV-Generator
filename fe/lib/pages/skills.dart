@@ -8,8 +8,7 @@ import 'package:ai_cv_generator/pages/strings.dart';
 import 'package:flutter/material.dart';
 
 class SkillsForm extends StatefulWidget {
-  final UserModel user;
-  const SkillsForm({super.key, required this.user});
+  const SkillsForm({super.key});
 
   @override
   State<StatefulWidget> createState() {
@@ -100,7 +99,7 @@ class _SkillsFormState extends State<SkillsForm> {
                 child: ElevatedButton(
                   onPressed: () {
                     Navigator.of(context).pop();
-                    showQuestionaireModal(context, ReferencesForm(user: widget.user));
+                    showQuestionaireModal(context, ReferencesForm());
                     },
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.all(10.0),

@@ -39,7 +39,7 @@ void main() {
     testWidgets('Personal details page',
       (WidgetTester tester) async {
         //app.main();
-        await tester.pumpWidget(const MaterialApp(home: PersonalDetails()));
+        await tester.pumpWidget(const MaterialApp(home: PersonalDetailsForm()));
         await tester.pumpAndSettle();
         //do
         await tester.enterText(find.byKey(const Key('Name input')), 'Amanda');
@@ -62,7 +62,7 @@ void main() {
     testWidgets('Qualifications details page',
       (WidgetTester tester) async {
         //app.main();
-        await tester.pumpWidget(const MaterialApp(home: QualificationsDetails()));
+        await tester.pumpWidget(const MaterialApp(home: QualificationsDetailsForm()));
         await tester.pumpAndSettle();
         //do
         await tester.enterText(find.byKey(const Key('Institution input')), 'University of Pretoria');
@@ -81,7 +81,7 @@ void main() {
     testWidgets('Skills page',
       (WidgetTester tester) async {
         //app.main();
-        await tester.pumpWidget(const MaterialApp(home: Skills()));
+        await tester.pumpWidget(const MaterialApp(home: SkillsForm()));
         await tester.pumpAndSettle();
         //do
         await tester.enterText(find.byKey(const Key('Skill1')), 'Web development');
@@ -104,7 +104,7 @@ void main() {
     testWidgets('References page',
       (WidgetTester tester) async {
         //app.main();
-        await tester.pumpWidget(const MaterialApp(home: References()));
+        await tester.pumpWidget(const MaterialApp(home: ReferencesForm()));
         await tester.pumpAndSettle();
         //do
         await tester.enterText(find.byKey(const Key('Name input')), 'Jane Doe');
