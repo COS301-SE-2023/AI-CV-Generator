@@ -15,6 +15,9 @@ var surfaceColour = Colors.grey.withOpacity(0.1);
 const onSurfaceColour = Colors.black;
 
 ThemeData mainTheme = ThemeData(
+  inputDecorationTheme: InputDecorationTheme(
+    hintStyle: TextStyle(color: Colors.grey.withOpacity(0.7))
+  ),
   buttonTheme: const ButtonThemeData(
     hoverColor: black,
     focusColor: black
@@ -175,6 +178,13 @@ class SectionInput extends StatefulWidget {
 }
 
 class SectionInputState extends State<SectionInput> {
+  TextStyle? hintStyle;
+  @override
+  void initState() {
+    hintStyle = TextStyle(fontSize: widget.fontSize, color: Colors.grey.withOpacity(0.7));
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -186,7 +196,7 @@ class SectionInputState extends State<SectionInput> {
         style:  widget.fontSize != null ? TextStyle(fontSize: widget.fontSize) : Theme.of(context).textTheme.titleMedium,
         decoration: InputDecoration(
           border: InputBorder.none,
-          hintStyle: widget.fontSize != null ? TextStyle(fontSize: widget.fontSize) : Theme.of(context).textTheme.titleMedium,
+          hintStyle: hintStyle,
           hintText: widget.hint,
         )
       )
