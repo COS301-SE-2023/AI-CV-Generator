@@ -8,11 +8,12 @@ import 'package:date_field/date_field.dart';
 import 'package:ai_cv_generator/pages/strings.dart';
 import 'package:flutter/material.dart';
 
+import 'home.dart';
+
 // void main () => runApp(const EmploymentDetails());
 
 class EmploymentDetailsForm extends StatefulWidget {
-  final UserModel user;
-  const EmploymentDetailsForm({super.key, required this.user});
+  const EmploymentDetailsForm({super.key});
 
   @override
   State<StatefulWidget> createState() {
@@ -26,12 +27,12 @@ class _EmploymentDetailsFormState extends State<EmploymentDetailsForm> {
 
   @override
   void initState() {
-    if(widget.user.employmenthistory == null) {
+    if(Home.adjustedModel!.employmenthistory == null) {
       add();
       return;
     }
-    for(int i = 0; i < widget.user.employmenthistory!.length; i++) {
-      Employment employmenthistory = widget.user.employmenthistory![i];
+    for(int i = 0; i < Home.adjustedModel!.employmenthistory!.length; i++) {
+      Employment employmenthistory = Home.adjustedModel!.employmenthistory![i];
       UniqueKey key = UniqueKey();
       column.children.add(TextMonitorWidget(key: key, company: employmenthistory.company, title: employmenthistory.title, start: employmenthistory.startdate, end: employmenthistory.enddate));
       column.children.add(
@@ -84,12 +85,12 @@ class _EmploymentDetailsFormState extends State<EmploymentDetailsForm> {
   }
 
     updateUser() {
-      widget.user.employmenthistory = [];
+      Home.adjustedModel!.employmenthistory = [];
       column.children.forEach((element) {
         if((element is TextMonitorWidget) == true) {
           Map data = (element as TextMonitorWidget).getdata();
           if(isDataNull(data.values) == false) {
-            widget.user.employmenthistory!.add(Employment(title: data['title'].toString(), company: data['company'].toString(), startdate: data['start'], empid: 0, enddate: data['end']));
+            Home.adjustedModel!.employmenthistory!.add(Employment(title: data['title'].toString(), company: data['company'].toString(), startdate: data['start'], empid: 0, enddate: data['end']));
           }
         }
       });
@@ -176,7 +177,7 @@ class _EmploymentDetailsFormState extends State<EmploymentDetailsForm> {
                     onPressed: () async {
                       updateUser();
                       Navigator.of(context).pop();
-                      showQuestionaireModal(context, QualificationsDetailsForm(user: widget.user));
+                      showQuestionaireModal(context, QualificationsDetailsForm());
                     },
                   ),
                 ),
