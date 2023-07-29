@@ -135,6 +135,7 @@ class _SkillsFormState extends State<SkillsForm> {
       padding: const EdgeInsets.all(8.0),
       constraints: BoxConstraints.tight(const Size(550,65)),
       child: TextFormField(
+        key: const Key('Skill1'),
         controller: skill1,
         decoration: const InputDecoration(
           contentPadding: EdgeInsets.all(5.0),
@@ -157,6 +158,7 @@ class _SkillsFormState extends State<SkillsForm> {
       padding: const EdgeInsets.all(8.0),
       constraints: BoxConstraints.tight(const Size(550,65)),
       child: TextFormField(
+        key: const Key('Skill2'),
         controller: skill2,
         decoration: const InputDecoration(
           contentPadding: EdgeInsets.all(5.0),
@@ -179,6 +181,7 @@ class _SkillsFormState extends State<SkillsForm> {
       padding: const EdgeInsets.all(8.0),
       constraints: BoxConstraints.tight(const Size(550,65)),
       child: TextFormField(
+        key: const Key('Skill3'),
         controller: skill3,
         decoration: const InputDecoration(
           contentPadding: EdgeInsets.all(5.0),

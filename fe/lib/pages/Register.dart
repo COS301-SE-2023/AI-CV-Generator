@@ -67,6 +67,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             Container(
               padding: const EdgeInsets.fromLTRB(500, 10, 500, 10),
               child: TextField(
+                key: const Key('fname'),
                 controller: fnameController,
                 decoration: const InputDecoration(
                   enabledBorder: OutlineInputBorder(),
@@ -77,6 +78,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             Container(
               padding: const EdgeInsets.fromLTRB(500, 10, 500, 10),
               child: TextField(
+                key: const Key('lname'),
                 controller: lnameController,
                 decoration: const InputDecoration(
                   enabledBorder: OutlineInputBorder(),
@@ -87,6 +89,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             Container(
               padding: const EdgeInsets.fromLTRB(500, 10, 500, 10),
               child: TextField(
+                key: const Key('username'),
                 controller: nameController,
                 decoration: const InputDecoration(
                   enabledBorder: OutlineInputBorder(),
@@ -97,6 +100,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             Container(
               padding: const EdgeInsets.fromLTRB(500, 10, 500, 10),
               child: TextField(
+                key: const Key('password'),
                 obscureText: true,
                 controller: passwordController,
                 decoration: const InputDecoration(
@@ -123,6 +127,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             Container(
               padding: const EdgeInsets.fromLTRB(500, 10, 500, 10),
               child: TextField(
+                key: const Key('passwordretype'),
                 obscureText: true,
                 controller: passwordRetypeController,
                 decoration: InputDecoration(
@@ -157,6 +162,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 height: 50,
                 padding: const EdgeInsets.fromLTRB(600, 0, 600, 0),
                 child: ElevatedButton(
+                  key: const Key('register'),
                   child: const Text('Register'),
                   onPressed: () async {
                     if (passwordController.text != passwordRetypeController.text) {
