@@ -1,4 +1,6 @@
 // ignore_for_file: must_be_immutable
+import 'dart:js_util';
+
 import 'package:ai_cv_generator/dio/client/userApi.dart';
 import 'package:ai_cv_generator/models/user/Qualification.dart';
 import 'package:ai_cv_generator/models/user/UserModel.dart';
@@ -22,7 +24,6 @@ class QualificationsDetailsForm extends StatefulWidget {
 
 class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
   // final _formKey = GlobalKey<FormState>();
-  Map data = {};
   Column column = Column(children: [],);
 
   @override
@@ -86,12 +87,24 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
   }
 
   updateUser() {
-    print("here");
+    widget.user.qualifications = [];
     column.children.forEach((element) {
-      var data = (element as TextMonitorWidget).getdata();
-      print(data);
-      widget.user.qualifications!.add(Qualification(qualification: data.qualification, intstitution: data.intstitution, date: data.date, quaid: 0, endo: data.endo));
+      if((element is TextMonitorWidget) == true) {
+        Map data = (element as TextMonitorWidget).getdata();
+        if(isDataNull(data.values) == false) {
+          widget.user.qualifications!.add(Qualification(qualification: data['qualification'].toString(), intstitution: data['institution'].toString(), date: data['start'], quaid: 0, endo: data['end']));
+        }
+      }
     });
+  }
+
+  isDataNull(Iterable<dynamic> data) {
+    for(int i = 0; i < data.length; i++) {
+      if(data.elementAt(i) == null) {
+        return true;
+      }
+    }
+    return false;
   }
 
   @override
@@ -142,7 +155,8 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
                   width: 150,
                   child: ElevatedButton(
                     child: const Text('Back'),
-                    onPressed: () async {
+                    onPressed: () {
+                      updateUser();
                       Navigator.of(context).pop();
                       showQuestionaireModal(context, PersonalDetailsForm(user: widget.user));
                     },
@@ -154,7 +168,7 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
                   width: 150,
                   child: ElevatedButton(
                     child: const Text('Save and Proceed'),
-                    onPressed: () async {
+                    onPressed: () {
                       updateUser();
                       Navigator.of(context).pop();
                       showQuestionaireModal(context, EmploymentDetailsForm(user: widget.user));
