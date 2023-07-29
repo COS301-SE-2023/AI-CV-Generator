@@ -174,6 +174,9 @@ class ProfileState extends State<Profile> {
                             child: GestureDetector(
                               onTap: () async {
                                 Uint8List? imgByte =  await ImagePickerWeb.getImageAsBytes();
+                                if(imgByte == null) {
+                                  return;
+                                }
                                 imgByte = await imagecrop(context, imgByte!);
                                 if(imgByte != null){
                                   final changed = await FileApi.updateProfileImage(img: imgByte);
