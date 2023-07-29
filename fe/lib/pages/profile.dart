@@ -140,7 +140,7 @@ class ProfileState extends State<Profile> {
                                   style: Theme.of(context).textTheme.bodyLarge,
                                   decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
-                                    hintText: "INSERT A DESCRIPTION ABOUT YOURSELF"
+                                    hintText: "Insert a description about yourself"
                                   ),
                                 ),
                               ],
@@ -199,18 +199,18 @@ class ProfileState extends State<Profile> {
                             children: [
                               // Flexible(
                                 // child: 
-                                SectionInput(controller: fnameC, hint: "FIRST NAME", fontSize: 24,),
+                                SectionInput(controller: fnameC, hint: "First Name", fontSize: 24,),
                               // ),
                               const SizedBox(width: 8,),
                               // Flexible(
                               //   child: 
-                                SectionInput(controller: lnameC, hint: "LAST NAME", fontSize: 24,),
+                                SectionInput(controller: lnameC, hint: "Last Name", fontSize: 24,),
                               // ),
                             ]
                           ),
-                          SectionInput(controller: emailC, hint: "EMAIL", height: 34),
-                          SectionInput(controller: locationC, hint: "ADDRESS", height: 34),
-                          SectionInput(controller: phoneNoC, hint: "PHONE NUMBER", height: 34,),
+                          SectionInput(controller: emailC, hint: "Email", height: 34),
+                          SectionInput(controller: locationC, hint: "Address", height: 34),
+                          SectionInput(controller: phoneNoC, hint: "Phone number", height: 34,),
                           const SizedBox(height: 55,),
                           qualificationsC,
                           const SizedBox(height: 16,),
