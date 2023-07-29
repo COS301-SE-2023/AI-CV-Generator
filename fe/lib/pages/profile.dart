@@ -3,6 +3,7 @@ import 'package:ai_cv_generator/dio/client/fileApi.dart';
 import 'package:ai_cv_generator/dio/client/userApi.dart';
 import 'package:ai_cv_generator/models/user/Employment.dart';
 import 'package:ai_cv_generator/models/user/UserModel.dart';
+import 'package:ai_cv_generator/pages/breadcrumb.dart';
 import 'package:ai_cv_generator/pages/cvHistory.dart';
 import 'package:ai_cv_generator/pages/elements/elements.dart';
 import 'package:ai_cv_generator/pages/employmentView.dart';
@@ -115,9 +116,12 @@ class ProfileState extends State<Profile> {
       ],
       ),
       body: SafeArea(
-        child: Container( 
+        child: Container(
         color: Colors.white,
-          child: Form(
+        child: Stack(
+          children: [
+            Breadcrumb(previousPage: "Home", currentPage: "Profile",),
+          Form(
             key: _formKey,
             child: ListView(
               padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 128),
@@ -227,6 +231,8 @@ class ProfileState extends State<Profile> {
             ],),
 
           )
+            ],
+          )        
         )
       )
     );
