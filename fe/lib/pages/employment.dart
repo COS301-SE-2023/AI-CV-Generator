@@ -239,7 +239,7 @@ class TextMonitorWidgetState extends State<TextMonitorWidget> {
   populate() {
     widget.column.children.add(_buildCompanyField(widget.companyC));
     widget.column.children.add(_buildJobTitleField(widget.titleC));
-    widget.column.children.add(_buildGraduationField());
+    widget.column.children.add(_buildEmploymentDurationField());
   }
   Widget _buildCompanyField(TextEditingController controller) {
     return Container (
@@ -289,7 +289,7 @@ class TextMonitorWidgetState extends State<TextMonitorWidget> {
     );
   }
 
-  Widget _buildGraduationField() {
+  Widget _buildEmploymentDurationField() {
     return Container (
       width: 100,
       padding: const EdgeInsets.all(8.0),
@@ -302,7 +302,7 @@ class TextMonitorWidgetState extends State<TextMonitorWidget> {
               onDateSelected: (value) {
                 widget.start = value;
               },
-              key: const Key("Graduation input"),
+              key: const Key("Employment start"),
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 contentPadding: EdgeInsets.all(5.0),
@@ -320,7 +320,7 @@ class TextMonitorWidgetState extends State<TextMonitorWidget> {
               onDateSelected: (value) {
                 widget.end = value;
               },
-              key: const Key("Graduation input"),
+              key: const Key("Employment end"),
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 contentPadding: EdgeInsets.all(5.0),
