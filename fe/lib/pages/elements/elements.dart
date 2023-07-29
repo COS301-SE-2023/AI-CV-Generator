@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 const white = Colors.white;
 const black = Colors.black;
+const accentColour = Color(0xFF333C64);
 const double profileButtonSize = 32.0;
 const primaryColour = Color(0xFFEA6D79);
 const onPrimaryColour = Colors.black;
@@ -15,7 +16,8 @@ const onSurfaceColour = Colors.black;
 
 ThemeData mainTheme = ThemeData(
   buttonTheme: const ButtonThemeData(
-    hoverColor: black
+    hoverColor: black,
+    focusColor: black
   ),
   appBarTheme: const AppBarTheme(
     toolbarTextStyle: TextStyle(fontSize: 16, color: white),
@@ -25,6 +27,13 @@ ThemeData mainTheme = ThemeData(
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ButtonStyle(
       backgroundColor: MaterialStateProperty.all(secondaryColour),
+    overlayColor: MaterialStateProperty.resolveWith<Color?>(
+      (Set<MaterialState> states) {
+        if (states.contains(MaterialState.pressed))
+          return accentColour;
+        return null;
+      },
+    ),
     ),
   ),
   colorScheme: ColorScheme(

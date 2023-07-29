@@ -198,13 +198,15 @@ class ProfileState extends State<Profile> {
                             // mainAxisAlignment: MainAxisAlignment.end,
                             // mainAxisSize: MainAxisSize.min,
                             children: [
-                              Flexible(
-                                child: SectionInput(controller: fnameC, hint: "FIRST NAME", fontSize: 24,)
-                              ),
+                              // Flexible(
+                                // child: 
+                                SectionInput(controller: fnameC, hint: "FIRST NAME", fontSize: 24,),
+                              // ),
                               const SizedBox(width: 8,),
-                              Flexible(
-                                child: SectionInput(controller: lnameC, hint: "LAST NAME", fontSize: 24,)
-                              ),
+                              // Flexible(
+                              //   child: 
+                                SectionInput(controller: lnameC, hint: "LAST NAME", fontSize: 24,),
+                              // ),
                             ]
                           ),
                           SectionInput(controller: emailC, hint: "EMAIL", height: 34),
