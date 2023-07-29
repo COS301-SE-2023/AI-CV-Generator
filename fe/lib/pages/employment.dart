@@ -3,28 +3,16 @@ import 'package:ai_cv_generator/models/user/Employment.dart';
 import 'package:ai_cv_generator/models/user/UserModel.dart';
 import 'package:ai_cv_generator/pages/qualifications.dart';
 import 'package:ai_cv_generator/pages/questionaireModal.dart';
-import 'package:ai_cv_generator/dio/client/userApi.dart';
 import 'package:ai_cv_generator/pages/navdrawer.dart';
-import 'package:ai_cv_generator/pages/references.dart';
 import 'package:date_field/date_field.dart';
 import 'package:ai_cv_generator/pages/strings.dart';
 import 'package:flutter/material.dart';
 
-void main () => runApp(const EmploymentDetails());
-
-class EmploymentDetails extends StatelessWidget {
-  const EmploymentDetails({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: EmploymentDetailsForm(),
-    );
-  }
-}
+// void main () => runApp(const EmploymentDetails());
 
 class EmploymentDetailsForm extends StatefulWidget {
-  const EmploymentDetailsForm({super.key});
+  final UserModel user;
+  const EmploymentDetailsForm({super.key, required this.user});
 
   @override
   State<StatefulWidget> createState() {
@@ -38,37 +26,28 @@ class _EmploymentDetailsFormState extends State<EmploymentDetailsForm> {
 
   @override
   void initState() {
-    getUser().then((value) {
-      if(value != null) {
-        if(value.employmenthistory == null) {
-          add();
-          return;
-        }
-      }
-      for(int i = 0; i < value!.employmenthistory!.length; i++) {
-        Employment employmenthistory = value.employmenthistory![i];
-        UniqueKey key = UniqueKey();
-        column.children.add(TextMonitorWidget(key: key, company: employmenthistory.company, title: employmenthistory.title, start: employmenthistory.startdate, end: employmenthistory.enddate));
-        column.children.add(
-          Padding(
-            padding: EdgeInsets.only(left: 500),
-            child: IconButton(
-            onPressed: () {
-              remove(key);
-            }, icon: const Icon(Icons.remove)
-          ),
-          )
-        );
-        column.children.add(SizedBox(height: 16,));
-      }
-        setState(() {});
-      },
-    );
+    if(widget.user.employmenthistory == null) {
+      add();
+      return;
+    }
+    for(int i = 0; i < widget.user.employmenthistory!.length; i++) {
+      Employment employmenthistory = widget.user.employmenthistory![i];
+      UniqueKey key = UniqueKey();
+      column.children.add(TextMonitorWidget(key: key, company: employmenthistory.company, title: employmenthistory.title, start: employmenthistory.startdate, end: employmenthistory.enddate));
+      column.children.add(
+        Padding(
+          padding: EdgeInsets.only(left: 500),
+          child: IconButton(
+          onPressed: () {
+            remove(key);
+          }, icon: const Icon(Icons.remove)
+        ),
+        )
+      );
+      column.children.add(SizedBox(height: 16,));
+    }
+    setState(() {});
     super.initState();
-  }
-
-  Future<UserModel?> getUser() async {
-    return await userApi.getUser();
   }
 
   remove(UniqueKey key) {
@@ -101,6 +80,7 @@ class _EmploymentDetailsFormState extends State<EmploymentDetailsForm> {
       )
     );
     column.children.add(SizedBox(height: 16,));
+    setState(() {});
   }
 
   update() {
@@ -180,7 +160,7 @@ class _EmploymentDetailsFormState extends State<EmploymentDetailsForm> {
                     child: const Text('Back'),
                     onPressed: () async {
                       Navigator.of(context).pop();
-                      showQuestionaireModal(context, QualificationsDetailsForm());
+                      showQuestionaireModal(context, QualificationsDetailsForm(user: widget.user));
                     },
                   ),
                 ),

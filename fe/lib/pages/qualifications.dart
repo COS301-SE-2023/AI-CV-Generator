@@ -11,7 +11,8 @@ import 'package:date_field/date_field.dart';
 import 'package:flutter/material.dart';
 
 class QualificationsDetailsForm extends StatefulWidget {
-  const QualificationsDetailsForm({super.key});
+  final UserModel user;
+  const QualificationsDetailsForm({super.key, required this.user});
 
   @override
   State<StatefulWidget> createState() {
@@ -26,37 +27,28 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
 
   @override
   void initState() {
-    getUser().then((value) {
-      if(value != null) {
-        if(value.qualifications == null) {
-          add();
-          return;
-        }
-      }
-      for(int i = 0; i < value!.qualifications!.length; i++) {
-        Qualification qualification = value.qualifications![i];
-        UniqueKey key = UniqueKey();
-        column.children.add(TextMonitorWidget(key: key, institution: qualification.intstitution, qualification: qualification.qualification, start: qualification.date, end: qualification.endo));
-        column.children.add(
-          Padding(
-            padding: EdgeInsets.only(left: 500),
-            child: IconButton(
+    if(widget.user.qualifications == null) {
+      add();
+      return;
+    }
+    for(int i = 0; i < widget.user.qualifications!.length; i++) {
+      Qualification qualification = widget.user.qualifications![i];
+      UniqueKey key = UniqueKey();
+      column.children.add(TextMonitorWidget(key: key, institution: qualification.intstitution, qualification: qualification.qualification, start: qualification.date, end: qualification.endo));
+      column.children.add(
+        Padding(
+          padding: EdgeInsets.only(left: 500),
+          child: IconButton(
             onPressed: () {
               remove(key);
             }, icon: const Icon(Icons.remove)
           ),
-          )
-        );
+        )
+      );
         column.children.add(SizedBox(height: 16,));
-      }
-        setState(() {});
-      },
-    );
+    }
+    setState(() {});
     super.initState();
-  }
-
-  Future<UserModel?> getUser() async {
-    return await userApi.getUser();
   }
 
   remove(UniqueKey key) {
@@ -93,9 +85,12 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
     setState(() {});
   }
 
-  update() {
+  updateUser() {
+    print("here");
     column.children.forEach((element) {
-      print((element as TextMonitorWidget).getdata());
+      var data = (element as TextMonitorWidget).getdata();
+      print(data);
+      widget.user.qualifications!.add(Qualification(qualification: data.qualification, intstitution: data.intstitution, date: data.date, quaid: 0, endo: data.endo));
     });
   }
 
@@ -149,7 +144,7 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
                     child: const Text('Back'),
                     onPressed: () async {
                       Navigator.of(context).pop();
-                      showQuestionaireModal(context, PersonalDetails());
+                      showQuestionaireModal(context, PersonalDetailsForm(user: widget.user));
                     },
                   ),
                 ),
@@ -160,8 +155,9 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
                   child: ElevatedButton(
                     child: const Text('Save and Proceed'),
                     onPressed: () async {
+                      updateUser();
                       Navigator.of(context).pop();
-                      showQuestionaireModal(context, EmploymentDetailsForm());
+                      showQuestionaireModal(context, EmploymentDetailsForm(user: widget.user));
                     },
                   ),
                 ),
