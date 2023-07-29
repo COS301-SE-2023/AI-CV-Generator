@@ -115,9 +115,13 @@ class QualificationsSectionState extends State<QualificationsSection> {
           Align(
             alignment: Alignment.topRight,
             child: IconButton(
+              color: Colors.red,
               onPressed: (){
                 remove(key);
-              }, 
+                if(qualificationsMap.isEmpty == true) {
+                  editing = false;
+                }
+              },
               icon: const Icon(Icons.remove)),
           ),
         );
@@ -128,6 +132,9 @@ class QualificationsSectionState extends State<QualificationsSection> {
   }
 
   edit() {
+    if(qualificationsMap.isEmpty == true) {
+      return;
+    }
     setState(() {
       editing = !editing;
     });
@@ -140,12 +147,16 @@ class QualificationsSectionState extends State<QualificationsSection> {
         children: [
           SectionHeadingBar(
             actions: [
-              IconButton(onPressed: () {
+              IconButton(
+                color: Color(0xFF333C64),
+                onPressed: () {
                 if(editing == false) {
                   add();
                 }
               }, icon: const Icon(Icons.add,)),
-              IconButton(onPressed: () {
+              IconButton(
+                color: Color(0xFF333C64),
+                onPressed: () {
                   edit();
               }, icon: const Icon(Icons.edit)),
             ],

@@ -82,8 +82,12 @@ class LinksSectionState extends State<LinksSection> {
           Align(
             alignment: Alignment.topRight,
             child: IconButton(
-              onPressed: (){
+              color: Colors.red,
+              onPressed: () {
                 remove(key);
+                if(linksMap.isEmpty == true) {
+                  editing = false;
+                }
               }, 
               icon: const Icon(Icons.remove)),
           ),
@@ -116,6 +120,9 @@ class LinksSectionState extends State<LinksSection> {
   }
 
   edit() {
+    if(linksMap.isEmpty == true) {
+      return;
+    }
     setState(() {
       editing = !editing;
     });
@@ -128,12 +135,16 @@ class LinksSectionState extends State<LinksSection> {
         children: [
           SectionHeadingBar(
             actions: [
-              IconButton(onPressed: () {
+              IconButton(
+                color: Color(0xFF333C64),
+                onPressed: () {
                 if(editing == false) {
                   add();
                 }
               }, icon: const Icon(Icons.add)),
-              IconButton(onPressed: () {
+              IconButton(
+                color: Color(0xFF333C64),
+                onPressed: () {
                   edit();
               }, icon: const Icon(Icons.edit)),
             ],
