@@ -8,9 +8,10 @@ import 'package:ai_cv_generator/pages/strings.dart';
 import 'package:ai_cv_generator/pages/questionaireModal.dart';
 import 'package:flutter/material.dart';
 
+import 'home.dart';
+
 class PersonalDetailsForm extends StatefulWidget {
-  final UserModel user;
-  const PersonalDetailsForm({super.key, required this.user});
+  const PersonalDetailsForm({super.key});
 
   @override
   State<StatefulWidget> createState() {
@@ -35,25 +36,25 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
   }
 
   void updateUser() async {
-    widget.user.fname = fname.text;
-    widget.user.lname = lname.text;
-    widget.user.email = email.text;
-    widget.user.phoneNumber = cell.text;
-    widget.user.location = address.text;
-    await userApi.updateUser(user: widget.user);
+    Home.adjustedModel!.fname = fname.text;
+    Home.adjustedModel!.lname = lname.text;
+    Home.adjustedModel!.email = email.text;
+    Home.adjustedModel!.phoneNumber = cell.text;
+    Home.adjustedModel!.location = address.text;
+    //await userApi.updateUser(user: Home.adjustedModel!);
   }
 
   Future<void> getUser() async {
-    fname.text = widget.user.fname;
-    lname.text = widget.user.lname;
-    email.text = widget.user.email!;
-    cell.text = widget.user.phoneNumber!;
-    address.text = widget.user.location!;
+    fname.text = Home.adjustedModel!.fname;
+    lname.text = Home.adjustedModel!.lname;
+    email.text = Home.adjustedModel!.email!;
+    cell.text = Home.adjustedModel!.phoneNumber!;
+    address.text = Home.adjustedModel!.location!;
   }
 
   @override
   Widget build(BuildContext context) {
-    if(widget.user == null) {
+    if(Home.adjustedModel! == null) {
       return LoadingScreen();
     }
     return Scaffold(
@@ -89,7 +90,7 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
                 onPressed: () async {
                   updateUser();
                   Navigator.of(context).pop();
-                  showQuestionaireModal(context, QualificationsDetailsForm(user: widget.user));
+                  showQuestionaireModal(context, QualificationsDetailsForm());
                 },
               ),
             ),

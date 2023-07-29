@@ -12,9 +12,10 @@ import 'package:ai_cv_generator/pages/strings.dart';
 import 'package:date_field/date_field.dart';
 import 'package:flutter/material.dart';
 
+import 'home.dart';
+
 class QualificationsDetailsForm extends StatefulWidget {
-  final UserModel user;
-  const QualificationsDetailsForm({super.key, required this.user});
+  const QualificationsDetailsForm({super.key});
 
   @override
   State<StatefulWidget> createState() {
@@ -28,12 +29,12 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
 
   @override
   void initState() {
-    if(widget.user.qualifications == null) {
+    if(Home.adjustedModel!.qualifications == null) {
       add();
       return;
     }
-    for(int i = 0; i < widget.user.qualifications!.length; i++) {
-      Qualification qualification = widget.user.qualifications![i];
+    for(int i = 0; i < Home.adjustedModel!.qualifications!.length; i++) {
+      Qualification qualification = Home.adjustedModel!.qualifications![i];
       UniqueKey key = UniqueKey();
       column.children.add(TextMonitorWidget(key: key, institution: qualification.intstitution, qualification: qualification.qualification, start: qualification.date, end: qualification.endo));
       column.children.add(
@@ -87,12 +88,12 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
   }
 
   updateUser() {
-    widget.user.qualifications = [];
+    Home.adjustedModel!.qualifications = [];
     column.children.forEach((element) {
       if((element is TextMonitorWidget) == true) {
         Map data = (element as TextMonitorWidget).getdata();
         if(isDataNull(data.values) == false) {
-          widget.user.qualifications!.add(Qualification(qualification: data['qualification'].toString(), intstitution: data['institution'].toString(), date: data['start'], quaid: 0, endo: data['end']));
+          Home.adjustedModel!.qualifications!.add(Qualification(qualification: data['qualification'].toString(), intstitution: data['institution'].toString(), date: data['start'], quaid: 0, endo: data['end']));
         }
       }
     });
@@ -158,7 +159,7 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
                     onPressed: () {
                       updateUser();
                       Navigator.of(context).pop();
-                      showQuestionaireModal(context, PersonalDetailsForm(user: widget.user));
+                      showQuestionaireModal(context, PersonalDetailsForm());
                     },
                   ),
                 ),
@@ -171,7 +172,7 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
                     onPressed: () {
                       updateUser();
                       Navigator.of(context).pop();
-                      showQuestionaireModal(context, EmploymentDetailsForm(user: widget.user));
+                      showQuestionaireModal(context, EmploymentDetailsForm());
                     },
                   ),
                 ),
