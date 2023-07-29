@@ -336,7 +336,7 @@ class TemplatesState extends State<Templates> {
       color: Theme.of(context).colorScheme.surface,
       child: const Align(
         alignment: Alignment.topCenter,
-        child: Text("Templates", style: TextStyle(fontSize: 16),),
+        child: Text("TEMPLATES", style: TextStyle(fontSize: 16),),
       ),
     );
   }
@@ -356,7 +356,7 @@ class PastCVsState extends State<PastCVs> {
       padding: const EdgeInsets.all(24.0),
       child: const Align(
         alignment: Alignment.bottomCenter,
-        child: Text("PastCVs", style: TextStyle(fontSize: 16),),
+        child: Text("PAST CVs", style: TextStyle(fontSize: 16),),
       ),
     );
   }
