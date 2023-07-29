@@ -147,7 +147,7 @@ class _HomeState extends State<Home> {
                                   );
                                   
                                 }, 
-                                child: Text("NEW", style: textStyle),
+                                child: Text("SURVEY", style: textStyle),
                               ),
                             )
                           ),
