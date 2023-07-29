@@ -83,11 +83,26 @@ class _EmploymentDetailsFormState extends State<EmploymentDetailsForm> {
     setState(() {});
   }
 
-  update() {
-    column.children.forEach((element) {
-      print((element as TextMonitorWidget).getdata());
-    });
-  }
+    updateUser() {
+      widget.user.employmenthistory = [];
+      column.children.forEach((element) {
+        if((element is TextMonitorWidget) == true) {
+          Map data = (element as TextMonitorWidget).getdata();
+          if(isDataNull(data.values) == false) {
+            widget.user.employmenthistory!.add(Employment(title: data['title'].toString(), company: data['company'].toString(), startdate: data['start'], empid: 0, enddate: data['end']));
+          }
+        }
+      });
+    }
+
+    isDataNull(Iterable<dynamic> data) {
+      for(int i = 0; i < data.length; i++) {
+        if(data.elementAt(i) == null) {
+          return true;
+        }
+      }
+      return false;
+    }
 
   TextEditingController company1 = TextEditingController();
   TextEditingController jobTitle1 = TextEditingController();
@@ -159,6 +174,7 @@ class _EmploymentDetailsFormState extends State<EmploymentDetailsForm> {
                   child: ElevatedButton(
                     child: const Text('Back'),
                     onPressed: () async {
+                      updateUser();
                       Navigator.of(context).pop();
                       showQuestionaireModal(context, QualificationsDetailsForm(user: widget.user));
                     },
@@ -171,6 +187,7 @@ class _EmploymentDetailsFormState extends State<EmploymentDetailsForm> {
                   child: ElevatedButton(
                     child: const Text('Save and Proceed'),
                     onPressed: () async {
+                      updateUser();
                       Navigator.of(context).pop();
                       // showQuestionaireModal(context, ReferencesForm());
                     },
