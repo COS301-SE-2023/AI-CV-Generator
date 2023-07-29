@@ -52,7 +52,7 @@ ThemeData mainTheme = ThemeData(
   ),
   pageTransitionsTheme: const PageTransitionsTheme(
     builders: {
-      TargetPlatform.windows: CupertinoPageTransitionsBuilder()
+      TargetPlatform.windows: FadeUpwardsPageTransitionsBuilder()
     },
   ),
 );
