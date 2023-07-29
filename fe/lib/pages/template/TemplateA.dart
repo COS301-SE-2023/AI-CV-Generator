@@ -1,5 +1,10 @@
-import 'package:flutter/widgets.dart';
+import 'dart:typed_data';
+
+import 'package:file_picker/file_picker.dart';
+import 'package:flutter/material.dart';
 import 'package:pdf/widgets.dart' as pw;
+
+import '../pdf_window.dart';
 
 // Ui counter part for pdf
 class TemplateA extends StatefulWidget {
@@ -28,5 +33,22 @@ class TemplateAPdf {
 
   void writeOnPdf() async {
 
+  }
+  Future<PlatformFile> getPdf() async {
+      Uint8List bytes = await pdf.save();
+      PlatformFile? file = PlatformFile(name: "gen.pdf", size: bytes.length,bytes: bytes);
+      return file;
+  }
+
+  showPdf(BuildContext context) {
+    getPdf().then((file) {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return Dialog(
+            child: PdfWindow(file: file,)
+          );
+        });
+    },);
   }
 }
