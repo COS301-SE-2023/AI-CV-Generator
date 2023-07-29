@@ -1,6 +1,5 @@
 // ignore_for_file: must_be_immutable
 import 'package:ai_cv_generator/models/user/Employment.dart';
-import 'package:ai_cv_generator/models/user/UserModel.dart';
 import 'package:ai_cv_generator/pages/qualifications.dart';
 import 'package:ai_cv_generator/pages/questionaireModal.dart';
 import 'package:ai_cv_generator/pages/navdrawer.dart';
@@ -23,7 +22,7 @@ class EmploymentDetailsForm extends StatefulWidget {
 
 class _EmploymentDetailsFormState extends State<EmploymentDetailsForm> {
   // final _formKey = GlobalKey<FormState>();
-    Column column = Column(children: [],);
+    Column column = const Column(children: [],);
 
   @override
   void initState() {
@@ -37,7 +36,7 @@ class _EmploymentDetailsFormState extends State<EmploymentDetailsForm> {
       column.children.add(TextMonitorWidget(key: key, company: employmenthistory.company, title: employmenthistory.title, start: employmenthistory.startdate, end: employmenthistory.enddate));
       column.children.add(
         Padding(
-          padding: EdgeInsets.only(left: 500),
+          padding: const EdgeInsets.only(left: 500),
           child: IconButton(
           onPressed: () {
             remove(key);
@@ -45,7 +44,7 @@ class _EmploymentDetailsFormState extends State<EmploymentDetailsForm> {
         ),
         )
       );
-      column.children.add(SizedBox(height: 16,));
+      column.children.add(const SizedBox(height: 16,));
     }
     setState(() {});
     super.initState();
@@ -72,7 +71,7 @@ class _EmploymentDetailsFormState extends State<EmploymentDetailsForm> {
     column.children.add(TextMonitorWidget(key: key));
     column.children.add(
       Padding(
-        padding: EdgeInsets.only(left: 500),
+        padding: const EdgeInsets.only(left: 500),
         child: IconButton(
         onPressed: () {
           remove(key);
@@ -80,20 +79,20 @@ class _EmploymentDetailsFormState extends State<EmploymentDetailsForm> {
       ),
       )
     );
-    column.children.add(SizedBox(height: 16,));
+    column.children.add(const SizedBox(height: 16,));
     setState(() {});
   }
 
     updateUser() {
       Home.adjustedModel!.employmenthistory = [];
-      column.children.forEach((element) {
+      for (var element in column.children) {
         if((element is TextMonitorWidget) == true) {
           Map data = (element as TextMonitorWidget).getdata();
           if(isDataNull(data.values) == false) {
             Home.adjustedModel!.employmenthistory!.add(Employment(title: data['title'].toString(), company: data['company'].toString(), startdate: data['start'], empid: 0, enddate: data['end']));
           }
         }
-      });
+      }
     }
 
     isDataNull(Iterable<dynamic> data) {
@@ -177,11 +176,11 @@ class _EmploymentDetailsFormState extends State<EmploymentDetailsForm> {
                     onPressed: () async {
                       updateUser();
                       Navigator.of(context).pop();
-                      showQuestionaireModal(context, QualificationsDetailsForm());
+                      showQuestionaireModal(context, const QualificationsDetailsForm());
                     },
                   ),
                 ),
-                SizedBox(width: 64,),
+                const SizedBox(width: 64,),
                 SizedBox(
                   height: 50,
                   width: 150,
@@ -197,7 +196,7 @@ class _EmploymentDetailsFormState extends State<EmploymentDetailsForm> {
 
             ],
           ),
-            SizedBox(height: 64,),
+            const SizedBox(height: 64,),
           ],
         )
       )
@@ -207,13 +206,13 @@ class _EmploymentDetailsFormState extends State<EmploymentDetailsForm> {
 }
 
 class TextMonitorWidget extends StatefulWidget {
-  Column column = Column(children: [],);
+  Column column = const Column(children: [],);
   TextEditingController companyC = TextEditingController();
   TextEditingController titleC = TextEditingController();
   String? company = "";
   String? title= "";
-  DateTime? start = null;
-  DateTime? end = null;
+  DateTime? start;
+  DateTime? end;
   TextMonitorWidget({super.key, this.company, this.title, this.start, this.end});
 
   getdata() {
@@ -314,7 +313,7 @@ class TextMonitorWidgetState extends State<TextMonitorWidget> {
               mode: DateTimeFieldPickerMode.date,
             )
           ),
-          SizedBox(width: 16,),
+          const SizedBox(width: 16,),
           Expanded(
             child: DateTimeFormField(
               initialValue: widget.end,

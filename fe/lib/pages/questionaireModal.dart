@@ -6,7 +6,7 @@ showQuestionaireModal(BuildContext context, Widget widget) {
       builder: (BuildContext context) {
         return Dialog(
           child: ConstrainedBox(
-            constraints: BoxConstraints(maxWidth: 800),
+            constraints: const BoxConstraints(maxWidth: 800),
             child: widget
           )
         );

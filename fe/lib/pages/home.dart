@@ -18,7 +18,7 @@ import 'package:ai_cv_generator/pages/shareCV.dart';
 class Home extends StatefulWidget {
   const Home({super.key});
 
-  static UserModel? adjustedModel = null;
+  static UserModel? adjustedModel;
 
   @override
   _HomeState createState() => _HomeState();
@@ -138,8 +138,8 @@ class _HomeState extends State<Home> {
                                     builder: (BuildContext context) {
                                       return Dialog(
                                         child: ConstrainedBox(
-                                          constraints: BoxConstraints(maxWidth: 800),
-                                          child: PersonalDetailsForm()
+                                          constraints: const BoxConstraints(maxWidth: 800),
+                                          child: const PersonalDetailsForm()
                                         )
                                         
                                       );

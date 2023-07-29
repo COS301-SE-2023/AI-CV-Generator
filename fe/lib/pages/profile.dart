@@ -9,7 +9,6 @@ import 'package:ai_cv_generator/pages/employmentView.dart';
 import 'package:ai_cv_generator/pages/imageCropper.dart';
 import 'package:ai_cv_generator/pages/loadingScreen.dart';
 import 'package:flutter/material.dart';
-import 'pdf_window.dart';
 import 'linksView.dart';
 import 'qualificationsView.dart';
 import 'package:image_picker_web/image_picker_web.dart';

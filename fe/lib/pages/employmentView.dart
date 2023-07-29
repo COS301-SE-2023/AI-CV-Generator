@@ -150,14 +150,14 @@ class EmploymentSectionState extends State<EmploymentSection> {
           SectionHeadingBar(
             actions: [
               IconButton(
-                color: Color(0xFF333C64),
+                color: const Color(0xFF333C64),
                 onPressed: () {
                 if(editing == false) {
                   add();
                 }
               }, icon: const Icon(Icons.add)),
               IconButton(
-                color: Color(0xFF333C64),
+                color: const Color(0xFF333C64),
                 onPressed: () {
                   edit();
               }, icon: const Icon(Icons.edit)),

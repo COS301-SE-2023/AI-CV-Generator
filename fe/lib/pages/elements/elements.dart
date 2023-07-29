@@ -29,8 +29,9 @@ ThemeData mainTheme = ThemeData(
       backgroundColor: MaterialStateProperty.all(secondaryColour),
     overlayColor: MaterialStateProperty.resolveWith<Color?>(
       (Set<MaterialState> states) {
-        if (states.contains(MaterialState.pressed))
+        if (states.contains(MaterialState.pressed)) {
           return accentColour;
+        }
         return null;
       },
     ),

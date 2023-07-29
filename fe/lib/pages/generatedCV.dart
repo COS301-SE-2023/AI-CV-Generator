@@ -1,7 +1,6 @@
 
 import 'package:ai_cv_generator/dio/client/userApi.dart';
 import 'package:ai_cv_generator/pages/pdf_window.dart';
-import 'package:ai_cv_generator/pages/personaldetails.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:ai_cv_generator/pages/shareCV.dart';

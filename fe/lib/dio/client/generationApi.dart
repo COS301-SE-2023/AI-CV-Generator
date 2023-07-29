@@ -21,5 +21,6 @@ class GenerationApi extends DioClient {
     } on DioException catch(e) {
       DioClient.handleError(e);
     }
+    return null;
   }
 }

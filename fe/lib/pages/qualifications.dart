@@ -1,9 +1,6 @@
 // ignore_for_file: must_be_immutable
-import 'dart:js_util';
 
-import 'package:ai_cv_generator/dio/client/userApi.dart';
 import 'package:ai_cv_generator/models/user/Qualification.dart';
-import 'package:ai_cv_generator/models/user/UserModel.dart';
 import 'package:ai_cv_generator/pages/employment.dart';
 import 'package:ai_cv_generator/pages/navdrawer.dart';
 import 'package:ai_cv_generator/pages/personaldetails.dart';
@@ -25,7 +22,7 @@ class QualificationsDetailsForm extends StatefulWidget {
 
 class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
   // final _formKey = GlobalKey<FormState>();
-  Column column = Column(children: [],);
+  Column column = const Column(children: [],);
 
   @override
   void initState() {
@@ -39,7 +36,7 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
       column.children.add(TextMonitorWidget(key: key, institution: qualification.intstitution, qualification: qualification.qualification, start: qualification.date, end: qualification.endo));
       column.children.add(
         Padding(
-          padding: EdgeInsets.only(left: 500),
+          padding: const EdgeInsets.only(left: 500),
           child: IconButton(
             onPressed: () {
               remove(key);
@@ -47,7 +44,7 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
           ),
         )
       );
-        column.children.add(SizedBox(height: 16,));
+        column.children.add(const SizedBox(height: 16,));
     }
     setState(() {});
     super.initState();
@@ -74,7 +71,7 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
     column.children.add(TextMonitorWidget(key: key));
     column.children.add(
       Padding(
-        padding: EdgeInsets.only(left: 500),
+        padding: const EdgeInsets.only(left: 500),
         child: IconButton(
         onPressed: () {
           remove(key);
@@ -82,21 +79,21 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
       ),
       )
     );
-    column.children.add(SizedBox(height: 16,));
+    column.children.add(const SizedBox(height: 16,));
 
     setState(() {});
   }
 
   updateUser() {
     Home.adjustedModel!.qualifications = [];
-    column.children.forEach((element) {
+    for (var element in column.children) {
       if((element is TextMonitorWidget) == true) {
         Map data = (element as TextMonitorWidget).getdata();
         if(isDataNull(data.values) == false) {
           Home.adjustedModel!.qualifications!.add(Qualification(qualification: data['qualification'].toString(), intstitution: data['institution'].toString(), date: data['start'], quaid: 0, endo: data['end']));
         }
       }
-    });
+    }
   }
 
   isDataNull(Iterable<dynamic> data) {
@@ -159,11 +156,11 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
                     onPressed: () {
                       updateUser();
                       Navigator.of(context).pop();
-                      showQuestionaireModal(context, PersonalDetailsForm());
+                      showQuestionaireModal(context, const PersonalDetailsForm());
                     },
                   ),
                 ),
-                SizedBox(width: 64,),
+                const SizedBox(width: 64,),
                 SizedBox(
                   height: 50,
                   width: 150,
@@ -172,14 +169,14 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
                     onPressed: () {
                       updateUser();
                       Navigator.of(context).pop();
-                      showQuestionaireModal(context, EmploymentDetailsForm());
+                      showQuestionaireModal(context, const EmploymentDetailsForm());
                     },
                   ),
                 ),
 
             ],
           ),
-            SizedBox(height: 64,),
+            const SizedBox(height: 64,),
           ],
         )
       )
@@ -203,13 +200,13 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
 }
 
 class TextMonitorWidget extends StatefulWidget {
-  Column column = Column(children: [],);
+  Column column = const Column(children: [],);
   TextEditingController institutionC = TextEditingController();
   TextEditingController qualificationC = TextEditingController();
   String? institution = "";
   String? qualification = "";
-  DateTime? start = null;
-  DateTime? end = null;
+  DateTime? start;
+  DateTime? end;
   TextMonitorWidget({super.key, this.institution, this.qualification, this.start, this.end});
 
   getdata() {
@@ -311,7 +308,7 @@ class TextMonitorWidgetState extends State<TextMonitorWidget> {
               mode: DateTimeFieldPickerMode.date,
             )
           ),
-          SizedBox(width: 16,),
+          const SizedBox(width: 16,),
           Expanded(
             child: DateTimeFormField(
               initialValue: widget.end,

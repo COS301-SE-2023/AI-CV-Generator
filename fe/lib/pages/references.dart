@@ -49,7 +49,7 @@ class _ReferencesFormState extends State<ReferencesForm> {
             child: _buildForm(),
             ),
         ),
-        SizedBox(height: 64,),
+        const SizedBox(height: 64,),
         Center (
           child: Container ( 
             padding: const EdgeInsets.all(20.0),

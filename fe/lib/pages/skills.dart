@@ -65,7 +65,7 @@ class _SkillsFormState extends State<SkillsForm> {
             child: _buildForm(),
             ),
         ),
-        SizedBox(height: 64,),
+        const SizedBox(height: 64,),
         Center (
           child: Container ( 
             padding: const EdgeInsets.all(20.0),
@@ -83,7 +83,7 @@ class _SkillsFormState extends State<SkillsForm> {
                 child: ElevatedButton(
                   onPressed: () {
                     Navigator.of(context).pop();
-                    showQuestionaireModal(context, EmploymentDetailsForm());
+                    showQuestionaireModal(context, const EmploymentDetailsForm());
                   },
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.all(10.0),

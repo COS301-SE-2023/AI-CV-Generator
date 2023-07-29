@@ -1,6 +1,4 @@
 // ignore_for_file: must_be_immutable
-import 'package:ai_cv_generator/dio/client/userApi.dart';
-import 'package:ai_cv_generator/models/user/UserModel.dart';
 import 'package:ai_cv_generator/pages/loadingScreen.dart';
 import 'package:ai_cv_generator/pages/navdrawer.dart';
 import 'package:ai_cv_generator/pages/qualifications.dart';
@@ -55,7 +53,7 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
   @override
   Widget build(BuildContext context) {
     if(Home.adjustedModel! == null) {
-      return LoadingScreen();
+      return const LoadingScreen();
     }
     return Scaffold(
       drawer: const NavDrawer(),
@@ -90,11 +88,11 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
                 onPressed: () async {
                   updateUser();
                   Navigator.of(context).pop();
-                  showQuestionaireModal(context, QualificationsDetailsForm());
+                  showQuestionaireModal(context, const QualificationsDetailsForm());
                 },
               ),
             ),
-            SizedBox(height: 64,),
+            const SizedBox(height: 64,),
           ],
         ),
       ),
