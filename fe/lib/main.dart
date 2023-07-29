@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: mainTheme,
-      title: 'AI-CV-GENERATOR_DEMO1_build',
+      title: 'AI CV Generator',
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
       routes: {
@@ -44,11 +44,6 @@ class MyApp extends StatelessWidget {
             settings: settings,
             pageBuilder: (context,animation, secondaryAnimation ) => const Profile(),
             transitionsBuilder: (context, animation, secondaryAnimation, child) {
-              // const begin = Offset(0.0, 1.0);
-              // const end = Offset.zero;
-              // const curve = Curves.ease;
-
-              // var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
 
               return FadeTransition(
                 opacity: animation,
