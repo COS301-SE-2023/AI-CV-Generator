@@ -30,6 +30,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  integration_test:
+    sdk: flutter
+  flutter_test:
+    sdk: flutter
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -48,8 +52,12 @@ dependencies:
   printing: ^5.11.0
   intl: ^0.18.1
   url_launcher_web: ^2.0.17
+<<<<<<< Updated upstream
   image_picker_web: ^3.0.0+1
   crop_your_image: ^0.7.5
+=======
+  mockito: ^5.4.2
+>>>>>>> Stashed changes
 
 dev_dependencies:
   flutter_test:
