@@ -1,17 +1,13 @@
-import 'package:ai_cv_generator/pages/Register.dart';
-import 'package:ai_cv_generator/pages/home.dart';
-import 'package:ai_cv_generator/pages/login.dart';
-import 'package:ai_cv_generator/pages/Register.dart';
-import 'package:ai_cv_generator/pages/personaldetails.dart';
-import 'package:ai_cv_generator/pages/qualifications.dart';
-import 'package:ai_cv_generator/pages/references.dart';
-import 'package:ai_cv_generator/pages/skills.dart';
+import 'package:ai_cv_generator/pages/screens/login.dart';
+import 'package:ai_cv_generator/pages/widgets/personaldetails.dart';
+import 'package:ai_cv_generator/pages/widgets/qualifications.dart';
+import 'package:ai_cv_generator/pages/widgets/references.dart';
+import 'package:ai_cv_generator/pages/widgets/skills.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:mockito/mockito.dart';
 
-import 'package:ai_cv_generator/main.dart' as app;
 
 class MockNavigatorObserver extends Mock implements NavigatorObserver {}
 

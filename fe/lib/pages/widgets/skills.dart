@@ -1,10 +1,9 @@
 // ignore_for_file: must_be_immutable
-import 'package:ai_cv_generator/models/user/UserModel.dart';
-import 'package:ai_cv_generator/pages/employment.dart';
-import 'package:ai_cv_generator/pages/navdrawer.dart';
-import 'package:ai_cv_generator/pages/questionaireModal.dart';
-import 'package:ai_cv_generator/pages/references.dart';
-import 'package:ai_cv_generator/pages/strings.dart';
+import 'package:ai_cv_generator/pages/widgets/employment.dart';
+import 'package:ai_cv_generator/pages/widgets/navdrawer.dart';
+import 'package:ai_cv_generator/pages/widgets/questionaireModal.dart';
+import 'package:ai_cv_generator/pages/widgets/references.dart';
+import 'package:ai_cv_generator/pages/util/strings.dart';
 import 'package:flutter/material.dart';
 
 class SkillsForm extends StatefulWidget {
@@ -99,7 +98,7 @@ class _SkillsFormState extends State<SkillsForm> {
                 child: ElevatedButton(
                   onPressed: () {
                     Navigator.of(context).pop();
-                    showQuestionaireModal(context, ReferencesForm());
+                    showQuestionaireModal(context, const ReferencesForm());
                     },
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.all(10.0),

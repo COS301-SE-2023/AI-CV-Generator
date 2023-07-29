@@ -4,7 +4,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:pdf/widgets.dart' as pw;
 
-import '../pdf_window.dart';
+import '../widgets/pdf_window.dart';
 
 // Ui counter part for pdf
 class TemplateB extends StatefulWidget {

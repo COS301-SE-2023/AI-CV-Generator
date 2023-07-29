@@ -1,4 +1,4 @@
-import 'package:ai_cv_generator/pages/references.dart';
+import 'package:ai_cv_generator/pages/widgets/references.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 

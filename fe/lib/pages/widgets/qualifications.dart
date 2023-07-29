@@ -1,15 +1,15 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:ai_cv_generator/models/user/Qualification.dart';
-import 'package:ai_cv_generator/pages/employment.dart';
-import 'package:ai_cv_generator/pages/navdrawer.dart';
-import 'package:ai_cv_generator/pages/personaldetails.dart';
-import 'package:ai_cv_generator/pages/questionaireModal.dart';
-import 'package:ai_cv_generator/pages/strings.dart';
+import 'package:ai_cv_generator/pages/widgets/employment.dart';
+import 'package:ai_cv_generator/pages/widgets/navdrawer.dart';
+import 'package:ai_cv_generator/pages/widgets/personaldetails.dart';
+import 'package:ai_cv_generator/pages/widgets/questionaireModal.dart';
+import 'package:ai_cv_generator/pages/util/strings.dart';
 import 'package:date_field/date_field.dart';
 import 'package:flutter/material.dart';
 
-import 'home.dart';
+import '../screens/home.dart';
 
 class QualificationsDetailsForm extends StatefulWidget {
   const QualificationsDetailsForm({super.key});

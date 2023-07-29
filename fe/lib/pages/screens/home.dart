@@ -1,19 +1,19 @@
 import 'package:ai_cv_generator/api/DownloadService.dart';
 import 'package:ai_cv_generator/dio/client/fileApi.dart';
 import 'package:ai_cv_generator/api/pdfApi.dart';
-import 'package:ai_cv_generator/pages/cvHistory.dart';
-import 'package:ai_cv_generator/pages/loadingScreen.dart';
-import 'package:ai_cv_generator/pages/navdrawer.dart';
-import 'package:ai_cv_generator/pages/pdf_window.dart';
-import 'package:ai_cv_generator/pages/personaldetails.dart';
+import 'package:ai_cv_generator/pages/widgets/cvHistory.dart';
+import 'package:ai_cv_generator/pages/widgets/loadingScreen.dart';
+import 'package:ai_cv_generator/pages/widgets/navdrawer.dart';
+import 'package:ai_cv_generator/pages/widgets/pdf_window.dart';
+import 'package:ai_cv_generator/pages/widgets/personaldetails.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pdfx/pdfx.dart';
-import '../models/user/UserModel.dart';
+import '../../models/user/UserModel.dart';
 import 'package:ai_cv_generator/dio/client/userApi.dart';
 import 'dart:async';
-import 'package:ai_cv_generator/pages/shareCV.dart';
+import 'package:ai_cv_generator/pages/widgets/shareCV.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});

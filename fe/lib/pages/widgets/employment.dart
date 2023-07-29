@@ -1,13 +1,13 @@
 // ignore_for_file: must_be_immutable
 import 'package:ai_cv_generator/models/user/Employment.dart';
-import 'package:ai_cv_generator/pages/qualifications.dart';
-import 'package:ai_cv_generator/pages/questionaireModal.dart';
-import 'package:ai_cv_generator/pages/navdrawer.dart';
+import 'package:ai_cv_generator/pages/widgets/qualifications.dart';
+import 'package:ai_cv_generator/pages/widgets/questionaireModal.dart';
+import 'package:ai_cv_generator/pages/widgets/navdrawer.dart';
 import 'package:date_field/date_field.dart';
-import 'package:ai_cv_generator/pages/strings.dart';
+import 'package:ai_cv_generator/pages/util/strings.dart';
 import 'package:flutter/material.dart';
 
-import 'home.dart';
+import '../screens/home.dart';
 
 // void main () => runApp(const EmploymentDetails());
 
