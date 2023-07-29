@@ -1,0 +1,8 @@
+
+class TemplateA {
+
+}
+
+class TemplateAPdf {
+  
+}

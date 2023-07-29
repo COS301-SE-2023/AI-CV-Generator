@@ -1,0 +1,8 @@
+
+class TemplateB {
+
+}
+
+class TemplateBPdf {
+  
+}
