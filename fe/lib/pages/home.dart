@@ -190,15 +190,18 @@ class GenerateState extends State<Generate> {
                   width: 100, 
                   child: ElevatedButton(
                     onPressed: () async {
+                      UserModel? user = await userApi.getUser();
+                      if(user == null) {
+                        return;
+                      }
                       showDialog(
                         context: context, 
                         builder: (BuildContext context) {
                           return Dialog(
                             child: ConstrainedBox(
                               constraints: BoxConstraints(maxWidth: 800),
-                              child: PersonalDetails()
+                              child: PersonalDetailsForm(user: user)
                             )
-                            
                           );
                         }
                       );
