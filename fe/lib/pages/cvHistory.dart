@@ -4,7 +4,8 @@ import 'package:ai_cv_generator/dio/client/fileApi.dart';
 
 class CVHistory extends StatefulWidget {
   final BuildContext context;
-  const CVHistory({super.key, required this.context});
+  List<Widget>? list;
+  CVHistory({super.key, required this.context, this.list});
 
   @override
   CVHistoryState createState() => CVHistoryState();
@@ -44,6 +45,9 @@ class CVHistoryState extends State<CVHistory> {
   }
   @override
   Widget build(BuildContext context) {
+    if (widget.list != null) {
+      list = widget.list!;
+    }
     return Container(
       child: SingleChildScrollView(
         child: Wrap(
