@@ -1,26 +1,14 @@
 // ignore_for_file: must_be_immutable
-
+import 'package:ai_cv_generator/models/user/UserModel.dart';
 import 'package:ai_cv_generator/pages/navdrawer.dart';
 import 'package:ai_cv_generator/pages/questionaireModal.dart';
 import 'package:ai_cv_generator/pages/skills.dart';
 import 'package:ai_cv_generator/pages/strings.dart';
 import 'package:flutter/material.dart';
 
-void main () => runApp(const References());
-
-class References extends StatelessWidget {
-  const References({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: ReferencesForm(),
-    );
-  }
-}
-
 class ReferencesForm extends StatefulWidget {
-  const ReferencesForm({super.key});
+  final UserModel user;
+  const ReferencesForm({super.key, required this.user});
 
   @override
   State<StatefulWidget> createState() {
@@ -79,7 +67,7 @@ class _ReferencesFormState extends State<ReferencesForm> {
                   child: ElevatedButton(
                     onPressed: () {
                       Navigator.of(context).pop();
-                      showQuestionaireModal(context, SkillsForm());
+                      showQuestionaireModal(context, SkillsForm(user: widget.user));
                     },
                       child: const Text('Back'),
                   )

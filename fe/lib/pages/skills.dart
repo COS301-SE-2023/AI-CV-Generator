@@ -1,5 +1,5 @@
 // ignore_for_file: must_be_immutable
-
+import 'package:ai_cv_generator/models/user/UserModel.dart';
 import 'package:ai_cv_generator/pages/employment.dart';
 import 'package:ai_cv_generator/pages/navdrawer.dart';
 import 'package:ai_cv_generator/pages/questionaireModal.dart';
@@ -7,22 +7,9 @@ import 'package:ai_cv_generator/pages/references.dart';
 import 'package:ai_cv_generator/pages/strings.dart';
 import 'package:flutter/material.dart';
 
-void main () => runApp(const Skills());
-
-class Skills extends StatelessWidget {
-  const Skills({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return  const Scaffold(
-      
-      body: SkillsForm(),
-    );
-  }
-}
-
 class SkillsForm extends StatefulWidget {
-  const SkillsForm({super.key});
+  final UserModel user;
+  const SkillsForm({super.key, required this.user});
 
   @override
   State<StatefulWidget> createState() {
@@ -96,7 +83,7 @@ class _SkillsFormState extends State<SkillsForm> {
                 child: ElevatedButton(
                   onPressed: () {
                     Navigator.of(context).pop();
-                    showQuestionaireModal(context, EmploymentDetailsForm());
+                    showQuestionaireModal(context, EmploymentDetailsForm(user: widget.user));
                   },
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.all(10.0),
@@ -113,7 +100,7 @@ class _SkillsFormState extends State<SkillsForm> {
                 child: ElevatedButton(
                   onPressed: () {
                     Navigator.of(context).pop();
-                    showQuestionaireModal(context, References());
+                    showQuestionaireModal(context, ReferencesForm(user: widget.user));
                     },
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.all(10.0),
