@@ -2,6 +2,7 @@ package com.revolvingSolutions.aicvgeneratorbackend.service;
 
 
 import com.revolvingSolutions.aicvgeneratorbackend.agent.DescriptionAgent;
+import com.revolvingSolutions.aicvgeneratorbackend.agent.EducationDescriptionAgent;
 import com.revolvingSolutions.aicvgeneratorbackend.agent.EmploymentHistoryExpander;
 import com.revolvingSolutions.aicvgeneratorbackend.agent.GenerationAgent;
 import com.revolvingSolutions.aicvgeneratorbackend.model.CVData;
@@ -22,6 +23,7 @@ public class LangChainService {
     private final GenerationAgent generationAgent;
     private final DescriptionAgent descriptionAgent;
     private final EmploymentHistoryExpander employmentHistoryExpander;
+    private final EducationDescriptionAgent educationDescriptionAgent;
     public GenerationResponse generateCV(
             GenerationRequest request
     ) {
@@ -54,6 +56,7 @@ public class LangChainService {
                         CVData.builder()
                                 .description(descriptionAgent.chat(request.getAdjustedModel().toString()))
                                 .employmenthis(mylist)
+                                .education_description(educationDescriptionAgent.chat(request.getAdjustedModel().getQualifications().toString())+request.getAdjustedModel().getDescription())
                                 .build()
                 )
                 .build();

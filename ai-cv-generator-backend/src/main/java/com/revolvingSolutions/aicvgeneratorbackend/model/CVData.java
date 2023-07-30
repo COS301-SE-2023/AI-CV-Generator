@@ -15,4 +15,5 @@ import java.util.List;
 public class CVData {
     public String description;
     public List<String> employmenthis;
+    public String education_description;
 }
