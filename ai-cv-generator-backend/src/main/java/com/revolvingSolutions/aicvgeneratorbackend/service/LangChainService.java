@@ -45,7 +45,7 @@ public class LangChainService {
     ) {
         List<String> mylist = new ArrayList<>();
         for (Employment employment : request.getAdjustedModel().getEmploymenthistory()) {
-            mylist.add(employmentHistoryExpander.chat(employment.toString()));
+            mylist.add(interact(employmentHistoryExpander,employment.toString()));
         }
 
         return MockGenerationResponse.builder()
@@ -54,15 +54,48 @@ public class LangChainService {
                 )
                 .data(
                         CVData.builder()
-                                .description(descriptionAgent.chat(request.getAdjustedModel().toString()))
+                                .description(interact(descriptionAgent,request.getAdjustedModel().toString()))
                                 .employmenthis(mylist)
-                                .education_description(educationDescriptionAgent.chat(request.getAdjustedModel().getQualifications().toString())+request.getAdjustedModel().getDescription())
+                                .education_description(interact(educationDescriptionAgent,request.getAdjustedModel().getQualifications().toString()+request.getAdjustedModel().getDescription()))
                                 .build()
                 )
                 .build();
     }
 
     private static String interact(GenerationAgent agent, String userMessage) {
+        System.out.println("==========================================================================================");
+        System.out.println("[User]: " + userMessage);
+        System.out.println("==========================================================================================");
+        String agentAnswer = agent.chat(userMessage);
+        System.out.println("==========================================================================================");
+        System.out.println("[Agent]: " + agentAnswer);
+        System.out.println("==========================================================================================");
+        return agentAnswer;
+    }
+
+    private static String interact(DescriptionAgent agent, String userMessage) {
+        System.out.println("==========================================================================================");
+        System.out.println("[User]: " + userMessage);
+        System.out.println("==========================================================================================");
+        String agentAnswer = agent.chat(userMessage);
+        System.out.println("==========================================================================================");
+        System.out.println("[Agent]: " + agentAnswer);
+        System.out.println("==========================================================================================");
+        return agentAnswer;
+    }
+
+    private static String interact(EmploymentHistoryExpander agent, String userMessage) {
+        System.out.println("==========================================================================================");
+        System.out.println("[User]: " + userMessage);
+        System.out.println("==========================================================================================");
+        String agentAnswer = agent.chat(userMessage);
+        System.out.println("==========================================================================================");
+        System.out.println("[Agent]: " + agentAnswer);
+        System.out.println("==========================================================================================");
+        return agentAnswer;
+    }
+
+    private static String interact(EducationDescriptionAgent agent, String userMessage) {
         System.out.println("==========================================================================================");
         System.out.println("[User]: " + userMessage);
         System.out.println("==========================================================================================");
