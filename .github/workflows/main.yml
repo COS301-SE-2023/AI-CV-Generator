@@ -1,0 +1,29 @@
+name: Flutter_CI
+on:
+    push:
+        branches:
+            -Dev
+            -main
+
+jobs:
+    flutter_test:
+        name: Run flutter test and analyze
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout Repository
+              uses: actions/checkout@v2
+            
+            - name: Set up Flutter  
+              uses: subosito/flutter-action@v2
+              with:
+                channel: "stable"
+
+
+            - name: Get Dependencies
+              run: Flutter pub get
+
+            - name: run tests
+              run: flutter test
+
+            - name: Build Flutter Web
+              run: flutter build web --release
