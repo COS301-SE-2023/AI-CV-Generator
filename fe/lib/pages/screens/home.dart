@@ -66,8 +66,6 @@ class _HomeState extends State<Home> {
   TextStyle textStyle = const TextStyle(fontSize: 12);
   TextEditingController filenameC = TextEditingController();
   List<Widget> list = [];
-  Widget? editpage;
-
   Widget? editPage;
 
   @override
