@@ -78,13 +78,13 @@ class TemplateAPdf {
                         child: pw.Column(
                           crossAxisAlignment: pw.CrossAxisAlignment.start,
                           children: [
-                            pw.Text("Professional Summary", style: pw.TextStyle(fontSize: 24, color: PdfColors.lightGreen100,)),
+                            pw.Text("Professional Summary", style: pw.TextStyle(fontSize: 24, color: PdfColors.lightGreen200,)),
                             pw.SizedBox(height: 8),
                             pw.Text(user.description!),
 
                             pw.SizedBox(height: 48),
 
-                            pw.Text("Experience", style: pw.TextStyle(fontSize: 24, color: PdfColors.lightGreen100,)),
+                            pw.Text("Experience", style: pw.TextStyle(fontSize: 24, color: PdfColors.lightGreen200,)),
                             pw.SizedBox(height: 8),
                             pw.Column(
                               children: [
@@ -117,7 +117,7 @@ class TemplateAPdf {
 
                             pw.SizedBox(height: 48),
 
-                            pw.Text("Qualifications", style: pw.TextStyle(fontSize: 24, color: PdfColors.lightGreen100,)),
+                            pw.Text("Qualifications", style: pw.TextStyle(fontSize: 24, color: PdfColors.lightGreen200,)),
                             pw.SizedBox(height: 8),
                             pw.Column(
                               children: [
