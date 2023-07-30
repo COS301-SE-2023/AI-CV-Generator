@@ -11,10 +11,21 @@ import 'package:ai_cv_generator/pages/widgets/pdf_window.dart';
 
 // Ui counter part for pdf
 class TemplateB extends StatefulWidget {
-  const TemplateB({super.key});
+
+  UserModel adjustedModel;
+  CVData data;
+
+  TemplateB({
+    required this.adjustedModel,
+    required this.data,
+    super.key
+  });
 
   @override
   State<StatefulWidget> createState() => TemplateBState();
+
+  UserModel get adjusted => adjustedModel;
+  CVData get cvdata => data;
 }
 
 class TemplateBState extends State<TemplateB> {
@@ -23,7 +34,140 @@ class TemplateBState extends State<TemplateB> {
     return SingleChildScrollView(
       child: Stack(
         children: [
-          
+          Expanded(child: 
+              Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                      color: Colors.lightGreen.shade50,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(widget.adjusted.fname + " " + widget.adjusted.lname, style: const TextStyle(fontSize: 32)),
+                          SizedBox(height: 32),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(widget.adjusted.location??"Please provide Location!" + " | "),
+                              Text(widget.adjusted.phoneNumber??"Please provide phone number!" + " | "),
+                              Text(widget.adjusted.email??"Please provide email!"),
+                            ]
+                          )
+                        ]
+                      )
+                      )
+                  )
+                ]
+              )
+            ),
+            Expanded(
+              flex: 5,
+              child: Padding(
+                padding: EdgeInsets.all(32),
+                child: Row(
+                  children: [
+                    Expanded( child:
+                      Container(
+                        alignment: Alignment.topLeft,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text("Professional Summary", style: TextStyle(fontSize: 24, color: Colors.lightGreen,)),
+                            const SizedBox(height: 8),
+                            Text(widget.data.description!),
+
+                            const SizedBox(height: 48),
+
+                            const Text("Experience", style: TextStyle(fontSize: 24, color: Colors.lightGreen,)),
+                            const SizedBox(height: 8),
+                            Column(
+                              children: [
+                                ListView.builder(
+                                  itemCount: widget.adjusted.employmenthistory!.length,
+                                  itemBuilder: ((context, index) {
+                                    return Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        children: [
+                                          Text(widget.data.employmenthis![index]),
+                                        ]
+                                      )
+                                    );
+                                  }),
+                                )
+                              ]
+                            ),
+
+                            const SizedBox(height: 48),
+
+                            const Text("Qualifications", style: TextStyle(fontSize: 24, color: Colors.lightGreen,)),
+                            const SizedBox(height: 8),
+                            Column(
+                              children: [
+                                ListView.builder(
+                                  itemCount: widget.adjusted.qualifications!.length,
+                                  itemBuilder: ((context, index) {
+                                    return Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Text(widget.adjusted.qualifications![index].intstitution + " | "),
+                                              Text(widget.adjusted.qualifications![index].date.year.toString() + " - "),
+                                              Text(widget.adjusted.qualifications![index].endo.year.toString()),
+                                            ],
+                                          ),
+                                          const SizedBox(height: 8),
+                                          Text(widget.adjusted.qualifications![index].qualification),
+                                          const SizedBox(height: 24),
+                                        ]
+                                      )
+                                    );
+                                  }),
+                                ),
+                                const SizedBox(height: 8),
+                                Text(widget.data.education_description!)
+                              ]
+                            ),
+
+                            const SizedBox(height: 48),
+
+                            const Text("Links", style: TextStyle(fontSize: 24, color: Colors.lightGreen,)),
+                            const SizedBox(height: 8),
+                            Column(
+                              children: [
+                                ListView.builder(
+                                  itemCount: widget.adjusted.links!.length,
+                                  itemBuilder: ((context, index) {
+                                    return Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        children: [
+                                          const SizedBox(height: 8),
+                                          Text(widget.adjusted.links![index].url),
+                                          const SizedBox(height: 24),
+                                        ]
+                                      )
+                                    );
+                                  }),
+                                )
+                              ]
+                            ),
+                          ]
+                        )
+                      )
+                    )
+                  ]
+                )
+              )
+            ),
         ],
       ),
     );
