@@ -27,7 +27,7 @@ class DescriptionFormState extends State<DescriptionForm> {
             Icons.close,
           ), 
           onPressed: () async { 
-            Navigator.pop(context);
+            Navigator.popUntil(context, ModalRoute.withName('/home'));
           },
         ),
       ),

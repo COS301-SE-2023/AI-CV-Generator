@@ -136,7 +136,7 @@ class _EmploymentDetailsFormState extends State<EmploymentDetailsForm> {
             Icons.close,
           ), 
           onPressed: () async { 
-            Navigator.pop(context);
+            Navigator.popUntil(context, ModalRoute.withName('/home'));
           },
         ),
       ),
