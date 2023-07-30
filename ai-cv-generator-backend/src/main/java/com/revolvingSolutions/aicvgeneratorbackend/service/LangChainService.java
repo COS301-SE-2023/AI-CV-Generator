@@ -1,8 +1,8 @@
 package com.revolvingSolutions.aicvgeneratorbackend.service;
 
 
+import com.revolvingSolutions.aicvgeneratorbackend.agent.DescriptionAgent;
 import com.revolvingSolutions.aicvgeneratorbackend.agent.GenerationAgent;
-import com.revolvingSolutions.aicvgeneratorbackend.model.CVData;
 import com.revolvingSolutions.aicvgeneratorbackend.request.generation.GenerationRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.response.generation.GenerationResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.generation.MockGenerationResponse;
@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 public class LangChainService {
 
     private final GenerationAgent generationAgent;
+    private final DescriptionAgent descriptionAgent;
     public GenerationResponse generateCV(
             GenerationRequest request
     ) {
@@ -38,7 +39,7 @@ public class LangChainService {
                         request.getAdjustedModel()
                 )
                 .extradata(
-                    "Any additions?"
+                        descriptionAgent.chat(request.getAdjustedModel().toString())
                 )
                 .build();
     }
