@@ -68,7 +68,7 @@ public class LangChainService {
         System.out.println("==========================================================================================");
         String agentAnswer = agent.chat(userMessage);
         System.out.println("==========================================================================================");
-        System.out.println("[Agent]: " + agentAnswer);
+        System.out.println("[GenerationAgent]: " + agentAnswer);
         System.out.println("==========================================================================================");
         return agentAnswer;
     }
@@ -79,7 +79,7 @@ public class LangChainService {
         System.out.println("==========================================================================================");
         String agentAnswer = agent.chat(userMessage);
         System.out.println("==========================================================================================");
-        System.out.println("[Agent]: " + agentAnswer);
+        System.out.println("[DescriptionAgent]: " + agentAnswer);
         System.out.println("==========================================================================================");
         return agentAnswer;
     }
@@ -90,7 +90,7 @@ public class LangChainService {
         System.out.println("==========================================================================================");
         String agentAnswer = agent.chat(userMessage);
         System.out.println("==========================================================================================");
-        System.out.println("[Agent]: " + agentAnswer);
+        System.out.println("[EmploymentHistoryExpander]: " + agentAnswer);
         System.out.println("==========================================================================================");
         return agentAnswer;
     }
@@ -101,7 +101,7 @@ public class LangChainService {
         System.out.println("==========================================================================================");
         String agentAnswer = agent.chat(userMessage);
         System.out.println("==========================================================================================");
-        System.out.println("[Agent]: " + agentAnswer);
+        System.out.println("[EducationDescriptionAgent]: " + agentAnswer);
         System.out.println("==========================================================================================");
         return agentAnswer;
     }

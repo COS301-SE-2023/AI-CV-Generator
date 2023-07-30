@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 
-import '../widgets/pdf_window.dart';
+import 'package:ai_cv_generator/pages/widgets/pdf_window.dart';
 
 // Ui counter part for pdf
 class TemplateB extends StatefulWidget {
@@ -20,7 +20,13 @@ class TemplateB extends StatefulWidget {
 class TemplateBState extends State<TemplateB> {
   @override
   Widget build(BuildContext context) {
-    throw UnimplementedError();
+    return SingleChildScrollView(
+      child: Stack(
+        children: [
+          
+        ],
+      ),
+    );
   }
 }
 
