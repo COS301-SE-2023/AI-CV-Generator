@@ -1,6 +1,9 @@
 import 'package:ai_cv_generator/api/DownloadService.dart';
 import 'package:ai_cv_generator/dio/client/fileApi.dart';
 import 'package:ai_cv_generator/api/pdfApi.dart';
+import 'package:ai_cv_generator/dio/client/generationApi.dart';
+import 'package:ai_cv_generator/dio/response/GenerationResponses/MockGenerationResponse.dart';
+import 'package:ai_cv_generator/pages/template/TemplateB.dart';
 import 'package:ai_cv_generator/pages/widgets/cvHistory.dart';
 import 'package:ai_cv_generator/pages/widgets/loadingScreen.dart';
 import 'package:ai_cv_generator/pages/widgets/navdrawer.dart';
@@ -145,7 +148,16 @@ class _HomeState extends State<Home> {
                                       );
                                     }
                                   );
-                                  
+                                  while (Home.adjustedModel!.qualifications == null || Home.adjustedModel!.qualifications == []) {}
+                                  MockGenerationResponse? response = await GenerationApi.mockgenerate(userModel: (Home.adjustedModel)!);
+                                  TemplateBPdf templateBPdf = TemplateBPdf();
+                                  await templateBPdf.writeOnPdf(response!.mockgeneratedUser, response.data);
+                                  PlatformFile file = await templateBPdf.getPdf();
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => PdfWindow(file: file,)
+                                    )
+                                  );
                                 }, 
                                 child: Text("SURVEY", style: textStyle),
                               ),

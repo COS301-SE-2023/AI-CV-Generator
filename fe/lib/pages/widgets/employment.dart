@@ -188,8 +188,7 @@ class _EmploymentDetailsFormState extends State<EmploymentDetailsForm> {
                     child: const Text('Save and Proceed'),
                     onPressed: () async {
                       updateUser();
-                      Navigator.of(context).pop();
-                      // showQuestionaireModal(context, ReferencesForm());
+                      Navigator.popUntil(context, ModalRoute.withName('/home'));
                     },
                   ),
                 ),

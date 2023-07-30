@@ -45,9 +45,9 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
   Future<void> getUser() async {
     fname.text = Home.adjustedModel!.fname;
     lname.text = Home.adjustedModel!.lname;
-    email.text = Home.adjustedModel!.email!;
-    cell.text = Home.adjustedModel!.phoneNumber!;
-    address.text = Home.adjustedModel!.location!;
+    email.text = Home.adjustedModel!.email?? "Please enter some text";
+    cell.text = Home.adjustedModel!.phoneNumber?? "Please enter some text";
+    address.text = Home.adjustedModel!.location?? "Please enter some text";
   }
 
   @override
@@ -87,7 +87,6 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
                 child: const Text('Save and Proceed'),
                 onPressed: () async {
                   updateUser();
-                  Navigator.of(context).pop();
                   showQuestionaireModal(context, const QualificationsDetailsForm());
                 },
               ),

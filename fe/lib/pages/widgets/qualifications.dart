@@ -165,7 +165,7 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
                   width: 150,
                   child: ElevatedButton(
                     child: const Text('Save and Proceed'),
-                    onPressed: () {
+                    onPressed: () async {
                       updateUser();
                       Navigator.of(context).pop();
                       showQuestionaireModal(context, const EmploymentDetailsForm());
