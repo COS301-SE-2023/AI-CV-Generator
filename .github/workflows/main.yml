@@ -6,7 +6,7 @@ on:
 
 jobs:
     build:
-      name: Run flutter test and analyze
+      name: build flutter for web
       runs-on: ubuntu-latest
       steps:
       - name: Build Flutter Web
