@@ -12,7 +12,7 @@ class CVData {
     required this.employmenthis
   });
 
-  factory CVData.fromJSON(Map<String,dynamic> json) => _$CVDataFromJson(json);
+  factory CVData.fromJson(Map<String,dynamic> json) => _$CVDataFromJson(json);
 
     Map<String,dynamic> toJson() => _$CVDataToJson(this);
 }
