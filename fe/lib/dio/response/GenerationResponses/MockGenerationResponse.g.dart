@@ -11,12 +11,12 @@ MockGenerationResponse _$MockGenerationResponseFromJson(
     MockGenerationResponse(
       mockgeneratedUser:
           UserModel.fromJson(json['mockgeneratedUser'] as Map<String, dynamic>),
-      extradata: json['extradata'] as String?,
+      data: CVData.fromJson(json['data'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$MockGenerationResponseToJson(
         MockGenerationResponse instance) =>
     <String, dynamic>{
       'mockgeneratedUser': instance.mockgeneratedUser,
-      'extradata': instance.extradata,
+      'data': instance.data,
     };
