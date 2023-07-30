@@ -1,5 +1,6 @@
 // ignore_for_file: must_be_immutable
 import 'package:ai_cv_generator/models/user/Employment.dart';
+import 'package:ai_cv_generator/pages/widgets/description.dart';
 import 'package:ai_cv_generator/pages/widgets/qualifications.dart';
 import 'package:ai_cv_generator/pages/widgets/questionaireModal.dart';
 import 'package:ai_cv_generator/pages/widgets/navdrawer.dart';
@@ -188,7 +189,8 @@ class _EmploymentDetailsFormState extends State<EmploymentDetailsForm> {
                     child: const Text('Save and Proceed'),
                     onPressed: () async {
                       updateUser();
-                      Navigator.popUntil(context, ModalRoute.withName('/home'));
+                      Navigator.pop(context);
+                      showQuestionaireModal(context, const DescriptionForm());
                     },
                   ),
                 ),

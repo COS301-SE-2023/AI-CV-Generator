@@ -22,6 +22,7 @@ class Home extends StatefulWidget {
   const Home({super.key});
 
   static UserModel? adjustedModel;
+  static bool ready = false;
 
   @override
   _HomeState createState() => _HomeState();
@@ -65,6 +66,7 @@ class _HomeState extends State<Home> {
   TextEditingController filenameC = TextEditingController();
 
   List<Widget> list = [];
+  Widget? editpage;
 
 
   @override
@@ -136,6 +138,7 @@ class _HomeState extends State<Home> {
                               child: ElevatedButton(
                                 onPressed: () async {
                                   Home.adjustedModel = model;
+                                  Home.ready = false;
                                   await showDialog(
                                     context: context, 
                                     builder: (BuildContext context) {
@@ -148,16 +151,21 @@ class _HomeState extends State<Home> {
                                       );
                                     }
                                   );
-                                  while (Home.adjustedModel!.qualifications == null || Home.adjustedModel!.qualifications == []) {}
+                                  if (Home.ready == false) return;
                                   MockGenerationResponse? response = await GenerationApi.mockgenerate(userModel: (Home.adjustedModel)!);
-                                  TemplateBPdf templateBPdf = TemplateBPdf();
-                                  await templateBPdf.writeOnPdf(response!.mockgeneratedUser, response.data);
-                                  PlatformFile file = await templateBPdf.getPdf();
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (context) => PdfWindow(file: file,)
-                                    )
-                                  );
+                                  //TemplateBPdf templateBPdf = TemplateBPdf();
+                                  //await templateBPdf.writeOnPdf(response!.mockgeneratedUser, response.data);
+                                  //PlatformFile file = await templateBPdf.getPdf();
+                                  // Navigator.of(context).push(
+                                  //   MaterialPageRoute(
+                                  //     builder: (context) => PdfWindow(file: file,)
+                                  //   )
+                                  // );
+                                  setState(() {
+                                    editpage = TemplateB(adjustedModel: response!.mockgeneratedUser, data: response.data);
+                                  });
+                                  
+                                  
                                 }, 
                                 child: Text("SURVEY", style: textStyle),
                               ),
@@ -296,6 +304,7 @@ class _HomeState extends State<Home> {
                       Expanded(
                         child: Container(
                           color: Theme.of(context).colorScheme.surface,
+                          child: editpage,
                         ),
                       ),
                     ],
