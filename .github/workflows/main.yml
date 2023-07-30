@@ -1,9 +1,8 @@
 name: Flutter_CI
 on:
     push:
-        branches:
-            -Dev
-            -main
+        branches:  [ "main" ]
+    workflow_dispatch:
 
 jobs:
     flutter_test:
