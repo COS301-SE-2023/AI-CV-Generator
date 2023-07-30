@@ -32,19 +32,23 @@ class TemplateBState extends State<TemplateB> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: Stack(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          Expanded(child: 
+        Flexible(
+          fit: FlexFit.loose,
+          child: 
               Row(
                 children: [
-                  Expanded(
+                  Flexible(
+                    fit: FlexFit.loose,
                     child: Container(
                       color: Colors.lightGreen.shade50,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(widget.adjusted.fname + " " + widget.adjusted.lname, style: const TextStyle(fontSize: 32)),
-                          SizedBox(height: 32),
+                          const SizedBox(height: 32),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -60,14 +64,16 @@ class TemplateBState extends State<TemplateB> {
                 ]
               )
             ),
-            Expanded(
+            Flexible(
+              fit: FlexFit.loose,
               flex: 5,
               child: Padding(
-                padding: EdgeInsets.all(32),
+                padding: const EdgeInsets.all(32),
                 child: Row(
                   children: [
-                    Expanded( child:
-                      Container(
+                    Flexible( 
+                      fit: FlexFit.loose,
+                      child: Container(
                         alignment: Alignment.topLeft,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
