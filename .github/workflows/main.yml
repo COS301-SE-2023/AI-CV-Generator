@@ -5,6 +5,13 @@ on:
     workflow_dispatch:
 
 jobs:
+    build:
+      name: Run flutter test and analyze
+      runs-on: ubuntu-latest
+      steps:
+      - name: Build Flutter Web
+        run: flutter build web --release
+
     flutter_test:
         name: Run flutter test and analyze
         runs-on: ubuntu-latest
@@ -23,6 +30,3 @@ jobs:
 
             - name: run tests
               run: flutter test
-
-            - name: Build Flutter Web
-              run: flutter build web --release
