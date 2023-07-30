@@ -1,5 +1,4 @@
 // ignore_for_file: must_be_immutable
-
 import 'package:ai_cv_generator/models/user/Qualification.dart';
 import 'package:ai_cv_generator/pages/widgets/employment.dart';
 import 'package:ai_cv_generator/pages/widgets/navdrawer.dart';
@@ -22,7 +21,7 @@ class QualificationsDetailsForm extends StatefulWidget {
 
 class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
   // final _formKey = GlobalKey<FormState>();
-  Column column = const Column(children: [],);
+  Column column = Column(children: [],);
 
   @override
   void initState() {
@@ -200,7 +199,7 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
 }
 
 class TextMonitorWidget extends StatefulWidget {
-  Column column = const Column(children: [],);
+  Column column = Column(children: [],);
   TextEditingController institutionC = TextEditingController();
   TextEditingController qualificationC = TextEditingController();
   String? institution = "";
