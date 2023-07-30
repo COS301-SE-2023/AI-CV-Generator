@@ -147,6 +147,32 @@ class TemplateAPdf {
                                 )
                               ]
                             ),
+
+                            pw.SizedBox(height: 48),
+
+                            pw.Text("Links", style: pw.TextStyle(fontSize: 24, color: PdfColors.lightGreen200,)),
+                            pw.SizedBox(height: 8),
+                            pw.Column(
+                              children: [
+                                pw.ListView.builder(
+                                  itemCount: user.qualifications!.length,
+                                  itemBuilder: ((context, index) {
+                                    return pw.Align(
+                                      alignment: pw.Alignment.centerLeft,
+                                      child: pw.Column(
+                                        crossAxisAlignment: pw.CrossAxisAlignment.start,
+                                        mainAxisAlignment: pw.MainAxisAlignment.start,
+                                        children: [
+                                          pw.SizedBox(height: 8),
+                                          pw.Text(user.links![index].url),
+                                          pw.SizedBox(height: 24),
+                                        ]
+                                      )
+                                    );
+                                  }),
+                                )
+                              ]
+                            ),
                           ]
                         )
                       )
