@@ -1,6 +1,6 @@
 name: Flutter_CI
 on:
-    pull_request:
+    push:
         branches:
             -Dev
             -main
