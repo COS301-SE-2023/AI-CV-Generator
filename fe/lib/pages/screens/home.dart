@@ -3,6 +3,7 @@ import 'package:ai_cv_generator/dio/client/fileApi.dart';
 import 'package:ai_cv_generator/api/pdfApi.dart';
 import 'package:ai_cv_generator/dio/client/generationApi.dart';
 import 'package:ai_cv_generator/dio/response/GenerationResponses/MockGenerationResponse.dart';
+import 'package:ai_cv_generator/pages/template/TemplateA.dart';
 import 'package:ai_cv_generator/pages/template/TemplateB.dart';
 import 'package:ai_cv_generator/pages/widgets/cvHistory.dart';
 import 'package:ai_cv_generator/pages/widgets/loadingScreen.dart';
@@ -63,9 +64,8 @@ class _HomeState extends State<Home> {
   PlatformFile? generatedFile;
   TextStyle textStyle = const TextStyle(fontSize: 12);
   TextEditingController filenameC = TextEditingController();
-
   List<Widget> list = [];
-
+  Widget? editPage;
 
   @override
   Widget build(BuildContext context) {
@@ -148,16 +148,18 @@ class _HomeState extends State<Home> {
                                       );
                                     }
                                   );
-                                  while (Home.adjustedModel!.qualifications == null || Home.adjustedModel!.qualifications == []) {}
+                                  // while (Home.adjustedModel!.qualifications == null || Home.adjustedModel!.qualifications == []) {}
                                   MockGenerationResponse? response = await GenerationApi.mockgenerate(userModel: (Home.adjustedModel)!);
-                                  TemplateBPdf templateBPdf = TemplateBPdf();
-                                  await templateBPdf.writeOnPdf(response!.mockgeneratedUser, response.data);
-                                  PlatformFile file = await templateBPdf.getPdf();
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (context) => PdfWindow(file: file,)
-                                    )
-                                  );
+                                  editPage = TemplateA(user: response!.mockgeneratedUser, data: response!.data);
+                                  setState(() {});
+                                  // TemplateBPdf templateBPdf = TemplateBPdf();
+                                  // await templateBPdf.writeOnPdf(response!.mockgeneratedUser, response.data);
+                                  // PlatformFile file = await templateBPdf.getPdf();
+                                  // Navigator.of(context).push(
+                                  //   MaterialPageRoute(
+                                  //     builder: (context) => PdfWindow(file: file,)
+                                  //   )
+                                  // );
                                 }, 
                                 child: Text("SURVEY", style: textStyle),
                               ),
@@ -223,7 +225,7 @@ class _HomeState extends State<Home> {
                         ],
                       ),
                       const SizedBox(height: 12,),
-                      if(uploadFile != null)
+                      // if(uploadFile != null)
                       Container(
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -233,8 +235,10 @@ class _HomeState extends State<Home> {
                                 height:40,
                                 width: 100,
                                 child:ElevatedButton(
-                                  onPressed: (){
-
+                                  onPressed: () async {
+                                    // MockGenerationResponse? response = await GenerationApi.mockgenerate(userModel: (Home.adjustedModel)!);
+                                    // editPage = TemplateA(user: (await userApi.getUser())!);
+                                    // setState(() {});
                                   }, 
                                   child: Text("GENERATE", style: textStyle),
                                 ),
@@ -293,9 +297,11 @@ class _HomeState extends State<Home> {
                         ),
                       ),
                       const SizedBox(height: 4,),
-                      Expanded(
-                        child: Container(
+                      Expanded(child:
+                        Container(
+                          height: 400,
                           color: Theme.of(context).colorScheme.surface,
+                          child: editPage,
                         ),
                       ),
                     ],

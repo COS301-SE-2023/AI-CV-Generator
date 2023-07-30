@@ -1,27 +1,200 @@
 import 'dart:typed_data';
 
+import 'package:ai_cv_generator/dio/response/GenerationResponses/MockGenerationResponse.dart';
+import 'package:ai_cv_generator/models/generation/CVData.dart';
 import 'package:ai_cv_generator/models/user/UserModel.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
-
 import '../widgets/pdf_window.dart';
+
+TextEditingController fnameC = TextEditingController();
+TextEditingController lnameC = TextEditingController();
+TextEditingController emailC = TextEditingController();
+TextEditingController locationC = TextEditingController();
+TextEditingController phoneNumberC = TextEditingController();
+UserModel? user;
+CVData? data;
 
 // Ui counter part for pdf
 class TemplateA extends StatefulWidget {
-  const TemplateA({super.key});
-
+  const TemplateA({super.key, required this.user, required this.data});
+  // final MockGenerationResponse data;
+  final UserModel user;
+  final   CVData data;
+  
   @override
   State<StatefulWidget> createState() => TemplateAState();
 }
 
 class TemplateAState extends State<TemplateA> {
   @override
-  Widget build(BuildContext context) {
-    throw UnimplementedError();
+  void initState() {
+    user = widget.user;
+    data = widget.data;
+    super.initState();
   }
 
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      children: [
+        Row(
+          children: [
+            Expanded(
+              child:Container(
+                height: 300,
+                color: Colors.lightGreenAccent,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(user!.fname + " " + user!.lname, style: TextStyle(fontSize: 32)),
+                    SizedBox(height: 32),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text((user!.location??"Please provide Location!") + " | "),
+                        Text((user!.phoneNumber??"Please provide phone number!") + " | "),
+                        Text((user!.email??"Please provide email!")),
+                      ]
+                    ),
+                      
+                  ]
+                )
+              )
+            ),
+
+          ],
+        ),
+          Padding(
+            padding: EdgeInsets.all(32),
+            child: Row(
+              children: [
+                Expanded( child:
+                  Container(
+                    alignment: Alignment.topLeft,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Professional Summary", style: TextStyle(fontSize: 24, color: Colors.lightGreen)),
+                        SizedBox(height: 8),
+                        Text(data!.description!),
+
+                        SizedBox(height: 48),
+                        Text("Experience", style: TextStyle(fontSize: 24, color: Colors.lightGreen,)),
+                        SizedBox(height: 8),
+                        Column(
+                          children: [
+                            Container(
+                              height: 200,
+                              child: ListView.builder(
+                              // itemCount: user!.employmenthistory!.length,
+                              itemCount: data!.employmenthis!.length,
+                              itemBuilder: ((context, index) {
+                                return Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Column(
+                                        children: [
+                                          // Text(user!.employmenthistory![index].title + " | "),
+                                          // Text(user!.employmenthistory![index].startdate.year.toString() + " - "),
+                                          // Text(user!.employmenthistory![index].enddate.year.toString()),
+                                          Text(data!.employmenthis![index])
+                                        ],
+                                      ),
+                                      SizedBox(height: 8),
+                                      Text(user!.employmenthistory![index].company),
+                                      SizedBox(height: 24),
+                                    ]
+                                  )
+                                );
+                              }),
+                            ),
+                            ),
+                          ]
+                        ),
+
+                        SizedBox(height: 8),
+
+                        Text("Qualifications", style: TextStyle(fontSize: 24, color: Colors.lightGreen,)),
+                        SizedBox(height: 8),
+                        Column(
+                          children: [
+                            Container(
+                              height: 200,
+                              child:
+                            ListView.builder(
+                              itemCount: user!.qualifications!.length,
+                              itemBuilder: ((context, index) {
+                                return Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Text(user!.qualifications![index].intstitution + " | "),
+                                          Text(user!.qualifications![index].date.year.toString() + " - "),
+                                          Text(user!.qualifications![index].endo.year.toString()),
+                                        ],
+                                      ),
+                                      SizedBox(height: 8),
+                                      Text(user!.qualifications![index].qualification),
+                                    ]
+                                  )
+                                );
+                              }),
+                            )
+                          ),
+
+                          SizedBox(height: 8),
+                          Text(data!.education_description!),
+                          ]
+                        ),
+
+                        SizedBox(height: 8),
+
+                        Text("Links", style: TextStyle(fontSize: 24, color: Colors.lightGreen,)),
+                        SizedBox(height: 8),
+                        Column(
+                          children: [
+                            Container(
+                              height: 200,
+                              child: ListView.builder(
+                                itemCount: user!.links!.length,
+                                itemBuilder: ((context, index) {
+                                  return Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        SizedBox(height: 8),
+                                        Text(user!.links![index].url),
+                                        SizedBox(height: 24),
+                                      ]
+                                    )
+                                  );
+                                }),
+                              )
+                            )
+                          ]
+                        ),
+                      ]
+                    )
+                  )
+                )
+              ]
+            )
+          )
+      ],
+    );
+  }
 }
 
 // Pdf
@@ -49,14 +222,14 @@ class TemplateAPdf {
                       child: pw.Column(
                         mainAxisAlignment: pw.MainAxisAlignment.center,
                         children: [
-                          pw.Text(user.fname + " " + user.lname, style: pw.TextStyle(fontSize: 32)),
+                          pw.Text(user!.fname + " " + user!.lname, style: pw.TextStyle(fontSize: 32)),
                           pw.SizedBox(height: 32),
                           pw.Row(
                             mainAxisAlignment: pw.MainAxisAlignment.center,
                             children: [
-                              pw.Text(user.location! + " | "),
-                              pw.Text(user.phoneNumber! + " | "),
-                              pw.Text(user.email!),
+                              pw.Text(user!.location! + " | "),
+                              pw.Text(user!.phoneNumber! + " | "),
+                              pw.Text(user!.email!),
                             ]
                           )
                         ]
@@ -155,7 +328,7 @@ class TemplateAPdf {
                             pw.Column(
                               children: [
                                 pw.ListView.builder(
-                                  itemCount: user.qualifications!.length,
+                                  itemCount: user.links!.length,
                                   itemBuilder: ((context, index) {
                                     return pw.Align(
                                       alignment: pw.Alignment.centerLeft,
