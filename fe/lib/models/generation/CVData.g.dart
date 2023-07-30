@@ -7,11 +7,11 @@ part of 'CVData.dart';
 // **************************************************************************
 
 CVData _$CVDataFromJson(Map<String, dynamic> json) => CVData(
-      description: json['description'] as String,
-      employmenthis: (json['employmenthis'] as List<dynamic>)
-          .map((e) => e as String)
+      description: json['description'] as String?,
+      employmenthis: (json['employmenthis'] as List<dynamic>?)
+          ?.map((e) => e as String)
           .toList(),
-      education_description: json['education_description'] as String,
+      education_description: json['education_description'] as String?,
     );
 
 Map<String, dynamic> _$CVDataToJson(CVData instance) => <String, dynamic>{
