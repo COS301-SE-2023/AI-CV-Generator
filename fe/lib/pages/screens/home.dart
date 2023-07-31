@@ -151,15 +151,15 @@ class _HomeState extends State<Home> {
                                   // while (Home.adjustedModel!.qualifications == null || Home.adjustedModel!.qualifications == []) {}
                                   MockGenerationResponse? response = await GenerationApi.mockgenerate(userModel: (Home.adjustedModel)!);
                                   editPage = TemplateA(user: response!.mockgeneratedUser, data: response!.data);
-                                  setState(() {});
-                                  // TemplateBPdf templateBPdf = TemplateBPdf();
-                                  // await templateBPdf.writeOnPdf(response!.mockgeneratedUser, response.data);
-                                  // PlatformFile file = await templateBPdf.getPdf();
+                                  TemplateAPdf templateAPdf = TemplateAPdf();
+                                  templateAPdf.writeOnPdf(response!.mockgeneratedUser);
+                                  generatedFile = await templateAPdf.getPdf();
                                   // Navigator.of(context).push(
                                   //   MaterialPageRoute(
                                   //     builder: (context) => PdfWindow(file: file,)
                                   //   )
                                   // );
+                                  setState(() {});
                                 }, 
                                 child: Text("SURVEY", style: textStyle),
                               ),
@@ -225,7 +225,7 @@ class _HomeState extends State<Home> {
                         ],
                       ),
                       const SizedBox(height: 12,),
-                      // if(uploadFile != null)
+                      if(uploadFile != null || generatedFile != null)
                       Container(
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
