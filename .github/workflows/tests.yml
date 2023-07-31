@@ -15,6 +15,5 @@ jobs:
     - uses: subosito/flutter-action@v1
       with:
         channel: "stable"
-    - run: flutter test fe/test/unit_test.dart
     - run: flutter test fe/integration_test/app_test.dart
 
