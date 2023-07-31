@@ -15,6 +15,6 @@ jobs:
     - uses: subosito/flutter-action@v1
       with:
         channel: "stable"
-    - run: cd fe
+    - run: cd fe/test
     - run: flutter test 
 
