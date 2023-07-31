@@ -8,7 +8,7 @@ name: Tests
 on:
   push:
     branches: 
-      - 'dev'
+      - 'Dev'
 
 jobs:
   flutter_test:
