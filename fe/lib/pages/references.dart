@@ -7,8 +7,7 @@ import 'package:ai_cv_generator/pages/strings.dart';
 import 'package:flutter/material.dart';
 
 class ReferencesForm extends StatefulWidget {
-  final UserModel user;
-  const ReferencesForm({super.key, required this.user});
+  const ReferencesForm({super.key});
 
   @override
   State<StatefulWidget> createState() {
@@ -67,7 +66,7 @@ class _ReferencesFormState extends State<ReferencesForm> {
                   child: ElevatedButton(
                     onPressed: () {
                       Navigator.of(context).pop();
-                      showQuestionaireModal(context, SkillsForm(user: widget.user));
+                      showQuestionaireModal(context, const SkillsForm());
                     },
                       child: const Text('Back'),
                   )
