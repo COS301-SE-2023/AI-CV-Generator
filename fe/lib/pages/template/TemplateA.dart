@@ -36,7 +36,7 @@ class TemplateA extends StatefulWidget {
 
   Future<PlatformFile> transform() async {
     print(" updata "+nameC!.text);
-    var templateApdf = TemplateAPdf(fname: fnameC!.text, lnameC: lnameC!.text, emailC: emailC!.text, locationC: locationC!.text, phoneNumberC: phoneNumberC!.text, nameC: nameC!.text, detailsC: detailsC!.text, descriptionHeadingC: descriptionHeadingC!.text, descriptionC: descriptionC!.text, employmentHeadingC: employmentC!.text, employmentC: employmentC!.text, qualificationHeadingC:qualificationHeadingC!.text, qualificationC: qualificationC!.text, linksHeadingC: linksHeadingC!.text, linksC: linksC!.text);
+    var templateApdf = TemplateAPdf(fname: fnameC!.text, lnameC: lnameC!.text, emailC: emailC!.text, locationC: locationC!.text, phoneNumberC: phoneNumberC!.text, nameC: nameC!.text, detailsC: detailsC!.text, descriptionHeadingC: descriptionHeadingC!.text, descriptionC: descriptionC!.text, employmentHeadingC: employmentHeadingC!.text, employmentC: employmentC!.text, qualificationHeadingC:qualificationHeadingC!.text, qualificationC: qualificationC!.text, linksHeadingC: linksHeadingC!.text, linksC: linksC!.text);
     templateApdf.writeOnPdf();
     return await templateApdf!.getPdf();
   }
@@ -88,7 +88,7 @@ class TemplateAState extends State<TemplateA> {
             Expanded(
               child:Container(
                 height: 300,
-                color: Colors.lightGreenAccent,
+                // color: Colors.lightGreenAccent,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -231,21 +231,78 @@ class TemplateAPdf {
         build: (pw.Context context) {
           return <pw.Widget>[
             pw.Container(
-              height: 777,
+              // height: 777,
               child: pw.Center(
-                child:  pw.Column(
-                  mainAxisAlignment: pw.MainAxisAlignment.center,
+                child:  pw.ListView(
                   children: [
-                    pw.Text(fname, style: pw.TextStyle(fontSize: 32)),
-                    pw.SizedBox(height: 32),
-                    pw.Text(detailsC),
-                    pw.Text(descriptionHeadingC, style: pw.TextStyle(fontSize: 24, color: PdfColors.lightGreen200,)),
+
+                    pw.Container(
+                      // color: PdfColors.lightGreen200,
+                      child: pw.ListView(
+                        children: [
+                          pw.Text(nameC, style: pw.TextStyle(fontSize: 32)),
+                          pw.SizedBox(height: 32),
+                          pw.Text(detailsC),
+                          pw.SizedBox(height: 32),
+                        ] 
+                      )
+                    ),
+
+                    pw.Align(
+                      alignment: pw.Alignment.centerLeft,
+                      child: pw.Text(
+                        descriptionHeadingC,
+                        style: pw.TextStyle(fontSize: 24, color: PdfColors.lightGreen200,)
+                      ),
+                    ),
                     pw.SizedBox(height: 8),
-                    pw.Text(descriptionC),
+                    pw.Text(descriptionC, style: pw.TextStyle(fontSize: 16)),
+                    pw.SizedBox(height: 16),
+                    pw.Align(
+                      alignment: pw.Alignment.centerLeft,
+                      child: pw.Text(
+                        employmentHeadingC,
+                        style: pw.TextStyle(fontSize: 24, color: PdfColors.lightGreen200,)
+                      ),
+                    ),
+                    pw.SizedBox(height: 8),
+                    pw.Text(employmentC, style: pw.TextStyle(fontSize: 16)),
+
+                    pw.SizedBox(height: 116),
+                    pw.Align(
+                      alignment: pw.Alignment.centerLeft,
+                      child: pw.Text(
+                        qualificationHeadingC,
+                        style: pw.TextStyle(fontSize: 24, color: PdfColors.lightGreen200,)
+                      ),
+                    ),
+                    pw.SizedBox(height: 8),
+                    pw.Text(qualificationC, style: pw.TextStyle(fontSize: 16)),
+                    pw.SizedBox(height: 16),
+                    pw.Align(
+                      alignment: pw.Alignment.centerLeft,
+                      child: pw.Text(
+                        linksHeadingC,
+                        style: pw.TextStyle(fontSize: 24, color: PdfColors.lightGreen200,)
+                      ),
+                    ),
+                    pw.SizedBox(height: 8),
+                    pw.Align(
+                      alignment: pw.Alignment.centerLeft,
+                      child: pw.Text(
+                        linksC,
+                        style: pw.TextStyle(fontSize: 16,)
+                      ),
+                    ),
                   ]
                 ),
               )
             ),
+            // pw.SizedBox(height: 48),
+
+            // pw.Text(linksC, style: pw.TextStyle(fontSize: 24, color: PdfColors.lightGreen200,)),
+            // pw.SizedBox(height: 8),
+            // pw.Text(linksC)
             // pw.Expanded(child: 
             //   pw.Row(
             //     children: [
@@ -310,29 +367,6 @@ class TemplateAPdf {
             //     )
             //   )
             // ),
-            
-
-            pw.SizedBox(height: 48),
-
-            pw.Text(employmentHeadingC, style: pw.TextStyle(fontSize: 24, color: PdfColors.lightGreen200,)),
-            pw.SizedBox(height: 8),
-            pw.Text(employmentC),
-
-            pw.SizedBox(height: 48),
-
-            pw.Text(qualificationHeadingC, style: pw.TextStyle(fontSize: 24, color: PdfColors.lightGreen200,)),
-            pw.SizedBox(height: 8),
-            pw.Column(
-              children: [
-                pw.Text(qualificationC)
-              ]
-            ),
-
-            pw.SizedBox(height: 48),
-
-            pw.Text(linksC, style: pw.TextStyle(fontSize: 24, color: PdfColors.lightGreen200,)),
-            pw.SizedBox(height: 8),
-            pw.Text(linksC)
           ];
         }
      )
