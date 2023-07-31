@@ -3,6 +3,7 @@ import 'package:ai_cv_generator/dio/client/fileApi.dart';
 import 'package:ai_cv_generator/api/pdfApi.dart';
 import 'package:ai_cv_generator/dio/client/generationApi.dart';
 import 'package:ai_cv_generator/dio/response/GenerationResponses/MockGenerationResponse.dart';
+import 'package:ai_cv_generator/models/generation/CVData.dart';
 import 'package:ai_cv_generator/pages/template/TemplateA.dart';
 import 'package:ai_cv_generator/pages/template/TemplateB.dart';
 import 'package:ai_cv_generator/pages/widgets/EmptyCV.dart';
@@ -63,6 +64,21 @@ class _HomeState extends State<Home> {
     );
   }
 
+  Future<void> generateFile() async {
+    if (generatedFile == null) return;
+    switch (tem) {
+      case Template.templateA:
+        generatedFile = await templateAPdf!.transform();
+      break;
+      case Template.templateB:
+        generatedFile = await templateBPdf!.transform();
+      break;
+      default:
+        
+      break;
+    };
+  }
+
   PlatformFile? uploadFile;
   PlatformFile? generatedFile;
   TextStyle textStyle = const TextStyle(fontSize: 12);
@@ -71,6 +87,10 @@ class _HomeState extends State<Home> {
   Widget? editPage = const EmptyCVScreen();
   TemplateA? templateAPdf;
   TemplateB? templateBPdf;
+  Template tem = Template.templateA;
+  bool ready = false;
+  UserModel? adjustedmodel;
+  CVData? cvdata;
 
   @override
   Widget build(BuildContext context) {
@@ -145,7 +165,12 @@ class _HomeState extends State<Home> {
                               cursor: SystemMouseCursors.click,
                               child: GestureDetector(
                                 onTap: () {
-
+                                  if (tem != Template.templateA) {
+                                    tem = Template.templateA;
+                                    if (ready) {
+                                      editPage = TemplateA(user: adjustedmodel!, data: cvdata!);
+                                    }
+                                  }
                                 },
                                 child: Image(image: Image.asset("assets/images/TemplateAAsset.jpg").image,height: 300,width: 150,),
                               )
@@ -239,7 +264,7 @@ class _HomeState extends State<Home> {
                               width: 100,
                               child: ElevatedButton(
                                 onPressed: () async {
-                                  generatedFile = await templateAPdf!.transform();
+                                  await generateFile();
                                   if(uploadFile != null) {
                                     showDialog(
                                       context: context,
@@ -293,7 +318,7 @@ class _HomeState extends State<Home> {
                                 width: 100,
                                 child: ElevatedButton(
                                   onPressed: () async {
-                                    generatedFile = await templateAPdf!.transform();
+                                    await generateFile();
                                     if (generatedFile != null) {
                                       requirementsforshare(context, generatedFile);
                                     }
@@ -308,7 +333,7 @@ class _HomeState extends State<Home> {
                                 width: 100,
                                 child: ElevatedButton(
                                   onPressed: () async {
-                                    generatedFile = await templateAPdf!.transform();
+                                    await generateFile();
                                     if (generatedFile != null) {
                                       DownloadService.download(generatedFile!.bytes!.toList(), downloadName: generatedFile!.name);
                                     }
@@ -403,6 +428,8 @@ class PastCVs extends StatefulWidget {
   @override
   PastCVsState createState() => PastCVsState();
 }
+
+enum Template {templateA,templateB,templateC}
 
 class PastCVsState extends State<PastCVs> {
   @override
