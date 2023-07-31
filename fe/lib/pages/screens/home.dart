@@ -68,7 +68,7 @@ class _HomeState extends State<Home> {
   TextStyle textStyle = const TextStyle(fontSize: 12);
   TextEditingController filenameC = TextEditingController();
   List<Widget> list = [];
-  Widget? editPage = EmptyCVScreen();
+  Widget? editPage = const EmptyCVScreen();
   TemplateA? templateAPdf;
   TemplateB? templateBPdf;
 
@@ -121,9 +121,41 @@ class _HomeState extends State<Home> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Expanded(
+              Expanded(
                 flex: 2,
-                child:Templates()
+                child: Container(
+                  padding: const EdgeInsets.all(24.0),
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.all(Radius.circular(20)),
+                    border: Border.all(
+                      color: const Color.fromARGB(0, 0, 0, 0),
+                    ),
+                    color: Theme.of(context).colorScheme.surface,
+                  ),
+                  child: Column(
+                    children: [
+                      const Align(
+                        alignment: Alignment.topCenter,
+                        child: Text("TEMPLATES", style: TextStyle(fontSize: 16),),
+                      ),
+                      SingleChildScrollView(
+                        child: Stack(
+                          children: [
+                            MouseRegion(
+                              cursor: SystemMouseCursors.click,
+                              child: GestureDetector(
+                                onTap: () {
+
+                                },
+                                child: Image(image: Image.asset("assets/images/TemplateAAsset.jpg").image,height: 300,width: 150,),
+                              )
+                            )
+                          ],
+                        ),
+                      )
+                    ],
+                  )
+                )
               ),
               const SizedBox(width: 24,),
               Expanded(
@@ -360,33 +392,6 @@ class _HomeState extends State<Home> {
             ],
           ),
         ),
-      ),
-    );
-  }
-}
-
-class Templates extends StatefulWidget {
-  const Templates({super.key});
-
-  @override
-  TemplatesState createState() => TemplatesState();
-}
-
-class TemplatesState extends State<Templates> {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(24.0),
-      decoration: BoxDecoration(
-        borderRadius: const BorderRadius.all(Radius.circular(20)),
-        border: Border.all(
-          color: const Color.fromARGB(0, 0, 0, 0),
-        ),
-        color: Theme.of(context).colorScheme.surface,
-      ),
-      child: const Align(
-        alignment: Alignment.topCenter,
-        child: Text("TEMPLATES", style: TextStyle(fontSize: 16),),
       ),
     );
   }
