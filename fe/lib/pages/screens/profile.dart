@@ -177,6 +177,7 @@ class ProfileState extends State<Profile> {
                             cursor: SystemMouseCursors.click,
                             child: GestureDetector(
                               onTap: () async {
+                                await actualupdate();
                                 Uint8List? imgByte =  await ImagePickerWeb.getImageAsBytes();
                                 if(imgByte == null) {
                                   return;
