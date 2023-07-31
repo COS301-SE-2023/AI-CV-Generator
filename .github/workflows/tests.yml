@@ -5,10 +5,7 @@
 
 name: Tests
 
-on:
-  push:
-    branches: 
-      - 'Dev'
+on: [push, workflow_dispatch]
 
 jobs:
   drive:
