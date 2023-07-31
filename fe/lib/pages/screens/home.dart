@@ -5,6 +5,7 @@ import 'package:ai_cv_generator/dio/client/generationApi.dart';
 import 'package:ai_cv_generator/dio/response/GenerationResponses/MockGenerationResponse.dart';
 import 'package:ai_cv_generator/pages/template/TemplateA.dart';
 import 'package:ai_cv_generator/pages/template/TemplateB.dart';
+import 'package:ai_cv_generator/pages/widgets/ErrorScreen.dart';
 import 'package:ai_cv_generator/pages/widgets/cvHistory.dart';
 import 'package:ai_cv_generator/pages/widgets/loadingScreen.dart';
 import 'package:ai_cv_generator/pages/widgets/navdrawer.dart';
@@ -153,16 +154,17 @@ class _HomeState extends State<Home> {
                                   editPage = const LoadingScreen();
                                   setState(() {});
                                   MockGenerationResponse? response = await GenerationApi.mockgenerate(userModel: (Home.adjustedModel)!);
-                                  if (response == null) {
-                                    editPage = null;
+                                  if (response?.data.description == null) {
+                                    print("Yes");
+                                    editPage = ErrorScreen(errormsg: "Rate Limit Exceeded!");
                                     setState(() {});
                                     return;
                                   }
                                   // editPage = TemplateB(adjustedModel: response!.mockgeneratedUser, data: response!.data);
                                   // TemplateBPdf templateAPdf = TemplateBPdf();
                                   // templateAPdf.writeOnPdf(response!.mockgeneratedUser,response.data);
-                                  editPage = TemplateA(user: response!.mockgeneratedUser, data: response!.data);
-                                  TemplateAPdf templateAPdf = TemplateAPdf();
+                                  editPage = TemplateB(user: response!.mockgeneratedUser, data: response!.data);
+                                  TemplateBPdf templateBPdf = TemplateBPdf();
                                   // templateAPdf.writeOnPdf();
                                   // generatedFile = await templateAPdf.getPdf();
                                   // Navigator.of(context).push(

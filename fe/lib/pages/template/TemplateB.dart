@@ -152,7 +152,7 @@ class TextFieldInputState extends State<TextFieldInput> {
 }
 
 // Pdf
-class TemplatebPdf {
+class TemplateBPdf {
   final pdf = pw.Document();
   final double fontText = 13;
   final double fontHeading = 24;
