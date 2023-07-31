@@ -49,7 +49,7 @@ testWidgets("Add address", (WidgetTester tester) async {
     final addAddressField = find.byKey(const ValueKey("Address input"));
 
 
-    await tester.pumpWidget( MaterialApp(home: PersonalDetails()));
+    await tester.pumpWidget(const MaterialApp(home: PersonalDetails()));
     await tester.enterText(addAddressField, "123 Somewhere Str, Anyplace");
     await tester.pump();
 
