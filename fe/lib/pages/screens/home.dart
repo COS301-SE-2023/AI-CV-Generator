@@ -69,6 +69,7 @@ class _HomeState extends State<Home> {
   TextEditingController filenameC = TextEditingController();
   List<Widget> list = [];
   Widget? editPage = EmptyCVScreen();
+  TemplateA? templateAPdf;
 
   @override
   Widget build(BuildContext context) {
@@ -167,10 +168,10 @@ class _HomeState extends State<Home> {
                                   // editPage = TemplateB(adjustedModel: response!.mockgeneratedUser, data: response!.data);
                                   // TemplateBPdf templateAPdf = TemplateBPdf();
                                   // templateAPdf.writeOnPdf(response!.mockgeneratedUser,response.data);
-                                  editPage = TemplateB(user: response!.mockgeneratedUser, data: response!.data);
-                                  TemplateBPdf templateBPdf = TemplateBPdf();
+                                  templateAPdf = TemplateA(user: response!.mockgeneratedUser, data: response!.data);
+                                  editPage = templateAPdf;
                                   // templateAPdf.writeOnPdf();
-                                  // generatedFile = await templateAPdf.getPdf();
+                                  generatedFile = await templateAPdf!.transform();
                                   // Navigator.of(context).push(
                                   //   MaterialPageRoute(
                                   //     builder: (context) => PdfWindow(file: file,)
@@ -293,7 +294,8 @@ class _HomeState extends State<Home> {
                                 height: 40,
                                 width: 100,
                                 child: ElevatedButton(
-                                  onPressed: () {
+                                  onPressed: () async {
+                                    generatedFile = await templateAPdf!.transform();
                                     if(generatedFile != null) {
                                       showDialog(
                                         context: context,

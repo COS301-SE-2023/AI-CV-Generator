@@ -11,10 +11,35 @@ import '../widgets/pdf_window.dart';
 
 // Ui counter part for pdf
 class TemplateA extends StatefulWidget {
-  const TemplateA({super.key, required this.user, required this.data});
+  TemplateA({super.key, required this.user, required this.data,});
   // final MockGenerationResponse data;
   final UserModel user;
   final   CVData data;
+  
+  TextEditingController? fnameC = TextEditingController();
+  TextEditingController? lnameC = TextEditingController();
+  TextEditingController? emailC = TextEditingController();
+  TextEditingController? locationC = TextEditingController();
+  TextEditingController? phoneNumberC = TextEditingController();
+  
+  TextEditingController? nameC = TextEditingController();
+  TextEditingController? detailsC = TextEditingController();
+  TextEditingController? descriptionHeadingC = TextEditingController();
+  TextEditingController? descriptionC = TextEditingController();
+  TextEditingController? employmentHeadingC = TextEditingController();
+  TextEditingController? employmentC = TextEditingController();
+  TextEditingController? qualificationHeadingC = TextEditingController();
+  TextEditingController? qualificationC = TextEditingController();
+  TextEditingController? linksHeadingC = TextEditingController();
+  TextEditingController? linksC = TextEditingController();
+
+
+  Future<PlatformFile> transform() async {
+    print(" updata "+nameC!.text);
+    var templateApdf = TemplateAPdf(fname: fnameC!.text, lnameC: lnameC!.text, emailC: emailC!.text, locationC: locationC!.text, phoneNumberC: phoneNumberC!.text, nameC: nameC!.text, detailsC: detailsC!.text, descriptionHeadingC: descriptionHeadingC!.text, descriptionC: descriptionC!.text, employmentHeadingC: employmentC!.text, employmentC: employmentC!.text, qualificationHeadingC:qualificationHeadingC!.text, qualificationC: qualificationC!.text, linksHeadingC: linksHeadingC!.text, linksC: linksC!.text);
+    templateApdf.writeOnPdf();
+    return await templateApdf!.getPdf();
+  }
   
   @override
   State<StatefulWidget> createState() => TemplateAState();
@@ -23,37 +48,36 @@ class TemplateA extends StatefulWidget {
 class TemplateAState extends State<TemplateA> {
   @override
   void initState() {
-    UserData.user = widget.user;
-    UserData.data = widget.data;
-
-    UserData.nameC.text = UserData.user!.fname + " " + UserData.user!.lname;
-    UserData.detailsC.text = (UserData.user!.location??"Please provide Location!") + " | " +
-    (UserData.user!.phoneNumber??"Please provide phone number!") + " | " +
-    (UserData.user!.email??"Please provide email!");
-    UserData.descriptionHeadingC.text = "Professional Summary";
-    UserData.employmentHeadingC.text = "Experience";
-    UserData.qualificationHeadingC.text = "Qualifications";
-    UserData.linksHeadingC.text = "Links";
-    UserData.descriptionC.text = UserData.data!.description!;
-    for(int i = 0; i < UserData.user!.employmenthistory!.length; i++) {
-      UserData.employmentC.text += UserData.user!.employmenthistory![i].company + " | "
-      + UserData.user!.employmenthistory![i].startdate.year.toString() + " - "
-      + UserData.user!.employmenthistory![i].enddate.year.toString() + " | " + UserData.user!.employmenthistory![i].title + "\n\n" + UserData.data!.employmenthis![i] + "\n\n";
+    widget.nameC!.text = widget.user!.fname + " " + widget.user!.lname;
+    widget.detailsC!.text = (widget.user!.location??"Please provide Location!") + " | " +
+    (widget.user!.phoneNumber??"Please provide phone number!") + " | " +
+    (widget.user!.email??"Please provide email!");
+    widget.descriptionHeadingC!.text = "Professional Summary";
+    widget.employmentHeadingC!.text = "Experience";
+    widget.qualificationHeadingC!.text = "Qualifications";
+    widget.linksHeadingC!.text = "Links";
+    widget.descriptionC!.text = widget.data!.description!;
+    for(int i = 0; i < widget.user!.employmenthistory!.length; i++) {
+      widget.employmentC!.text += widget.user!.employmenthistory![i].company + " | "
+      + widget.user!.employmenthistory![i].startdate.year.toString() + " - "
+      + widget.user!.employmenthistory![i].enddate.year.toString() + " | " + widget.user!.employmenthistory![i].title + "\n\n" + widget.data!.employmenthis![i] + "\n\n";
     }
 
-    for(int i = 0; i < UserData.user!.qualifications!.length; i++) {
-      UserData.qualificationC.text += UserData.user!.qualifications![i].intstitution + " | "
-      + UserData.user!.qualifications![i].date.year.toString() + " - "
-      + UserData.user!.qualifications![i].endo.year.toString() + " | " + UserData.user!.qualifications![i].qualification + "\n\n";
+    for(int i = 0; i < widget.user!.qualifications!.length; i++) {
+      widget.qualificationC!.text += widget.user!.qualifications![i].intstitution + " | "
+      + widget.user!.qualifications![i].date.year.toString() + " - "
+      + widget.user!.qualifications![i].endo.year.toString() + " | " + widget.user!.qualifications![i].qualification + "\n\n";
     }
-    UserData.qualificationC.text += UserData.data!.education_description!;
+    widget.qualificationC!.text += widget.data!.education_description!;
     
-    for(int i = 0; i < UserData.user!.links!.length; i++) {
-      UserData.linksC.text += UserData.user!.links![i].url + "\n";
+    for(int i = 0; i < widget.user!.links!.length; i++) {
+      widget.linksC!.text += widget.user!.links![i].url + "\n";
     }
 
     super.initState();
   }
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -68,9 +92,11 @@ class TemplateAState extends State<TemplateA> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    TextFieldInput(controller: UserData.nameC, fontSize: 32, textAlign: TextAlign.center,),
+                    TextFieldInput(controller: widget.nameC!, fontSize: 32, textAlign: TextAlign.center,
+                    
+                    ),
                     SizedBox(height: 32),
-                    TextFieldInput(controller: UserData.detailsC, textAlign: TextAlign.center,),
+                    TextFieldInput(controller: widget.detailsC!, textAlign: TextAlign.center,),
                       
                   ]
                 )
@@ -89,31 +115,31 @@ class TemplateAState extends State<TemplateA> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        TextFieldInput(controller: UserData.descriptionHeadingC, fontSize: 24, textAlign: TextAlign.left, color: Colors.lightGreen),
+                        TextFieldInput(controller: widget.descriptionHeadingC!, fontSize: 24, textAlign: TextAlign.left, color: Colors.lightGreen),
                         SizedBox(height: 16),
-                        TextFieldInput(controller: UserData.descriptionC, fontSize: 14, textAlign: TextAlign.left, maxLines: 6,),
+                        TextFieldInput(controller: widget.descriptionC!, fontSize: 14, textAlign: TextAlign.left, maxLines: 6,),
                         
                         SizedBox(height: 48),
-                        TextFieldInput(controller: UserData.employmentHeadingC, fontSize: 24, textAlign: TextAlign.left, color: Colors.lightGreen,),
+                        TextFieldInput(controller: widget.employmentHeadingC!, fontSize: 24, textAlign: TextAlign.left, color: Colors.lightGreen,),
                         SizedBox(height: 16),
-                        TextFieldInput(controller: UserData.employmentC, fontSize: 14, textAlign: TextAlign.left, maxLines: 6,),
+                        TextFieldInput(controller: widget.employmentC!, fontSize: 14, textAlign: TextAlign.left, maxLines: 6,),
 
                         SizedBox(height: 48),
-                        TextFieldInput(controller: UserData.qualificationHeadingC, fontSize: 24, textAlign: TextAlign.left, color: Colors.lightGreen),
+                        TextFieldInput(controller: widget.qualificationHeadingC!, fontSize: 24, textAlign: TextAlign.left, color: Colors.lightGreen),
                         SizedBox(height: 16),
-                        TextFieldInput(controller: UserData.qualificationC, fontSize: 14, textAlign: TextAlign.left, maxLines: 6,),
+                        TextFieldInput(controller: widget.qualificationC!, fontSize: 14, textAlign: TextAlign.left, maxLines: 6,),
 
                         SizedBox(height: 16),
-                        TextFieldInput(controller: UserData.linksHeadingC, fontSize: 24, textAlign: TextAlign.left, color: Colors.lightGreen),
+                        TextFieldInput(controller: widget.linksHeadingC!, fontSize: 24, textAlign: TextAlign.left, color: Colors.lightGreen),
                         SizedBox(height: 8),
-                        TextFieldInput(controller: UserData.linksC, fontSize: 14, textAlign: TextAlign.left, maxLines: 6,),
+                        TextFieldInput(controller: widget.linksC!, fontSize: 14, textAlign: TextAlign.left, maxLines: 6,),
                       ]
                     )
                   )
                 )
               ]
             )
-          )
+          ),
       ],
     );
   }
@@ -121,7 +147,7 @@ class TemplateAState extends State<TemplateA> {
 
 class TextFieldInput extends StatefulWidget {
   TextFieldInput({super.key, required this.controller, this.fontSize, this.textAlign, this.color, this.maxLines});
-  final TextEditingController controller;
+  TextEditingController controller;
   double? fontSize = 16.0;
   TextAlign? textAlign = TextAlign.center;
   Color? color;
@@ -161,6 +187,42 @@ class TemplateAPdf {
   final pw.Widget relatedSpacing = pw.SizedBox(height: 8);
   final pw.Widget unRelatedSpacing = pw.SizedBox(height: 16);
 
+  String fname;
+  String lnameC ;
+  String emailC ;
+  String locationC ;
+  String phoneNumberC ;
+  
+  String nameC ;
+  String detailsC ;
+  String descriptionHeadingC ;
+  String descriptionC ;
+  String employmentHeadingC ;
+  String employmentC ;
+  String qualificationHeadingC ;
+  String qualificationC ;
+  String linksHeadingC;
+  String linksC;
+
+  TemplateAPdf({
+    required this.fname,
+    required this.lnameC,
+    required this.emailC,
+    required this.locationC,
+    required this.phoneNumberC,
+  
+    required this.nameC,
+    required this.detailsC,
+    required this.descriptionHeadingC,
+    required this.descriptionC,
+    required this.employmentHeadingC,
+    required this.employmentC,
+    required this.qualificationHeadingC,
+    required this.qualificationC,
+    required this.linksHeadingC,
+    required this.linksC
+  });
+
   void writeOnPdf() async {
     pdf.addPage(
      pw.MultiPage(
@@ -168,78 +230,109 @@ class TemplateAPdf {
         margin: const pw.EdgeInsets.all(32),
         build: (pw.Context context) {
           return <pw.Widget>[
-            pw.Expanded(child: 
-              pw.Row(
-                children: [
-                  pw.Expanded(
-                    child: pw.Container(
-                      color: PdfColors.lightGreen50,
-                      child: pw.Column(
-                        mainAxisAlignment: pw.MainAxisAlignment.center,
-                        children: [
-                          pw.Text(UserData.nameC.text, style: pw.TextStyle(fontSize: 32)),
-                          pw.SizedBox(height: 32),
-                          pw.Text(UserData.detailsC.text)
-                        ]
-                      )
-                      )
-                  )
-                ]
-              )
-            ),
-            pw.Expanded(
-              flex: 5,
-              child: pw.Padding(
-                padding: pw.EdgeInsets.all(32),
-                child: pw.Row(
+            pw.Container(
+              height: 777,
+              child: pw.Center(
+                child:  pw.Column(
+                  mainAxisAlignment: pw.MainAxisAlignment.center,
                   children: [
-                    pw.Expanded( child:
-                      pw.Container(
-                        alignment: pw.Alignment.topLeft,
-                        child: pw.Column(
-                          crossAxisAlignment: pw.CrossAxisAlignment.start,
-                          children: [
-                            pw.Text(UserData.descriptionHeadingC.text, style: pw.TextStyle(fontSize: 24, color: PdfColors.lightGreen200,)),
-                            pw.SizedBox(height: 8),
-                            pw.Text(UserData.descriptionC.text),
-
-                            pw.SizedBox(height: 48),
-
-                            pw.Text(UserData.employmentHeadingC.text, style: pw.TextStyle(fontSize: 24, color: PdfColors.lightGreen200,)),
-                            pw.SizedBox(height: 8),
-                            pw.Column(
-                              children: [
-                                pw.Text(UserData.employmentC.text)
-                              ]
-                            ),
-
-                            pw.SizedBox(height: 48),
-
-                            pw.Text(UserData.qualificationHeadingC.text, style: pw.TextStyle(fontSize: 24, color: PdfColors.lightGreen200,)),
-                            pw.SizedBox(height: 8),
-                            pw.Column(
-                              children: [
-                                pw.Text(UserData.qualificationC.text)
-                              ]
-                            ),
-
-                            pw.SizedBox(height: 48),
-
-                            pw.Text(UserData.linksC.text, style: pw.TextStyle(fontSize: 24, color: PdfColors.lightGreen200,)),
-                            pw.SizedBox(height: 8),
-                            pw.Column(
-                              children: [
-                                pw.Text(UserData.linksC.text)
-                              ]
-                            ),
-                          ]
-                        )
-                      )
-                    )
+                    pw.Text(fname, style: pw.TextStyle(fontSize: 32)),
+                    pw.SizedBox(height: 32),
+                    pw.Text(detailsC),
+                    pw.Text(descriptionHeadingC, style: pw.TextStyle(fontSize: 24, color: PdfColors.lightGreen200,)),
+                    pw.SizedBox(height: 8),
+                    pw.Text(descriptionC),
                   ]
-                )
+                ),
               )
             ),
+            // pw.Expanded(child: 
+            //   pw.Row(
+            //     children: [
+            //       pw.Expanded(
+            //         child: pw.Container(
+            //           color: PdfColors.lightGreen50,
+            //           child: pw.Column(
+            //             mainAxisAlignment: pw.MainAxisAlignment.center,
+            //             children: [
+            //               pw.Text(fname, style: pw.TextStyle(fontSize: 32)),
+            //               pw.SizedBox(height: 32),
+            //               pw.Text(detailsC)
+            //             ]
+            //           )
+            //           )
+            //       )
+            //     ]
+            //   )
+            // ),
+            // pw.Expanded(
+            //   flex: 5,
+            //   child: pw.Padding(
+            //     padding: pw.EdgeInsets.all(32),
+            //     child: pw.Row(
+            //       children: [
+            //         pw.Expanded( child:
+            //           pw.Container(
+            //             alignment: pw.Alignment.topLeft,
+            //             child: pw.Wrap(
+            //               //crossAxisAlignment: pw.CrossAxisAlignment.start,
+            //               children: [
+            //                 pw.Text(descriptionHeadingC, style: pw.TextStyle(fontSize: 24, color: PdfColors.lightGreen200,)),
+            //                 pw.SizedBox(height: 8),
+            //                 pw.Text(descriptionC),
+
+            //                 pw.SizedBox(height: 48),
+
+            //                 pw.Text(employmentHeadingC, style: pw.TextStyle(fontSize: 24, color: PdfColors.lightGreen200,)),
+            //                 pw.SizedBox(height: 8),
+            //                 pw.Text(employmentC),
+
+            //                 pw.SizedBox(height: 48),
+
+            //                 pw.Text(qualificationHeadingC, style: pw.TextStyle(fontSize: 24, color: PdfColors.lightGreen200,)),
+            //                 pw.SizedBox(height: 8),
+            //                 pw.Column(
+            //                   children: [
+            //                     pw.Text(qualificationC)
+            //                   ]
+            //                 ),
+
+            //                 pw.SizedBox(height: 48),
+
+            //                 pw.Text(linksC, style: pw.TextStyle(fontSize: 24, color: PdfColors.lightGreen200,)),
+            //                 pw.SizedBox(height: 8),
+            //                 pw.Text(linksC)
+            //               ]
+            //             )
+            //           )
+            //         )
+            //       ]
+            //     )
+            //   )
+            // ),
+            
+
+            pw.SizedBox(height: 48),
+
+            pw.Text(employmentHeadingC, style: pw.TextStyle(fontSize: 24, color: PdfColors.lightGreen200,)),
+            pw.SizedBox(height: 8),
+            pw.Text(employmentC),
+
+            pw.SizedBox(height: 48),
+
+            pw.Text(qualificationHeadingC, style: pw.TextStyle(fontSize: 24, color: PdfColors.lightGreen200,)),
+            pw.SizedBox(height: 8),
+            pw.Column(
+              children: [
+                pw.Text(qualificationC)
+              ]
+            ),
+
+            pw.SizedBox(height: 48),
+
+            pw.Text(linksC, style: pw.TextStyle(fontSize: 24, color: PdfColors.lightGreen200,)),
+            pw.SizedBox(height: 8),
+            pw.Text(linksC)
           ];
         }
      )
