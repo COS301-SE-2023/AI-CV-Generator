@@ -27,6 +27,7 @@ testWidgets("Add last name", (WidgetTester tester) async {
 testWidgets("Add cell", (WidgetTester tester) async {
     final addCellField = find.byKey(const ValueKey("Cell input"));
 
+
     await tester.pumpWidget( MaterialApp(home: PersonalDetails()));
     await tester.enterText(addCellField, "123 456 7890");
     await tester.pump();
@@ -46,6 +47,7 @@ testWidgets("Add email", (WidgetTester tester) async {
 
 testWidgets("Add address", (WidgetTester tester) async {
     final addAddressField = find.byKey(const ValueKey("Address input"));
+
 
     await tester.pumpWidget( MaterialApp(home: PersonalDetails()));
     await tester.enterText(addAddressField, "123 Somewhere Str, Anyplace");
