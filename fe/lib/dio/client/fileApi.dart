@@ -64,6 +64,23 @@ class FileApi extends DioClient {
     
   }
 
+   static Future<Uint8List?> getProfileImageUint8List() async {
+    Uint8List? list = null;
+    await DioClient.dio.get(
+      'api/User/profimg',
+      options: Options(
+          responseType: ResponseType.bytes
+      )
+    ).then((value) {
+        list = Uint8List.fromList(value.data.toList() as List<int>);
+        
+    }).timeout(const Duration(milliseconds: 500),onTimeout: () {
+      
+    },);
+    return list;
+    
+  }
+
   static Future<Image?> updateProfileImage({
     required Uint8List img
   }) async {
