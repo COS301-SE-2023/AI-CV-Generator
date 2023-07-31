@@ -124,8 +124,10 @@ class TemplateAState extends State<TemplateA> {
                         SizedBox(height: 8),
                         Column(
                           children: [
+                            Text(data!.education_description!),
+                            SizedBox(height: 16),
                             Container(
-                              height: 200,
+                              height: 100,
                               child:
                             ListView.builder(
                               itemCount: user!.qualifications!.length,
@@ -134,7 +136,7 @@ class TemplateAState extends State<TemplateA> {
                                   alignment: Alignment.centerLeft,
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    // mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Row(
                                         children: [
@@ -145,6 +147,7 @@ class TemplateAState extends State<TemplateA> {
                                       ),
                                       SizedBox(height: 8),
                                       Text(user!.qualifications![index].qualification),
+                                      
                                     ]
                                   )
                                 );
@@ -153,11 +156,11 @@ class TemplateAState extends State<TemplateA> {
                           ),
 
                           SizedBox(height: 8),
-                          Text(data!.education_description!),
+                          
                           ]
                         ),
 
-                        SizedBox(height: 8),
+                        SizedBox(height: 16),
 
                         Text("Links", style: TextStyle(fontSize: 24, color: Colors.lightGreen,)),
                         SizedBox(height: 8),
