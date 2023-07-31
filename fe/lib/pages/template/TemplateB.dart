@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import '../widgets/pdf_window.dart';
-import 'TemplateA.dart';
 
 // Ui counter part for pdf
 class TemplateB extends StatefulWidget {
@@ -26,7 +25,33 @@ class TemplateBState extends State<TemplateB> {
   void initState() {
     UserData.user = widget.user;
     UserData.data = widget.data;
-    // UserData.set();
+
+    UserData.nameC.text = UserData.user!.fname + " " + UserData.user!.lname;
+    UserData.detailsC.text = (UserData.user!.location??"Please provide Location!") + " | " +
+    (UserData.user!.phoneNumber??"Please provide phone number!") + " | " +
+    (UserData.user!.email??"Please provide email!");
+    UserData.descriptionHeadingC.text = "Professional Summary";
+    UserData.employmentHeadingC.text = "Experience";
+    UserData.qualificationHeadingC.text = "Qualifications";
+    UserData.linksHeadingC.text = "Links";
+    UserData.descriptionC.text = UserData.data!.description!;
+    for(int i = 0; i < UserData.user!.employmenthistory!.length; i++) {
+      UserData.employmentC.text += UserData.user!.employmenthistory![i].company + " | "
+      + UserData.user!.employmenthistory![i].startdate.year.toString() + " - "
+      + UserData.user!.employmenthistory![i].enddate.year.toString() + " | " + UserData.user!.employmenthistory![i].title + "\n\n" + UserData.data!.employmenthis![i] + "\n\n";
+    }
+
+    for(int i = 0; i < UserData.user!.qualifications!.length; i++) {
+      UserData.qualificationC.text += UserData.user!.qualifications![i].intstitution + " | "
+      + UserData.user!.qualifications![i].date.year.toString() + " - "
+      + UserData.user!.qualifications![i].endo.year.toString() + " | " + UserData.user!.qualifications![i].qualification + "\n\n";
+    }
+    UserData.qualificationC.text += UserData.data!.education_description!;
+    
+    for(int i = 0; i < UserData.user!.links!.length; i++) {
+      UserData.linksC.text += UserData.user!.links![i].url + "\n";
+    }
+
     super.initState();
   }
 
@@ -39,20 +64,13 @@ class TemplateBState extends State<TemplateB> {
             Expanded(
               child:Container(
                 height: 300,
-                color: Colors.blue,
+                color: Colors.lightGreenAccent,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(UserData.user!.fname + " " + UserData.user!.lname, style: TextStyle(fontSize: 32)),
+                    TextFieldInput(controller: UserData.nameC, fontSize: 32, textAlign: TextAlign.center,),
                     SizedBox(height: 32),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text((UserData.user!.location??"Please provide Location!") + " | "),
-                        Text((UserData.user!.phoneNumber??"Please provide phone number!") + " | "),
-                        Text((UserData.user!.email??"Please provide email!")),
-                      ]
-                    ),
+                    TextFieldInput(controller: UserData.detailsC, textAlign: TextAlign.center,),
                       
                   ]
                 )
@@ -71,117 +89,24 @@ class TemplateBState extends State<TemplateB> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Professional Summary", style: TextStyle(fontSize: 24, color: Colors.lightGreen)),
-                        SizedBox(height: 8),
-                        Text(UserData.data!.description!),
+                        TextFieldInput(controller: UserData.descriptionHeadingC, fontSize: 24, textAlign: TextAlign.left, color: Colors.lightGreen),
+                        SizedBox(height: 16),
+                        TextFieldInput(controller: UserData.descriptionC, fontSize: 14, textAlign: TextAlign.left, maxLines: 6,),
+                        
+                        SizedBox(height: 48),
+                        TextFieldInput(controller: UserData.employmentHeadingC, fontSize: 24, textAlign: TextAlign.left, color: Colors.lightGreen,),
+                        SizedBox(height: 16),
+                        TextFieldInput(controller: UserData.employmentC, fontSize: 14, textAlign: TextAlign.left, maxLines: 6,),
 
                         SizedBox(height: 48),
-                        Text("Experience", style: TextStyle(fontSize: 24, color: Colors.lightGreen,)),
-                        SizedBox(height: 8),
-                        Column(
-                          children: [
-                            Container(
-                              height: 200,
-                              child: ListView.builder(
-                              // itemCount: UserData.user!.employmenthistory!.length,
-                              itemCount: UserData.data!.employmenthis!.length,
-                              itemBuilder: ((context, index) {
-                                return Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Column(
-                                        children: [
-                                          // Text(UserData.user!.employmenthistory![index].title + " | "),
-                                          // Text(UserData.user!.employmenthistory![index].startdate.year.toString() + " - "),
-                                          // Text(UserData.user!.employmenthistory![index].enddate.year.toString()),
-                                          Text(UserData.data!.employmenthis![index])
-                                        ],
-                                      ),
-                                      SizedBox(height: 8),
-                                      Text(UserData.user!.employmenthistory![index].company),
-                                      SizedBox(height: 24),
-                                    ]
-                                  )
-                                );
-                              }),
-                            ),
-                            ),
-                          ]
-                        ),
-
-                        SizedBox(height: 8),
-
-                        Text("Qualifications", style: TextStyle(fontSize: 24, color: Colors.lightGreen,)),
-                        SizedBox(height: 8),
-                        Column(
-                          children: [
-                            Text(UserData.data!.education_description!),
-                            SizedBox(height: 16),
-                            Container(
-                              height: 100,
-                              child:
-                            ListView.builder(
-                              itemCount: UserData.user!.qualifications!.length,
-                              itemBuilder: ((context, index) {
-                                return Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    // mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Text(UserData.user!.qualifications![index].intstitution + " | "),
-                                          Text(UserData.user!.qualifications![index].date.year.toString() + " - "),
-                                          Text(UserData.user!.qualifications![index].endo.year.toString()),
-                                        ],
-                                      ),
-                                      SizedBox(height: 8),
-                                      Text(UserData.user!.qualifications![index].qualification),
-                                      
-                                    ]
-                                  )
-                                );
-                              }),
-                            )
-                          ),
-
-                          SizedBox(height: 8),
-                          
-                          ]
-                        ),
+                        TextFieldInput(controller: UserData.qualificationHeadingC, fontSize: 24, textAlign: TextAlign.left, color: Colors.lightGreen),
+                        SizedBox(height: 16),
+                        TextFieldInput(controller: UserData.qualificationC, fontSize: 14, textAlign: TextAlign.left, maxLines: 6,),
 
                         SizedBox(height: 16),
-
-                        Text("Links", style: TextStyle(fontSize: 24, color: Colors.lightGreen,)),
+                        TextFieldInput(controller: UserData.linksHeadingC, fontSize: 24, textAlign: TextAlign.left, color: Colors.lightGreen),
                         SizedBox(height: 8),
-                        Column(
-                          children: [
-                            Container(
-                              height: 200,
-                              child: ListView.builder(
-                                itemCount: UserData.user!.links!.length,
-                                itemBuilder: ((context, index) {
-                                  return Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: [
-                                        SizedBox(height: 8),
-                                        Text(UserData.user!.links![index].url),
-                                        SizedBox(height: 24),
-                                      ]
-                                    )
-                                  );
-                                }),
-                              )
-                            )
-                          ]
-                        ),
+                        TextFieldInput(controller: UserData.linksC, fontSize: 14, textAlign: TextAlign.left, maxLines: 6,),
                       ]
                     )
                   )
@@ -194,9 +119,42 @@ class TemplateBState extends State<TemplateB> {
   }
 }
 
+class TextFieldInput extends StatefulWidget {
+  TextFieldInput({super.key, required this.controller, this.fontSize, this.textAlign, this.color, this.maxLines});
+  final TextEditingController controller;
+  double? fontSize = 16.0;
+  TextAlign? textAlign = TextAlign.center;
+  Color? color;
+  int? maxLines = 1;
+
+  @override
+  TextFieldInputState createState() => TextFieldInputState();
+}
+
+class TextFieldInputState extends State<TextFieldInput> {
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      maxLines: widget.maxLines,
+      controller: widget.controller,
+      textAlign: widget.textAlign!,
+      style: TextStyle(
+        color: widget.color,
+        fontSize: widget.fontSize
+      ),
+      decoration: 
+      InputDecoration(
+        isDense: true,
+        contentPadding: EdgeInsets.zero,
+        border: InputBorder.none
+      ),
+    );
+  }
+}
+
 // Pdf
-class TemplateBPdf {
-  var pdf = pw.Document();
+class TemplatebPdf {
+  final pdf = pw.Document();
   final double fontText = 13;
   final double fontHeading = 24;
   final double fontSubHeading = 16;
@@ -359,7 +317,6 @@ class TemplateBPdf {
   Future<PlatformFile> getPdf() async {
       Uint8List bytes = await pdf.save();
       PlatformFile? file = PlatformFile(name: "gen.pdf", size: bytes.length,bytes: bytes);
-      pdf = pw.Document();
       return file;
   }
 
