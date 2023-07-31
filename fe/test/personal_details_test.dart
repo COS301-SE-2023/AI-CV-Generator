@@ -48,7 +48,7 @@ testWidgets("Add address", (WidgetTester tester) async {
     final addAddressField = find.byKey(const ValueKey("Address input"));
 
     await tester.pumpWidget( MaterialApp(home: PersonalDetails()));
-    await tester.enterText(addAddressField, "123 Somewhere Str, Anyplace");
+    await tester.enterText(addAddressField, "123 Somewhere Street, Anyplace");
     await tester.pump();
 
     expect(find.text("123 Somewhere Str, Anyplace"), findsOneWidget);
