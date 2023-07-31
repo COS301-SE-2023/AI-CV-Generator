@@ -149,13 +149,15 @@ class _HomeState extends State<Home> {
                                       );
                                     }
                                   );
-                                  // if (Home.ready == false) return;
-                                  // while (Home.adjustedModel!.qualifications == null || Home.adjustedModel!.qualifications == []) {}
+                                  if (Home.ready == false) return;
                                   editPage = const LoadingScreen();
-                                  setState(() {
-                                    
-                                  });
+                                  setState(() {});
                                   MockGenerationResponse? response = await GenerationApi.mockgenerate(userModel: (Home.adjustedModel)!);
+                                  if (response == null) {
+                                    editPage = null;
+                                    setState(() {});
+                                    return;
+                                  }
                                   // editPage = TemplateB(adjustedModel: response!.mockgeneratedUser, data: response!.data);
                                   // TemplateBPdf templateAPdf = TemplateBPdf();
                                   // templateAPdf.writeOnPdf(response!.mockgeneratedUser,response.data);
