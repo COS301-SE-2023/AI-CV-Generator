@@ -68,11 +68,10 @@ class _HomeState extends State<Home> {
   TextStyle textStyle = const TextStyle(fontSize: 12);
   TextEditingController filenameC = TextEditingController();
   List<Widget> list = [];
-  Widget? editPage;
+  Widget? editPage = EmptyCVScreen();
 
   @override
   Widget build(BuildContext context) {
-    editPage = const EmptyCVScreen();
     CVHistory cvHistory = CVHistory(context: context);
     if(model == null) {
       return const LoadingScreen();
@@ -153,8 +152,12 @@ class _HomeState extends State<Home> {
                                     }
                                   );
                                   if (Home.ready == false) return;
-                                  editPage = const LoadingScreen();
-                                  setState(() {});
+                                  setState(() {
+                                    editPage = null;
+                                  });
+                                  setState(() {
+                                    editPage = const LoadingScreen();
+                                  });
                                   MockGenerationResponse? response = await GenerationApi.mockgenerate(userModel: (Home.adjustedModel)!);
                                   if (response?.data.description == null) {
                                     editPage = ErrorScreen(errormsg: "Rate Limit Exceeded!");
