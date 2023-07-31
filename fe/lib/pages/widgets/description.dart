@@ -37,15 +37,26 @@ class DescriptionFormState extends State<DescriptionForm> {
             Expanded(
               child: titleSection,
             ),
-            TextFormField(
-              key: const Key("Description Input"),
-              controller: descripC,
-              maxLines: 5,
-              style: Theme.of(context).textTheme.bodyLarge,
-              decoration: const InputDecoration(
-                contentPadding: EdgeInsets.fromLTRB(30, 20, 30, 20),
-                enabledBorder: OutlineInputBorder(),
-                hintText: "Insert a description about yourself"
+            Expanded(
+              child:Container (
+                padding: const EdgeInsets.all(8.0),
+                constraints: BoxConstraints.tight(const Size(550,200)),
+                child: TextFormField(
+                  maxLines: 6,
+                  controller: descripC,
+                  decoration: const InputDecoration(
+                    // contentPadding: EdgeInsets.all(5.0),
+                    labelText: 'Description',
+                    enabledBorder: OutlineInputBorder(),
+                    icon: Icon(Icons.person),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter some text';
+                    }
+                    return null;
+                  },
+                )
               ),
             ),
             const SizedBox(height: 200,),
