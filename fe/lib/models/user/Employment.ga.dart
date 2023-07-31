@@ -9,8 +9,8 @@ part of 'Employment.dart';
 Employment _$EmploymentFromJson(Map<String, dynamic> json) => Employment(
       company: json['company'] as String,
       title: json['title'] as String,
-      startdate: DateTime.parse(json['startdate'] as String),
-      enddate: DateTime.parse(json['enddate'] as String),
+      startdate: DateTime.fromMillisecondsSinceEpoch(json['startdate'] as int),
+      enddate: DateTime.fromMillisecondsSinceEpoch(json['enddate'] as int),
       empid: json['empid'] as int,
     );
 

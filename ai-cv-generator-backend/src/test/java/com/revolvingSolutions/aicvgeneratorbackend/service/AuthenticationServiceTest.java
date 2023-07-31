@@ -2,7 +2,9 @@ package com.revolvingSolutions.aicvgeneratorbackend.service;
 
 import com.revolvingSolutions.aicvgeneratorbackend.entitiy.UserEntity;
 import com.revolvingSolutions.aicvgeneratorbackend.repository.UserRepository;
+import com.revolvingSolutions.aicvgeneratorbackend.request.auth.AuthRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.auth.RegRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -10,11 +12,11 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 
 class AuthenticationServiceTest {
@@ -59,33 +61,51 @@ class AuthenticationServiceTest {
                 .username("username")
                 .password("password")
                 .build();
+        MockHttpServletRequest actualRequest = new MockHttpServletRequest();
         // when
-        authenticationService.register(req);
+        authenticationService.register(req,actualRequest);
         // then
         ArgumentCaptor<String> usernameArgCapture = ArgumentCaptor.forClass(String.class);
         ArgumentCaptor<UserEntity> userEntityArgumentCaptor = ArgumentCaptor.forClass(UserEntity.class);
         ArgumentCaptor<String> passwordArgumentCaptor = ArgumentCaptor.forClass(String.class);
-        ArgumentCaptor<Integer> idArgumentCaptor = ArgumentCaptor.forClass(Integer.class);
         verify(userRepository).findByUsername(usernameArgCapture.capture());
         String username = usernameArgCapture.getValue();
-        assertThat(username == "username").isTrue();
+        assertThat(username .equals("username")).isTrue();
         verify(passwordEncoder).encode(passwordArgumentCaptor.capture());
         String password = passwordArgumentCaptor.getValue();
-        assertThat(password == "password");
+        assertThat(password.equals("password"));
         verify(userRepository).save(userEntityArgumentCaptor.capture());
         UserEntity user = userEntityArgumentCaptor.getValue();
         assertThat(
-                user.getUsername() == "username"&&
-                        user.fname == "fname" &&
-                        user.lname == "lname" &&
+                user.getUsername().equals("username")&&
+                        user.fname.equals("fname") &&
+                        user.lname.equals("lname") &&
                         user.password != "password"
                 ).isTrue();
-        verify(authService).genToken(user);
+        verify(authService).genToken(user,"127.0.0.1");
         verify(userRepository).findByUsername("username");
     }
 
     @Test
+    @Disabled
     void authenticate() {
+        // given
+        AuthRequest req = AuthRequest.builder()
+                .username("username")
+                .password("password")
+                .build();
+        MockHttpServletRequest actualRequest = new MockHttpServletRequest();
+        // when
+        ArgumentCaptor<String> usernameArgumentCaptor = ArgumentCaptor.forClass(String.class);
+        ArgumentCaptor<UserEntity> userEntityArgumentCaptor = ArgumentCaptor.forClass(UserEntity.class);
+        ArgumentCaptor<HttpServletRequest> httpServletRequestArgumentCaptor = ArgumentCaptor.forClass(HttpServletRequest.class);
+        ArgumentCaptor<Integer> useridArgumentCaptor = ArgumentCaptor.forClass(Integer.class);
+        verify(userRepository).findByUsername(usernameArgumentCaptor.capture());
+        assertThat(useridArgumentCaptor.getValue().equals("username")).isTrue();
+        verify(authenticationService).getClientIp(httpServletRequestArgumentCaptor.capture());
+        assertThat(httpServletRequestArgumentCaptor.getValue().equals(actualRequest)).isTrue();
+        verify(refreshTokenService).deleteByUserId(useridArgumentCaptor.capture());
+
     }
 
     @Test

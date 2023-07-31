@@ -1,21 +1,15 @@
 import 'package:ai_cv_generator/dio/client/userApi.dart';
-import 'package:ai_cv_generator/pages/Register.dart';
-import 'package:ai_cv_generator/pages/home.dart';
 import 'package:flutter/material.dart';
  
 class Login extends StatelessWidget {
   const Login({Key? key}) : super(key: key);
- 
+
   static const String _title = 'Sample App';
  
   @override
   Widget build(BuildContext context) {
-    return  const MaterialApp(
-      title: _title,
-      home: Scaffold(
+    return const Scaffold(
         body: MyStatefulWidget(),
-      ),
-      debugShowCheckedModeBanner: false,
     );
   }
 }
@@ -25,6 +19,7 @@ class MyStatefulWidget extends StatefulWidget {
  
   @override
   State<MyStatefulWidget> createState() => _MyStatefulWidgetState();
+
 }
  
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
@@ -54,6 +49,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             Container(
               padding: const EdgeInsets.fromLTRB(500, 10, 500, 10),
               child: TextField(
+                key: const Key('name'),
                 controller: nameController,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
@@ -64,6 +60,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             Container(
               padding: const EdgeInsets.fromLTRB(500, 10, 500, 10),
               child: TextField(
+                key: const Key('password'),
                 obscureText: true,
                 controller: passwordController,
                 decoration: const InputDecoration(
@@ -80,14 +77,13 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 height: 50,
                 padding: const EdgeInsets.fromLTRB(600, 0, 600, 0),
                 child: ElevatedButton(
+                  key: const Key('login'),
                   child: const Text('Login'),
                   onPressed: () async {
                     bool resp = await userApi.login(username: nameController.text,password: passwordController.text);
                     if (resp) {
                       Error = false;
-                      Navigator.push(context, MaterialPageRoute(
-                      builder: (context) => const Home()
-                    ));
+                      Navigator.pushNamed(context, '/home');
                     } else {
                       setState(() {
                         Error = true;
@@ -106,14 +102,13 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               children: <Widget>[
                 const Text('Do not have an Account yet?'),
                 TextButton(
+                  key: const Key('create_account'),
                   child: const Text(
                     'Create Account',
                     style: TextStyle(fontSize: 20),
                   ),
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(
-                      builder: (context) => const RegisterPage()
-                    ));
+                    Navigator.pushNamed(context, '/register');
                   },
                 )
               ],

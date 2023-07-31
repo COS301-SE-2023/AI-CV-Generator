@@ -1,23 +1,15 @@
 // ignore_for_file: must_be_immutable
+import 'package:ai_cv_generator/models/user/Employment.dart';
+import 'package:ai_cv_generator/pages/qualifications.dart';
+import 'package:ai_cv_generator/pages/questionaireModal.dart';
 import 'package:ai_cv_generator/pages/navdrawer.dart';
 import 'package:date_field/date_field.dart';
-import 'package:ai_cv_generator/pages/qualifications.dart';
-import 'package:ai_cv_generator/pages/skills.dart';
 import 'package:ai_cv_generator/pages/strings.dart';
 import 'package:flutter/material.dart';
 
-void main () => runApp(const EmploymentDetails());
+import 'home.dart';
 
-class EmploymentDetails extends StatelessWidget {
-  const EmploymentDetails({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: EmploymentDetailsForm(),
-    );
-  }
-}
+// void main () => runApp(const EmploymentDetails());
 
 class EmploymentDetailsForm extends StatefulWidget {
   const EmploymentDetailsForm({super.key});
@@ -29,14 +21,94 @@ class EmploymentDetailsForm extends StatefulWidget {
 }
 
 class _EmploymentDetailsFormState extends State<EmploymentDetailsForm> {
-  final _formKey = GlobalKey<FormState>();
+  // final _formKey = GlobalKey<FormState>();
+    Column column = const Column(children: [],);
+
+  @override
+  void initState() {
+    if(Home.adjustedModel!.employmenthistory == null) {
+      add();
+      return;
+    }
+    for(int i = 0; i < Home.adjustedModel!.employmenthistory!.length; i++) {
+      Employment employmenthistory = Home.adjustedModel!.employmenthistory![i];
+      UniqueKey key = UniqueKey();
+      column.children.add(TextMonitorWidget(key: key, company: employmenthistory.company, title: employmenthistory.title, start: employmenthistory.startdate, end: employmenthistory.enddate));
+      column.children.add(
+        Padding(
+          padding: const EdgeInsets.only(left: 500),
+          child: IconButton(
+          onPressed: () {
+            remove(key);
+          }, icon: const Icon(Icons.remove)
+        ),
+        )
+      );
+      column.children.add(const SizedBox(height: 16,));
+    }
+    setState(() {});
+    super.initState();
+  }
+
+  remove(UniqueKey key) {
+    var index = -1;
+    for(int i = 0; i < column.children.length; i++) {
+      if(key  == column.children[i].key) {
+        index = i;
+        break;
+      }
+    }
+    if(index > -1) {
+      column.children.removeAt(index);
+      column.children.removeAt(index);
+      column.children.removeAt(index);
+      setState(() {});
+    }
+  }
+
+  add() async {
+    UniqueKey key = UniqueKey();
+    column.children.add(TextMonitorWidget(key: key));
+    column.children.add(
+      Padding(
+        padding: const EdgeInsets.only(left: 500),
+        child: IconButton(
+        onPressed: () {
+          remove(key);
+        }, icon: const Icon(Icons.remove)
+      ),
+      )
+    );
+    column.children.add(const SizedBox(height: 16,));
+    setState(() {});
+  }
+
+    updateUser() {
+      Home.adjustedModel!.employmenthistory = [];
+      for (var element in column.children) {
+        if((element is TextMonitorWidget) == true) {
+          Map data = (element as TextMonitorWidget).getdata();
+          if(isDataNull(data.values) == false) {
+            Home.adjustedModel!.employmenthistory!.add(Employment(title: data['title'].toString(), company: data['company'].toString(), startdate: data['start'], empid: 0, enddate: data['end']));
+          }
+        }
+      }
+    }
+
+    isDataNull(Iterable<dynamic> data) {
+      for(int i = 0; i < data.length; i++) {
+        if(data.elementAt(i) == null) {
+          return true;
+        }
+      }
+      return false;
+    }
 
   TextEditingController company1 = TextEditingController();
   TextEditingController jobTitle1 = TextEditingController();
   TextEditingController company2 = TextEditingController();
   TextEditingController jobTitle2 = TextEditingController();
   TextEditingController duration1 = TextEditingController();
-  final TextEditingController _timeController = TextEditingController();
   
     Widget titleSection=const Column (
       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -58,92 +130,124 @@ class _EmploymentDetailsFormState extends State<EmploymentDetailsForm> {
     return Scaffold(
       drawer: const NavDrawer(),
       appBar: AppBar(
-        title: const Text(StringsEmployment.appHeadingTitle),
+        leading: IconButton(
+          icon: const Icon(
+            Icons.close,
+          ), 
+          onPressed: () async { 
+            Navigator.pop(context);
+          },
+        ),
       ),
-      body: ListView(
-        children: [
-          titleSection,
-          Center ( 
-            child: Container ( 
-            padding: const EdgeInsets.all(25.0),
-            child: _buildForm(),
+      body: Center(
+        child: Column(
+          children: [
+            Expanded(
+              child: titleSection,
             ),
-        ),
-        Center (
-          child: Container ( 
-            padding: const EdgeInsets.all(20.0),
-            child: _buildAddButton(),
-          )
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget> [
-            Container(
-              padding: const EdgeInsets.all(10.0),
-              child: SizedBox(
-                width: 140,
-                height: 30,
+            Expanded(
+              flex: 4,
+              child: ListView(
+                children: [
+                  ...column.children
+                ],
+              ),
+            ),
+            Align(
+              alignment: Alignment.topCenter,
+              child: Container ( 
+                padding: const EdgeInsets.all(20.0),
                 child: ElevatedButton(
-                  onPressed: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const QualificationsDetailsForm()));
-                    },
+                  child: const Text('Add'),
+                  onPressed: () async {
+                    add();
+                  },
+                ),
+              )
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget> [
+                SizedBox(
+                  height: 50,
+                  width: 150,
+                  child: ElevatedButton(
                     child: const Text('Back'),
-                )
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.all(10.0),
-              child: SizedBox(
-                width: 140,
-                height: 30,
-                child: ElevatedButton(
-                  onPressed: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const Skills()
-                          )
-                        );
+                    onPressed: () async {
+                      updateUser();
+                      Navigator.of(context).pop();
+                      showQuestionaireModal(context, const QualificationsDetailsForm());
                     },
-                    child: const Text('Save & Proceed'),
-                )
-              ),
-            ),
+                  ),
+                ),
+                const SizedBox(width: 64,),
+                SizedBox(
+                  height: 50,
+                  width: 150,
+                  child: ElevatedButton(
+                    child: const Text('Save and Proceed'),
+                    onPressed: () async {
+                      updateUser();
+                      Navigator.of(context).pop();
+                      // showQuestionaireModal(context, ReferencesForm());
+                    },
+                  ),
+                ),
+
+            ],
+          ),
+            const SizedBox(height: 64,),
           ],
-        ),
-        ],
+        )
       )
     );
   }
 
+}
 
+class TextMonitorWidget extends StatefulWidget {
+  Column column = const Column(children: [],);
+  TextEditingController companyC = TextEditingController();
+  TextEditingController titleC = TextEditingController();
+  String? company = "";
+  String? title= "";
+  DateTime? start;
+  DateTime? end;
+  TextMonitorWidget({super.key, this.company, this.title, this.start, this.end});
 
-
-  Widget _buildForm() {
-    return Form(
-        key: _formKey,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            _buildCompanyField(),
-            _buildJobTitleField(),
-            _buildStartField(),
-            _buildEndField(),
-            //_buildAddButton()
-            ],
-        ));
+  getdata() {
+    return {
+      "company": companyC.text,
+      "title": titleC.text,
+      "start": start,
+      "end": end
+    };
   }
 
-  Widget _buildCompanyField() {
+  @override
+  TextMonitorWidgetState createState() => TextMonitorWidgetState();
+}
+
+class TextMonitorWidgetState extends State<TextMonitorWidget> {
+  @override
+  void initState() {
+    widget.companyC.text = widget.company != null ? widget.company! : "";
+    widget.titleC.text = widget.title != null ? widget.title! : "";
+    super.initState();
+  }
+
+  populate() {
+    widget.column.children.add(_buildCompanyField(widget.companyC));
+    widget.column.children.add(_buildJobTitleField(widget.titleC));
+    widget.column.children.add(_buildEmploymentDurationField());
+  }
+  Widget _buildCompanyField(TextEditingController controller) {
     return Container (
       padding: const EdgeInsets.all(8.0),
       constraints: BoxConstraints.tight(const Size(550,65)),
       child: TextFormField(
         key: const Key("Company input"),
-        controller: company1,
+        controller: controller,
         decoration: const InputDecoration(
           contentPadding: EdgeInsets.all(5.0),
           labelText: 'Company',
@@ -161,13 +265,13 @@ class _EmploymentDetailsFormState extends State<EmploymentDetailsForm> {
     );
   }
   
-  Widget _buildJobTitleField() {
+  Widget _buildJobTitleField(TextEditingController controller) {
     return Container (
       padding: const EdgeInsets.all(8.0),
       constraints: BoxConstraints.tight(const Size(550,65)),
       child: TextFormField(
         key: const Key("Job Title input"),
-        controller: jobTitle1,
+        controller: controller,
         decoration: const InputDecoration(
           contentPadding: EdgeInsets.all(5.0),
           labelText: 'Job Title',
@@ -184,100 +288,58 @@ class _EmploymentDetailsFormState extends State<EmploymentDetailsForm> {
       )
     );
   }
-  
-  Widget _buildStartField() {
+
+  Widget _buildEmploymentDurationField() {
     return Container (
+      width: 100,
       padding: const EdgeInsets.all(8.0),
       constraints: BoxConstraints.tight(const Size(550,65)),
-      child: DateTimeFormField(
-        //controller: _timeController1,
-        decoration: const InputDecoration(
-          border: OutlineInputBorder(),
-          contentPadding: EdgeInsets.all(5.0),
-          labelText: 'Employment Start Date',
-          enabledBorder: OutlineInputBorder(),
-          icon: Icon(Icons.date_range),
-        ),
-        mode: DateTimeFieldPickerMode.date,
-      )
-    );
-  }
-  Widget _buildEndField() {
-    return Container (
-      padding: const EdgeInsets.all(8.0),
-      constraints: BoxConstraints.tight(const Size(550,65)),
-      child: DateTimeFormField(
-        //controller: _timeController2,
-        decoration: const InputDecoration(
-          border: OutlineInputBorder(),
-          contentPadding: EdgeInsets.all(5.0),
-          labelText: 'Employment End Date',
-          enabledBorder: OutlineInputBorder(),
-          icon: Icon(Icons.date_range),
-        ),
-        mode: DateTimeFieldPickerMode.date,
-        )
-    );
-  }
-
-  
-
-
-  Widget _buildAddButton() {
-    return ElevatedButton(
-        onPressed: () {
-            _submitAdd();
-          },
-          style: ElevatedButton.styleFrom(
-            shape: const StadiumBorder(),
-            padding: const EdgeInsets.all(8.0),
+      child: Row(
+        children: [
+          Expanded(
+            child: DateTimeFormField(
+              initialValue: widget.start,
+              onDateSelected: (value) {
+                widget.start = value;
+              },
+              key: const Key("Employment start"),
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                contentPadding: EdgeInsets.all(5.0),
+                labelText: 'Start Date',
+                enabledBorder: OutlineInputBorder(),
+                icon: Icon(Icons.date_range),
+              ),
+              mode: DateTimeFieldPickerMode.date,
+            )
           ),
-          child: const Icon(Icons.add),
-      );
-  }
-
-  Widget _buildBackButton() {
-    return SizedBox(
-      width: 140,
-      height: 30,
-      child: ElevatedButton(
-        onPressed: () {
-            _submitBack();
-          },
-          child: const Text('Back'),
+          const SizedBox(width: 16,),
+          Expanded(
+            child: DateTimeFormField(
+              initialValue: widget.end,
+              onDateSelected: (value) {
+                widget.end = value;
+              },
+              key: const Key("Employment end"),
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                contentPadding: EdgeInsets.all(5.0),
+                labelText: 'End Date',
+                enabledBorder: OutlineInputBorder(),
+                icon: Icon(Icons.date_range),
+              ),
+              mode: DateTimeFieldPickerMode.date,
+            )
+          ),
+        ],
       )
     );
+      
   }
 
-  Widget _buildSubmitButton() {
-    return SizedBox(
-      width: 140,
-      height: 30,
-      child: ElevatedButton(
-        onPressed: () {
-            _submitForm();
-          },
-          child: const Text('Save & Proceed'),
-      )
-    );
-    
-  }
-
-  void _submitAdd() {
-    //
-  }
-
-  void _submitBack() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const QualificationsDetails()));
-  }
-
-  void _submitForm() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const Skills()));
+  @override
+  Widget build(BuildContext context) {
+    populate();
+    return widget.column;
   }
 }

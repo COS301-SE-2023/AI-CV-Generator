@@ -1,27 +1,15 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:ai_cv_generator/models/user/Qualification.dart';
 import 'package:ai_cv_generator/pages/employment.dart';
 import 'package:ai_cv_generator/pages/navdrawer.dart';
 import 'package:ai_cv_generator/pages/personaldetails.dart';
+import 'package:ai_cv_generator/pages/questionaireModal.dart';
 import 'package:ai_cv_generator/pages/strings.dart';
 import 'package:date_field/date_field.dart';
 import 'package:flutter/material.dart';
 
-void main () => runApp(const QualificationsDetails());
-
-class QualificationsDetails extends StatelessWidget {
-  const QualificationsDetails({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(StringsQualifications.appBarTitle)
-      ),
-      body:const QualificationsDetailsForm(),
-    );
-  }
-}
+import 'home.dart';
 
 class QualificationsDetailsForm extends StatefulWidget {
   const QualificationsDetailsForm({super.key});
@@ -33,77 +21,164 @@ class QualificationsDetailsForm extends StatefulWidget {
 }
 
 class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
-  final _formKey = GlobalKey<FormState>();
+  // final _formKey = GlobalKey<FormState>();
+  Column column = const Column(children: [],);
 
-  TextEditingController institution1 = TextEditingController();
-  //TextEditingController institution2 = TextEditingController();
-  TextEditingController qualification1 = TextEditingController();
-  //TextEditingController qualification2 = TextEditingController();
-  final TextEditingController _timeController1 = TextEditingController();
-  //TextEditingController gradDate2 = TextEditingController();
+  @override
+  void initState() {
+    if(Home.adjustedModel!.qualifications == null) {
+      add();
+      return;
+    }
+    for(int i = 0; i < Home.adjustedModel!.qualifications!.length; i++) {
+      Qualification qualification = Home.adjustedModel!.qualifications![i];
+      UniqueKey key = UniqueKey();
+      column.children.add(TextMonitorWidget(key: key, institution: qualification.intstitution, qualification: qualification.qualification, start: qualification.date, end: qualification.endo));
+      column.children.add(
+        Padding(
+          padding: const EdgeInsets.only(left: 500),
+          child: IconButton(
+            onPressed: () {
+              remove(key);
+            }, icon: const Icon(Icons.remove)
+          ),
+        )
+      );
+        column.children.add(const SizedBox(height: 16,));
+    }
+    setState(() {});
+    super.initState();
+  }
+
+  remove(UniqueKey key) {
+    var index = -1;
+    for(int i = 0; i < column.children.length; i++) {
+      if(key  == column.children[i].key) {
+        index = i;
+        break;
+      }
+    }
+    if(index > -1) {
+      column.children.removeAt(index);
+      column.children.removeAt(index);
+      column.children.removeAt(index);
+      setState(() {});
+    }
+  }
   
+  add() async {
+    UniqueKey key = UniqueKey();
+    column.children.add(TextMonitorWidget(key: key));
+    column.children.add(
+      Padding(
+        padding: const EdgeInsets.only(left: 500),
+        child: IconButton(
+        onPressed: () {
+          remove(key);
+        }, icon: const Icon(Icons.remove)
+      ),
+      )
+    );
+    column.children.add(const SizedBox(height: 16,));
+
+    setState(() {});
+  }
+
+  updateUser() {
+    Home.adjustedModel!.qualifications = [];
+    for (var element in column.children) {
+      if((element is TextMonitorWidget) == true) {
+        Map data = (element as TextMonitorWidget).getdata();
+        if(isDataNull(data.values) == false) {
+          Home.adjustedModel!.qualifications!.add(Qualification(qualification: data['qualification'].toString(), intstitution: data['institution'].toString(), date: data['start'], quaid: 0, endo: data['end']));
+        }
+      }
+    }
+  }
+
+  isDataNull(Iterable<dynamic> data) {
+    for(int i = 0; i < data.length; i++) {
+      if(data.elementAt(i) == null) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: const NavDrawer(),
       appBar: AppBar(
-        title: const Text(StringsQualifications.appHeadingTitle),
+        leading: IconButton(
+          icon: const Icon(
+            Icons.close,
+          ), 
+          onPressed: () async { 
+            Navigator.pop(context);
+          },
+        ),
       ),
-      body: ListView(
-        children: [
-          titleSection,
-          Center ( 
-            child: Container ( 
-            padding: const EdgeInsets.all(25.0),
-            child: _buildForm(),
+      body: Center(
+        child: Column(
+          children: [
+            Expanded(
+              child: titleSection,
             ),
-        ),
-        Center (
-          child: Container ( 
-            padding: const EdgeInsets.all(20.0),
-            child: _buildAddButton(),
-          )
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget> [
-            Container(
-              padding: const EdgeInsets.all(10.0),
-              child: SizedBox(
-                width: 140,
-                height: 30,
-                child: ElevatedButton(
-                  onPressed: () {
-                      Navigator.pushReplacement(
-                        context,
-                          MaterialPageRoute(
-                          builder: (context) =>  PersonalDetails())
-                        );
-                    },
-                    child: const Text('Back'),
-                )
+            Expanded(
+              flex: 4,
+              child: ListView(
+                children: [
+                  ...column.children
+                ],
               ),
             ),
-            Container(
-              padding: const EdgeInsets.all(10.0),
-              child: SizedBox(
-                width: 140,
-                height: 30,
+            Align(
+              alignment: Alignment.topCenter,
+              child: Container ( 
+                padding: const EdgeInsets.all(20.0),
                 child: ElevatedButton(
-                  onPressed: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const EmploymentDetails())
-                        );
-                    },
-                    child: const Text('Save & Proceed'),
-                )
+                  child: const Text('Add'),
+                  onPressed: () async {
+                    add();
+                  },
+                ),
               )
             ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget> [
+                SizedBox(
+                  height: 50,
+                  width: 150,
+                  child: ElevatedButton(
+                    child: const Text('Back'),
+                    onPressed: () {
+                      updateUser();
+                      Navigator.of(context).pop();
+                      showQuestionaireModal(context, const PersonalDetailsForm());
+                    },
+                  ),
+                ),
+                const SizedBox(width: 64,),
+                SizedBox(
+                  height: 50,
+                  width: 150,
+                  child: ElevatedButton(
+                    child: const Text('Save and Proceed'),
+                    onPressed: () {
+                      updateUser();
+                      Navigator.of(context).pop();
+                      showQuestionaireModal(context, const EmploymentDetailsForm());
+                    },
+                  ),
+                ),
+
+            ],
+          ),
+            const SizedBox(height: 64,),
           ],
-        ),
-        ],
+        )
       )
     );
   }
@@ -122,28 +197,52 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
         ),
       ],
     );
+}
 
+class TextMonitorWidget extends StatefulWidget {
+  Column column = const Column(children: [],);
+  TextEditingController institutionC = TextEditingController();
+  TextEditingController qualificationC = TextEditingController();
+  String? institution = "";
+  String? qualification = "";
+  DateTime? start;
+  DateTime? end;
+  TextMonitorWidget({super.key, this.institution, this.qualification, this.start, this.end});
 
-  Widget _buildForm() {
-    return Form(
-        key: _formKey,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            _buildInstitutionField(),
-            _buildQualificationField(),
-            _buildGraduationField(),
-          ],
-        ));
+  getdata() {
+    return {
+      "institution": institutionC.text,
+      "qualification": qualificationC.text,
+      "start": start,
+      "end": end
+    };
   }
 
-  Widget _buildInstitutionField() {
+  @override
+  TextMonitorWidgetState createState() => TextMonitorWidgetState();
+}
+
+class TextMonitorWidgetState extends State<TextMonitorWidget> {
+  @override
+  void initState() {
+    widget.institutionC.text = widget.institution != null ? widget.institution! : "";
+    widget.qualificationC.text = widget.qualification != null ? widget.qualification! : "";
+    super.initState();
+  }
+
+  populate() {
+    widget.column.children.add(_buildInstitutionField(widget.institutionC));
+    widget.column.children.add(_buildQualificationField(widget.qualificationC));
+    widget.column.children.add(_buildGraduationField());
+  }
+
+  Widget _buildInstitutionField(TextEditingController controller) {
     return Container (
       padding: const EdgeInsets.all(8.0),
       constraints: BoxConstraints.tight(const Size(550,65)),
       child: TextFormField(
         key: const Key("Institution input"),
-        controller: institution1,
+        controller: controller,
         decoration: const InputDecoration(
           contentPadding: EdgeInsets.all(5.0),
           labelText: 'Institution',
@@ -161,13 +260,13 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
     );
   }
 
-  Widget _buildQualificationField() {
+  Widget _buildQualificationField(TextEditingController controller) {
     return Container (
       padding: const EdgeInsets.all(8.0),
       constraints: BoxConstraints.tight(const Size(550,65)),
       child: TextFormField(
         key: const Key("Qualification input"),
-        controller: qualification1,
+        controller: controller,
         decoration: const InputDecoration(
           contentPadding: EdgeInsets.all(5.0),
           labelText: 'Qualification',
@@ -184,83 +283,58 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
       )
     );
   }
-  
 
   Widget _buildGraduationField() {
     return Container (
+      width: 100,
       padding: const EdgeInsets.all(8.0),
       constraints: BoxConstraints.tight(const Size(550,65)),
-      child: DateTimeFormField(
-        key: const Key("Graduation input"),
-        //controller: _timeController1,
-        decoration: const InputDecoration(
-          border: OutlineInputBorder(),
-          contentPadding: EdgeInsets.all(5.0),
-          labelText: 'Date Obtained',
-          enabledBorder: OutlineInputBorder(),
-          icon: Icon(Icons.date_range),
-        ),
-        mode: DateTimeFieldPickerMode.date,
-      )
-    );
-  }
-
-
-  Widget _buildAddButton() {
-    return ElevatedButton(
-        onPressed: () {
-            _submitAdd();
-          },
-          style: ElevatedButton.styleFrom(
-            shape: const StadiumBorder(),
-            padding: const EdgeInsets.all(10.0),
+      child: Row(
+        children: [
+          Expanded(
+            child: DateTimeFormField(
+              initialValue: widget.start,
+              onDateSelected: (value) {
+                widget.start = value;
+              },
+              key: const Key("Graduation input"),
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                contentPadding: EdgeInsets.all(5.0),
+                labelText: 'Start Date',
+                enabledBorder: OutlineInputBorder(),
+                icon: Icon(Icons.date_range),
+              ),
+              mode: DateTimeFieldPickerMode.date,
+            )
           ),
-          child: const Icon(Icons.add),
-      );
-  }
-  
-  Widget _buildBackButton() {
-    return SizedBox(
-      width: 140,
-      height: 30,
-      child: ElevatedButton(
-        onPressed: () {
-            _submitBack();
-          },
-          child: const Text('Back'),
+          const SizedBox(width: 16,),
+          Expanded(
+            child: DateTimeFormField(
+              initialValue: widget.end,
+              onDateSelected: (value) {
+                widget.end = value;
+              },
+              key: const Key("Graduation input"),
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                contentPadding: EdgeInsets.all(5.0),
+                labelText: 'End Date',
+                enabledBorder: OutlineInputBorder(),
+                icon: Icon(Icons.date_range),
+              ),
+              mode: DateTimeFieldPickerMode.date,
+            )
+          ),
+        ],
       )
     );
+      
   }
 
-  Widget _buildSubmitButton() {
-    return SizedBox(
-      width: 140,
-      height: 30,
-      child: ElevatedButton(
-        onPressed: () {
-            _submitForm();
-          },
-          child: const Text('Save & Proceed'),
-      )
-    );
-    
-  }
-
-  void _submitAdd() {
-    //
-  }
-
-  void _submitBack() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const PersonalDetailsForm()));
-  }
-
-  void _submitForm() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const EmploymentDetails()));
+  @override
+  Widget build(BuildContext context) {
+    populate();
+    return widget.column;
   }
 }

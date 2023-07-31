@@ -1,7 +1,6 @@
 
 import 'package:ai_cv_generator/dio/client/userApi.dart';
 import 'package:ai_cv_generator/pages/pdf_window.dart';
-import 'package:ai_cv_generator/pages/personaldetails.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:ai_cv_generator/pages/shareCV.dart';
@@ -10,25 +9,22 @@ import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import '../models/user/UserModel.dart';
 import 'details.dart';
-class generatedCV extends StatefulWidget {
-  const generatedCV({super.key});
+class GeneratedCV extends StatefulWidget {
+  const GeneratedCV({super.key});
 
   @override
-  _generatedCVState createState() => _generatedCVState();
+  GeneratedCVState createState() => GeneratedCVState();
 }
 
-class _generatedCVState extends State<generatedCV> {
+class GeneratedCVState extends State<GeneratedCV> {
 
   Map data = content;
-  UserModel? user = null;
+  UserModel? user;
   final TextEditingController _controller = TextEditingController();
   final pdf = pw.Document();
   void createCV() {
-    String response = '';
     setState(() {
       data.forEach((key, value) {
-        response += '$key\n';
-        response += '$value\n\n';
       });
     });
     _controller.text = details;
@@ -114,7 +110,7 @@ class _generatedCVState extends State<generatedCV> {
                           child: pw.Column(
                             crossAxisAlignment: pw.CrossAxisAlignment.start,
                             children: [
-                              alterText(user.fname + " " + user.lname, fontHeading),
+                              alterText("${user.fname} ${user.lname}", fontHeading),
                               relatedSpacing,
                               alterText("Accountant", fontSubHeading),
                             ]
@@ -131,7 +127,7 @@ class _generatedCVState extends State<generatedCV> {
                               alterText("Experience", fontSubHeading),
                               pw.SizedBox(height: 16),
                               pw.Padding(
-                                padding: pw.EdgeInsets.symmetric(horizontal: 12.0),
+                                padding: const pw.EdgeInsets.symmetric(horizontal: 12.0),
                                 child: pw.Column(
                                   crossAxisAlignment: pw.CrossAxisAlignment.start,
                                   children: [
@@ -158,7 +154,7 @@ class _generatedCVState extends State<generatedCV> {
                         pw.Align(
                           alignment: pw.Alignment.centerLeft,
                           child: pw.Padding(
-                            padding: pw.EdgeInsets.symmetric(horizontal: 12.0),
+                            padding: const pw.EdgeInsets.symmetric(horizontal: 12.0),
                             child: pw.Wrap(
                               crossAxisAlignment: pw.WrapCrossAlignment.start,
                               runSpacing: 16,
@@ -209,12 +205,12 @@ class _generatedCVState extends State<generatedCV> {
                   child: OutlinedButton(
                     onPressed: () async {
                       setState(() {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => PersonalDetails()
-                          ),
-                        );
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //     builder: (context) => const PersonalDetailsForm(user: user)
+                        //   ),
+                        // );
                         createCV();
                       });
                     },

@@ -1,27 +1,12 @@
 // ignore_for_file: must_be_immutable
-
-import 'package:ai_cv_generator/dio/client/userApi.dart';
-import 'package:ai_cv_generator/models/user/UserModel.dart';
+import 'package:ai_cv_generator/pages/loadingScreen.dart';
 import 'package:ai_cv_generator/pages/navdrawer.dart';
 import 'package:ai_cv_generator/pages/qualifications.dart';
 import 'package:ai_cv_generator/pages/strings.dart';
+import 'package:ai_cv_generator/pages/questionaireModal.dart';
 import 'package:flutter/material.dart';
 
-void main () => runApp( PersonalDetails());
-
-class PersonalDetails extends StatelessWidget {
-  PersonalDetails({super.key});
-  @override
-  Widget build(BuildContext context) {
-    return  const Scaffold(
-      body: PersonalDetailsForm(),
-    );
-  }
-}
-
-Future<UserModel?> getUser() async {
-  return await userApi.getUser();
-}
+import 'home.dart';
 
 class PersonalDetailsForm extends StatefulWidget {
   const PersonalDetailsForm({super.key});
@@ -39,65 +24,77 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
   TextEditingController email = TextEditingController();
   TextEditingController cell = TextEditingController();
   TextEditingController address = TextEditingController();
-  UserModel? user;
+
+  @override
+  void initState() {
+    getUser().then((value) {
+      setState(() {});
+    });
+    super.initState();
+  }
+
   void updateUser() async {
-    user!.fname = fname.text;
-    user!.lname = lname.text;
-    user!.email = email.text;
-    user!.phoneNumber = cell.text;
-    user!.location = address.text;
-    await userApi.updateUser(user: user!);
+    Home.adjustedModel!.fname = fname.text;
+    Home.adjustedModel!.lname = lname.text;
+    Home.adjustedModel!.email = email.text;
+    Home.adjustedModel!.phoneNumber = cell.text;
+    Home.adjustedModel!.location = address.text;
+    //await userApi.updateUser(user: Home.adjustedModel!);
   }
 
-  void getUser() async {
-    user = await userApi.getUser();
-    fname.text = user!.fname;
-    lname.text = user!.lname;
-    email.text = user!.email!;
-    cell.text = user!.phoneNumber!;
-    address.text = user!.location!;
+  Future<void> getUser() async {
+    fname.text = Home.adjustedModel!.fname;
+    lname.text = Home.adjustedModel!.lname;
+    email.text = Home.adjustedModel!.email!;
+    cell.text = Home.adjustedModel!.phoneNumber!;
+    address.text = Home.adjustedModel!.location!;
   }
-
 
   @override
   Widget build(BuildContext context) {
-    getUser();
-    
-
+    if(Home.adjustedModel! == null) {
+      return const LoadingScreen();
+    }
     return Scaffold(
       drawer: const NavDrawer(),
       appBar: AppBar(
-        title: const Text(StringsPersonal.appHeadingTitle),
-      ),
-      body: ListView(
-        children: [
-          titleSection,
-          Center ( 
-            child: Container ( 
-            padding: const EdgeInsets.all(25.0),
-            child: _buildForm(),
-            ),
+        leading: IconButton(
+          icon: const Icon(
+            Icons.close,
+          ), 
+          onPressed: () async { 
+            Navigator.pop(context);
+          },
         ),
-        Center (
-          child: Container(
-              padding: const EdgeInsets.all(4.0),
-              child: SizedBox(
-                width: 150,
-                height: 30,
-                child: ElevatedButton(
-                  onPressed: () async {
-                      updateUser();
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const QualificationsDetailsForm()));
-                    },
-                    child: const Text('Save & Proceed'),
-                )
+      ),
+      body: Center(
+        child: Column(
+          children: [
+            Expanded(
+              child: titleSection,
+            ),
+            Expanded(
+              flex: 4,
+              child: Container ( 
+                padding: const EdgeInsets.all(25.0),
+                child: _buildForm(),
               ),
-            )
-          ),
-        ],
+            ),
+            SizedBox(
+              height: 50,
+                width: 150,
+              child: ElevatedButton(
+                child: const Text('Save and Proceed'),
+                onPressed: () async {
+                  updateUser();
+                  Navigator.of(context).pop();
+                  showQuestionaireModal(context, const QualificationsDetailsForm());
+                },
+              ),
+            ),
+            const SizedBox(height: 64,),
+          ],
+        ),
       ),
     );
   }
@@ -268,9 +265,6 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
   }
 
   void _submitForm() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const QualificationsDetailsForm()));
+    Navigator.pushNamed(context, "/qualificationsdetails");
   }
 }

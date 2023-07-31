@@ -1,10 +1,11 @@
 import 'package:ai_cv_generator/dio/client/userApi.dart';
 import 'package:flutter/material.dart';
 import 'package:ai_cv_generator/models/user/Employment.dart';
+import 'elements/elements.dart';
 
 class EmploymentSection extends StatefulWidget {
-  List<Employment> employment;
-  EmploymentSection({super.key, required this.employment});
+  final List<Employment> employment;
+  const EmploymentSection({super.key, required this.employment});
 
   @override
   EmploymentSectionState createState() => EmploymentSectionState();
@@ -13,6 +14,7 @@ class EmploymentSection extends StatefulWidget {
 class EmploymentSectionState extends State<EmploymentSection> {
   final blankEmployment = Employment(title: '', company: '', startdate: DateTime.now(), empid: 0, enddate: DateTime.now());
   Map employmentMap = {};
+  bool editing = false;
 
   @override
   void initState() {
@@ -28,8 +30,8 @@ class EmploymentSectionState extends State<EmploymentSection> {
     TextEditingController companyC = TextEditingController();
     TextEditingController dateC = TextEditingController();
 
-    titleC.text = info.title ?? '';
-    companyC.text = info.company ?? '';
+    titleC.text = info.title;
+    companyC.text = info.company;
     dateC.text = dateTimeToString(info.startdate, info.enddate);
 
     employmentMap[info.empid] = {
@@ -41,21 +43,13 @@ class EmploymentSectionState extends State<EmploymentSection> {
     employmentMap[info.empid]['widget'] = (
       Column(
         children: [
-          const SizedBox(height: 16,),
+          const SizedBox(height: 4,),
           EmploymentField(
             titleC: employmentMap[info.empid]['title'],
             companyC: employmentMap[info.empid]['company'],
             dateC: employmentMap[info.empid]['date'],
             ),
-          const SizedBox(height: 16,),
-          Align(
-            alignment: Alignment.topRight,
-            child: OutlinedButton(
-              onPressed: (){
-                remove(info.empid);
-              }, 
-              child: const Text('-'),),
-          )
+          const SizedBox(height: 4,),
         ],
       )
     );
@@ -118,30 +112,73 @@ class EmploymentSectionState extends State<EmploymentSection> {
     List<Widget> linkWidgets = [];
     employmentMap.forEach((key, value) {
       linkWidgets.add(employmentMap[key]['widget']);
+      if(editing == true) {
+        linkWidgets.add(
+          Align(
+            alignment: Alignment.topRight,
+            child: IconButton(
+              color: Colors.red,
+              onPressed: (){
+                remove(key);
+                if(employmentMap.isEmpty == true) {
+                  editing = false;
+                }
+              }, 
+              icon: const Icon(Icons.remove)),
+          ),
+        );
+        linkWidgets.add(const SizedBox(height: 4,),);
+      }
     });
     return linkWidgets;
   }
 
+  edit() {
+    if(employmentMap.isEmpty == true) {
+      return;
+    }
+    setState(() {
+      editing = !editing;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ...populate(),
-        const SizedBox(height: 8,),
-        OutlinedButton(onPressed: (){
-          add();
-        }, child: const Text('+')),
-        const SizedBox(height: 16,),
-      ],
+    return SectionContainer(
+      child: Column(
+        children: [
+          SectionHeadingBar(
+            actions: [
+              IconButton(
+                color: const Color(0xFF333C64),
+                onPressed: () {
+                if(editing == false) {
+                  add();
+                }
+              }, icon: const Icon(Icons.add)),
+              IconButton(
+                color: const Color(0xFF333C64),
+                onPressed: () {
+                  edit();
+              }, icon: const Icon(Icons.edit)),
+            ],
+            children: [
+              SectionHeading(text: "WORK EXPERIENCE",),
+            ],
+          ),
+          const SizedBox(height: 16,),
+          ...populate(),
+        ]
+      )
     );
   }
 }
 
 class EmploymentField extends StatefulWidget {
-  TextEditingController titleC;
-  TextEditingController companyC;
-  TextEditingController dateC;
-  EmploymentField({super.key, required this.titleC, required this.companyC, required this.dateC});
+  final TextEditingController titleC;
+  final TextEditingController companyC;
+  final TextEditingController dateC;
+  const EmploymentField({super.key, required this.titleC, required this.companyC, required this.dateC});
 
   @override
   EmploymentFieldState createState() => EmploymentFieldState();
@@ -164,7 +201,7 @@ void initState() {
           controller: widget.companyC,
           textAlign: TextAlign.center,
           decoration: const InputDecoration(
-            hintText: "Company",
+            hintText: "Organisation",
             border: OutlineInputBorder(),
             ),
           ),
@@ -175,7 +212,7 @@ void initState() {
           controller: widget.titleC,
           textAlign: TextAlign.center,
           decoration: const InputDecoration(
-            hintText: "Title",
+            hintText: "Position Held",
             border: OutlineInputBorder(),
             ),
           ),

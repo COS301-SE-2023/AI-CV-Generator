@@ -1,6 +1,5 @@
 // ignore_for_file: must_be_immutable
 import 'package:ai_cv_generator/pages/navdrawer.dart';
-import 'package:ai_cv_generator/pages/references.dart';
 import 'package:ai_cv_generator/pages/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:pdf_render/pdf_render_widgets.dart';
@@ -158,10 +157,10 @@ class _PreviewFormState extends State<PreviewForm> {
   }
 
   void _submitBack() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const References()));
+    // Navigator.push(
+    //   context,
+    //   MaterialPageRoute(
+    //     builder: (context) => const ReferencesForm()));
   }
 
 

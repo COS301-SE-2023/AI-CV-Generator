@@ -2,8 +2,7 @@ import 'package:ai_cv_generator/dio/interceptors/HeaderInterceptor.dart';
 import 'package:ai_cv_generator/dio/interceptors/Logger.dart';
 import 'package:ai_cv_generator/dio/interceptors/tokenRefreshInterceptor.dart';
 import 'package:dio/dio.dart';
-
-import '../interceptors/Mockinterceptor.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DioClient {
   static final Dio _dio = Dio(
@@ -20,7 +19,6 @@ class DioClient {
   ) ..interceptors.addAll(
     [
       Logger(log: true),
-      MockInterceptor(throwError: false, intercept: false),
       HeaderAdder(),
       TokenRevalidator()
     ]
@@ -28,15 +26,28 @@ class DioClient {
   static const baseurl = "http://localhost:8080/"; //This will be the actual base usl during development of the system
   //final baseurl = "https//mockbackend/api"; //Until the backend is fully established
 
+  
 
   // Extreamely temporary (implementing secure method later on)
-  static String authToken ="";
-  static String refreshToken = "";
-  static void SetAuth(String authT) {
-    authToken = authT;
+  // Keeping as is until final demo
+
+  static Future<String> authToken() async {
+    final SharedPreferences pref = await SharedPreferences.getInstance();
+    return pref.getString('auth')?? "";
   }
-  static void SetRefresh(String authT) {
-    refreshToken = authT;
+
+  static Future<String> refreshToken() async {
+    final SharedPreferences pref = await SharedPreferences.getInstance();
+    return pref.getString('refresh')?? "";
+  }
+
+  static void SetAuth(String authT) async {
+    final SharedPreferences pref = await SharedPreferences.getInstance();
+    pref.setString('auth', authT);
+  }
+  static void SetRefresh(String authT) async {
+    final SharedPreferences pref = await SharedPreferences.getInstance();
+    pref.setString('refresh', authT);
   }
 
   static get dio => _dio;

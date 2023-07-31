@@ -1,22 +1,10 @@
 // ignore_for_file: must_be_immutable
-
+import 'package:ai_cv_generator/models/user/UserModel.dart';
 import 'package:ai_cv_generator/pages/navdrawer.dart';
+import 'package:ai_cv_generator/pages/questionaireModal.dart';
 import 'package:ai_cv_generator/pages/skills.dart';
 import 'package:ai_cv_generator/pages/strings.dart';
 import 'package:flutter/material.dart';
-
-void main () => runApp(const References());
-
-class References extends StatelessWidget {
-  const References({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: ReferencesForm(),
-    );
-  }
-}
 
 class ReferencesForm extends StatefulWidget {
   const ReferencesForm({super.key});
@@ -41,10 +29,18 @@ class _ReferencesFormState extends State<ReferencesForm> {
     return Scaffold(
       drawer: const NavDrawer(),
       appBar: AppBar(
-        title: const Text(StringsReferences.appHeadingTitle),
+        leading: IconButton(
+          icon: const Icon(
+            Icons.close,
+          ), 
+          onPressed: () async { 
+            Navigator.pop(context);
+          },
+        ),
       ),
       body: ListView(
         children: [
+          const SizedBox(height: 64,),
           titleSection,
           Center ( 
             child: Container ( 
@@ -52,6 +48,7 @@ class _ReferencesFormState extends State<ReferencesForm> {
             child: _buildForm(),
             ),
         ),
+        const SizedBox(height: 64,),
         Center (
           child: Container ( 
             padding: const EdgeInsets.all(20.0),
@@ -68,13 +65,9 @@ class _ReferencesFormState extends State<ReferencesForm> {
                   height: 30,
                   child: ElevatedButton(
                     onPressed: () {
-                        Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const Skills()
-                          )
-                        );
-                      },
+                      Navigator.of(context).pop();
+                      showQuestionaireModal(context, const SkillsForm());
+                    },
                       child: const Text('Back'),
                   )
                 )
@@ -86,8 +79,8 @@ class _ReferencesFormState extends State<ReferencesForm> {
                 height: 30,
                 child: ElevatedButton(
                   onPressed: () {
-                      Navigator.pop(context);
-                    },
+                    Navigator.of(context).pop();
+                  },
                     child: const Text('Save & Generate'),
                 )
               )
@@ -269,10 +262,10 @@ class _ReferencesFormState extends State<ReferencesForm> {
   }
 
   void _submitBack() {
-    Navigator.pop(context);
+    Navigator.pushNamed(context, "/skills");
   }
 
   void _submitForm() {
-    Navigator.pop(context);
+    Navigator.popAndPushNamed(context, "/home");
   }
 }

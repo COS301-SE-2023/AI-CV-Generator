@@ -12,4 +12,16 @@ class pdfAPI{
     }
     return null;
   }
+
+  static Future<PlatformFile?> pick_imgfile() async {
+    final res = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['png','jpeg'],
+      withData: true
+    );
+    if (res != null) {
+      return res.files.first;
+    }
+    return null;
+  }
 }

@@ -1,24 +1,11 @@
 // ignore_for_file: must_be_immutable
-
+import 'package:ai_cv_generator/models/user/UserModel.dart';
 import 'package:ai_cv_generator/pages/employment.dart';
 import 'package:ai_cv_generator/pages/navdrawer.dart';
+import 'package:ai_cv_generator/pages/questionaireModal.dart';
 import 'package:ai_cv_generator/pages/references.dart';
 import 'package:ai_cv_generator/pages/strings.dart';
 import 'package:flutter/material.dart';
-
-void main () => runApp(const Skills());
-
-class Skills extends StatelessWidget {
-  const Skills({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return  const Scaffold(
-      
-      body: SkillsForm(),
-    );
-  }
-}
 
 class SkillsForm extends StatefulWidget {
   const SkillsForm({super.key});
@@ -58,10 +45,18 @@ class _SkillsFormState extends State<SkillsForm> {
     return Scaffold(
       drawer: const NavDrawer(),
       appBar: AppBar(
-        title: const Text(StringsSkill.appHeadingTitle),
+        leading: IconButton(
+          icon: const Icon(
+            Icons.close,
+          ), 
+          onPressed: () async { 
+            Navigator.pop(context);
+          },
+        ),
       ),
       body: ListView(
         children: [
+          const SizedBox(height: 64,),
           titleSection,
           Center ( 
             child: Container ( 
@@ -69,6 +64,7 @@ class _SkillsFormState extends State<SkillsForm> {
             child: _buildForm(),
             ),
         ),
+        const SizedBox(height: 64,),
         Center (
           child: Container ( 
             padding: const EdgeInsets.all(20.0),
@@ -85,12 +81,9 @@ class _SkillsFormState extends State<SkillsForm> {
                 height: 30,
                 child: ElevatedButton(
                   onPressed: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const EmploymentDetails())
-                      );
-                    },
+                    Navigator.of(context).pop();
+                    showQuestionaireModal(context, const EmploymentDetailsForm());
+                  },
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.all(10.0),
                     ),
@@ -105,10 +98,8 @@ class _SkillsFormState extends State<SkillsForm> {
                 height: 30,
                 child: ElevatedButton(
                   onPressed: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const References()));
+                    Navigator.of(context).pop();
+                    showQuestionaireModal(context, ReferencesForm());
                     },
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.all(10.0),
@@ -143,6 +134,7 @@ class _SkillsFormState extends State<SkillsForm> {
       padding: const EdgeInsets.all(8.0),
       constraints: BoxConstraints.tight(const Size(550,65)),
       child: TextFormField(
+        key: const Key('Skill1'),
         controller: skill1,
         decoration: const InputDecoration(
           contentPadding: EdgeInsets.all(5.0),
@@ -165,6 +157,7 @@ class _SkillsFormState extends State<SkillsForm> {
       padding: const EdgeInsets.all(8.0),
       constraints: BoxConstraints.tight(const Size(550,65)),
       child: TextFormField(
+        key: const Key('Skill2'),
         controller: skill2,
         decoration: const InputDecoration(
           contentPadding: EdgeInsets.all(5.0),
@@ -187,6 +180,7 @@ class _SkillsFormState extends State<SkillsForm> {
       padding: const EdgeInsets.all(8.0),
       constraints: BoxConstraints.tight(const Size(550,65)),
       child: TextFormField(
+        key: const Key('Skill3'),
         controller: skill3,
         decoration: const InputDecoration(
           contentPadding: EdgeInsets.all(5.0),
@@ -256,16 +250,10 @@ class _SkillsFormState extends State<SkillsForm> {
   }
 
   void _submitBack() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const EmploymentDetails()));
+    Navigator.pushNamed(context, "/employmentdetails");
   }
 
   void _submitForm() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const References()));
+    Navigator.pushNamed(context, "/references");
   }
 }

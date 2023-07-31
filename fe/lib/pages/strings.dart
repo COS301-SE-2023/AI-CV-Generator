@@ -2,35 +2,35 @@
 class StringsPersonal {
   static const appBarTitle="AI CV Generator";
   static const appHeadingTitle="Create CV";
-  static const appsubHeadingTitle="Personal Details";
+  static const appsubHeadingTitle="PERSONAL DETAILS";
 }
 
 class StringsQualifications {
   static const appBarTitle="AI CV Generator";
   static const appHeadingTitle="Create CV";
-  static const appsubHeadingTitle="Qualifications";
+  static const appsubHeadingTitle="EDUCATION";
 }
 
 class StringsEmployment {
   static const appBarTitle="AI CV Generator";
   static const appHeadingTitle="Create CV";
-  static const appsubHeadingTitle="Employment History";
+  static const appsubHeadingTitle="WORK EXPERIENCE";
 }
 
 class StringsSkill {
   static const appBarTitle="AI CV Generator";
   static const appHeadingTitle="Create CV";
-  static const appsubHeadingTitle="Skills";
+  static const appsubHeadingTitle="SKILLS";
 }
 
 class StringsReferences {
   static const appBarTitle="AI CV Generator";
   static const appHeadingTitle="Create CV";
-  static const appsubHeadingTitle="References";
+  static const appsubHeadingTitle="REFERENCES";
 }
 
 class StringsPreview {
   static const appBarTitle="AI CV Generator";
   static const appHeadingTitle="Create CV";
-  static const appsubHeadingTitle="Preview";
+  static const appsubHeadingTitle="PREVIEW";
 }
