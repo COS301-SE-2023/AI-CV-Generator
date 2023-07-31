@@ -5,12 +5,14 @@ import com.revolvingSolutions.aicvgeneratorbackend.agent.DescriptionAgent;
 import com.revolvingSolutions.aicvgeneratorbackend.agent.EducationDescriptionAgent;
 import com.revolvingSolutions.aicvgeneratorbackend.agent.EmploymentHistoryExpander;
 import com.revolvingSolutions.aicvgeneratorbackend.agent.GenerationAgent;
+import com.revolvingSolutions.aicvgeneratorbackend.constants.StaticValues;
 import com.revolvingSolutions.aicvgeneratorbackend.model.CVData;
 import com.revolvingSolutions.aicvgeneratorbackend.model.Employment;
 import com.revolvingSolutions.aicvgeneratorbackend.request.generation.GenerationRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.response.generation.GenerationResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.generation.MockGenerationResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -19,6 +21,9 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class LangChainService {
+
+    @Value("${app.api.blockAI}")
+    private Boolean block;
 
     private final GenerationAgent generationAgent;
     private final DescriptionAgent descriptionAgent;
@@ -43,6 +48,25 @@ public class LangChainService {
     public MockGenerationResponse mockGenerateCV(
             GenerationRequest request
     ) {
+        if (block) {
+            List<String> mylist = new ArrayList<>();
+            for (Employment employment : request.getAdjustedModel().getEmploymenthistory()) {
+                mylist.add(StaticValues.employment_description);
+            }
+
+            return MockGenerationResponse.builder()
+                    .mockgeneratedUser(
+                            request.getAdjustedModel()
+                    )
+                    .data(
+                            CVData.builder()
+                                    .description(StaticValues.description)
+                                    .employmenthis(mylist)
+                                    .education_description(StaticValues.education_description)
+                                    .build()
+                    )
+                    .build();
+        }
         List<String> mylist = new ArrayList<>();
         for (Employment employment : request.getAdjustedModel().getEmploymenthistory()) {
             mylist.add(interact(employmentHistoryExpander,employment.toString()));
