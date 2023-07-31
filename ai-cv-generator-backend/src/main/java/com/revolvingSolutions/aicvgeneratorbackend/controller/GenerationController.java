@@ -38,6 +38,10 @@ public class GenerationController {
     public ResponseEntity<MockGenerationResponse> mockgenerate(
             @RequestBody GenerationRequest request
     ) {
-        return ResponseEntity.ok(generationService.mockGenerateCV(request));
+        try {
+            return ResponseEntity.ok(generationService.mockGenerateCV(request));
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 }
