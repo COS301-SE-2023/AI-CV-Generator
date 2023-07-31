@@ -152,9 +152,9 @@ class _HomeState extends State<Home> {
                                   );
                                   if (Home.ready == false) return;
                                   MockGenerationResponse? response = await GenerationApi.mockgenerate(userModel: (Home.adjustedModel)!);
-                                  editPage = TemplateA(user: response!.mockgeneratedUser, data: response!.data);
-                                  TemplateAPdf templateAPdf = TemplateAPdf();
-                                  templateAPdf.writeOnPdf(response!.mockgeneratedUser);
+                                  editPage = TemplateB(adjustedModel: response!.mockgeneratedUser, data: response!.data);
+                                  TemplateBPdf templateAPdf = TemplateBPdf();
+                                  templateAPdf.writeOnPdf(response!.mockgeneratedUser,response.data);
                                   generatedFile = await templateAPdf.getPdf();
                                   // Navigator.of(context).push(
                                   //   MaterialPageRoute(
