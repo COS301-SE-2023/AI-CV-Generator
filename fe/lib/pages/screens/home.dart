@@ -155,7 +155,6 @@ class _HomeState extends State<Home> {
                                   setState(() {});
                                   MockGenerationResponse? response = await GenerationApi.mockgenerate(userModel: (Home.adjustedModel)!);
                                   if (response?.data.description == null) {
-                                    print("Yes");
                                     editPage = ErrorScreen(errormsg: "Rate Limit Exceeded!");
                                     setState(() {});
                                     return;
