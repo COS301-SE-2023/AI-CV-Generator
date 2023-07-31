@@ -59,13 +59,17 @@ class CVHistoryState extends State<CVHistory> {
               ...list,
             ], 
         ) 
-      ) : Center(
+      ) : const Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Icon(Icons.access_alarm,color: Colors.grey,size: 100,),
-                const SizedBox(height: 20),
-                Text("No CVs...", style: Theme.of(context).textTheme.bodyMedium),
+                 Icon(Icons.access_alarm,color: Colors.grey,size: 100,),
+                 SizedBox(height: 20),
+                Text("No CVs...", 
+                style: TextStyle(
+                  color: Colors.grey
+                )
+                ),
               ],
             ),
           )

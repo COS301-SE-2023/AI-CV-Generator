@@ -5,6 +5,7 @@ import 'package:ai_cv_generator/dio/client/generationApi.dart';
 import 'package:ai_cv_generator/dio/response/GenerationResponses/MockGenerationResponse.dart';
 import 'package:ai_cv_generator/pages/template/TemplateA.dart';
 import 'package:ai_cv_generator/pages/template/TemplateB.dart';
+import 'package:ai_cv_generator/pages/widgets/EmptyCV.dart';
 import 'package:ai_cv_generator/pages/widgets/ErrorScreen.dart';
 import 'package:ai_cv_generator/pages/widgets/cvHistory.dart';
 import 'package:ai_cv_generator/pages/widgets/loadingScreen.dart';
@@ -71,6 +72,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    editPage = const EmptyCVScreen();
     CVHistory cvHistory = CVHistory(context: context);
     if(model == null) {
       return const LoadingScreen();

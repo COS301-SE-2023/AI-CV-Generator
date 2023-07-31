@@ -189,10 +189,10 @@ class ProfileState extends State<Profile> {
                                 }
                               },
                               child: CircleAvatar(
-                                radius: 65.0,
+                                radius: 95.0,
                                 backgroundColor: Theme.of(context).colorScheme.secondary,
                                 child: CircleAvatar(
-                                  radius: 60.0,
+                                  radius: 90.0,
                                   backgroundImage: image!.image,
                                   backgroundColor: Colors.grey.shade300
                                 ),

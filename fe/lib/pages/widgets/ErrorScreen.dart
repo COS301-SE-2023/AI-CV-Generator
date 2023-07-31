@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class   ErrorScreen extends StatelessWidget {
+class ErrorScreen extends StatelessWidget {
   String errormsg;
   ErrorScreen({super.key, required this.errormsg});
 
@@ -12,7 +12,11 @@ class   ErrorScreen extends StatelessWidget {
         children: [
           const Icon(Icons.error,color: Colors.grey,size: 100,),
           const SizedBox(height: 20),
-          Text(errormsg, style: Theme.of(context).textTheme.bodyMedium),
+          Text(errormsg, 
+          style: const TextStyle(
+              color: Color.fromRGBO(217, 63, 63, 0.782)
+            )
+          ),
         ],
       ),
     );
