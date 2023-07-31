@@ -70,6 +70,7 @@ class _HomeState extends State<Home> {
   List<Widget> list = [];
   Widget? editPage = EmptyCVScreen();
   TemplateA? templateAPdf;
+  TemplateB? templateBPdf;
 
   @override
   Widget build(BuildContext context) {
@@ -205,7 +206,8 @@ class _HomeState extends State<Home> {
                               height: 40,
                               width: 100,
                               child: ElevatedButton(
-                                onPressed: () {
+                                onPressed: () async {
+                                  generatedFile = await templateAPdf!.transform();
                                   if(uploadFile != null) {
                                     showDialog(
                                       context: context,
