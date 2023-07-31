@@ -67,7 +67,7 @@ class TemplateAState extends State<TemplateA> {
       + UserData.user!.qualifications![i].date.year.toString() + " - "
       + UserData.user!.qualifications![i].endo.year.toString() + " | " + UserData.user!.qualifications![i].qualification + "\n\n";
     }
-    UserData.qualificationC.text = UserData.data!.education_description!;
+    UserData.qualificationC.text += UserData.data!.education_description!;
     
     for(int i = 0; i < UserData.user!.links!.length; i++) {
       UserData.linksC.text += UserData.user!.links![i].url + "\n";
