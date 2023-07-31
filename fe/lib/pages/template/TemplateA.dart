@@ -2,33 +2,12 @@ import 'dart:typed_data';
 import 'package:ai_cv_generator/dio/response/GenerationResponses/MockGenerationResponse.dart';
 import 'package:ai_cv_generator/models/generation/CVData.dart';
 import 'package:ai_cv_generator/models/user/UserModel.dart';
+import 'package:ai_cv_generator/pages/template/userData.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import '../widgets/pdf_window.dart';
-
-class UserData {
-  static TextEditingController fnameC = TextEditingController();
-  static TextEditingController lnameC = TextEditingController();
-  static TextEditingController emailC = TextEditingController();
-  static TextEditingController locationC = TextEditingController();
-  static TextEditingController phoneNumberC = TextEditingController();
-  
-  static TextEditingController nameC = TextEditingController();
-  static TextEditingController detailsC = TextEditingController();
-  static TextEditingController descriptionHeadingC = TextEditingController();
-  static TextEditingController descriptionC = TextEditingController();
-  static TextEditingController employmentHeadingC = TextEditingController();
-  static TextEditingController employmentC = TextEditingController();
-  static TextEditingController qualificationHeadingC = TextEditingController();
-  static TextEditingController qualificationC = TextEditingController();
-  static TextEditingController linksHeadingC = TextEditingController();
-  static TextEditingController linksC = TextEditingController();
-  
-  static UserModel? user;
-  static CVData? data;
-}
 
 // Ui counter part for pdf
 class TemplateA extends StatefulWidget {
