@@ -16,6 +16,14 @@ class UserData {
   static TextEditingController phoneNumberC = TextEditingController();
   static UserModel? user;
   static CVData? data;
+
+  static void set() {
+    fnameC.text = user!.fname;
+    lnameC.text = user!.lname;
+    emailC.text = user!.email??"Email";
+    locationC.text = user!.location??"Location";
+    phoneNumberC.text = user!.phoneNumber??"Phone number";
+  }
 }
 
 // Ui counter part for pdf

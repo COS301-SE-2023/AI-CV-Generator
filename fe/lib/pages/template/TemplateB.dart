@@ -1,195 +1,208 @@
 import 'dart:typed_data';
-
+import 'package:ai_cv_generator/dio/response/GenerationResponses/MockGenerationResponse.dart';
 import 'package:ai_cv_generator/models/generation/CVData.dart';
 import 'package:ai_cv_generator/models/user/UserModel.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
-
-import 'package:ai_cv_generator/pages/widgets/pdf_window.dart';
+import '../widgets/pdf_window.dart';
+import 'TemplateA.dart';
 
 // Ui counter part for pdf
 class TemplateB extends StatefulWidget {
-
-  UserModel adjustedModel;
-  CVData data;
-
-  TemplateB({
-    required this.adjustedModel,
-    required this.data,
-    super.key
-  });
-
+  const TemplateB({super.key, required this.user, required this.data});
+  // final MockGenerationResponse data;
+  final UserModel user;
+  final   CVData data;
+  
   @override
   State<StatefulWidget> createState() => TemplateBState();
-
-  UserModel get adjusted => adjustedModel;
-  CVData get cvdata => data;
 }
 
 class TemplateBState extends State<TemplateB> {
   @override
+  void initState() {
+    UserData.user = widget.user;
+    UserData.data = widget.data;
+    UserData.set();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-        Flexible(
-          fit: FlexFit.loose,
-          child: 
-              Row(
-                children: [
-                  Flexible(
-                    fit: FlexFit.loose,
-                    child: Container(
-                      color: Colors.lightGreen.shade50,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(widget.adjusted.fname + " " + widget.adjusted.lname, style: const TextStyle(fontSize: 32)),
-                          const SizedBox(height: 32),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(widget.adjusted.location??"Please provide Location!" + " | "),
-                              Text(widget.adjusted.phoneNumber??"Please provide phone number!" + " | "),
-                              Text(widget.adjusted.email??"Please provide email!"),
-                            ]
-                          )
-                        ]
-                      )
-                      )
-                  )
-                ]
-              )
-            ),
-            Flexible(
-              fit: FlexFit.loose,
-              flex: 5,
-              child: Padding(
-                padding: const EdgeInsets.all(32),
-                child: Row(
+    return ListView(
+      children: [
+        Row(
+          children: [
+            Expanded(
+              child:Container(
+                height: 300,
+                color: Colors.blue,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Flexible( 
-                      fit: FlexFit.loose,
-                      child: Container(
-                        alignment: Alignment.topLeft,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text("Professional Summary", style: TextStyle(fontSize: 24, color: Colors.lightGreen,)),
-                            const SizedBox(height: 8),
-                            Text(widget.data.description!),
-
-                            const SizedBox(height: 48),
-
-                            const Text("Experience", style: TextStyle(fontSize: 24, color: Colors.lightGreen,)),
-                            const SizedBox(height: 8),
-                            Column(
-                              children: [
-                                ListView.builder(
-                                  itemCount: widget.adjusted.employmenthistory!.length,
-                                  itemBuilder: ((context, index) {
-                                    return Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        children: [
-                                          Text(widget.data.employmenthis![index]),
-                                        ]
-                                      )
-                                    );
-                                  }),
-                                )
-                              ]
-                            ),
-
-                            const SizedBox(height: 48),
-
-                            const Text("Qualifications", style: TextStyle(fontSize: 24, color: Colors.lightGreen,)),
-                            const SizedBox(height: 8),
-                            Column(
-                              children: [
-                                ListView.builder(
-                                  itemCount: widget.adjusted.qualifications!.length,
-                                  itemBuilder: ((context, index) {
-                                    return Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        children: [
-                                          Row(
-                                            children: [
-                                              Text(widget.adjusted.qualifications![index].intstitution + " | "),
-                                              Text(widget.adjusted.qualifications![index].date.year.toString() + " - "),
-                                              Text(widget.adjusted.qualifications![index].endo.year.toString()),
-                                            ],
-                                          ),
-                                          const SizedBox(height: 8),
-                                          Text(widget.adjusted.qualifications![index].qualification),
-                                          const SizedBox(height: 24),
-                                        ]
-                                      )
-                                    );
-                                  }),
-                                ),
-                                const SizedBox(height: 8),
-                                Text(widget.data.education_description!)
-                              ]
-                            ),
-
-                            const SizedBox(height: 48),
-
-                            const Text("Links", style: TextStyle(fontSize: 24, color: Colors.lightGreen,)),
-                            const SizedBox(height: 8),
-                            Column(
-                              children: [
-                                ListView.builder(
-                                  itemCount: widget.adjusted.links!.length,
-                                  itemBuilder: ((context, index) {
-                                    return Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        children: [
-                                          const SizedBox(height: 8),
-                                          Text(widget.adjusted.links![index].url),
-                                          const SizedBox(height: 24),
-                                        ]
-                                      )
-                                    );
-                                  }),
-                                )
-                              ]
-                            ),
-                          ]
-                        )
-                      )
-                    )
+                    Text(UserData.user!.fname + " " + UserData.user!.lname, style: TextStyle(fontSize: 32)),
+                    SizedBox(height: 32),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text((UserData.user!.location??"Please provide Location!") + " | "),
+                        Text((UserData.user!.phoneNumber??"Please provide phone number!") + " | "),
+                        Text((UserData.user!.email??"Please provide email!")),
+                      ]
+                    ),
+                      
                   ]
                 )
               )
             ),
-        ],
-      ),
+
+          ],
+        ),
+          Padding(
+            padding: EdgeInsets.all(32),
+            child: Row(
+              children: [
+                Expanded( child:
+                  Container(
+                    alignment: Alignment.topLeft,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Professional Summary", style: TextStyle(fontSize: 24, color: Colors.lightGreen)),
+                        SizedBox(height: 8),
+                        Text(UserData.data!.description!),
+
+                        SizedBox(height: 48),
+                        Text("Experience", style: TextStyle(fontSize: 24, color: Colors.lightGreen,)),
+                        SizedBox(height: 8),
+                        Column(
+                          children: [
+                            Container(
+                              height: 200,
+                              child: ListView.builder(
+                              // itemCount: UserData.user!.employmenthistory!.length,
+                              itemCount: UserData.data!.employmenthis!.length,
+                              itemBuilder: ((context, index) {
+                                return Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Column(
+                                        children: [
+                                          // Text(UserData.user!.employmenthistory![index].title + " | "),
+                                          // Text(UserData.user!.employmenthistory![index].startdate.year.toString() + " - "),
+                                          // Text(UserData.user!.employmenthistory![index].enddate.year.toString()),
+                                          Text(UserData.data!.employmenthis![index])
+                                        ],
+                                      ),
+                                      SizedBox(height: 8),
+                                      Text(UserData.user!.employmenthistory![index].company),
+                                      SizedBox(height: 24),
+                                    ]
+                                  )
+                                );
+                              }),
+                            ),
+                            ),
+                          ]
+                        ),
+
+                        SizedBox(height: 8),
+
+                        Text("Qualifications", style: TextStyle(fontSize: 24, color: Colors.lightGreen,)),
+                        SizedBox(height: 8),
+                        Column(
+                          children: [
+                            Text(UserData.data!.education_description!),
+                            SizedBox(height: 16),
+                            Container(
+                              height: 100,
+                              child:
+                            ListView.builder(
+                              itemCount: UserData.user!.qualifications!.length,
+                              itemBuilder: ((context, index) {
+                                return Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    // mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Text(UserData.user!.qualifications![index].intstitution + " | "),
+                                          Text(UserData.user!.qualifications![index].date.year.toString() + " - "),
+                                          Text(UserData.user!.qualifications![index].endo.year.toString()),
+                                        ],
+                                      ),
+                                      SizedBox(height: 8),
+                                      Text(UserData.user!.qualifications![index].qualification),
+                                      
+                                    ]
+                                  )
+                                );
+                              }),
+                            )
+                          ),
+
+                          SizedBox(height: 8),
+                          
+                          ]
+                        ),
+
+                        SizedBox(height: 16),
+
+                        Text("Links", style: TextStyle(fontSize: 24, color: Colors.lightGreen,)),
+                        SizedBox(height: 8),
+                        Column(
+                          children: [
+                            Container(
+                              height: 200,
+                              child: ListView.builder(
+                                itemCount: UserData.user!.links!.length,
+                                itemBuilder: ((context, index) {
+                                  return Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        SizedBox(height: 8),
+                                        Text(UserData.user!.links![index].url),
+                                        SizedBox(height: 24),
+                                      ]
+                                    )
+                                  );
+                                }),
+                              )
+                            )
+                          ]
+                        ),
+                      ]
+                    )
+                  )
+                )
+              ]
+            )
+          )
+      ],
     );
   }
 }
 
 // Pdf
 class TemplateBPdf {
-  final pdf = pw.Document();
+  var pdf = pw.Document();
   final double fontText = 13;
   final double fontHeading = 24;
   final double fontSubHeading = 16;
   final pw.Widget relatedSpacing = pw.SizedBox(height: 8);
   final pw.Widget unRelatedSpacing = pw.SizedBox(height: 16);
 
-  Future<void> writeOnPdf(UserModel user, CVData data) async {
+  void writeOnPdf() async {
     pdf.addPage(
      pw.MultiPage(
         pageFormat: PdfPageFormat.a4,
@@ -205,14 +218,14 @@ class TemplateBPdf {
                       child: pw.Column(
                         mainAxisAlignment: pw.MainAxisAlignment.center,
                         children: [
-                          pw.Text(user.fname + " " + user.lname, style: pw.TextStyle(fontSize: 32)),
+                          pw.Text(UserData.user!.fname + " " + UserData.user!.lname, style: pw.TextStyle(fontSize: 32)),
                           pw.SizedBox(height: 32),
                           pw.Row(
                             mainAxisAlignment: pw.MainAxisAlignment.center,
                             children: [
-                              pw.Text(user.location??"Please provide Location!" + " | "),
-                              pw.Text(user.phoneNumber??"Please provide phone number!" + " | "),
-                              pw.Text(user.email??"Please provide email!"),
+                              pw.Text(UserData.user!.location! + " | "),
+                              pw.Text(UserData.user!.phoneNumber! + " | "),
+                              pw.Text(UserData.user!.email!),
                             ]
                           )
                         ]
@@ -236,7 +249,7 @@ class TemplateBPdf {
                           children: [
                             pw.Text("Professional Summary", style: pw.TextStyle(fontSize: 24, color: PdfColors.lightGreen200,)),
                             pw.SizedBox(height: 8),
-                            pw.Text(data.description!),
+                            pw.Text(UserData.user!.description!),
 
                             pw.SizedBox(height: 48),
 
@@ -245,7 +258,7 @@ class TemplateBPdf {
                             pw.Column(
                               children: [
                                 pw.ListView.builder(
-                                  itemCount: user.employmenthistory!.length,
+                                  itemCount: UserData.user!.employmenthistory!.length,
                                   itemBuilder: ((context, index) {
                                     return pw.Align(
                                       alignment: pw.Alignment.centerLeft,
@@ -253,9 +266,15 @@ class TemplateBPdf {
                                         crossAxisAlignment: pw.CrossAxisAlignment.start,
                                         mainAxisAlignment: pw.MainAxisAlignment.start,
                                         children: [
-                                          pw.Text(data.employmenthis![index]),
+                                          pw.Row(
+                                            children: [
+                                              pw.Text(UserData.user!.employmenthistory![index].title + " | "),
+                                              pw.Text(UserData.user!.employmenthistory![index].startdate.year.toString() + " - "),
+                                              pw.Text(UserData.user!.employmenthistory![index].enddate.year.toString()),
+                                            ],
+                                          ),
                                           pw.SizedBox(height: 8),
-                                          pw.Text(user.employmenthistory![index].company),
+                                          pw.Text(UserData.user!.employmenthistory![index].company),
                                           pw.SizedBox(height: 24),
                                         ]
                                       )
@@ -272,7 +291,7 @@ class TemplateBPdf {
                             pw.Column(
                               children: [
                                 pw.ListView.builder(
-                                  itemCount: user.qualifications!.length,
+                                  itemCount: UserData.user!.qualifications!.length,
                                   itemBuilder: ((context, index) {
                                     return pw.Align(
                                       alignment: pw.Alignment.centerLeft,
@@ -282,21 +301,19 @@ class TemplateBPdf {
                                         children: [
                                           pw.Row(
                                             children: [
-                                              pw.Text(user.qualifications![index].intstitution + " | "),
-                                              pw.Text(user.qualifications![index].date.year.toString() + " - "),
-                                              pw.Text(user.qualifications![index].endo.year.toString()),
+                                              pw.Text(UserData.user!.qualifications![index].intstitution + " | "),
+                                              pw.Text(UserData.user!.qualifications![index].date.year.toString() + " - "),
+                                              pw.Text(UserData.user!.qualifications![index].endo.year.toString()),
                                             ],
                                           ),
                                           pw.SizedBox(height: 8),
-                                          pw.Text(user.qualifications![index].qualification),
+                                          pw.Text(UserData.user!.qualifications![index].qualification),
                                           pw.SizedBox(height: 24),
                                         ]
                                       )
                                     );
                                   }),
-                                ),
-                                pw.SizedBox(height: 8),
-                                pw.Text(data.education_description!)
+                                )
                               ]
                             ),
 
@@ -307,7 +324,7 @@ class TemplateBPdf {
                             pw.Column(
                               children: [
                                 pw.ListView.builder(
-                                  itemCount: user.links!.length,
+                                  itemCount: UserData.user!.links!.length,
                                   itemBuilder: ((context, index) {
                                     return pw.Align(
                                       alignment: pw.Alignment.centerLeft,
@@ -316,7 +333,7 @@ class TemplateBPdf {
                                         mainAxisAlignment: pw.MainAxisAlignment.start,
                                         children: [
                                           pw.SizedBox(height: 8),
-                                          pw.Text(user.links![index].url),
+                                          pw.Text(UserData.user!.links![index].url),
                                           pw.SizedBox(height: 24),
                                         ]
                                       )
@@ -341,6 +358,7 @@ class TemplateBPdf {
   Future<PlatformFile> getPdf() async {
       Uint8List bytes = await pdf.save();
       PlatformFile? file = PlatformFile(name: "gen.pdf", size: bytes.length,bytes: bytes);
+      pdf = pw.Document();
       return file;
   }
 

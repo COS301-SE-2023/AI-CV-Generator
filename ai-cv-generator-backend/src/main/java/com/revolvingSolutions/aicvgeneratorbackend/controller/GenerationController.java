@@ -41,6 +41,7 @@ public class GenerationController {
         try {
             return ResponseEntity.ok(generationService.mockGenerateCV(request));
         } catch (Exception e) {
+            System.out.println(e.getClass());
             return ResponseEntity.notFound().build();
         }
     }
