@@ -314,7 +314,13 @@ class _HomeState extends State<Home> {
                       Expanded(child:
                         Container(
                           height: 400,
-                          color: Theme.of(context).colorScheme.surface,
+                          decoration: BoxDecoration(
+                            borderRadius: const BorderRadius.all(Radius.circular(20)),
+                            border: Border.all(
+                              color: const Color.fromARGB(0, 0, 0, 0),
+                            ),
+                            color: Theme.of(context).colorScheme.surface,
+                          ),
                           child: editPage,
                         ),
                       ),
@@ -335,7 +341,13 @@ class _HomeState extends State<Home> {
                       Expanded(
                         flex: 10,
                         child: Container(
-                          color: Theme.of(context).colorScheme.surface,
+                          decoration: BoxDecoration(
+                            borderRadius: const BorderRadius.all(Radius.circular(20)),
+                            border: Border.all(
+                              color: const Color.fromARGB(0, 0, 0, 0),
+                            ),
+                            color: Theme.of(context).colorScheme.surface,
+                          ),
                           child: SizedBox.expand(
                             child: Center(child: CVHistory(context: context,list: list,),)
                           )
@@ -365,7 +377,13 @@ class TemplatesState extends State<Templates> {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(24.0),
-      color: Theme.of(context).colorScheme.surface,
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.all(Radius.circular(20)),
+        border: Border.all(
+          color: const Color.fromARGB(0, 0, 0, 0),
+        ),
+        color: Theme.of(context).colorScheme.surface,
+      ),
       child: const Align(
         alignment: Alignment.topCenter,
         child: Text("TEMPLATES", style: TextStyle(fontSize: 16),),
