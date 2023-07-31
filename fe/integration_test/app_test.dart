@@ -4,6 +4,7 @@ import 'package:ai_cv_generator/pages/home.dart';
 import 'package:ai_cv_generator/pages/login.dart';
 import 'package:ai_cv_generator/pages/Register.dart';
 import 'package:ai_cv_generator/pages/personaldetails2.dart';
+import 'package:ai_cv_generator/pages/profile.dart';
 import 'package:ai_cv_generator/pages/qualifications2.dart';
 import 'package:ai_cv_generator/pages/references2.dart';
 import 'package:ai_cv_generator/pages/skills2.dart';
@@ -144,6 +145,20 @@ void main() {
         //expect(find.text('04/2024'), findsOneWidget);
         //expect(find.byType(ElevatedButton), findsOneWidget);
     });
+
+    /*testWidgets('Profile page',
+      (WidgetTester tester) async {
+        //app.main();
+        await tester.pumpWidget(const MaterialApp(home: Profile()));
+        await tester.pumpAndSettle();
+        //do
+        await tester.enterText(find.byKey(const Key('description')), 'Final year BSc Computer Science student with experience in small-scale software engineering projects');
+        await tester.pumpAndSettle();
+
+        //test
+        expect(find.text('Final year BSc Computer Science student with experience in small-scale software engineering projects'), findsOneWidget);
+        
+    });*/
   });     
 }
  
