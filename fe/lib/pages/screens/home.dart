@@ -137,7 +137,6 @@ class _HomeState extends State<Home> {
                               child: ElevatedButton(
                                 onPressed: () async {
                                   Home.adjustedModel = model;
-                                  Home.ready = false;
                                   await showDialog(
                                     context: context, 
                                     builder: (BuildContext context) {
@@ -150,12 +149,16 @@ class _HomeState extends State<Home> {
                                       );
                                     }
                                   );
-                                  if (Home.ready == false) return;
+                                  // if (Home.ready == false) return;
+                                  // while (Home.adjustedModel!.qualifications == null || Home.adjustedModel!.qualifications == []) {}
                                   MockGenerationResponse? response = await GenerationApi.mockgenerate(userModel: (Home.adjustedModel)!);
-                                  editPage = TemplateB(adjustedModel: response!.mockgeneratedUser, data: response!.data);
-                                  TemplateBPdf templateAPdf = TemplateBPdf();
-                                  templateAPdf.writeOnPdf(response!.mockgeneratedUser,response.data);
-                                  generatedFile = await templateAPdf.getPdf();
+                                  // editPage = TemplateB(adjustedModel: response!.mockgeneratedUser, data: response!.data);
+                                  // TemplateBPdf templateAPdf = TemplateBPdf();
+                                  // templateAPdf.writeOnPdf(response!.mockgeneratedUser,response.data);
+                                  editPage = TemplateA(user: response!.mockgeneratedUser, data: response!.data);
+                                  TemplateAPdf templateAPdf = TemplateAPdf();
+                                  // templateAPdf.writeOnPdf();
+                                  // generatedFile = await templateAPdf.getPdf();
                                   // Navigator.of(context).push(
                                   //   MaterialPageRoute(
                                   //     builder: (context) => PdfWindow(file: file,)
