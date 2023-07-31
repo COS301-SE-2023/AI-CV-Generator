@@ -23,6 +23,7 @@ class Home extends StatefulWidget {
   const Home({super.key});
 
   static UserModel? adjustedModel;
+  static bool ready = false;
 
   @override
   _HomeState createState() => _HomeState();
@@ -136,6 +137,7 @@ class _HomeState extends State<Home> {
                               child: ElevatedButton(
                                 onPressed: () async {
                                   Home.adjustedModel = model;
+                                  Home.ready = false;
                                   await showDialog(
                                     context: context, 
                                     builder: (BuildContext context) {
@@ -148,7 +150,7 @@ class _HomeState extends State<Home> {
                                       );
                                     }
                                   );
-                                  // while (Home.adjustedModel!.qualifications == null || Home.adjustedModel!.qualifications == []) {}
+                                  if (Home.ready == false) return;
                                   MockGenerationResponse? response = await GenerationApi.mockgenerate(userModel: (Home.adjustedModel)!);
                                   editPage = TemplateA(user: response!.mockgeneratedUser, data: response!.data);
                                   TemplateAPdf templateAPdf = TemplateAPdf();

@@ -11,6 +11,12 @@ class StringsQualifications {
   static const appsubHeadingTitle="EDUCATION";
 }
 
+class StringsDescription {
+  static const appBarTitle="AI CV Generator";
+  static const appHeadingTitle="Create CV";
+  static const appsubHeadingTitle="Description";
+}
+
 class StringsEmployment {
   static const appBarTitle="AI CV Generator";
   static const appHeadingTitle="Create CV";
