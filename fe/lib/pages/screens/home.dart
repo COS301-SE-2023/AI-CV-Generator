@@ -151,6 +151,10 @@ class _HomeState extends State<Home> {
                                   );
                                   // if (Home.ready == false) return;
                                   // while (Home.adjustedModel!.qualifications == null || Home.adjustedModel!.qualifications == []) {}
+                                  editPage = const LoadingScreen();
+                                  setState(() {
+                                    
+                                  });
                                   MockGenerationResponse? response = await GenerationApi.mockgenerate(userModel: (Home.adjustedModel)!);
                                   // editPage = TemplateB(adjustedModel: response!.mockgeneratedUser, data: response!.data);
                                   // TemplateBPdf templateAPdf = TemplateBPdf();

@@ -1,5 +1,4 @@
 import 'dart:typed_data';
-import 'package:ai_cv_generator/dio/response/GenerationResponses/MockGenerationResponse.dart';
 import 'package:ai_cv_generator/models/generation/CVData.dart';
 import 'package:ai_cv_generator/models/user/UserModel.dart';
 import 'package:ai_cv_generator/pages/template/userData.dart';
