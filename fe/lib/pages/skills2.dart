@@ -18,6 +18,11 @@ class Skills extends StatelessWidget {
       body: SkillsForm(),
     );
   }
+
+  bool submitAdd(String skill1) 
+  {
+    return true;
+  }
 }
 
 class SkillsForm extends StatefulWidget {
@@ -255,7 +260,6 @@ class _SkillsFormState extends State<SkillsForm> {
   }
 
   void _submitAdd() {
-    //
   }
 
   void _submitBack() {

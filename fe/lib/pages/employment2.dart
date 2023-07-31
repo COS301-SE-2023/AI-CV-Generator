@@ -17,6 +17,11 @@ class EmploymentDetails extends StatelessWidget {
       body: EmploymentDetailsForm(),
     );
   }
+
+  bool addQualification(String s, String t, String u, String v) 
+  {
+    return true;
+  }
 }
 
 class EmploymentDetailsForm extends StatefulWidget {

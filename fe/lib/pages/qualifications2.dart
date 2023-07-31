@@ -21,6 +21,11 @@ class QualificationsDetails extends StatelessWidget {
       body:const QualificationsDetailsForm(),
     );
   }
+
+  bool addQualification(String s, String t, String u) 
+  {
+    return true;
+  }
 }
 
 class QualificationsDetailsForm extends StatefulWidget {

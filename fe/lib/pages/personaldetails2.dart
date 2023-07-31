@@ -7,15 +7,20 @@ import 'package:ai_cv_generator/pages/qualifications2.dart';
 import 'package:ai_cv_generator/pages/strings.dart';
 import 'package:flutter/material.dart';
 
-void main () => runApp( PersonalDetails());
+void main () => runApp( const PersonalDetails());
 
 class PersonalDetails extends StatelessWidget {
-  PersonalDetails({super.key});
+  const PersonalDetails({super.key});
   @override
   Widget build(BuildContext context) {
     return  const Scaffold(
       body: PersonalDetailsForm(),
     );
+  }
+
+  bool addDetails(String s, String t, String u, int i, String v) 
+  {
+    return true;
   }
 }
 
