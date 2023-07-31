@@ -1,8 +1,6 @@
 import 'dart:typed_data';
-import 'package:ai_cv_generator/dio/response/GenerationResponses/MockGenerationResponse.dart';
 import 'package:ai_cv_generator/models/generation/CVData.dart';
 import 'package:ai_cv_generator/models/user/UserModel.dart';
-import 'package:ai_cv_generator/pages/template/userData.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:pdf/pdf.dart';
@@ -298,75 +296,6 @@ class TemplateAPdf {
                 ),
               )
             ),
-            // pw.SizedBox(height: 48),
-
-            // pw.Text(linksC, style: pw.TextStyle(fontSize: 24, color: PdfColors.lightGreen200,)),
-            // pw.SizedBox(height: 8),
-            // pw.Text(linksC)
-            // pw.Expanded(child: 
-            //   pw.Row(
-            //     children: [
-            //       pw.Expanded(
-            //         child: pw.Container(
-            //           color: PdfColors.lightGreen50,
-            //           child: pw.Column(
-            //             mainAxisAlignment: pw.MainAxisAlignment.center,
-            //             children: [
-            //               pw.Text(fname, style: pw.TextStyle(fontSize: 32)),
-            //               pw.SizedBox(height: 32),
-            //               pw.Text(detailsC)
-            //             ]
-            //           )
-            //           )
-            //       )
-            //     ]
-            //   )
-            // ),
-            // pw.Expanded(
-            //   flex: 5,
-            //   child: pw.Padding(
-            //     padding: pw.EdgeInsets.all(32),
-            //     child: pw.Row(
-            //       children: [
-            //         pw.Expanded( child:
-            //           pw.Container(
-            //             alignment: pw.Alignment.topLeft,
-            //             child: pw.Wrap(
-            //               //crossAxisAlignment: pw.CrossAxisAlignment.start,
-            //               children: [
-            //                 pw.Text(descriptionHeadingC, style: pw.TextStyle(fontSize: 24, color: PdfColors.lightGreen200,)),
-            //                 pw.SizedBox(height: 8),
-            //                 pw.Text(descriptionC),
-
-            //                 pw.SizedBox(height: 48),
-
-            //                 pw.Text(employmentHeadingC, style: pw.TextStyle(fontSize: 24, color: PdfColors.lightGreen200,)),
-            //                 pw.SizedBox(height: 8),
-            //                 pw.Text(employmentC),
-
-            //                 pw.SizedBox(height: 48),
-
-            //                 pw.Text(qualificationHeadingC, style: pw.TextStyle(fontSize: 24, color: PdfColors.lightGreen200,)),
-            //                 pw.SizedBox(height: 8),
-            //                 pw.Column(
-            //                   children: [
-            //                     pw.Text(qualificationC)
-            //                   ]
-            //                 ),
-
-            //                 pw.SizedBox(height: 48),
-
-            //                 pw.Text(linksC, style: pw.TextStyle(fontSize: 24, color: PdfColors.lightGreen200,)),
-            //                 pw.SizedBox(height: 8),
-            //                 pw.Text(linksC)
-            //               ]
-            //             )
-            //           )
-            //         )
-            //       ]
-            //     )
-            //   )
-            // ),
           ];
         }
      )

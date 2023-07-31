@@ -165,18 +165,9 @@ class _HomeState extends State<Home> {
                                     setState(() {});
                                     return;
                                   }
-                                  // editPage = TemplateB(adjustedModel: response!.mockgeneratedUser, data: response!.data);
-                                  // TemplateBPdf templateAPdf = TemplateBPdf();
-                                  // templateAPdf.writeOnPdf(response!.mockgeneratedUser,response.data);
                                   templateAPdf = TemplateA(user: response!.mockgeneratedUser, data: response!.data);
                                   editPage = templateAPdf;
-                                  // templateAPdf.writeOnPdf();
                                   generatedFile = await templateAPdf!.transform();
-                                  // Navigator.of(context).push(
-                                  //   MaterialPageRoute(
-                                  //     builder: (context) => PdfWindow(file: file,)
-                                  //   )
-                                  // );
                                   setState(() {});
                                 }, 
                                 child: Text("SURVEY", style: textStyle),
@@ -267,7 +258,8 @@ class _HomeState extends State<Home> {
                                 height: 40,
                                 width: 100,
                                 child: ElevatedButton(
-                                  onPressed: () {
+                                  onPressed: () async {
+                                    generatedFile = await templateAPdf!.transform();
                                     if (generatedFile != null) {
                                       requirementsforshare(context, generatedFile);
                                     }
@@ -281,7 +273,8 @@ class _HomeState extends State<Home> {
                                 height: 40,
                                 width: 100,
                                 child: ElevatedButton(
-                                  onPressed: () {
+                                  onPressed: () async {
+                                    generatedFile = await templateAPdf!.transform();
                                     if (generatedFile != null) {
                                       DownloadService.download(generatedFile!.bytes!.toList(), downloadName: generatedFile!.name);
                                     }
