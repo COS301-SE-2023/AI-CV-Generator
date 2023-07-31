@@ -177,16 +177,9 @@ class TemplateAPdf {
                       child: pw.Column(
                         mainAxisAlignment: pw.MainAxisAlignment.center,
                         children: [
-                          pw.Text(UserData.user!.fname + " " + UserData.user!.lname, style: pw.TextStyle(fontSize: 32)),
+                          pw.Text(UserData.nameC.text, style: pw.TextStyle(fontSize: 32)),
                           pw.SizedBox(height: 32),
-                          pw.Row(
-                            mainAxisAlignment: pw.MainAxisAlignment.center,
-                            children: [
-                              pw.Text(UserData.user!.location! + " | "),
-                              pw.Text(UserData.user!.phoneNumber! + " | "),
-                              pw.Text(UserData.user!.email!),
-                            ]
-                          )
+                          pw.Text(UserData.detailsC.text)
                         ]
                       )
                       )
@@ -206,99 +199,37 @@ class TemplateAPdf {
                         child: pw.Column(
                           crossAxisAlignment: pw.CrossAxisAlignment.start,
                           children: [
-                            pw.Text("Professional Summary", style: pw.TextStyle(fontSize: 24, color: PdfColors.lightGreen200,)),
+                            pw.Text(UserData.descriptionHeadingC.text, style: pw.TextStyle(fontSize: 24, color: PdfColors.lightGreen200,)),
                             pw.SizedBox(height: 8),
-                            pw.Text(UserData.user!.description!),
+                            pw.Text(UserData.descriptionC.text),
 
                             pw.SizedBox(height: 48),
 
-                            pw.Text("Experience", style: pw.TextStyle(fontSize: 24, color: PdfColors.lightGreen200,)),
+                            pw.Text(UserData.employmentHeadingC.text, style: pw.TextStyle(fontSize: 24, color: PdfColors.lightGreen200,)),
                             pw.SizedBox(height: 8),
                             pw.Column(
                               children: [
-                                pw.ListView.builder(
-                                  itemCount: UserData.user!.employmenthistory!.length,
-                                  itemBuilder: ((context, index) {
-                                    return pw.Align(
-                                      alignment: pw.Alignment.centerLeft,
-                                      child: pw.Column(
-                                        crossAxisAlignment: pw.CrossAxisAlignment.start,
-                                        mainAxisAlignment: pw.MainAxisAlignment.start,
-                                        children: [
-                                          pw.Row(
-                                            children: [
-                                              pw.Text(UserData.user!.employmenthistory![index].title + " | "),
-                                              pw.Text(UserData.user!.employmenthistory![index].startdate.year.toString() + " - "),
-                                              pw.Text(UserData.user!.employmenthistory![index].enddate.year.toString()),
-                                            ],
-                                          ),
-                                          pw.SizedBox(height: 8),
-                                          pw.Text(UserData.user!.employmenthistory![index].company),
-                                          pw.SizedBox(height: 24),
-                                        ]
-                                      )
-                                    );
-                                  }),
-                                )
+                                pw.Text(UserData.employmentC.text)
                               ]
                             ),
 
                             pw.SizedBox(height: 48),
 
-                            pw.Text("Qualifications", style: pw.TextStyle(fontSize: 24, color: PdfColors.lightGreen200,)),
+                            pw.Text(UserData.qualificationHeadingC.text, style: pw.TextStyle(fontSize: 24, color: PdfColors.lightGreen200,)),
                             pw.SizedBox(height: 8),
                             pw.Column(
                               children: [
-                                pw.ListView.builder(
-                                  itemCount: UserData.user!.qualifications!.length,
-                                  itemBuilder: ((context, index) {
-                                    return pw.Align(
-                                      alignment: pw.Alignment.centerLeft,
-                                      child: pw.Column(
-                                        crossAxisAlignment: pw.CrossAxisAlignment.start,
-                                        mainAxisAlignment: pw.MainAxisAlignment.start,
-                                        children: [
-                                          pw.Row(
-                                            children: [
-                                              pw.Text(UserData.user!.qualifications![index].intstitution + " | "),
-                                              pw.Text(UserData.user!.qualifications![index].date.year.toString() + " - "),
-                                              pw.Text(UserData.user!.qualifications![index].endo.year.toString()),
-                                            ],
-                                          ),
-                                          pw.SizedBox(height: 8),
-                                          pw.Text(UserData.user!.qualifications![index].qualification),
-                                          pw.SizedBox(height: 24),
-                                        ]
-                                      )
-                                    );
-                                  }),
-                                )
+                                pw.Text(UserData.qualificationC.text)
                               ]
                             ),
 
                             pw.SizedBox(height: 48),
 
-                            pw.Text("Links", style: pw.TextStyle(fontSize: 24, color: PdfColors.lightGreen200,)),
+                            pw.Text(UserData.linksC.text, style: pw.TextStyle(fontSize: 24, color: PdfColors.lightGreen200,)),
                             pw.SizedBox(height: 8),
                             pw.Column(
                               children: [
-                                pw.ListView.builder(
-                                  itemCount: UserData.user!.links!.length,
-                                  itemBuilder: ((context, index) {
-                                    return pw.Align(
-                                      alignment: pw.Alignment.centerLeft,
-                                      child: pw.Column(
-                                        crossAxisAlignment: pw.CrossAxisAlignment.start,
-                                        mainAxisAlignment: pw.MainAxisAlignment.start,
-                                        children: [
-                                          pw.SizedBox(height: 8),
-                                          pw.Text(UserData.user!.links![index].url),
-                                          pw.SizedBox(height: 24),
-                                        ]
-                                      )
-                                    );
-                                  }),
-                                )
+                                pw.Text(UserData.linksC.text)
                               ]
                             ),
                           ]
