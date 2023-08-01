@@ -104,8 +104,10 @@ class _HomeState extends State<Home> {
   List<Widget> list = [];
   Widget? editPage = const EmptyCVScreen();
   TemplateA? templateAPdf;
+  Color tempA = Colors.blue;
   TemplateB? templateBPdf;
-  Template tem = Template.templateB;
+  Color tempB = Colors.transparent;
+  Template tem = Template.templateA;
   bool ready = false;
   UserModel? adjustedmodel;
   CVData? cvdata;
@@ -183,45 +185,65 @@ class _HomeState extends State<Home> {
                           child: GridView.count(
                             crossAxisCount: 1,
                             children:[
-                            MouseRegion(
-                              cursor: SystemMouseCursors.click,
-                              child: GestureDetector(
-                                onTap: () async {
-                                  if (tem != Template.templateA) {
-                                    tem = Template.templateA;
-                                    if (ready) {
-                                      templateAPdf = TemplateA(user: adjustedmodel!, data: cvdata!);
-                                      editPage = templateAPdf;
-                                      generatedFile = await templateAPdf!.transform();
+                            Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: tempA,
+                                  width: 5
+                                )
+                              ),
+                              child: MouseRegion(
+                                cursor: SystemMouseCursors.click,
+                                child: GestureDetector(
+                                  onTap: () async {
+                                    if (tem != Template.templateA) {
+                                      tem = Template.templateA;
+                                      tempA = Colors.blue;
+                                      tempB = Colors.transparent;
+                                      if (ready) {
+                                        templateAPdf = TemplateA(user: adjustedmodel!, data: cvdata!);
+                                        editPage = templateAPdf;
+                                        generatedFile = await templateAPdf!.transform();
+                                      }
                                       setState(() {
                                         
                                       });
                                     }
-                                  }
-                                },
-                                child: Image(image: Image.asset("assets/images/TemplateAAsset.jpg").image,height: 300,width: 150,),
-                              )
+                                  },
+                                  child: Image(image: Image.asset("assets/images/TemplateAAsset.jpg").image,height: 300,width: 150,),
+                                )
+                              ),
                             ),
                             const SizedBox(height: 0,),
-                            MouseRegion(
-                              cursor: SystemMouseCursors.click,
-                              child: GestureDetector(
-                                onTap: () async {
-                                  if (tem != Template.templateB) {
-                                    tem = Template.templateB;
-                                    if (ready) {
-                                      templateBPdf = TemplateB(user: adjustedmodel!, data: cvdata!);
-                                      editPage = templateBPdf;
-                                      generatedFile = await templateBPdf!.transform();
+                            Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: tempB,
+                                  width: 5
+                                )
+                              ),
+                              child: MouseRegion(
+                                cursor: SystemMouseCursors.click,
+                                child: GestureDetector(
+                                  onTap: () async {
+                                    if (tem != Template.templateB) {
+                                      tem = Template.templateB;
+                                      tempB = Colors.blue;
+                                      tempA = Colors.transparent;
+                                      if (ready) {
+                                        templateBPdf = TemplateB(user: adjustedmodel!, data: cvdata!);
+                                        editPage = templateBPdf;
+                                        generatedFile = await templateBPdf!.transform();
+                                      }
                                       setState(() {
-                                        
+                                          
                                       });
                                     }
-                                  }
-                                },
-                                child: Image(image: Image.asset("assets/images/TemplateAAsset.jpg").image,height: 300,width: 150,),
-                              )
-                            ),
+                                  },
+                                  child: Image(image: Image.asset("assets/images/TemplateAAsset.jpg").image,height: 300,width: 150,),
+                                )
+                              ),
+                            )
                           ],
                           )
                         ),
