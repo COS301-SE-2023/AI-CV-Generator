@@ -6,6 +6,7 @@ import 'package:ai_cv_generator/pages/elements/elements.dart';
 import 'package:ai_cv_generator/pages/widgets/loadingScreen.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import '../widgets/pdf_window.dart';
@@ -134,22 +135,52 @@ class TemplateBState extends State<TemplateB> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         TextFieldInput(controller: widget.descriptionHeadingC!, fontSize: 24, textAlign: TextAlign.center, color: Colors.blue),
-                        SizedBox(height: 16),
-                        TextFieldInput(controller: widget.descriptionC!, fontSize: 14, textAlign: TextAlign.left, maxLines: 6,),
-                        
-                        SizedBox(height: 48),
+                        const SizedBox(height: 16),
+                        Container(
+                          padding: const EdgeInsets.all(15),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              width: 2,
+                              color: Colors.blue.shade100
+                            ),
+                            borderRadius: BorderRadius.circular(20),
+                            color: Colors.grey.shade300
+                          ),
+                          child:TextFieldInput(controller: widget.descriptionC!, fontSize: 14, textAlign: TextAlign.left, maxLines: 6,),
+                        ),
+                        const SizedBox(height: 48),
                         TextFieldInput(controller: widget.employmentHeadingC!, fontSize: 24, textAlign: TextAlign.left, color: Colors.blue,),
-                        SizedBox(height: 16),
-                        TextFieldInput(controller: widget.employmentC!, fontSize: 14, textAlign: TextAlign.left, maxLines: 6,),
-
-                        SizedBox(height: 48),
+                        const SizedBox(height: 16),
+                        Container(
+                          padding: const EdgeInsets.all(15),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              width: 2,
+                              color: Colors.blue.shade100
+                            ),
+                            borderRadius: BorderRadius.circular(20),
+                            color: Colors.grey.shade300
+                          ),
+                          child: TextFieldInput(controller: widget.employmentC!, fontSize: 14, textAlign: TextAlign.left, maxLines: 6,),
+                        ),
+                        const SizedBox(height: 48),
                         TextFieldInput(controller: widget.qualificationHeadingC!, fontSize: 24, textAlign: TextAlign.left, color: Colors.blue),
-                        SizedBox(height: 16),
-                        TextFieldInput(controller: widget.qualificationC!, fontSize: 14, textAlign: TextAlign.left, maxLines: 6,),
-
-                        SizedBox(height: 16),
+                        const SizedBox(height: 16),
+                        Container(
+                          padding: const EdgeInsets.all(15),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              width: 2,
+                              color: Colors.blue.shade100
+                            ),
+                            borderRadius: BorderRadius.circular(20),
+                            color: Colors.grey.shade300
+                          ),
+                          child: TextFieldInput(controller: widget.qualificationC!, fontSize: 14, textAlign: TextAlign.left, maxLines: 6,),
+                        ),
+                        const SizedBox(height: 16),
                         TextFieldInput(controller: widget.linksHeadingC!, fontSize: 24, textAlign: TextAlign.left, color: Colors.blue),
-                        SizedBox(height: 8),
+                        const SizedBox(height: 8),
                         TextFieldInput(controller: widget.linksC!, fontSize: 14, textAlign: TextAlign.left, maxLines: 6,),
                       ]
                     )
@@ -244,6 +275,9 @@ class TemplateBPdf {
   Future<void> writeOnPdf() async {
     pdf = pw.Document();
     Uint8List? img = await FileApi.getProfileImageUint8List();
+    if (img == null) {
+      img = (await rootBundle.load('assets/images/NicePng_watsapp-icon-png_9332131.png')).buffer.asUint8List();
+    }
     pdf.addPage(
      pw.MultiPage(
         pageFormat: PdfPageFormat.a4,
