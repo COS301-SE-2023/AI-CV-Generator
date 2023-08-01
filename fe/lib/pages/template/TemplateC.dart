@@ -46,8 +46,8 @@ class TemplateCState extends State<TemplateC> {
   @override
   void initState() {
     widget.nameC!.text = widget.user!.fname + " " + widget.user!.lname;
-    widget.detailsC!.text = (widget.user!.location??"Please provide Location!") + " | " +
-    (widget.user!.phoneNumber??"Please provide phone number!") + " | " +
+    widget.detailsC!.text = (widget.user!.location??"Please provide Location!") + " * " +
+    (widget.user!.phoneNumber??"Please provide phone number!") + " * " +
     (widget.user!.email??"Please provide email!");
     widget.descriptionHeadingC!.text = "Professional Summary";
     widget.employmentHeadingC!.text = "Experience";
@@ -85,12 +85,11 @@ class TemplateCState extends State<TemplateC> {
             Expanded(
               child:Container(
                 height: 300,
-                // color: Colors.blueAccent,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     TextFieldInput(controller: widget.nameC!, fontSize: 32, textAlign: TextAlign.center,
-                    
+                    color: Colors.red
                     ),
                     SizedBox(height: 32),
                     TextFieldInput(controller: widget.detailsC!, textAlign: TextAlign.center,),
@@ -112,24 +111,37 @@ class TemplateCState extends State<TemplateC> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        TextFieldInput(controller: widget.descriptionHeadingC!, fontSize: 24, textAlign: TextAlign.left, color: Colors.blue),
-                        SizedBox(height: 16),
-                        TextFieldInput(controller: widget.descriptionC!, fontSize: 14, textAlign: TextAlign.left, maxLines: 6,),
-                        
-                        SizedBox(height: 48),
-                        TextFieldInput(controller: widget.employmentHeadingC!, fontSize: 24, textAlign: TextAlign.left, color: Colors.blue,),
-                        SizedBox(height: 16),
-                        TextFieldInput(controller: widget.employmentC!, fontSize: 14, textAlign: TextAlign.left, maxLines: 6,),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Column(
+                                children: [
+                                  TextFieldInput(controller: widget.descriptionHeadingC!, fontSize: 16, textAlign: TextAlign.left, color: Colors.red),
+                                  SizedBox(height: 16),
+                                  TextFieldInput(controller: widget.descriptionC!, fontSize: 14, textAlign: TextAlign.left, maxLines: 12,),
+                                  SizedBox(height: 16),
+                                  TextFieldInput(controller: widget.employmentHeadingC!, fontSize: 16, textAlign: TextAlign.left, color: Colors.red,),
+                                  SizedBox(height: 16),
+                                  TextFieldInput(controller: widget.employmentC!, fontSize: 14, textAlign: TextAlign.left, maxLines: 12,),
+                                ],
+                              )
+                            ),
+                            Expanded(
+                              child: Column(
+                                children: [
+                                  TextFieldInput(controller: widget.qualificationHeadingC!, fontSize: 16, textAlign: TextAlign.left, color: Colors.red),
+                                  SizedBox(height: 16),
+                                  TextFieldInput(controller: widget.qualificationC!, fontSize: 14, textAlign: TextAlign.left, maxLines: 12,),
+                                  SizedBox(height: 16),
+                                  TextFieldInput(controller: widget.linksHeadingC!, fontSize: 16, textAlign: TextAlign.left, color: Colors.red),
+                                  SizedBox(height: 16),
+                                  TextFieldInput(controller: widget.linksC!, fontSize: 14, textAlign: TextAlign.left, maxLines: 12),
+                                ],
+                              )
+                            ),
 
-                        SizedBox(height: 48),
-                        TextFieldInput(controller: widget.qualificationHeadingC!, fontSize: 24, textAlign: TextAlign.left, color: Colors.blue),
-                        SizedBox(height: 16),
-                        TextFieldInput(controller: widget.qualificationC!, fontSize: 14, textAlign: TextAlign.left, maxLines: 6,),
-
-                        SizedBox(height: 16),
-                        TextFieldInput(controller: widget.linksHeadingC!, fontSize: 24, textAlign: TextAlign.left, color: Colors.blue),
-                        SizedBox(height: 8),
-                        TextFieldInput(controller: widget.linksC!, fontSize: 14, textAlign: TextAlign.left, maxLines: 6,),
+                          ],
+                        ),
                       ]
                     )
                   )
@@ -235,7 +247,7 @@ class TemplateCPdf {
                     pw.Center(
                       child: pw.ListView(
                         children: [
-                          pw.Text(nameC, style: pw.TextStyle(fontSize: 32)),
+                          pw.Text(nameC, style: pw.TextStyle(fontSize: 32, color: PdfColors.red,),),
                           pw.SizedBox(height: 32),
                           pw.Text(detailsC),
                           pw.SizedBox(height: 32),
@@ -245,6 +257,7 @@ class TemplateCPdf {
 
                     pw.Center(
                       child: pw.Row(
+                        
                         mainAxisAlignment: pw.MainAxisAlignment.center,
                         crossAxisAlignment: pw.CrossAxisAlignment.start,
                       children: [
@@ -256,12 +269,22 @@ class TemplateCPdf {
                                 alignment: pw.Alignment.centerLeft,
                                 child: pw.Text(
                                 descriptionHeadingC,
-                                style: pw.TextStyle(fontSize: 12, color: PdfColors.red,)
+                                style: pw.TextStyle(fontSize: 16, color: PdfColors.red,)
                                 ),
                               ),
                               pw.SizedBox(height: 8),
                               pw.Text(descriptionC, style: pw.TextStyle(fontSize: 12)),
-
+                              pw.SizedBox(height: 16),
+                              pw.Align(
+                                alignment: pw.Alignment.centerLeft,
+                                child: pw.Text(
+                                  employmentHeadingC,
+                                  style: pw.TextStyle(fontSize: 16, color: PdfColors.red,)
+                                ),
+                              ),
+                              pw.SizedBox(height: 8),
+                              pw.Text(employmentC, style: pw.TextStyle(fontSize: 12)),
+                              pw.SizedBox(height: 16),
                             ]
                           ),
                         ),
@@ -272,67 +295,32 @@ class TemplateCPdf {
                                 alignment: pw.Alignment.centerLeft,
                                 child: pw.Text(
                                   qualificationHeadingC,
-                                  style: pw.TextStyle(fontSize: 12, color: PdfColors.red,)
+                                  style: pw.TextStyle(fontSize: 16, color: PdfColors.red,)
                                 ),
                               ),
                               pw.SizedBox(height: 8),
                               pw.Text(qualificationC, style: pw.TextStyle(fontSize: 12)),
+                              pw.SizedBox(height: 16),
+                              pw.Align(
+                                alignment: pw.Alignment.centerLeft,
+                                child: pw.Text(
+                                  linksHeadingC,
+                                  style: pw.TextStyle(fontSize: 16, color: PdfColors.red,)
+                                ),
+                              ),
+                              pw.SizedBox(height: 8),
+                              pw.Align(
+                                alignment: pw.Alignment.centerLeft,
+                                child: pw.Text(
+                                  linksC,
+                                  style: pw.TextStyle(fontSize: 12,)
+                                ),
+                              ),
                           ]
                         ),
                       ),
                       ]
                     ),
-                    ),
-
-                    pw.SizedBox(height: 8),
-                    pw.Text(descriptionC, style: pw.TextStyle(fontSize: 16)),
-                    pw.SizedBox(height: 16),
-                    pw.Align(
-                      alignment: pw.Alignment.centerLeft,
-                      child: pw.Text(
-                        employmentHeadingC,
-                        style: pw.TextStyle(fontSize: 16, color: PdfColors.red,)
-                      ),
-                    ),
-                        pw.SizedBox(height: 8),
-                        pw.Text(employmentC, style: pw.TextStyle(fontSize: 8)),
-
-                        pw.Align(
-                      alignment: pw.Alignment.centerLeft,
-                      child: pw.Text(
-                        qualificationHeadingC,
-                        style: pw.TextStyle(fontSize: 24, color: PdfColors.red,)
-                      ),
-                    ),
-                    pw.SizedBox(height: 8),
-                    pw.Text(qualificationC, style: pw.TextStyle(fontSize: 16)),
-
-
-                    // pw.SizedBox(height: 116),
-                    pw.Align(
-                      alignment: pw.Alignment.centerLeft,
-                      child: pw.Text(
-                        qualificationHeadingC,
-                        style: pw.TextStyle(fontSize: 24, color: PdfColors.red,)
-                      ),
-                    ),
-                    pw.SizedBox(height: 8),
-                    pw.Text(qualificationC, style: pw.TextStyle(fontSize: 16)),
-                    pw.SizedBox(height: 16),
-                    pw.Align(
-                      alignment: pw.Alignment.centerLeft,
-                      child: pw.Text(
-                        linksHeadingC,
-                        style: pw.TextStyle(fontSize: 24, color: PdfColors.red,)
-                      ),
-                    ),
-                    pw.SizedBox(height: 8),
-                    pw.Align(
-                      alignment: pw.Alignment.centerLeft,
-                      child: pw.Text(
-                        linksC,
-                        style: pw.TextStyle(fontSize: 16,)
-                      ),
                     ),
                   ]
                 ),
