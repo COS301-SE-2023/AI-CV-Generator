@@ -24,13 +24,13 @@ jobs:
   integration_tests:
       runs-on: ubuntu-latest
       env: 
-        working-directory: fe/integration_test
+        working-directory: fe
 
       steps:
       - uses: actions/checkout@v1
       - uses: subosito/flutter-action@v1
       - run: flutter pub get
         working-directory: ${{env.working-directory}}
-      - run: flutter test
+      - run: flutter test integration_test
         working-directory: ${{env.working-directory}}
 
