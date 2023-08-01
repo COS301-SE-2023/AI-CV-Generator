@@ -89,6 +89,7 @@ flutter:
     - assets/images/NicePng_watsapp-icon-png_9332131.png
     - assets/images/TemplateAAsset.jpg
     - assets/images/TemplateBAsset.png
+    - assets/images/TemplateCAsset.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
