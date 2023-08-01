@@ -31,11 +31,11 @@ jobs:
       - uses: subosito/flutter-action@v1
       - run: flutter pub get
         working-directory: ${{env.working-directory}}
-      - run: sudo apt-get install libvlccore-dev
+      - run: sudo apt-get update
         working-directory: ${{env.working-directory}}
-      - run: sudo apt-get install libvlc-dev
+      - run: sudo apt-get upgrade
         working-directory: ${{env.working-directory}}
-      - run: sudo apt-get install libsecret-1-dev libjsoncpp-dev libsecret-1-0
+      - run: sudo apt-get -y install libgstreamer-plugins-bad1.0-dev gstreamer1.0-plugins-good
         working-directory: ${{env.working-directory}}
       - run: sudo apt-get install ninja-build
         working-directory: ${{env.working-directory}}
