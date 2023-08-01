@@ -229,12 +229,10 @@ class TemplateCPdf {
           return <pw.Widget>[
             pw.Container(
               // height: 777,
-              child: pw.Center(
                 child:  pw.ListView(
                   children: [
 
-                    pw.Container(
-                      // color: PdfColors.blue200,
+                    pw.Center(
                       child: pw.ListView(
                         children: [
                           pw.Text(nameC, style: pw.TextStyle(fontSize: 32)),
@@ -242,16 +240,50 @@ class TemplateCPdf {
                           pw.Text(detailsC),
                           pw.SizedBox(height: 32),
                         ] 
-                      )
+                      ), 
                     ),
 
-                    pw.Align(
-                      alignment: pw.Alignment.centerLeft,
-                      child: pw.Text(
-                        descriptionHeadingC,
-                        style: pw.TextStyle(fontSize: 24, color: PdfColors.blue200,)
+                    pw.Center(
+                      child: pw.Row(
+                        mainAxisAlignment: pw.MainAxisAlignment.center,
+                        crossAxisAlignment: pw.CrossAxisAlignment.start,
+                      children: [
+                        pw.Expanded(
+                          // alignment: pw.Alignment.centerLeft,
+                          child: pw.ListView(
+                            children: [
+                              pw.Align(
+                                alignment: pw.Alignment.centerLeft,
+                                child: pw.Text(
+                                descriptionHeadingC,
+                                style: pw.TextStyle(fontSize: 12, color: PdfColors.red,)
+                                ),
+                              ),
+                              pw.SizedBox(height: 8),
+                              pw.Text(descriptionC, style: pw.TextStyle(fontSize: 12)),
+
+                            ]
+                          ),
+                        ),
+                      pw.Expanded(
+                        child: pw.ListView(
+                          children: [
+                              pw.Align(
+                                alignment: pw.Alignment.centerLeft,
+                                child: pw.Text(
+                                  qualificationHeadingC,
+                                  style: pw.TextStyle(fontSize: 12, color: PdfColors.red,)
+                                ),
+                              ),
+                              pw.SizedBox(height: 8),
+                              pw.Text(qualificationC, style: pw.TextStyle(fontSize: 12)),
+                          ]
+                        ),
                       ),
+                      ]
                     ),
+                    ),
+
                     pw.SizedBox(height: 8),
                     pw.Text(descriptionC, style: pw.TextStyle(fontSize: 16)),
                     pw.SizedBox(height: 16),
@@ -259,18 +291,29 @@ class TemplateCPdf {
                       alignment: pw.Alignment.centerLeft,
                       child: pw.Text(
                         employmentHeadingC,
-                        style: pw.TextStyle(fontSize: 24, color: PdfColors.blue200,)
+                        style: pw.TextStyle(fontSize: 16, color: PdfColors.red,)
+                      ),
+                    ),
+                        pw.SizedBox(height: 8),
+                        pw.Text(employmentC, style: pw.TextStyle(fontSize: 8)),
+
+                        pw.Align(
+                      alignment: pw.Alignment.centerLeft,
+                      child: pw.Text(
+                        qualificationHeadingC,
+                        style: pw.TextStyle(fontSize: 24, color: PdfColors.red,)
                       ),
                     ),
                     pw.SizedBox(height: 8),
-                    pw.Text(employmentC, style: pw.TextStyle(fontSize: 16)),
+                    pw.Text(qualificationC, style: pw.TextStyle(fontSize: 16)),
 
-                    pw.SizedBox(height: 116),
+
+                    // pw.SizedBox(height: 116),
                     pw.Align(
                       alignment: pw.Alignment.centerLeft,
                       child: pw.Text(
                         qualificationHeadingC,
-                        style: pw.TextStyle(fontSize: 24, color: PdfColors.blue200,)
+                        style: pw.TextStyle(fontSize: 24, color: PdfColors.red,)
                       ),
                     ),
                     pw.SizedBox(height: 8),
@@ -280,7 +323,7 @@ class TemplateCPdf {
                       alignment: pw.Alignment.centerLeft,
                       child: pw.Text(
                         linksHeadingC,
-                        style: pw.TextStyle(fontSize: 24, color: PdfColors.blue200,)
+                        style: pw.TextStyle(fontSize: 24, color: PdfColors.red,)
                       ),
                     ),
                     pw.SizedBox(height: 8),
@@ -293,7 +336,6 @@ class TemplateCPdf {
                     ),
                   ]
                 ),
-              )
             ),
           ];
         }
