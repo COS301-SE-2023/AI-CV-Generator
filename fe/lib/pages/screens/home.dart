@@ -196,7 +196,7 @@ class _HomeState extends State<Home> {
                       SingleChildScrollView(
                         
                         child: Container(
-                          height: 566,
+                          height: 499,
                           child: GridView.count(
                             crossAxisCount: 1,
                             children:[
