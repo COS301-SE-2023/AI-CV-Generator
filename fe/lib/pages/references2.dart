@@ -1,8 +1,8 @@
 // ignore_for_file: must_be_immutable
 
-import 'package:ai_cv_generator/pages/navdrawer.dart';
+import 'package:ai_cv_generator/pages/widgets/navdrawer.dart';
 import 'package:ai_cv_generator/pages/skills2.dart';
-import 'package:ai_cv_generator/pages/strings.dart';
+import 'package:ai_cv_generator/pages/util/strings.dart';
 import 'package:flutter/material.dart';
 
 void main () => runApp(const References());

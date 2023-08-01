@@ -87,26 +87,32 @@ void requirementsforshare(BuildContext context, PlatformFile? file) {
                   controller: timeInput,
                   decoration: const InputDecoration( 
                    icon: Icon(Icons.timer), //icon of text field
-                   labelText: "Enter Time" //label text of field
+                   labelText: "Enter Time in hours", //label text of field
+                   hintText: "Hours"
                   ),
                   onTap: () async {
-                    TimeOfDay? pickedTime =  await showTimePicker(
-                            initialTime: TimeOfDay.now(),
-                            context: context,
-                        );
+                    // TimeOfDay? pickedTime =  await showTimePicker(
+                    //         initialTime: TimeOfDay.now(),
+                    //         context: context,
+                    //     );
                     
-                    if(pickedTime != null ){
-                        print(pickedTime.format(context));
-                        DateTime parsedTime = DateFormat.jm().parse(pickedTime.format(context).toString());
-                        print(parsedTime);
-                        String formattedTime = DateFormat('dd:HH:mm:ss').format(parsedTime);
-                        print(formattedTime);
-                        date = parsedTime;
-                        timeInput.text = formattedTime;
-                    }else{
-                        print("Time is not selected");
-                    }
-                  }
+                    // if(pickedTime != null ){
+                    //     print(pickedTime.format(context));
+                    //     DateTime parsedTime = DateFormat.jm().parse(pickedTime.format(context).toString());
+                    //     print(parsedTime);
+                    //     String formattedTime = DateFormat('dd:HH:mm:ss').format(parsedTime);
+                    //     print(formattedTime);
+                    //     date = parsedTime;
+                    //     timeInput.text = formattedTime;
+                        
+                    // }else{
+                    //     print("Time is not selected");
+                    // }
+                  },
+                  onTapOutside: (event) {
+                    date = DateTime.now();
+                    date.add(Duration(hours: int.parse(timeInput.text)));
+                  },
                 ),
                 const SizedBox(height: 8.0,),
                 InkWell(

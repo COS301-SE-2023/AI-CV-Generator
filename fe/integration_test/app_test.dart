@@ -1,10 +1,10 @@
-import 'package:ai_cv_generator/pages/Register.dart';
+import 'package:ai_cv_generator/pages/screens/Register.dart';
 import 'package:ai_cv_generator/pages/employment2.dart';
-import 'package:ai_cv_generator/pages/home.dart';
-import 'package:ai_cv_generator/pages/login.dart';
-import 'package:ai_cv_generator/pages/Register.dart';
+import 'package:ai_cv_generator/pages/screens/home.dart';
+import 'package:ai_cv_generator/pages/screens/login.dart';
+import 'package:ai_cv_generator/pages/screens/Register.dart';
 import 'package:ai_cv_generator/pages/personaldetails2.dart';
-import 'package:ai_cv_generator/pages/profile.dart';
+import 'package:ai_cv_generator/pages/screens/profile.dart';
 import 'package:ai_cv_generator/pages/qualifications2.dart';
 import 'package:ai_cv_generator/pages/references2.dart';
 import 'package:ai_cv_generator/pages/skills2.dart';

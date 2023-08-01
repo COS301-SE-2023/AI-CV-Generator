@@ -1,4 +1,4 @@
-import 'package:ai_cv_generator/pages/pdf_window.dart';
+import 'package:ai_cv_generator/pages/widgets/pdf_window.dart';
 import 'package:flutter/material.dart';
 import 'package:ai_cv_generator/dio/client/fileApi.dart';
 
@@ -49,7 +49,9 @@ class CVHistoryState extends State<CVHistory> {
       list = widget.list!;
     }
     return Container(
-      child: SingleChildScrollView(
+      child: 
+      list.length > 0 ?
+      SingleChildScrollView(
         child: Wrap(
             spacing: 8,
             runSpacing: 8,
@@ -57,7 +59,21 @@ class CVHistoryState extends State<CVHistory> {
               ...list,
             ], 
         ) 
-      )
+      ) : const Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                 Icon(Icons.access_alarm,color: Colors.grey,size: 100,),
+                 SizedBox(height: 20),
+                Text("No CVs...", 
+                style: TextStyle(
+                  color: Colors.grey
+                )
+                ),
+              ],
+            ),
+          )
+      
     );
   }
 }

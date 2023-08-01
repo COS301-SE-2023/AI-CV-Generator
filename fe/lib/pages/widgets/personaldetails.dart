@@ -1,12 +1,12 @@
 // ignore_for_file: must_be_immutable
-import 'package:ai_cv_generator/pages/loadingScreen.dart';
-import 'package:ai_cv_generator/pages/navdrawer.dart';
-import 'package:ai_cv_generator/pages/qualifications.dart';
-import 'package:ai_cv_generator/pages/strings.dart';
-import 'package:ai_cv_generator/pages/questionaireModal.dart';
+import 'package:ai_cv_generator/pages/widgets/loadingScreen.dart';
+import 'package:ai_cv_generator/pages/widgets/navdrawer.dart';
+import 'package:ai_cv_generator/pages/widgets/qualifications.dart';
+import 'package:ai_cv_generator/pages/util/strings.dart';
+import 'package:ai_cv_generator/pages/widgets/questionaireModal.dart';
 import 'package:flutter/material.dart';
 
-import 'home.dart';
+import '../screens/home.dart';
 
 class PersonalDetailsForm extends StatefulWidget {
   const PersonalDetailsForm({super.key});
@@ -45,9 +45,9 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
   Future<void> getUser() async {
     fname.text = Home.adjustedModel!.fname;
     lname.text = Home.adjustedModel!.lname;
-    email.text = Home.adjustedModel!.email!;
-    cell.text = Home.adjustedModel!.phoneNumber!;
-    address.text = Home.adjustedModel!.location!;
+    email.text = Home.adjustedModel!.email?? "";
+    cell.text = Home.adjustedModel!.phoneNumber?? "";
+    address.text = Home.adjustedModel!.location?? "";
   }
 
   @override
@@ -87,7 +87,6 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
                 child: const Text('Save and Proceed'),
                 onPressed: () async {
                   updateUser();
-                  Navigator.of(context).pop();
                   showQuestionaireModal(context, const QualificationsDetailsForm());
                 },
               ),

@@ -1,4 +1,4 @@
-import 'package:ai_cv_generator/pages/breadcrumb.dart';
+import 'package:ai_cv_generator/pages/widgets/breadcrumb.dart';
 import 'package:flutter/material.dart';
 
 class AboutPage extends StatefulWidget {
@@ -31,7 +31,7 @@ class AboutPageState extends State<AboutPage> {
       body: SafeArea(
         child: Stack(
           children: [
-            Breadcrumb(previousPage: "Home", currentPage: "About",),
+            const Breadcrumb(previousPage: "Home", currentPage: "About",),
             Center(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,

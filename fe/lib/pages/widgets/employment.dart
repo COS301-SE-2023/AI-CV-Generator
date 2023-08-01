@@ -1,50 +1,51 @@
 // ignore_for_file: must_be_immutable
-
-import 'package:ai_cv_generator/models/user/Qualification.dart';
-import 'package:ai_cv_generator/pages/employment.dart';
-import 'package:ai_cv_generator/pages/navdrawer.dart';
-import 'package:ai_cv_generator/pages/personaldetails.dart';
-import 'package:ai_cv_generator/pages/questionaireModal.dart';
-import 'package:ai_cv_generator/pages/strings.dart';
+import 'package:ai_cv_generator/models/user/Employment.dart';
+import 'package:ai_cv_generator/pages/widgets/description.dart';
+import 'package:ai_cv_generator/pages/widgets/qualifications.dart';
+import 'package:ai_cv_generator/pages/widgets/questionaireModal.dart';
+import 'package:ai_cv_generator/pages/widgets/navdrawer.dart';
 import 'package:date_field/date_field.dart';
+import 'package:ai_cv_generator/pages/util/strings.dart';
 import 'package:flutter/material.dart';
 
-import 'home.dart';
+import '../screens/home.dart';
 
-class QualificationsDetailsForm extends StatefulWidget {
-  const QualificationsDetailsForm({super.key});
+// void main () => runApp(const EmploymentDetails());
+
+class EmploymentDetailsForm extends StatefulWidget {
+  const EmploymentDetailsForm({super.key});
 
   @override
   State<StatefulWidget> createState() {
-    return _QualificationsDetailsFormState();
+    return _EmploymentDetailsFormState();
   }
 }
 
-class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
+class _EmploymentDetailsFormState extends State<EmploymentDetailsForm> {
   // final _formKey = GlobalKey<FormState>();
-  Column column = const Column(children: [],);
+    Column column = Column(children: [],);
 
   @override
   void initState() {
-    if(Home.adjustedModel!.qualifications == null) {
+    if(Home.adjustedModel!.employmenthistory == null) {
       add();
       return;
     }
-    for(int i = 0; i < Home.adjustedModel!.qualifications!.length; i++) {
-      Qualification qualification = Home.adjustedModel!.qualifications![i];
+    for(int i = 0; i < Home.adjustedModel!.employmenthistory!.length; i++) {
+      Employment employmenthistory = Home.adjustedModel!.employmenthistory![i];
       UniqueKey key = UniqueKey();
-      column.children.add(TextMonitorWidget(key: key, institution: qualification.intstitution, qualification: qualification.qualification, start: qualification.date, end: qualification.endo));
+      column.children.add(TextMonitorWidget(key: key, company: employmenthistory.company, title: employmenthistory.title, start: employmenthistory.startdate, end: employmenthistory.enddate));
       column.children.add(
         Padding(
           padding: const EdgeInsets.only(left: 500),
           child: IconButton(
-            onPressed: () {
-              remove(key);
-            }, icon: const Icon(Icons.remove)
-          ),
+          onPressed: () {
+            remove(key);
+          }, icon: const Icon(Icons.remove)
+        ),
         )
       );
-        column.children.add(const SizedBox(height: 16,));
+      column.children.add(const SizedBox(height: 16,));
     }
     setState(() {});
     super.initState();
@@ -65,7 +66,7 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
       setState(() {});
     }
   }
-  
+
   add() async {
     UniqueKey key = UniqueKey();
     column.children.add(TextMonitorWidget(key: key));
@@ -80,30 +81,50 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
       )
     );
     column.children.add(const SizedBox(height: 16,));
-
     setState(() {});
   }
 
-  updateUser() {
-    Home.adjustedModel!.qualifications = [];
-    for (var element in column.children) {
-      if((element is TextMonitorWidget) == true) {
-        Map data = (element as TextMonitorWidget).getdata();
-        if(isDataNull(data.values) == false) {
-          Home.adjustedModel!.qualifications!.add(Qualification(qualification: data['qualification'].toString(), intstitution: data['institution'].toString(), date: data['start'], quaid: 0, endo: data['end']));
+    updateUser() {
+      Home.adjustedModel!.employmenthistory = [];
+      for (var element in column.children) {
+        if((element is TextMonitorWidget) == true) {
+          Map data = (element as TextMonitorWidget).getdata();
+          if(isDataNull(data.values) == false) {
+            Home.adjustedModel!.employmenthistory!.add(Employment(title: data['title'].toString(), company: data['company'].toString(), startdate: data['start'], empid: 0, enddate: data['end']));
+          }
         }
       }
     }
-  }
 
-  isDataNull(Iterable<dynamic> data) {
-    for(int i = 0; i < data.length; i++) {
-      if(data.elementAt(i) == null) {
-        return true;
+    isDataNull(Iterable<dynamic> data) {
+      for(int i = 0; i < data.length; i++) {
+        if(data.elementAt(i) == null) {
+          return true;
+        }
       }
+      return false;
     }
-    return false;
-  }
+
+  TextEditingController company1 = TextEditingController();
+  TextEditingController jobTitle1 = TextEditingController();
+  TextEditingController company2 = TextEditingController();
+  TextEditingController jobTitle2 = TextEditingController();
+  TextEditingController duration1 = TextEditingController();
+  
+    Widget titleSection=const Column (
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: <Widget> [
+        Padding (
+          padding: EdgeInsets.all(8.0),
+            child: Text (
+              StringsEmployment.appsubHeadingTitle,
+              style: TextStyle (
+                fontSize: 20.0,
+              ),
+          ),
+        ),
+      ],
+    );
 
   @override
   Widget build(BuildContext context) {
@@ -115,7 +136,7 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
             Icons.close,
           ), 
           onPressed: () async { 
-            Navigator.pop(context);
+            Navigator.popUntil(context, ModalRoute.withName('/home'));
           },
         ),
       ),
@@ -153,10 +174,10 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
                   width: 150,
                   child: ElevatedButton(
                     child: const Text('Back'),
-                    onPressed: () {
+                    onPressed: () async {
                       updateUser();
                       Navigator.of(context).pop();
-                      showQuestionaireModal(context, const PersonalDetailsForm());
+                      showQuestionaireModal(context, const QualificationsDetailsForm());
                     },
                   ),
                 ),
@@ -166,10 +187,10 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
                   width: 150,
                   child: ElevatedButton(
                     child: const Text('Save and Proceed'),
-                    onPressed: () {
+                    onPressed: () async {
                       updateUser();
-                      Navigator.of(context).pop();
-                      showQuestionaireModal(context, const EmploymentDetailsForm());
+                      Navigator.pop(context);
+                      showQuestionaireModal(context, const DescriptionForm());
                     },
                   ),
                 ),
@@ -183,36 +204,22 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
     );
   }
 
-  Widget titleSection=const Column (
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: <Widget> [
-        Padding (
-          padding: EdgeInsets.all(8.0),
-            child: Text (
-              StringsQualifications.appsubHeadingTitle,
-              style: TextStyle (
-                fontSize: 20.0,
-              ),
-          ),
-        ),
-      ],
-    );
 }
 
 class TextMonitorWidget extends StatefulWidget {
-  Column column = const Column(children: [],);
-  TextEditingController institutionC = TextEditingController();
-  TextEditingController qualificationC = TextEditingController();
-  String? institution = "";
-  String? qualification = "";
+  Column column = Column(children: [],);
+  TextEditingController companyC = TextEditingController();
+  TextEditingController titleC = TextEditingController();
+  String? company = "";
+  String? title= "";
   DateTime? start;
   DateTime? end;
-  TextMonitorWidget({super.key, this.institution, this.qualification, this.start, this.end});
+  TextMonitorWidget({super.key, this.company, this.title, this.start, this.end});
 
   getdata() {
     return {
-      "institution": institutionC.text,
-      "qualification": qualificationC.text,
+      "company": companyC.text,
+      "title": titleC.text,
       "start": start,
       "end": end
     };
@@ -225,29 +232,52 @@ class TextMonitorWidget extends StatefulWidget {
 class TextMonitorWidgetState extends State<TextMonitorWidget> {
   @override
   void initState() {
-    widget.institutionC.text = widget.institution != null ? widget.institution! : "";
-    widget.qualificationC.text = widget.qualification != null ? widget.qualification! : "";
+    widget.companyC.text = widget.company != null ? widget.company! : "";
+    widget.titleC.text = widget.title != null ? widget.title! : "";
     super.initState();
   }
 
   populate() {
-    widget.column.children.add(_buildInstitutionField(widget.institutionC));
-    widget.column.children.add(_buildQualificationField(widget.qualificationC));
-    widget.column.children.add(_buildGraduationField());
+    widget.column.children.add(_buildCompanyField(widget.companyC));
+    widget.column.children.add(_buildJobTitleField(widget.titleC));
+    widget.column.children.add(_buildEmploymentDurationField());
   }
-
-  Widget _buildInstitutionField(TextEditingController controller) {
+  Widget _buildCompanyField(TextEditingController controller) {
     return Container (
       padding: const EdgeInsets.all(8.0),
       constraints: BoxConstraints.tight(const Size(550,65)),
       child: TextFormField(
-        key: const Key("Institution input"),
+        key: const Key("Company input"),
         controller: controller,
         decoration: const InputDecoration(
           contentPadding: EdgeInsets.all(5.0),
-          labelText: 'Institution',
+          labelText: 'Company',
           enabledBorder: OutlineInputBorder(),
-          icon: Icon(Icons.school),
+          icon: Icon(Icons.work),
+        ),
+        // ignore: body_might_complete_normally_nullable
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'Please enter some text';
+          }
+          return null;
+        },
+      )
+    );
+  }
+  
+  Widget _buildJobTitleField(TextEditingController controller) {
+    return Container (
+      padding: const EdgeInsets.all(8.0),
+      constraints: BoxConstraints.tight(const Size(550,65)),
+      child: TextFormField(
+        key: const Key("Job Title input"),
+        controller: controller,
+        decoration: const InputDecoration(
+          contentPadding: EdgeInsets.all(5.0),
+          labelText: 'Job Title',
+          enabledBorder: OutlineInputBorder(),
+          icon: Icon(Icons.person),
         ),
         // ignore: body_might_complete_normally_nullable
         validator: (value) {
@@ -260,31 +290,7 @@ class TextMonitorWidgetState extends State<TextMonitorWidget> {
     );
   }
 
-  Widget _buildQualificationField(TextEditingController controller) {
-    return Container (
-      padding: const EdgeInsets.all(8.0),
-      constraints: BoxConstraints.tight(const Size(550,65)),
-      child: TextFormField(
-        key: const Key("Qualification input"),
-        controller: controller,
-        decoration: const InputDecoration(
-          contentPadding: EdgeInsets.all(5.0),
-          labelText: 'Qualification',
-          enabledBorder: OutlineInputBorder(),
-          icon: Icon(Icons.article),
-        ),
-        // ignore: body_might_complete_normally_nullable
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return 'Please enter some text';
-          }
-          return null;
-        },
-      )
-    );
-  }
-
-  Widget _buildGraduationField() {
+  Widget _buildEmploymentDurationField() {
     return Container (
       width: 100,
       padding: const EdgeInsets.all(8.0),
@@ -297,7 +303,7 @@ class TextMonitorWidgetState extends State<TextMonitorWidget> {
               onDateSelected: (value) {
                 widget.start = value;
               },
-              key: const Key("Graduation input"),
+              key: const Key("Employment start"),
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 contentPadding: EdgeInsets.all(5.0),
@@ -315,7 +321,7 @@ class TextMonitorWidgetState extends State<TextMonitorWidget> {
               onDateSelected: (value) {
                 widget.end = value;
               },
-              key: const Key("Graduation input"),
+              key: const Key("Employment end"),
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 contentPadding: EdgeInsets.all(5.0),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Breadcrumb extends StatelessWidget {
-  Breadcrumb({Key? key, this.title, required this.currentPage, required this.previousPage}) : super(key: key);
+  const Breadcrumb({Key? key, this.title, required this.currentPage, required this.previousPage}) : super(key: key);
 
   final String? title;
   final String currentPage;
@@ -13,20 +13,20 @@ class Breadcrumb extends StatelessWidget {
       top: 48.0,
       left: 148.0,
       child: Container(
-        padding: EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8.0),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5.0),
         ),
         child: RichText(
           text: TextSpan(
-            text: previousPage + " / ",
-            style: TextStyle(
+            text: "$previousPage / ",
+            style: const TextStyle(
               fontSize: 32,
             ),
             children: <TextSpan>[
               TextSpan(
                 text: currentPage,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 32,
                   fontWeight: FontWeight.bold
                 ),
