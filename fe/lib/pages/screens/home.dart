@@ -73,10 +73,22 @@ class _HomeState extends State<Home> {
       case Template.templateB:
         generatedFile = await templateBPdf!.transform();
       break;
+        
       default:
         
       break;
-    };
+    }
+  }
+
+  void updatePastCVs() {
+    FileApi.getFiles().then((value) {
+      list = [];
+      for (var element in value!) {
+        list.add(add(element.filename));
+      }
+        setState(() {
+      });
+    });
   }
 
   void switchTemplate(Template t) {
@@ -192,7 +204,7 @@ class _HomeState extends State<Home> {
                                   width: 5
                                 )
                               ),
-                              padding: EdgeInsets.fromLTRB(0,5, 0,5),
+                              padding: const EdgeInsets.fromLTRB(0,5, 0,5),
                               child: MouseRegion(
                                 cursor: SystemMouseCursors.click,
                                 child: GestureDetector(
@@ -223,7 +235,7 @@ class _HomeState extends State<Home> {
                                   width: 5
                                 ),
                               ),
-                              padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
+                              padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
                               child: MouseRegion(
                                 cursor: SystemMouseCursors.click,
                                 child: GestureDetector(
@@ -329,14 +341,7 @@ class _HomeState extends State<Home> {
                                   if(uploadFile != null) {                    
                                     filenameC.text = uploadFile!.name;
                                     await FileApi.uploadFile(file: uploadFile);
-                                    FileApi.getFiles().then((value) {
-                                      list = [];
-                                      for (var element in value!) {
-                                        list.add(add(element.filename));
-                                      }
-                                        setState(() {
-                                      });
-                                    });
+                                    updatePastCVs();
                                   }
                                 }, 
                                 child: Text("UPLOAD", style: textStyle),
@@ -408,6 +413,7 @@ class _HomeState extends State<Home> {
                                     if (generatedFile != null) {
                                       requirementsforshare(context, generatedFile);
                                     }
+                                    updatePastCVs();
                                   },
                                   child: Text("SHARE", style: textStyle),
                                 ),
