@@ -7,6 +7,7 @@ import 'package:ai_cv_generator/models/generation/CVData.dart';
 import 'package:ai_cv_generator/pages/template/TemplateA.dart';
 import 'package:ai_cv_generator/pages/template/TemplateB.dart';
 import 'package:ai_cv_generator/pages/template/TemplateC.dart';
+import 'package:ai_cv_generator/pages/widgets/AILoadingScreen.dart';
 import 'package:ai_cv_generator/pages/widgets/EmptyCV.dart';
 import 'package:ai_cv_generator/pages/widgets/ErrorScreen.dart';
 import 'package:ai_cv_generator/pages/widgets/cvHistory.dart';
@@ -330,7 +331,7 @@ class _HomeState extends State<Home> {
                                     editPage = null;
                                   });
                                   setState(() {
-                                    editPage = const LoadingScreen();
+                                    editPage = const AILoadingScreen();
                                   });
                                   MockGenerationResponse? response = await GenerationApi.mockgenerate(userModel: (Home.adjustedModel)!);
                                   if (response?.data.description == null) {
