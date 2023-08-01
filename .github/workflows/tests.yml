@@ -10,11 +10,14 @@ on: [push, workflow_dispatch]
 jobs:
   drive:
     runs-on: ubuntu-latest
+    env: 
+      working-directory: fe
+      
     steps:
     - uses: actions/checkout@v1
     - uses: subosito/flutter-action@v1
-      with:
-        working-directory: fe
     - run: flutter pub get
-    - run: flutter test 
+      working-directory: ${{env.working-directory}}
+    - run: flutter test
+      working-directory: ${{env.working-directory}}
 
