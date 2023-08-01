@@ -35,6 +35,8 @@ jobs:
         working-directory: ${{env.working-directory}}
       - run: sudo apt-get install libvlc-dev
         working-directory: ${{env.working-directory}}
+      - run: sudo apt-get install libsecret-1-dev libjsoncpp-dev libsecret-1-0
+        working-directory: ${{env.working-directory}}
       - run: sudo apt-get install ninja-build
         working-directory: ${{env.working-directory}}
       - run: flutter test integration_test -d linux
