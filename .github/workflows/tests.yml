@@ -8,7 +8,7 @@ name: Tests
 on: [push, workflow_dispatch]
 
 jobs:
-  drive:
+  unit_tests:
     runs-on: ubuntu-latest
     env: 
       working-directory: fe
@@ -20,4 +20,17 @@ jobs:
       working-directory: ${{env.working-directory}}
     - run: flutter test
       working-directory: ${{env.working-directory}}
+      
+  integration_tests:
+      runs-on: ubuntu-latest
+      env: 
+        working-directory: fe/integration_test
+
+      steps:
+      - uses: actions/checkout@v1
+      - uses: subosito/flutter-action@v1
+      - run: flutter pub get
+        working-directory: ${{env.working-directory}}
+      - run: flutter test
+        working-directory: ${{env.working-directory}}
 
