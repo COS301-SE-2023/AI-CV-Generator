@@ -83,6 +83,7 @@ class _HomeState extends State<Home> {
     if (t == Template.templateA) {
       tem = Template.templateA;
       if (ready) {
+        //templateAPdf 
         editPage = TemplateA(user: adjustedmodel!, data: cvdata!);
       }    
     } else  if (t == Template.templateB) {
@@ -91,6 +92,9 @@ class _HomeState extends State<Home> {
         editPage = TemplateB(user: adjustedmodel!, data: cvdata!);
       }
     }
+    setState(() {
+      
+    });
   }
 
   PlatformFile? uploadFile;
@@ -283,7 +287,7 @@ class _HomeState extends State<Home> {
                                   }
                                   adjustedmodel = response!.mockgeneratedUser;
                                   cvdata = response!.data;
-                                  ready == true;
+                                  ready = true;
                                   setState(() {});
                                 }, 
                                 child: Text("SURVEY", style: textStyle),
