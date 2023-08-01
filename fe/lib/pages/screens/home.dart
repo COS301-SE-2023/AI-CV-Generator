@@ -6,6 +6,7 @@ import 'package:ai_cv_generator/dio/response/GenerationResponses/MockGenerationR
 import 'package:ai_cv_generator/models/generation/CVData.dart';
 import 'package:ai_cv_generator/pages/template/TemplateA.dart';
 import 'package:ai_cv_generator/pages/template/TemplateB.dart';
+import 'package:ai_cv_generator/pages/template/TemplateC.dart';
 import 'package:ai_cv_generator/pages/widgets/EmptyCV.dart';
 import 'package:ai_cv_generator/pages/widgets/ErrorScreen.dart';
 import 'package:ai_cv_generator/pages/widgets/cvHistory.dart';
@@ -73,9 +74,8 @@ class _HomeState extends State<Home> {
       case Template.templateB:
         generatedFile = await templateBPdf!.transform();
       break;
-        
       default:
-        
+        generatedFile = await templateCPdf!.transform();
       break;
     }
   }
@@ -119,6 +119,8 @@ class _HomeState extends State<Home> {
   Color tempA = Colors.blue;
   TemplateB? templateBPdf;
   Color tempB = Colors.transparent;
+  TemplateC? templateCPdf;
+  Color tempC = Colors.transparent;
   Template tem = Template.templateA;
   bool ready = false;
   UserModel? adjustedmodel;
@@ -212,7 +214,7 @@ class _HomeState extends State<Home> {
                                     if (tem != Template.templateA) {
                                       tem = Template.templateA;
                                       tempA = Colors.blue;
-                                      tempB = Colors.transparent;
+                                      tempB = tempC= Colors.transparent;
                                       if (ready) {
                                         templateAPdf = TemplateA(user: adjustedmodel!, data: cvdata!);
                                         editPage = templateAPdf;
@@ -227,7 +229,6 @@ class _HomeState extends State<Home> {
                                 )
                               ),
                             ),
-                            //const SizedBox(height: 0,),
                             Container(
                               decoration: BoxDecoration(
                                 border: Border.all(
@@ -243,11 +244,41 @@ class _HomeState extends State<Home> {
                                     if (tem != Template.templateB) {
                                       tem = Template.templateB;
                                       tempB = Colors.blue;
-                                      tempA = Colors.transparent;
+                                      tempA = tempC = Colors.transparent;
                                       if (ready) {
                                         templateBPdf = TemplateB(user: adjustedmodel!, data: cvdata!);
                                         editPage = templateBPdf;
                                         generatedFile = await templateBPdf!.transform();
+                                      }
+                                      setState(() {
+                                          
+                                      });
+                                    }
+                                  },
+                                  child: Image(image: Image.asset("assets/images/TemplateAAsset.jpg").image,height: 300,width: 100,),
+                                )
+                              ),
+                            ),
+                            Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: tempC,
+                                  width: 5
+                                ),
+                              ),
+                              padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+                              child: MouseRegion(
+                                cursor: SystemMouseCursors.click,
+                                child: GestureDetector(
+                                  onTap: () async {
+                                    if (tem != Template.templateC) {
+                                      tem = Template.templateC;
+                                      tempC = Colors.blue;
+                                      tempB = tempA = Colors.transparent;
+                                      if (ready) {
+                                        templateCPdf = TemplateC(user: adjustedmodel!, data: cvdata!);
+                                        editPage = templateCPdf;
+                                        generatedFile = await templateCPdf!.transform();
                                       }
                                       setState(() {
                                           
@@ -319,6 +350,9 @@ class _HomeState extends State<Home> {
                                       generatedFile = await templateBPdf!.transform();
                                     break;
                                     default:
+                                      templateCPdf = TemplateC(user: response!.mockgeneratedUser, data: response!.data);
+                                      editPage = templateCPdf;
+                                      generatedFile = await templateCPdf!.transform();
                                     break;
                                   }
                                   adjustedmodel = response!.mockgeneratedUser;
