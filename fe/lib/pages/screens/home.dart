@@ -192,6 +192,7 @@ class _HomeState extends State<Home> {
                                   width: 5
                                 )
                               ),
+                              padding: EdgeInsets.fromLTRB(0,5, 0,5),
                               child: MouseRegion(
                                 cursor: SystemMouseCursors.click,
                                 child: GestureDetector(
@@ -210,18 +211,19 @@ class _HomeState extends State<Home> {
                                       });
                                     }
                                   },
-                                  child: Image(image: Image.asset("assets/images/TemplateAAsset.jpg").image,height: 300,width: 150,),
+                                  child: Image(image: Image.asset("assets/images/TemplateAAsset.jpg").image,height: 300,width: 100,),
                                 )
                               ),
                             ),
-                            const SizedBox(height: 0,),
+                            //const SizedBox(height: 0,),
                             Container(
                               decoration: BoxDecoration(
                                 border: Border.all(
                                   color: tempB,
                                   width: 5
-                                )
+                                ),
                               ),
+                              padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
                               child: MouseRegion(
                                 cursor: SystemMouseCursors.click,
                                 child: GestureDetector(
@@ -240,7 +242,7 @@ class _HomeState extends State<Home> {
                                       });
                                     }
                                   },
-                                  child: Image(image: Image.asset("assets/images/TemplateAAsset.jpg").image,height: 300,width: 150,),
+                                  child: Image(image: Image.asset("assets/images/TemplateAAsset.jpg").image,height: 300,width: 100,),
                                 )
                               ),
                             )
