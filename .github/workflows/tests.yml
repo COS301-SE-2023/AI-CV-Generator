@@ -33,6 +33,5 @@ jobs:
         working-directory: ${{env.working-directory}}
       - run: sudo apt-get install ninja-build
         working-directory: ${{env.working-directory}}
-      - run: flutter config --enable-linux-desktop
       - run: sudo xvfb-run flutter test -d linux integration_test
     
