@@ -3,15 +3,15 @@ import 'package:ai_cv_generator/dio/client/fileApi.dart';
 import 'package:ai_cv_generator/dio/client/userApi.dart';
 import 'package:ai_cv_generator/models/user/Employment.dart';
 import 'package:ai_cv_generator/models/user/UserModel.dart';
-import 'package:ai_cv_generator/pages/breadcrumb.dart';
-import 'package:ai_cv_generator/pages/cvHistory.dart';
+import 'package:ai_cv_generator/pages/widgets/breadcrumb.dart';
+import 'package:ai_cv_generator/pages/widgets/cvHistory.dart';
 import 'package:ai_cv_generator/pages/elements/elements.dart';
-import 'package:ai_cv_generator/pages/employmentView.dart';
-import 'package:ai_cv_generator/pages/imageCropper.dart';
-import 'package:ai_cv_generator/pages/loadingScreen.dart';
+import 'package:ai_cv_generator/pages/widgets/employmentView.dart';
+import 'package:ai_cv_generator/pages/util/imageCropper.dart';
+import 'package:ai_cv_generator/pages/widgets/loadingScreen.dart';
 import 'package:flutter/material.dart';
-import 'linksView.dart';
-import 'qualificationsView.dart';
+import '../widgets/linksView.dart';
+import '../widgets/qualificationsView.dart';
 import 'package:image_picker_web/image_picker_web.dart';
 
 class Profile extends StatefulWidget {
@@ -120,7 +120,7 @@ class ProfileState extends State<Profile> {
         color: Colors.white,
         child: Stack(
           children: [
-            Breadcrumb(previousPage: "Home", currentPage: "Profile",),
+            const Breadcrumb(previousPage: "Home", currentPage: "Profile",),
           Form(
             key: _formKey,
             child: ListView(
@@ -177,11 +177,12 @@ class ProfileState extends State<Profile> {
                             cursor: SystemMouseCursors.click,
                             child: GestureDetector(
                               onTap: () async {
+                                await actualupdate();
                                 Uint8List? imgByte =  await ImagePickerWeb.getImageAsBytes();
                                 if(imgByte == null) {
                                   return;
                                 }
-                                imgByte = await imagecrop(context, imgByte!);
+                                imgByte = await imagecrop(context, imgByte);
                                 if(imgByte != null){
                                   final changed = await FileApi.updateProfileImage(img: imgByte);
                                   image = changed;
@@ -189,10 +190,10 @@ class ProfileState extends State<Profile> {
                                 }
                               },
                               child: CircleAvatar(
-                                radius: 65.0,
+                                radius: 95.0,
                                 backgroundColor: Theme.of(context).colorScheme.secondary,
                                 child: CircleAvatar(
-                                  radius: 60.0,
+                                  radius: 90.0,
                                   backgroundImage: image!.image,
                                   backgroundColor: Colors.grey.shade300
                                 ),

@@ -13,5 +13,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class MockGenerationResponse {
     private User mockgeneratedUser;
-    private String extradata;
+    private CVData data;
 }

@@ -1,10 +1,10 @@
 import 'package:ai_cv_generator/dio/client/shareClient.dart';
-import 'package:ai_cv_generator/pages/Register.dart';
-import 'package:ai_cv_generator/pages/about.dart';
-import 'package:ai_cv_generator/pages/home.dart';
-import 'package:ai_cv_generator/pages/login.dart';
-import 'package:ai_cv_generator/pages/pdf_window.dart';
-import 'package:ai_cv_generator/pages/profile.dart';
+import 'package:ai_cv_generator/pages/screens/Register.dart';
+import 'package:ai_cv_generator/pages/screens/about.dart';
+import 'package:ai_cv_generator/pages/screens/home.dart';
+import 'package:ai_cv_generator/pages/screens/login.dart';
+import 'package:ai_cv_generator/pages/widgets/pdf_window.dart';
+import 'package:ai_cv_generator/pages/screens/profile.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:ai_cv_generator/pages/elements/elements.dart';

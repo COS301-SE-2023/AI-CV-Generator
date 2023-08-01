@@ -55,6 +55,7 @@ dependencies:
   image_picker_web: ^3.0.0+1
   crop_your_image: ^0.7.5
   mockito: ^5.4.2
+  widgets_to_image: ^0.0.2
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -86,6 +87,9 @@ flutter:
     - assets/images/logo.png
     - assets/Resume 1.pdf
     - assets/images/NicePng_watsapp-icon-png_9332131.png
+    - assets/images/TemplateAAsset.jpg
+    - assets/images/TemplateBAsset.png
+    - assets/images/TemplateCAsset.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

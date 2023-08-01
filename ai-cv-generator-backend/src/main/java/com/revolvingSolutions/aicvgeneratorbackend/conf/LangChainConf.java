@@ -1,6 +1,9 @@
 package com.revolvingSolutions.aicvgeneratorbackend.conf;
 
 
+import com.revolvingSolutions.aicvgeneratorbackend.agent.DescriptionAgent;
+import com.revolvingSolutions.aicvgeneratorbackend.agent.EducationDescriptionAgent;
+import com.revolvingSolutions.aicvgeneratorbackend.agent.EmploymentHistoryExpander;
 import com.revolvingSolutions.aicvgeneratorbackend.agent.GenerationAgent;
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
 import dev.langchain4j.model.chat.ChatLanguageModel;
@@ -46,6 +49,30 @@ public class LangChainConf {
         return AiServices.builder(GenerationAgent.class)
                 .chatLanguageModel(chatLanguageModel)
                 .chatMemory(MessageWindowChatMemory.withCapacity(40))
+                .build();
+    }
+
+    @Bean
+    public DescriptionAgent descriptionAgent(ChatLanguageModel chatLanguageModel) {
+        return AiServices.builder(DescriptionAgent.class)
+                .chatLanguageModel(chatLanguageModel)
+                .chatMemory(MessageWindowChatMemory.withCapacity(3))
+                .build();
+    }
+
+    @Bean
+    public EmploymentHistoryExpander employmentHistoryExpander(ChatLanguageModel chatLanguageModel) {
+        return AiServices.builder(EmploymentHistoryExpander.class)
+                .chatLanguageModel(chatLanguageModel)
+                .chatMemory(MessageWindowChatMemory.withCapacity(3))
+                .build();
+    }
+
+    @Bean
+    public EducationDescriptionAgent educationDescriptionAgent(ChatLanguageModel chatLanguageModel) {
+        return AiServices.builder(EducationDescriptionAgent.class)
+                .chatLanguageModel(chatLanguageModel)
+                .chatMemory(MessageWindowChatMemory.withCapacity(3))
                 .build();
     }
 }

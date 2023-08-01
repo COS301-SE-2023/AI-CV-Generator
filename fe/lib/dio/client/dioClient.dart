@@ -10,10 +10,10 @@ class DioClient {
       baseUrl: "http://localhost:8080/",
       //Will change depending on time
       connectTimeout: const Duration(
-        seconds: 10
+        seconds: 40
       ),
       receiveTimeout: const Duration(
-        seconds: 10
+        seconds: 40
       ),
     ),
   ) ..interceptors.addAll(

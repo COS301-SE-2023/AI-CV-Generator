@@ -9,18 +9,17 @@ class GenerationApi extends DioClient {
   static Future<MockGenerationResponse?> mockgenerate({
     required UserModel userModel
   }) async {
-    try {
-      return MockGenerationResponse.fromJson(
-        (
-          await DioClient.dio.post(
-            'generate/mockgenerate',
-            data: MockGenerationRequest(adjustedModel: userModel).toJson()
-          )
-        ).data
-      );
-    } on DioException catch(e) {
-      DioClient.handleError(e);
-    }
-    return null;
+
+      MockGenerationResponse? response;
+      await DioClient.dio.post(
+        'generate/mockgenerate',
+        data: MockGenerationRequest(adjustedModel: userModel).toJson()
+      ).then((value) {
+        response = MockGenerationResponse.fromJson(value.data);
+      }).timeout(const Duration(milliseconds: 32000), 
+      onTimeout: () {
+        
+      },);
+      return response;
   }
 }

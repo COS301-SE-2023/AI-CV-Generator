@@ -1,4 +1,5 @@
 
+import 'package:ai_cv_generator/models/generation/CVData.dart';
 import 'package:ai_cv_generator/models/user/UserModel.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -7,11 +8,11 @@ part 'MockGenerationResponse.g.dart';
 @JsonSerializable()
 class MockGenerationResponse {
   UserModel mockgeneratedUser;
-  String? extradata;
+  CVData data;
 
   MockGenerationResponse({
     required this.mockgeneratedUser,
-    this.extradata
+    required this.data
   });
 
   factory MockGenerationResponse.fromJson(Map<String, dynamic> json) => _$MockGenerationResponseFromJson(json);

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ai_cv_generator/models/user/Link.dart';
 import 'package:ai_cv_generator/dio/client/userApi.dart';
-import 'elements/elements.dart';
+import '../elements/elements.dart';
 
 class LinksSection extends StatefulWidget {
   final List<Link> links;
