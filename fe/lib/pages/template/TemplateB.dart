@@ -1,6 +1,9 @@
 import 'dart:typed_data';
+import 'package:ai_cv_generator/dio/client/fileApi.dart';
 import 'package:ai_cv_generator/models/generation/CVData.dart';
 import 'package:ai_cv_generator/models/user/UserModel.dart';
+import 'package:ai_cv_generator/pages/elements/elements.dart';
+import 'package:ai_cv_generator/pages/widgets/loadingScreen.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:pdf/pdf.dart';
@@ -33,10 +36,9 @@ class TemplateB extends StatefulWidget {
 
 
   Future<PlatformFile> transform() async {
-    print(" updata "+nameC!.text);
-    var templateApdf = TemplateBPdf(fname: fnameC!.text, lnameC: lnameC!.text, emailC: emailC!.text, locationC: locationC!.text, phoneNumberC: phoneNumberC!.text, nameC: nameC!.text, detailsC: detailsC!.text, descriptionHeadingC: descriptionHeadingC!.text, descriptionC: descriptionC!.text, employmentHeadingC: employmentHeadingC!.text, employmentC: employmentC!.text, qualificationHeadingC:qualificationHeadingC!.text, qualificationC: qualificationC!.text, linksHeadingC: linksHeadingC!.text, linksC: linksC!.text);
-    templateApdf.writeOnPdf();
-    return await templateApdf!.getPdf();
+    var templateBpdf = TemplateBPdf(fname: fnameC!.text, lnameC: lnameC!.text, emailC: emailC!.text, locationC: locationC!.text, phoneNumberC: phoneNumberC!.text, nameC: nameC!.text, detailsC: detailsC!.text, descriptionHeadingC: descriptionHeadingC!.text, descriptionC: descriptionC!.text, employmentHeadingC: employmentHeadingC!.text, employmentC: employmentC!.text, qualificationHeadingC:qualificationHeadingC!.text, qualificationC: qualificationC!.text, linksHeadingC: linksHeadingC!.text, linksC: linksC!.text);
+    await templateBpdf.writeOnPdf();
+    return await templateBpdf!.getPdf();
   }
   
   @override
@@ -71,31 +73,49 @@ class TemplateBState extends State<TemplateB> {
     for(int i = 0; i < widget.user!.links!.length; i++) {
       widget.linksC!.text += widget.user!.links![i].url + "\n";
     }
-
+    FileApi.getProfileImage().then((value) {
+      img = value;
+      setState(() {
+        
+      });
+    });
     super.initState();
   }
+
+  Image? img;
 
   
 
   @override
   Widget build(BuildContext context) {
+    if (img == null) {
+      return const LoadingScreen();
+    }
     return ListView(
       children: [
         Row(
           children: [
             Expanded(
               child:Container(
-                height: 300,
-                // color: Colors.blueAccent,
+                height: 555,
+                color: Colors.blueAccent,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    TextFieldInput(controller: widget.nameC!, fontSize: 32, textAlign: TextAlign.center,
-                    
+                    Image(image: img!.image, height: 170,width: 170,),
+                    const SizedBox(height: 40,),
+                    TextFieldInput(
+                      controller: widget.nameC!, 
+                      fontSize: 32, 
+                      textAlign: TextAlign.center,
+                      color: Colors.white,
                     ),
-                    SizedBox(height: 32),
-                    TextFieldInput(controller: widget.detailsC!, textAlign: TextAlign.center,),
-                      
+                    const SizedBox(height: 32),
+                    TextFieldInput(
+                      controller: widget.detailsC!, 
+                      textAlign: TextAlign.center,
+                      color: Colors.white
+                    ),
                   ]
                 )
               )
@@ -113,7 +133,7 @@ class TemplateBState extends State<TemplateB> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        TextFieldInput(controller: widget.descriptionHeadingC!, fontSize: 24, textAlign: TextAlign.left, color: Colors.blue),
+                        TextFieldInput(controller: widget.descriptionHeadingC!, fontSize: 24, textAlign: TextAlign.center, color: Colors.blue),
                         SizedBox(height: 16),
                         TextFieldInput(controller: widget.descriptionC!, fontSize: 14, textAlign: TextAlign.left, maxLines: 6,),
                         
@@ -178,7 +198,7 @@ class TextFieldInputState extends State<TextFieldInput> {
 
 // Pdf
 class TemplateBPdf {
-  final pdf = pw.Document();
+  var pdf = pw.Document();
   final double fontText = 13;
   final double fontHeading = 24;
   final double fontSubHeading = 16;
@@ -221,7 +241,9 @@ class TemplateBPdf {
     required this.linksC
   });
 
-  void writeOnPdf() async {
+  Future<void> writeOnPdf() async {
+    pdf = pw.Document();
+    Uint8List? img = await FileApi.getProfileImageUint8List();
     pdf.addPage(
      pw.MultiPage(
         pageFormat: PdfPageFormat.a4,
@@ -229,32 +251,47 @@ class TemplateBPdf {
         build: (pw.Context context) {
           return <pw.Widget>[
             pw.Container(
-              // height: 777,
               child: pw.Center(
                 child:  pw.ListView(
                   children: [
-
                     pw.Container(
-                      // color: PdfColors.blue200,
-                      child: pw.ListView(
+                      height: 777,
+                      width: 555,
+                      color: PdfColors.blue,
+                      child: pw.Column(
+                        crossAxisAlignment: pw.CrossAxisAlignment.center,
+                        mainAxisAlignment: pw.MainAxisAlignment.center,
                         children: [
-                          pw.Text(nameC, style: pw.TextStyle(fontSize: 32)),
+                          pw.Image(pw.MemoryImage(img!),width: 170,height: 170),
+                          pw.SizedBox(height: 40),
+                          pw.Text(nameC, style: pw.TextStyle(fontSize: 32,color: PdfColors.white)),
                           pw.SizedBox(height: 32),
-                          pw.Text(detailsC),
+                          pw.Text(detailsC, style: pw.TextStyle(color: PdfColors.white)),
                           pw.SizedBox(height: 32),
                         ] 
                       )
                     ),
-
                     pw.Align(
-                      alignment: pw.Alignment.centerLeft,
+                      alignment: pw.Alignment.center,
                       child: pw.Text(
                         descriptionHeadingC,
                         style: pw.TextStyle(fontSize: 24, color: PdfColors.blue200,)
                       ),
                     ),
                     pw.SizedBox(height: 8),
-                    pw.Text(descriptionC, style: pw.TextStyle(fontSize: 16)),
+                    pw.Container(
+                      padding: const pw.EdgeInsets.all(15),
+                      decoration: pw.BoxDecoration(
+                        border: pw.Border.all(
+                          width: 2,
+                          color: PdfColors.blue100
+                        ),
+                        borderRadius: pw.BorderRadius.circular(20),
+                        color: PdfColors.grey300
+                      ),
+                      child: pw.Text(descriptionC, style: pw.TextStyle(fontSize: 16)),
+                    ),
+                    
                     pw.SizedBox(height: 16),
                     pw.Align(
                       alignment: pw.Alignment.centerLeft,
@@ -264,9 +301,20 @@ class TemplateBPdf {
                       ),
                     ),
                     pw.SizedBox(height: 8),
-                    pw.Text(employmentC, style: pw.TextStyle(fontSize: 16)),
+                    pw.Container(
+                      padding: const pw.EdgeInsets.all(15),
+                      decoration: pw.BoxDecoration(
+                        border: pw.Border.all(
+                          width: 2,
+                          color: PdfColors.blue100
+                        ),
+                        borderRadius: pw.BorderRadius.circular(20),
+                        color: PdfColors.grey300
+                      ),
+                      child: pw.Text(employmentC, style: pw.TextStyle(fontSize: 16))
+                    ),
 
-                    pw.SizedBox(height: 116),
+                    pw.SizedBox(height: 150),
                     pw.Align(
                       alignment: pw.Alignment.centerLeft,
                       child: pw.Text(
@@ -275,7 +323,18 @@ class TemplateBPdf {
                       ),
                     ),
                     pw.SizedBox(height: 8),
-                    pw.Text(qualificationC, style: pw.TextStyle(fontSize: 16)),
+                    pw.Container(
+                      padding: const pw.EdgeInsets.all(15),
+                      decoration: pw.BoxDecoration(
+                        border: pw.Border.all(
+                          width: 2,
+                          color: PdfColors.blue100
+                        ),
+                        borderRadius: pw.BorderRadius.circular(20),
+                        color: PdfColors.grey300
+                      ),
+                      child: pw.Text(qualificationC, style: pw.TextStyle(fontSize: 16))
+                    ),
                     pw.SizedBox(height: 16),
                     pw.Align(
                       alignment: pw.Alignment.centerLeft,

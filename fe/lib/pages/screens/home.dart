@@ -255,7 +255,7 @@ class _HomeState extends State<Home> {
                                       });
                                     }
                                   },
-                                  child: Image(image: Image.asset("assets/images/TemplateAAsset.jpg").image,height: 250,width: 100,),
+                                  child: Image(image: Image.asset("assets/images/TemplateBAsset.png").image,height: 250,width: 100,),
                                 )
                               ),
                             ),
