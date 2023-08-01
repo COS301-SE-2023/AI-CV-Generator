@@ -33,9 +33,10 @@ class TemplateB extends StatefulWidget {
 
 
   Future<PlatformFile> transform() async {
-    var templateBpdf = TemplateBPdf(fname: fnameC!.text, lnameC: lnameC!.text, emailC: emailC!.text, locationC: locationC!.text, phoneNumberC: phoneNumberC!.text, nameC: nameC!.text, detailsC: detailsC!.text, descriptionHeadingC: descriptionHeadingC!.text, descriptionC: descriptionC!.text, employmentHeadingC: employmentHeadingC!.text, employmentC: employmentC!.text, qualificationHeadingC:qualificationHeadingC!.text, qualificationC: qualificationC!.text, linksHeadingC: linksHeadingC!.text, linksC: linksC!.text);
-    templateBpdf.writeOnPdf();
-    return await templateBpdf!.getPdf();
+    print(" updata "+nameC!.text);
+    var templateApdf = TemplateBPdf(fname: fnameC!.text, lnameC: lnameC!.text, emailC: emailC!.text, locationC: locationC!.text, phoneNumberC: phoneNumberC!.text, nameC: nameC!.text, detailsC: detailsC!.text, descriptionHeadingC: descriptionHeadingC!.text, descriptionC: descriptionC!.text, employmentHeadingC: employmentHeadingC!.text, employmentC: employmentC!.text, qualificationHeadingC:qualificationHeadingC!.text, qualificationC: qualificationC!.text, linksHeadingC: linksHeadingC!.text, linksC: linksC!.text);
+    templateApdf.writeOnPdf();
+    return await templateApdf!.getPdf();
   }
   
   @override
@@ -85,7 +86,7 @@ class TemplateBState extends State<TemplateB> {
             Expanded(
               child:Container(
                 height: 300,
-                // color: Colors.lightGreenAccent,
+                // color: Colors.blueAccent,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -112,22 +113,22 @@ class TemplateBState extends State<TemplateB> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        TextFieldInput(controller: widget.descriptionHeadingC!, fontSize: 24, textAlign: TextAlign.left, color: Colors.lightGreen),
+                        TextFieldInput(controller: widget.descriptionHeadingC!, fontSize: 24, textAlign: TextAlign.left, color: Colors.blue),
                         SizedBox(height: 16),
                         TextFieldInput(controller: widget.descriptionC!, fontSize: 14, textAlign: TextAlign.left, maxLines: 6,),
                         
                         SizedBox(height: 48),
-                        TextFieldInput(controller: widget.employmentHeadingC!, fontSize: 24, textAlign: TextAlign.left, color: Colors.lightGreen,),
+                        TextFieldInput(controller: widget.employmentHeadingC!, fontSize: 24, textAlign: TextAlign.left, color: Colors.blue,),
                         SizedBox(height: 16),
                         TextFieldInput(controller: widget.employmentC!, fontSize: 14, textAlign: TextAlign.left, maxLines: 6,),
 
                         SizedBox(height: 48),
-                        TextFieldInput(controller: widget.qualificationHeadingC!, fontSize: 24, textAlign: TextAlign.left, color: Colors.lightGreen),
+                        TextFieldInput(controller: widget.qualificationHeadingC!, fontSize: 24, textAlign: TextAlign.left, color: Colors.blue),
                         SizedBox(height: 16),
                         TextFieldInput(controller: widget.qualificationC!, fontSize: 14, textAlign: TextAlign.left, maxLines: 6,),
 
                         SizedBox(height: 16),
-                        TextFieldInput(controller: widget.linksHeadingC!, fontSize: 24, textAlign: TextAlign.left, color: Colors.lightGreen),
+                        TextFieldInput(controller: widget.linksHeadingC!, fontSize: 24, textAlign: TextAlign.left, color: Colors.blue),
                         SizedBox(height: 8),
                         TextFieldInput(controller: widget.linksC!, fontSize: 14, textAlign: TextAlign.left, maxLines: 6,),
                       ]
@@ -234,7 +235,7 @@ class TemplateBPdf {
                   children: [
 
                     pw.Container(
-                      // color: PdfColors.lightGreen200,
+                      // color: PdfColors.blue200,
                       child: pw.ListView(
                         children: [
                           pw.Text(nameC, style: pw.TextStyle(fontSize: 32)),
@@ -249,7 +250,7 @@ class TemplateBPdf {
                       alignment: pw.Alignment.centerLeft,
                       child: pw.Text(
                         descriptionHeadingC,
-                        style: pw.TextStyle(fontSize: 24, color: PdfColors.lightGreen200,)
+                        style: pw.TextStyle(fontSize: 24, color: PdfColors.blue200,)
                       ),
                     ),
                     pw.SizedBox(height: 8),
@@ -259,7 +260,7 @@ class TemplateBPdf {
                       alignment: pw.Alignment.centerLeft,
                       child: pw.Text(
                         employmentHeadingC,
-                        style: pw.TextStyle(fontSize: 24, color: PdfColors.lightGreen200,)
+                        style: pw.TextStyle(fontSize: 24, color: PdfColors.blue200,)
                       ),
                     ),
                     pw.SizedBox(height: 8),
@@ -270,7 +271,7 @@ class TemplateBPdf {
                       alignment: pw.Alignment.centerLeft,
                       child: pw.Text(
                         qualificationHeadingC,
-                        style: pw.TextStyle(fontSize: 24, color: PdfColors.lightGreen200,)
+                        style: pw.TextStyle(fontSize: 24, color: PdfColors.blue200,)
                       ),
                     ),
                     pw.SizedBox(height: 8),
@@ -280,7 +281,7 @@ class TemplateBPdf {
                       alignment: pw.Alignment.centerLeft,
                       child: pw.Text(
                         linksHeadingC,
-                        style: pw.TextStyle(fontSize: 24, color: PdfColors.lightGreen200,)
+                        style: pw.TextStyle(fontSize: 24, color: PdfColors.blue200,)
                       ),
                     ),
                     pw.SizedBox(height: 8),

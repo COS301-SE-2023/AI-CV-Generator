@@ -79,6 +79,20 @@ class _HomeState extends State<Home> {
     };
   }
 
+  void switchTemplate(Template t) {
+    if (t == Template.templateA) {
+      tem = Template.templateA;
+      if (ready) {
+        editPage = TemplateA(user: adjustedmodel!, data: cvdata!);
+      }    
+    } else  if (t == Template.templateB) {
+      tem = Template.templateB;
+      if (ready) {
+        editPage = TemplateB(user: adjustedmodel!, data: cvdata!);
+      }
+    }
+  }
+
   PlatformFile? uploadFile;
   PlatformFile? generatedFile;
   TextStyle textStyle = const TextStyle(fontSize: 12);
@@ -87,7 +101,7 @@ class _HomeState extends State<Home> {
   Widget? editPage = const EmptyCVScreen();
   TemplateA? templateAPdf;
   TemplateB? templateBPdf;
-  Template tem = Template.templateA;
+  Template tem = Template.templateB;
   bool ready = false;
   UserModel? adjustedmodel;
   CVData? cvdata;
@@ -159,23 +173,53 @@ class _HomeState extends State<Home> {
                         child: Text("TEMPLATES", style: TextStyle(fontSize: 16),),
                       ),
                       SingleChildScrollView(
-                        child: Stack(
-                          children: [
+                        
+                        child: Container(
+                          height: 566,
+                          child: GridView.count(
+                            crossAxisCount: 1,
+                            children:[
                             MouseRegion(
                               cursor: SystemMouseCursors.click,
                               child: GestureDetector(
-                                onTap: () {
+                                onTap: () async {
                                   if (tem != Template.templateA) {
                                     tem = Template.templateA;
                                     if (ready) {
-                                      editPage = TemplateA(user: adjustedmodel!, data: cvdata!);
+                                      templateAPdf = TemplateA(user: adjustedmodel!, data: cvdata!);
+                                      editPage = templateAPdf;
+                                      generatedFile = await templateAPdf!.transform();
+                                      setState(() {
+                                        
+                                      });
                                     }
                                   }
                                 },
                                 child: Image(image: Image.asset("assets/images/TemplateAAsset.jpg").image,height: 300,width: 150,),
                               )
-                            )
+                            ),
+                            const SizedBox(height: 0,),
+                            MouseRegion(
+                              cursor: SystemMouseCursors.click,
+                              child: GestureDetector(
+                                onTap: () async {
+                                  if (tem != Template.templateB) {
+                                    tem = Template.templateB;
+                                    if (ready) {
+                                      templateBPdf = TemplateB(user: adjustedmodel!, data: cvdata!);
+                                      editPage = templateBPdf;
+                                      generatedFile = await templateBPdf!.transform();
+                                      setState(() {
+                                        
+                                      });
+                                    }
+                                  }
+                                },
+                                child: Image(image: Image.asset("assets/images/TemplateAAsset.jpg").image,height: 300,width: 150,),
+                              )
+                            ),
                           ],
+                          )
                         ),
                       )
                     ],
@@ -223,9 +267,23 @@ class _HomeState extends State<Home> {
                                     setState(() {});
                                     return;
                                   }
-                                  templateAPdf = TemplateA(user: response!.mockgeneratedUser, data: response!.data);
-                                  editPage = templateAPdf;
-                                  generatedFile = await templateAPdf!.transform();
+                                  switch (tem) {
+                                    case Template.templateA:
+                                      templateAPdf = TemplateA(user: response!.mockgeneratedUser, data: response!.data);
+                                      editPage = templateAPdf;
+                                      generatedFile = await templateAPdf!.transform();
+                                    break;
+                                    case Template.templateB:
+                                      templateBPdf = TemplateB(user: response!.mockgeneratedUser, data: response!.data);
+                                      editPage = templateBPdf;
+                                      generatedFile = await templateBPdf!.transform();
+                                    break;
+                                    default:
+                                    break;
+                                  }
+                                  adjustedmodel = response!.mockgeneratedUser;
+                                  cvdata = response!.data;
+                                  ready == true;
                                   setState(() {});
                                 }, 
                                 child: Text("SURVEY", style: textStyle),
@@ -347,7 +405,7 @@ class _HomeState extends State<Home> {
                                 width: 100,
                                 child: ElevatedButton(
                                   onPressed: () async {
-                                    generatedFile = await templateAPdf!.transform();
+                                    await generateFile();
                                     if(generatedFile != null) {
                                       showDialog(
                                         context: context,
