@@ -1,10 +1,7 @@
 package com.revolvingSolutions.aicvgeneratorbackend.conf;
 
 
-import com.revolvingSolutions.aicvgeneratorbackend.agent.DescriptionAgent;
-import com.revolvingSolutions.aicvgeneratorbackend.agent.EducationDescriptionAgent;
-import com.revolvingSolutions.aicvgeneratorbackend.agent.EmploymentHistoryExpander;
-import com.revolvingSolutions.aicvgeneratorbackend.agent.GenerationAgent;
+import com.revolvingSolutions.aicvgeneratorbackend.agent.*;
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
 import dev.langchain4j.model.chat.ChatLanguageModel;
 import dev.langchain4j.model.openai.OpenAiChatModel;
@@ -74,5 +71,10 @@ public class LangChainConf {
                 .chatLanguageModel(chatLanguageModel)
                 .chatMemory(MessageWindowChatMemory.withCapacity(3))
                 .build();
+    }
+
+    @Bean
+    public ExtractionAgent extractionAgent(ChatLanguageModel chatLanguageModel) {
+        return AiServices.create(ExtractionAgent.class,chatLanguageModel);
     }
 }
