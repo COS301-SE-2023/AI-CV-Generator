@@ -1,4 +1,4 @@
-package com.revolvingSolutions.aicvgeneratorbackend.model;
+package com.revolvingSolutions.aicvgeneratorbackend.model.generation;
 
 
 import lombok.AllArgsConstructor;

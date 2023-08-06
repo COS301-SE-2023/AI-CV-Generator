@@ -1,6 +1,6 @@
 package com.revolvingSolutions.aicvgeneratorbackend.response.file;
 
-import com.revolvingSolutions.aicvgeneratorbackend.model.FileModelForList;
+import com.revolvingSolutions.aicvgeneratorbackend.model.file.FileModelForList;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

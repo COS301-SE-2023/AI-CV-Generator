@@ -1,4 +1,4 @@
-package com.revolvingSolutions.aicvgeneratorbackend.model.ExtractionModels;
+package com.revolvingSolutions.aicvgeneratorbackend.model.extraction;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

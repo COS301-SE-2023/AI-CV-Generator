@@ -1,4 +1,4 @@
-package com.revolvingSolutions.aicvgeneratorbackend.model;
+package com.revolvingSolutions.aicvgeneratorbackend.model.file;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProfileImageModel {
-    private byte[] imgdata;
+public class FileModelForList {
+    private String filename;
+    private byte[] cover;
 }

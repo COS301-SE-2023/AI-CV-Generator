@@ -1,7 +1,9 @@
 package com.revolvingSolutions.aicvgeneratorbackend.controller;
 
 
+import com.revolvingSolutions.aicvgeneratorbackend.request.extraction.ExtractionRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.generation.GenerationRequest;
+import com.revolvingSolutions.aicvgeneratorbackend.response.extraction.ExtractionResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.generation.GenerationResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.generation.MockGenerationResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.service.LangChainService;
@@ -42,6 +44,19 @@ public class GenerationController {
             return ResponseEntity.ok(generationService.mockGenerateCV(request));
         } catch (Exception e) {
             System.out.println(e.getClass());
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PostMapping(value = "/extract")
+    public  ResponseEntity<ExtractionResponse> extractData(
+            @RequestBody ExtractionRequest request
+    ) {
+        try {
+            return ResponseEntity.ok(
+                    generationService.extractData(request)
+            );
+        } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }
     }

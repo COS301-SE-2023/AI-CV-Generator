@@ -1,6 +1,6 @@
 package com.revolvingSolutions.aicvgeneratorbackend.response.details.employment;
 
-import com.revolvingSolutions.aicvgeneratorbackend.model.Employment;
+import com.revolvingSolutions.aicvgeneratorbackend.model.user.Employment;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

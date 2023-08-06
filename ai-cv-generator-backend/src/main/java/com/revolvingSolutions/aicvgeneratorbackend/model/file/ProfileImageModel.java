@@ -1,4 +1,4 @@
-package com.revolvingSolutions.aicvgeneratorbackend.model.ExtractionModels;
+package com.revolvingSolutions.aicvgeneratorbackend.model.file;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ExtractedLink {
-    private String url;
+public class ProfileImageModel {
+    private byte[] imgdata;
 }

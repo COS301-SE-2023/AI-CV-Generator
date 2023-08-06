@@ -1,9 +1,9 @@
 package com.revolvingSolutions.aicvgeneratorbackend.controller;
 
-import com.revolvingSolutions.aicvgeneratorbackend.model.Employment;
-import com.revolvingSolutions.aicvgeneratorbackend.model.Link;
-import com.revolvingSolutions.aicvgeneratorbackend.model.Qualification;
-import com.revolvingSolutions.aicvgeneratorbackend.model.User;
+import com.revolvingSolutions.aicvgeneratorbackend.model.user.Employment;
+import com.revolvingSolutions.aicvgeneratorbackend.model.user.Link;
+import com.revolvingSolutions.aicvgeneratorbackend.model.user.Qualification;
+import com.revolvingSolutions.aicvgeneratorbackend.model.user.User;
 import com.revolvingSolutions.aicvgeneratorbackend.request.details.employment.AddEmploymentRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.details.employment.RemoveEmploymentRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.details.employment.UpdateEmploymentRequest;

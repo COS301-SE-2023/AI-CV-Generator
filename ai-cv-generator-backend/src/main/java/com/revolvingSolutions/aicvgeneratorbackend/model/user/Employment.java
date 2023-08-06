@@ -1,4 +1,4 @@
-package com.revolvingSolutions.aicvgeneratorbackend.model.ExtractionModels;
+package com.revolvingSolutions.aicvgeneratorbackend.model.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,7 +11,8 @@ import java.util.Date;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ExtractedEmployment {
+public class Employment {
+    private Integer empid;
     private String company;
     private String title;
     private Date startdate;

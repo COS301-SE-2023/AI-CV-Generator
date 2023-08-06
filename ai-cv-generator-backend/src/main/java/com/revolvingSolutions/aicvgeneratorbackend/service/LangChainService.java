@@ -3,8 +3,8 @@ package com.revolvingSolutions.aicvgeneratorbackend.service;
 
 import com.revolvingSolutions.aicvgeneratorbackend.agent.*;
 import com.revolvingSolutions.aicvgeneratorbackend.constants.StaticValues;
-import com.revolvingSolutions.aicvgeneratorbackend.model.CVData;
-import com.revolvingSolutions.aicvgeneratorbackend.model.Employment;
+import com.revolvingSolutions.aicvgeneratorbackend.model.generation.CVData;
+import com.revolvingSolutions.aicvgeneratorbackend.model.user.Employment;
 import com.revolvingSolutions.aicvgeneratorbackend.request.extraction.ExtractionRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.generation.GenerationRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.response.extraction.ExtractionResponse;

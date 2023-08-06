@@ -2,7 +2,7 @@ package com.revolvingSolutions.aicvgeneratorbackend.service;
 
 import com.revolvingSolutions.aicvgeneratorbackend.entitiy.ShareEntity;
 import com.revolvingSolutions.aicvgeneratorbackend.exception.FileNotFoundException;
-import com.revolvingSolutions.aicvgeneratorbackend.model.FileModel;
+import com.revolvingSolutions.aicvgeneratorbackend.model.file.FileModel;
 import com.revolvingSolutions.aicvgeneratorbackend.repository.ShareRepository;
 import com.revolvingSolutions.aicvgeneratorbackend.request.file.RetrieveFileWithURLRequest;
 import jakarta.transaction.Transactional;

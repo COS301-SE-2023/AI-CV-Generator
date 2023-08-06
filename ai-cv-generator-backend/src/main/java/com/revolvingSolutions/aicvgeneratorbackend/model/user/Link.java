@@ -1,4 +1,4 @@
-package com.revolvingSolutions.aicvgeneratorbackend.model;
+package com.revolvingSolutions.aicvgeneratorbackend.model.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class FileModelForList {
-    private String filename;
-    private byte[] cover;
+public class Link {
+    private Integer linkid;
+    private String url;
 }

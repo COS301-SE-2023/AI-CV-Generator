@@ -1,4 +1,4 @@
-package com.revolvingSolutions.aicvgeneratorbackend.model.ExtractionModels;
+package com.revolvingSolutions.aicvgeneratorbackend.model.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,7 +11,8 @@ import java.util.Date;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ExtractedQualification {
+public class Qualification {
+    private Integer quaid;
     private String qualification;
     private String intstitution;
     private Date date;

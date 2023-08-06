@@ -1,6 +1,6 @@
 package com.revolvingSolutions.aicvgeneratorbackend.agent;
 
-import com.revolvingSolutions.aicvgeneratorbackend.model.ExtractionModels.ExtractedData;
+import com.revolvingSolutions.aicvgeneratorbackend.model.extraction.ExtractedData;
 import dev.langchain4j.service.UserMessage;
 
 public interface ExtractionAgent {
