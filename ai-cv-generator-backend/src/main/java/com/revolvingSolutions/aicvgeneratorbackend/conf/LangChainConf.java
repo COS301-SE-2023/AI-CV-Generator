@@ -33,7 +33,7 @@ public class LangChainConf {
                 modelName,
                 temperature,
                 1.0,
-                100,
+                1000,
                 0.0,0.0,
                 Duration.ofMinutes(2),
                 2,
@@ -75,6 +75,9 @@ public class LangChainConf {
 
     @Bean
     public ExtractionAgent extractionAgent(ChatLanguageModel chatLanguageModel) {
-        return AiServices.create(ExtractionAgent.class,chatLanguageModel);
+        return AiServices.builder(ExtractionAgent.class)
+                .chatLanguageModel(chatLanguageModel)
+                .chatMemory(MessageWindowChatMemory.withCapacity(5))
+                .build();
     }
 }

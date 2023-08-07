@@ -12,7 +12,12 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ExtractedData {
-    private ExtractedUser user;
+    public String fname;
+    public String lname;
+    public String email;
+    public String phoneNumber;
+    public String location;
+    public String description;
     private List<ExtractedEmployment> employmentHistory;
     private List<ExtractedQualification> qualifications;
     private List<ExtractedLink> extractedLinks;
