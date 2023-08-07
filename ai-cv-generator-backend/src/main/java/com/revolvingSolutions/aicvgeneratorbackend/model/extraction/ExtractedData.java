@@ -1,5 +1,6 @@
 package com.revolvingSolutions.aicvgeneratorbackend.model.extraction;
 
+import dev.langchain4j.model.output.structured.Description;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,13 +13,16 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ExtractedData {
-    public String fname;
-    public String lname;
+    public String firstname;
+    public String lastname;
     public String email;
     public String phoneNumber;
     public String location;
     public String description;
-    private List<ExtractedEmployment> employmentHistory;
+    @Description("Each employment must be described with the company, the job title and the start date and end date of employment")
+    private List<ExtractedEmployment> experience;
+    @Description("Each qualification must be described with the qualification, the institution and the start date and end date of qualification")
     private List<ExtractedQualification> qualifications;
-    private List<ExtractedLink> extractedLinks;
+    @Description("Each link must consist of a url")
+    private List<ExtractedLink> links;
 }

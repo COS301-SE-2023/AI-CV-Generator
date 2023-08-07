@@ -93,11 +93,13 @@ public class LangChainService {
         if (request.getText().split(" ").length > 1000) {
             throw new Exception("Word Limit!!",null);
         }
-        return ExtractionResponse.builder()
+        ExtractionResponse resp = ExtractionResponse.builder()
                 .data(
                         extractionAgent.extractPersonFrom(request.getText())
                 )
                 .build();
+        System.out.println(resp.toString());
+        return  resp;
     }
 
     private static String interact(GenerationAgent agent, String userMessage) {

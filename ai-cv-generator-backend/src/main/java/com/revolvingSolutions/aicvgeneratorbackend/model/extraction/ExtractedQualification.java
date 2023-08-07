@@ -13,7 +13,7 @@ import java.util.Date;
 @NoArgsConstructor
 public class ExtractedQualification {
     private String qualification;
-    private String intstitution;
-    private Date date;
-    private Date endo;
+    private String institution;
+    private String startDate;
+    private String endDate;
 }

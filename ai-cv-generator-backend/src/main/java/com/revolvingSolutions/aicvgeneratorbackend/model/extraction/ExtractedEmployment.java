@@ -1,5 +1,6 @@
 package com.revolvingSolutions.aicvgeneratorbackend.model.extraction;
 
+import dev.langchain4j.model.output.structured.Description;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,7 +14,7 @@ import java.util.Date;
 @NoArgsConstructor
 public class ExtractedEmployment {
     private String company;
-    private String title;
-    private Date startdate;
-    private Date enddate;
+    private String jobTitle;
+    private String startDate;
+    private String endDate;
 }

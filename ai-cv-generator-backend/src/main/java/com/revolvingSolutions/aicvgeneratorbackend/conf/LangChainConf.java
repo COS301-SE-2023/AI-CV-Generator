@@ -31,9 +31,9 @@ public class LangChainConf {
         return new OpenAiChatModel(
                 apikey,
                 modelName,
-                temperature,
+                0.0,
                 1.0,
-                1000,
+                3000,
                 0.0,0.0,
                 Duration.ofMinutes(2),
                 2,
