@@ -4,7 +4,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
 class ExtractionView {
-  showModal(BuildContext context, PlatformFile file) {
+  showModal(BuildContext context, PlatformFile file, Map data) {
     showDialog(
       context: context,
       builder: (context) {
@@ -22,6 +22,7 @@ class ExtractionView {
                     child: SectionContainer(
                       child: ListView(
                         children: [
+                          ...extractedData(data)
                         ],
                       ),
                     )
@@ -32,6 +33,16 @@ class ExtractionView {
           ),
         );
     });
+  }
+
+  List<Widget> extractedData(Map data) {
+    List<Widget> widgets = [];
+    data.forEach((key, value) {
+      widgets.add(SectionContainer(child: "key"));
+      widgets.add(Text(value));
+      widgets.add(SizedBox(height: 16,));
+    });
+    return widgets;
   }
       
 }
