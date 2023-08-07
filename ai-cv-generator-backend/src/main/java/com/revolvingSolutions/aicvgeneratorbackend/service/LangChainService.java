@@ -88,7 +88,11 @@ public class LangChainService {
 
     public ExtractionResponse extractData(
             ExtractionRequest request
-    ) {
+    )  throws Exception
+    {
+        if (request.getText().split(" ").length > 1000) {
+            throw new Exception("Word Limit!!",null);
+        }
         return ExtractionResponse.builder()
                 .data(
                         extractionAgent.extractPersonFrom(request.getText())
