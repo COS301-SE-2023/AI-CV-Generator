@@ -31,11 +31,26 @@ public class LangChainConf {
         return new OpenAiChatModel(
                 apikey,
                 modelName,
+                temperature,
+                1.0,
+                1000,
+                0.0,0.0,
+                Duration.ofMinutes(2),
+                2,
+                true,
+                true
+        );
+    }
+
+    public ChatLanguageModel extractionChatLanguageModel() {
+        return new OpenAiChatModel(
+                apikey,
+                modelName,
                 0.0,
                 1.0,
                 3000,
                 0.0,0.0,
-                Duration.ofMinutes(2),
+                Duration.ofMinutes(3),
                 2,
                 true,
                 true
@@ -74,9 +89,9 @@ public class LangChainConf {
     }
 
     @Bean
-    public ExtractionAgent extractionAgent(ChatLanguageModel chatLanguageModel) {
+    public ExtractionAgent extractionAgent(ChatLanguageModel extractionChatLanguageModel) {
         return AiServices.builder(ExtractionAgent.class)
-                .chatLanguageModel(chatLanguageModel)
+                .chatLanguageModel(extractionChatLanguageModel)
                 .chatMemory(MessageWindowChatMemory.withCapacity(5))
                 .build();
     }
