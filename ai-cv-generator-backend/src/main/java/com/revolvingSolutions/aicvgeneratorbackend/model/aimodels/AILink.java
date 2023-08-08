@@ -1,4 +1,4 @@
-package com.revolvingSolutions.aicvgeneratorbackend.model.extraction;
+package com.revolvingSolutions.aicvgeneratorbackend.model.aimodels;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ExtractedLink {
+public class AILink {
     private String url;
 }

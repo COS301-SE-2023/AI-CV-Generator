@@ -1,6 +1,6 @@
 package com.revolvingSolutions.aicvgeneratorbackend.response.extraction;
 
-import com.revolvingSolutions.aicvgeneratorbackend.model.extraction.ExtractedData;
+import com.revolvingSolutions.aicvgeneratorbackend.model.aimodels.AIInputData;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,5 +11,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ExtractionResponse {
-    ExtractedData data;
+    AIInputData data;
 }

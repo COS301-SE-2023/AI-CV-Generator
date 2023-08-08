@@ -1,6 +1,6 @@
 package com.revolvingSolutions.aicvgeneratorbackend.response.generation;
 
-import com.revolvingSolutions.aicvgeneratorbackend.model.generation.CVData;
+import com.revolvingSolutions.aicvgeneratorbackend.model.aimodels.CVData;
 import com.revolvingSolutions.aicvgeneratorbackend.model.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

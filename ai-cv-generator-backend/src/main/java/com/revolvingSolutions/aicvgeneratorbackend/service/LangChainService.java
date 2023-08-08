@@ -3,7 +3,7 @@ package com.revolvingSolutions.aicvgeneratorbackend.service;
 
 import com.revolvingSolutions.aicvgeneratorbackend.agent.*;
 import com.revolvingSolutions.aicvgeneratorbackend.constants.StaticValues;
-import com.revolvingSolutions.aicvgeneratorbackend.model.generation.CVData;
+import com.revolvingSolutions.aicvgeneratorbackend.model.aimodels.CVData;
 import com.revolvingSolutions.aicvgeneratorbackend.model.user.Employment;
 import com.revolvingSolutions.aicvgeneratorbackend.request.extraction.ExtractionRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.generation.GenerationRequest;
@@ -93,11 +93,13 @@ public class LangChainService {
         if (request.getText().split(" ").length > 1000) {
             throw new Exception("Word Limit!!",null);
         }
-        return ExtractionResponse.builder()
+        ExtractionResponse resp = ExtractionResponse.builder()
                 .data(
                         extractionAgent.extractPersonFrom(request.getText())
                 )
                 .build();
+        System.out.println(resp.toString());
+        return  resp;
     }
 
     private static String interact(GenerationAgent agent, String userMessage) {
