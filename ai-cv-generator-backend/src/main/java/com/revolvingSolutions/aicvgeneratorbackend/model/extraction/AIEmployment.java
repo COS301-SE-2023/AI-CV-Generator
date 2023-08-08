@@ -5,15 +5,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
-
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ExtractedQualification {
-    private String qualification;
-    private String institution;
+public class AIEmployment {
+    private String company;
+    private String jobTitle;
     private String startDate;
     private String endDate;
 }

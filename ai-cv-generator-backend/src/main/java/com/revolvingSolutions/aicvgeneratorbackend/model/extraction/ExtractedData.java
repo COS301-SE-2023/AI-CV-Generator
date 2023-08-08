@@ -20,9 +20,9 @@ public class ExtractedData {
     public String location;
     public String description;
     @Description("Each employment must be described with the company, the job title and the start date and end date of employment")
-    private List<ExtractedEmployment> experience;
+    private List<AIEmployment> experience;
     @Description("Each qualification must be described with the qualification, the institution and the start date and end date of qualification")
-    private List<ExtractedQualification> qualifications;
+    private List<AIQualification> qualifications;
     @Description("Each link must consist of a url")
-    private List<ExtractedLink> links;
+    private List<AILink> links;
 }

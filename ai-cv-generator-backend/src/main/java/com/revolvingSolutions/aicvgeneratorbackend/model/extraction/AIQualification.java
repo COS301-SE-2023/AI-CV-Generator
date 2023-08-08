@@ -9,6 +9,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ExtractedLink {
-    private String url;
+public class AIQualification {
+    private String qualification;
+    private String institution;
+    private String startDate;
+    private String endDate;
 }
