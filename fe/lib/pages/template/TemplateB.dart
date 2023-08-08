@@ -1,8 +1,6 @@
-import 'dart:typed_data';
 import 'package:ai_cv_generator/dio/client/fileApi.dart';
-import 'package:ai_cv_generator/models/generation/CVData.dart';
+import 'package:ai_cv_generator/models/aimodels/CVData.dart';
 import 'package:ai_cv_generator/models/user/UserModel.dart';
-import 'package:ai_cv_generator/pages/elements/elements.dart';
 import 'package:ai_cv_generator/pages/widgets/loadingScreen.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';

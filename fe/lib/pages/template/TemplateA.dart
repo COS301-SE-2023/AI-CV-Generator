@@ -1,5 +1,5 @@
 import 'dart:typed_data';
-import 'package:ai_cv_generator/models/generation/CVData.dart';
+import 'package:ai_cv_generator/models/aimodels/CVData.dart';
 import 'package:ai_cv_generator/models/user/UserModel.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
