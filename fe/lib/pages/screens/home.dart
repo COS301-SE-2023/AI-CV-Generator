@@ -15,6 +15,7 @@ import 'package:ai_cv_generator/pages/widgets/loadingScreen.dart';
 import 'package:ai_cv_generator/pages/widgets/navdrawer.dart';
 import 'package:ai_cv_generator/pages/widgets/pdf_window.dart';
 import 'package:ai_cv_generator/pages/widgets/personaldetails.dart';
+import 'package:ai_cv_generator/pages/widgets/extractionView.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -392,16 +393,17 @@ class _HomeState extends State<Home> {
                                 onPressed: () async {
                                   await generateFile();
                                   if(uploadFile != null) {
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return PdfView(
-                                          controller: PdfController(document: PdfDocument.openData(uploadFile!.bytes as FutureOr<Uint8List>)),
-                                          scrollDirection: Axis.horizontal,
-                                          pageSnapping: false,
-                                        );
-                                      }
-                                    );
+                                    ExtractionView().showModal(context, uploadFile!, {});
+                                    // showDialog(
+                                    //   context: context,
+                                    //   builder: (BuildContext context) {
+                                    //     return PdfView(
+                                    //       controller: PdfController(document: PdfDocument.openData(uploadFile!.bytes as FutureOr<Uint8List>)),
+                                    //       scrollDirection: Axis.horizontal,
+                                    //       pageSnapping: false,
+                                    //     );
+                                    //   }
+                                    // );
                                   }
                                 },
                                 child: Text("PREVIEW", style: textStyle),
