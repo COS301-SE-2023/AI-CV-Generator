@@ -1,11 +1,11 @@
 
 import 'package:ai_cv_generator/dio/client/dioClient.dart';
 import 'package:ai_cv_generator/dio/request/AIRequests/MockGenerationRequest.dart';
-import 'package:ai_cv_generator/dio/response/GenerationResponses/MockGenerationResponse.dart';
+import 'package:ai_cv_generator/dio/response/AIResponses/MockGenerationResponse.dart';
 import 'package:ai_cv_generator/models/user/UserModel.dart';
-import 'package:dio/dio.dart';
+import 'package:file_picker/file_picker.dart';
 
-class GenerationApi extends DioClient {
+class AIApi extends DioClient {
   static Future<MockGenerationResponse?> mockgenerate({
     required UserModel userModel
   }) async {
@@ -21,5 +21,11 @@ class GenerationApi extends DioClient {
         
       },);
       return response;
+  }
+
+  static Future<void> extractPdf({
+    required PlatformFile file
+  }) async {
+    
   }
 }

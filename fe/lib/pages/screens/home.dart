@@ -1,7 +1,7 @@
 import 'package:ai_cv_generator/api/DownloadService.dart';
 import 'package:ai_cv_generator/dio/client/fileApi.dart';
 import 'package:ai_cv_generator/api/pdfApi.dart';
-import 'package:ai_cv_generator/dio/client/generationApi.dart';
+import 'package:ai_cv_generator/dio/client/AIApi.dart';
 import 'package:ai_cv_generator/dio/response/AIResponses/MockGenerationResponse.dart';
 import 'package:ai_cv_generator/models/aimodels/CVData.dart';
 import 'package:ai_cv_generator/pages/template/TemplateA.dart';
@@ -333,7 +333,7 @@ class _HomeState extends State<Home> {
                                   setState(() {
                                     editPage = const AILoadingScreen();
                                   });
-                                  MockGenerationResponse? response = await GenerationApi.mockgenerate(userModel: (Home.adjustedModel)!);
+                                  MockGenerationResponse? response = await AIApi.mockgenerate(userModel: (Home.adjustedModel)!);
                                   if (response?.data.description == null) {
                                     editPage = ErrorScreen(errormsg: "Rate Limit Exceeded!");
                                     setState(() {});
