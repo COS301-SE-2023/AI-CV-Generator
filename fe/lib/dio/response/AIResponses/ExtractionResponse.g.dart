@@ -8,7 +8,7 @@ part of 'ExtractionResponse.dart';
 
 ExtractionResponse _$ExtractionResponseFromJson(Map<String, dynamic> json) =>
     ExtractionResponse(
-      data: GenerationInput.fromJson(json['data'] as Map<String, dynamic>),
+      data: AIInput.fromJson(json['data'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$ExtractionResponseToJson(ExtractionResponse instance) =>

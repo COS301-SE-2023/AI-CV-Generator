@@ -1,6 +1,5 @@
 import 'package:ai_cv_generator/models/aimodels/CVData.dart';
-import 'package:ai_cv_generator/models/aimodels/GenerationInput.dart';
-import 'package:ai_cv_generator/models/user/UserModel.dart';
+import 'package:ai_cv_generator/models/aimodels/AIInput.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'ExtractionResponse.g.dart';
@@ -8,7 +7,7 @@ part 'ExtractionResponse.g.dart';
 @JsonSerializable()
 class ExtractionResponse {
   
-  GenerationInput data;
+  AIInput data;
 
   ExtractionResponse({
     required this.data

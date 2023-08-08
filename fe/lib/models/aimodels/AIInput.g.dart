@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'GenerationInput.dart';
+part of 'AIInput.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-GenerationInput _$GenerationInputFromJson(Map<String, dynamic> json) =>
-    GenerationInput(
+AIInput _$AIInputFromJson(Map<String, dynamic> json) =>
+    AIInput(
       firstname: json['firstname'] as String,
       lastname: json['lastname'] as String,
       email: json['email'] as String,
@@ -22,7 +22,7 @@ GenerationInput _$GenerationInputFromJson(Map<String, dynamic> json) =>
           .toList(),
     );
 
-Map<String, dynamic> _$GenerationInputToJson(GenerationInput instance) =>
+Map<String, dynamic> _$AIInputToJson(AIInput instance) =>
     <String, dynamic>{
       'firstname': instance.firstname,
       'lastname': instance.lastname,

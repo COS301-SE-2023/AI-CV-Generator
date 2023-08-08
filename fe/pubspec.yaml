@@ -57,6 +57,7 @@ dependencies:
   mockito: ^5.4.2
   widgets_to_image: ^0.0.2
   langchain: ^0.0.5 
+  syncfusion_flutter_pdf: ^20.3.49
 dev_dependencies:
   flutter_test:
     sdk: flutter

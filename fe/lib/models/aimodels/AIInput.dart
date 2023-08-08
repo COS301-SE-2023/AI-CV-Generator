@@ -3,12 +3,12 @@ import 'package:ai_cv_generator/models/aimodels/AIEmployment.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 
-part 'GenerationInput.g.dart';
+part 'AIInput.g.dart';
 
 @JsonSerializable()
-class GenerationInput {
+class AIInput {
 
-  GenerationInput({
+  AIInput({
     required this.firstname,
     required this.lastname,
     required this.email,
@@ -27,7 +27,7 @@ class GenerationInput {
   List<AIEmployment> experience;
   List<AIQualification> qualifications;
 
-  factory GenerationInput.fromJson(Map<String,dynamic> json) => _$GenerationInputFromJson(json);
+  factory AIInput.fromJson(Map<String,dynamic> json) => _$AIInputFromJson(json);
 
-  Map<String,dynamic> toJson() => _$GenerationInputToJson(this);
+  Map<String,dynamic> toJson() => _$AIInputToJson(this);
 }
