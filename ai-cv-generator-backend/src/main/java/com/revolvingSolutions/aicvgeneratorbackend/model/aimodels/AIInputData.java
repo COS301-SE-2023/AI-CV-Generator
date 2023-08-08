@@ -1,4 +1,4 @@
-package com.revolvingSolutions.aicvgeneratorbackend.model.extraction;
+package com.revolvingSolutions.aicvgeneratorbackend.model.aimodels;
 
 import dev.langchain4j.model.output.structured.Description;
 import lombok.AllArgsConstructor;
@@ -12,7 +12,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ExtractedData {
+public class AIInputData {
     public String firstname;
     public String lastname;
     public String email;
