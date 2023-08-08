@@ -10,10 +10,16 @@ import com.revolvingSolutions.aicvgeneratorbackend.request.generation.Generation
 import com.revolvingSolutions.aicvgeneratorbackend.response.extraction.ExtractionResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.generation.GenerationResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.generation.MockGenerationResponse;
+import dev.langchain4j.memory.chat.MessageWindowChatMemory;
+import dev.langchain4j.model.chat.ChatLanguageModel;
+import dev.langchain4j.model.openai.OpenAiChatModel;
+import dev.langchain4j.service.AiServices;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,28 +30,7 @@ public class LangChainService {
     @Value("${app.api.blockAI}")
     private Boolean block;
 
-    private final GenerationAgent generationAgent;
-    private final DescriptionAgent descriptionAgent;
-    private final EmploymentHistoryExpander employmentHistoryExpander;
-    private final EducationDescriptionAgent educationDescriptionAgent;
-    private final ExtractionAgent extractionAgent;
-    public GenerationResponse generateCV(
-            GenerationRequest request
-    ) {
-        return  GenerationResponse.builder()
-                .temp(interact(generationAgent, request.getAdjustedModel().toString()))
-                .build();
-    }
-
-    public GenerationResponse jythonGenerateCV(
-            GenerationRequest request
-    ) {
-        return  GenerationResponse.builder()
-                .temp(interact(generationAgent, request.getAdjustedModel().toString()))
-                .build();
-    }
-
-    public MockGenerationResponse mockGenerateCV(
+    public MockGenerationResponse GenerateCV(
             GenerationRequest request
     ) {
         if (block) {
@@ -69,7 +54,7 @@ public class LangChainService {
         }
         List<String> mylist = new ArrayList<>();
         for (Employment employment : request.getAdjustedModel().getEmploymenthistory()) {
-            mylist.add(interact(employmentHistoryExpander,employment.toString()));
+            mylist.add(interact(employmentHistoryExpander(chatLanguageModel()),employment.toString()));
         }
 
         return MockGenerationResponse.builder()
@@ -78,9 +63,9 @@ public class LangChainService {
                 )
                 .data(
                         CVData.builder()
-                                .description(interact(descriptionAgent,request.getAdjustedModel().toString()))
+                                .description(interact(descriptionAgent(chatLanguageModel()),request.getAdjustedModel().toString()))
                                 .employmenthis(mylist)
-                                .education_description(interact(educationDescriptionAgent,request.getAdjustedModel().getQualifications().toString()+request.getAdjustedModel().getDescription()))
+                                .education_description(interact(educationDescriptionAgent(chatLanguageModel()),request.getAdjustedModel().getQualifications().toString()+request.getAdjustedModel().getDescription()))
                                 .build()
                 )
                 .build();
@@ -95,7 +80,7 @@ public class LangChainService {
         }
         ExtractionResponse resp = ExtractionResponse.builder()
                 .data(
-                        extractionAgent.extractPersonFrom(request.getText())
+                        extractionAgent(extractionChatLanguageModel()).extractPersonFrom(request.getText())
                 )
                 .build();
         System.out.println(resp.toString());
@@ -144,5 +129,78 @@ public class LangChainService {
         System.out.println("[EducationDescriptionAgent]: " + agentAnswer);
         System.out.println("==========================================================================================");
         return agentAnswer;
+    }
+
+    @Value("${langchain4j.chat-model.openai.api-key}")
+    private String apikey;
+    @Value("${langchain4j.chat-model.openai.model-name}")
+    private String modelName;
+
+    @Value("${langchain4j.chat-model.openai.temperature}")
+    private Double temperature;
+
+    public ChatLanguageModel chatLanguageModel() {
+        return new OpenAiChatModel(
+                apikey,
+                modelName,
+                temperature,
+                1.0,
+                1000,
+                0.0,0.0,
+                Duration.ofMinutes(2),
+                2,
+                true,
+                true
+        );
+    }
+
+    public ChatLanguageModel extractionChatLanguageModel() {
+        return new OpenAiChatModel(
+                apikey,
+                modelName,
+                0.0,
+                1.0,
+                3000,
+                0.0,0.0,
+                Duration.ofMinutes(3),
+                2,
+                true,
+                true
+        );
+    }
+
+    public GenerationAgent generationAgent(ChatLanguageModel chatLanguageModel) {
+        return AiServices.builder(GenerationAgent.class)
+                .chatLanguageModel(chatLanguageModel)
+                .chatMemory(MessageWindowChatMemory.withCapacity(40))
+                .build();
+    }
+
+    public DescriptionAgent descriptionAgent(ChatLanguageModel chatLanguageModel) {
+        return AiServices.builder(DescriptionAgent.class)
+                .chatLanguageModel(chatLanguageModel)
+                .chatMemory(MessageWindowChatMemory.withCapacity(3))
+                .build();
+    }
+
+    public EmploymentHistoryExpander employmentHistoryExpander(ChatLanguageModel chatLanguageModel) {
+        return AiServices.builder(EmploymentHistoryExpander.class)
+                .chatLanguageModel(chatLanguageModel)
+                .chatMemory(MessageWindowChatMemory.withCapacity(3))
+                .build();
+    }
+
+    public EducationDescriptionAgent educationDescriptionAgent(ChatLanguageModel chatLanguageModel) {
+        return AiServices.builder(EducationDescriptionAgent.class)
+                .chatLanguageModel(chatLanguageModel)
+                .chatMemory(MessageWindowChatMemory.withCapacity(3))
+                .build();
+    }
+
+    public ExtractionAgent extractionAgent(ChatLanguageModel extractionChatLanguageModel) {
+        return AiServices.builder(ExtractionAgent.class)
+                .chatLanguageModel(extractionChatLanguageModel)
+                .chatMemory(MessageWindowChatMemory.withCapacity(5))
+                .build();
     }
 }
