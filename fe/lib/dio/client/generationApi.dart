@@ -1,6 +1,6 @@
 
 import 'package:ai_cv_generator/dio/client/dioClient.dart';
-import 'package:ai_cv_generator/dio/request/GenerationRequests/MockGenerationRequest.dart';
+import 'package:ai_cv_generator/dio/request/AIRequests/MockGenerationRequest.dart';
 import 'package:ai_cv_generator/dio/response/GenerationResponses/MockGenerationResponse.dart';
 import 'package:ai_cv_generator/models/user/UserModel.dart';
 import 'package:dio/dio.dart';
