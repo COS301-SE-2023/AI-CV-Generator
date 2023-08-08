@@ -3,6 +3,7 @@ import 'package:ai_cv_generator/dio/client/fileApi.dart';
 import 'package:ai_cv_generator/api/pdfApi.dart';
 import 'package:ai_cv_generator/dio/client/AIApi.dart';
 import 'package:ai_cv_generator/dio/response/AIResponses/MockGenerationResponse.dart';
+import 'package:ai_cv_generator/models/aimodels/AIInput.dart';
 import 'package:ai_cv_generator/models/aimodels/CVData.dart';
 import 'package:ai_cv_generator/pages/template/TemplateA.dart';
 import 'package:ai_cv_generator/pages/template/TemplateB.dart';
@@ -393,7 +394,10 @@ class _HomeState extends State<Home> {
                                 onPressed: () async {
                                   await generateFile();
                                   if(uploadFile != null) {
-                                    ExtractionView().showModal(context, uploadFile!, {});
+                                    AIInput? aiInput = await AIApi.extractPdf(file: uploadFile!);
+                                    if(aiInput != null) {
+                                      ExtractionView().showModal(context, uploadFile!, aiInput.toJson());
+                                    }
                                     // showDialog(
                                     //   context: context,
                                     //   builder: (BuildContext context) {

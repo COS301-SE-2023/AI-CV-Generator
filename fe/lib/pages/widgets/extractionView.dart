@@ -21,6 +21,7 @@ class ExtractionView {
                     width: 400,
                     child: SectionContainer(
                       child: ListView(
+                        padding: EdgeInsets.only(right: 16),
                         children: [
                           ...extractedData(data)
                         ],
@@ -38,9 +39,22 @@ class ExtractionView {
   List<Widget> extractedData(Map data) {
     List<Widget> widgets = [];
     data.forEach((key, value) {
-      widgets.add(SectionContainer(child: "key"));
-      widgets.add(Text(value));
-      widgets.add(SizedBox(height: 16,));
+      widgets.add(SectionHeading(text: key.toString().toUpperCase()));
+      if(value is List) {
+        for(int i = 0; i < value.length; i++) {
+          value[i].toJson().forEach((key, data) {
+            widgets.add(Text(data));
+          });
+          if(i != value.length-1) {
+            widgets.add(SizedBox(height: 8,));
+          }
+        }
+      }
+      else {
+        widgets.add(Text(value.toString()));
+      }
+      
+      widgets.add(SizedBox(height: 24,));
     });
     return widgets;
   }
