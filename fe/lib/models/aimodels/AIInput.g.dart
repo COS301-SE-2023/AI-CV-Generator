@@ -6,8 +6,7 @@ part of 'AIInput.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-AIInput _$AIInputFromJson(Map<String, dynamic> json) =>
-    AIInput(
+AIInput _$AIInputFromJson(Map<String, dynamic> json) => AIInput(
       firstname: json['firstname'] as String,
       lastname: json['lastname'] as String,
       email: json['email'] as String,
@@ -20,10 +19,12 @@ AIInput _$AIInputFromJson(Map<String, dynamic> json) =>
       qualifications: (json['qualifications'] as List<dynamic>)
           .map((e) => AIQualification.fromJson(e as Map<String, dynamic>))
           .toList(),
+      links: (json['links'] as List<dynamic>)
+          .map((e) => AILink.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
-Map<String, dynamic> _$AIInputToJson(AIInput instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$AIInputToJson(AIInput instance) => <String, dynamic>{
       'firstname': instance.firstname,
       'lastname': instance.lastname,
       'email': instance.email,
@@ -32,4 +33,5 @@ Map<String, dynamic> _$AIInputToJson(AIInput instance) =>
       'description': instance.description,
       'experience': instance.experience,
       'qualifications': instance.qualifications,
+      'links': instance.links,
     };

@@ -1,3 +1,4 @@
+import 'package:ai_cv_generator/models/aimodels/AILink.dart';
 import 'package:ai_cv_generator/models/aimodels/AIQualification.dart';
 import 'package:ai_cv_generator/models/aimodels/AIEmployment.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -16,7 +17,8 @@ class AIInput {
     required this.location,
     required this.description,
     required this.experience,
-    required this.qualifications
+    required this.qualifications,
+    required this.links
   });
   String firstname;
   String lastname;
@@ -26,6 +28,7 @@ class AIInput {
   String description;
   List<AIEmployment> experience;
   List<AIQualification> qualifications;
+  List<AILink> links;
 
   factory AIInput.fromJson(Map<String,dynamic> json) => _$AIInputFromJson(json);
 
