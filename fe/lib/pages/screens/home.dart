@@ -18,6 +18,7 @@ import 'package:ai_cv_generator/pages/util/chatBot.dart';
 import 'package:ai_cv_generator/pages/widgets/AILoadingScreen.dart';
 import 'package:ai_cv_generator/pages/widgets/EmptyCV.dart';
 import 'package:ai_cv_generator/pages/widgets/ErrorScreen.dart';
+import 'package:ai_cv_generator/pages/widgets/chatBotView.dart';
 import 'package:ai_cv_generator/pages/widgets/cvHistory.dart';
 import 'package:ai_cv_generator/pages/widgets/loadingScreen.dart';
 import 'package:ai_cv_generator/pages/widgets/navdrawer.dart';
@@ -228,18 +229,6 @@ class _HomeState extends State<Home> {
       ),
       body: Stack(
         children: [
-          Container(
-            alignment: Alignment.bottomRight,
-            padding: EdgeInsets.only(right: 48, bottom: 48),
-            child: IconButton(
-              onPressed: () {
-                setState(() {isChatBotHidden = !isChatBotHidden;});
-              },
-              icon: Icon(Icons.message),
-            ),
-          ),
-          if(isChatBotHidden == false)
-          OutlinedButton(onPressed: () {}, child: Text("Hello")),
           Center(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 128, vertical: 24),
@@ -618,6 +607,19 @@ class _HomeState extends State<Home> {
           ),
         ),
       ),
+
+          Container(
+            alignment: Alignment.bottomRight,
+            padding: EdgeInsets.only(right: 48, bottom: 48),
+            child: IconButton(
+              onPressed: () {
+                setState(() {isChatBotHidden = !isChatBotHidden;});
+              },
+              icon: Icon(Icons.message),
+            ),
+          ),
+          if(isChatBotHidden == false)
+          ChatBotView(),
         ]
       )
     );
