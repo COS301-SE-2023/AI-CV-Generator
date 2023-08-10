@@ -182,7 +182,7 @@ class _HomeState extends State<Home> {
   bool ready = false;
   UserModel? adjustedmodel;
   CVData? cvdata;
-  bool isChatBotHidden = true;
+  bool isChatBotVisible = true;
 
   @override
   Widget build(BuildContext context) {
@@ -613,13 +613,12 @@ class _HomeState extends State<Home> {
             padding: EdgeInsets.only(right: 48, bottom: 48),
             child: IconButton(
               onPressed: () {
-                setState(() {isChatBotHidden = !isChatBotHidden;});
+                setState(() {isChatBotVisible = true;});
               },
               icon: Icon(Icons.message),
             ),
           ),
-          if(isChatBotHidden == false)
-          ChatBotView(),
+          ChatBotView(visible: isChatBotVisible),
         ]
       )
     );
