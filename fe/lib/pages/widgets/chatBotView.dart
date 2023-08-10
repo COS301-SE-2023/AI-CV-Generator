@@ -7,6 +7,13 @@ class ChatBotView extends StatefulWidget {
 }
 
 class ChatBotViewState extends State<ChatBotView> {
+  List<Widget> messages = [];
+  TextEditingController controller = TextEditingController();
+
+  void addMesssage(String text) {
+    messages.add(Message(text: text, isSender: true));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -33,17 +40,31 @@ class ChatBotViewState extends State<ChatBotView> {
             body: Column(
               children: [
                 Expanded(
-                  flex: 3,
+                  flex: 10,
                   child: ListView(
                     padding: EdgeInsets.all(48),
                     children: [
-                      Message(text: "hello", isSender: true),
-                      Message(text: "hey there", isSender: false)
+                      Message(text: "text", isSender: false),
+                      ...messages
                     ],
                   ),
                 ),
                 Expanded(
-                  child: TextField()
+                  child: TextField(
+                    controller: controller,
+                    onSubmitted: (value) {
+                      addMesssage(value);
+                      controller.text = "";
+                      setState(() {});
+                    },
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(0),
+                        borderSide:
+                        BorderSide(color: Colors.black)
+                      )
+                    ),
+                  )
                 )
               ],
             )
@@ -61,34 +82,48 @@ class Message extends StatelessWidget {
   BorderRadiusGeometry messageBorderRadiusGeometry() {
     if(isSender == true) {
       return BorderRadius.only(
+        bottomLeft: Radius.circular(20),
+        topLeft: Radius.circular(20),
+        topRight: Radius.circular(20),
+      );
+    }
+    return BorderRadius.only(
         bottomRight: Radius.circular(20),
         topLeft: Radius.circular(20),
         topRight: Radius.circular(20),
-    );
-    }
-    return BorderRadius.only(
-      bottomLeft: Radius.circular(20),
-      topLeft: Radius.circular(20),
-      topRight: Radius.circular(20),
-    );
+      );
   }
 
   messageAlignment() {
     if(isSender == true) {
-      return CrossAxisAlignment.start;
+      return CrossAxisAlignment.end;
     }
-    return CrossAxisAlignment.end;
+    return CrossAxisAlignment.start;
+  }
+
+  Color messageColour(BuildContext context) {
+    if(isSender == true) {
+      return Theme.of(context).colorScheme.primary.withOpacity(0.3);
+    }
+    return Theme.of(context).colorScheme.surface;
   }
 
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: messageAlignment(),
       children: [
         Container(
+          padding: EdgeInsets.all(16),
+          alignment: Alignment.center,
+          constraints: BoxConstraints(
+            minHeight: 60,
+            maxWidth: 150
+          ),
           decoration: BoxDecoration(
-            color: Colors.grey.shade200,
-            borderRadius: messageBorderRadiusGeometry()
+            color: messageColour(context),
+            borderRadius: messageBorderRadiusGeometry(),
           ),
           child: Text(text),
         ),
