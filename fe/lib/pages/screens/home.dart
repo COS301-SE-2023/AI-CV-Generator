@@ -182,7 +182,7 @@ class _HomeState extends State<Home> {
   bool ready = false;
   UserModel? adjustedmodel;
   CVData? cvdata;
-  bool isChatBotVisible = true;
+  bool isChatBotVisible = false;
 
   @override
   Widget build(BuildContext context) {
@@ -612,6 +612,7 @@ class _HomeState extends State<Home> {
             alignment: Alignment.bottomRight,
             padding: EdgeInsets.only(right: 48, bottom: 48),
             child: IconButton(
+              color: Theme.of(context).colorScheme.secondary,
               onPressed: () {
                 setState(() {isChatBotVisible = true;});
               },
