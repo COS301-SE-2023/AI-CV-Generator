@@ -180,6 +180,7 @@ class _HomeState extends State<Home> {
   bool ready = false;
   UserModel? adjustedmodel;
   CVData? cvdata;
+  bool isChatBotHidden = true;
 
   @override
   Widget build(BuildContext context) {
@@ -224,386 +225,402 @@ class _HomeState extends State<Home> {
           )
         ],
       ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 128, vertical: 24),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                flex: 2,
-                child: Container(
-                  padding: const EdgeInsets.all(24.0),
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(Radius.circular(20)),
-                    border: Border.all(
-                      color: const Color.fromARGB(0, 0, 0, 0),
-                    ),
-                    color: Theme.of(context).colorScheme.surface,
-                  ),
-                  child: Column(
-                    children: [
-                      const Align(
-                        alignment: Alignment.topCenter,
-                        child: Text("TEMPLATES", style: TextStyle(fontSize: 16),),
-                      ),
-                      SingleChildScrollView(
-                        
-                        child: Container(
-                          height: 499,
-                          child: GridView.count(
-                            crossAxisCount: 1,
-                            children:[
-                            Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: tempA,
-                                  width: 5
-                                )
-                              ),
-                              padding: const EdgeInsets.fromLTRB(0,5, 0,5),
-                              child: MouseRegion(
-                                cursor: SystemMouseCursors.click,
-                                child: GestureDetector(
-                                  onTap: () async {
-                                    if (tem != Template.templateA) {
-                                      tem = Template.templateA;
-                                      tempA = Colors.blue;
-                                      tempB = tempC= Colors.transparent;
-                                      if (ready) {
-                                        templateAPdf = TemplateA(data: cvdata!);
-                                        editPage = templateAPdf;
-                                        generatedFile = await templateAPdf!.transform();
-                                      }
-                                      setState(() {
-                                        
-                                      });
-                                    }
-                                  },
-                                  child: Image(image: Image.asset("assets/images/TemplateAAsset.jpg").image,height: 250,width: 100,),
-                                )
-                              ),
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: tempB,
-                                  width: 5
-                                ),
-                              ),
-                              padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
-                              child: MouseRegion(
-                                cursor: SystemMouseCursors.click,
-                                child: GestureDetector(
-                                  onTap: () async {
-                                    if (tem != Template.templateB) {
-                                      tem = Template.templateB;
-                                      tempB = Colors.blue;
-                                      tempA = tempC = Colors.transparent;
-                                      if (ready) {
-                                        templateBPdf = TemplateB(data: cvdata!);
-                                        editPage = templateBPdf;
-                                        generatedFile = await templateBPdf!.transform();
-                                      }
-                                      setState(() {
-                                          
-                                      });
-                                    }
-                                  },
-                                  child: Image(image: Image.asset("assets/images/TemplateBAsset.png").image,height: 250,width: 100,),
-                                )
-                              ),
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: tempC,
-                                  width: 5
-                                ),
-                              ),
-                              padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
-                              child: MouseRegion(
-                                cursor: SystemMouseCursors.click,
-                                child: GestureDetector(
-                                  onTap: () async {
-                                    if (tem != Template.templateC) {
-                                      tem = Template.templateC;
-                                      tempC = Colors.blue;
-                                      tempB = tempA = Colors.transparent;
-                                      if (ready) {
-                                        templateCPdf = TemplateC(data: cvdata!);
-                                        editPage = templateCPdf;
-                                        generatedFile = await templateCPdf!.transform();
-                                      }
-                                      setState(() {
-                                          
-                                      });
-                                    }
-                                  },
-                                  child: Image(image: Image.asset("assets/images/TemplateCAsset.jpg").image,height: 250,width: 100,),
-                                )
-                              ),
-                            )
-                          ],
-                          )
+      body: Stack(
+        children: [
+          Container(
+            alignment: Alignment.bottomRight,
+            padding: EdgeInsets.only(right: 48, bottom: 48),
+            child: IconButton(
+              onPressed: () {
+                setState(() {isChatBotHidden = !isChatBotHidden;});
+              },
+              icon: Icon(Icons.message),
+            ),
+          ),
+          if(isChatBotHidden == false)
+          OutlinedButton(onPressed: () {}, child: Text("Hello")),
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 128, vertical: 24),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    flex: 2,
+                    child: Container(
+                      padding: const EdgeInsets.all(24.0),
+                      decoration: BoxDecoration(
+                        borderRadius: const BorderRadius.all(Radius.circular(20)),
+                        border: Border.all(
+                          color: const Color.fromARGB(0, 0, 0, 0),
                         ),
-                      )
-                    ],
-                  )
-                )
-              ),
-              const SizedBox(width: 24,),
-              Expanded(
-                flex: 3,
-                child:Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 0),
-                  child: Column(
-                    children: [
-                      Row(
+                        color: Theme.of(context).colorScheme.surface,
+                      ),
+                      child: Column(
                         children: [
-                          Container(
-                            child: SizedBox(
-                              height: 40,
-                              width: 100, 
-                              child: ElevatedButton(
-                                onPressed: () async {
-                                  Home.adjustedModel = model;
-                                  await showDialog(
-                                    context: context, 
-                                    builder: (BuildContext context) {
-                                      return Dialog(
-                                        child: ConstrainedBox(
-                                          constraints: const BoxConstraints(maxWidth: 800),
-                                          child: const PersonalDetailsForm()
-                                        )
-                                        
+                          const Align(
+                            alignment: Alignment.topCenter,
+                            child: Text("TEMPLATES", style: TextStyle(fontSize: 16),),
+                          ),
+                          SingleChildScrollView(
+                            
+                            child: Container(
+                              height: 499,
+                              child: GridView.count(
+                                crossAxisCount: 1,
+                                children:[
+                                Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: tempA,
+                                      width: 5
+                                    )
+                                  ),
+                                  padding: const EdgeInsets.fromLTRB(0,5, 0,5),
+                                  child: MouseRegion(
+                                    cursor: SystemMouseCursors.click,
+                                    child: GestureDetector(
+                                      onTap: () async {
+                                        if (tem != Template.templateA) {
+                                          tem = Template.templateA;
+                                          tempA = Colors.blue;
+                                          tempB = tempC= Colors.transparent;
+                                          if (ready) {
+                                            templateAPdf = TemplateA(data: cvdata!);
+                                            editPage = templateAPdf;
+                                            generatedFile = await templateAPdf!.transform();
+                                          }
+                                          setState(() {
+                                            
+                                          });
+                                        }
+                                      },
+                                      child: Image(image: Image.asset("assets/images/TemplateAAsset.jpg").image,height: 250,width: 100,),
+                                    )
+                                  ),
+                                ),
+                                Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: tempB,
+                                      width: 5
+                                    ),
+                                  ),
+                                  padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+                                  child: MouseRegion(
+                                    cursor: SystemMouseCursors.click,
+                                    child: GestureDetector(
+                                      onTap: () async {
+                                        if (tem != Template.templateB) {
+                                          tem = Template.templateB;
+                                          tempB = Colors.blue;
+                                          tempA = tempC = Colors.transparent;
+                                          if (ready) {
+                                            templateBPdf = TemplateB(data: cvdata!);
+                                            editPage = templateBPdf;
+                                            generatedFile = await templateBPdf!.transform();
+                                          }
+                                          setState(() {
+                                              
+                                          });
+                                        }
+                                      },
+                                      child: Image(image: Image.asset("assets/images/TemplateBAsset.png").image,height: 250,width: 100,),
+                                    )
+                                  ),
+                                ),
+                                Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: tempC,
+                                      width: 5
+                                    ),
+                                  ),
+                                  padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+                                  child: MouseRegion(
+                                    cursor: SystemMouseCursors.click,
+                                    child: GestureDetector(
+                                      onTap: () async {
+                                        if (tem != Template.templateC) {
+                                          tem = Template.templateC;
+                                          tempC = Colors.blue;
+                                          tempB = tempA = Colors.transparent;
+                                          if (ready) {
+                                            templateCPdf = TemplateC(data: cvdata!);
+                                            editPage = templateCPdf;
+                                            generatedFile = await templateCPdf!.transform();
+                                          }
+                                          setState(() {
+                                              
+                                          });
+                                        }
+                                      },
+                                      child: Image(image: Image.asset("assets/images/TemplateCAsset.jpg").image,height: 250,width: 100,),
+                                    )
+                                  ),
+                                )
+                              ],
+                              )
+                            ),
+                          )
+                        ],
+                      )
+                    )
+                  ),
+                  const SizedBox(width: 24,),
+                  Expanded(
+                    flex: 3,
+                    child:Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 0),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Container(
+                                child: SizedBox(
+                                  height: 40,
+                                  width: 100, 
+                                  child: ElevatedButton(
+                                    onPressed: () async {
+                                      Home.adjustedModel = model;
+                                      await showDialog(
+                                        context: context, 
+                                        builder: (BuildContext context) {
+                                          return Dialog(
+                                            child: ConstrainedBox(
+                                              constraints: const BoxConstraints(maxWidth: 800),
+                                              child: const PersonalDetailsForm()
+                                            )
+                                            
+                                          );
+                                        }
                                       );
-                                    }
-                                  );
-                                  if (Home.ready == false) return;
-                                  setState(() {
-                                    editPage = null;
-                                  });
-                                  setState(() {
-                                    editPage = const AILoadingScreen();
-                                  });
+                                      if (Home.ready == false) return;
+                                      setState(() {
+                                        editPage = null;
+                                      });
+                                      setState(() {
+                                        editPage = const AILoadingScreen();
+                                      });
 
 
-                                  GenerationResponse? response = await AIApi.generate(data: usermodel_to_input((Home.adjustedModel!)));
-                                  if (response?.data.description == null) {
-                                    editPage = ErrorScreen(errormsg: "Rate Limit Exceeded!");
-                                    setState(() {});
-                                    return;
-                                  }
-                                  switch (tem) {
-                                    case Template.templateA:
-                                      templateAPdf = TemplateA(data: response!.data);
-                                      editPage = templateAPdf;
-                                      generatedFile = await templateAPdf!.transform();
-                                    break;
-                                    case Template.templateB:
-                                      templateBPdf = TemplateB(data: response!.data);
-                                      editPage = templateBPdf;
-                                      generatedFile = await templateBPdf!.transform();
-                                    break;
-                                    default:
-                                      templateCPdf = TemplateC(data: response!.data);
-                                      editPage = templateCPdf;
-                                      generatedFile = await templateCPdf!.transform();
-                                    break;
-                                  }
-                                  cvdata = response!.data;
-                                  ready = true;
-                                  setState(() {});
-                                }, 
-                                child: Text("SURVEY", style: textStyle),
+                                      GenerationResponse? response = await AIApi.generate(data: usermodel_to_input((Home.adjustedModel!)));
+                                      if (response?.data.description == null) {
+                                        editPage = ErrorScreen(errormsg: "Rate Limit Exceeded!");
+                                        setState(() {});
+                                        return;
+                                      }
+                                      switch (tem) {
+                                        case Template.templateA:
+                                          templateAPdf = TemplateA(data: response!.data);
+                                          editPage = templateAPdf;
+                                          generatedFile = await templateAPdf!.transform();
+                                        break;
+                                        case Template.templateB:
+                                          templateBPdf = TemplateB(data: response!.data);
+                                          editPage = templateBPdf;
+                                          generatedFile = await templateBPdf!.transform();
+                                        break;
+                                        default:
+                                          templateCPdf = TemplateC(data: response!.data);
+                                          editPage = templateCPdf;
+                                          generatedFile = await templateCPdf!.transform();
+                                        break;
+                                      }
+                                      cvdata = response!.data;
+                                      ready = true;
+                                      setState(() {});
+                                    }, 
+                                    child: Text("SURVEY", style: textStyle),
+                                  ),
+                                )
                               ),
-                            )
+                              const SizedBox(width: 43,),
+                              Container(
+                                child: SizedBox(
+                                  height: 40,
+                                  width: 100, 
+                                  child: ElevatedButton(
+                                    onPressed: () async {
+                                      uploadFile = await pdfAPI.pick_cvfile();
+                                      if(uploadFile != null) {                    
+                                        filenameC.text = uploadFile!.name;
+                                        await FileApi.uploadFile(file: uploadFile);
+                                        updatePastCVs();
+                                      }
+                                    }, 
+                                    child: Text("UPLOAD", style: textStyle),
+                                  ),
+                                )
+                              ),
+                              const SizedBox(width: 43,),
+                              Container(
+                                child: SizedBox(
+                                  height: 40,
+                                  width: 100,
+                                  child: ElevatedButton(
+                                    onPressed: () async {
+                                      await generateFile();
+                                      if(uploadFile != null) {
+                                        AIInput? aiInput = await AIApi.extractPdf(file: uploadFile!);
+                                        if(aiInput != null) {
+                                          ExtractionView().showModal(context, uploadFile!, aiInput.toJson());
+                                        }
+                                        // showDialog(
+                                        //   context: context,
+                                        //   builder: (BuildContext context) {
+                                        //     return PdfView(
+                                        //       controller: PdfController(document: PdfDocument.openData(uploadFile!.bytes as FutureOr<Uint8List>)),
+                                        //       scrollDirection: Axis.horizontal,
+                                        //       pageSnapping: false,
+                                        //     );
+                                        //   }
+                                        // );
+                                      }
+                                    },
+                                    child: Text("PREVIEW", style: textStyle),
+                                  ),
+                                )
+                              ),
+                              const SizedBox(width: 48,),
+                              Expanded(
+                                flex: 2,
+                                child: Text(
+                                  filenameC.text,
+                                  style: textStyle
+                                ),
+                              ),
+                            ],
                           ),
-                          const SizedBox(width: 43,),
+                          const SizedBox(height: 12,),
+                          if(uploadFile != null || generatedFile != null)
                           Container(
-                            child: SizedBox(
-                              height: 40,
-                              width: 100, 
-                              child: ElevatedButton(
-                                onPressed: () async {
-                                  uploadFile = await pdfAPI.pick_cvfile();
-                                  if(uploadFile != null) {                    
-                                    filenameC.text = uploadFile!.name;
-                                    await FileApi.uploadFile(file: uploadFile);
-                                    updatePastCVs();
-                                  }
-                                }, 
-                                child: Text("UPLOAD", style: textStyle),
-                              ),
-                            )
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(
+                                  child: SizedBox(
+                                    height:40,
+                                    width: 100,
+                                    child:ElevatedButton(
+                                      onPressed: () async {
+                                        // MockGenerationResponse? response = await GenerationApi.mockgenerate(userModel: (Home.adjustedModel)!);
+                                        // editPage = TemplateA(user: (await userApi.getUser())!);
+                                        // setState(() {});
+                                      }, 
+                                      child: Text("GENERATE", style: textStyle),
+                                    ),
+                                  )
+                                ),
+                                Container(
+                                  child: SizedBox(
+                                    height: 40,
+                                    width: 100,
+                                    child: ElevatedButton(
+                                      onPressed: () async {
+                                        await generateFile();
+                                        if (generatedFile != null) {
+                                          requirementsforshare(context, generatedFile);
+                                        }
+                                        updatePastCVs();
+                                      },
+                                      child: Text("SHARE", style: textStyle),
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  child: SizedBox(
+                                    height: 40,
+                                    width: 100,
+                                    child: ElevatedButton(
+                                      onPressed: () async {
+                                        await generateFile();
+                                        if (generatedFile != null) {
+                                          DownloadService.download(generatedFile!.bytes!.toList(), downloadName: generatedFile!.name);
+                                        }
+                                      }, child: Text("DOWNLOAD", style: textStyle),
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  child: SizedBox(
+                                    height: 40,
+                                    width: 100,
+                                    child: ElevatedButton(
+                                      onPressed: () async {
+                                        await generateFile();
+                                        if(generatedFile != null) {
+                                          showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              return PdfView(
+                                                controller: PdfController(document: PdfDocument.openData(generatedFile!.bytes as FutureOr<Uint8List>)),
+                                                scrollDirection: Axis.horizontal,
+                                                pageSnapping: false,
+                                              );
+                                            }
+                                          );  
+                                        }
+                                      }, child: Text("EXPAND", style: textStyle)
+                                    )
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                          const SizedBox(width: 43,),
-                          Container(
-                            child: SizedBox(
-                              height: 40,
-                              width: 100,
-                              child: ElevatedButton(
-                                onPressed: () async {
-                                  await generateFile();
-                                  if(uploadFile != null) {
-                                    AIInput? aiInput = await AIApi.extractPdf(file: uploadFile!);
-                                    if(aiInput != null) {
-                                      ExtractionView().showModal(context, uploadFile!, aiInput.toJson());
-                                    }
-                                    // showDialog(
-                                    //   context: context,
-                                    //   builder: (BuildContext context) {
-                                    //     return PdfView(
-                                    //       controller: PdfController(document: PdfDocument.openData(uploadFile!.bytes as FutureOr<Uint8List>)),
-                                    //       scrollDirection: Axis.horizontal,
-                                    //       pageSnapping: false,
-                                    //     );
-                                    //   }
-                                    // );
-                                  }
-                                },
-                                child: Text("PREVIEW", style: textStyle),
+                          const SizedBox(height: 4,),
+                          Expanded(child:
+                            Container(
+                              height: 400,
+                              decoration: BoxDecoration(
+                                borderRadius: const BorderRadius.all(Radius.circular(20)),
+                                border: Border.all(
+                                  color: const Color.fromARGB(0, 0, 0, 0),
+                                ),
+                                color: Theme.of(context).colorScheme.surface,
                               ),
-                            )
-                          ),
-                          const SizedBox(width: 48,),
-                          Expanded(
-                            flex: 2,
-                            child: Text(
-                              filenameC.text,
-                              style: textStyle
+                              child: editPage,
                             ),
                           ),
                         ],
                       ),
-                      const SizedBox(height: 12,),
-                      if(uploadFile != null || generatedFile != null)
-                      Container(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              child: SizedBox(
-                                height:40,
-                                width: 100,
-                                child:ElevatedButton(
-                                  onPressed: () async {
-                                    // MockGenerationResponse? response = await GenerationApi.mockgenerate(userModel: (Home.adjustedModel)!);
-                                    // editPage = TemplateA(user: (await userApi.getUser())!);
-                                    // setState(() {});
-                                  }, 
-                                  child: Text("GENERATE", style: textStyle),
+                    ),
+                  ),
+                  const SizedBox(width: 24,),
+                  Expanded(
+                    flex: 2,
+                    child: Container(
+                      child: Column(
+                        children: [
+                          const Expanded(
+                            flex: 2,
+                            child: PastCVs(),
+                          ),
+                          Expanded(
+                            flex: 10,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: const BorderRadius.all(Radius.circular(20)),
+                                border: Border.all(
+                                  color: const Color.fromARGB(0, 0, 0, 0),
                                 ),
+                                color: Theme.of(context).colorScheme.surface,
+                              ),
+                              child: SizedBox.expand(
+                                child: Center(child: CVHistory(context: context,list: list,),)
                               )
                             ),
-                            Container(
-                              child: SizedBox(
-                                height: 40,
-                                width: 100,
-                                child: ElevatedButton(
-                                  onPressed: () async {
-                                    await generateFile();
-                                    if (generatedFile != null) {
-                                      requirementsforshare(context, generatedFile);
-                                    }
-                                    updatePastCVs();
-                                  },
-                                  child: Text("SHARE", style: textStyle),
-                                ),
-                              ),
-                            ),
-                            Container(
-                              child: SizedBox(
-                                height: 40,
-                                width: 100,
-                                child: ElevatedButton(
-                                  onPressed: () async {
-                                    await generateFile();
-                                    if (generatedFile != null) {
-                                      DownloadService.download(generatedFile!.bytes!.toList(), downloadName: generatedFile!.name);
-                                    }
-                                  }, child: Text("DOWNLOAD", style: textStyle),
-                                ),
-                              ),
-                            ),
-                            Container(
-                              child: SizedBox(
-                                height: 40,
-                                width: 100,
-                                child: ElevatedButton(
-                                  onPressed: () async {
-                                    await generateFile();
-                                    if(generatedFile != null) {
-                                      showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return PdfView(
-                                            controller: PdfController(document: PdfDocument.openData(generatedFile!.bytes as FutureOr<Uint8List>)),
-                                            scrollDirection: Axis.horizontal,
-                                            pageSnapping: false,
-                                          );
-                                        }
-                                      );  
-                                    }
-                                  }, child: Text("EXPAND", style: textStyle)
-                                )
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 4,),
-                      Expanded(child:
-                        Container(
-                          height: 400,
-                          decoration: BoxDecoration(
-                            borderRadius: const BorderRadius.all(Radius.circular(20)),
-                            border: Border.all(
-                              color: const Color.fromARGB(0, 0, 0, 0),
-                            ),
-                            color: Theme.of(context).colorScheme.surface,
                           ),
-                          child: editPage,
-                        ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
-                ),
+                ],
               ),
-              const SizedBox(width: 24,),
-              Expanded(
-                flex: 2,
-                child: Container(
-                  child: Column(
-                    children: [
-                      const Expanded(
-                        flex: 2,
-                        child: PastCVs(),
-                      ),
-                      Expanded(
-                        flex: 10,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: const BorderRadius.all(Radius.circular(20)),
-                            border: Border.all(
-                              color: const Color.fromARGB(0, 0, 0, 0),
-                            ),
-                            color: Theme.of(context).colorScheme.surface,
-                          ),
-                          child: SizedBox.expand(
-                            child: Center(child: CVHistory(context: context,list: list,),)
-                          )
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
+            ),
           ),
-        ),
-      ),
+        ]
+      )
     );
   }
 }
