@@ -14,6 +14,7 @@ import 'package:ai_cv_generator/models/user/Qualification.dart';
 import 'package:ai_cv_generator/pages/template/TemplateA.dart';
 import 'package:ai_cv_generator/pages/template/TemplateB.dart';
 import 'package:ai_cv_generator/pages/template/TemplateC.dart';
+import 'package:ai_cv_generator/pages/util/chatBot.dart';
 import 'package:ai_cv_generator/pages/widgets/AILoadingScreen.dart';
 import 'package:ai_cv_generator/pages/widgets/EmptyCV.dart';
 import 'package:ai_cv_generator/pages/widgets/ErrorScreen.dart';
@@ -404,223 +405,219 @@ class _HomeState extends State<Home> {
                                       });
 
 
-                                      GenerationResponse? response = await AIApi.generate(data: usermodel_to_input((Home.adjustedModel!)));
-                                      if (response?.data.description == null) {
-                                        editPage = ErrorScreen(errormsg: "Rate Limit Exceeded!");
-                                        setState(() {});
-                                        return;
-                                      }
-                                      switch (tem) {
-                                        case Template.templateA:
-                                          templateAPdf = TemplateA(data: response!.data);
-                                          editPage = templateAPdf;
-                                          generatedFile = await templateAPdf!.transform();
-                                        break;
-                                        case Template.templateB:
-                                          templateBPdf = TemplateB(data: response!.data);
-                                          editPage = templateBPdf;
-                                          generatedFile = await templateBPdf!.transform();
-                                        break;
-                                        default:
-                                          templateCPdf = TemplateC(data: response!.data);
-                                          editPage = templateCPdf;
-                                          generatedFile = await templateCPdf!.transform();
-                                        break;
-                                      }
-                                      cvdata = response!.data;
-                                      ready = true;
-                                      setState(() {});
-                                    }, 
-                                    child: Text("SURVEY", style: textStyle),
-                                  ),
-                                )
+                                  GenerationResponse? response = await AIApi.generate(data: usermodel_to_input((Home.adjustedModel!)));
+                                  if (response?.data.description == null) {
+                                    editPage = ErrorScreen(errormsg: "Rate Limit Exceeded!");
+                                    setState(() {});
+                                    return;
+                                  }
+                                  switch (tem) {
+                                    case Template.templateA:
+                                      templateAPdf = TemplateA(data: response!.data);
+                                      editPage = templateAPdf;
+                                      generatedFile = await templateAPdf!.transform();
+                                    break;
+                                    case Template.templateB:
+                                      templateBPdf = TemplateB(data: response!.data);
+                                      editPage = templateBPdf;
+                                      generatedFile = await templateBPdf!.transform();
+                                    break;
+                                    default:
+                                      templateCPdf = TemplateC(data: response!.data);
+                                      editPage = templateCPdf;
+                                      generatedFile = await templateCPdf!.transform();
+                                    break;
+                                  }
+                                  cvdata = response!.data;
+                                  ready = true;
+                                  setState(() {});
+                                }, 
+                                child: Text("SURVEY", style: textStyle),
                               ),
-                              const SizedBox(width: 43,),
-                              Container(
-                                child: SizedBox(
-                                  height: 40,
-                                  width: 100, 
-                                  child: ElevatedButton(
-                                    onPressed: () async {
-                                      uploadFile = await pdfAPI.pick_cvfile();
-                                      if(uploadFile != null) {                    
-                                        filenameC.text = uploadFile!.name;
-                                        await FileApi.uploadFile(file: uploadFile);
-                                        updatePastCVs();
-                                      }
-                                    }, 
-                                    child: Text("UPLOAD", style: textStyle),
-                                  ),
-                                )
-                              ),
-                              const SizedBox(width: 43,),
-                              Container(
-                                child: SizedBox(
-                                  height: 40,
-                                  width: 100,
-                                  child: ElevatedButton(
-                                    onPressed: () async {
-                                      await generateFile();
-                                      if(uploadFile != null) {
-                                        AIInput? aiInput = await AIApi.extractPdf(file: uploadFile!);
-                                        if(aiInput != null) {
-                                          ExtractionView().showModal(context, uploadFile!, aiInput.toJson());
-                                        }
-                                        // showDialog(
-                                        //   context: context,
-                                        //   builder: (BuildContext context) {
-                                        //     return PdfView(
-                                        //       controller: PdfController(document: PdfDocument.openData(uploadFile!.bytes as FutureOr<Uint8List>)),
-                                        //       scrollDirection: Axis.horizontal,
-                                        //       pageSnapping: false,
-                                        //     );
-                                        //   }
-                                        // );
-                                      }
-                                    },
-                                    child: Text("PREVIEW", style: textStyle),
-                                  ),
-                                )
-                              ),
-                              const SizedBox(width: 48,),
-                              Expanded(
-                                flex: 2,
-                                child: Text(
-                                  filenameC.text,
-                                  style: textStyle
-                                ),
-                              ),
-                            ],
+                            )
                           ),
-                          const SizedBox(height: 12,),
-                          if(uploadFile != null || generatedFile != null)
+                          const SizedBox(width: 43,),
                           Container(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Container(
-                                  child: SizedBox(
-                                    height:40,
-                                    width: 100,
-                                    child:ElevatedButton(
-                                      onPressed: () async {
-                                        // MockGenerationResponse? response = await GenerationApi.mockgenerate(userModel: (Home.adjustedModel)!);
-                                        // editPage = TemplateA(user: (await userApi.getUser())!);
-                                        // setState(() {});
-                                      }, 
-                                      child: Text("GENERATE", style: textStyle),
-                                    ),
-                                  )
-                                ),
-                                Container(
-                                  child: SizedBox(
-                                    height: 40,
-                                    width: 100,
-                                    child: ElevatedButton(
-                                      onPressed: () async {
-                                        await generateFile();
-                                        if (generatedFile != null) {
-                                          requirementsforshare(context, generatedFile);
-                                        }
-                                        updatePastCVs();
-                                      },
-                                      child: Text("SHARE", style: textStyle),
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  child: SizedBox(
-                                    height: 40,
-                                    width: 100,
-                                    child: ElevatedButton(
-                                      onPressed: () async {
-                                        await generateFile();
-                                        if (generatedFile != null) {
-                                          DownloadService.download(generatedFile!.bytes!.toList(), downloadName: generatedFile!.name);
-                                        }
-                                      }, child: Text("DOWNLOAD", style: textStyle),
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  child: SizedBox(
-                                    height: 40,
-                                    width: 100,
-                                    child: ElevatedButton(
-                                      onPressed: () async {
-                                        await generateFile();
-                                        if(generatedFile != null) {
-                                          showDialog(
-                                            context: context,
-                                            builder: (BuildContext context) {
-                                              return PdfView(
-                                                controller: PdfController(document: PdfDocument.openData(generatedFile!.bytes as FutureOr<Uint8List>)),
-                                                scrollDirection: Axis.horizontal,
-                                                pageSnapping: false,
-                                              );
-                                            }
-                                          );  
-                                        }
-                                      }, child: Text("EXPAND", style: textStyle)
-                                    )
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(height: 4,),
-                          Expanded(child:
-                            Container(
-                              height: 400,
-                              decoration: BoxDecoration(
-                                borderRadius: const BorderRadius.all(Radius.circular(20)),
-                                border: Border.all(
-                                  color: const Color.fromARGB(0, 0, 0, 0),
-                                ),
-                                color: Theme.of(context).colorScheme.surface,
+                            child: SizedBox(
+                              height: 40,
+                              width: 100, 
+                              child: ElevatedButton(
+                                onPressed: () async {
+                                  uploadFile = await pdfAPI.pick_cvfile();
+                                  if(uploadFile != null) {                    
+                                    filenameC.text = uploadFile!.name;
+                                    await FileApi.uploadFile(file: uploadFile);
+                                    updatePastCVs();
+                                  }
+                                }, 
+                                child: Text("UPLOAD", style: textStyle),
                               ),
-                              child: editPage,
+                            )
+                          ),
+                          const SizedBox(width: 43,),
+                          Container(
+                            child: SizedBox(
+                              height: 40,
+                              width: 100,
+                              child: ElevatedButton(
+                                onPressed: () async {
+                                  await generateFile();
+                                  if(uploadFile != null) {
+                                    AIInput? aiInput = await AIApi.extractPdf(file: uploadFile!);
+                                    if(aiInput != null) {
+                                      ExtractionView().showModal(context, uploadFile!, aiInput.toJson());
+                                    }
+                                    // showDialog(
+                                    //   context: context,
+                                    //   builder: (BuildContext context) {
+                                    //     return PdfView(
+                                    //       controller: PdfController(document: PdfDocument.openData(uploadFile!.bytes as FutureOr<Uint8List>)),
+                                    //       scrollDirection: Axis.horizontal,
+                                    //       pageSnapping: false,
+                                    //     );
+                                    //   }
+                                    // );
+                                  }
+                                },
+                                child: Text("PREVIEW", style: textStyle),
+                              ),
+                            )
+                          ),
+                          const SizedBox(width: 48,),
+                          Expanded(
+                            flex: 2,
+                            child: Text(
+                              filenameC.text,
+                              style: textStyle
                             ),
                           ),
                         ],
                       ),
-                    ),
-                  ),
-                  const SizedBox(width: 24,),
-                  Expanded(
-                    flex: 2,
-                    child: Container(
-                      child: Column(
-                        children: [
-                          const Expanded(
-                            flex: 2,
-                            child: PastCVs(),
-                          ),
-                          Expanded(
-                            flex: 10,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: const BorderRadius.all(Radius.circular(20)),
-                                border: Border.all(
-                                  color: const Color.fromARGB(0, 0, 0, 0),
+                      const SizedBox(height: 12,),
+                      if(uploadFile != null || generatedFile != null)
+                      Container(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              child: SizedBox(
+                                height:40,
+                                width: 100,
+                                child:ElevatedButton(
+                                  onPressed: () async {
+                                    
+                                  }, 
+                                  child: Text("GENERATE", style: textStyle),
                                 ),
-                                color: Theme.of(context).colorScheme.surface,
-                              ),
-                              child: SizedBox.expand(
-                                child: Center(child: CVHistory(context: context,list: list,),)
                               )
                             ),
-                          ),
-                        ],
+                            Container(
+                              child: SizedBox(
+                                height: 40,
+                                width: 100,
+                                child: ElevatedButton(
+                                  onPressed: () async {
+                                    await generateFile();
+                                    if (generatedFile != null) {
+                                      requirementsforshare(context, generatedFile);
+                                    }
+                                    updatePastCVs();
+                                  },
+                                  child: Text("SHARE", style: textStyle),
+                                ),
+                              ),
+                            ),
+                            Container(
+                              child: SizedBox(
+                                height: 40,
+                                width: 100,
+                                child: ElevatedButton(
+                                  onPressed: () async {
+                                    await generateFile();
+                                    if (generatedFile != null) {
+                                      DownloadService.download(generatedFile!.bytes!.toList(), downloadName: generatedFile!.name);
+                                    }
+                                  }, child: Text("DOWNLOAD", style: textStyle),
+                                ),
+                              ),
+                            ),
+                            Container(
+                              child: SizedBox(
+                                height: 40,
+                                width: 100,
+                                child: ElevatedButton(
+                                  onPressed: () async {
+                                    await generateFile();
+                                    if(generatedFile != null) {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return PdfView(
+                                            controller: PdfController(document: PdfDocument.openData(generatedFile!.bytes as FutureOr<Uint8List>)),
+                                            scrollDirection: Axis.horizontal,
+                                            pageSnapping: false,
+                                          );
+                                        }
+                                      );  
+                                    }
+                                  }, child: Text("EXPAND", style: textStyle)
+                                )
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
+                      const SizedBox(height: 4,),
+                      Expanded(child:
+                        Container(
+                          height: 400,
+                          decoration: BoxDecoration(
+                            borderRadius: const BorderRadius.all(Radius.circular(20)),
+                            border: Border.all(
+                              color: const Color.fromARGB(0, 0, 0, 0),
+                            ),
+                            color: Theme.of(context).colorScheme.surface,
+                          ),
+                          child: editPage,
+                        ),
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
-            ),
+              const SizedBox(width: 24,),
+              Expanded(
+                flex: 2,
+                child: Container(
+                  child: Column(
+                    children: [
+                      const Expanded(
+                        flex: 2,
+                        child: PastCVs(),
+                      ),
+                      Expanded(
+                        flex: 10,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: const BorderRadius.all(Radius.circular(20)),
+                            border: Border.all(
+                              color: const Color.fromARGB(0, 0, 0, 0),
+                            ),
+                            color: Theme.of(context).colorScheme.surface,
+                          ),
+                          child: SizedBox.expand(
+                            child: Center(child: CVHistory(context: context,list: list,),)
+                          )
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
           ),
-        ]
-      )
+        ),
+      ),
     );
   }
 }
