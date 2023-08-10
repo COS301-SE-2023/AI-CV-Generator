@@ -46,9 +46,11 @@ public class LangChainService {
                                     .email(request.getData().getEmail())
                                     .location(request.getData().getLocation())
                                     .description(StaticValues.description)
+                                    .employmenthistory(request.getData().getExperience())
                                     .experience(mylist)
                                     .qualifications(request.getData().getQualifications())
                                     .education_description(StaticValues.education_description)
+                                    .links(request.getData().getLinks())
                                     .build()
                     )
                     .build();
@@ -67,9 +69,11 @@ public class LangChainService {
                                 .email(request.getData().getEmail())
                                 .location(request.getData().getLocation())
                                 .description(interact(descriptionAgent(chatLanguageModel()),request.getData().toString()))
+                                .employmenthistory(request.getData().getExperience())
                                 .experience(mylist)
                                 .qualifications(request.getData().getQualifications())
                                 .education_description(interact(educationDescriptionAgent(chatLanguageModel()),request.getData().getQualifications().toString()+request.getData().getDescription()))
+                                .links(request.getData().getLinks())
                                 .build()
                 )
                 .build();

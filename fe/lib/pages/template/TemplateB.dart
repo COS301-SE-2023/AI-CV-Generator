@@ -11,9 +11,8 @@ import '../widgets/pdf_window.dart';
 
 // Ui counter part for pdf
 class TemplateB extends StatefulWidget {
-  TemplateB({super.key, required this.user, required this.data,});
+  TemplateB({super.key,required this.data,});
   // final MockGenerationResponse data;
-  final UserModel user;
   final   CVData data;
   
   TextEditingController? fnameC = TextEditingController();
@@ -47,37 +46,32 @@ class TemplateB extends StatefulWidget {
 class TemplateBState extends State<TemplateB> {
   @override
   void initState() {
-    widget.nameC!.text = widget.user!.fname + " " + widget.user!.lname;
-    widget.detailsC!.text = (widget.user!.location??"Please provide Location!") + " | " +
-    (widget.user!.phoneNumber??"Please provide phone number!") + " | " +
-    (widget.user!.email??"Please provide email!");
+    widget.nameC!.text = widget.data!.firstname + " " + widget.data.lastname;
+    widget.detailsC!.text = (widget.data!.location??"Please provide Location!") + " | " +
+    (widget.data!.phoneNumber??"Please provide phone number!") + " | " +
+    (widget.data!.email??"Please provide email!");
     widget.descriptionHeadingC!.text = "Professional Summary";
     widget.employmentHeadingC!.text = "Experience";
     widget.qualificationHeadingC!.text = "Qualifications";
     widget.linksHeadingC!.text = "Links";
     widget.descriptionC!.text = widget.data!.description!;
-    for(int i = 0; i < widget.user!.employmenthistory!.length; i++) {
-      widget.employmentC!.text += widget.user!.employmenthistory![i].company + " | "
-      + widget.user!.employmenthistory![i].startdate.year.toString() + " - "
-      + widget.user!.employmenthistory![i].enddate.year.toString() + " | " + widget.user!.employmenthistory![i].title + "\n\n" + widget.data!.employmenthis![i] + "\n\n";
+    for(int i = 0; i < widget.data.employmenthistory!.length; i++) {
+      widget.employmentC!.text += widget.data!.employmenthistory![i].company + " | "
+      + widget.data!.employmenthistory![i].startDate + " - "
+      + widget.data!.employmenthistory![i].endDate + " | " + widget.data!.employmenthistory![i].jobTitle + "\n\n" + widget.data!.experience![i] + "\n\n";
     }
 
-    for(int i = 0; i < widget.user!.qualifications!.length; i++) {
-      widget.qualificationC!.text += widget.user!.qualifications![i].intstitution + " | "
-      + widget.user!.qualifications![i].date.year.toString() + " - "
-      + widget.user!.qualifications![i].endo.year.toString() + " | " + widget.user!.qualifications![i].qualification + "\n\n";
+    for(int i = 0; i < widget.data!.qualifications!.length; i++) {
+      widget.qualificationC!.text += widget.data!.qualifications![i].institution + " | "
+      + widget.data!.qualifications![i].startDate + " - "
+      + widget.data!.qualifications![i].endDate + " | " + widget.data!.qualifications![i].qualification + "\n\n";
     }
     widget.qualificationC!.text += widget.data!.education_description!;
     
-    for(int i = 0; i < widget.user!.links!.length; i++) {
-      widget.linksC!.text += widget.user!.links![i].url + "\n";
+    for(int i = 0; i < widget.data!.links!.length; i++) {
+      widget.linksC!.text += widget.data!.links![i].url + "\n";
     }
-    FileApi.getProfileImage().then((value) {
-      img = value;
-      setState(() {
-        
-      });
-    });
+
     super.initState();
   }
 

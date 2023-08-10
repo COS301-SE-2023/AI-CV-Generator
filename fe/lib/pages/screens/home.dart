@@ -105,12 +105,12 @@ class _HomeState extends State<Home> {
       tem = Template.templateA;
       if (ready) {
         //templateAPdf 
-        editPage = TemplateA(user: adjustedmodel!, data: cvdata!);
+        editPage = TemplateA(data: cvdata!);
       }    
     } else  if (t == Template.templateB) {
       tem = Template.templateB;
       if (ready) {
-        editPage = TemplateB(user: adjustedmodel!, data: cvdata!);
+        editPage = TemplateB(data: cvdata!);
       }
     }
     setState(() {
@@ -269,7 +269,7 @@ class _HomeState extends State<Home> {
                                       tempA = Colors.blue;
                                       tempB = tempC= Colors.transparent;
                                       if (ready) {
-                                        templateAPdf = TemplateA(user: adjustedmodel!, data: cvdata!);
+                                        templateAPdf = TemplateA(data: cvdata!);
                                         editPage = templateAPdf;
                                         generatedFile = await templateAPdf!.transform();
                                       }
@@ -299,7 +299,7 @@ class _HomeState extends State<Home> {
                                       tempB = Colors.blue;
                                       tempA = tempC = Colors.transparent;
                                       if (ready) {
-                                        templateBPdf = TemplateB(user: adjustedmodel!, data: cvdata!);
+                                        templateBPdf = TemplateB(data: cvdata!);
                                         editPage = templateBPdf;
                                         generatedFile = await templateBPdf!.transform();
                                       }
@@ -329,7 +329,7 @@ class _HomeState extends State<Home> {
                                       tempC = Colors.blue;
                                       tempB = tempA = Colors.transparent;
                                       if (ready) {
-                                        templateCPdf = TemplateC(user: adjustedmodel!, data: cvdata!);
+                                        templateCPdf = TemplateC(data: cvdata!);
                                         editPage = templateCPdf;
                                         generatedFile = await templateCPdf!.transform();
                                       }
@@ -395,22 +395,21 @@ class _HomeState extends State<Home> {
                                   }
                                   switch (tem) {
                                     case Template.templateA:
-                                      templateAPdf = TemplateA(user: response!.mockgeneratedUser, data: response!.data);
+                                      templateAPdf = TemplateA(data: response!.data);
                                       editPage = templateAPdf;
                                       generatedFile = await templateAPdf!.transform();
                                     break;
                                     case Template.templateB:
-                                      templateBPdf = TemplateB(user: response!.mockgeneratedUser, data: response!.data);
+                                      templateBPdf = TemplateB(data: response!.data);
                                       editPage = templateBPdf;
                                       generatedFile = await templateBPdf!.transform();
                                     break;
                                     default:
-                                      templateCPdf = TemplateC(user: response!.mockgeneratedUser, data: response!.data);
+                                      templateCPdf = TemplateC(data: response!.data);
                                       editPage = templateCPdf;
                                       generatedFile = await templateCPdf!.transform();
                                     break;
                                   }
-                                  adjustedmodel = response!.mockgeneratedUser;
                                   cvdata = response!.data;
                                   ready = true;
                                   setState(() {});
