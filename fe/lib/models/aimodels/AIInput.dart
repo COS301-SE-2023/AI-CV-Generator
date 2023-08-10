@@ -12,20 +12,20 @@ class AIInput {
   AIInput({
     required this.firstname,
     required this.lastname,
-    required this.email,
-    required this.phoneNumber,
-    required this.location,
-    required this.description,
+    this.email,
+    this.phoneNumber,
+    this.location,
+    this.description,
     required this.experience,
     required this.qualifications,
     required this.links
   });
   String firstname;
   String lastname;
-  String email;
-  String phoneNumber;
-  String location;
-  String description;
+  String? email;
+  String? phoneNumber;
+  String? location;
+  String? description;
   List<AIEmployment> experience;
   List<AIQualification> qualifications;
   List<AILink> links;

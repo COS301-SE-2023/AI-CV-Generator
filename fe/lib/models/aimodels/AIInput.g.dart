@@ -9,10 +9,10 @@ part of 'AIInput.dart';
 AIInput _$AIInputFromJson(Map<String, dynamic> json) => AIInput(
       firstname: json['firstname'] as String,
       lastname: json['lastname'] as String,
-      email: json['email'] as String,
-      phoneNumber: json['phoneNumber'] as String,
-      location: json['location'] as String,
-      description: json['description'] as String,
+      email: json['email'] as String?,
+      phoneNumber: json['phoneNumber'] as String?,
+      location: json['location'] as String?,
+      description: json['description'] as String?,
       experience: (json['experience'] as List<dynamic>)
           .map((e) => AIEmployment.fromJson(e as Map<String, dynamic>))
           .toList(),

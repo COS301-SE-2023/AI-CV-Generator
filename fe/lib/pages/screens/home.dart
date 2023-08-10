@@ -2,9 +2,15 @@ import 'package:ai_cv_generator/api/DownloadService.dart';
 import 'package:ai_cv_generator/dio/client/fileApi.dart';
 import 'package:ai_cv_generator/api/pdfApi.dart';
 import 'package:ai_cv_generator/dio/client/AIApi.dart';
-import 'package:ai_cv_generator/dio/response/AIResponses/MockGenerationResponse.dart';
+import 'package:ai_cv_generator/dio/response/AIResponses/GenerationResponse.dart';
+import 'package:ai_cv_generator/models/aimodels/AIEmployment.dart';
 import 'package:ai_cv_generator/models/aimodels/AIInput.dart';
+import 'package:ai_cv_generator/models/aimodels/AILink.dart';
+import 'package:ai_cv_generator/models/aimodels/AIQualification.dart';
 import 'package:ai_cv_generator/models/aimodels/CVData.dart';
+import 'package:ai_cv_generator/models/user/Employment.dart';
+import 'package:ai_cv_generator/models/user/Link.dart';
+import 'package:ai_cv_generator/models/user/Qualification.dart';
 import 'package:ai_cv_generator/pages/template/TemplateA.dart';
 import 'package:ai_cv_generator/pages/template/TemplateB.dart';
 import 'package:ai_cv_generator/pages/template/TemplateC.dart';
@@ -110,6 +116,50 @@ class _HomeState extends State<Home> {
     setState(() {
       
     });
+  }
+
+  AIInput usermodel_to_input(UserModel model) {
+    List<AIEmployment> exp = [];
+    for (Employment emp in model.employmenthistory??[]) {
+      exp.add(
+        AIEmployment(
+          company: emp.company, 
+          jobTitle: emp.title, 
+          startDate: emp.startdate.toString(), 
+          endDate: emp.enddate.toString()
+          )
+      );
+    }
+    List<AIQualification> qual = [];
+    for (Qualification qua in model.qualifications??[]) {
+      qual.add(
+        AIQualification(
+          qualification: qua.qualification, 
+          institution: qua.intstitution, 
+          startDate: qua.date.toString(), 
+          endDate: qua.endo.toString()
+        )
+      );
+    }
+    List<AILink> links = [];
+    for (Link lin in model.links??[]) {
+      links.add(
+        AILink(
+          url: lin.url
+        )
+      );
+    }
+    return AIInput(
+      firstname: model.fname, 
+      lastname: model.lname, 
+      email: model.email, 
+      phoneNumber: model.phoneNumber, 
+      location: model.location, 
+      description: model.description, 
+      experience: exp, 
+      qualifications: qual, 
+      links: links
+    );
   }
 
   PlatformFile? uploadFile;
@@ -335,7 +385,9 @@ class _HomeState extends State<Home> {
                                   setState(() {
                                     editPage = const AILoadingScreen();
                                   });
-                                  MockGenerationResponse? response = await AIApi.mockgenerate(userModel: (Home.adjustedModel)!);
+
+
+                                  GenerationResponse? response = await AIApi.generate(data: usermodel_to_input((Home.adjustedModel!)));
                                   if (response?.data.description == null) {
                                     editPage = ErrorScreen(errormsg: "Rate Limit Exceeded!");
                                     setState(() {});
