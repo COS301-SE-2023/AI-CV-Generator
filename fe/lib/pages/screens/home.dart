@@ -26,6 +26,7 @@ import 'package:ai_cv_generator/pages/widgets/extractionView.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 import 'package:pdfx/pdfx.dart';
 import '../../models/user/UserModel.dart';
 import 'package:ai_cv_generator/dio/client/userApi.dart';
@@ -118,15 +119,16 @@ class _HomeState extends State<Home> {
     });
   }
 
-  AIInput usermodel_to_input(UserModel model) {
+  AIInput usermodel_to_input(UserModel model) { 
+    final DateFormat formatter = DateFormat('yyyy-MM-dd');
     List<AIEmployment> exp = [];
     for (Employment emp in model.employmenthistory??[]) {
       exp.add(
         AIEmployment(
           company: emp.company, 
           jobTitle: emp.title, 
-          startDate: emp.startdate.toString(), 
-          endDate: emp.enddate.toString()
+          startDate: formatter.format(emp.startdate), 
+          endDate: formatter.format(emp.enddate)
           )
       );
     }
@@ -136,8 +138,8 @@ class _HomeState extends State<Home> {
         AIQualification(
           qualification: qua.qualification, 
           institution: qua.intstitution, 
-          startDate: qua.date.toString(), 
-          endDate: qua.endo.toString()
+          startDate: formatter.format(qua.date), 
+          endDate: formatter.format(qua.endo)
         )
       );
     }

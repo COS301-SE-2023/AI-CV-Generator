@@ -20,7 +20,7 @@ class AIApi extends DioClient {
         data: GenerationRequest(data:data).toJson()
       ).then((value) {
         response = GenerationResponse.fromJson(value.data);
-      }).timeout(const Duration(milliseconds: 32000), 
+      }).timeout(const Duration(milliseconds: 35000), 
       onTimeout: () {
         
       },);
@@ -36,7 +36,7 @@ class AIApi extends DioClient {
         data: ExtractionRequest(text: PdfTextExtractor(PdfDocument(inputBytes: file.bytes)).extractText()).toJson()
       ).then((value) {
         data = ExtractionResponse.fromJson(value.data).data;
-      }).timeout(const Duration(milliseconds: 32000), 
+      }).timeout(const Duration(milliseconds: 35000), 
       onTimeout: () {
         
       },);
