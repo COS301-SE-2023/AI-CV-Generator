@@ -2,6 +2,8 @@ import 'package:ai_cv_generator/pages/widgets/navdrawer.dart';
 import 'package:flutter/material.dart';
 
 class ChatBotView extends StatefulWidget {
+  bool visible;
+  ChatBotView({super.key, required this.visible});
   @override
   ChatBotViewState createState() => ChatBotViewState();
 }
@@ -16,7 +18,9 @@ class ChatBotViewState extends State<ChatBotView> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Visibility(
+      visible: widget.visible,
+      child: Container(
         padding: EdgeInsets.only(right: 48, bottom: 48), 
         alignment: Alignment.bottomRight,
         child: Container(
@@ -28,19 +32,23 @@ class ChatBotViewState extends State<ChatBotView> {
           child: Scaffold(
             drawer: const NavDrawer(),
             appBar: AppBar(
+              title: Container(
+                alignment: Alignment.center,
+                padding: EdgeInsets.only(right: 50),
+                child:Text("AI CHAT BOT", style: Theme.of(context).appBarTheme.toolbarTextStyle,),),
               leading: IconButton(
                 icon: const Icon(
                   Icons.close,
                 ), 
                 onPressed: () {
-                  setState(() {});
+                  setState(() {widget.visible = false;});
                 },
               ),
             ),
             body: Column(
               children: [
                 Expanded(
-                  flex: 10,
+                  flex: 8,
                   child: ListView(
                     padding: EdgeInsets.all(48),
                     children: [
@@ -58,6 +66,7 @@ class ChatBotViewState extends State<ChatBotView> {
                       setState(() {});
                     },
                     decoration: InputDecoration(
+                      hintText: "Type a message",
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(0),
                         borderSide:
@@ -70,7 +79,9 @@ class ChatBotViewState extends State<ChatBotView> {
             )
           ),
         ),
-      );
+      )
+    );
+
   }
 }
 
