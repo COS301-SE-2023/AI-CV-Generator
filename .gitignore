@@ -77,8 +77,5 @@ build/
 ### VS Code ###
 .vscode/
 
-application.yml
-ai-cv-generator-backend/src/main/resources/application.yml
-ai-cv-generator-backend/src/main/resources/application.yml
-ai-cv-generator-backend/src/main/resources/application.yml
-ai-cv-generator-backend/src/main/resources/application.yml
+ai_cvgenerator_backend/src/main/resources/application.yml
+fe/lib/.env

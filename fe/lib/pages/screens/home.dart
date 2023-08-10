@@ -14,6 +14,7 @@ import 'package:ai_cv_generator/models/user/Qualification.dart';
 import 'package:ai_cv_generator/pages/template/TemplateA.dart';
 import 'package:ai_cv_generator/pages/template/TemplateB.dart';
 import 'package:ai_cv_generator/pages/template/TemplateC.dart';
+import 'package:ai_cv_generator/pages/util/chatBot.dart';
 import 'package:ai_cv_generator/pages/widgets/AILoadingScreen.dart';
 import 'package:ai_cv_generator/pages/widgets/EmptyCV.dart';
 import 'package:ai_cv_generator/pages/widgets/ErrorScreen.dart';
@@ -489,9 +490,7 @@ class _HomeState extends State<Home> {
                                 width: 100,
                                 child:ElevatedButton(
                                   onPressed: () async {
-                                    // MockGenerationResponse? response = await GenerationApi.mockgenerate(userModel: (Home.adjustedModel)!);
-                                    // editPage = TemplateA(user: (await userApi.getUser())!);
-                                    // setState(() {});
+                                    
                                   }, 
                                   child: Text("GENERATE", style: textStyle),
                                 ),
