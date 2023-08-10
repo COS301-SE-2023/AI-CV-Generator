@@ -5,7 +5,6 @@ import com.revolvingSolutions.aicvgeneratorbackend.agent.*;
 import com.revolvingSolutions.aicvgeneratorbackend.constants.StaticValues;
 import com.revolvingSolutions.aicvgeneratorbackend.model.aimodels.AIEmployment;
 import com.revolvingSolutions.aicvgeneratorbackend.model.aimodels.CVData;
-import com.revolvingSolutions.aicvgeneratorbackend.model.user.Employment;
 import com.revolvingSolutions.aicvgeneratorbackend.request.AI.ExtractionRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.AI.GenerationRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.response.AI.ExtractionResponse;
@@ -62,8 +61,14 @@ public class LangChainService {
         return GenerationResponse.builder()
                 .data(
                         CVData.builder()
+                                .firstname(request.getData().getFirstname())
+                                .lastname(request.getData().getLastname())
+                                .phoneNumber(request.getData().getPhoneNumber())
+                                .email(request.getData().getEmail())
+                                .location(request.getData().getLocation())
                                 .description(interact(descriptionAgent(chatLanguageModel()),request.getData().toString()))
                                 .experience(mylist)
+                                .qualifications(request.getData().getQualifications())
                                 .education_description(interact(educationDescriptionAgent(chatLanguageModel()),request.getData().getQualifications().toString()+request.getData().getDescription()))
                                 .build()
                 )

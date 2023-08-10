@@ -11,5 +11,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ExtractionResponse {
-    AIInputData data;
+    private AIInputData data;
 }

@@ -13,12 +13,12 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AIInputData {
-    public String firstname;
-    public String lastname;
-    public String email;
-    public String phoneNumber;
-    public String location;
-    public String description;
+    private String firstname;
+    private String lastname;
+    private String email;
+    private String phoneNumber;
+    private String location;
+    private String description;
     @Description("Each employment must be described with the company, the job title and the start date and end date of employment")
     private List<AIEmployment> experience;
     @Description("Each qualification must be described with the qualification, the institution and the start date and end date of qualification")
