@@ -1,5 +1,6 @@
-package com.revolvingSolutions.aicvgeneratorbackend.response.generation;
+package com.revolvingSolutions.aicvgeneratorbackend.response.AI;
 
+import com.revolvingSolutions.aicvgeneratorbackend.model.aimodels.CVData;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,5 +11,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GenerationResponse {
-    private String temp;
+    private CVData data;
 }

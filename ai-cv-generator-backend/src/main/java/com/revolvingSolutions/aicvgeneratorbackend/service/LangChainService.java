@@ -3,20 +3,19 @@ package com.revolvingSolutions.aicvgeneratorbackend.service;
 
 import com.revolvingSolutions.aicvgeneratorbackend.agent.*;
 import com.revolvingSolutions.aicvgeneratorbackend.constants.StaticValues;
+import com.revolvingSolutions.aicvgeneratorbackend.model.aimodels.AIEmployment;
 import com.revolvingSolutions.aicvgeneratorbackend.model.aimodels.CVData;
 import com.revolvingSolutions.aicvgeneratorbackend.model.user.Employment;
-import com.revolvingSolutions.aicvgeneratorbackend.request.extraction.ExtractionRequest;
-import com.revolvingSolutions.aicvgeneratorbackend.request.generation.GenerationRequest;
-import com.revolvingSolutions.aicvgeneratorbackend.response.extraction.ExtractionResponse;
-import com.revolvingSolutions.aicvgeneratorbackend.response.generation.GenerationResponse;
-import com.revolvingSolutions.aicvgeneratorbackend.response.generation.MockGenerationResponse;
+import com.revolvingSolutions.aicvgeneratorbackend.request.AI.ExtractionRequest;
+import com.revolvingSolutions.aicvgeneratorbackend.request.AI.GenerationRequest;
+import com.revolvingSolutions.aicvgeneratorbackend.response.AI.ExtractionResponse;
+import com.revolvingSolutions.aicvgeneratorbackend.response.AI.GenerationResponse;
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
 import dev.langchain4j.model.chat.ChatLanguageModel;
 import dev.langchain4j.model.openai.OpenAiChatModel;
 import dev.langchain4j.service.AiServices;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
@@ -30,42 +29,42 @@ public class LangChainService {
     @Value("${app.api.blockAI}")
     private Boolean block;
 
-    public MockGenerationResponse GenerateCV(
+    public GenerationResponse GenerateCV(
             GenerationRequest request
     ) {
         if (block) {
             List<String> mylist = new ArrayList<>();
-            for (Employment employment : request.getAdjustedModel().getEmploymenthistory()) {
+            for (AIEmployment employment : request.getData().getExperience()) {
                 mylist.add(StaticValues.employment_description);
             }
 
-            return MockGenerationResponse.builder()
-                    .mockgeneratedUser(
-                            request.getAdjustedModel()
-                    )
+            return GenerationResponse.builder()
                     .data(
                             CVData.builder()
+                                    .firstname(request.getData().getFirstname())
+                                    .lastname(request.getData().getLastname())
+                                    .phoneNumber(request.getData().getPhoneNumber())
+                                    .email(request.getData().getEmail())
+                                    .location(request.getData().getLocation())
                                     .description(StaticValues.description)
-                                    .employmenthis(mylist)
+                                    .experience(mylist)
+                                    .qualifications(request.getData().getQualifications())
                                     .education_description(StaticValues.education_description)
                                     .build()
                     )
                     .build();
         }
         List<String> mylist = new ArrayList<>();
-        for (Employment employment : request.getAdjustedModel().getEmploymenthistory()) {
+        for (AIEmployment employment : request.getData().getExperience()) {
             mylist.add(interact(employmentHistoryExpander(chatLanguageModel()),employment.toString()));
         }
 
-        return MockGenerationResponse.builder()
-                .mockgeneratedUser(
-                        request.getAdjustedModel()
-                )
+        return GenerationResponse.builder()
                 .data(
                         CVData.builder()
-                                .description(interact(descriptionAgent(chatLanguageModel()),request.getAdjustedModel().toString()))
-                                .employmenthis(mylist)
-                                .education_description(interact(educationDescriptionAgent(chatLanguageModel()),request.getAdjustedModel().getQualifications().toString()+request.getAdjustedModel().getDescription()))
+                                .description(interact(descriptionAgent(chatLanguageModel()),request.getData().toString()))
+                                .experience(mylist)
+                                .education_description(interact(educationDescriptionAgent(chatLanguageModel()),request.getData().getQualifications().toString()+request.getData().getDescription()))
                                 .build()
                 )
                 .build();
@@ -77,6 +76,9 @@ public class LangChainService {
     {
         if (request.getText().split(" ").length > 1000) {
             throw new Exception("Word Limit!!",null);
+        }
+        if (block) {
+            // implement mock later
         }
         ExtractionResponse resp = ExtractionResponse.builder()
                 .data(

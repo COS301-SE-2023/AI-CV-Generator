@@ -1,5 +1,6 @@
-package com.revolvingSolutions.aicvgeneratorbackend.request.generation;
+package com.revolvingSolutions.aicvgeneratorbackend.request.AI;
 
+import com.revolvingSolutions.aicvgeneratorbackend.model.aimodels.AIInputData;
 import com.revolvingSolutions.aicvgeneratorbackend.model.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,5 +12,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GenerationRequest {
-    private User adjustedModel;
+    private AIInputData data;
 }

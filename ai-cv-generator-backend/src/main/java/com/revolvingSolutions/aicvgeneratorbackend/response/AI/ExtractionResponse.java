@@ -1,4 +1,4 @@
-package com.revolvingSolutions.aicvgeneratorbackend.response.extraction;
+package com.revolvingSolutions.aicvgeneratorbackend.response.AI;
 
 import com.revolvingSolutions.aicvgeneratorbackend.model.aimodels.AIInputData;
 import lombok.AllArgsConstructor;
