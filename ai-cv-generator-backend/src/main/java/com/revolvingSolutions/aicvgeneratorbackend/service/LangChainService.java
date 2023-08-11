@@ -103,17 +103,6 @@ public class LangChainService {
     private void chatBotInterat() {
     }
 
-    private static String interact(GenerationAgent agent, String userMessage) {
-        System.out.println("==========================================================================================");
-        System.out.println("[User]: " + userMessage);
-        System.out.println("==========================================================================================");
-        String agentAnswer = agent.chat(userMessage);
-        System.out.println("==========================================================================================");
-        System.out.println("[GenerationAgent]: " + agentAnswer);
-        System.out.println("==========================================================================================");
-        return agentAnswer;
-    }
-
     private static String interact(DescriptionAgent agent, String userMessage) {
         System.out.println("==========================================================================================");
         System.out.println("[User]: " + userMessage);
@@ -201,13 +190,6 @@ public class LangChainService {
         );
         model.sendMessages(messages);
         return model;
-    }
-
-    private GenerationAgent generationAgent(ChatLanguageModel chatLanguageModel) {
-        return AiServices.builder(GenerationAgent.class)
-                .chatLanguageModel(chatLanguageModel)
-                .chatMemory(MessageWindowChatMemory.withCapacity(40))
-                .build();
     }
 
     private DescriptionAgent descriptionAgent(ChatLanguageModel chatLanguageModel) {
