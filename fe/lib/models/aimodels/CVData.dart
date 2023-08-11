@@ -9,9 +9,9 @@ part 'CVData.g.dart';
 class CVData {
   String firstname;
   String lastname;
-  String email;
-  String phoneNumber;
-  String location; 
+  String? email;
+  String? phoneNumber;
+  String? location; 
   String? description;
   List<AIEmployment>? employmenthistory;
   List<String>? experience;

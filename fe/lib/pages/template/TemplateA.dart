@@ -1,6 +1,5 @@
 import 'dart:typed_data';
 import 'package:ai_cv_generator/models/aimodels/CVData.dart';
-import 'package:ai_cv_generator/models/user/UserModel.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:pdf/pdf.dart';
@@ -10,25 +9,24 @@ import '../widgets/pdf_window.dart';
 // Ui counter part for pdf
 class TemplateA extends StatefulWidget {
   TemplateA({super.key,required this.data,});
-  // final MockGenerationResponse data;
   final CVData data;
   
-  TextEditingController? fnameC = TextEditingController();
-  TextEditingController? lnameC = TextEditingController();
-  TextEditingController? emailC = TextEditingController();
-  TextEditingController? locationC = TextEditingController();
-  TextEditingController? phoneNumberC = TextEditingController();
+  final TextEditingController? fnameC = TextEditingController();
+  final TextEditingController? lnameC = TextEditingController();
+  final TextEditingController? emailC = TextEditingController();
+  final TextEditingController? locationC = TextEditingController();
+  final TextEditingController? phoneNumberC = TextEditingController();
   
-  TextEditingController? nameC = TextEditingController();
-  TextEditingController? detailsC = TextEditingController();
-  TextEditingController? descriptionHeadingC = TextEditingController();
-  TextEditingController? descriptionC = TextEditingController();
-  TextEditingController? employmentHeadingC = TextEditingController();
-  TextEditingController? employmentC = TextEditingController();
-  TextEditingController? qualificationHeadingC = TextEditingController();
-  TextEditingController? qualificationC = TextEditingController();
-  TextEditingController? linksHeadingC = TextEditingController();
-  TextEditingController? linksC = TextEditingController();
+  final TextEditingController? nameC = TextEditingController();
+  final TextEditingController? detailsC = TextEditingController();
+  final TextEditingController? descriptionHeadingC = TextEditingController();
+  final TextEditingController? descriptionC = TextEditingController();
+  final TextEditingController? employmentHeadingC = TextEditingController();
+  final TextEditingController? employmentC = TextEditingController();
+  final TextEditingController? qualificationHeadingC = TextEditingController();
+  final TextEditingController? qualificationC = TextEditingController();
+  final TextEditingController? linksHeadingC = TextEditingController();
+  final TextEditingController? linksC = TextEditingController();
 
 
   Future<PlatformFile> transform() async {
@@ -50,7 +48,7 @@ class TemplateA extends StatefulWidget {
       linksC: linksC!.text
     );
     templateApdf.writeOnPdf();
-    return await templateApdf!.getPdf();
+    return await templateApdf.getPdf();
   }
   
   @override

@@ -3,9 +3,6 @@ import 'package:flutter/material.dart';
  
 class Login extends StatelessWidget {
   const Login({Key? key}) : super(key: key);
-
-  static const String _title = 'Sample App';
- 
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
@@ -26,7 +23,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   TextEditingController nameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
-  bool Error = false;
+  bool error = false;
  
   @override
   Widget build(BuildContext context) {
@@ -82,17 +79,17 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   onPressed: () async {
                     bool resp = await userApi.login(username: nameController.text,password: passwordController.text);
                     if (resp) {
-                      Error = false;
+                      error = false;
                       Navigator.pushNamed(context, '/home');
                     } else {
                       setState(() {
-                        Error = true;
+                        error = true;
                       });
                     }
                   },
                 )
             ),
-            Error ?
+            error ?
             const Center(child: Text("Password or Email invalid",style: TextStyle(
               color: Colors.red,
               backgroundColor: Color.fromARGB(0, 186, 40, 40)

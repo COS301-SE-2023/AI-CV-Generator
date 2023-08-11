@@ -9,9 +9,9 @@ part of 'CVData.dart';
 CVData _$CVDataFromJson(Map<String, dynamic> json) => CVData(
       firstname: json['firstname'] as String,
       lastname: json['lastname'] as String,
-      email: json['email'] as String,
-      phoneNumber: json['phoneNumber'] as String,
-      location: json['location'] as String,
+      email: json['email'] as String?,
+      phoneNumber: json['phoneNumber'] as String?,
+      location: json['location'] as String?,
       description: json['description'] as String?,
       employmenthistory: (json['employmenthistory'] as List<dynamic>?)
           ?.map((e) => AIEmployment.fromJson(e as Map<String, dynamic>))

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class ErrorScreen extends StatelessWidget {
-  String errormsg;
-  ErrorScreen({super.key, required this.errormsg});
+  final String errormsg;
+  const ErrorScreen({super.key, required this.errormsg});
 
   @override
   Widget build(BuildContext context) {

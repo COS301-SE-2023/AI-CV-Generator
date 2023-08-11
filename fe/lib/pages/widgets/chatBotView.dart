@@ -1,7 +1,6 @@
 import 'package:ai_cv_generator/pages/widgets/navdrawer.dart';
 import 'package:flutter/material.dart';
-
-import '../util/chatBot.dart';
+import 'package:ai_cv_generator/pages/util/chatBot.dart';
 
 class ChatBotView extends StatefulWidget {
   bool visible;
@@ -29,12 +28,15 @@ class ChatBotViewState extends State<ChatBotView> {
     return Visibility(
       visible: widget.visible,
       child: Container(
-        padding: EdgeInsets.only(right: 48, bottom: 48), 
+        padding: const EdgeInsets.only(right: 48, bottom: 48), 
         alignment: Alignment.bottomRight,
         child: Container(
         decoration: BoxDecoration(
             color: Colors.grey.shade200,
-            border: Border.all(color: Color(0xFF333C64))
+            border: Border.all(
+              color: const Color(0xFF333C64),
+              
+            ),
           ),
           height: 500, width: 500, 
           child: Scaffold(
@@ -42,7 +44,7 @@ class ChatBotViewState extends State<ChatBotView> {
             appBar: AppBar(
               title: Container(
                 alignment: Alignment.center,
-                padding: EdgeInsets.only(right: 50),
+                padding: const EdgeInsets.only(right: 50),
                 child:Text("AI CHAT BOT", style: Theme.of(context).appBarTheme.toolbarTextStyle,),),
               leading: IconButton(
                 icon: const Icon(
@@ -58,7 +60,7 @@ class ChatBotViewState extends State<ChatBotView> {
                 Expanded(
                   flex: 8,
                   child: ListView(
-                    padding: EdgeInsets.all(48),
+                    padding: const EdgeInsets.all(48),
                     children: [
                       ...messages
                     ],
@@ -76,7 +78,7 @@ class ChatBotViewState extends State<ChatBotView> {
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(0),
                         borderSide:
-                        BorderSide(color: Colors.black)
+                        const BorderSide(color: Colors.black)
                       )
                     ),
                   )
@@ -98,13 +100,13 @@ class Message extends StatelessWidget {
 
   BorderRadiusGeometry messageBorderRadiusGeometry() {
     if(isSender == true) {
-      return BorderRadius.only(
+      return const BorderRadius.only(
         bottomLeft: Radius.circular(20),
         topLeft: Radius.circular(20),
         topRight: Radius.circular(20),
       );
     }
-    return BorderRadius.only(
+    return const BorderRadius.only(
         bottomRight: Radius.circular(20),
         topLeft: Radius.circular(20),
         topRight: Radius.circular(20),
@@ -132,9 +134,9 @@ class Message extends StatelessWidget {
       crossAxisAlignment: messageAlignment(),
       children: [
         Container(
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           alignment: Alignment.center,
-          constraints: BoxConstraints(
+          constraints: const BoxConstraints(
             minHeight: 60,
             maxWidth: 150
           ),
@@ -144,7 +146,7 @@ class Message extends StatelessWidget {
           ),
           child: Text(text),
         ),
-        SizedBox(height: 8,)
+        const SizedBox(height: 8,)
       ],
     );
   }

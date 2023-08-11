@@ -3,7 +3,6 @@ import 'package:ai_cv_generator/dio/client/fileApi.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:intl/intl.dart';
 
 void shareCVModal(BuildContext context,PlatformFile? f) {
   PlatformFile? file = f;

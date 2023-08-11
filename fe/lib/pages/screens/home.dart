@@ -14,7 +14,6 @@ import 'package:ai_cv_generator/models/user/Qualification.dart';
 import 'package:ai_cv_generator/pages/template/TemplateA.dart';
 import 'package:ai_cv_generator/pages/template/TemplateB.dart';
 import 'package:ai_cv_generator/pages/template/TemplateC.dart';
-import 'package:ai_cv_generator/pages/util/chatBot.dart';
 import 'package:ai_cv_generator/pages/widgets/AILoadingScreen.dart';
 import 'package:ai_cv_generator/pages/widgets/EmptyCV.dart';
 import 'package:ai_cv_generator/pages/widgets/ErrorScreen.dart';
@@ -30,7 +29,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:pdfx/pdfx.dart';
-import '../../models/user/UserModel.dart';
+import 'package:ai_cv_generator/models/user/UserModel.dart';
 import 'package:ai_cv_generator/dio/client/userApi.dart';
 import 'dart:async';
 import 'package:ai_cv_generator/pages/widgets/shareCV.dart';
@@ -186,7 +185,6 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    CVHistory cvHistory = CVHistory(context: context);
     if(model == null) {
       return const LoadingScreen();
     }
@@ -396,7 +394,7 @@ class _HomeState extends State<Home> {
 
                                   GenerationResponse? response = await AIApi.generate(data: usermodel_to_input((Home.adjustedModel!)));
                                   if (response?.data.description == null) {
-                                    editPage = ErrorScreen(errormsg: "Rate Limit Exceeded!");
+                                    editPage = const ErrorScreen(errormsg: "Rate Limit Exceeded!");
                                     setState(() {});
                                     return;
                                   }
@@ -417,7 +415,7 @@ class _HomeState extends State<Home> {
                                       generatedFile = await templateCPdf!.transform();
                                     break;
                                   }
-                                  cvdata = response!.data;
+                                  cvdata = response.data;
                                   ready = true;
                                   setState(() {});
                                 }, 
@@ -426,51 +424,37 @@ class _HomeState extends State<Home> {
                             )
                           ),
                           const SizedBox(width: 43,),
-                          Container(
-                            child: SizedBox(
-                              height: 40,
-                              width: 100, 
-                              child: ElevatedButton(
-                                onPressed: () async {
-                                  uploadFile = await pdfAPI.pick_cvfile();
-                                  if(uploadFile != null) {                    
-                                    filenameC.text = uploadFile!.name;
-                                    await FileApi.uploadFile(file: uploadFile);
-                                    updatePastCVs();
-                                  }
-                                }, 
-                                child: Text("UPLOAD", style: textStyle),
-                              ),
-                            )
+                          SizedBox(
+                            height: 40,
+                            width: 100, 
+                            child: ElevatedButton(
+                              onPressed: () async {
+                                uploadFile = await pdfAPI.pick_cvfile();
+                                if(uploadFile != null) {                    
+                                  filenameC.text = uploadFile!.name;
+                                  await FileApi.uploadFile(file: uploadFile);
+                                  updatePastCVs();
+                                }
+                              }, 
+                              child: Text("UPLOAD", style: textStyle),
+                            ),
                           ),
                           const SizedBox(width: 43,),
-                          Container(
-                            child: SizedBox(
-                              height: 40,
-                              width: 100,
-                              child: ElevatedButton(
-                                onPressed: () async {
-                                  await generateFile();
-                                  if(uploadFile != null) {
-                                    AIInput? aiInput = await AIApi.extractPdf(file: uploadFile!);
-                                    if(aiInput != null) {
-                                      ExtractionView().showModal(context, uploadFile!, aiInput.toJson());
-                                    }
-                                    // showDialog(
-                                    //   context: context,
-                                    //   builder: (BuildContext context) {
-                                    //     return PdfView(
-                                    //       controller: PdfController(document: PdfDocument.openData(uploadFile!.bytes as FutureOr<Uint8List>)),
-                                    //       scrollDirection: Axis.horizontal,
-                                    //       pageSnapping: false,
-                                    //     );
-                                    //   }
-                                    // );
+                          SizedBox(
+                            height: 40,
+                            width: 100,
+                            child: ElevatedButton(
+                              onPressed: () async {
+                                await generateFile();
+                                if(uploadFile != null) {
+                                  AIInput? aiInput = await AIApi.extractPdf(file: uploadFile!);
+                                  if(aiInput != null) {
+                                    ExtractionView().showModal(context, uploadFile!, aiInput.toJson());
                                   }
-                                },
-                                child: Text("PREVIEW", style: textStyle),
-                              ),
-                            )
+                                }
+                              },
+                              child: Text("PREVIEW", style: textStyle),
+                            ),
                           ),
                           const SizedBox(width: 48,),
                           Expanded(
@@ -488,70 +472,62 @@ class _HomeState extends State<Home> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Container(
-                              child: SizedBox(
-                                height:40,
-                                width: 100,
-                                child:ElevatedButton(
-                                  onPressed: () async {
-                                    
-                                  }, 
-                                  child: Text("GENERATE", style: textStyle),
-                                ),
+                            SizedBox(
+                              height:40,
+                              width: 100,
+                              child:ElevatedButton(
+                                onPressed: () async {
+                                  
+                                }, 
+                                child: Text("GENERATE", style: textStyle),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 40,
+                              width: 100,
+                              child: ElevatedButton(
+                                onPressed: () async {
+                                  await generateFile();
+                                  if (generatedFile != null) {
+                                    requirementsforshare(context, generatedFile);
+                                  }
+                                  updatePastCVs();
+                                },
+                                child: Text("SHARE", style: textStyle),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 40,
+                              width: 100,
+                              child: ElevatedButton(
+                                onPressed: () async {
+                                  await generateFile();
+                                  if (generatedFile != null) {
+                                    DownloadService.download(generatedFile!.bytes!.toList(), downloadName: generatedFile!.name);
+                                  }
+                                }, child: Text("DOWNLOAD", style: textStyle),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 40,
+                              width: 100,
+                              child: ElevatedButton(
+                                onPressed: () async {
+                                  await generateFile();
+                                  if(generatedFile != null) {
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return PdfView(
+                                          controller: PdfController(document: PdfDocument.openData(generatedFile!.bytes as FutureOr<Uint8List>)),
+                                          scrollDirection: Axis.horizontal,
+                                          pageSnapping: false,
+                                        );
+                                      }
+                                    );  
+                                  }
+                                }, child: Text("EXPAND", style: textStyle)
                               )
-                            ),
-                            Container(
-                              child: SizedBox(
-                                height: 40,
-                                width: 100,
-                                child: ElevatedButton(
-                                  onPressed: () async {
-                                    await generateFile();
-                                    if (generatedFile != null) {
-                                      requirementsforshare(context, generatedFile);
-                                    }
-                                    updatePastCVs();
-                                  },
-                                  child: Text("SHARE", style: textStyle),
-                                ),
-                              ),
-                            ),
-                            Container(
-                              child: SizedBox(
-                                height: 40,
-                                width: 100,
-                                child: ElevatedButton(
-                                  onPressed: () async {
-                                    await generateFile();
-                                    if (generatedFile != null) {
-                                      DownloadService.download(generatedFile!.bytes!.toList(), downloadName: generatedFile!.name);
-                                    }
-                                  }, child: Text("DOWNLOAD", style: textStyle),
-                                ),
-                              ),
-                            ),
-                            Container(
-                              child: SizedBox(
-                                height: 40,
-                                width: 100,
-                                child: ElevatedButton(
-                                  onPressed: () async {
-                                    await generateFile();
-                                    if(generatedFile != null) {
-                                      showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return PdfView(
-                                            controller: PdfController(document: PdfDocument.openData(generatedFile!.bytes as FutureOr<Uint8List>)),
-                                            scrollDirection: Axis.horizontal,
-                                            pageSnapping: false,
-                                          );
-                                        }
-                                      );  
-                                    }
-                                  }, child: Text("EXPAND", style: textStyle)
-                                )
-                              ),
                             ),
                           ],
                         ),
@@ -577,30 +553,28 @@ class _HomeState extends State<Home> {
               const SizedBox(width: 24,),
               Expanded(
                 flex: 2,
-                child: Container(
-                  child: Column(
-                    children: [
-                      const Expanded(
-                        flex: 2,
-                        child: PastCVs(),
-                      ),
-                      Expanded(
-                        flex: 10,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: const BorderRadius.all(Radius.circular(20)),
-                            border: Border.all(
-                              color: const Color.fromARGB(0, 0, 0, 0),
-                            ),
-                            color: Theme.of(context).colorScheme.surface,
+                child: Column(
+                  children: [
+                    const Expanded(
+                      flex: 2,
+                      child: PastCVs(),
+                    ),
+                    Expanded(
+                      flex: 10,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: const BorderRadius.all(Radius.circular(20)),
+                          border: Border.all(
+                            color: const Color.fromARGB(0, 0, 0, 0),
                           ),
-                          child: SizedBox.expand(
-                            child: Center(child: CVHistory(context: context,list: list,),)
-                          )
+                          color: Theme.of(context).colorScheme.surface,
                         ),
+                        child: SizedBox.expand(
+                          child: Center(child: CVHistory(context: context,list: list,),)
+                        )
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ],
@@ -610,13 +584,13 @@ class _HomeState extends State<Home> {
 
           Container(
             alignment: Alignment.bottomRight,
-            padding: EdgeInsets.only(right: 48, bottom: 48),
+            padding: const EdgeInsets.only(right: 48, bottom: 48),
             child: IconButton(
               color: Theme.of(context).colorScheme.secondary,
               onPressed: () {
                 setState(() {isChatBotVisible = true;});
               },
-              icon: Icon(Icons.message),
+              icon: const Icon(Icons.message),
             ),
           ),
           ChatBotView(visible: isChatBotVisible),

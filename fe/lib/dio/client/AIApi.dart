@@ -5,7 +5,6 @@ import 'package:ai_cv_generator/dio/request/AIRequests/GenerationRequest.dart';
 import 'package:ai_cv_generator/dio/response/AIResponses/ExtractionResponse.dart';
 import 'package:ai_cv_generator/dio/response/AIResponses/GenerationResponse.dart';
 import 'package:ai_cv_generator/models/aimodels/AIInput.dart';
-import 'package:ai_cv_generator/models/user/UserModel.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:syncfusion_flutter_pdf/pdf.dart'; 
 

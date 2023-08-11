@@ -9,6 +9,8 @@ import com.revolvingSolutions.aicvgeneratorbackend.request.AI.ExtractionRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.AI.GenerationRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.response.AI.ExtractionResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.AI.GenerationResponse;
+
+import dev.langchain4j.data.message.ChatMessage;
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
 import dev.langchain4j.model.chat.ChatLanguageModel;
 import dev.langchain4j.model.openai.OpenAiChatModel;
@@ -98,6 +100,9 @@ public class LangChainService {
         return  resp;
     }
 
+    private void chatBotInterat() {
+    }
+
     private static String interact(GenerationAgent agent, String userMessage) {
         System.out.println("==========================================================================================");
         System.out.println("[User]: " + userMessage);
@@ -150,58 +155,76 @@ public class LangChainService {
     @Value("${langchain4j.chat-model.openai.temperature}")
     private Double temperature;
 
-    public ChatLanguageModel chatLanguageModel() {
+    private ChatLanguageModel chatLanguageModel() {
         return new OpenAiChatModel(
-                apikey,
-                modelName,
-                temperature,
-                1.0,
-                1000,
-                0.0,0.0,
-                Duration.ofMinutes(2),
-                2,
-                true,
-                true
+            apikey,
+            modelName,
+            temperature,
+            1.0,
+            1000,
+            0.0,0.0,
+            Duration.ofMinutes(2),
+            2,
+            true,
+            true
         );
     }
 
-    public ChatLanguageModel extractionChatLanguageModel() {
+    private ChatLanguageModel extractionChatLanguageModel() {
         return new OpenAiChatModel(
-                apikey,
-                modelName,
-                0.0,
-                1.0,
-                6000,
-                0.0,0.0,
-                Duration.ofMinutes(3),
-                2,
-                true,
-                true
+            apikey,
+            modelName,
+            0.0,
+            1.0,
+            6000,
+            0.0,0.0,
+            Duration.ofMinutes(3),
+            2,
+            true,
+            true
         );
     }
 
-    public GenerationAgent generationAgent(ChatLanguageModel chatLanguageModel) {
+    private ChatLanguageModel chatBotLanguageModel(List<ChatMessage> messages) {
+        OpenAiChatModel model =  new OpenAiChatModel(
+            apikey,
+            modelName,
+            temperature,
+            1.0,
+            500,
+            0.0,
+            0.0,
+            Duration.ofMinutes(2),
+            2,
+            true,
+            true
+        );
+        model.sendMessages(messages);
+        return model;
+    }
+
+    private GenerationAgent generationAgent(ChatLanguageModel chatLanguageModel) {
         return AiServices.builder(GenerationAgent.class)
                 .chatLanguageModel(chatLanguageModel)
                 .chatMemory(MessageWindowChatMemory.withCapacity(40))
                 .build();
     }
 
-    public DescriptionAgent descriptionAgent(ChatLanguageModel chatLanguageModel) {
+    private DescriptionAgent descriptionAgent(ChatLanguageModel chatLanguageModel) {
         return AiServices.builder(DescriptionAgent.class)
                 .chatLanguageModel(chatLanguageModel)
                 .chatMemory(MessageWindowChatMemory.withCapacity(3))
                 .build();
     }
 
-    public EmploymentHistoryExpander employmentHistoryExpander(ChatLanguageModel chatLanguageModel) {
+    private EmploymentHistoryExpander employmentHistoryExpander(ChatLanguageModel chatLanguageModel) {
         return AiServices.builder(EmploymentHistoryExpander.class)
                 .chatLanguageModel(chatLanguageModel)
                 .chatMemory(MessageWindowChatMemory.withCapacity(3))
                 .build();
     }
 
-    public EducationDescriptionAgent educationDescriptionAgent(ChatLanguageModel chatLanguageModel) {
+    private EducationDescriptionAgent educationDescriptionAgent(ChatLanguageModel chatLanguageModel) {
         return AiServices.builder(EducationDescriptionAgent.class)
                 .chatLanguageModel(chatLanguageModel)
                 .chatMemory(MessageWindowChatMemory.withCapacity(3))

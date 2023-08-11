@@ -5,8 +5,7 @@ import 'package:ai_cv_generator/pages/widgets/qualifications.dart';
 import 'package:ai_cv_generator/pages/util/strings.dart';
 import 'package:ai_cv_generator/pages/widgets/questionaireModal.dart';
 import 'package:flutter/material.dart';
-
-import '../screens/home.dart';
+import 'package:ai_cv_generator/pages/screens/home.dart';
 
 class PersonalDetailsForm extends StatefulWidget {
   const PersonalDetailsForm({super.key});
@@ -39,7 +38,6 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
     Home.adjustedModel!.email = email.text;
     Home.adjustedModel!.phoneNumber = cell.text;
     Home.adjustedModel!.location = address.text;
-    //await userApi.updateUser(user: Home.adjustedModel!);
   }
 
   Future<void> getUser() async {
@@ -52,7 +50,7 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
 
   @override
   Widget build(BuildContext context) {
-    if(Home.adjustedModel! == null) {
+    if(Home.adjustedModel == null) {
       return const LoadingScreen();
     }
     return Scaffold(
