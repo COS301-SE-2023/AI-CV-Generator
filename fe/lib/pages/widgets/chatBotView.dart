@@ -12,8 +12,9 @@ class ChatBotViewState extends State<ChatBotView> {
   List<Widget> messages = [];
   TextEditingController controller = TextEditingController();
 
-  void addMesssage(String text) {
-    messages.add(Message(text: text, isSender: true));
+  void addMesssage(String text, bool isSender) {
+    messages.add(Message(text: text, isSender: isSender));
+    setState(() {});
   }
 
   @override
@@ -61,9 +62,8 @@ class ChatBotViewState extends State<ChatBotView> {
                   child: TextField(
                     controller: controller,
                     onSubmitted: (value) {
-                      addMesssage(value);
+                      addMesssage(value, true);
                       controller.text = "";
-                      setState(() {});
                     },
                     decoration: InputDecoration(
                       hintText: "Type a message",
