@@ -1,6 +1,8 @@
 import 'package:ai_cv_generator/pages/widgets/navdrawer.dart';
 import 'package:flutter/material.dart';
 
+import '../util/chatBot.dart';
+
 class ChatBotView extends StatefulWidget {
   bool visible;
   ChatBotView({super.key, required this.visible});
@@ -11,9 +13,14 @@ class ChatBotView extends StatefulWidget {
 class ChatBotViewState extends State<ChatBotView> {
   List<Widget> messages = [];
   TextEditingController controller = TextEditingController();
-
-  void addMesssage(String text, bool isSender) {
+  Chatbot chatBot = Chatbot();
+  void addMesssage(String text, bool isSender) async {
     messages.add(Message(text: text, isSender: isSender));
+    setState(() {});
+    if (isSender) {
+      String message = await chatBot.message(userMsg: text);
+      addMesssage(message.trim(), false);
+    }
     setState(() {});
   }
 
@@ -53,7 +60,6 @@ class ChatBotViewState extends State<ChatBotView> {
                   child: ListView(
                     padding: EdgeInsets.all(48),
                     children: [
-                      Message(text: "text", isSender: false),
                       ...messages
                     ],
                   ),

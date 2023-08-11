@@ -1,5 +1,4 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:langchain/langchain.dart';
 import 'package:langchain_openai/langchain_openai.dart';
 class Chatbot {
 
@@ -12,7 +11,7 @@ class Chatbot {
 
   Future<String> message({
     required String userMsg
-  }) {
-    return llm.predict(userMsg);
+  }) async {
+    return await llm.predict(userMsg);
   }
 }
