@@ -1,3 +1,4 @@
+import 'package:ai_cv_generator/pages/widgets/AILoadingScreen.dart';
 import 'package:ai_cv_generator/pages/widgets/navdrawer.dart';
 import 'package:flutter/material.dart';
 import 'package:ai_cv_generator/pages/util/chatBot.dart';
@@ -21,6 +22,11 @@ class ChatBotViewState extends State<ChatBotView> {
       addMesssage(message.trim(), false);
     }
     setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
   }
 
   @override

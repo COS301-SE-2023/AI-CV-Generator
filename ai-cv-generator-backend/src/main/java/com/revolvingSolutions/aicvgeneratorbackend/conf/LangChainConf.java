@@ -56,13 +56,6 @@ public class LangChainConf {
                 true
         );
     }
-    @Bean
-    public GenerationAgent generationAgent(ChatLanguageModel chatLanguageModel) {
-        return AiServices.builder(GenerationAgent.class)
-                .chatLanguageModel(chatLanguageModel)
-                .chatMemory(MessageWindowChatMemory.withCapacity(40))
-                .build();
-    }
 
     @Bean
     public DescriptionAgent descriptionAgent(ChatLanguageModel chatLanguageModel) {
