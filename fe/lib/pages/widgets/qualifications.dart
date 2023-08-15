@@ -20,7 +20,7 @@ class QualificationsDetailsForm extends StatefulWidget {
 }
 
 class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
-  // final _formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
   Column column = Column(children: [],);
 
   @override
@@ -83,7 +83,7 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
     setState(() {});
   }
 
-  updateUser() {
+  bool updateUser() {
     Home.adjustedModel!.qualifications = [];
     for (var element in column.children) {
       if((element is TextMonitorWidget) == true) {
@@ -93,6 +93,7 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
         }
       }
     }
+    return _formKey.currentState!.validate();
   }
 
   isDataNull(Iterable<dynamic> data) {
@@ -126,11 +127,14 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
             ),
             Expanded(
               flex: 4,
-              child: ListView(
-                children: [
-                  ...column.children
-                ],
-              ),
+              child: Form(
+                key: _formKey,
+                child: ListView(
+                  children: [
+                    ...column.children
+                  ],
+                ),
+              )
             ),
             Align(
               alignment: Alignment.topCenter,
@@ -152,7 +156,7 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
                   width: 150,
                   child: ElevatedButton(
                     child: const Text('Back'),
-                    onPressed: () {
+                    onPressed: ()  {
                       updateUser();
                       Navigator.of(context).pop();
                       showQuestionaireModal(context, const PersonalDetailsForm());
@@ -166,7 +170,9 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
                   child: ElevatedButton(
                     child: const Text('Save and Proceed'),
                     onPressed: () async {
-                      updateUser();
+                      if(updateUser() == false) {
+                        return;
+                      }
                       Navigator.of(context).pop();
                       showQuestionaireModal(context, const EmploymentDetailsForm());
                     },
@@ -230,15 +236,16 @@ class TextMonitorWidgetState extends State<TextMonitorWidget> {
   }
 
   populate() {
+    widget.column.children.add(SizedBox(height: 4,));
     widget.column.children.add(_buildInstitutionField(widget.institutionC));
+    widget.column.children.add(SizedBox(height: 8,));
     widget.column.children.add(_buildQualificationField(widget.qualificationC));
     widget.column.children.add(_buildGraduationField());
   }
 
   Widget _buildInstitutionField(TextEditingController controller) {
     return Container (
-      padding: const EdgeInsets.all(8.0),
-      constraints: BoxConstraints.tight(const Size(550,65)),
+      constraints: BoxConstraints.tight(const Size(550,70)),
       child: TextFormField(
         key: const Key("Institution input"),
         controller: controller,
@@ -251,7 +258,7 @@ class TextMonitorWidgetState extends State<TextMonitorWidget> {
         // ignore: body_might_complete_normally_nullable
         validator: (value) {
           if (value == null || value.isEmpty) {
-            return 'Please enter some text';
+            return 'This field is required';
           }
           return null;
         },
@@ -261,8 +268,7 @@ class TextMonitorWidgetState extends State<TextMonitorWidget> {
 
   Widget _buildQualificationField(TextEditingController controller) {
     return Container (
-      padding: const EdgeInsets.all(8.0),
-      constraints: BoxConstraints.tight(const Size(550,65)),
+      constraints: BoxConstraints.tight(const Size(550,70)),
       child: TextFormField(
         key: const Key("Qualification input"),
         controller: controller,
@@ -275,7 +281,7 @@ class TextMonitorWidgetState extends State<TextMonitorWidget> {
         // ignore: body_might_complete_normally_nullable
         validator: (value) {
           if (value == null || value.isEmpty) {
-            return 'Please enter some text';
+            return 'This field is required';
           }
           return null;
         },
@@ -286,8 +292,7 @@ class TextMonitorWidgetState extends State<TextMonitorWidget> {
   Widget _buildGraduationField() {
     return Container (
       width: 100,
-      padding: const EdgeInsets.all(8.0),
-      constraints: BoxConstraints.tight(const Size(550,65)),
+      constraints: BoxConstraints.tight(const Size(550,70)),
       child: Row(
         children: [
           Expanded(

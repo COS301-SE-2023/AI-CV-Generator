@@ -22,7 +22,7 @@ class EmploymentDetailsForm extends StatefulWidget {
 }
 
 class _EmploymentDetailsFormState extends State<EmploymentDetailsForm> {
-  // final _formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
     Column column = Column(children: [],);
 
   @override
@@ -94,6 +94,7 @@ class _EmploymentDetailsFormState extends State<EmploymentDetailsForm> {
           }
         }
       }
+      return _formKey.currentState!.validate();
     }
 
     isDataNull(Iterable<dynamic> data) {
@@ -148,10 +149,13 @@ class _EmploymentDetailsFormState extends State<EmploymentDetailsForm> {
             ),
             Expanded(
               flex: 4,
-              child: ListView(
-                children: [
-                  ...column.children
-                ],
+              child: Form(
+                key: _formKey,
+                child: ListView(
+                  children: [
+                    ...column.children
+                  ],
+                ),
               ),
             ),
             Align(
@@ -188,7 +192,9 @@ class _EmploymentDetailsFormState extends State<EmploymentDetailsForm> {
                   child: ElevatedButton(
                     child: const Text('Save and Proceed'),
                     onPressed: () async {
-                      updateUser();
+                      if(updateUser() == false) {
+                        return;
+                      }
                       Navigator.pop(context);
                       showQuestionaireModal(context, const DescriptionForm());
                     },
@@ -238,14 +244,16 @@ class TextMonitorWidgetState extends State<TextMonitorWidget> {
   }
 
   populate() {
+    widget.column.children.add(SizedBox(height: 4,));
     widget.column.children.add(_buildCompanyField(widget.companyC));
+    widget.column.children.add(SizedBox(height: 8,));
     widget.column.children.add(_buildJobTitleField(widget.titleC));
     widget.column.children.add(_buildEmploymentDurationField());
   }
+
   Widget _buildCompanyField(TextEditingController controller) {
     return Container (
-      padding: const EdgeInsets.all(8.0),
-      constraints: BoxConstraints.tight(const Size(550,65)),
+      constraints: BoxConstraints.tight(const Size(550,70)),
       child: TextFormField(
         key: const Key("Company input"),
         controller: controller,
@@ -268,8 +276,7 @@ class TextMonitorWidgetState extends State<TextMonitorWidget> {
   
   Widget _buildJobTitleField(TextEditingController controller) {
     return Container (
-      padding: const EdgeInsets.all(8.0),
-      constraints: BoxConstraints.tight(const Size(550,65)),
+      constraints: BoxConstraints.tight(const Size(550,70)),
       child: TextFormField(
         key: const Key("Job Title input"),
         controller: controller,
@@ -292,9 +299,7 @@ class TextMonitorWidgetState extends State<TextMonitorWidget> {
 
   Widget _buildEmploymentDurationField() {
     return Container (
-      width: 100,
-      padding: const EdgeInsets.all(8.0),
-      constraints: BoxConstraints.tight(const Size(550,65)),
+      constraints: BoxConstraints.tight(const Size(550,70)),
       child: Row(
         children: [
           Expanded(

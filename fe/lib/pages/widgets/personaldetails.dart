@@ -32,12 +32,13 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
     super.initState();
   }
 
-  void updateUser() async {
+  Future<bool> updateUser() async {
     Home.adjustedModel!.fname = fname.text;
     Home.adjustedModel!.lname = lname.text;
     Home.adjustedModel!.email = email.text;
     Home.adjustedModel!.phoneNumber = cell.text;
     Home.adjustedModel!.location = address.text;
+    return _formKey.currentState!.validate();
   }
 
   Future<void> getUser() async {
@@ -74,7 +75,7 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
             Expanded(
               flex: 4,
               child: Container ( 
-                padding: const EdgeInsets.all(25.0),
+                padding: const EdgeInsets.all(16.0),
                 child: _buildForm(),
               ),
             ),
@@ -84,7 +85,9 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
               child: ElevatedButton(
                 child: const Text('Save and Proceed'),
                 onPressed: () async {
-                  updateUser();
+                  if(await updateUser() == false) {
+                    return;
+                  }
                   showQuestionaireModal(context, const QualificationsDetailsForm());
                 },
               ),
@@ -119,9 +122,13 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             _buildNameField(),
+            SizedBox(height: 8,),
             _buildLastNameField(),
+            SizedBox(height: 8,),
             _buildEmailField(),
+            SizedBox(height: 8,),
             _buildCellField(),
+            SizedBox(height: 8,),
             _buildAddrField(),
           ],
         ));
@@ -129,8 +136,7 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
 
   Widget _buildNameField() {
     return Container (
-      padding: const EdgeInsets.all(8.0),
-      constraints: BoxConstraints.tight(const Size(550,65)),
+      constraints: BoxConstraints.tight(const Size(550,70)),
       child: TextFormField(
         key: const Key("Name input"),
         controller: fname,
@@ -143,7 +149,7 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
         // ignore: body_might_complete_normally_nullable
         validator: (value) {
           if (value == null || value.isEmpty) {
-            return 'Please enter some text';
+            return 'This field is required';
           }
           return null;
         },
@@ -153,8 +159,7 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
 
   Widget _buildLastNameField() {
     return Container (
-      padding: const EdgeInsets.all(8.0),
-      constraints: BoxConstraints.tight(const Size(550,65)),
+      constraints: BoxConstraints.tight(const Size(550,70)),
       child: TextFormField(
         key: const Key("Last Name input"),
         controller: lname,
@@ -167,7 +172,7 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
         // ignore: body_might_complete_normally_nullable
         validator: (value) {
           if (value == null || value.isEmpty) {
-            return 'Please enter some text';
+            return 'This field is required';
           }
           return null;
         },
@@ -177,8 +182,7 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
 
   Widget _buildEmailField() {
     return Container (
-      padding: const EdgeInsets.all(8.0),
-      constraints: BoxConstraints.tight(const Size(550,65)),
+      constraints: BoxConstraints.tight(const Size(550,70)),
       child: TextFormField(
         key: const Key("Email input"),
         controller: email,
@@ -201,8 +205,7 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
 
   Widget _buildCellField() {
     return Container (
-      padding: const EdgeInsets.all(8.0),
-      constraints: BoxConstraints.tight(const Size(550,65)),
+      constraints: BoxConstraints.tight(const Size(550,70)),
       child: TextFormField(
         key: const Key("Cell input"),
         controller: cell,
@@ -215,7 +218,7 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
         // ignore: body_might_complete_normally_nullable
         validator: (value) {
           if (value == null || value.isEmpty) {
-            return 'Please enter some text';
+            return 'This field is required';
           }
           return null;
         },
@@ -225,12 +228,11 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
 
   Widget _buildAddrField() {
     return Container (
-      padding: const EdgeInsets.all(8.0),
-      constraints: BoxConstraints.tight(const Size(550,65)),
+      constraints: BoxConstraints.tight(const Size(550,70)),
       child: TextFormField(
         key: const Key("Address input"),
         controller: address,
-        decoration: const InputDecoration(
+        decoration: InputDecoration(
           contentPadding: EdgeInsets.all(5.0),
           labelText: 'Address',
           enabledBorder: OutlineInputBorder(),
@@ -239,7 +241,7 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
         // ignore: body_might_complete_normally_nullable
         validator: (value) {
           if (value == null || value.isEmpty) {
-            return 'Please enter some text';
+            return 'This field is required';
           }
           return null;
         },

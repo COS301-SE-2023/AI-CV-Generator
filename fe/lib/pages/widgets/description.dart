@@ -15,6 +15,7 @@ class DescriptionForm extends StatefulWidget {
 }
 
 class DescriptionFormState extends State<DescriptionForm> {
+  final _formKey = GlobalKey<FormState>();
   TextEditingController descripC = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -41,21 +42,24 @@ class DescriptionFormState extends State<DescriptionForm> {
               child:Container (
                 padding: const EdgeInsets.all(8.0),
                 constraints: BoxConstraints.tight(const Size(550,200)),
-                child: TextFormField(
-                  maxLines: 6,
-                  controller: descripC,
-                  decoration: const InputDecoration(
-                    // contentPadding: EdgeInsets.all(5.0),
-                    labelText: 'Description',
-                    enabledBorder: OutlineInputBorder(),
-                    icon: Icon(Icons.person),
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter some text';
-                    }
-                    return null;
-                  },
+                child: Form(
+                  key: _formKey,
+                  child: TextFormField(
+                    key: const Key("Description start"),
+                    maxLines: 6,
+                    controller: descripC,
+                    decoration: const InputDecoration(
+                      labelText: 'Description',
+                      enabledBorder: OutlineInputBorder(),
+                      icon: Icon(Icons.person),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter some text';
+                      }
+                      return null;
+                    },
+                  )
                 )
               ),
             ),
@@ -82,7 +86,9 @@ class DescriptionFormState extends State<DescriptionForm> {
                   child: ElevatedButton(
                     child: const Text('Save and Proceed'),
                     onPressed: () async {
-                      updateUser();
+                      if(updateUser() == false) {
+                        return;
+                      }
                       Home.ready = true;
                       Navigator.popUntil(context, ModalRoute.withName('/home'));
                     },
@@ -98,10 +104,10 @@ class DescriptionFormState extends State<DescriptionForm> {
     );
   }
 
-  updateUser() {
-      Home.adjustedModel!.description = descripC.text;
-      
-    }
+  bool updateUser() {
+    Home.adjustedModel!.description = descripC.text;
+    return _formKey.currentState!.validate();
+  }
 
   Widget titleSection=const Column (
       mainAxisAlignment: MainAxisAlignment.spaceAround,
