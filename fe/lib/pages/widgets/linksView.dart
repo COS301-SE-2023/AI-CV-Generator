@@ -82,14 +82,14 @@ class LinksSectionState extends State<LinksSection> {
           Align(
             alignment: Alignment.topRight,
             child: IconButton(
-              color: Colors.red,
+              
               onPressed: () {
                 remove(key);
                 if(linksMap.isEmpty == true) {
                   editing = false;
                 }
               }, 
-              icon: const Icon(Icons.remove)),
+              icon: const Icon(Icons.delete)),
           ),
         );
         linkWidgets.add(const SizedBox(height: 4,),);

@@ -117,14 +117,14 @@ class EmploymentSectionState extends State<EmploymentSection> {
           Align(
             alignment: Alignment.topRight,
             child: IconButton(
-              color: Colors.red,
+              
               onPressed: (){
                 remove(key);
                 if(employmentMap.isEmpty == true) {
                   editing = false;
                 }
               }, 
-              icon: const Icon(Icons.remove)),
+              icon: const Icon(Icons.delete)),
           ),
         );
         linkWidgets.add(const SizedBox(height: 4,),);

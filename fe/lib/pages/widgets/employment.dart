@@ -41,7 +41,7 @@ class _EmploymentDetailsFormState extends State<EmploymentDetailsForm> {
           child: IconButton(
           onPressed: () {
             remove(key);
-          }, icon: const Icon(Icons.remove)
+          }, icon: const Icon(Icons.delete)
         ),
         )
       );
@@ -76,7 +76,7 @@ class _EmploymentDetailsFormState extends State<EmploymentDetailsForm> {
         child: IconButton(
         onPressed: () {
           remove(key);
-        }, icon: const Icon(Icons.remove)
+        }, icon: const Icon(Icons.delete)
       ),
       )
     );

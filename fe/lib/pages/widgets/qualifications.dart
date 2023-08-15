@@ -39,7 +39,7 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
           child: IconButton(
             onPressed: () {
               Navigator.popUntil(context, ModalRoute.withName('/home'));
-            }, icon: const Icon(Icons.remove)
+            }, icon: const Icon(Icons.delete)
           ),
         )
       );
@@ -74,7 +74,7 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
         child: IconButton(
         onPressed: () {
           remove(key);
-        }, icon: const Icon(Icons.remove)
+        }, icon: const Icon(Icons.delete)
       ),
       )
     );
