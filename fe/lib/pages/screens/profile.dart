@@ -173,32 +173,36 @@ class ProfileState extends State<Profile> {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          MouseRegion(
-                            cursor: SystemMouseCursors.click,
-                            child: GestureDetector(
-                              onTap: () async {
-                                await actualupdate();
-                                Uint8List? imgByte =  await ImagePickerWeb.getImageAsBytes();
-                                if(imgByte == null) {
-                                  return;
-                                }
-                                imgByte = await imagecrop(context, imgByte);
-                                if(imgByte != null){
-                                  final changed = await FileApi.updateProfileImage(img: imgByte);
-                                  image = changed;
-                                  setState(() {});
-                                }
-                              },
-                              child: CircleAvatar(
-                                radius: 95.0,
-                                backgroundColor: Theme.of(context).colorScheme.secondary,
-                                child: CircleAvatar(
-                                  radius: 90.0,
-                                  backgroundImage: image!.image,
-                                  backgroundColor: Colors.grey.shade300
-                                ),
-                              ),
-                            ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              CircleAvatar(
+                                    radius: 95.0,
+                                    backgroundColor: Theme.of(context).colorScheme.secondary,
+                                    child: CircleAvatar(
+                                      radius: 90.0,
+                                      backgroundImage: image!.image,
+                                      backgroundColor: Colors.grey.shade300
+                                    ),
+                                  ),
+                                  IconButton(
+                                    color: const Color(0xFF333C64),
+                                    onPressed: () async {
+                                      await actualupdate();
+                                      Uint8List? imgByte =  await ImagePickerWeb.getImageAsBytes();
+                                      if(imgByte == null) {
+                                        return;
+                                      }
+                                      imgByte = await imagecrop(context, imgByte);
+                                      if(imgByte != null){
+                                        final changed = await FileApi.updateProfileImage(img: imgByte);
+                                        image = changed;
+                                        setState(() {});
+                                      }
+                                    }, 
+                                    icon: const Icon(Icons.edit)),
+                                ],
+
                           ),
                           const SizedBox(height: 16,),
                           Wrap(
