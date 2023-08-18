@@ -70,6 +70,8 @@ class _HomeState extends State<Home> {
               context: context,
               builder: (context) {
                 return Dialog(
+                  backgroundColor: Colors.transparent,
+                  elevation: 0.0,
                   child: PdfWindow(file: value,)
                 );
             });
@@ -83,7 +85,11 @@ class _HomeState extends State<Home> {
               alignment: Alignment.center,
               transform: Matrix4.rotationY(math.pi),
               child: Image(
-                image: prov
+                image: ResizeImage(
+                  prov,
+                  width: 595~/2.5,
+                  height: 841~/2.5
+                )
               ),
             )
              
@@ -110,7 +116,7 @@ class _HomeState extends State<Home> {
     FileApi.getFiles().then((value) {
       list = [];
       for (var element in value!) {
-        paint.ImageProvider prov = paint.MemoryImage(scale: 0.3,element.cover);
+        paint.ImageProvider prov = paint.MemoryImage(element.cover);
         list.add(add(element.filename,prov));
       }
         setState(() {
@@ -586,7 +592,7 @@ class _HomeState extends State<Home> {
                           color: Theme.of(context).colorScheme.surface,
                         ),
                         child: SizedBox.expand(
-                          child: Center(child: CVHistory(context: context,list: list,),)
+                          child: Center(child: CVHistory(context: context,list: list,axis: Axis.vertical,),)
                         )
                       ),
                     ),

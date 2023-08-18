@@ -5,10 +5,14 @@ import 'package:ai_cv_generator/dio/client/fileApi.dart';
 import 'package:flutter/painting.dart' as paint;
 import 'dart:math' as math;
 
+
+import 'package:syncfusion_flutter_pdf/pdf.dart'; 
+
 class CVHistory extends StatefulWidget {
   final BuildContext context;
+  final Axis axis;
   List<Widget>? list;
-  CVHistory({super.key, required this.context, this.list});
+  CVHistory({super.key, required this.context, this.list, required this.axis});
 
   @override
   CVHistoryState createState() => CVHistoryState();
@@ -21,7 +25,7 @@ class CVHistoryState extends State<CVHistory> {
   void initState() {
     FileApi.getFiles().then((value) {
       for (var element in value!) {
-        paint.ImageProvider prov = paint.MemoryImage(scale: 0.3,element.cover);
+        paint.ImageProvider prov = paint.MemoryImage(element.cover);
         list.add(add(element.filename,prov));
       }
         setState(() {
@@ -38,6 +42,8 @@ class CVHistoryState extends State<CVHistory> {
               context: widget.context,
               builder: (context) {
                 return Dialog(
+                  backgroundColor: Colors.transparent,
+                  elevation: 0.0,
                   child: PdfWindow(file: value,)
                 );
             });
@@ -51,7 +57,11 @@ class CVHistoryState extends State<CVHistory> {
               alignment: Alignment.center,
               transform: Matrix4.rotationY(math.pi),
               child: Image(
-                image: prov 
+                image: ResizeImage(
+                  prov,
+                  width: 595~/2.5,
+                  height: 841~/2.5
+                )
               ),
             )
              
@@ -67,6 +77,7 @@ class CVHistoryState extends State<CVHistory> {
       child: 
       list.length > 0 ?
       SingleChildScrollView(
+        scrollDirection: widget.axis,
         child: Wrap(
             spacing: 8,
             runSpacing: 8,

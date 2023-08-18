@@ -157,7 +157,7 @@ class ProfileState extends State<Profile> {
                             child: Column(
                               children: [
                                 SectionHeading(text: "CVs", alignment: Alignment.topLeft,),
-                                CVHistory(context: context,),
+                                CVHistory(context: context,axis: Axis.horizontal,),
                               ],
                             ),
                           )                  
