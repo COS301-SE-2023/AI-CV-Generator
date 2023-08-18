@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:ai_cv_generator/api/DownloadService.dart';
 import 'package:ai_cv_generator/dio/client/fileApi.dart';
 import 'package:ai_cv_generator/api/pdfApi.dart';
@@ -33,6 +35,8 @@ import 'package:ai_cv_generator/models/user/UserModel.dart';
 import 'package:ai_cv_generator/dio/client/userApi.dart';
 import 'dart:async';
 import 'package:ai_cv_generator/pages/widgets/shareCV.dart';
+import 'package:flutter/painting.dart' as paint;
+import 'dart:math' as math;
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -58,7 +62,7 @@ class _HomeState extends State<Home> {
     super.initState();
   }
 
-  Widget add(String filename,) {
+  Widget add(String filename,paint.ImageProvider prov) {
     return OutlinedButton(
         onPressed: ()  {
           FileApi.requestFile(filename: filename).then((value) {
@@ -72,7 +76,18 @@ class _HomeState extends State<Home> {
           });
 
         },
-        child: Text(filename),
+        child: RotatedBox(
+            quarterTurns: 2,
+            child: 
+            Transform(
+              alignment: Alignment.center,
+              transform: Matrix4.rotationY(math.pi),
+              child: Image(
+                image: prov
+              ),
+            )
+             
+          ),
     );
   }
 
@@ -95,7 +110,8 @@ class _HomeState extends State<Home> {
     FileApi.getFiles().then((value) {
       list = [];
       for (var element in value!) {
-        list.add(add(element.filename));
+        paint.ImageProvider prov = paint.MemoryImage(scale: 0.3,element.cover);
+        list.add(add(element.filename,prov));
       }
         setState(() {
       });
@@ -621,3 +637,4 @@ class PastCVsState extends State<PastCVs> {
     );
   }
 }
+

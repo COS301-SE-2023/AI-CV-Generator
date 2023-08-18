@@ -2,6 +2,9 @@ import 'package:ai_cv_generator/pages/widgets/pdf_window.dart';
 import 'package:flutter/material.dart';
 import 'package:ai_cv_generator/dio/client/fileApi.dart';
 
+import 'package:flutter/painting.dart' as paint;
+import 'dart:math' as math;
+
 class CVHistory extends StatefulWidget {
   final BuildContext context;
   List<Widget>? list;
@@ -18,7 +21,8 @@ class CVHistoryState extends State<CVHistory> {
   void initState() {
     FileApi.getFiles().then((value) {
       for (var element in value!) {
-        list.add(add(element.filename));
+        paint.ImageProvider prov = paint.MemoryImage(scale: 0.3,element.cover);
+        list.add(add(element.filename,prov));
       }
         setState(() {
       });
@@ -26,7 +30,7 @@ class CVHistoryState extends State<CVHistory> {
     super.initState();
   }
 
-  Widget add(String filename,) {
+  Widget add(String filename,paint.ImageProvider prov) {
     return OutlinedButton(
         onPressed: ()  {
           FileApi.requestFile(filename: filename).then((value) {
@@ -40,7 +44,18 @@ class CVHistoryState extends State<CVHistory> {
           });
 
         },
-        child: Text(filename),
+        child: RotatedBox(
+            quarterTurns: 2,
+            child: 
+            Transform(
+              alignment: Alignment.center,
+              transform: Matrix4.rotationY(math.pi),
+              child: Image(
+                image: prov 
+              ),
+            )
+             
+          ),
     );
   }
   @override
