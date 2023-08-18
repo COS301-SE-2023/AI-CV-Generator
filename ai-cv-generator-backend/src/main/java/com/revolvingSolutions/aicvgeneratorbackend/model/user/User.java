@@ -1,8 +1,5 @@
 package com.revolvingSolutions.aicvgeneratorbackend.model.user;
 
-import com.revolvingSolutions.aicvgeneratorbackend.model.user.Employment;
-import com.revolvingSolutions.aicvgeneratorbackend.model.user.Link;
-import com.revolvingSolutions.aicvgeneratorbackend.model.user.Qualification;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
