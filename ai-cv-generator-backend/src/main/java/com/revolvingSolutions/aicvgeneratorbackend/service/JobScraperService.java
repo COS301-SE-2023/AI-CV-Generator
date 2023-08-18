@@ -3,6 +3,7 @@ package com.revolvingSolutions.aicvgeneratorbackend.service;
 import com.revolvingSolutions.aicvgeneratorbackend.model.webscrapper.JobResponseDTO;
 import com.revolvingSolutions.aicvgeneratorbackend.request.webscraper.JobScrapeRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.response.webscraper.JobScrapeResponse;
+import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -21,23 +22,22 @@ public class JobScraperService {
         Set<JobResponseDTO> responseDTOS = new HashSet<>();
         try {
             responseDTOS.addAll(linkedIn(request));
-            responseDTOS.addAll(indeed(request));
-            responseDTOS.addAll(simplyHired(request));
+            //responseDTOS.addAll(indeed(request));
+            //responseDTOS.addAll(simplyHired(request));
             responseDTOS.addAll(careerBuilder(request));
             responseDTOS.addAll(snagAJob(request));
             return JobScrapeResponse.builder()
                     .jobs(responseDTOS)
                     .build();
         } catch (IOException e) {
+            e.printStackTrace();
             throw new RuntimeException("Bad request with scraper");
         }
     }
 
     private Set<JobResponseDTO> linkedIn(JobScrapeRequest request) throws IOException {
         Set<JobResponseDTO> responseDTOS = new HashSet<>();
-        String keywords = request.getField().replaceAll(" ","%20");
-        String location = request.getLocation().replaceAll(" ", "%20");
-        Document doc = Jsoup.connect("https://za.linkedin.com/jobs/search?keywords="+keywords+"&location="+location+"&geoId=100001436&trk=public_jobs_jobs-search-bar_search-submit&position=1&pageNum=0").get();
+        Document doc = Jsoup.connect("https://za.linkedin.com/jobs/search?keywords="+request.getField().replaceAll(" ","%20")+"&location="+request.getLocation().replaceAll(" ", "%20")+"&geoId=100001436&trk=public_jobs_jobs-search-bar_search-submit&position=1&pageNum=0").get();
         Element list = doc.getElementsByClass("jobs-search__results-list").first();
         Elements listelements = doc.getElementsByTag("li");
         for (Element el : listelements) {
@@ -49,7 +49,7 @@ public class JobScraperService {
                     JobResponseDTO.builder()
                             .title(el.getElementsByClass("base-search-card__title").first().ownText())
                             .subTitle(link.ownText())
-                            .subTitleLink(link.attr("href"))
+                            .link(link.attr("href"))
                             .location(el.getElementsByClass("job-search-card__location").first().ownText())
                             .build()
             );
@@ -59,11 +59,61 @@ public class JobScraperService {
 
     private Set<JobResponseDTO> indeed(JobScrapeRequest request) throws IOException {
         Set<JobResponseDTO> responseDTOS = new HashSet<>();
+        String keywords = request.getField().replaceAll(" ","+");
+        String location = request.getLocation().replaceAll(" ","+");
+        Connection.Response res = Jsoup.connect("https://za.indeed.com/jobs?q="+keywords+"&l="+location)
+                .followRedirects(false)
+                .timeout(0)
+                .method(Connection.Method.GET)
+                .header("User-Agent", "Mozilla/5.0")
+                .execute();
+
+        String loc = res.header("Location");
+        res = Jsoup.connect("https://za.indeed.com/jobs?q="+keywords+"&l="+location)
+                .timeout(0)
+                .data("is_check", "1")
+                .method(Connection.Method.POST)
+                .header("User-Agent", "Mozilla/5.0")
+                .header("Referer", loc)
+                .execute();
+
+        Document doc = res.parse();
+        Element list = doc.getElementById("mosaic-provider-jobcards");
+        Elements els = list.getElementsByTag("li");
+        for (Element el : els) {
+            Element tag = el.getElementsByTag("a").first();
+            Element title = el.getElementsByTag("span").first();
+            responseDTOS.add(
+                    JobResponseDTO.builder()
+                            .title(title.ownText())
+                            .link(tag.attr("href"))
+                            .subTitle(el.getElementsByClass("companyName").first().ownText()+" "+el.getElementsByClass("companyLocation").first().ownText())
+                            .build()
+            );
+        }
         return  responseDTOS;
     }
 
     private Set<JobResponseDTO> simplyHired(JobScrapeRequest request) throws IOException {
         Set<JobResponseDTO> responseDTOS = new HashSet<>();
+        Document doc = Jsoup.connect("https://www.simplyhired.com/search?q="+request.getField().replaceAll(" ","+")+"&l="+request.getLocation().replaceAll(" ","+")).get();
+        Element list = doc.getElementById("job-list");
+        if (list == null) {
+            return null;
+        }
+        Elements els = list.getElementsByTag("li");
+        for (Element el : els) {
+            Element titleLink = el.getElementsByTag("a").first();
+
+            responseDTOS.add(
+                    JobResponseDTO.builder()
+                            .title(titleLink.ownText())
+                            .link(titleLink.attr("href"))
+                            .subTitle(el.getElementsByAttributeValue("data-testid","companyName").first().ownText())
+                            .build()
+            );
+        }
+
         return  responseDTOS;
     }
 

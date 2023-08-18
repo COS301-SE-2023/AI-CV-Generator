@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 public class JobResponseDTO {
     public String title;
     public String subTitle;
-    public String subTitleLink;
+    public String link;
     public String location;
     public String salary;
 }

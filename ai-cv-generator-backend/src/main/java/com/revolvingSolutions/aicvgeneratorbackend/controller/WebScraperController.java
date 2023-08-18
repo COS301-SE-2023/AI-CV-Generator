@@ -18,6 +18,10 @@ public class WebScraperController {
     public ResponseEntity<JobScrapeResponse> jobScrape(
             @RequestBody JobScrapeRequest request
             ) {
-        return ResponseEntity.ok(service.scrapData(request));
+        try {
+            return ResponseEntity.ok(service.scrapData(request));
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 }
