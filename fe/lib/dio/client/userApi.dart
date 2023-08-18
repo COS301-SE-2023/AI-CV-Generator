@@ -17,12 +17,10 @@ import 'package:ai_cv_generator/dio/response/UserResponses/UserResponse.dart';
 import 'package:ai_cv_generator/models/user/Employment.dart';
 import 'package:ai_cv_generator/models/user/Qualification.dart';
 import 'package:ai_cv_generator/models/user/UserModel.dart';
-
 import 'package:dio/dio.dart';
-
-import '../request/DetailsRequests/Qualification/RemoveQualificationRequest.dart';
-import '../request/DetailsRequests/Qualification/UpdateQualificationRequest.dart';
-import '../response/DetailsResponses/QualificationsResponse.dart';
+import 'package:ai_cv_generator/dio/request/DetailsRequests/Qualification/RemoveQualificationRequest.dart';
+import 'package:ai_cv_generator/dio/request/DetailsRequests/Qualification/UpdateQualificationRequest.dart';
+import 'package:ai_cv_generator/dio/response/DetailsResponses/QualificationsResponse.dart';
 import 'package:ai_cv_generator/models/user/Link.dart' as lin;
 
 class userApi extends DioClient {
@@ -30,7 +28,6 @@ class userApi extends DioClient {
     UserModel? user;
     try {
       Response response = await DioClient.dio.get('api/User/user');
-      print('User Info: ${response.data}');
       user = UserResponse.fromJson(response.data).user;
     } on DioException catch (e) {
       DioClient.handleError(e);
@@ -51,7 +48,6 @@ class userApi extends DioClient {
         'api/User/user',
         data: request.toJson()
       );
-      print('User updated: ${response.data}');
 
       updateduser = UserResponse.fromJson(response.data).user;
     } on DioException catch (e) {
@@ -71,7 +67,6 @@ class userApi extends DioClient {
         'api/auth/authenticate',
         data: req.toJson(),
       );
-      print('Response Info: ${response.data}');
       AuthResponse resp = AuthResponse.fromJson(response.data);
       DioClient.SetAuth(resp.token);
       DioClient.SetRefresh(resp.refreshToken);
@@ -94,7 +89,6 @@ class userApi extends DioClient {
         'api/auth/reg',
         data: req.toJson(),
       );
-      print('Response Info: ${response.data}');
       AuthResponse resp = AuthResponse.fromJson(response.data);
       DioClient.SetAuth(resp.token);
       DioClient.SetRefresh(resp.refreshToken);
@@ -111,25 +105,21 @@ class userApi extends DioClient {
     
     try {
       Response resp = await DioClient.dio.get('api/User/test');
-      print("Response: "+resp.data);
     } on DioException catch (e) {
       DioClient.handleError(e);
     }
     Response resp = await DioClient.dio.get('api/Users');
-    print("Response: ${resp.data}");
   }
 
   static Future<List<Qualification>?> addQulaification({
     required Qualification qualification
   }) async {
     try {
-      print(qualification.intstitution);
       AddQualificationRequest request = AddQualificationRequest(qualification: qualification);
       Response resp = await DioClient.dio.post(
         'api/User/addQua',
         data: request.toJson()
         );
-      print(resp.data);
       return QualificationsResponse.fromJson(resp.data).qualifications;
     } on DioException catch (e) {
       DioClient.handleError(e);
@@ -178,7 +168,6 @@ class userApi extends DioClient {
         'api/User/addEmp',
         data: request.toJson()
       );
-      print(resp.data);
       return EmploymentResponse.fromJson(resp.data).employees;
     } on DioException catch(e) {
       DioClient.handleError(e);
@@ -211,7 +200,6 @@ class userApi extends DioClient {
         'api/User/updateEmp',
         data: request.toJson()
       );
-      print(resp.data);
       return EmploymentResponse.fromJson(resp.data).employees;
     } on DioException catch(e) {
       DioClient.handleError(e);
