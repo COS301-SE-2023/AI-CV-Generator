@@ -26,6 +26,9 @@ class ChatBotViewState extends State<ChatBotView> {
 
   @override
   void initState() {
+    chatBot.greeting().then((value) {
+      addMesssage(value, false);
+    });
     super.initState();
   }
 

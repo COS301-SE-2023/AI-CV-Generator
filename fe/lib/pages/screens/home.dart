@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:ai_cv_generator/api/DownloadService.dart';
 import 'package:ai_cv_generator/dio/client/fileApi.dart';
 import 'package:ai_cv_generator/api/pdfApi.dart';
@@ -128,7 +126,6 @@ class _HomeState extends State<Home> {
     if (t == Template.templateA) {
       tem = Template.templateA;
       if (ready) {
-        //templateAPdf 
         editPage = TemplateA(data: cvdata!);
       }    
     } else  if (t == Template.templateB) {

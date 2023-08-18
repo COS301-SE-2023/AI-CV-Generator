@@ -15,6 +15,13 @@ class Chatbot {
   List<ChatMessage> messages = [
     ChatMessage.system('You are a helpful chatbot that advises users on creating a cv. A user will ask a question in the form of a paragraph, and you should answer there question in the form of a paragraph, and nothing more.'),
   ];
+
+  Future<String> greeting() async {
+    messages.add(ChatMessage.human("Hello"));
+    var response = await bot.call(messages);
+    messages.add(response);
+    return response.content;
+  }
   
   Future<String> message({
     required String userMsg
