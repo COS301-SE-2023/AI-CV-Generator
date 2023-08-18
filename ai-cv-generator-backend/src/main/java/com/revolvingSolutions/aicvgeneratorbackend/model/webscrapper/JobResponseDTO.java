@@ -9,9 +9,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class LinkedinResponseDTO {
+public class JobResponseDTO {
     public String title;
     public String subTitle;
     public String subTitleLink;
     public String location;
+    public String salary;
 }
