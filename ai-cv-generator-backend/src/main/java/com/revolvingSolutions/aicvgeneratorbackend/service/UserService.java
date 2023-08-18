@@ -5,6 +5,7 @@ import com.revolvingSolutions.aicvgeneratorbackend.exception.FileNotFoundExcepti
 import com.revolvingSolutions.aicvgeneratorbackend.exception.NotIndatabaseException;
 import com.revolvingSolutions.aicvgeneratorbackend.exception.UnknownErrorException;
 import com.revolvingSolutions.aicvgeneratorbackend.model.file.FileModel;
+import com.revolvingSolutions.aicvgeneratorbackend.model.file.FileModelBase64;
 import com.revolvingSolutions.aicvgeneratorbackend.model.file.FileModelForList;
 import com.revolvingSolutions.aicvgeneratorbackend.model.user.Employment;
 import com.revolvingSolutions.aicvgeneratorbackend.model.user.Link;
@@ -49,6 +50,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Date;
 import java.time.Instant;
 import java.util.List;
@@ -298,8 +302,17 @@ public class UserService {
     @Transactional
     public GetFilesResponse getFiles() {
         List<FileModelForList> files = fileRepository.getFilesFromUser(getAuthenticatedUser().getUsername());
+        List<FileModelBase64> newFiles = new ArrayList<>();
+        for (FileModelForList file : files) {
+            newFiles.add(
+                FileModelBase64.builder()
+                .filename(file.getFilename())
+                .cover(Base64.getEncoder().encodeToString(file.getCover()))
+                .build()
+            );
+        }
         return GetFilesResponse.builder()
-                .files(files)
+                .files(newFiles)
                 .build();
     }
 
