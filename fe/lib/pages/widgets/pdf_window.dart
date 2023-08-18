@@ -24,13 +24,11 @@ class _PdfWindowState extends State<PdfWindow> {
   Widget build(BuildContext context) {
     PlatformFile? file = widget.file;
     if (file != null) {
-      return Scaffold(
-        body : PdfView(
+      return PdfView(
           controller: PdfController(document: PdfDocument.openData(file.bytes as FutureOr<Uint8List>)),
           scrollDirection: Axis.vertical,
           pageSnapping: true,
-        )
-      );
+        );
     }
     return const Scaffold(
       body: Text("File not available")
