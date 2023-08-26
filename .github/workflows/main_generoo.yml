@@ -23,6 +23,7 @@ on:
     workflow_dispatch:
 
 env:
+    working-directory: fe
     AZURE_WEBAPP_NAME: generoo    # set this to your application's name
     AZURE_WEBAPP_PACKAGE_PATH: '.'      # set this to the path to your web app project, defaults to the repository root
     NODE_VERSION: '14.x'                # set this to the node version to use
@@ -60,7 +61,7 @@ jobs:
       runs-on: ubuntu-latest
       needs: build
       environment:
-        name: 'Test'
+        name: 'test'
         url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
   
       steps:
