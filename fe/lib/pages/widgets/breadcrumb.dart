@@ -9,11 +9,9 @@ class Breadcrumb extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Positioned(
-      top: 48.0,
-      left: 148.0,
-      child: Container(
-        padding: const EdgeInsets.all(8.0),
+    return Container(
+        alignment: Alignment.topLeft,
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5.0),
         ),
@@ -21,20 +19,19 @@ class Breadcrumb extends StatelessWidget {
           text: TextSpan(
             text: "$previousPage / ",
             style: const TextStyle(
-              fontSize: 32,
+              fontSize: 24,
             ),
             children: <TextSpan>[
               TextSpan(
                 text: currentPage,
                 style: const TextStyle(
-                  fontSize: 32,
+                  fontSize: 24,
                   fontWeight: FontWeight.bold
                 ),
               )
             ]
           ),
         )
-      ),
-    );
+      );
   }
 }

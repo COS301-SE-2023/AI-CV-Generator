@@ -118,125 +118,130 @@ class ProfileState extends State<Profile> {
       body: SafeArea(
         child: Container(
         color: Colors.white,
-        child: Stack(
+        child: Column(
           children: [
-            const Breadcrumb(previousPage: "Home", currentPage: "Profile",),
-          Form(
-            key: _formKey,
-            child: ListView(
-              padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 128),
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+            const Expanded(
+              child:Breadcrumb(previousPage: "Home", currentPage: "Profile",),
+            ),
+            Expanded(
+              flex: 15,
+              child: Form(
+                key: _formKey,
+                child: ListView(
+                  padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 128),
                   children: [
-                    Expanded(
-                      flex: 4,
-                      child: Column(
-                        children: [
-                          const SizedBox(height: 184,),
-                          SectionContainer(
-                            child: Column(
-                              children: [
-                                SectionHeading(text: "ABOUT ME", alignment: Alignment.topLeft,),
-                                TextFormField(
-                                  controller: descripC,
-                                  maxLines: 5,
-                                  style: Theme.of(context).textTheme.bodyLarge,
-                                  decoration: const InputDecoration(
-                                    border: OutlineInputBorder(),
-                                    hintText: "Insert a description about yourself"
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(height: 16,),
-                          employmentC,
-                          const SizedBox(height: 16,),
-                          SectionContainer(
-                            child: Column(
-                              children: [
-                                SectionHeading(text: "CVs", alignment: Alignment.topLeft,),
-                                CVHistory(context: context,axis: Axis.horizontal,),
-                              ],
-                            ),
-                          )                  
-                        ],
-                      ),
-                    ),
-                  
-                    const SizedBox(width: 128,),
-                  
-                    Expanded(
-                      flex: 2,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          flex: 4,
+                          child: Column(
                             children: [
-                              CircleAvatar(
-                                    radius: 95.0,
-                                    backgroundColor: Theme.of(context).colorScheme.secondary,
-                                    child: CircleAvatar(
-                                      radius: 90.0,
-                                      backgroundImage: image!.image,
-                                      backgroundColor: Colors.grey.shade300
+                              const SizedBox(height: 184,),
+                              SectionContainer(
+                                child: Column(
+                                  children: [
+                                    SectionHeading(text: "ABOUT ME", alignment: Alignment.topLeft,),
+                                    TextFormField(
+                                      controller: descripC,
+                                      maxLines: 5,
+                                      style: Theme.of(context).textTheme.bodyLarge,
+                                      decoration: const InputDecoration(
+                                        border: OutlineInputBorder(),
+                                        hintText: "Insert a description about yourself"
+                                      ),
                                     ),
-                                  ),
-                                  IconButton(
-                                    color: const Color(0xFF333C64),
-                                    onPressed: () async {
-                                      await actualupdate();
-                                      Uint8List? imgByte =  await ImagePickerWeb.getImageAsBytes();
-                                      if(imgByte == null) {
-                                        return;
-                                      }
-                                      imgByte = await imagecrop(context, imgByte);
-                                      if(imgByte != null){
-                                        final changed = await FileApi.updateProfileImage(img: imgByte);
-                                        image = changed;
-                                        setState(() {});
-                                      }
-                                    }, 
-                                    icon: const Icon(Icons.edit)),
-                                ],
-
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(height: 16,),
+                              employmentC,
+                              const SizedBox(height: 16,),
+                              SectionContainer(
+                                child: Column(
+                                  children: [
+                                    SectionHeading(text: "CVs", alignment: Alignment.topLeft,),
+                                    CVHistory(context: context,axis: Axis.horizontal,),
+                                  ],
+                                ),
+                              )                  
+                            ],
                           ),
-                          const SizedBox(height: 16,),
-                          Wrap(
-                            // crossAxisAlignment: CrossAxisAlignment.start,
-                            // mainAxisAlignment: MainAxisAlignment.end,
-                            // mainAxisSize: MainAxisSize.min,
+                        ),
+                      
+                        const SizedBox(width: 128,),
+                      
+                        Expanded(
+                          flex: 2,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              // Flexible(
-                                // child: 
-                                SectionInput(controller: fnameC, hint: "First Name", fontSize: 24,),
-                              // ),
-                              const SizedBox(width: 8,),
-                              // Flexible(
-                              //   child: 
-                                SectionInput(controller: lnameC, hint: "Last Name", fontSize: 24,),
-                              // ),
-                            ]
-                          ),
-                          SectionInput(controller: emailC, hint: "Email", height: 34),
-                          SectionInput(controller: locationC, hint: "Address", height: 34),
-                          SectionInput(controller: phoneNoC, hint: "Phone number", height: 34,),
-                          const SizedBox(height: 55,),
-                          qualificationsC,
-                          const SizedBox(height: 16,),
-                          linkC
-                        ],
-                        )
-                      ),
-                    ],
-                  ),
-            ],),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  CircleAvatar(
+                                        radius: 95.0,
+                                        backgroundColor: Theme.of(context).colorScheme.secondary,
+                                        child: CircleAvatar(
+                                          radius: 90.0,
+                                          backgroundImage: image!.image,
+                                          backgroundColor: Colors.grey.shade300
+                                        ),
+                                      ),
+                                      IconButton(
+                                        color: const Color(0xFF333C64),
+                                        onPressed: () async {
+                                          await actualupdate();
+                                          Uint8List? imgByte =  await ImagePickerWeb.getImageAsBytes();
+                                          if(imgByte == null) {
+                                            return;
+                                          }
+                                          imgByte = await imagecrop(context, imgByte);
+                                          if(imgByte != null){
+                                            final changed = await FileApi.updateProfileImage(img: imgByte);
+                                            image = changed;
+                                            setState(() {});
+                                          }
+                                        }, 
+                                        icon: const Icon(Icons.edit)),
+                                    ],
 
-          )
-            ],
+                              ),
+                              const SizedBox(height: 16,),
+                              Wrap(
+                                // crossAxisAlignment: CrossAxisAlignment.start,
+                                // mainAxisAlignment: MainAxisAlignment.end,
+                                // mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  // Flexible(
+                                    // child: 
+                                    SectionInput(controller: fnameC, hint: "First Name", fontSize: 24,),
+                                  // ),
+                                  const SizedBox(width: 8,),
+                                  // Flexible(
+                                  //   child: 
+                                    SectionInput(controller: lnameC, hint: "Last Name", fontSize: 24,),
+                                  // ),
+                                ]
+                              ),
+                              SectionInput(controller: emailC, hint: "Email", height: 34),
+                              SectionInput(controller: locationC, hint: "Address", height: 34),
+                              SectionInput(controller: phoneNoC, hint: "Phone number", height: 34,),
+                              const SizedBox(height: 55,),
+                              qualificationsC,
+                              const SizedBox(height: 16,),
+                              linkC
+                            ],
+                            )
+                          ),
+                        ],
+                      ),
+                ],),
+
+              )
+            )
+          ],
           )        
         )
       )
