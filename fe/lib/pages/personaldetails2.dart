@@ -2,9 +2,9 @@
 
 import 'package:ai_cv_generator/dio/client/userApi.dart';
 import 'package:ai_cv_generator/models/user/UserModel.dart';
-import 'package:ai_cv_generator/pages/navdrawer.dart';
+import 'package:ai_cv_generator/pages/widgets/navdrawer.dart';
 import 'package:ai_cv_generator/pages/qualifications2.dart';
-import 'package:ai_cv_generator/pages/strings.dart';
+import 'package:ai_cv_generator/pages/util/strings.dart';
 import 'package:flutter/material.dart';
 
 void main () => runApp( const PersonalDetails());

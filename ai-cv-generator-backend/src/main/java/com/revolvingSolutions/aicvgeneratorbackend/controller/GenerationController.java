@@ -1,9 +1,10 @@
 package com.revolvingSolutions.aicvgeneratorbackend.controller;
 
 
-import com.revolvingSolutions.aicvgeneratorbackend.request.generation.GenerationRequest;
-import com.revolvingSolutions.aicvgeneratorbackend.response.generation.GenerationResponse;
-import com.revolvingSolutions.aicvgeneratorbackend.response.generation.MockGenerationResponse;
+import com.revolvingSolutions.aicvgeneratorbackend.request.AI.ExtractionRequest;
+import com.revolvingSolutions.aicvgeneratorbackend.request.AI.GenerationRequest;
+import com.revolvingSolutions.aicvgeneratorbackend.response.AI.ExtractionResponse;
+import com.revolvingSolutions.aicvgeneratorbackend.response.AI.GenerationResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.service.LangChainService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -15,29 +16,28 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class GenerationController {
     private final LangChainService generationService;
-
-    @PostMapping(value = "/gen")
+    @PostMapping(value="/gen")
     public ResponseEntity<GenerationResponse> generate(
             @RequestBody GenerationRequest request
-            ) {
-        return ResponseEntity.ok(
-                generationService.generateCV(
-                        request
-                )
-        );
+    ) {
+        try {
+            return ResponseEntity.ok(generationService.GenerateCV(request));
+        } catch (Exception e) {
+            System.out.println(e.getClass());
+            return ResponseEntity.notFound().build();
+        }
     }
 
-    @PostMapping(value= "/jythongenerate")
-    public ResponseEntity<GenerationResponse> jythongenerate(
-            @RequestBody GenerationRequest request
+    @PostMapping(value = "/extract")
+    public  ResponseEntity<ExtractionResponse> extractData(
+            @RequestBody ExtractionRequest request
     ) {
-        return ResponseEntity.ok(generationService.generateCV(request));
-    }
-
-    @PostMapping(value="/mockgenerate")
-    public ResponseEntity<MockGenerationResponse> mockgenerate(
-            @RequestBody GenerationRequest request
-    ) {
-        return ResponseEntity.ok(generationService.mockGenerateCV(request));
+        try {
+            return ResponseEntity.ok(
+                    generationService.extractData(request)
+            );
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 }

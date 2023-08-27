@@ -1,6 +1,6 @@
 package com.revolvingSolutions.aicvgeneratorbackend.response.file;
 
-import com.revolvingSolutions.aicvgeneratorbackend.model.FileModelForList;
+import com.revolvingSolutions.aicvgeneratorbackend.model.file.FileModelBase64;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GetFilesResponse {
-    private List<FileModelForList> files;
+    private List<FileModelBase64> files;
 }
 
 

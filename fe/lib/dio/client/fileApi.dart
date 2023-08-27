@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:typed_data';
+import 'dart:ui';
 
 import 'package:ai_cv_generator/dio/client/dioClient.dart';
 import 'package:ai_cv_generator/dio/request/FileRequests/FileRequest.dart';
@@ -10,7 +11,8 @@ import 'package:ai_cv_generator/models/files/FileModel.dart';
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:pdf_render/pdf_render.dart' as render;
+import 'package:pdf_render/pdf_render.dart';
+import 'package:flutter/painting.dart' as paint;
 
 class FileApi extends DioClient {
   static Future<Response?> uploadFile(
@@ -20,15 +22,20 @@ class FileApi extends DioClient {
     }
   ) async {
     if (file == null) return null;
-    final pdf = await render.PdfDocument.openData(file.bytes!);
-    final page = await pdf.getPage(1);
-    final imagepage = await page.render(width: 20,height: 20);
+    final pdf = await PdfDocument.openData(file.bytes!);
+    final pages = pdf.pageCount;
+    
+    var page = await pdf.getPage(1);
+    var imgPDF = await page.render();
+    var img = await imgPDF.createImageDetached();
+    var imgBytes = await img.toByteData(format: ImageByteFormat.png);
+    
     FormData formData = FormData.fromMap({
       "file": MultipartFile.fromBytes(
         file.bytes as List<int>, filename: file.name,
       ),
       "cover": MultipartFile.fromBytes(
-        imagepage.pixels, filename: file.name
+        imgBytes!.buffer.asUint8List(imgBytes.offsetInBytes,imgBytes.lengthInBytes), filename: file.name
       ),
     });
 
@@ -61,6 +68,23 @@ class FileApi extends DioClient {
       
     },);
     return image;
+    
+  }
+
+   static Future<Uint8List?> getProfileImageUint8List() async {
+    Uint8List? list = null;
+    await DioClient.dio.get(
+      'api/User/profimg',
+      options: Options(
+          responseType: ResponseType.bytes
+      )
+    ).then((value) {
+        list = Uint8List.fromList(value.data.toList() as List<int>);
+        
+    }).timeout(const Duration(milliseconds: 500),onTimeout: () {
+      
+    },);
+    return list;
     
   }
 
@@ -175,5 +199,26 @@ class FileApi extends DioClient {
       DioClient.handleError(e);
     }
     return url;
+  }
+
+  static Future<paint.ImageProvider?> test({
+    required String filename
+  }) async {
+    paint.ImageProvider? img;
+    try {
+      FileRequest request = FileRequest(filename: filename);
+      Response response = await DioClient.dio.post(
+        'api/User/test',
+        data: request.toJson(),
+        options: Options(
+          responseType: ResponseType.bytes
+        )
+      );
+      Uint8List data = Uint8List.fromList(response.data.toList() as List<int>);
+      img = paint.MemoryImage(data);
+    } on DioException catch (e) {
+      DioClient.handleError(e);
+    }
+    return img;
   }
 }

@@ -1,7 +1,7 @@
 package com.revolvingSolutions.aicvgeneratorbackend.conf;
 
 
-import com.revolvingSolutions.aicvgeneratorbackend.agent.GenerationAgent;
+import com.revolvingSolutions.aicvgeneratorbackend.agent.*;
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
 import dev.langchain4j.model.chat.ChatLanguageModel;
 import dev.langchain4j.model.openai.OpenAiChatModel;
@@ -33,7 +33,7 @@ public class LangChainConf {
                 modelName,
                 temperature,
                 1.0,
-                100,
+                1000,
                 0.0,0.0,
                 Duration.ofMinutes(2),
                 2,
@@ -41,11 +41,51 @@ public class LangChainConf {
                 true
         );
     }
+
+    public ChatLanguageModel extractionChatLanguageModel() {
+        return new OpenAiChatModel(
+                apikey,
+                modelName,
+                0.0,
+                1.0,
+                3000,
+                0.0,0.0,
+                Duration.ofMinutes(3),
+                2,
+                true,
+                true
+        );
+    }
+
     @Bean
-    public GenerationAgent generationAgent(ChatLanguageModel chatLanguageModel) {
-        return AiServices.builder(GenerationAgent.class)
+    public DescriptionAgent descriptionAgent(ChatLanguageModel chatLanguageModel) {
+        return AiServices.builder(DescriptionAgent.class)
                 .chatLanguageModel(chatLanguageModel)
-                .chatMemory(MessageWindowChatMemory.withCapacity(40))
+                .chatMemory(MessageWindowChatMemory.withCapacity(3))
+                .build();
+    }
+
+    @Bean
+    public EmploymentHistoryExpander employmentHistoryExpander(ChatLanguageModel chatLanguageModel) {
+        return AiServices.builder(EmploymentHistoryExpander.class)
+                .chatLanguageModel(chatLanguageModel)
+                .chatMemory(MessageWindowChatMemory.withCapacity(3))
+                .build();
+    }
+
+    @Bean
+    public EducationDescriptionAgent educationDescriptionAgent(ChatLanguageModel chatLanguageModel) {
+        return AiServices.builder(EducationDescriptionAgent.class)
+                .chatLanguageModel(chatLanguageModel)
+                .chatMemory(MessageWindowChatMemory.withCapacity(3))
+                .build();
+    }
+
+    @Bean
+    public ExtractionAgent extractionAgent(ChatLanguageModel extractionChatLanguageModel) {
+        return AiServices.builder(ExtractionAgent.class)
+                .chatLanguageModel(extractionChatLanguageModel)
+                .chatMemory(MessageWindowChatMemory.withCapacity(5))
                 .build();
     }
 }

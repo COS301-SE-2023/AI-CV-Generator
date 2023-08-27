@@ -1,6 +1,6 @@
 package com.revolvingSolutions.aicvgeneratorbackend.request.details.qualification;
 
-import com.revolvingSolutions.aicvgeneratorbackend.model.Qualification;
+import com.revolvingSolutions.aicvgeneratorbackend.model.user.Qualification;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

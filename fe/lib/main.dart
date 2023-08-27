@@ -1,16 +1,18 @@
 import 'package:ai_cv_generator/dio/client/shareClient.dart';
-import 'package:ai_cv_generator/pages/Register.dart';
-import 'package:ai_cv_generator/pages/about.dart';
-import 'package:ai_cv_generator/pages/home.dart';
-import 'package:ai_cv_generator/pages/login.dart';
-import 'package:ai_cv_generator/pages/pdf_window.dart';
-import 'package:ai_cv_generator/pages/profile.dart';
+import 'package:ai_cv_generator/pages/screens/Register.dart';
+import 'package:ai_cv_generator/pages/screens/about.dart';
+import 'package:ai_cv_generator/pages/screens/home.dart';
+import 'package:ai_cv_generator/pages/screens/login.dart';
+import 'package:ai_cv_generator/pages/widgets/pdf_window.dart';
+import 'package:ai_cv_generator/pages/screens/profile.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:ai_cv_generator/pages/elements/elements.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 
 Future<void> main() async {
+  await dotenv.load(fileName: "lib/.env");
   Uri myurl = Uri.base;
   print(myurl.path);
   if (myurl.path.contains("/share/")) {
@@ -28,6 +30,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: mainTheme,
+      themeMode: ThemeMode.system,
       title: 'AI CV Generator',
       debugShowCheckedModeBanner: false,
       initialRoute: '/',

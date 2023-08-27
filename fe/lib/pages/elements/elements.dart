@@ -60,6 +60,11 @@ ThemeData mainTheme = ThemeData(
   ),
 );
 
+final darkTheme = ThemeData.dark(
+  
+
+);
+
 class SectionHeading extends StatefulWidget {
   String text;
   Alignment? alignment = Alignment.topLeft;

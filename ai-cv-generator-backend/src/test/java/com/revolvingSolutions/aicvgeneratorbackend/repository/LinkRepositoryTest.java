@@ -3,7 +3,7 @@ package com.revolvingSolutions.aicvgeneratorbackend.repository;
 import com.revolvingSolutions.aicvgeneratorbackend.entitiy.LinkEntity;
 import com.revolvingSolutions.aicvgeneratorbackend.entitiy.Role;
 import com.revolvingSolutions.aicvgeneratorbackend.entitiy.UserEntity;
-import com.revolvingSolutions.aicvgeneratorbackend.model.Link;
+import com.revolvingSolutions.aicvgeneratorbackend.model.user.Link;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
