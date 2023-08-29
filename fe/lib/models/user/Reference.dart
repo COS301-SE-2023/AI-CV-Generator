@@ -6,11 +6,11 @@ class Reference {
   Reference({
     required this.description,
     required this.contact,
-    required this.Referenceid
+    required this.refid
   });
   String description;
   String contact;
-  int Referenceid;
+  int refid;
   factory Reference.fromJson(Map<String, dynamic> json) => _$ReferenceFromJson(json);
   Map<String, dynamic> toJson() => _$ReferenceToJson(this);
 }

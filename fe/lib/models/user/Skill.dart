@@ -7,12 +7,12 @@ class Skill {
     required this.skill,
     required this.level,
     required this.reason,
-    required this.Skillid
+    required this.skillid
   });
   String skill;
   int level;
   String reason;
-  int Skillid;
+  int skillid;
   factory Skill.fromJson(Map<String, dynamic> json) => _$SkillFromJson(json);
   Map<String, dynamic> toJson() => _$SkillToJson(this);
 }

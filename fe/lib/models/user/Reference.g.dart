@@ -9,11 +9,11 @@ part of 'Reference.dart';
 Reference _$ReferenceFromJson(Map<String, dynamic> json) => Reference(
       description: json['description'] as String,
       contact: json['contact'] as String,
-      Referenceid: json['Referenceid'] as int,
+      refid: json['Referenceid'] as int,
     );
 
 Map<String, dynamic> _$ReferenceToJson(Reference instance) => <String, dynamic>{
       'description': instance.description,
       'contact': instance.contact,
-      'Referenceid': instance.Referenceid,
+      'Referenceid': instance.refid,
     };
