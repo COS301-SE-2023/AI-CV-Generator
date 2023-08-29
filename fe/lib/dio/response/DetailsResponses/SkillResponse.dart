@@ -1,4 +1,3 @@
-import 'package:ai_cv_generator/models/user/Qualification.dart';
 import 'package:ai_cv_generator/models/user/Skill.dart';
 import 'package:json_annotation/json_annotation.dart';
 
