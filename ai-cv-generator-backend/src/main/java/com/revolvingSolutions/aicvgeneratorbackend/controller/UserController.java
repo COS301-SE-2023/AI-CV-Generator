@@ -11,6 +11,12 @@ import com.revolvingSolutions.aicvgeneratorbackend.request.details.link.UpdateLi
 import com.revolvingSolutions.aicvgeneratorbackend.request.details.qualification.AddQualificationRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.details.qualification.RemoveQualificationRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.details.qualification.UpdateQualificationRequest;
+import com.revolvingSolutions.aicvgeneratorbackend.request.details.reference.AddReferenceRequest;
+import com.revolvingSolutions.aicvgeneratorbackend.request.details.reference.RemoveReferenceRequest;
+import com.revolvingSolutions.aicvgeneratorbackend.request.details.reference.UpdateReferenceRequest;
+import com.revolvingSolutions.aicvgeneratorbackend.request.details.skill.AddSkillRequest;
+import com.revolvingSolutions.aicvgeneratorbackend.request.details.skill.RemoveSkillRequest;
+import com.revolvingSolutions.aicvgeneratorbackend.request.details.skill.UpdateSkillRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.file.DownloadFileRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.user.GenerateUrlRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.user.UpdateUserRequest;
@@ -23,6 +29,12 @@ import com.revolvingSolutions.aicvgeneratorbackend.response.details.link.UpdateL
 import com.revolvingSolutions.aicvgeneratorbackend.response.details.qualification.AddQualificationResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.details.qualification.RemoveQualificationResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.details.qualification.UpdateQualificationResponse;
+import com.revolvingSolutions.aicvgeneratorbackend.response.details.reference.AddReferenceResponse;
+import com.revolvingSolutions.aicvgeneratorbackend.response.details.reference.RemoveReferenceResponse;
+import com.revolvingSolutions.aicvgeneratorbackend.response.details.reference.UpdateReferenceResponse;
+import com.revolvingSolutions.aicvgeneratorbackend.response.details.skill.AddSkillResponse;
+import com.revolvingSolutions.aicvgeneratorbackend.response.details.skill.RemoveSkillResponse;
+import com.revolvingSolutions.aicvgeneratorbackend.response.details.skill.UpdateSkillResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.file.GetFilesResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.user.GenerateUrlResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.user.GetUserResponse;
@@ -169,6 +181,65 @@ public class UserController {
     ) {
         try {
             return ResponseEntity.ok(service.updateLink_(request));
+        } catch (NotIndatabaseException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PostMapping(value="/addRef")
+    public ResponseEntity<AddReferenceResponse> addReference(
+            @RequestBody AddReferenceRequest request
+            ) {
+        return ResponseEntity.ok(service.addReference(request));
+    }
+
+    @PostMapping(value="/remRef")
+    public ResponseEntity<RemoveReferenceResponse> removeReference(
+            @RequestBody RemoveReferenceRequest request
+            ) {
+        try {
+            return ResponseEntity.ok(service.removeReference(request));
+        } catch ( NotIndatabaseException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PostMapping(value="/updateRef")
+    public ResponseEntity<UpdateReferenceResponse> updateReference(
+            @RequestBody UpdateReferenceRequest request
+            ) {
+        try {
+            return ResponseEntity.ok(service.updateReference_(request));
+        } catch (NotIndatabaseException e) {
+            return ResponseEntity.notFound().build();
+        }
+
+    }
+
+    @PostMapping(value="/addSkill")
+    public  ResponseEntity<AddSkillResponse> addSkill(
+            @RequestBody AddSkillRequest request
+            ) {
+        return ResponseEntity.ok(service.addSkill(request));
+    }
+
+    @PostMapping(value = "/remSkill")
+    public ResponseEntity<RemoveSkillResponse> removeSkill(
+            @RequestBody RemoveSkillRequest request
+            ) {
+        try {
+            return ResponseEntity.ok(service.removeSkill(request));
+        } catch (NotIndatabaseException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PostMapping(value = "/updateSkill")
+    public  ResponseEntity<UpdateSkillResponse> updateSkill(
+            @RequestBody UpdateSkillRequest request
+            ) {
+        try {
+            return ResponseEntity.ok(service.updateSkill_(request));
         } catch (NotIndatabaseException e) {
             return ResponseEntity.notFound().build();
         }
