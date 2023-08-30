@@ -96,6 +96,8 @@ public class UserService {
                                 .employmenthistory(getEmployments())
                                 .qualifications(getQualifications())
                                 .links(getLinks())
+                                .references(getReferences())
+                                .skills(getSkills())
                                 .build()
                 )
                 .build();

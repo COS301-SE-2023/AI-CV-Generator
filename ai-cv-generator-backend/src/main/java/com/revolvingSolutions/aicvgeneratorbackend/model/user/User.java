@@ -25,4 +25,6 @@ public class User {
     public List<Employment> employmenthistory;
     public List<Qualification> qualifications;
     public List<Link> links;
+    public List<Reference> references;
+    public List<Skill> skills;
 }
