@@ -62,7 +62,7 @@ class Template extends StatefulWidget{
   State<StatefulWidget> createState() => TemplateState();
 }
 
-enum TemplateOption {templateA,templateB,templateC}
+enum TemplateOption {templateA,templateB,templateC,templateD}
 
 class TemplateState extends State<Template> {
   late TemplateOption op;
@@ -105,11 +105,12 @@ class TemplateState extends State<Template> {
         return templateB();
       case TemplateOption.templateC:
         return templateC();
+      case TemplateOption.templateD:
+
       default:
         return templateA();
     }
   }
-
 
   Widget templateA() {
     return ListView(
@@ -223,7 +224,7 @@ class TemplateState extends State<Template> {
                               color: widget.colC!
                             ),
                             borderRadius: BorderRadius.circular(20),
-                            color: Colors.grey.shade300
+                            color: widget.colD
                           ),
                           child:TextFieldInput(controller: widget.descriptionC!, fontSize: 14, textAlign: TextAlign.left, maxLines: 6,),
                         ),
@@ -238,7 +239,7 @@ class TemplateState extends State<Template> {
                               color: widget.colC!
                             ),
                             borderRadius: BorderRadius.circular(20),
-                            color: Colors.grey.shade300
+                            color: widget.colD
                           ),
                           child: TextFieldInput(controller: widget.employmentC!, fontSize: 14, textAlign: TextAlign.left, maxLines: 6,),
                         ),
@@ -344,10 +345,22 @@ class TemplateState extends State<Template> {
       ],
     );
   }
+
+  Widget templateD() {
+    return const SizedBox(height: 10,child: Text("Unimplemented!!!"));
+  }
 }
 
 class TextFieldInput extends StatefulWidget {
-  const TextFieldInput({super.key, required this.controller, this.fontSize, this.textAlign, this.color, this.maxLines});
+  const TextFieldInput({
+    super.key, 
+    required this.controller, 
+    this.fontSize, 
+    this.textAlign, 
+    this.color, 
+    this.maxLines
+  });
+
   final TextEditingController controller;
   final double? fontSize;
   final TextAlign? textAlign;

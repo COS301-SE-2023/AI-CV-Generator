@@ -23,7 +23,6 @@ class FileApi extends DioClient {
   ) async {
     if (file == null) return null;
     final pdf = await PdfDocument.openData(file.bytes!);
-    final pages = pdf.pageCount;
     
     var page = await pdf.getPage(1);
     var imgPDF = await page.render();
@@ -44,7 +43,6 @@ class FileApi extends DioClient {
         'api/User/file',
         data: formData,
         onSendProgress: (int sent, int total) {
-          print('$sent $total');
         },
       );
       return response;
@@ -72,7 +70,7 @@ class FileApi extends DioClient {
   }
 
    static Future<Uint8List?> getProfileImageUint8List() async {
-    Uint8List? list = null;
+    Uint8List? list;
     await DioClient.dio.get(
       'api/User/profimg',
       options: Options(
