@@ -1,4 +1,6 @@
+import 'package:ai_cv_generator/dio/client/fileApi.dart';
 import 'package:ai_cv_generator/models/aimodels/CVData.dart';
+import 'package:ai_cv_generator/pages/widgets/loadingScreen.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
@@ -57,8 +59,14 @@ class TemplateState extends State<Template> {
     for(int i = 0; i < widget.data.links!.length; i++) {
       widget.linksC!.text += "${widget.data.links![i].url}\n";
     }
+    FileApi.getProfileImage().then((value) {
+      img = value;
+      setState(() {});
+    });
     super.initState();
   }
+
+  Image? img;
 
   @override
   Widget build(BuildContext context) {
@@ -67,6 +75,8 @@ class TemplateState extends State<Template> {
         return templateA();
       case TemplateOption.templateB:
         return templateB();
+      case TemplateOption.templateC:
+        return templateC();
       default:
         return templateA();
     }
@@ -130,7 +140,184 @@ class TemplateState extends State<Template> {
   }
 
   Widget templateB() {
-    return const SizedBox(height: 2,);
+    if (img == null) {
+      return const LoadingScreen();
+    }
+    return ListView(
+      children: [
+        Row(
+          children: [
+            Expanded(
+              child:Container(
+                height: 555,
+                color: Colors.blueAccent,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image(image: img!.image, height: 170,width: 170,),
+                    const SizedBox(height: 40,),
+                    TextFieldInput(
+                      controller: widget.nameC!, 
+                      fontSize: 32, 
+                      textAlign: TextAlign.center,
+                      color: Colors.white,
+                    ),
+                    const SizedBox(height: 32),
+                    TextFieldInput(
+                      controller: widget.detailsC!, 
+                      textAlign: TextAlign.center,
+                      color: Colors.white
+                    ),
+                  ]
+                )
+              )
+            ),
+
+          ],
+        ),
+          Padding(
+            padding: const EdgeInsets.all(32),
+            child: Row(
+              children: [
+                Expanded( child:
+                  Container(
+                    alignment: Alignment.topLeft,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        TextFieldInput(controller: widget.descriptionHeadingC!, fontSize: 24, textAlign: TextAlign.center, color: Colors.blue),
+                        const SizedBox(height: 16),
+                        Container(
+                          padding: const EdgeInsets.all(15),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              width: 2,
+                              color: Colors.blue.shade100
+                            ),
+                            borderRadius: BorderRadius.circular(20),
+                            color: Colors.grey.shade300
+                          ),
+                          child:TextFieldInput(controller: widget.descriptionC!, fontSize: 14, textAlign: TextAlign.left, maxLines: 6,),
+                        ),
+                        const SizedBox(height: 48),
+                        TextFieldInput(controller: widget.employmentHeadingC!, fontSize: 24, textAlign: TextAlign.left, color: Colors.blue,),
+                        const SizedBox(height: 16),
+                        Container(
+                          padding: const EdgeInsets.all(15),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              width: 2,
+                              color: Colors.blue.shade100
+                            ),
+                            borderRadius: BorderRadius.circular(20),
+                            color: Colors.grey.shade300
+                          ),
+                          child: TextFieldInput(controller: widget.employmentC!, fontSize: 14, textAlign: TextAlign.left, maxLines: 6,),
+                        ),
+                        const SizedBox(height: 48),
+                        TextFieldInput(controller: widget.qualificationHeadingC!, fontSize: 24, textAlign: TextAlign.left, color: Colors.blue),
+                        const SizedBox(height: 16),
+                        Container(
+                          padding: const EdgeInsets.all(15),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              width: 2,
+                              color: Colors.blue.shade100
+                            ),
+                            borderRadius: BorderRadius.circular(20),
+                            color: Colors.grey.shade300
+                          ),
+                          child: TextFieldInput(controller: widget.qualificationC!, fontSize: 14, textAlign: TextAlign.left, maxLines: 6,),
+                        ),
+                        const SizedBox(height: 16),
+                        TextFieldInput(controller: widget.linksHeadingC!, fontSize: 24, textAlign: TextAlign.left, color: Colors.blue),
+                        const SizedBox(height: 8),
+                        TextFieldInput(controller: widget.linksC!, fontSize: 14, textAlign: TextAlign.left, maxLines: 6,),
+                      ]
+                    )
+                  )
+                )
+              ]
+            )
+          ),
+      ],
+    );
+  }
+
+  Widget templateC() {
+    return ListView(
+      children: [
+        Row(
+          children: [
+            Expanded(
+              child:SizedBox(
+                height: 300,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    TextFieldInput(controller: widget.nameC!, fontSize: 32, textAlign: TextAlign.center,
+                    color: Colors.red
+                    ),
+                    const SizedBox(height: 32),
+                    TextFieldInput(controller: widget.detailsC!, textAlign: TextAlign.center,),
+                      
+                  ]
+                )
+              )
+            ),
+
+          ],
+        ),
+        Padding(
+          padding: const EdgeInsets.all(32),
+          child: Row(
+            children: [
+              Expanded( child:
+                Container(
+                  alignment: Alignment.topLeft,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Column(
+                              children: [
+                                TextFieldInput(controller: widget.descriptionHeadingC!, fontSize: 16, textAlign: TextAlign.left, color: Colors.red),
+                                const SizedBox(height: 16),
+                                TextFieldInput(controller: widget.descriptionC!, fontSize: 14, textAlign: TextAlign.left, maxLines: 12,),
+                                const SizedBox(height: 16),
+                                TextFieldInput(controller: widget.employmentHeadingC!, fontSize: 16, textAlign: TextAlign.left, color: Colors.red,),
+                                const SizedBox(height: 16),
+                                TextFieldInput(controller: widget.employmentC!, fontSize: 14, textAlign: TextAlign.left, maxLines: 12,),
+                              ],
+                            )
+                          ),
+                          Expanded(
+                            child: Column(
+                              children: [
+                                TextFieldInput(controller: widget.qualificationHeadingC!, fontSize: 16, textAlign: TextAlign.left, color: Colors.red),
+                                const SizedBox(height: 16),
+                                TextFieldInput(controller: widget.qualificationC!, fontSize: 14, textAlign: TextAlign.left, maxLines: 12,),
+                                const SizedBox(height: 16),
+                                TextFieldInput(controller: widget.linksHeadingC!, fontSize: 16, textAlign: TextAlign.left, color: Colors.red),
+                                const SizedBox(height: 16),
+                                TextFieldInput(controller: widget.linksC!, fontSize: 14, textAlign: TextAlign.left, maxLines: 12),
+                              ],
+                            )
+                          ),
+
+                        ],
+                      ),
+                    ]
+                  )
+                )
+              )
+            ]
+          )
+        ),
+      ],
+    );
   }
 }
 
