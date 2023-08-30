@@ -6,15 +6,43 @@ import 'package:flutter/material.dart';
 
 class Template extends StatefulWidget{
 
-  Template({super.key, required this.option, required this.data});
+  Template({
+    super.key, 
+    required this.option, 
+    required this.data, 
+    this.colA, 
+    this.colB, 
+    this.colC,
+    this.colD
+  });
+
+  /*
+
+    Template A Default
+    colA: lightGreen
+
+    Template B Default
+    colA: blueaccent
+    colB: blue
+    colC: blue.shade100
+    colD: grey.shade300
+
+    Template C Default
+    colA: red
+
+  */
+
   final CVData data;
+  final Color? colA;
+  final Color? colB;
+  final Color? colC;
+  final Color? colD;
   final TemplateOption option;
   final TextEditingController? fnameC = TextEditingController();
   final TextEditingController? lnameC = TextEditingController();
   final TextEditingController? emailC = TextEditingController();
   final TextEditingController? locationC = TextEditingController();
   final TextEditingController? phoneNumberC = TextEditingController();
-  
   final TextEditingController? nameC = TextEditingController();
   final TextEditingController? detailsC = TextEditingController();
   final TextEditingController? descriptionHeadingC = TextEditingController();
@@ -113,19 +141,19 @@ class TemplateState extends State<Template> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      TextFieldInput(controller: widget.descriptionHeadingC!, fontSize: 24, textAlign: TextAlign.left, color: Colors.lightGreen),
+                      TextFieldInput(controller: widget.descriptionHeadingC!, fontSize: 24, textAlign: TextAlign.left, color: widget.colA),
                       const SizedBox(height: 16),
                       TextFieldInput(controller: widget.descriptionC!, fontSize: 14, textAlign: TextAlign.left, maxLines: 6,),
                       const SizedBox(height: 48),
-                      TextFieldInput(controller: widget.employmentHeadingC!, fontSize: 24, textAlign: TextAlign.left, color: Colors.lightGreen,),
+                      TextFieldInput(controller: widget.employmentHeadingC!, fontSize: 24, textAlign: TextAlign.left, color: widget.colA,),
                       const SizedBox(height: 16),
                       TextFieldInput(controller: widget.employmentC!, fontSize: 14, textAlign: TextAlign.left, maxLines: 6,),
                       const SizedBox(height: 48),
-                      TextFieldInput(controller: widget.qualificationHeadingC!, fontSize: 24, textAlign: TextAlign.left, color: Colors.lightGreen),
+                      TextFieldInput(controller: widget.qualificationHeadingC!, fontSize: 24, textAlign: TextAlign.left, color: widget.colA),
                       const SizedBox(height: 16),
                       TextFieldInput(controller: widget.qualificationC!, fontSize: 14, textAlign: TextAlign.left, maxLines: 6,),
                       const SizedBox(height: 16),
-                      TextFieldInput(controller: widget.linksHeadingC!, fontSize: 24, textAlign: TextAlign.left, color: Colors.lightGreen),
+                      TextFieldInput(controller: widget.linksHeadingC!, fontSize: 24, textAlign: TextAlign.left, color: widget.colA),
                       const SizedBox(height: 8),
                       TextFieldInput(controller: widget.linksC!, fontSize: 14, textAlign: TextAlign.left, maxLines: 6,),
                     ]
@@ -150,7 +178,7 @@ class TemplateState extends State<Template> {
             Expanded(
               child:Container(
                 height: 555,
-                color: Colors.blueAccent,
+                color: widget.colA,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -185,14 +213,14 @@ class TemplateState extends State<Template> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        TextFieldInput(controller: widget.descriptionHeadingC!, fontSize: 24, textAlign: TextAlign.center, color: Colors.blue),
+                        TextFieldInput(controller: widget.descriptionHeadingC!, fontSize: 24, textAlign: TextAlign.center, color: widget.colB),
                         const SizedBox(height: 16),
                         Container(
                           padding: const EdgeInsets.all(15),
                           decoration: BoxDecoration(
                             border: Border.all(
                               width: 2,
-                              color: Colors.blue.shade100
+                              color: widget.colC!
                             ),
                             borderRadius: BorderRadius.circular(20),
                             color: Colors.grey.shade300
@@ -200,14 +228,14 @@ class TemplateState extends State<Template> {
                           child:TextFieldInput(controller: widget.descriptionC!, fontSize: 14, textAlign: TextAlign.left, maxLines: 6,),
                         ),
                         const SizedBox(height: 48),
-                        TextFieldInput(controller: widget.employmentHeadingC!, fontSize: 24, textAlign: TextAlign.left, color: Colors.blue,),
+                        TextFieldInput(controller: widget.employmentHeadingC!, fontSize: 24, textAlign: TextAlign.left, color: widget.colB,),
                         const SizedBox(height: 16),
                         Container(
                           padding: const EdgeInsets.all(15),
                           decoration: BoxDecoration(
                             border: Border.all(
                               width: 2,
-                              color: Colors.blue.shade100
+                              color: widget.colC!
                             ),
                             borderRadius: BorderRadius.circular(20),
                             color: Colors.grey.shade300
@@ -215,22 +243,22 @@ class TemplateState extends State<Template> {
                           child: TextFieldInput(controller: widget.employmentC!, fontSize: 14, textAlign: TextAlign.left, maxLines: 6,),
                         ),
                         const SizedBox(height: 48),
-                        TextFieldInput(controller: widget.qualificationHeadingC!, fontSize: 24, textAlign: TextAlign.left, color: Colors.blue),
+                        TextFieldInput(controller: widget.qualificationHeadingC!, fontSize: 24, textAlign: TextAlign.left, color: widget.colB),
                         const SizedBox(height: 16),
                         Container(
                           padding: const EdgeInsets.all(15),
                           decoration: BoxDecoration(
                             border: Border.all(
                               width: 2,
-                              color: Colors.blue.shade100
+                              color: widget.colC!
                             ),
                             borderRadius: BorderRadius.circular(20),
-                            color: Colors.grey.shade300
+                            color: widget.colD
                           ),
                           child: TextFieldInput(controller: widget.qualificationC!, fontSize: 14, textAlign: TextAlign.left, maxLines: 6,),
                         ),
                         const SizedBox(height: 16),
-                        TextFieldInput(controller: widget.linksHeadingC!, fontSize: 24, textAlign: TextAlign.left, color: Colors.blue),
+                        TextFieldInput(controller: widget.linksHeadingC!, fontSize: 24, textAlign: TextAlign.left, color: widget.colB),
                         const SizedBox(height: 8),
                         TextFieldInput(controller: widget.linksC!, fontSize: 14, textAlign: TextAlign.left, maxLines: 6,),
                       ]
@@ -256,16 +284,14 @@ class TemplateState extends State<Template> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     TextFieldInput(controller: widget.nameC!, fontSize: 32, textAlign: TextAlign.center,
-                    color: Colors.red
+                    color: widget.colA
                     ),
                     const SizedBox(height: 32),
                     TextFieldInput(controller: widget.detailsC!, textAlign: TextAlign.center,),
-                      
                   ]
                 )
               )
             ),
-
           ],
         ),
         Padding(
@@ -283,11 +309,11 @@ class TemplateState extends State<Template> {
                           Expanded(
                             child: Column(
                               children: [
-                                TextFieldInput(controller: widget.descriptionHeadingC!, fontSize: 16, textAlign: TextAlign.left, color: Colors.red),
+                                TextFieldInput(controller: widget.descriptionHeadingC!, fontSize: 16, textAlign: TextAlign.left, color: widget.colA),
                                 const SizedBox(height: 16),
                                 TextFieldInput(controller: widget.descriptionC!, fontSize: 14, textAlign: TextAlign.left, maxLines: 12,),
                                 const SizedBox(height: 16),
-                                TextFieldInput(controller: widget.employmentHeadingC!, fontSize: 16, textAlign: TextAlign.left, color: Colors.red,),
+                                TextFieldInput(controller: widget.employmentHeadingC!, fontSize: 16, textAlign: TextAlign.left, color: widget.colA,),
                                 const SizedBox(height: 16),
                                 TextFieldInput(controller: widget.employmentC!, fontSize: 14, textAlign: TextAlign.left, maxLines: 12,),
                               ],
@@ -296,17 +322,16 @@ class TemplateState extends State<Template> {
                           Expanded(
                             child: Column(
                               children: [
-                                TextFieldInput(controller: widget.qualificationHeadingC!, fontSize: 16, textAlign: TextAlign.left, color: Colors.red),
+                                TextFieldInput(controller: widget.qualificationHeadingC!, fontSize: 16, textAlign: TextAlign.left, color: widget.colA),
                                 const SizedBox(height: 16),
                                 TextFieldInput(controller: widget.qualificationC!, fontSize: 14, textAlign: TextAlign.left, maxLines: 12,),
                                 const SizedBox(height: 16),
-                                TextFieldInput(controller: widget.linksHeadingC!, fontSize: 16, textAlign: TextAlign.left, color: Colors.red),
+                                TextFieldInput(controller: widget.linksHeadingC!, fontSize: 16, textAlign: TextAlign.left, color: widget.colA),
                                 const SizedBox(height: 16),
                                 TextFieldInput(controller: widget.linksC!, fontSize: 14, textAlign: TextAlign.left, maxLines: 12),
                               ],
                             )
                           ),
-
                         ],
                       ),
                     ]
