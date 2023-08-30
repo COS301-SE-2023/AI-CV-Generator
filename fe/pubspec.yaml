@@ -93,7 +93,7 @@ flutter:
     - assets/images/TemplateAAsset.jpg
     - assets/images/TemplateBAsset.png
     - assets/images/TemplateCAsset.jpg
-    - lib/env
+    - assets/.env
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
