@@ -319,6 +319,123 @@ public class UserControllerIntTest {
     }
 
     @Test
+    void addReference() throws Exception {
+        RequestBuilder request =MockMvcRequestBuilders
+                .post("/api/User/addRef")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(
+                        "{\n"+
+                        "       \"reference\":{\n" +
+                        "           \"refid\":1,\n" +
+                        "           \"description\":\"This is the description\"\n," +
+                        "           \"contact\":\"This is the contact\"\n" +
+                        "       }\n" +
+                        "}\n"
+                )
+                .accept(MediaType.ALL);
+        MvcResult result = mockMvc.perform(request).andReturn();
+        assertThat(result.getResponse().getStatus() == 200).isTrue();
+    }
+
+    @Test
+    void removeReference() throws Exception {
+        RequestBuilder request =MockMvcRequestBuilders
+                .post("/api/User/remRef")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(
+                        "{\n"+
+                                "       \"reference\":{\n" +
+                                "           \"refid\":1,\n" +
+                                "           \"description\":\"This is the description\"\n," +
+                                "           \"contact\":\"This is the contact\"\n" +
+                                "       }\n" +
+                                "}\n"
+                )
+                .accept(MediaType.ALL);
+        MvcResult result = mockMvc.perform(request).andReturn();
+        assertThat(result.getResponse().getStatus() == 200).isTrue();
+    }
+
+    @Test
+    void updateReference() throws Exception {
+        RequestBuilder request =MockMvcRequestBuilders
+                .post("/api/User/updateRef")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(
+                        "{\n"+
+                                "       \"reference\":{\n" +
+                                "           \"refid\":1,\n" +
+                                "           \"description\":\"This is the description\"\n," +
+                                "           \"contact\":\"This is the contact\"\n" +
+                                "       }\n" +
+                                "}\n"
+                )
+                .accept(MediaType.ALL);
+        MvcResult result = mockMvc.perform(request).andReturn();
+        assertThat(result.getResponse().getStatus() == 200).isTrue();
+    }
+
+    @Test
+    void addSkill() throws Exception {
+        RequestBuilder request =MockMvcRequestBuilders
+                .post("/api/User/addSkill")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(
+                        "{\n"+
+                                "       \"skill\":{\n" +
+                                "           \"skillid\":1,\n" +
+                                "           \"skill\":\"This is the skill description\"\n," +
+                                "           \"level\": 3,\n" +
+                                "           \"reason\":\"This is the reason description\"\n" +
+                                "       }\n" +
+                                "}\n"
+                )
+                .accept(MediaType.ALL);
+        MvcResult result = mockMvc.perform(request).andReturn();
+        assertThat(result.getResponse().getStatus() == 200).isTrue();
+    }
+
+    @Test
+    void removeSkill() throws Exception {
+        RequestBuilder request =MockMvcRequestBuilders
+                .post("/api/User/remSkill")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(
+                        "{\n"+
+                                "       \"skill\":{\n" +
+                                "           \"skillid\":1,\n" +
+                                "           \"skill\":\"This is the skill description\"\n," +
+                                "           \"level\": 3,\n" +
+                                "           \"reason\":\"This is the reason description\"\n" +
+                                "       }\n" +
+                                "}\n"
+                )
+                .accept(MediaType.ALL);
+        MvcResult result = mockMvc.perform(request).andReturn();
+        assertThat(result.getResponse().getStatus() == 200).isTrue();
+    }
+
+    @Test
+    void updateSkill() throws Exception {
+        RequestBuilder request =MockMvcRequestBuilders
+                .post("/api/User/updateSkill")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(
+                        "{\n"+
+                                "       \"skill\":{\n" +
+                                "           \"skillid\":1,\n" +
+                                "           \"skill\":\"This is the skill description\"\n," +
+                                "           \"level\": 3,\n" +
+                                "           \"reason\":\"This is the reason description\"\n" +
+                                "       }\n" +
+                                "}\n"
+                )
+                .accept(MediaType.ALL);
+        MvcResult result = mockMvc.perform(request).andReturn();
+        assertThat(result.getResponse().getStatus() == 200).isTrue();
+    }
+
+    @Test
     void generateUrl() throws Exception {
         RequestBuilder request = MockMvcRequestBuilders
                 .post("/api/User/share")

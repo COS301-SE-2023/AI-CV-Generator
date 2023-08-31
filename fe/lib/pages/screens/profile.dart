@@ -210,19 +210,10 @@ class ProfileState extends State<Profile> {
                               ),
                               const SizedBox(height: 16,),
                               Wrap(
-                                // crossAxisAlignment: CrossAxisAlignment.start,
-                                // mainAxisAlignment: MainAxisAlignment.end,
-                                // mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  // Flexible(
-                                    // child: 
                                     SectionInput(controller: fnameC, hint: "First Name", fontSize: 24,),
-                                  // ),
-                                  const SizedBox(width: 8,),
-                                  // Flexible(
-                                  //   child: 
+                                    const SizedBox(width: 8,),
                                     SectionInput(controller: lnameC, hint: "Last Name", fontSize: 24,),
-                                  // ),
                                 ]
                               ),
                               SectionInput(controller: emailC, hint: "Email", height: 34),
