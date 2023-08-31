@@ -1,11 +1,15 @@
 package com.revolvingSolutions.aicvgeneratorbackend.intergrationTests;
 
 import com.revolvingSolutions.aicvgeneratorbackend.controller.UserController;
+import com.revolvingSolutions.aicvgeneratorbackend.entitiy.ProfileImageEntity;
 import com.revolvingSolutions.aicvgeneratorbackend.entitiy.Role;
 import com.revolvingSolutions.aicvgeneratorbackend.entitiy.UserEntity;
 import com.revolvingSolutions.aicvgeneratorbackend.model.user.User;
 import com.revolvingSolutions.aicvgeneratorbackend.repository.*;
+import com.revolvingSolutions.aicvgeneratorbackend.request.profileImage.UpdateProfileImageRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.user.UpdateUserRequest;
+import com.revolvingSolutions.aicvgeneratorbackend.response.user.GetUserResponse;
+import com.revolvingSolutions.aicvgeneratorbackend.response.user.UpdateUserResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.service.UserService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,20 +19,30 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Objects;
+import java.util.Optional;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 @DataJpaTest
 public class UserIntergrationTests {
+
+    // These are essentially integration tests between the backend and the front end
     private UserController userController;
     private UserService userService;
     @Autowired
@@ -104,11 +118,15 @@ public class UserIntergrationTests {
     @Test
     void getUserIntegrationTest() {
         // when
-        User user_ = Objects.requireNonNull(userController.getUser().getBody()).getUser();
-        assertThat(user_.getUsername().matches("Nate"));
-        assertThat(user_.getFname().matches("Nathan"));
-        assertThat(user_.getLname().matches("Opperman"));
-        assertThat(user_.getEmail().matches("u21553832@tuks.co.za"));
+        ResponseEntity<GetUserResponse> response = userController.getUser();
+
+        // then
+        assertThat(response.getStatusCode().isSameCodeAs(HttpStatusCode.valueOf(200)));
+        User user = Objects.requireNonNull(response.getBody()).getUser();
+        assertThat(user.getUsername().matches("Nate"));
+        assertThat(user.getFname().matches("Nathan"));
+        assertThat(user.getLname().matches("Opperman"));
+        assertThat(user.getEmail().matches("u21553832@tuks.co.za"));
     }
 
     @Test
@@ -128,7 +146,11 @@ public class UserIntergrationTests {
                 )
                 .build();
         // when
-        User user = Objects.requireNonNull(userController.updateUser(req).getBody()).getUser();
+        ResponseEntity<UpdateUserResponse> response = userController.updateUser(req);
+
+        // then
+        assertThat(response.getStatusCode().isSameCodeAs(HttpStatusCode.valueOf(200)));
+        User user = Objects.requireNonNull(response.getBody()).getUser();
 
         // Check to see if unchanged fields are the same
         assertThat(user.getUsername().matches("Nate"));
@@ -144,7 +166,7 @@ public class UserIntergrationTests {
         // Check if database is correct
 
         // Through getUser
-        assertThat(userController.getUser().equals(user));
+        assertThat(Objects.requireNonNull(userController.getUser().getBody()).getUser().equals(user));
 
         // Through direct
         UserEntity userEntity = userRepository.findByUsername("Nate").orElseThrow();
@@ -158,5 +180,42 @@ public class UserIntergrationTests {
         assertThat(userEntity.getLocation().matches(user.getLocation()));
         assertThat(userEntity.getPhoneNumber().matches(user.getPhoneNumber()));
     }
+    @Test
+    void getProfileImageIntegrationTest() throws IOException {
+        // given
+        // This is because OID types are not supported by H2 database
+        // So this interaction between the IN MEMORY DB is mocked
+        ProfileImageEntity profileImage = ProfileImageEntity.builder()
+                        .type("png")
+                        .imgdata((byte[]) null)
+                        .build();
+        Mockito.when(profileImageRepository.findByUser(any())).thenReturn(Optional.of(profileImage));
 
+        // when
+        ResponseEntity<Resource> response = userController.getProfileImage();
+        // then
+        assertThat(response.getStatusCode().isSameCodeAs(HttpStatusCode.valueOf(200)));
+
+        // Is null since byte data was null
+        assertThat(response.getBody() == null);
+    }
+
+    @Test
+    void updateProfileImageIntegrationTest() {
+        // given
+        MockMultipartFile file = new MockMultipartFile("Profile Image",(byte[]) null);
+        // This is because OID types are not supported by H2 database
+        // So this interaction between the IN MEMORY DB is mocked
+        ProfileImageEntity profileImage = ProfileImageEntity.builder()
+                .type("png")
+                .imgdata((byte[]) null)
+                .build();
+        Mockito.when(profileImageRepository.findByUser(any())).thenReturn(Optional.of(profileImage));
+        // when
+        ResponseEntity<Resource> response = userService.updateProfileImage(file);
+
+        // then
+        assertThat(response.getStatusCode().isSameCodeAs(HttpStatusCode.valueOf(200)));
+
+    }
 }
