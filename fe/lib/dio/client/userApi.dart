@@ -9,13 +9,19 @@ import 'package:ai_cv_generator/dio/request/DetailsRequests/Link/AddLinkRequest.
 import 'package:ai_cv_generator/dio/request/DetailsRequests/Link/RemoveLinkRequest.dart';
 import 'package:ai_cv_generator/dio/request/DetailsRequests/Link/UpdateLinkRequest.dart';
 import 'package:ai_cv_generator/dio/request/DetailsRequests/Qualification/AddQualificationRequest.dart';
+import 'package:ai_cv_generator/dio/request/DetailsRequests/Reference/ReferenceRequest.dart';
+import 'package:ai_cv_generator/dio/request/DetailsRequests/Skill/SkillRequest.dart';
 import 'package:ai_cv_generator/dio/request/UserRequests/UpdateUserRequest.dart';
 import 'package:ai_cv_generator/dio/response/AuthResponses/AuthResponse.dart';
 import 'package:ai_cv_generator/dio/response/DetailsResponses/EmploymentResponse.dart';
 import 'package:ai_cv_generator/dio/response/DetailsResponses/LinkResponse.dart';
+import 'package:ai_cv_generator/dio/response/DetailsResponses/ReferenceResponse.dart';
+import 'package:ai_cv_generator/dio/response/DetailsResponses/SkillResponse.dart';
 import 'package:ai_cv_generator/dio/response/UserResponses/UserResponse.dart';
 import 'package:ai_cv_generator/models/user/Employment.dart';
 import 'package:ai_cv_generator/models/user/Qualification.dart';
+import 'package:ai_cv_generator/models/user/Reference.dart';
+import 'package:ai_cv_generator/models/user/Skill.dart';
 import 'package:ai_cv_generator/models/user/UserModel.dart';
 
 import 'package:dio/dio.dart';
@@ -265,6 +271,96 @@ class userApi extends DioClient {
       DioClient.handleError(e);
     }
     return null;
+  }
+
+  static Future<List<Reference>?> addReference({
+    required Reference reference
+  }) async {
+    try {
+      ReferenceRequest request = ReferenceRequest(reference: reference);
+      Response resp = await DioClient.dio.post(
+        'api/User/addRef',
+        data: request.toJson()
+      );
+      return ReferenceResponse.fromJson(resp.data).references;
+    } on DioException catch (e) {
+      DioClient.handleError(e);
+    }
+  }
+
+  static Future<List<Reference>?> removeReference({
+    required Reference reference
+  }) async {
+    try {
+      ReferenceRequest request = ReferenceRequest(reference: reference);
+      Response resp = await DioClient.dio.post(
+        'api/User/remRef',
+        data: request.toJson()
+      );
+      return ReferenceResponse.fromJson(resp.data).references;
+    } on DioException catch (e) {
+      DioClient.handleError(e);
+    }
+  }
+
+  static Future<List<Reference>?> updateReference({
+    required Reference reference
+  }) async {
+    try {
+      ReferenceRequest request = ReferenceRequest(reference: reference);
+      Response resp = await DioClient.dio.post(
+        'api/User/updateRef',
+        data: request.toJson()
+      );
+      return ReferenceResponse.fromJson(resp.data).references;
+    } on DioException catch (e) {
+      DioClient.handleError(e);
+    }
+  }
+  
+  static Future<List<Skill>?> addSkill({
+    required Skill skill
+  }) async {
+    try {
+      SkillRequest request = SkillRequest(skill: skill);
+      Response resp = await DioClient.dio.post(
+        'api/User/addSkill',
+        data: request.toJson()
+      );
+      return SkillResponse.fromJson(resp.data).skills;
+    } on DioException catch (e) {
+      DioClient.handleError(e);
+    }
+  }
+
+  static Future<List<Skill>?> removeSkill({
+    required Skill skill
+  }) async {
+    try {
+      SkillRequest request = SkillRequest(skill: skill);
+      Response resp = await DioClient.dio.post(
+        'api/User/remSkill',
+        data: request.toJson()
+      );
+      return SkillResponse.fromJson(resp.data).skills;
+    } on DioException catch (e) {
+      DioClient.handleError(e);
+    }
+  }
+
+  static Future<List<Skill>?> updateSkill({
+    required Skill skill
+  }) async {
+    try {
+      SkillRequest request = SkillRequest(skill: skill);
+      Response resp = await DioClient.dio.post(
+        'api/User/updateSkill',
+        data: request.toJson()
+      );
+      return SkillResponse.fromJson(resp.data).skills;
+    } on DioException catch (e) {
+      DioClient.handleError(e);
+    }
   }
   
 }

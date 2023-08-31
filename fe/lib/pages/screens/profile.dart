@@ -9,6 +9,7 @@ import 'package:ai_cv_generator/pages/elements/elements.dart';
 import 'package:ai_cv_generator/pages/widgets/employmentView.dart';
 import 'package:ai_cv_generator/pages/util/imageCropper.dart';
 import 'package:ai_cv_generator/pages/widgets/loadingScreen.dart';
+import 'package:ai_cv_generator/pages/widgets/referenceView.dart';
 import 'package:flutter/material.dart';
 import '../widgets/linksView.dart';
 import '../widgets/qualificationsView.dart';
@@ -58,9 +59,13 @@ class ProfileState extends State<Profile> {
     GlobalKey<LinksSectionState> linksKey = GlobalKey<LinksSectionState>();
     GlobalKey<QualificationsSectionState> qualificationsKey = GlobalKey<QualificationsSectionState>();
     GlobalKey<EmploymentSectionState> employhistoryKey = GlobalKey<EmploymentSectionState>();
+    GlobalKey<ReferenceSectionState> referenceKey = GlobalKey<ReferenceSectionState>();
+
     LinksSection linkC = LinksSection(key: linksKey, links: model!.links != null ? model!.links! : []);
     QualificationsSection qualificationsC = QualificationsSection(key: qualificationsKey, qualifications: model!.qualifications != null ? model!.qualifications! : []);
     EmploymentSection employmentC = EmploymentSection(key: employhistoryKey, employment: model!.employmenthistory != null ? model!.employmenthistory! : [Employment(company: 'ERROR', title: 'ERORR', startdate: DateTime.now(), enddate: DateTime.now(), empid: 0)]);
+    ReferenceSection referenceC = ReferenceSection(key: referenceKey, reference: model!.references != null ? model!.references! : []);
+    
     DateTime time = DateTime.now();
     Future<void> actualupdate() async {
       model!.fname = fnameC.text;
@@ -72,6 +77,7 @@ class ProfileState extends State<Profile> {
       linksKey.currentState?.update();
       qualificationsKey.currentState?.update();
       employhistoryKey.currentState?.update();
+      referenceKey.currentState?.update();
       await userApi.updateUser(user: model!);
     }
     
@@ -156,6 +162,8 @@ class ProfileState extends State<Profile> {
                               ),
                               const SizedBox(height: 16,),
                               employmentC,
+                              const SizedBox(height: 16,),
+                              referenceC,
                               const SizedBox(height: 16,),
                               SectionContainer(
                                 child: Column(

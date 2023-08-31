@@ -7,10 +7,7 @@ import com.revolvingSolutions.aicvgeneratorbackend.exception.UnknownErrorExcepti
 import com.revolvingSolutions.aicvgeneratorbackend.model.file.FileModel;
 import com.revolvingSolutions.aicvgeneratorbackend.model.file.FileModelBase64;
 import com.revolvingSolutions.aicvgeneratorbackend.model.file.FileModelForList;
-import com.revolvingSolutions.aicvgeneratorbackend.model.user.Employment;
-import com.revolvingSolutions.aicvgeneratorbackend.model.user.Link;
-import com.revolvingSolutions.aicvgeneratorbackend.model.user.Qualification;
-import com.revolvingSolutions.aicvgeneratorbackend.model.user.User;
+import com.revolvingSolutions.aicvgeneratorbackend.model.user.*;
 import com.revolvingSolutions.aicvgeneratorbackend.repository.*;
 import com.revolvingSolutions.aicvgeneratorbackend.request.details.employment.AddEmploymentRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.details.employment.UpdateEmploymentRequest;
@@ -20,6 +17,12 @@ import com.revolvingSolutions.aicvgeneratorbackend.request.details.link.UpdateLi
 import com.revolvingSolutions.aicvgeneratorbackend.request.details.qualification.AddQualificationRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.details.qualification.RemoveQualificationRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.details.qualification.UpdateQualificationRequest;
+import com.revolvingSolutions.aicvgeneratorbackend.request.details.reference.AddReferenceRequest;
+import com.revolvingSolutions.aicvgeneratorbackend.request.details.reference.RemoveReferenceRequest;
+import com.revolvingSolutions.aicvgeneratorbackend.request.details.reference.UpdateReferenceRequest;
+import com.revolvingSolutions.aicvgeneratorbackend.request.details.skill.AddSkillRequest;
+import com.revolvingSolutions.aicvgeneratorbackend.request.details.skill.RemoveSkillRequest;
+import com.revolvingSolutions.aicvgeneratorbackend.request.details.skill.UpdateSkillRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.file.DownloadFileRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.details.employment.RemoveEmploymentRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.user.GenerateUrlRequest;
@@ -33,6 +36,12 @@ import com.revolvingSolutions.aicvgeneratorbackend.response.details.link.UpdateL
 import com.revolvingSolutions.aicvgeneratorbackend.response.details.qualification.AddQualificationResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.details.qualification.RemoveQualificationResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.details.qualification.UpdateQualificationResponse;
+import com.revolvingSolutions.aicvgeneratorbackend.response.details.reference.AddReferenceResponse;
+import com.revolvingSolutions.aicvgeneratorbackend.response.details.reference.RemoveReferenceResponse;
+import com.revolvingSolutions.aicvgeneratorbackend.response.details.reference.UpdateReferenceResponse;
+import com.revolvingSolutions.aicvgeneratorbackend.response.details.skill.AddSkillResponse;
+import com.revolvingSolutions.aicvgeneratorbackend.response.details.skill.RemoveSkillResponse;
+import com.revolvingSolutions.aicvgeneratorbackend.response.details.skill.UpdateSkillResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.file.GetFilesResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.user.GenerateUrlResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.user.GetUserResponse;
@@ -66,6 +75,8 @@ public class UserService {
     private final EmploymentRepository employmentRepository;
     private final QualificationRepository qualificationRepository;
     private final LinkRepository linkRepository;
+    private final ReferenceRepository referenceRepository;
+    private final SkillRepository skillRepository;
     private final ShareRepository shareRepository;
     private final ProfileImageRepository profileImageRepository;
 
@@ -85,6 +96,8 @@ public class UserService {
                                 .employmenthistory(getEmployments())
                                 .qualifications(getQualifications())
                                 .links(getLinks())
+                                .references(getReferences())
+                                .skills(getSkills())
                                 .build()
                 )
                 .build();
@@ -135,6 +148,37 @@ public class UserService {
                 .build();
     }
 
+    public AddReferenceResponse addReference(
+            AddReferenceRequest request
+    ) {
+        referenceRepository.saveAndFlush(
+                ReferenceEntity.builder()
+                        .user(getAuthenticatedUser())
+                        .description(request.getReference().getDescription())
+                        .contact(request.getReference().getContact())
+                        .build()
+        );
+        return AddReferenceResponse.builder()
+                .references(getReferences())
+                .build();
+    }
+
+    public AddSkillResponse addSkill(
+            AddSkillRequest request
+    ) {
+        skillRepository.saveAndFlush(
+                SkillEntity.builder()
+                        .user(getAuthenticatedUser())
+                        .level(request.getSkill().getLevel())
+                        .skill(request.getSkill().getSkill())
+                        .reason(request.getSkill().getReason())
+                        .build()
+        );
+        return AddSkillResponse.builder()
+                .skills(getSkills())
+                .build();
+    }
+
 
     public RemoveEmploymentResponse removeEmployment(
             RemoveEmploymentRequest request
@@ -167,8 +211,6 @@ public class UserService {
             RemoveLinkRequest request
     ) {
         try {
-
-
             linkRepository.deleteById(request.getLink().getLinkid());
             linkRepository.flush();
             return RemoveLinkResponse.builder()
@@ -176,6 +218,34 @@ public class UserService {
                     .build();
         } catch (Exception e) {
             throw  new NotIndatabaseException("Link missing "+e.getMessage());
+        }
+    }
+
+    public RemoveReferenceResponse removeReference(
+            RemoveReferenceRequest request
+    ) {
+        try {
+            referenceRepository.deleteById(request.getReference().getRefid());
+            referenceRepository.flush();
+            return RemoveReferenceResponse.builder()
+                    .references(getReferences())
+                    .build();
+        } catch (Exception e) {
+            throw new NotIndatabaseException("Reference missing "+e.getMessage());
+        }
+    }
+
+    public RemoveSkillResponse removeSkill(
+            RemoveSkillRequest request
+    ) {
+        try {
+            skillRepository.deleteById(request.getSkill().getSkillid());
+            skillRepository.flush();
+            return RemoveSkillResponse.builder()
+                    .skills(getSkills())
+                    .build();
+        } catch (Exception e) {
+            throw new NotIndatabaseException("Skill missing "+e.getMessage());
         }
     }
 
@@ -270,6 +340,39 @@ public class UserService {
         }
     }
 
+    public UpdateReferenceResponse updateReference_(
+            UpdateReferenceRequest request
+    ) {
+        try {
+            ReferenceEntity prev = referenceRepository.getReferenceById(request.getReference().getRefid());
+            prev.setDescription(request.getReference().getDescription());
+            prev.setContact(request.getReference().getContact());
+            referenceRepository.saveAndFlush(prev);
+            return UpdateReferenceResponse.builder()
+                    .references(getReferences())
+                    .build();
+        } catch (Exception e) {
+            throw new NotIndatabaseException("Reference missing "+e.getMessage());
+        }
+    }
+
+    public UpdateSkillResponse updateSkill_(
+            UpdateSkillRequest request
+    ) {
+        try {
+            SkillEntity prev = skillRepository.getReferenceById(request.getSkill().getSkillid());
+            prev.setSkill(request.getSkill().getSkill());
+            prev.setLevel(request.getSkill().getLevel());
+            prev.setReason(request.getSkill().getReason());
+            skillRepository.saveAndFlush(prev);
+            return UpdateSkillResponse.builder()
+                    .skills(getSkills())
+                    .build();
+        } catch (Exception e) {
+            throw new NotIndatabaseException("Skill missing "+e.getMessage());
+        }
+    }
+
     public List<Employment> getEmployments() {
         return employmentRepository.getEmploymentHistoryFromUser(getAuthenticatedUser().getUsername());
     }
@@ -280,6 +383,14 @@ public class UserService {
 
     public List<Link> getLinks() {
         return linkRepository.getLinksFromUser(getAuthenticatedUser().getUsername());
+    }
+
+    public List<Reference> getReferences() {
+        return referenceRepository.getReferencesFromUser(getAuthenticatedUser().getUsername());
+    }
+
+    public List<Skill> getSkills() {
+        return skillRepository.getSkillsFromUser(getAuthenticatedUser().getUsername());
     }
 
     public UpdateUserResponse updateUser(UpdateUserRequest request) {

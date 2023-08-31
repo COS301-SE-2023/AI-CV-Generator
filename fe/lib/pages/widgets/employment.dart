@@ -4,6 +4,7 @@ import 'package:ai_cv_generator/pages/widgets/description.dart';
 import 'package:ai_cv_generator/pages/widgets/qualifications.dart';
 import 'package:ai_cv_generator/pages/widgets/questionaireModal.dart';
 import 'package:ai_cv_generator/pages/widgets/navdrawer.dart';
+import 'package:ai_cv_generator/pages/widgets/referencesForm.dart';
 import 'package:date_field/date_field.dart';
 import 'package:ai_cv_generator/pages/util/strings.dart';
 import 'package:flutter/material.dart';
@@ -196,7 +197,7 @@ class _EmploymentDetailsFormState extends State<EmploymentDetailsForm> {
                         return;
                       }
                       Navigator.pop(context);
-                      showQuestionaireModal(context, const DescriptionForm());
+                      showQuestionaireModal(context, const ReferencesDetailsForm());
                     },
                   ),
                 ),
