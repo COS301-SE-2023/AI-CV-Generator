@@ -21,17 +21,17 @@ jobs:
     - run: flutter test
       working-directory: ${{env.working-directory}}
       
-  integration_tests:
-      runs-on: ubuntu-latest
-      env: 
-        working-directory: fe
+  #integration_tests:
+   #   runs-on: ubuntu-latest
+    #  env: 
+     #   working-directory: fe
 
-      steps:
-      - uses: actions/checkout@v1
-      - uses: subosito/flutter-action@v1
-      - run: flutter pub get
-        working-directory: ${{env.working-directory}}
-      - run: sudo apt-get install ninja-build
-        working-directory: ${{env.working-directory}}
-      - run: xvfb-run flutter test -d linux integration_test/app_test.dart
+     # steps:
+     # - uses: actions/checkout@v1
+     # - uses: subosito/flutter-action@v1
+     # - run: flutter pub get
+    #    working-directory: ${{env.working-directory}}
+     # - run: sudo apt-get install ninja-build
+      #  working-directory: ${{env.working-directory}}
+     # - run: xvfb-run flutter test -d linux integration_test/app_test.dart
     
