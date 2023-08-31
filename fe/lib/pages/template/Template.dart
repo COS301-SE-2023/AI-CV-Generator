@@ -57,7 +57,6 @@ class Template extends StatefulWidget{
   Future<PlatformFile?> transform() async {
     return null;
   }
-
   @override
   State<StatefulWidget> createState() => TemplateState();
 }
@@ -69,7 +68,6 @@ class TemplateState extends State<Template> {
   
   @override
   void initState() {
-    op = widget.option;
     widget.nameC!.text = "${widget.data.firstname} ${widget.data.lastname}";
     widget.detailsC!.text = "${widget.data.location??"Please provide Location!"} | ${widget.data.phoneNumber??"Please provide phone number!"} | ${widget.data.email??"Please provide email!"}";
     widget.descriptionHeadingC!.text = "Professional Summary";
@@ -94,11 +92,12 @@ class TemplateState extends State<Template> {
     super.initState();
   }
 
-  Image? img;
+  Image img = const Image(image: AssetImage("assets/images/NicePng_watsapp-icon-png_9332131.png"));
 
   @override
   Widget build(BuildContext context) {
-    switch (op) {
+    print(widget.option);
+    switch (widget.option) {
       case TemplateOption.templateA:
         return templateA();
       case TemplateOption.templateB:
@@ -163,7 +162,7 @@ class TemplateState extends State<Template> {
               )
             ]
           )
-        ),
+        )
       ],
     );
   }
