@@ -1,7 +1,6 @@
 
 import 'package:ai_cv_generator/models/aimodels/CVData.dart';
 import 'package:ai_cv_generator/pages/template/Template.dart';
-import 'package:ai_cv_generator/pages/widgets/loadingScreen.dart';
 import 'package:flutter/material.dart';
 
 class Experiment extends StatefulWidget {
@@ -11,25 +10,9 @@ class Experiment extends StatefulWidget {
 }
 
 class ExperimentState extends State<Experiment> {
-  TemplateOption templateOption = TemplateOption.templateA;
-  Template? temp;
+  TemplateOption templateOption = TemplateOption.templateB;
   @override
   void initState() {
-    temp = Template(
-      option: templateOption, 
-      data: CVData(
-      firstname: "Nathan", 
-      lastname: "Opperman", 
-      email: "email", 
-      phoneNumber: "phonenumber", 
-      location: "location",
-      description: "this is the description!",
-      employmenthistory: [],
-      experience: [],
-      qualifications: [],
-      education_description: "This is the education description!",
-      links: []
-    ));
     super.initState();
   }
   
@@ -49,23 +32,18 @@ class ExperimentState extends State<Experiment> {
         templateOption = TemplateOption.templateA;
       break;
     }
-    setState(() {
-    
-    });
   }
 
   @override
   Widget build(BuildContext context) {
-    if (temp == null) {
-      return const LoadingScreen();
-    }
     return Scaffold(
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Expanded(
             child: Container(
-              height: 400,
+              height: 777,
+              width: 555,
               decoration: BoxDecoration(
                 borderRadius: const BorderRadius.all(Radius.circular(20)),
                 border: Border.all(
@@ -98,8 +76,10 @@ class ExperimentState extends State<Experiment> {
           const SizedBox(height: 20,),
           TextButton(
             onPressed: () {
+
+              //templateOption = TemplateOption.templateA;
               setState(() {
-                templateOption = TemplateOption.templateB;
+                swap();
               });
             }, 
             child: const Text("Switch")

@@ -64,10 +64,18 @@ class Template extends StatefulWidget{
 enum TemplateOption {templateA,templateB,templateC,templateD}
 
 class TemplateState extends State<Template> {
-  late TemplateOption op;
   
   @override
   void initState() {
+    
+    super.initState();
+  }
+
+  Image img = const Image(image: AssetImage("assets/images/NicePng_watsapp-icon-png_9332131.png"));
+
+  @override
+  Widget build(BuildContext context) {
+
     widget.nameC!.text = "${widget.data.firstname} ${widget.data.lastname}";
     widget.detailsC!.text = "${widget.data.location??"Please provide Location!"} | ${widget.data.phoneNumber??"Please provide phone number!"} | ${widget.data.email??"Please provide email!"}";
     widget.descriptionHeadingC!.text = "Professional Summary";
@@ -85,18 +93,7 @@ class TemplateState extends State<Template> {
     for(int i = 0; i < widget.data.links!.length; i++) {
       widget.linksC!.text += "${widget.data.links![i].url}\n";
     }
-    FileApi.getProfileImage().then((value) {
-      img = value;
-      setState(() {});
-    });
-    super.initState();
-  }
 
-  Image img = const Image(image: AssetImage("assets/images/NicePng_watsapp-icon-png_9332131.png"));
-
-  @override
-  Widget build(BuildContext context) {
-    print(widget.option);
     switch (widget.option) {
       case TemplateOption.templateA:
         return templateA();
@@ -105,10 +102,22 @@ class TemplateState extends State<Template> {
       case TemplateOption.templateC:
         return templateC();
       case TemplateOption.templateD:
-
+        return templateD();
       default:
         return templateA();
     }
+  }
+
+  void templateAInitialize() {
+
+  }
+
+  void templateBInitialize() {
+
+  }
+
+  void templateCInitialize() {
+    
   }
 
   Widget templateA() {
@@ -203,71 +212,71 @@ class TemplateState extends State<Template> {
 
           ],
         ),
-          Padding(
-            padding: const EdgeInsets.all(32),
-            child: Row(
-              children: [
-                Expanded( child:
-                  Container(
-                    alignment: Alignment.topLeft,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        TextFieldInput(controller: widget.descriptionHeadingC!, fontSize: 24, textAlign: TextAlign.center, color: widget.colB),
-                        const SizedBox(height: 16),
-                        Container(
-                          padding: const EdgeInsets.all(15),
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              width: 2,
-                              color: widget.colC!
-                            ),
-                            borderRadius: BorderRadius.circular(20),
-                            color: widget.colD
+        Padding(
+          padding: const EdgeInsets.all(32),
+          child: Row(
+            children: [
+              Expanded( child:
+                Container(
+                  alignment: Alignment.topLeft,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      TextFieldInput(controller: widget.descriptionHeadingC!, fontSize: 24, textAlign: TextAlign.center, color: widget.colB),
+                      const SizedBox(height: 16),
+                      Container(
+                        padding: const EdgeInsets.all(15),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            width: 2,
+                            color: widget.colC!
                           ),
-                          child:TextFieldInput(controller: widget.descriptionC!, fontSize: 14, textAlign: TextAlign.left, maxLines: 6,),
+                          borderRadius: BorderRadius.circular(20),
+                          color: widget.colD
                         ),
-                        const SizedBox(height: 48),
-                        TextFieldInput(controller: widget.employmentHeadingC!, fontSize: 24, textAlign: TextAlign.left, color: widget.colB,),
-                        const SizedBox(height: 16),
-                        Container(
-                          padding: const EdgeInsets.all(15),
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              width: 2,
-                              color: widget.colC!
-                            ),
-                            borderRadius: BorderRadius.circular(20),
-                            color: widget.colD
+                        child:TextFieldInput(controller: widget.descriptionC!, fontSize: 14, textAlign: TextAlign.left, maxLines: 6,),
+                      ),
+                      const SizedBox(height: 48),
+                      TextFieldInput(controller: widget.employmentHeadingC!, fontSize: 24, textAlign: TextAlign.left, color: widget.colB,),
+                      const SizedBox(height: 16),
+                      Container(
+                        padding: const EdgeInsets.all(15),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            width: 2,
+                            color: widget.colC!
                           ),
-                          child: TextFieldInput(controller: widget.employmentC!, fontSize: 14, textAlign: TextAlign.left, maxLines: 6,),
+                          borderRadius: BorderRadius.circular(20),
+                          color: widget.colD
                         ),
-                        const SizedBox(height: 48),
-                        TextFieldInput(controller: widget.qualificationHeadingC!, fontSize: 24, textAlign: TextAlign.left, color: widget.colB),
-                        const SizedBox(height: 16),
-                        Container(
-                          padding: const EdgeInsets.all(15),
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              width: 2,
-                              color: widget.colC!
-                            ),
-                            borderRadius: BorderRadius.circular(20),
-                            color: widget.colD
+                        child: TextFieldInput(controller: widget.employmentC!, fontSize: 14, textAlign: TextAlign.left, maxLines: 6,),
+                      ),
+                      const SizedBox(height: 48),
+                      TextFieldInput(controller: widget.qualificationHeadingC!, fontSize: 24, textAlign: TextAlign.left, color: widget.colB),
+                      const SizedBox(height: 16),
+                      Container(
+                        padding: const EdgeInsets.all(15),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            width: 2,
+                            color: widget.colC!
                           ),
-                          child: TextFieldInput(controller: widget.qualificationC!, fontSize: 14, textAlign: TextAlign.left, maxLines: 6,),
+                          borderRadius: BorderRadius.circular(20),
+                          color: widget.colD
                         ),
-                        const SizedBox(height: 16),
-                        TextFieldInput(controller: widget.linksHeadingC!, fontSize: 24, textAlign: TextAlign.left, color: widget.colB),
-                        const SizedBox(height: 8),
-                        TextFieldInput(controller: widget.linksC!, fontSize: 14, textAlign: TextAlign.left, maxLines: 6,),
-                      ]
-                    )
+                        child: TextFieldInput(controller: widget.qualificationC!, fontSize: 14, textAlign: TextAlign.left, maxLines: 6,),
+                      ),
+                      const SizedBox(height: 16),
+                      TextFieldInput(controller: widget.linksHeadingC!, fontSize: 24, textAlign: TextAlign.left, color: widget.colB),
+                      const SizedBox(height: 8),
+                      TextFieldInput(controller: widget.linksC!, fontSize: 14, textAlign: TextAlign.left, maxLines: 6,),
+                    ]
                   )
                 )
-              ]
-            )
-          ),
+              )
+            ]
+          )
+        ),
       ],
     );
   }
