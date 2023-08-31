@@ -58,7 +58,10 @@ class Template extends StatefulWidget{
     return null;
   }
   @override
-  State<StatefulWidget> createState() => TemplateState();
+  State<StatefulWidget> createState() {
+
+    return TemplateState();
+  }
 }
 
 enum TemplateOption {templateA,templateB,templateC,templateD}
@@ -75,7 +78,7 @@ class TemplateState extends State<Template> {
 
   @override
   Widget build(BuildContext context) {
-
+    
     widget.nameC!.text = "${widget.data.firstname} ${widget.data.lastname}";
     widget.detailsC!.text = "${widget.data.location??"Please provide Location!"} | ${widget.data.phoneNumber??"Please provide phone number!"} | ${widget.data.email??"Please provide email!"}";
     widget.descriptionHeadingC!.text = "Professional Summary";
@@ -117,7 +120,7 @@ class TemplateState extends State<Template> {
   }
 
   void templateCInitialize() {
-    
+
   }
 
   Widget templateA() {
