@@ -38,7 +38,7 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
           padding: const EdgeInsets.only(left: 500),
           child: IconButton(
             onPressed: () {
-              Navigator.popUntil(context, ModalRoute.withName('/home'));
+              remove(key);
             }, icon: const Icon(Icons.delete)
           ),
         )
