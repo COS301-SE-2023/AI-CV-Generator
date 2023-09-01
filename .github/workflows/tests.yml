@@ -45,7 +45,7 @@ jobs:
      # working-directory: ${{env.working-directory}}
     - name: Run tests 
       run: mvn test
-      #working-directory: ${{env.working-directory}}
+      working-directory: ${{env.working-directory}}
       
   #integration_tests:
    #   runs-on: ubuntu-latest
