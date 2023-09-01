@@ -1,32 +1,32 @@
 name: Flutter_CI
-on:
-    push:
-        branches:  [ "main" ]
-    workflow_dispatch:
+#on:
+   # push:
+       # branches:  [ "main" ]
+    #workflow_dispatch:
 
-jobs:
-    build:
-      name: build flutter for web
-      runs-on: ubuntu-latest
-      steps:
-      - name: Build Flutter Web
-        run: flutter build web --release
+#jobs:
+   # build:
+    #  name: build flutter for web
+#      runs-on: ubuntu-latest
+ #     steps:
+  #    - name: Build Flutter Web
+      #  run: flutter build web --release
 
-    flutter_test:
-        name: Run flutter test and analyze
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout Repository
-              uses: actions/checkout@v2
-            
-            - name: Set up Flutter  
-              uses: subosito/flutter-action@v2
-              with:
-                channel: "stable"
+   # flutter_test:
+    #    name: Run flutter test and analyze
+     #   runs-on: ubuntu-latest
+      #  steps:
+       #     - name: Checkout Repository
+        #      uses: actions/checkout@v2
+         #   
+          #  - name: Set up Flutter  
+           #   uses: subosito/flutter-action@v2
+            #  with:
+             #   channel: "stable"
 
 
-            - name: Get Dependencies
-              run: Flutter pub get
+            #- name: Get Dependencies
+             # run: Flutter pub get
 
             - name: run tests
               run: flutter test
