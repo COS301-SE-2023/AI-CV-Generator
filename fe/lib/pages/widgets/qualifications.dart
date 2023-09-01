@@ -129,11 +129,27 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
               flex: 4,
               child: Form(
                 key: _formKey,
-                child: ListView(
+                child: 
+                column.children.isNotEmpty ?
+                ListView(
                   children: [
                     ...column.children
                   ],
-                ),
+                ) : const Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.school,color: Colors.grey,size: 100,),
+                      SizedBox(height: 20),
+                      Text(
+                        "No Qualifications...", 
+                        style: TextStyle(
+                          color: Colors.grey
+                        )
+                      )
+                    ],
+                  ),
+                )
               )
             ),
             Align(
