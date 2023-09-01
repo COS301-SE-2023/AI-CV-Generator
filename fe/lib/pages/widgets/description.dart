@@ -2,6 +2,7 @@
 import 'package:ai_cv_generator/pages/util/strings.dart';
 import 'package:ai_cv_generator/pages/widgets/navdrawer.dart';
 import 'package:ai_cv_generator/pages/widgets/questionaireModal.dart';
+import 'package:ai_cv_generator/pages/widgets/referencesForm.dart';
 import 'package:flutter/material.dart';
 
 import '../screens/home.dart';
@@ -75,7 +76,7 @@ class DescriptionFormState extends State<DescriptionForm> {
                     onPressed: () {
                       updateUser();
                       Navigator.of(context).pop();
-                      showQuestionaireModal(context, const EmploymentDetailsForm());
+                      showQuestionaireModal(context, const ReferencesDetailsForm());
                     },
                   ),
                 ),

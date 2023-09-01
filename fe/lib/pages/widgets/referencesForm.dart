@@ -1,38 +1,37 @@
 // ignore_for_file: must_be_immutable
-import 'package:ai_cv_generator/models/user/Qualification.dart';
+import 'package:ai_cv_generator/models/user/Reference.dart';
+import 'package:ai_cv_generator/pages/widgets/description.dart';
 import 'package:ai_cv_generator/pages/widgets/employment.dart';
 import 'package:ai_cv_generator/pages/widgets/navdrawer.dart';
-import 'package:ai_cv_generator/pages/widgets/personaldetails.dart';
 import 'package:ai_cv_generator/pages/widgets/questionaireModal.dart';
 import 'package:ai_cv_generator/pages/util/strings.dart';
-import 'package:date_field/date_field.dart';
 import 'package:flutter/material.dart';
 
 import '../screens/home.dart';
 
-class QualificationsDetailsForm extends StatefulWidget {
-  const QualificationsDetailsForm({super.key});
+class ReferencesDetailsForm extends StatefulWidget {
+  const ReferencesDetailsForm({super.key});
 
   @override
   State<StatefulWidget> createState() {
-    return _QualificationsDetailsFormState();
+    return _ReferencesDetailsFormState();
   }
 }
 
-class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
+class _ReferencesDetailsFormState extends State<ReferencesDetailsForm> {
   final _formKey = GlobalKey<FormState>();
   Column column = Column(children: [],);
 
   @override
   void initState() {
-    if(Home.adjustedModel!.qualifications == null) {
+    if(Home.adjustedModel!.references == null) {
       add();
       return;
     }
-    for(int i = 0; i < Home.adjustedModel!.qualifications!.length; i++) {
-      Qualification qualification = Home.adjustedModel!.qualifications![i];
+    for(int i = 0; i < Home.adjustedModel!.references!.length; i++) {
+      Reference references = Home.adjustedModel!.references![i];
       UniqueKey key = UniqueKey();
-      column.children.add(TextMonitorWidget(key: key, institution: qualification.intstitution, qualification: qualification.qualification, start: qualification.date, end: qualification.endo));
+      column.children.add(TextMonitorWidget(key: key, description: references.description, contact: references.contact,));
       column.children.add(
         Padding(
           padding: const EdgeInsets.only(left: 500),
@@ -84,12 +83,12 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
   }
 
   bool updateUser() {
-    Home.adjustedModel!.qualifications = [];
+    Home.adjustedModel!.references = [];
     for (var element in column.children) {
       if((element is TextMonitorWidget) == true) {
         Map data = (element as TextMonitorWidget).getdata();
         if(isDataNull(data.values) == false) {
-          Home.adjustedModel!.qualifications!.add(Qualification(qualification: data['qualification'].toString(), intstitution: data['institution'].toString(), date: data['start'], quaid: 0, endo: data['end']));
+          Home.adjustedModel!.references!.add(Reference(contact: data['contact'].toString(), description: data['description'].toString(), refid: 0,));
         }
       }
     }
@@ -159,7 +158,7 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
                     onPressed: ()  {
                       updateUser();
                       Navigator.of(context).pop();
-                      showQuestionaireModal(context, const PersonalDetailsForm());
+                      showQuestionaireModal(context, const EmploymentDetailsForm());
                     },
                   ),
                 ),
@@ -174,7 +173,7 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
                         return;
                       }
                       Navigator.of(context).pop();
-                      showQuestionaireModal(context, const EmploymentDetailsForm());
+                      showQuestionaireModal(context, const DescriptionForm());
                     },
                   ),
                 ),
@@ -194,7 +193,7 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
         Padding (
           padding: EdgeInsets.all(8.0),
             child: Text (
-              StringsQualifications.appsubHeadingTitle,
+              StringsReferences.appsubHeadingTitle,
               style: TextStyle (
                 fontSize: 20.0,
               ),
@@ -206,20 +205,16 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
 
 class TextMonitorWidget extends StatefulWidget {
   Column column = Column(children: [],);
-  TextEditingController institutionC = TextEditingController();
-  TextEditingController qualificationC = TextEditingController();
-  String? institution = "";
-  String? qualification = "";
-  DateTime? start;
-  DateTime? end;
-  TextMonitorWidget({super.key, this.institution, this.qualification, this.start, this.end});
+  TextEditingController descriptionC = TextEditingController();
+  TextEditingController contactC = TextEditingController();
+  String? description = "";
+  String? contact = "";
+  TextMonitorWidget({super.key, this.description, this.contact});
 
   getdata() {
     return {
-      "institution": institutionC.text,
-      "qualification": qualificationC.text,
-      "start": start,
-      "end": end
+      "description": descriptionC.text,
+      "contact": contactC.text,
     };
   }
 
@@ -230,28 +225,27 @@ class TextMonitorWidget extends StatefulWidget {
 class TextMonitorWidgetState extends State<TextMonitorWidget> {
   @override
   void initState() {
-    widget.institutionC.text = widget.institution != null ? widget.institution! : "";
-    widget.qualificationC.text = widget.qualification != null ? widget.qualification! : "";
+    widget.descriptionC.text = widget.description != null ? widget.description! : "";
+    widget.contactC.text = widget.contact != null ? widget.contact! : "";
     super.initState();
   }
 
   populate() {
     widget.column.children.add(SizedBox(height: 4,));
-    widget.column.children.add(_buildInstitutionField(widget.institutionC));
+    widget.column.children.add(_builddescriptionField(widget.descriptionC));
     widget.column.children.add(SizedBox(height: 8,));
-    widget.column.children.add(_buildQualificationField(widget.qualificationC));
-    widget.column.children.add(_buildGraduationField());
+    widget.column.children.add(_buildcontactField(widget.contactC));
   }
 
-  Widget _buildInstitutionField(TextEditingController controller) {
+  Widget _builddescriptionField(TextEditingController controller) {
     return Container (
       constraints: BoxConstraints.tight(const Size(550,70)),
       child: TextFormField(
-        key: const Key("Institution input"),
+        key: const Key("description input"),
         controller: controller,
         decoration: const InputDecoration(
           contentPadding: EdgeInsets.all(5.0),
-          labelText: 'Institution',
+          labelText: 'Description',
           enabledBorder: OutlineInputBorder(),
           icon: Icon(Icons.school),
         ),
@@ -266,15 +260,15 @@ class TextMonitorWidgetState extends State<TextMonitorWidget> {
     );
   }
 
-  Widget _buildQualificationField(TextEditingController controller) {
+  Widget _buildcontactField(TextEditingController controller) {
     return Container (
       constraints: BoxConstraints.tight(const Size(550,70)),
       child: TextFormField(
-        key: const Key("Qualification input"),
+        key: const Key("contact input"),
         controller: controller,
         decoration: const InputDecoration(
           contentPadding: EdgeInsets.all(5.0),
-          labelText: 'Qualification',
+          labelText: 'Contact Information',
           enabledBorder: OutlineInputBorder(),
           icon: Icon(Icons.article),
         ),
@@ -287,53 +281,6 @@ class TextMonitorWidgetState extends State<TextMonitorWidget> {
         },
       )
     );
-  }
-
-  Widget _buildGraduationField() {
-    return Container (
-      width: 100,
-      constraints: BoxConstraints.tight(const Size(550,70)),
-      child: Row(
-        children: [
-          Expanded(
-            child: DateTimeFormField(
-              initialValue: widget.start,
-              onDateSelected: (value) {
-                widget.start = value;
-              },
-              key: const Key("Graduation input"),
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                contentPadding: EdgeInsets.all(5.0),
-                labelText: 'Start Date',
-                enabledBorder: OutlineInputBorder(),
-                icon: Icon(Icons.date_range),
-              ),
-              mode: DateTimeFieldPickerMode.date,
-            )
-          ),
-          const SizedBox(width: 16,),
-          Expanded(
-            child: DateTimeFormField(
-              initialValue: widget.end,
-              onDateSelected: (value) {
-                widget.end = value;
-              },
-              key: const Key("Graduation input"),
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                contentPadding: EdgeInsets.all(5.0),
-                labelText: 'End Date',
-                enabledBorder: OutlineInputBorder(),
-                icon: Icon(Icons.date_range),
-              ),
-              mode: DateTimeFieldPickerMode.date,
-            )
-          ),
-        ],
-      )
-    );
-      
   }
 
   @override
