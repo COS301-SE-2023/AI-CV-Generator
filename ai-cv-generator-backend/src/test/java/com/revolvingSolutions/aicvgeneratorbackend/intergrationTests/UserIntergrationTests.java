@@ -5,8 +5,10 @@ import com.revolvingSolutions.aicvgeneratorbackend.entitiy.FileEntity;
 import com.revolvingSolutions.aicvgeneratorbackend.entitiy.ProfileImageEntity;
 import com.revolvingSolutions.aicvgeneratorbackend.entitiy.Role;
 import com.revolvingSolutions.aicvgeneratorbackend.entitiy.UserEntity;
+import com.revolvingSolutions.aicvgeneratorbackend.model.file.FileModel;
 import com.revolvingSolutions.aicvgeneratorbackend.model.user.User;
 import com.revolvingSolutions.aicvgeneratorbackend.repository.*;
+import com.revolvingSolutions.aicvgeneratorbackend.request.file.DownloadFileRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.profileImage.UpdateProfileImageRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.user.UpdateUserRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.response.user.GetUserResponse;
@@ -19,6 +21,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.mockito.exceptions.base.MockitoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.core.io.Resource;
@@ -32,7 +35,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -116,7 +121,16 @@ public class UserIntergrationTests {
 
     @AfterEach
     void tearDown() throws Exception {
+        // close mocks
         closeable.close();
+        // clear repositories that are not mocked
+        userRepository.deleteAll();
+        employmentRepository.deleteAll();
+        qualificationRepository.deleteAll();
+        linkRepository.deleteAll();
+        referenceRepository.deleteAll();
+        skillRepository.deleteAll();
+        shareRepository.deleteAll();
     }
 
     @Test
@@ -241,5 +255,38 @@ public class UserIntergrationTests {
 
         assertThat(response.getStatusCode().isSameCodeAs(HttpStatusCode.valueOf(200)));
         assertThat(Objects.requireNonNull(response.getBody()).matches("Success"));
+    }
+
+    @Test
+    void downloadFileIntegrationTestFileFound() {
+        // given
+        DownloadFileRequest request = DownloadFileRequest.builder()
+                .filename("Filename")
+                .build();
+        Mockito.when(fileRepository.getFileFromUser(originUser.getUsername(),"Filename")).thenReturn(
+                List.of(
+                        FileModel.builder()
+                                .data((byte[]) null)
+                                .cover((byte[]) null)
+                                .filename("Filename")
+                                .filetype("Pdf")
+                                .build()
+                )
+        );
+        // when
+        ResponseEntity<Resource> response = userController.downloadFile(request);
+        assertThat(response.getStatusCode().isSameCodeAs(HttpStatusCode.valueOf(200)));
+    }
+
+    @Test
+    void downloadFileIntegrationTestFileNotFound() {
+        // given
+        DownloadFileRequest request = DownloadFileRequest.builder()
+                .filename("Filename")
+                .build();
+        Mockito.when(fileRepository.getFileFromUser(originUser.getUsername(),"Filename")).thenThrow(new MockitoException("Failed"));
+        // when
+        ResponseEntity<Resource> response = userController.downloadFile(request);
+        assertThat(response.getStatusCode().isSameCodeAs(HttpStatusCode.valueOf(404)));
     }
 }
