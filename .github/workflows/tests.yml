@@ -34,9 +34,10 @@ jobs:
         distribution: 'oracle'
         java-version: '17'
         cache: 'maven'
-    - name: Build and test project with Maven
-      run: mvn -B package --file pom.xml
-      working-directory: ${{env.working-directory}}
+    - name: Build with Maven
+      run: mvn --batch-mode --update-snapshots package
+   # - name: Build and test project with Maven
+    #  run: mvn -B package --file pom.xml
     #- name: Get Maven dependencies
      # run: mvn install 
      # working-directory: ${{env.working-directory}}
