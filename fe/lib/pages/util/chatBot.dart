@@ -19,18 +19,28 @@ class Chatbot {
   ];
 
   Future<String> greeting() async {
-    messages.add(ChatMessage.human("Hello"));
-    var response = await bot.call(messages);
-    messages.add(response);
-    return response.content;
+    try {
+      messages.add(ChatMessage.human("Hello"));
+      var response = await bot.call(messages);
+      messages.add(response);
+      return response.content;
+    } on Exception catch (e) {
+      print("Unable to request response from AI chatbot");
+      return "Sorry this isnt working";
+    }
   }
   
   Future<String> message({
     required String userMsg
   }) async {
-    messages.add(ChatMessage.human(userMsg));
-    var response  = await bot.call(messages);
-    messages.add(response);
-    return response.content;
+    try {
+      messages.add(ChatMessage.human(userMsg));
+      var response  = await bot.call(messages);
+      messages.add(response);
+      return response.content;
+    } on Exception catch (e) {
+      print("Unable to request response from AI chatbot");
+      return "Sorry this isnt working";
+    }
   }
 }
