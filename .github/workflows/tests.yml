@@ -43,8 +43,8 @@ jobs:
     #- name: Get Maven dependencies
      # run: mvn install 
      # working-directory: ${{env.working-directory}}
-    #- name: Run tests 
-     # run: mvn test
+    - name: Run tests 
+      run: mvn test
       #working-directory: ${{env.working-directory}}
       
   #integration_tests:
