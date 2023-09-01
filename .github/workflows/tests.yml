@@ -40,20 +40,19 @@ jobs:
       run: mvn --batch-mode --update-snapshots package
     - name: Build and test project with Maven
       run: mvn -B package --file pom.xml
-    #- name: Get Maven dependencies
-     # run: mvn install 
-     # working-directory: ${{env.working-directory}}
+    - name: Build
+      run: mvn --batch-mode -DskipTests package
     - name: Run tests 
       run: mvn --batch-mode -Dmaven.test.failure.ignore=true test
       working-directory: ${{env.working-directory}}
-    - name: Report
-      uses: dorny/test-reporter@v1
-      if: always()
-      with:
-        name: Maven Tests
-        path: target/surefire-reports/*.xml
-        reporter: java-junit
-        fail-on-error: true
+   # - name: Report
+    #  uses: dorny/test-reporter@v1
+     # if: always()
+      #with:
+      #  name: Maven Tests
+       # path: target/surefire-reports/*.xml
+        #reporter: java-junit
+        #fail-on-error: true
       
   #integration_tests:
    #   runs-on: ubuntu-latest
