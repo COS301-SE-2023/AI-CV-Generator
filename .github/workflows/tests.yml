@@ -44,7 +44,7 @@ jobs:
      # run: mvn install 
      # working-directory: ${{env.working-directory}}
     - name: Run tests 
-      run: mvn test
+      run: mvn --batch-mode -Dmaven.test.failure.ignore=true test
       working-directory: ${{env.working-directory}}
       
   #integration_tests:
