@@ -1,6 +1,7 @@
 package com.revolvingSolutions.aicvgeneratorbackend.intergrationTests;
 
 import com.revolvingSolutions.aicvgeneratorbackend.controller.UserController;
+import com.revolvingSolutions.aicvgeneratorbackend.entitiy.FileEntity;
 import com.revolvingSolutions.aicvgeneratorbackend.entitiy.ProfileImageEntity;
 import com.revolvingSolutions.aicvgeneratorbackend.entitiy.Role;
 import com.revolvingSolutions.aicvgeneratorbackend.entitiy.UserEntity;
@@ -14,6 +15,7 @@ import com.revolvingSolutions.aicvgeneratorbackend.service.UserService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
@@ -72,6 +74,8 @@ public class UserIntergrationTests {
 
     private AutoCloseable closeable;
 
+    private UserEntity originUser;
+
     @BeforeEach
     void setUp() {
         closeable = MockitoAnnotations.openMocks(this);
@@ -97,7 +101,7 @@ public class UserIntergrationTests {
         Mockito.when(securityContext.getAuthentication()).thenReturn(authentication);
         SecurityContextHolder.setContext(securityContext);
 
-        UserEntity user = UserEntity.builder()
+        originUser = UserEntity.builder()
                 .username("Nate")
                 .fname("Nathan")
                 .lname("Opperman")
@@ -107,7 +111,7 @@ public class UserIntergrationTests {
                 .build();
 
         Mockito.when(authentication.getName()).thenReturn("Nate");
-        userRepository.saveAndFlush(user);
+        userRepository.saveAndFlush(originUser);
     }
 
     @AfterEach
@@ -216,6 +220,26 @@ public class UserIntergrationTests {
 
         // then
         assertThat(response.getStatusCode().isSameCodeAs(HttpStatusCode.valueOf(200)));
+    }
 
+    @Test
+    void uploadFileIntegrationTest() {
+        // given
+        MockMultipartFile file = new MockMultipartFile("Filename",(byte[]) null);
+        MockMultipartFile cover = new MockMultipartFile("FileCoverName",(byte[]) null);
+        // when
+        ResponseEntity<String> response = userController.uploadFile(file,cover);
+        // then
+
+        ArgumentCaptor<FileEntity> fileEntity = ArgumentCaptor.forClass(FileEntity.class);
+        verify(fileRepository).save(fileEntity.capture());
+
+        assertThat(fileEntity.getValue().getUser().equals(originUser));
+        assertThat(fileEntity.getValue().getData() == null);
+        assertThat(fileEntity.getValue().getCover() == null);
+        assertThat(fileEntity.getValue().getFilename().matches(file.getName()));
+
+        assertThat(response.getStatusCode().isSameCodeAs(HttpStatusCode.valueOf(200)));
+        assertThat(Objects.requireNonNull(response.getBody()).matches("Success"));
     }
 }
