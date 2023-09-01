@@ -24,7 +24,7 @@ jobs:
   backend_tests:
     runs-on: ubuntu-latest
     env: 
-      working-directory: ai-cv-generator-backend
+      working-directory: ai-cv-generator-backend/src
       
     steps:
     - uses: actions/checkout@v3
@@ -37,13 +37,13 @@ jobs:
     - name: Build with Maven
       run: mvn --batch-mode --update-snapshots package
     - name: Build and test project with Maven
-      run: mvn -B com.revolvingSolutions.aicvgeneratorbackend --file pom.xml
+      run: mvn -B package --file pom.xml
     #- name: Get Maven dependencies
      # run: mvn install 
      # working-directory: ${{env.working-directory}}
-    #- name: Run tests 
-     # run: mvn test
-     # working-directory: ${{env.working-directory}}
+    - name: Run tests 
+      run: mvn test
+      working-directory: ${{env.working-directory}}
       
   #integration_tests:
    #   runs-on: ubuntu-latest
