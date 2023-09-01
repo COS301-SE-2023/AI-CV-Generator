@@ -151,11 +151,28 @@ class _EmploymentDetailsFormState extends State<EmploymentDetailsForm> {
               flex: 4,
               child: Form(
                 key: _formKey,
-                child: ListView(
+                
+                child: 
+                column.children.isNotEmpty ?
+                ListView(
                   children: [
                     ...column.children
                   ],
-                ),
+                ) : const Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.cases_rounded,color: Colors.grey,size: 100,),
+                      SizedBox(height: 20),
+                      Text(
+                        "No Work Experience...", 
+                        style: TextStyle(
+                          color: Colors.grey
+                        )
+                      )
+                    ],
+                  ),
+                )
               ),
             ),
             Align(
