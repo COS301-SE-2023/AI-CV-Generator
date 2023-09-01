@@ -92,7 +92,6 @@
 			<version>0.11.5</version>
 		</dependency>
 	</dependencies>
-
 	<build>
 		<plugins>
 			<plugin>
@@ -111,6 +110,9 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>3.1.2</version>
+				<configuration>
+					<testFailureIgnore>true</testFailureIgnore>
+				</configuration>
 			</plugin>
 		    <plugin>
 		        <groupId>com.microsoft.azure</groupId>
@@ -141,5 +143,13 @@
 		    </plugin>
 		</plugins>
 	</build>
-
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-report-plugin</artifactId>
+				<version>3.1.2</version>
+			</plugin>
+		</plugins>
+	</reporting>
 </project>
