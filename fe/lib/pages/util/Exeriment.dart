@@ -76,8 +76,6 @@ class ExperimentState extends State<Experiment> {
           const SizedBox(height: 20,),
           TextButton(
             onPressed: () {
-
-              //templateOption = TemplateOption.templateA;
               setState(() {
                 swap();
               });

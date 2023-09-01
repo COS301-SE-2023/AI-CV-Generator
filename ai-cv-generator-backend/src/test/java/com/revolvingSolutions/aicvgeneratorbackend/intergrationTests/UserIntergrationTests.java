@@ -6,11 +6,19 @@ import com.revolvingSolutions.aicvgeneratorbackend.entitiy.ProfileImageEntity;
 import com.revolvingSolutions.aicvgeneratorbackend.entitiy.Role;
 import com.revolvingSolutions.aicvgeneratorbackend.entitiy.UserEntity;
 import com.revolvingSolutions.aicvgeneratorbackend.model.file.FileModel;
+import com.revolvingSolutions.aicvgeneratorbackend.model.file.FileModelForList;
+import com.revolvingSolutions.aicvgeneratorbackend.model.user.Employment;
 import com.revolvingSolutions.aicvgeneratorbackend.model.user.User;
 import com.revolvingSolutions.aicvgeneratorbackend.repository.*;
+import com.revolvingSolutions.aicvgeneratorbackend.request.details.employment.AddEmploymentRequest;
+import com.revolvingSolutions.aicvgeneratorbackend.request.details.employment.RemoveEmploymentRequest;
+import com.revolvingSolutions.aicvgeneratorbackend.request.details.employment.UpdateEmploymentRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.file.DownloadFileRequest;
-import com.revolvingSolutions.aicvgeneratorbackend.request.profileImage.UpdateProfileImageRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.user.UpdateUserRequest;
+import com.revolvingSolutions.aicvgeneratorbackend.response.details.employment.AddEmploymentResponse;
+import com.revolvingSolutions.aicvgeneratorbackend.response.details.employment.RemoveEmploymentResponse;
+import com.revolvingSolutions.aicvgeneratorbackend.response.details.employment.UpdateEmploymentResponse;
+import com.revolvingSolutions.aicvgeneratorbackend.response.file.GetFilesResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.user.GetUserResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.user.UpdateUserResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.service.UserService;
@@ -32,14 +40,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.time.Instant;
+import java.util.*;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -288,5 +291,229 @@ public class UserIntergrationTests {
         // when
         ResponseEntity<Resource> response = userController.downloadFile(request);
         assertThat(response.getStatusCode().isSameCodeAs(HttpStatusCode.valueOf(404)));
+    }
+
+    @Test
+    void getFilesIntegrationTest() {
+        // given
+        byte[] fakes = HexFormat.of().parseHex("e04fd020ea3a6910a2d808002b30309d");
+        Mockito.when(fileRepository.getFilesFromUser(originUser.getUsername())).thenReturn(
+                List.of(
+                        FileModelForList.builder()
+                                .filename("Filename1")
+                                .cover(fakes)
+                                .build(),
+                        FileModelForList.builder()
+                                .filename("Filename2")
+                                .cover(fakes)
+                                .build()
+                )
+        );
+        // when
+        ResponseEntity<GetFilesResponse> response = userController.getFiles();
+        // then
+        assertThat(response.getStatusCode().isSameCodeAs(HttpStatusCode.valueOf(200)));
+        assertThat(Objects.requireNonNull(response.getBody()).getFiles().size() == 2);
+        assertThat(response.getBody().getFiles().get(0).getFilename().matches("Filename1"));
+        assertThat(response.getBody().getFiles().get(0).getCover().matches("null data"));
+        assertThat(response.getBody().getFiles().get(1).getFilename().matches("Filename2"));
+        assertThat(response.getBody().getFiles().get(1).getCover().matches("null data"));
+    }
+
+    @Test
+    void addEmploymentIntegrationTest() {
+        // given
+        Date date1 = Date.from(Instant.now());
+        AddEmploymentRequest req = AddEmploymentRequest.builder()
+                .employment(
+                        Employment.builder()
+                                .title("Job Title")
+                                .company("Company")
+                                .startdate(date1)
+                                .enddate(date1)
+                                .build()
+                )
+                .build();
+        // when
+        ResponseEntity<AddEmploymentResponse> response = userController.addEmp(req);
+        // then
+        assertThat(response.getStatusCode().isSameCodeAs(HttpStatusCode.valueOf(200)));
+        assertThat(Objects.requireNonNull(response.getBody()).getEmployees().size() == 1);
+        assertThat(response.getBody().getEmployees().get(0).getTitle().matches("Job Title"));
+        assertThat(response.getBody().getEmployees().get(0).getCompany().matches("Company"));
+        assertThat(response.getBody().getEmployees().get(0).getStartdate().equals(date1));
+        assertThat(response.getBody().getEmployees().get(0).getEnddate().equals(date1));
+
+        // verify that it is in the database
+        List<Employment> emplList = employmentRepository.getEmploymentHistoryFromUser(originUser.getUsername());
+        assertThat(response.getBody().getEmployees().equals(emplList));
+
+        Date date2 = Date.from(Instant.now());
+        req = AddEmploymentRequest.builder()
+                .employment(
+                        Employment.builder()
+                                .title("Job Title2")
+                                .company("Company2")
+                                .startdate(date1)
+                                .enddate(date1)
+                                .build()
+                )
+                .build();
+        // confirm addition of the second
+        // when
+        response = userController.addEmp(req);
+        // then
+        assertThat(response.getStatusCode().isSameCodeAs(HttpStatusCode.valueOf(200)));
+        assertThat(Objects.requireNonNull(response.getBody()).getEmployees().size() == 2);
+        assertThat(response.getBody().getEmployees().get(0).getTitle().matches("Job Title"));
+        assertThat(response.getBody().getEmployees().get(0).getCompany().matches("Company"));
+        assertThat(response.getBody().getEmployees().get(0).getStartdate().equals(date1));
+        assertThat(response.getBody().getEmployees().get(0).getEnddate().equals(date1));
+        assertThat(response.getBody().getEmployees().get(1).getTitle().matches("Job Title2"));
+        assertThat(response.getBody().getEmployees().get(1).getCompany().matches("Company2"));
+        assertThat(response.getBody().getEmployees().get(1).getStartdate().equals(date2));
+        assertThat(response.getBody().getEmployees().get(1).getEnddate().equals(date2));
+    }
+
+    @Test
+    void removeEmploymentIntegrationTest() {
+        // given
+        // First Add Employment 1 and 2
+        Date date1 = Date.from(Instant.now());
+        AddEmploymentRequest req = AddEmploymentRequest.builder()
+                .employment(
+                        Employment.builder()
+                                .title("Job Title")
+                                .company("Company")
+                                .startdate(date1)
+                                .enddate(date1)
+                                .build()
+                )
+                .build();
+        ResponseEntity<AddEmploymentResponse> response = userController.addEmp(req);
+        assertThat(response.getStatusCode().isSameCodeAs(HttpStatusCode.valueOf(200)));
+        assertThat(Objects.requireNonNull(response.getBody()).getEmployees().size() == 1);
+        assertThat(response.getBody().getEmployees().get(0).getTitle().matches("Job Title"));
+        assertThat(response.getBody().getEmployees().get(0).getCompany().matches("Company"));
+        assertThat(response.getBody().getEmployees().get(0).getStartdate().equals(date1));
+        assertThat(response.getBody().getEmployees().get(0).getEnddate().equals(date1));
+
+        // verify that it is in the database
+        List<Employment> emplList = employmentRepository.getEmploymentHistoryFromUser(originUser.getUsername());
+        assertThat(response.getBody().getEmployees().equals(emplList));
+
+        Date date2 = Date.from(Instant.now());
+        req = AddEmploymentRequest.builder()
+                .employment(
+                        Employment.builder()
+                                .title("Job Title2")
+                                .company("Company2")
+                                .startdate(date1)
+                                .enddate(date1)
+                                .build()
+                )
+                .build();
+        // confirm addition of the second
+        response = userController.addEmp(req);
+        assertThat(response.getStatusCode().isSameCodeAs(HttpStatusCode.valueOf(200)));
+        assertThat(Objects.requireNonNull(response.getBody()).getEmployees().size() == 2);
+        assertThat(response.getBody().getEmployees().get(0).getTitle().matches("Job Title"));
+        assertThat(response.getBody().getEmployees().get(0).getCompany().matches("Company"));
+        assertThat(response.getBody().getEmployees().get(0).getStartdate().equals(date1));
+        assertThat(response.getBody().getEmployees().get(0).getEnddate().equals(date1));
+        assertThat(response.getBody().getEmployees().get(1).getTitle().matches("Job Title2"));
+        assertThat(response.getBody().getEmployees().get(1).getCompany().matches("Company2"));
+        assertThat(response.getBody().getEmployees().get(1).getStartdate().equals(date2));
+        assertThat(response.getBody().getEmployees().get(1).getEnddate().equals(date2));
+
+        RemoveEmploymentRequest remReq = RemoveEmploymentRequest.builder()
+                .employment(
+                        emplList.get(0)
+                )
+                .build();
+        // when
+        ResponseEntity<RemoveEmploymentResponse> remResponse = userController.removeEmp(remReq);
+        // then
+        assertThat(remResponse.getStatusCode().isSameCodeAs(HttpStatusCode.valueOf(200)));
+        assertThat(Objects.requireNonNull(remResponse.getBody()).getEmployees().size() == 1);
+        assertThat(remResponse.getBody().getEmployees().get(0).equals(response.getBody().getEmployees().get(1)));
+
+        // verify database contains only the one employee
+        emplList = employmentRepository.getEmploymentHistoryFromUser(originUser.getUsername());
+        assertThat(emplList.size() == 1);
+        assertThat(emplList.get(0).equals(remResponse.getBody().getEmployees().get(0)));
+    }
+
+    @Test
+    void updateEmploymentIntegrationTest() {
+        // given
+        // First Add Employment 1 and 2
+        Date date1 = Date.from(Instant.now());
+        AddEmploymentRequest req = AddEmploymentRequest.builder()
+                .employment(
+                        Employment.builder()
+                                .title("Job Title")
+                                .company("Company")
+                                .startdate(date1)
+                                .enddate(date1)
+                                .build()
+                )
+                .build();
+        ResponseEntity<AddEmploymentResponse> response = userController.addEmp(req);
+        assertThat(response.getStatusCode().isSameCodeAs(HttpStatusCode.valueOf(200)));
+        assertThat(Objects.requireNonNull(response.getBody()).getEmployees().size() == 1);
+        assertThat(response.getBody().getEmployees().get(0).getTitle().matches("Job Title"));
+        assertThat(response.getBody().getEmployees().get(0).getCompany().matches("Company"));
+        assertThat(response.getBody().getEmployees().get(0).getStartdate().equals(date1));
+        assertThat(response.getBody().getEmployees().get(0).getEnddate().equals(date1));
+
+        // verify that it is in the database
+        List<Employment> emplList = employmentRepository.getEmploymentHistoryFromUser(originUser.getUsername());
+        assertThat(response.getBody().getEmployees().equals(emplList));
+
+        Date date2 = Date.from(Instant.now());
+        req = AddEmploymentRequest.builder()
+                .employment(
+                        Employment.builder()
+                                .title("Job Title2")
+                                .company("Company2")
+                                .startdate(date1)
+                                .enddate(date1)
+                                .build()
+                )
+                .build();
+        // confirm addition of the second
+        response = userController.addEmp(req);
+        assertThat(response.getStatusCode().isSameCodeAs(HttpStatusCode.valueOf(200)));
+        assertThat(Objects.requireNonNull(response.getBody()).getEmployees().size() == 2);
+        assertThat(response.getBody().getEmployees().get(0).getTitle().matches("Job Title"));
+        assertThat(response.getBody().getEmployees().get(0).getCompany().matches("Company"));
+        assertThat(response.getBody().getEmployees().get(0).getStartdate().equals(date1));
+        assertThat(response.getBody().getEmployees().get(0).getEnddate().equals(date1));
+        assertThat(response.getBody().getEmployees().get(1).getTitle().matches("Job Title2"));
+        assertThat(response.getBody().getEmployees().get(1).getCompany().matches("Company2"));
+        assertThat(response.getBody().getEmployees().get(1).getStartdate().equals(date2));
+        assertThat(response.getBody().getEmployees().get(1).getEnddate().equals(date2));
+
+        Employment tobeChanged = response.getBody().getEmployees().get(0);
+        tobeChanged.setCompany("Updated Company");
+        tobeChanged.setTitle("Updated Title");
+        Date updatedDate = Date.from(Instant.now());
+        tobeChanged.setStartdate(updatedDate);
+        UpdateEmploymentRequest updateReq = UpdateEmploymentRequest.builder()
+                .employment(
+                        tobeChanged
+                )
+                .build();
+        // when
+        ResponseEntity<UpdateEmploymentResponse> updateResponse = userController.updateEmployment(updateReq);
+
+        // then
+        assertThat(updateResponse.getStatusCode().isSameCodeAs(HttpStatusCode.valueOf(200)));
+    }
+
+    @Test
+    void AllEmploymentIntegrationTest() {
+
     }
 }
