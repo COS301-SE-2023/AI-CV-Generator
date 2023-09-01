@@ -36,8 +36,8 @@ jobs:
         cache: 'maven'
     - name: Build with Maven
       run: mvn --batch-mode --update-snapshots package
-   # - name: Build and test project with Maven
-    #  run: mvn -B package --file pom.xml
+    - name: Build and test project with Maven
+      run: mvn -B package --file pom.xml
     #- name: Get Maven dependencies
      # run: mvn install 
      # working-directory: ${{env.working-directory}}
