@@ -188,11 +188,11 @@ class SkillSectionState extends State<SkillSection> {
         children: <TableRow>[
           TableRow(
             children: <Widget>[
-              CreateCell(Text("SKILL")),
-              CreateCell(Text("EXPERIENCE")),
-              CreateCell(Text("LEVEL (0-5)")),
+              CreateCell(Text("SKILL", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),)),
+              CreateCell(Text("EXPERIENCE", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),),
+              CreateCell(Text("LEVEL (0-5)", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),)),
               if(editing == true)
-                CreateCell(Text("REMOVE"))
+                CreateCell(Text("REMOVE", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),))
             ],
           ),
           ...linkWidgets
