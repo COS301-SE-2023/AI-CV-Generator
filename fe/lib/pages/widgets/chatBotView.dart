@@ -41,60 +41,64 @@ class ChatBotViewState extends State<ChatBotView> {
         alignment: Alignment.bottomRight,
         child: Container(
         decoration: BoxDecoration(
-            color: Colors.grey.shade200,
+          borderRadius: BorderRadius.all(Radius.circular(20)),
             border: Border.all(
-              color: const Color(0xFF333C64),
+              // color: const Color(0xFF333C64),
               
             ),
           ),
           height: 500, width: 500, 
-          child: Scaffold(
-            drawer: const NavDrawer(),
-            appBar: AppBar(
-              title: Container(
-                alignment: Alignment.center,
-                padding: const EdgeInsets.only(right: 50),
-                child:Text("AI CHAT BOT", style: Theme.of(context).appBarTheme.toolbarTextStyle,),),
-              leading: IconButton(
-                icon: const Icon(
-                  Icons.close,
-                ), 
-                onPressed: () {
-                  setState(() {widget.visible = false;});
-                },
-              ),
-            ),
-            body: Column(
-              children: [
-                Expanded(
-                  flex: 8,
-                  child: ListView(
-                    padding: const EdgeInsets.all(48),
-                    children: [
-                      ...messages
-                    ],
-                  ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.all(Radius.circular(20)),
+            child: Scaffold(
+              drawer: const NavDrawer(),
+              appBar: AppBar(
+                title: Container(
+                  alignment: Alignment.center,
+                  padding: const EdgeInsets.only(right: 50),
+                  child:Text("AI CHAT BOT", style: Theme.of(context).appBarTheme.toolbarTextStyle,),),
+                leading: IconButton(
+                  icon: const Icon(
+                    Icons.close,
+                  ), 
+                  onPressed: () {
+                    setState(() {widget.visible = false;});
+                  },
                 ),
-                Expanded(
-                  child: TextField(
-                    controller: controller,
-                    onSubmitted: (value) {
-                      addMesssage(value, true);
-                      controller.text = "";
-                    },
-                    decoration: InputDecoration(
-                      hintText: "Type a message",
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(0),
-                        borderSide:
-                        const BorderSide(color: Colors.black)
-                      )
+              ),
+              body: Column(
+                children: [
+                  Expanded(
+                    flex: 8,
+                    child: ListView(
+                      padding: const EdgeInsets.all(48),
+                      children: [
+                        ...messages
+                      ],
                     ),
+                  ),
+                  Expanded(
+                    child: TextField(
+                      controller: controller,
+                      onSubmitted: (value) {
+                        addMesssage(value, true);
+                        controller.text = "";
+                      },
+                      decoration: InputDecoration(
+                        fillColor: Colors.white,
+                        hintText: "Type a message",
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.only(bottomLeft: Radius.circular(19), bottomRight: Radius.circular(19)),
+                          borderSide:
+                          const BorderSide(color: Colors.black)
+                        )
+                      ),
+                    )
                   )
-                )
-              ],
-            )
-          ),
+                ],
+              )
+            ),
+            ),
         ),
       )
     );
