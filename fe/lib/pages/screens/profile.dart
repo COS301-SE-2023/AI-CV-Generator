@@ -10,6 +10,7 @@ import 'package:ai_cv_generator/pages/widgets/employmentView.dart';
 import 'package:ai_cv_generator/pages/util/imageCropper.dart';
 import 'package:ai_cv_generator/pages/widgets/loadingScreen.dart';
 import 'package:ai_cv_generator/pages/widgets/referenceView.dart';
+import 'package:ai_cv_generator/pages/widgets/skillsView.dart';
 import 'package:flutter/material.dart';
 import '../widgets/linksView.dart';
 import '../widgets/qualificationsView.dart';
@@ -60,11 +61,13 @@ class ProfileState extends State<Profile> {
     GlobalKey<QualificationsSectionState> qualificationsKey = GlobalKey<QualificationsSectionState>();
     GlobalKey<EmploymentSectionState> employhistoryKey = GlobalKey<EmploymentSectionState>();
     GlobalKey<ReferenceSectionState> referenceKey = GlobalKey<ReferenceSectionState>();
+    GlobalKey<SkillSectionState> skillKey = GlobalKey<SkillSectionState>();
 
     LinksSection linkC = LinksSection(key: linksKey, links: model!.links != null ? model!.links! : []);
     QualificationsSection qualificationsC = QualificationsSection(key: qualificationsKey, qualifications: model!.qualifications != null ? model!.qualifications! : []);
     EmploymentSection employmentC = EmploymentSection(key: employhistoryKey, employment: model!.employmenthistory != null ? model!.employmenthistory! : [Employment(company: 'ERROR', title: 'ERORR', startdate: DateTime.now(), enddate: DateTime.now(), empid: 0)]);
     ReferenceSection referenceC = ReferenceSection(key: referenceKey, reference: model!.references != null ? model!.references! : []);
+    SkillSection skillC = SkillSection(key: skillKey, skill: model!.skills != null ? model!.skills! : []);
     
     DateTime time = DateTime.now();
     Future<void> actualupdate() async {
@@ -78,6 +81,7 @@ class ProfileState extends State<Profile> {
       qualificationsKey.currentState?.update();
       employhistoryKey.currentState?.update();
       referenceKey.currentState?.update();
+      skillKey.currentState?.update();
       await userApi.updateUser(user: model!);
     }
     
@@ -164,6 +168,8 @@ class ProfileState extends State<Profile> {
                               employmentC,
                               const SizedBox(height: 16,),
                               referenceC,
+                              const SizedBox(height: 16,),
+                              skillC,
                               const SizedBox(height: 16,),
                               SectionContainer(
                                 child: Column(
