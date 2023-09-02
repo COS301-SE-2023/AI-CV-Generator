@@ -39,26 +39,6 @@ class SkillSectionState extends State<SkillSection> {
       'reason': reasonC,
       'level': levelC,
     };
-    skillMap[info.skillid]['widget'] = 
-      SkillField(
-            skillMap[info.skillid]['skill'],
-            skillMap[info.skillid]['reason'],
-            skillMap[info.skillid]['level'],
-      
-    );
-  }
-
-  List<Widget> SkillField(skill, reason, level) {
-    List<Widget> tableCols = [
-      Text("Cell 0"),
-      Text("Cell 1"),
-      Text("Cell 2"),
-      // createInput(skill),
-      // createInput(reason),
-      // createInput(level),
-    ];
-
-    return tableCols;
   }
 
   Widget createInput(controller) {
@@ -81,8 +61,6 @@ class SkillSectionState extends State<SkillSection> {
       display(newSkill);
       setState(() {});
     });
-      // display(blankSkill);
-      // setState(() {});
   }
 
   void remove(int objectId) async {
@@ -130,52 +108,70 @@ class SkillSectionState extends State<SkillSection> {
   Table populate() {
     List<TableRow> linkWidgets = [];
     skillMap.forEach((key, value) {
-      linkWidgets.add(TableRow(
-        children: [
-          ...skillMap[key]['widget']
-        ]
-      ));
-      if(editing == true) {
-          linkWidgets.add(TableRow(
-        children: [
-          ...skillMap[key]['widget'],
-          IconButton(
-            onPressed: () {
-              remove(key);
-              if(skillMap.isEmpty == true) {
-                editing = false;
-              }
-            },
-          icon: const Icon(Icons.delete)),
-        ]
-      ));
-      }
+      linkWidgets.add(
+        CreateRow(
+          skillMap[key]['skill'].text,
+          skillMap[key]['reason'].text, 
+          int.parse(skillMap[key]['level'].text),
+          key
+        )
+      );
     });
-    return Table(
-      border: TableBorder.all(),
-      children: [
-        TableRow(children: [
-          Text("Skill"),
-          Text("Level"),
-          Text("Qualifications/Experience"),
-        ]),
-        ...linkWidgets
+    return createTable(linkWidgets);
+  }
+
+  TableRow CreateRow(String skill, String reason, int level, key)
+  {
+    return TableRow(
+      children: <Widget>[
+        CreateCell(Text(skill)),
+        CreateCell(Text(reason)),
+        CreateCell(Text(level.toString())),
+        if(editing == true)
+          CreateCell(
+            IconButton(
+              onPressed: () {
+                remove(key);
+                if(skillMap.isEmpty == true) {
+                  editing = false;
+                }
+              },
+            icon: const Icon(Icons.delete)),
+          )
       ],
     );
   }
 
-  Table createTable(linkWidgets, editing) {
-  return Table(
-        border: TableBorder.all(),
-        children: [
-          TableRow(children: [
-            Text("Skill"),
-            Text("Level"),
-            Text("Qualifications/Experience"),
-          ]),
+  TableCell CreateCell(Widget content)
+  {
+    return TableCell(
+      child: Container(
+        alignment: Alignment.center,
+        child: content,
+        padding: EdgeInsets.all(8.0),
+      )
+    );
+  }
+
+  Table createTable(linkWidgets) {
+    return Table(
+        border: TableBorder.all(
+          borderRadius:BorderRadius.all(Radius.circular(10)),
+        ),
+        defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+        children: <TableRow>[
+          TableRow(
+            children: <Widget>[
+              CreateCell(Text("SKILL")),
+              CreateCell(Text("EXPERIENCE")),
+              CreateCell(Text("LEVEL")),
+              if(editing == true)
+                CreateCell(Text("REMOVE"))
+            ],
+          ),
           ...linkWidgets
         ],
-    );
+      );
   }
 
   edit() {
