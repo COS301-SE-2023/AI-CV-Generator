@@ -12,6 +12,6 @@ import lombok.NoArgsConstructor;
 public class Skill {
     public Integer skillid;
     public String skill;
-    public String level;
+    public int level;
     public String reason;
 }
