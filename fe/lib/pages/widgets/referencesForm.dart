@@ -128,11 +128,27 @@ class _ReferencesDetailsFormState extends State<ReferencesDetailsForm> {
               flex: 4,
               child: Form(
                 key: _formKey,
-                child: ListView(
+                child: 
+                column.children.isNotEmpty ?
+                ListView(
                   children: [
                     ...column.children
                   ],
-                ),
+                ) : const Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.people,color: Colors.grey,size: 100,),
+                      SizedBox(height: 20),
+                      Text(
+                        "No References...", 
+                        style: TextStyle(
+                          color: Colors.grey
+                        )
+                      )
+                    ],
+                  ),
+                )
               )
             ),
             Align(

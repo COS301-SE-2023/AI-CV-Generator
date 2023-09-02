@@ -89,7 +89,7 @@ class CVHistoryState extends State<CVHistory> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                 Icon(Icons.access_alarm,color: Colors.grey,size: 100,),
+                 Icon(Icons.insert_drive_file,color: Colors.grey,size: 100,),
                  SizedBox(height: 20),
                 Text("No CVs...", 
                 style: TextStyle(

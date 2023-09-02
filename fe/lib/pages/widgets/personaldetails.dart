@@ -232,9 +232,9 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
       child: TextFormField(
         key: const Key("Address input"),
         controller: address,
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
           contentPadding: EdgeInsets.all(5.0),
-          labelText: 'Address',
+          labelText: 'General Location',
           enabledBorder: OutlineInputBorder(),
           icon: Icon(Icons.home),
         ),
