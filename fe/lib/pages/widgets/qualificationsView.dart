@@ -108,6 +108,25 @@ class QualificationsSectionState extends State<QualificationsSection> {
 
   List<Widget> populate() {
     List<Widget> linkWidgets = [];
+    if (qualificationsMap.isEmpty) {
+      linkWidgets.add(
+        const Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.school,color: Colors.grey,size: 100,),
+              SizedBox(height: 20),
+              Text(
+                "No Qualifications...", 
+                style: TextStyle(
+                  color: Colors.grey
+                )
+              )
+            ],
+          ),
+        )
+      );
+    }
     qualificationsMap.forEach((key, value) {
       linkWidgets.add(qualificationsMap[key]['widget']);
       if(editing == true) {
@@ -128,6 +147,7 @@ class QualificationsSectionState extends State<QualificationsSection> {
         linkWidgets.add(const SizedBox(height: 4,),);
       }
     });
+    
     return linkWidgets;
   }
 
