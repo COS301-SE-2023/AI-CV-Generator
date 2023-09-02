@@ -201,10 +201,15 @@ class ProfileState extends State<Profile> {
                                         color: const Color(0xFF333C64),
                                         onPressed: () async {
                                           await actualupdate();
+                                          
                                           Uint8List? imgByte =  await ImagePickerWeb.getImageAsBytes();
                                           if(imgByte == null) {
                                             return;
                                           }
+                                          image = null;
+                                          setState(() {
+                                            
+                                          });
                                           imgByte = await imagecrop(context, imgByte);
                                           if(imgByte != null){
                                             final changed = await FileApi.updateProfileImage(img: imgByte);
