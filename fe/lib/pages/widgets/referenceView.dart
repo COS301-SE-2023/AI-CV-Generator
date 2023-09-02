@@ -103,6 +103,25 @@ class ReferenceSectionState extends State<ReferenceSection> {
 
   List<Widget> populate() {
     List<Widget> linkWidgets = [];
+    if (referenceMap.isEmpty) {
+      linkWidgets.add(
+        const Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.people,color: Colors.grey,size: 100,),
+              SizedBox(height: 20),
+              Text(
+                "No References...", 
+                style: TextStyle(
+                  color: Colors.grey
+                )
+              )
+            ],
+          ),
+        )
+      );
+    }
     referenceMap.forEach((key, value) {
       linkWidgets.add(referenceMap[key]['widget']);
       if(editing == true) {
