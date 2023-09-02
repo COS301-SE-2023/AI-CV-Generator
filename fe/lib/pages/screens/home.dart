@@ -453,26 +453,17 @@ class _HomeState extends State<Home> {
                                   filenameC.text = uploadFile!.name;
                                   await FileApi.uploadFile(file: uploadFile);
                                   updatePastCVs();
+                                
+                                  await generateFile();
+                                  if(uploadFile != null) {
+                                    AIInput? aiInput = await AIApi.extractPdf(file: uploadFile!);
+                                    if(aiInput != null) {
+                                      ExtractionView().showModal(context, uploadFile!, aiInput.toJson());
+                                    }
+                                  }
                                 }
                               }, 
                               child: Text("UPLOAD", style: textStyle),
-                            ),
-                          ),
-                          const SizedBox(width: 43,),
-                          SizedBox(
-                            height: 40,
-                            width: 100,
-                            child: ElevatedButton(
-                              onPressed: () async {
-                                await generateFile();
-                                if(uploadFile != null) {
-                                  AIInput? aiInput = await AIApi.extractPdf(file: uploadFile!);
-                                  if(aiInput != null) {
-                                    ExtractionView().showModal(context, uploadFile!, aiInput.toJson());
-                                  }
-                                }
-                              },
-                              child: Text("PREVIEW", style: textStyle),
                             ),
                           ),
                           const SizedBox(width: 48,),
