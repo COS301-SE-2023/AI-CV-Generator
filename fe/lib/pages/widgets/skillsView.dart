@@ -41,13 +41,16 @@ class SkillSectionState extends State<SkillSection> {
     };
   }
 
-  Widget createInput(controller) {
+  Widget createInput(controller, hintText) {
     return Container(
+      alignment: Alignment.center,
       // color: isHeader ? Colors.grey[300] : Colors.white,
       padding: EdgeInsets.all(8.0),
       child: TextField(
+        textAlign: TextAlign.center,
         decoration: InputDecoration(
-          hintText: "Insert"
+          hintText: hintText,
+          border: InputBorder.none
         ),
         controller: controller,
         style: TextStyle(fontSize: 16.0),
@@ -110,9 +113,9 @@ class SkillSectionState extends State<SkillSection> {
     skillMap.forEach((key, value) {
       linkWidgets.add(
         CreateRow(
-          skillMap[key]['skill'].text,
-          skillMap[key]['reason'].text, 
-          int.parse(skillMap[key]['level'].text),
+          skillMap[key]['skill'],
+          skillMap[key]['reason'], 
+          skillMap[key]['level'],
           key
         )
       );
@@ -120,13 +123,36 @@ class SkillSectionState extends State<SkillSection> {
     return createTable(linkWidgets);
   }
 
-  TableRow CreateRow(String skill, String reason, int level, key)
+  List<String> _dropdownItems = [
+    '0',
+    '1',
+    '2',
+    '3',
+    '4',
+    '5'
+  ];
+
+  TableRow CreateRow(skill, reason, level, key)
   {
     return TableRow(
       children: <Widget>[
-        CreateCell(Text(skill)),
-        CreateCell(Text(reason)),
-        CreateCell(Text(level.toString())),
+        CreateCell(createInput(skill, "INSERT SKILL")),
+        CreateCell(createInput(reason, "INSERT EXPERIENCE")),
+        CreateCell(
+            DropdownButton<String>(
+              value: level.text,
+              onChanged: (String? newValue) {
+                level.text = newValue;
+                setState(() {});
+              },
+              items: _dropdownItems.map((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
+          ),
+        ),
         if(editing == true)
           CreateCell(
             IconButton(
@@ -164,7 +190,7 @@ class SkillSectionState extends State<SkillSection> {
             children: <Widget>[
               CreateCell(Text("SKILL")),
               CreateCell(Text("EXPERIENCE")),
-              CreateCell(Text("LEVEL")),
+              CreateCell(Text("LEVEL (0-5)")),
               if(editing == true)
                 CreateCell(Text("REMOVE"))
             ],
