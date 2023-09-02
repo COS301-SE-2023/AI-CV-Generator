@@ -147,7 +147,7 @@ class ProfileState extends State<Profile> {
                           flex: 4,
                           child: Column(
                             children: [
-                              const SizedBox(height: 184,),
+                              // const SizedBox(height: 184,),
                               SectionContainer(
                                 child: Column(
                                   children: [
