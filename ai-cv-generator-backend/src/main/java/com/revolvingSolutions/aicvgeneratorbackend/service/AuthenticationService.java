@@ -5,6 +5,7 @@ import com.revolvingSolutions.aicvgeneratorbackend.entitiy.Role;
 import com.revolvingSolutions.aicvgeneratorbackend.entitiy.UserEntity;
 import com.revolvingSolutions.aicvgeneratorbackend.exception.RefreshException;
 import com.revolvingSolutions.aicvgeneratorbackend.exception.UserAlreadyExistsException;
+import com.revolvingSolutions.aicvgeneratorbackend.model.email.Email;
 import com.revolvingSolutions.aicvgeneratorbackend.repository.UserRepository;
 import com.revolvingSolutions.aicvgeneratorbackend.request.auth.AuthRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.auth.RefreshRequest;
@@ -30,6 +31,7 @@ public class AuthenticationService {
      private final  AuthService authService;
      private final RefreshTokenService refreshTokenService;
      private final AuthenticationManager authenticationManager;
+     private final EmailService emailService;
     public RegisterResponse register(RegRequest request, HttpServletRequest actualRequest) {
         if (repository.findByUsername(request.getUsername()).isPresent()) {
             return RegisterResponse.builder()
@@ -51,6 +53,13 @@ public class AuthenticationService {
                 .enabled(false)
                 .build();
         repository.save(_user);
+        emailService.sendMail(
+                Email.builder()
+                        .recipient(request.getEmail())
+                        .subject("Verification Code")
+                        .messageBody(generatedString)
+                        .build()
+        );
         return RegisterResponse.builder()
                 .success(true)
                 .build();
@@ -64,9 +73,14 @@ public class AuthenticationService {
                 )
         );
         var _user = repository.findByUsername(request.getUsername()).orElseThrow();
+        if (!_user.isEnabled()) {
+            throw new RuntimeException();
+        }
         var token = authService.genToken(_user,getClientIp(actualRequest));
         refreshTokenService.deleteByUserId(_user.userid);
         String refreshToken = refreshTokenService.createRefreshToken(_user.userid).getToken();
+
+
         return AuthResponse.builder()
                 .token(token)
                 .refreshToken(refreshToken)
