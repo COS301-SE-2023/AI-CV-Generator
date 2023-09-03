@@ -33,7 +33,7 @@ class TemplateC extends StatefulWidget {
   Future<PlatformFile> transform() async {
     var templateCpdf = TemplateCPdf(fname: fnameC!.text, lnameC: lnameC!.text, emailC: emailC!.text, locationC: locationC!.text, phoneNumberC: phoneNumberC!.text, nameC: nameC!.text, detailsC: detailsC!.text, descriptionHeadingC: descriptionHeadingC!.text, descriptionC: descriptionC!.text, employmentHeadingC: employmentHeadingC!.text, employmentC: employmentC!.text, qualificationHeadingC:qualificationHeadingC!.text, qualificationC: qualificationC!.text, linksHeadingC: linksHeadingC!.text, linksC: linksC!.text);
     templateCpdf.writeOnPdf();
-    return await templateCpdf!.getPdf();
+    return await templateCpdf.getPdf();
   }
   
   @override
@@ -43,30 +43,24 @@ class TemplateC extends StatefulWidget {
 class TemplateCState extends State<TemplateC> {
   @override
   void initState() {
-    widget.nameC!.text = widget.data!.firstname + " " + widget.data.lastname;
-    widget.detailsC!.text = (widget.data!.location??"Please provide Location!") + " | " +
-    (widget.data!.phoneNumber??"Please provide phone number!") + " | " +
-    (widget.data!.email??"Please provide email!");
+    widget.nameC!.text = "${widget.data.firstname} ${widget.data.lastname}";
+    widget.detailsC!.text = "${widget.data.location??"Please provide Location!"} | ${widget.data.phoneNumber??"Please provide phone number!"} | ${widget.data.email??"Please provide email!"}";
     widget.descriptionHeadingC!.text = "Professional Summary";
     widget.employmentHeadingC!.text = "Experience";
     widget.qualificationHeadingC!.text = "Qualifications";
     widget.linksHeadingC!.text = "Links";
-    widget.descriptionC!.text = widget.data!.description!;
+    widget.descriptionC!.text = widget.data.description!;
     for(int i = 0; i < widget.data.employmenthistory!.length; i++) {
-      widget.employmentC!.text += widget.data!.employmenthistory![i].company + " | "
-      + widget.data!.employmenthistory![i].startDate + " - "
-      + widget.data!.employmenthistory![i].endDate + " | " + widget.data!.employmenthistory![i].jobTitle + "\n\n" + widget.data!.experience![i] + "\n\n";
+      widget.employmentC!.text += "${widget.data.employmenthistory![i].company} | ${widget.data.employmenthistory![i].startDate} - ${widget.data.employmenthistory![i].endDate} | ${widget.data.employmenthistory![i].jobTitle}\n\n${widget.data.experience![i]}\n\n";
     }
 
-    for(int i = 0; i < widget.data!.qualifications!.length; i++) {
-      widget.qualificationC!.text += widget.data!.qualifications![i].institution + " | "
-      + widget.data!.qualifications![i].startDate + " - "
-      + widget.data!.qualifications![i].endDate + " | " + widget.data!.qualifications![i].qualification + "\n\n";
+    for(int i = 0; i < widget.data.qualifications!.length; i++) {
+      widget.qualificationC!.text += "${widget.data.qualifications![i].institution} | ${widget.data.qualifications![i].startDate} - ${widget.data.qualifications![i].endDate} | ${widget.data.qualifications![i].qualification}\n\n";
     }
-    widget.qualificationC!.text += widget.data!.education_description!;
+    widget.qualificationC!.text += widget.data.education_description!;
     
-    for(int i = 0; i < widget.data!.links!.length; i++) {
-      widget.linksC!.text += widget.data!.links![i].url + "\n";
+    for(int i = 0; i < widget.data.links!.length; i++) {
+      widget.linksC!.text += "${widget.data.links![i].url}\n";
     }
 
     super.initState();
@@ -81,7 +75,7 @@ class TemplateCState extends State<TemplateC> {
         Row(
           children: [
             Expanded(
-              child:Container(
+              child:SizedBox(
                 height: 300,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -89,7 +83,7 @@ class TemplateCState extends State<TemplateC> {
                     TextFieldInput(controller: widget.nameC!, fontSize: 32, textAlign: TextAlign.center,
                     color: Colors.red
                     ),
-                    SizedBox(height: 32),
+                    const SizedBox(height: 32),
                     TextFieldInput(controller: widget.detailsC!, textAlign: TextAlign.center,),
                       
                   ]
@@ -100,7 +94,7 @@ class TemplateCState extends State<TemplateC> {
           ],
         ),
           Padding(
-            padding: EdgeInsets.all(32),
+            padding: const EdgeInsets.all(32),
             child: Row(
               children: [
                 Expanded( child:
@@ -115,11 +109,11 @@ class TemplateCState extends State<TemplateC> {
                               child: Column(
                                 children: [
                                   TextFieldInput(controller: widget.descriptionHeadingC!, fontSize: 16, textAlign: TextAlign.left, color: Colors.red),
-                                  SizedBox(height: 16),
+                                  const SizedBox(height: 16),
                                   TextFieldInput(controller: widget.descriptionC!, fontSize: 14, textAlign: TextAlign.left, maxLines: 12,),
-                                  SizedBox(height: 16),
+                                  const SizedBox(height: 16),
                                   TextFieldInput(controller: widget.employmentHeadingC!, fontSize: 16, textAlign: TextAlign.left, color: Colors.red,),
-                                  SizedBox(height: 16),
+                                  const SizedBox(height: 16),
                                   TextFieldInput(controller: widget.employmentC!, fontSize: 14, textAlign: TextAlign.left, maxLines: 12,),
                                 ],
                               )
@@ -128,11 +122,11 @@ class TemplateCState extends State<TemplateC> {
                               child: Column(
                                 children: [
                                   TextFieldInput(controller: widget.qualificationHeadingC!, fontSize: 16, textAlign: TextAlign.left, color: Colors.red),
-                                  SizedBox(height: 16),
+                                  const SizedBox(height: 16),
                                   TextFieldInput(controller: widget.qualificationC!, fontSize: 14, textAlign: TextAlign.left, maxLines: 12,),
-                                  SizedBox(height: 16),
+                                  const SizedBox(height: 16),
                                   TextFieldInput(controller: widget.linksHeadingC!, fontSize: 16, textAlign: TextAlign.left, color: Colors.red),
-                                  SizedBox(height: 16),
+                                  const SizedBox(height: 16),
                                   TextFieldInput(controller: widget.linksC!, fontSize: 14, textAlign: TextAlign.left, maxLines: 12),
                                 ],
                               )
@@ -176,7 +170,7 @@ class TextFieldInputState extends State<TextFieldInput> {
         fontSize: widget.fontSize
       ),
       decoration: 
-      InputDecoration(
+      const InputDecoration(
         isDense: true,
         contentPadding: EdgeInsets.zero,
         border: InputBorder.none
@@ -245,7 +239,7 @@ class TemplateCPdf {
                     pw.Center(
                       child: pw.ListView(
                         children: [
-                          pw.Text(nameC, style: pw.TextStyle(fontSize: 32, color: PdfColors.red,),),
+                          pw.Text(nameC, style: const pw.TextStyle(fontSize: 32, color: PdfColors.red,),),
                           pw.SizedBox(height: 32),
                           pw.Text(detailsC),
                           pw.SizedBox(height: 32),
@@ -267,21 +261,21 @@ class TemplateCPdf {
                                 alignment: pw.Alignment.centerLeft,
                                 child: pw.Text(
                                 descriptionHeadingC,
-                                style: pw.TextStyle(fontSize: 16, color: PdfColors.red,)
+                                style: const pw.TextStyle(fontSize: 16, color: PdfColors.red,)
                                 ),
                               ),
                               pw.SizedBox(height: 8),
-                              pw.Text(descriptionC, style: pw.TextStyle(fontSize: 12)),
+                              pw.Text(descriptionC, style: const pw.TextStyle(fontSize: 12)),
                               pw.SizedBox(height: 16),
                               pw.Align(
                                 alignment: pw.Alignment.centerLeft,
                                 child: pw.Text(
                                   employmentHeadingC,
-                                  style: pw.TextStyle(fontSize: 16, color: PdfColors.red,)
+                                  style: const pw.TextStyle(fontSize: 16, color: PdfColors.red,)
                                 ),
                               ),
                               pw.SizedBox(height: 8),
-                              pw.Text(employmentC, style: pw.TextStyle(fontSize: 12)),
+                              pw.Text(employmentC, style: const pw.TextStyle(fontSize: 12)),
                               pw.SizedBox(height: 16),
                             ]
                           ),
@@ -293,17 +287,17 @@ class TemplateCPdf {
                                 alignment: pw.Alignment.centerLeft,
                                 child: pw.Text(
                                   qualificationHeadingC,
-                                  style: pw.TextStyle(fontSize: 16, color: PdfColors.red,)
+                                  style: const pw.TextStyle(fontSize: 16, color: PdfColors.red,)
                                 ),
                               ),
                               pw.SizedBox(height: 8),
-                              pw.Text(qualificationC, style: pw.TextStyle(fontSize: 12)),
+                              pw.Text(qualificationC, style: const pw.TextStyle(fontSize: 12)),
                               pw.SizedBox(height: 16),
                               pw.Align(
                                 alignment: pw.Alignment.centerLeft,
                                 child: pw.Text(
                                   linksHeadingC,
-                                  style: pw.TextStyle(fontSize: 16, color: PdfColors.red,)
+                                  style: const pw.TextStyle(fontSize: 16, color: PdfColors.red,)
                                 ),
                               ),
                               pw.SizedBox(height: 8),
@@ -311,7 +305,7 @@ class TemplateCPdf {
                                 alignment: pw.Alignment.centerLeft,
                                 child: pw.Text(
                                   linksC,
-                                  style: pw.TextStyle(fontSize: 12,)
+                                  style: const pw.TextStyle(fontSize: 12,)
                                 ),
                               ),
                           ]

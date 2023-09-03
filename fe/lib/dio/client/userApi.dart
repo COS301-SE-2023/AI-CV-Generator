@@ -286,6 +286,7 @@ class userApi extends DioClient {
     } on DioException catch (e) {
       DioClient.handleError(e);
     }
+    return null;
   }
 
   static Future<List<Reference>?> removeReference({
@@ -301,6 +302,7 @@ class userApi extends DioClient {
     } on DioException catch (e) {
       DioClient.handleError(e);
     }
+    return null;
   }
 
   static Future<List<Reference>?> updateReference({
@@ -316,6 +318,7 @@ class userApi extends DioClient {
     } on DioException catch (e) {
       DioClient.handleError(e);
     }
+    return null;
   }
   
   static Future<List<Skill>?> addSkill({
@@ -331,6 +334,7 @@ class userApi extends DioClient {
     } on DioException catch (e) {
       DioClient.handleError(e);
     }
+    return null;
   }
 
   static Future<List<Skill>?> removeSkill({
@@ -346,6 +350,7 @@ class userApi extends DioClient {
     } on DioException catch (e) {
       DioClient.handleError(e);
     }
+    return null;
   }
 
   static Future<List<Skill>?> updateSkill({
@@ -361,6 +366,7 @@ class userApi extends DioClient {
     } on DioException catch (e) {
       DioClient.handleError(e);
     }
+    return null;
   }
   
 }

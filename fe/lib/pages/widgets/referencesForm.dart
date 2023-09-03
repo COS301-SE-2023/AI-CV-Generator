@@ -20,7 +20,7 @@ class ReferencesDetailsForm extends StatefulWidget {
 
 class _ReferencesDetailsFormState extends State<ReferencesDetailsForm> {
   final _formKey = GlobalKey<FormState>();
-  Column column = Column(children: [],);
+  Column column = const Column(children: [],);
 
   @override
   void initState() {
@@ -220,7 +220,7 @@ class _ReferencesDetailsFormState extends State<ReferencesDetailsForm> {
 }
 
 class TextMonitorWidget extends StatefulWidget {
-  Column column = Column(children: [],);
+  Column column = const Column(children: [],);
   TextEditingController descriptionC = TextEditingController();
   TextEditingController contactC = TextEditingController();
   String? description = "";
@@ -247,9 +247,9 @@ class TextMonitorWidgetState extends State<TextMonitorWidget> {
   }
 
   populate() {
-    widget.column.children.add(SizedBox(height: 4,));
+    widget.column.children.add(const SizedBox(height: 4,));
     widget.column.children.add(_builddescriptionField(widget.descriptionC));
-    widget.column.children.add(SizedBox(height: 8,));
+    widget.column.children.add(const SizedBox(height: 8,));
     widget.column.children.add(_buildcontactField(widget.contactC));
   }
 

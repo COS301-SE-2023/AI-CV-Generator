@@ -16,12 +16,12 @@ class ExtractionView {
                 child: Positioned(
                   right: 28,
                   top: 28,
-                  child: Container(
+                  child: SizedBox(
                     height: 640,
                     width: 400,
                     child: SectionContainer(
                       child: ListView(
-                        padding: EdgeInsets.only(right: 16),
+                        padding: const EdgeInsets.only(right: 16),
                         children: [
                           ...extractedData(data)
                         ],
@@ -46,7 +46,7 @@ class ExtractionView {
             widgets.add(Text(data));
           });
           if(i != value.length-1) {
-            widgets.add(SizedBox(height: 8,));
+            widgets.add(const SizedBox(height: 8,));
           }
         }
       }
@@ -54,7 +54,7 @@ class ExtractionView {
         widgets.add(Text(value.toString()));
       }
       
-      widgets.add(SizedBox(height: 24,));
+      widgets.add(const SizedBox(height: 24,));
     });
     return widgets;
   }

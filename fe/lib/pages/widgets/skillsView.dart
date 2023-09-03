@@ -45,7 +45,7 @@ class SkillSectionState extends State<SkillSection> {
     return Container(
       alignment: Alignment.center,
       // color: isHeader ? Colors.grey[300] : Colors.white,
-      padding: EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(8.0),
       child: TextField(
         textAlign: TextAlign.center,
         decoration: InputDecoration(
@@ -53,7 +53,7 @@ class SkillSectionState extends State<SkillSection> {
           border: InputBorder.none
         ),
         controller: controller,
-        style: TextStyle(fontSize: 16.0),
+        style: const TextStyle(fontSize: 16.0),
       ),
     );
   }
@@ -123,7 +123,7 @@ class SkillSectionState extends State<SkillSection> {
     return createTable(linkWidgets);
   }
 
-  List<String> _dropdownItems = [
+  final List<String> _dropdownItems = [
     '0',
     '1',
     '2',
@@ -173,8 +173,8 @@ class SkillSectionState extends State<SkillSection> {
     return TableCell(
       child: Container(
         alignment: Alignment.center,
+        padding: const EdgeInsets.all(8.0),
         child: content,
-        padding: EdgeInsets.all(8.0),
       )
     );
   }
@@ -182,17 +182,17 @@ class SkillSectionState extends State<SkillSection> {
   Table createTable(linkWidgets) {
     return Table(
         border: TableBorder.all(
-          borderRadius:BorderRadius.all(Radius.circular(10)),
+          borderRadius:const BorderRadius.all(Radius.circular(10)),
         ),
         defaultVerticalAlignment: TableCellVerticalAlignment.middle,
         children: <TableRow>[
           TableRow(
             children: <Widget>[
-              CreateCell(Text("SKILL", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),)),
-              CreateCell(Text("EXPERIENCE", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),),
-              CreateCell(Text("LEVEL (0-5)", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),)),
+              CreateCell(const Text("SKILL", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),)),
+              CreateCell(const Text("EXPERIENCE", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),),
+              CreateCell(const Text("LEVEL (0-5)", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),)),
               if(editing == true)
-                CreateCell(Text("REMOVE", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),))
+                CreateCell(const Text("REMOVE", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),))
             ],
           ),
           ...linkWidgets

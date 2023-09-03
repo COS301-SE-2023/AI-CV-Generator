@@ -72,7 +72,7 @@ class FileApi extends DioClient {
   }
 
    static Future<Uint8List?> getProfileImageUint8List() async {
-    Uint8List? list = null;
+    Uint8List? list;
     await DioClient.dio.get(
       'api/User/profimg',
       options: Options(

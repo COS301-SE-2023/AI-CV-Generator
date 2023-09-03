@@ -21,7 +21,7 @@ class QualificationsDetailsForm extends StatefulWidget {
 
 class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
   final _formKey = GlobalKey<FormState>();
-  Column column = Column(children: [],);
+  Column column = const Column(children: [],);
 
   @override
   void initState() {
@@ -221,7 +221,7 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
 }
 
 class TextMonitorWidget extends StatefulWidget {
-  Column column = Column(children: [],);
+  Column column = const Column(children: [],);
   TextEditingController institutionC = TextEditingController();
   TextEditingController qualificationC = TextEditingController();
   String? institution = "";
@@ -252,9 +252,9 @@ class TextMonitorWidgetState extends State<TextMonitorWidget> {
   }
 
   populate() {
-    widget.column.children.add(SizedBox(height: 4,));
+    widget.column.children.add(const SizedBox(height: 4,));
     widget.column.children.add(_buildInstitutionField(widget.institutionC));
-    widget.column.children.add(SizedBox(height: 8,));
+    widget.column.children.add(const SizedBox(height: 8,));
     widget.column.children.add(_buildQualificationField(widget.qualificationC));
     widget.column.children.add(_buildGraduationField());
   }

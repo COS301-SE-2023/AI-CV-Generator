@@ -28,10 +28,10 @@ class JobsPageState extends State<JobsPage> {
         const SizedBox(width: 16,)
       ],
       ),
-      body: SafeArea(
+      body: const SafeArea(
         child: Stack(
           children: [
-            const Breadcrumb(previousPage: "Home", currentPage: "Jobs",),
+            Breadcrumb(previousPage: "Home", currentPage: "Jobs",),
             Center(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,

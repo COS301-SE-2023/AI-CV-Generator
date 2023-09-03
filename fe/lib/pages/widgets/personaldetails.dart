@@ -122,13 +122,13 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             _buildNameField(),
-            SizedBox(height: 8,),
+            const SizedBox(height: 8,),
             _buildLastNameField(),
-            SizedBox(height: 8,),
+            const SizedBox(height: 8,),
             _buildEmailField(),
-            SizedBox(height: 8,),
+            const SizedBox(height: 8,),
             _buildCellField(),
-            SizedBox(height: 8,),
+            const SizedBox(height: 8,),
             _buildAddrField(),
           ],
         ));

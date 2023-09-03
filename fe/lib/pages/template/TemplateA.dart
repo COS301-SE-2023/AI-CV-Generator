@@ -58,30 +58,24 @@ class TemplateA extends StatefulWidget {
 class TemplateAState extends State<TemplateA> {
   @override
   void initState() {
-    widget.nameC!.text = widget.data!.firstname + " " + widget.data.lastname;
-    widget.detailsC!.text = (widget.data!.location??"Please provide Location!") + " | " +
-    (widget.data!.phoneNumber??"Please provide phone number!") + " | " +
-    (widget.data!.email??"Please provide email!");
+    widget.nameC!.text = "${widget.data.firstname} ${widget.data.lastname}";
+    widget.detailsC!.text = "${widget.data.location??"Please provide Location!"} | ${widget.data.phoneNumber??"Please provide phone number!"} | ${widget.data.email??"Please provide email!"}";
     widget.descriptionHeadingC!.text = "Professional Summary";
     widget.employmentHeadingC!.text = "Experience";
     widget.qualificationHeadingC!.text = "Qualifications";
     widget.linksHeadingC!.text = "Links";
-    widget.descriptionC!.text = widget.data!.description!;
+    widget.descriptionC!.text = widget.data.description!;
     for(int i = 0; i < widget.data.employmenthistory!.length; i++) {
-      widget.employmentC!.text += widget.data!.employmenthistory![i].company + " | "
-      + widget.data!.employmenthistory![i].startDate + " - "
-      + widget.data!.employmenthistory![i].endDate + " | " + widget.data!.employmenthistory![i].jobTitle + "\n\n" + widget.data!.experience![i] + "\n\n";
+      widget.employmentC!.text += "${widget.data.employmenthistory![i].company} | ${widget.data.employmenthistory![i].startDate} - ${widget.data.employmenthistory![i].endDate} | ${widget.data.employmenthistory![i].jobTitle}\n\n${widget.data.experience![i]}\n\n";
     }
 
-    for(int i = 0; i < widget.data!.qualifications!.length; i++) {
-      widget.qualificationC!.text += widget.data!.qualifications![i].institution + " | "
-      + widget.data!.qualifications![i].startDate + " - "
-      + widget.data!.qualifications![i].endDate + " | " + widget.data!.qualifications![i].qualification + "\n\n";
+    for(int i = 0; i < widget.data.qualifications!.length; i++) {
+      widget.qualificationC!.text += "${widget.data.qualifications![i].institution} | ${widget.data.qualifications![i].startDate} - ${widget.data.qualifications![i].endDate} | ${widget.data.qualifications![i].qualification}\n\n";
     }
-    widget.qualificationC!.text += widget.data!.education_description!;
+    widget.qualificationC!.text += widget.data.education_description!;
     
-    for(int i = 0; i < widget.data!.links!.length; i++) {
-      widget.linksC!.text += widget.data!.links![i].url + "\n";
+    for(int i = 0; i < widget.data.links!.length; i++) {
+      widget.linksC!.text += "${widget.data.links![i].url}\n";
     }
 
     super.initState();
@@ -96,7 +90,7 @@ class TemplateAState extends State<TemplateA> {
         Row(
           children: [
             Expanded(
-              child:Container(
+              child:SizedBox(
                 height: 300,
                 // color: Colors.lightGreenAccent,
                 child: Column(
@@ -105,7 +99,7 @@ class TemplateAState extends State<TemplateA> {
                     TextFieldInput(controller: widget.nameC!, fontSize: 32, textAlign: TextAlign.center,
                     
                     ),
-                    SizedBox(height: 32),
+                    const SizedBox(height: 32),
                     TextFieldInput(controller: widget.detailsC!, textAlign: TextAlign.center,),
                       
                   ]
@@ -116,7 +110,7 @@ class TemplateAState extends State<TemplateA> {
           ],
         ),
           Padding(
-            padding: EdgeInsets.all(32),
+            padding: const EdgeInsets.all(32),
             child: Row(
               children: [
                 Expanded( child:
@@ -126,22 +120,22 @@ class TemplateAState extends State<TemplateA> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         TextFieldInput(controller: widget.descriptionHeadingC!, fontSize: 24, textAlign: TextAlign.left, color: Colors.lightGreen),
-                        SizedBox(height: 16),
+                        const SizedBox(height: 16),
                         TextFieldInput(controller: widget.descriptionC!, fontSize: 14, textAlign: TextAlign.left, maxLines: 6,),
                         
-                        SizedBox(height: 48),
+                        const SizedBox(height: 48),
                         TextFieldInput(controller: widget.employmentHeadingC!, fontSize: 24, textAlign: TextAlign.left, color: Colors.lightGreen,),
-                        SizedBox(height: 16),
+                        const SizedBox(height: 16),
                         TextFieldInput(controller: widget.employmentC!, fontSize: 14, textAlign: TextAlign.left, maxLines: 6,),
 
-                        SizedBox(height: 48),
+                        const SizedBox(height: 48),
                         TextFieldInput(controller: widget.qualificationHeadingC!, fontSize: 24, textAlign: TextAlign.left, color: Colors.lightGreen),
-                        SizedBox(height: 16),
+                        const SizedBox(height: 16),
                         TextFieldInput(controller: widget.qualificationC!, fontSize: 14, textAlign: TextAlign.left, maxLines: 6,),
 
-                        SizedBox(height: 16),
+                        const SizedBox(height: 16),
                         TextFieldInput(controller: widget.linksHeadingC!, fontSize: 24, textAlign: TextAlign.left, color: Colors.lightGreen),
-                        SizedBox(height: 8),
+                        const SizedBox(height: 8),
                         TextFieldInput(controller: widget.linksC!, fontSize: 14, textAlign: TextAlign.left, maxLines: 6,),
                       ]
                     )
@@ -179,7 +173,7 @@ class TextFieldInputState extends State<TextFieldInput> {
         fontSize: widget.fontSize
       ),
       decoration: 
-      InputDecoration(
+      const InputDecoration(
         isDense: true,
         contentPadding: EdgeInsets.zero,
         border: InputBorder.none
@@ -250,7 +244,7 @@ class TemplateAPdf {
                       // color: PdfColors.lightGreen200,
                       child: pw.ListView(
                         children: [
-                          pw.Text(nameC, style: pw.TextStyle(fontSize: 32)),
+                          pw.Text(nameC, style: const pw.TextStyle(fontSize: 32)),
                           pw.SizedBox(height: 32),
                           pw.Text(detailsC),
                           pw.SizedBox(height: 32),
@@ -262,38 +256,38 @@ class TemplateAPdf {
                       alignment: pw.Alignment.centerLeft,
                       child: pw.Text(
                         descriptionHeadingC,
-                        style: pw.TextStyle(fontSize: 24, color: PdfColors.lightGreen200,)
+                        style: const pw.TextStyle(fontSize: 24, color: PdfColors.lightGreen200,)
                       ),
                     ),
                     pw.SizedBox(height: 8),
-                    pw.Text(descriptionC, style: pw.TextStyle(fontSize: 16)),
+                    pw.Text(descriptionC, style: const pw.TextStyle(fontSize: 16)),
                     pw.SizedBox(height: 16),
                     pw.Align(
                       alignment: pw.Alignment.centerLeft,
                       child: pw.Text(
                         employmentHeadingC,
-                        style: pw.TextStyle(fontSize: 24, color: PdfColors.lightGreen200,)
+                        style: const pw.TextStyle(fontSize: 24, color: PdfColors.lightGreen200,)
                       ),
                     ),
                     pw.SizedBox(height: 8),
-                    pw.Text(employmentC, style: pw.TextStyle(fontSize: 16)),
+                    pw.Text(employmentC, style: const pw.TextStyle(fontSize: 16)),
 
                     pw.SizedBox(height: 116),
                     pw.Align(
                       alignment: pw.Alignment.centerLeft,
                       child: pw.Text(
                         qualificationHeadingC,
-                        style: pw.TextStyle(fontSize: 24, color: PdfColors.lightGreen200,)
+                        style: const pw.TextStyle(fontSize: 24, color: PdfColors.lightGreen200,)
                       ),
                     ),
                     pw.SizedBox(height: 8),
-                    pw.Text(qualificationC, style: pw.TextStyle(fontSize: 16)),
+                    pw.Text(qualificationC, style: const pw.TextStyle(fontSize: 16)),
                     pw.SizedBox(height: 16),
                     pw.Align(
                       alignment: pw.Alignment.centerLeft,
                       child: pw.Text(
                         linksHeadingC,
-                        style: pw.TextStyle(fontSize: 24, color: PdfColors.lightGreen200,)
+                        style: const pw.TextStyle(fontSize: 24, color: PdfColors.lightGreen200,)
                       ),
                     ),
                     pw.SizedBox(height: 8),
@@ -301,7 +295,7 @@ class TemplateAPdf {
                       alignment: pw.Alignment.centerLeft,
                       child: pw.Text(
                         linksC,
-                        style: pw.TextStyle(fontSize: 16,)
+                        style: const pw.TextStyle(fontSize: 16,)
                       ),
                     ),
                   ]

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:ai_cv_generator/pages/util/chatBot.dart';
 
 class ChatBotView extends StatefulWidget {
-  ChatBotView({super.key});
+  const ChatBotView({super.key});
   @override
   ChatBotViewState createState() => ChatBotViewState();
 }

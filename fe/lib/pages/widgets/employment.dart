@@ -23,7 +23,7 @@ class EmploymentDetailsForm extends StatefulWidget {
 
 class _EmploymentDetailsFormState extends State<EmploymentDetailsForm> {
   final _formKey = GlobalKey<FormState>();
-    Column column = Column(children: [],);
+    Column column = const Column(children: [],);
 
   @override
   void initState() {
@@ -230,7 +230,7 @@ class _EmploymentDetailsFormState extends State<EmploymentDetailsForm> {
 }
 
 class TextMonitorWidget extends StatefulWidget {
-  Column column = Column(children: [],);
+  Column column = const Column(children: [],);
   TextEditingController companyC = TextEditingController();
   TextEditingController titleC = TextEditingController();
   String? company = "";
