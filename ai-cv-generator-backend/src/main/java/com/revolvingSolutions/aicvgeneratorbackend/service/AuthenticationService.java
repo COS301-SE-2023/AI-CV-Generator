@@ -43,9 +43,29 @@ public class AuthenticationService {
      private final EmailService emailService;
      private final RegistrationTokenService registrationTokenService;
     public RegisterResponse register(RegRequest request, HttpServletRequest actualRequest) {
-        if (repository.findByUsername(request.getUsername()).isPresent()) {
+        if (repository.findByUsername(request.getUsername()).isPresent() && repository.findByUsername(request.getUsername()).get().isEnabled()) {
             return RegisterResponse.builder()
                     .code(Code.failed)
+                    .build();
+        } else if (repository.findByUsername(request.getUsername()).isPresent()) {
+            UserEntity user = repository.findByUsername(request.getUsername()).orElseThrow();
+            RegistrationTokenEntity token = registrationTokenService.generateToken(user);
+            user.getRegTokens().add(token);
+            repository.save(user);
+            try {
+                emailService.sendVerificationEmail(
+                        request.getEmail(),
+                        (request.getFname() + " " + request.getLname()),
+                        getSiteURL(actualRequest),
+                        token.getRegistrationToken()
+                );
+            } catch (MessagingException | UnsupportedEncodingException e) {
+                return RegisterResponse.builder()
+                        .code(Code.emailFailed)
+                        .build();
+            }
+            return RegisterResponse.builder()
+                    .code(Code.success)
                     .build();
         }
         try {
@@ -60,7 +80,6 @@ public class AuthenticationService {
                     .build();
             repository.save(_user);
             RegistrationTokenEntity token = registrationTokenService.generateToken(_user);
-
             emailService.sendVerificationEmail(
                     request.getEmail(),
                     (request.getFname() + " " + request.getLname()),
@@ -83,7 +102,8 @@ public class AuthenticationService {
             return VerificationResponse.builder()
                     .code(Code.failed)
                     .build();
-        } else if (LocalDateTime.now().isBefore(registrationToken.getExpireAt())) {
+        } else if (! LocalDateTime.now().isBefore(registrationToken.getExpireAt())) {
+            registrationTokenService.removeToken(registrationToken);
             return  VerificationResponse.builder()
                     .code(Code.expired)
                     .build();
@@ -130,6 +150,9 @@ public class AuthenticationService {
                 .map(refreshTokenService::verifyExpiration)
                 .map(RefreshToken::getUser)
                 .map(user -> {
+                    if (!user.isEnabled()) {
+                        throw new RefreshException(token,"Not registered!");
+                    }
                     String newtoken = authService.genToken(user,getClientIp(actualRequest));
                     return new AuthResponse(newtoken, token);
                         }
