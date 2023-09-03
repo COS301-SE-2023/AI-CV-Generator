@@ -37,7 +37,7 @@ import 'package:intl/intl.dart';
 import 'package:pdfx/pdfx.dart';
 import 'dart:async';
 
-
+// special
 import 'package:flutter/painting.dart' as paint;
 import 'dart:math' as math;
 
@@ -150,6 +150,19 @@ class _HomeState extends State<Home> {
 
   void requirementsforshareUpdate(PlatformFile file) {
     requirementsforshare(context, file);
+  }
+
+  void showPdf() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return PdfView(
+          controller: PdfController(document: PdfDocument.openData(generatedFile!.bytes as FutureOr<Uint8List>)),
+          scrollDirection: Axis.horizontal,
+          pageSnapping: false,
+        );
+      }
+    );
   }
 
   AIInput usermodeltoinput(UserModel model) { 
@@ -543,16 +556,7 @@ class _HomeState extends State<Home> {
                               onPressed: () async {
                                 await generateFile();
                                 if(generatedFile != null) {
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return PdfView(
-                                        controller: PdfController(document: PdfDocument.openData(generatedFile!.bytes as FutureOr<Uint8List>)),
-                                        scrollDirection: Axis.horizontal,
-                                        pageSnapping: false,
-                                      );
-                                    }
-                                  );  
+                                  showPdf();
                                 }
                               }, child: Text("EXPAND", style: textStyle)
                             )
