@@ -3,6 +3,7 @@ import 'package:ai_cv_generator/pages/screens/Register.dart';
 import 'package:ai_cv_generator/pages/screens/about.dart';
 import 'package:ai_cv_generator/pages/screens/help.dart';
 import 'package:ai_cv_generator/pages/screens/home.dart';
+import 'package:ai_cv_generator/pages/screens/job.dart';
 import 'package:ai_cv_generator/pages/screens/login.dart';
 import 'package:ai_cv_generator/pages/widgets/pdf_window.dart';
 import 'package:ai_cv_generator/pages/screens/profile.dart';
@@ -40,6 +41,7 @@ class MyApp extends StatelessWidget {
         '/register':(context) => const RegisterPage(),
         '/home':(context) => const Home(),
         '/profile':(context) => const Profile(),
+        '/jobs':(context) => const JobsPage(),
         '/about':(context) => const AboutPage(),
         '/help':(context) => const Help()
       },
