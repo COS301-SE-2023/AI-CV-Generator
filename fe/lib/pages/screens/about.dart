@@ -1,4 +1,7 @@
+// internal
 import 'package:ai_cv_generator/pages/widgets/breadcrumb.dart';
+
+// external
 import 'package:flutter/material.dart';
 
 class AboutPage extends StatefulWidget {
@@ -10,7 +13,7 @@ class AboutPage extends StatefulWidget {
 
 class AboutPageState extends State<AboutPage> {
   @override
-  Widget build(BuildContext build) {
+  Widget build(BuildContext context) {
     return  Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(

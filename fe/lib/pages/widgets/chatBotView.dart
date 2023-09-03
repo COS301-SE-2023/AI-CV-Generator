@@ -1,9 +1,7 @@
-import 'package:ai_cv_generator/dio/client/fileApi.dart';
 import 'package:ai_cv_generator/pages/widgets/loadingscreens/JumpingDotsLoadingScreen.dart';
 import 'package:ai_cv_generator/pages/widgets/navdrawer.dart';
 import 'package:flutter/material.dart';
 import 'package:ai_cv_generator/pages/util/chatBot.dart';
-import 'package:jumping_dot/jumping_dot.dart';
 
 class ChatBotView extends StatefulWidget {
   bool visible;

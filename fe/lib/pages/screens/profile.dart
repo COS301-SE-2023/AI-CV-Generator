@@ -1,4 +1,4 @@
-import 'dart:typed_data';
+// internal
 import 'package:ai_cv_generator/dio/client/fileApi.dart';
 import 'package:ai_cv_generator/dio/client/userApi.dart';
 import 'package:ai_cv_generator/models/user/Employment.dart';
@@ -11,9 +11,12 @@ import 'package:ai_cv_generator/pages/util/imageCropper.dart';
 import 'package:ai_cv_generator/pages/widgets/loadingscreens/loadingScreen.dart';
 import 'package:ai_cv_generator/pages/widgets/referenceView.dart';
 import 'package:ai_cv_generator/pages/widgets/skillsView.dart';
+import 'package:ai_cv_generator/pages/widgets/linksView.dart';
+import 'package:ai_cv_generator/pages/widgets/qualificationsView.dart';
+
+// external
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
-import '../widgets/linksView.dart';
-import '../widgets/qualificationsView.dart';
 import 'package:image_picker_web/image_picker_web.dart';
 
 class Profile extends StatefulWidget {
@@ -106,6 +109,10 @@ class ProfileState extends State<Profile> {
 
     void back() {
       Navigator.pop(context);
+    }
+
+    Future<Uint8List?> getImageAsBytes(Uint8List data) {
+      return imagecrop(context, data);
     }
 
     return Scaffold(
@@ -212,7 +219,7 @@ class ProfileState extends State<Profile> {
                                           setState(() {
                                             
                                           });
-                                          imgByte = await imagecrop(context, imgByte);
+                                          imgByte = await getImageAsBytes(imgByte);
                                           if(imgByte != null){
                                             final changed = await FileApi.updateProfileImage(img: imgByte);
                                             image = changed;
@@ -264,6 +271,7 @@ class TextInputField extends StatefulWidget {
 }
 
 class TextInputFieldState extends State<TextInputField> {
+
   @override
   Widget build(BuildContext context) {
     TextEditingController editor = widget.editor;

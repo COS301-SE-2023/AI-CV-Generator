@@ -193,10 +193,10 @@ class QualificationsSectionState extends State<QualificationsSection> {
 }
 
 class QualificationsField extends StatefulWidget {
-  TextEditingController qualificationC;
-  TextEditingController intstitutionC;
-  TextEditingController dateC;
-  QualificationsField({super.key, required this.qualificationC, required this.intstitutionC, required this.dateC});
+  final TextEditingController qualificationC;
+  final TextEditingController intstitutionC;
+  final TextEditingController dateC;
+  const QualificationsField({super.key, required this.qualificationC, required this.intstitutionC, required this.dateC});
 
   @override
   QualificationsFieldState createState() => QualificationsFieldState();

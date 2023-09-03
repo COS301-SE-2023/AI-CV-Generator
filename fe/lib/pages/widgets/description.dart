@@ -1,12 +1,13 @@
-
+// internal
+import 'package:ai_cv_generator/pages/screens/home.dart';
 import 'package:ai_cv_generator/pages/util/strings.dart';
 import 'package:ai_cv_generator/pages/widgets/navdrawer.dart';
 import 'package:ai_cv_generator/pages/widgets/questionaireModal.dart';
 import 'package:ai_cv_generator/pages/widgets/referencesForm.dart';
+
+// external
 import 'package:flutter/material.dart';
 
-import '../screens/home.dart';
-import 'employment.dart';
 
 class DescriptionForm extends StatefulWidget {
   const DescriptionForm({super.key});

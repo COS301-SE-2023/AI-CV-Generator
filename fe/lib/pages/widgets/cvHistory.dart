@@ -5,14 +5,11 @@ import 'package:ai_cv_generator/dio/client/fileApi.dart';
 import 'package:flutter/painting.dart' as paint;
 import 'dart:math' as math;
 
-
-import 'package:syncfusion_flutter_pdf/pdf.dart'; 
-
 class CVHistory extends StatefulWidget {
   final BuildContext context;
   final Axis axis;
-  List<Widget>? list;
-  CVHistory({super.key, required this.context, this.list, required this.axis});
+  final List<Widget>? list;
+  const CVHistory({super.key, required this.context, this.list, required this.axis});
 
   @override
   CVHistoryState createState() => CVHistoryState();
@@ -75,7 +72,7 @@ class CVHistoryState extends State<CVHistory> {
     }
     return Container(
       child: 
-      list.length > 0 ?
+      list.isNotEmpty ?
       SingleChildScrollView(
         scrollDirection: widget.axis,
         child: Wrap(

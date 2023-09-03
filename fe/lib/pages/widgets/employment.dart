@@ -1,6 +1,6 @@
 // ignore_for_file: must_be_immutable
 import 'package:ai_cv_generator/models/user/Employment.dart';
-import 'package:ai_cv_generator/pages/widgets/description.dart';
+import 'package:ai_cv_generator/pages/screens/home.dart';
 import 'package:ai_cv_generator/pages/widgets/qualifications.dart';
 import 'package:ai_cv_generator/pages/widgets/questionaireModal.dart';
 import 'package:ai_cv_generator/pages/widgets/navdrawer.dart';
@@ -9,9 +9,8 @@ import 'package:date_field/date_field.dart';
 import 'package:ai_cv_generator/pages/util/strings.dart';
 import 'package:flutter/material.dart';
 
-import '../screens/home.dart';
 
-// void main () => runApp(const EmploymentDetails());
+
 
 class EmploymentDetailsForm extends StatefulWidget {
   const EmploymentDetailsForm({super.key});
@@ -262,9 +261,9 @@ class TextMonitorWidgetState extends State<TextMonitorWidget> {
   }
 
   populate() {
-    widget.column.children.add(SizedBox(height: 4,));
+    widget.column.children.add(const SizedBox(height: 4,));
     widget.column.children.add(_buildCompanyField(widget.companyC));
-    widget.column.children.add(SizedBox(height: 8,));
+    widget.column.children.add(const SizedBox(height: 8,));
     widget.column.children.add(_buildJobTitleField(widget.titleC));
     widget.column.children.add(_buildEmploymentDurationField());
   }

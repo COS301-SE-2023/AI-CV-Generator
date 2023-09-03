@@ -1,21 +1,22 @@
+// internal
+import 'package:ai_cv_generator/pages/elements/elements.dart';
 import 'package:ai_cv_generator/dio/client/shareClient.dart';
-import 'package:ai_cv_generator/pages/screens/Register.dart';
+import 'package:ai_cv_generator/pages/screens/register.dart';
 import 'package:ai_cv_generator/pages/screens/about.dart';
 import 'package:ai_cv_generator/pages/screens/help.dart';
 import 'package:ai_cv_generator/pages/screens/home.dart';
 import 'package:ai_cv_generator/pages/screens/login.dart';
 import 'package:ai_cv_generator/pages/widgets/pdf_window.dart';
 import 'package:ai_cv_generator/pages/screens/profile.dart';
+
+// external
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:ai_cv_generator/pages/elements/elements.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-
 
 Future<void> main() async {
   await dotenv.load(fileName: ".env");
   Uri myurl = Uri.base;
-  print(myurl.path);
   if (myurl.path.contains("/share/")) {
     String uuid = myurl.pathSegments.last;
     PlatformFile? file = await ShareApi.retrieveFile(uuid: uuid);

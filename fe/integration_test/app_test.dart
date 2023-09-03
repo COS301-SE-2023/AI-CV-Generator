@@ -1,18 +1,12 @@
-import 'package:ai_cv_generator/pages/screens/Register.dart';
 import 'package:ai_cv_generator/pages/employment2.dart';
-import 'package:ai_cv_generator/pages/screens/home.dart';
 import 'package:ai_cv_generator/pages/screens/login.dart';
-import 'package:ai_cv_generator/pages/screens/Register.dart';
 import 'package:ai_cv_generator/pages/personaldetails2.dart';
-import 'package:ai_cv_generator/pages/screens/profile.dart';
 import 'package:ai_cv_generator/pages/qualifications2.dart';
 import 'package:ai_cv_generator/pages/references2.dart';
 import 'package:ai_cv_generator/pages/skills2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
-import 'package:ai_cv_generator/models/user/UserModel.dart';
-import 'package:ai_cv_generator/main.dart' as app;
 
 
 void main() {
