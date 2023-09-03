@@ -73,6 +73,19 @@ final darkTheme = ThemeData.dark(
     actionsIconTheme: IconThemeData(color: white, size: 32),
     iconTheme: IconThemeData(color: white)
   ),
+  elevatedButtonTheme: ElevatedButtonThemeData(
+    style: ButtonStyle(
+      backgroundColor: MaterialStateProperty.all(secondaryColour),
+    overlayColor: MaterialStateProperty.resolveWith<Color?>(
+      (Set<MaterialState> states) {
+        if (states.contains(MaterialState.pressed)) {
+          return accentColour;
+        }
+        return null;
+      },
+    ),
+    ),
+  ),
 
 );
 
