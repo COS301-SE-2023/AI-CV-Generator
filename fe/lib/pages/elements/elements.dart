@@ -64,6 +64,10 @@ final darkTheme = ThemeData.dark(
   inputDecorationTheme: InputDecorationTheme(
     hintStyle: TextStyle(color: Colors.grey.withOpacity(0.7))
   ),
+  buttonTheme: const ButtonThemeData(
+    hoverColor: black,
+    focusColor: black
+  ),
 
 );
 
