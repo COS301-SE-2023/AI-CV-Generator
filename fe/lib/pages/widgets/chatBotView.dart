@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:ai_cv_generator/pages/util/chatBot.dart';
 
 class ChatBotView extends StatefulWidget {
-  bool visible;
-  ChatBotView({super.key, required this.visible});
+  ChatBotView({super.key});
   @override
   ChatBotViewState createState() => ChatBotViewState();
 }
 
 class ChatBotViewState extends State<ChatBotView> {
+  bool visible = false;
   List<Widget> messages = [];
   TextEditingController controller = TextEditingController();
   Chatbot chatBot = Chatbot();
@@ -39,7 +39,7 @@ class ChatBotViewState extends State<ChatBotView> {
   @override
   Widget build(BuildContext context) {
     return Visibility(
-      visible: widget.visible,
+      visible: visible,
       child: Container(
         padding: const EdgeInsets.only(right: 48, bottom: 48), 
         alignment: Alignment.bottomRight,
@@ -66,7 +66,7 @@ class ChatBotViewState extends State<ChatBotView> {
                       Icons.close,
                   ), 
                   onPressed: () {
-                    setState(() {widget.visible = false;});
+                    setState(() {visible = false;});
                   },
                 ),
               ),

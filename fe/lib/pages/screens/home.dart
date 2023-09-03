@@ -619,17 +619,18 @@ class _HomeState extends State<Home> {
             child: IconButton(
               color: Theme.of(context).colorScheme.secondary,
               onPressed: () {
-                setState(() {isChatBotVisible = true;});
+                setState(() {chatBotKey.currentState!.visible = true;});
               },
               icon: const Icon(Icons.message),
             ),
           ),
-          ChatBotView(visible: isChatBotVisible),
+          ChatBotView(key: chatBotKey),
         ]
       )
     );
   }
 }
+GlobalKey<ChatBotViewState> chatBotKey = GlobalKey();
 
 class PastCVs extends StatefulWidget {
   const PastCVs({super.key});
