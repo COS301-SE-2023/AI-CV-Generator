@@ -1,3 +1,4 @@
+// internal
 import 'package:ai_cv_generator/api/DownloadService.dart';
 import 'package:ai_cv_generator/dio/client/fileApi.dart';
 import 'package:ai_cv_generator/api/pdfApi.dart';
@@ -24,15 +25,19 @@ import 'package:ai_cv_generator/pages/widgets/navdrawer.dart';
 import 'package:ai_cv_generator/pages/widgets/pdf_window.dart';
 import 'package:ai_cv_generator/pages/widgets/personaldetails.dart';
 import 'package:ai_cv_generator/pages/widgets/extractionView.dart';
+import 'package:ai_cv_generator/models/user/UserModel.dart';
+import 'package:ai_cv_generator/dio/client/userApi.dart';
+import 'package:ai_cv_generator/pages/widgets/shareCV.dart';
+
+// external
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:pdfx/pdfx.dart';
-import 'package:ai_cv_generator/models/user/UserModel.dart';
-import 'package:ai_cv_generator/dio/client/userApi.dart';
 import 'dart:async';
-import 'package:ai_cv_generator/pages/widgets/shareCV.dart';
+
+
 import 'package:flutter/painting.dart' as paint;
 import 'dart:math' as math;
 
@@ -139,7 +144,15 @@ class _HomeState extends State<Home> {
     });
   }
 
-  AIInput usermodel_to_input(UserModel model) { 
+  void extractionViewUpdate(AIInput aiInput) {
+    ExtractionView().showModal(context, uploadFile!, aiInput.toJson());
+  }
+
+  void requirementsforshareUpdate(PlatformFile file) {
+    requirementsforshare(context, file);
+  }
+
+  AIInput usermodeltoinput(UserModel model) { 
     final DateFormat formatter = DateFormat('yyyy-MM-dd');
     List<AIEmployment> exp = [];
     for (Employment emp in model.employmenthistory??[]) {
@@ -223,7 +236,7 @@ class _HomeState extends State<Home> {
             },
             child: Text("JOBS", style: Theme.of(context).appBarTheme.toolbarTextStyle),
           ),
-          SizedBox(width: 32,),
+          const SizedBox(width: 32,),
           TextButton(
             onPressed: () {
                 Navigator.pushNamed(context, '/about');
@@ -278,7 +291,7 @@ class _HomeState extends State<Home> {
                           ),
                           SingleChildScrollView(
                             
-                            child: Container(
+                            child: SizedBox(
                               height: 499,
                               child: GridView.count(
                                 crossAxisCount: 1,
@@ -390,64 +403,62 @@ class _HomeState extends State<Home> {
                         children: [
                           Row(
                             children: [
-                              Container(
-                                child: SizedBox(
-                                  height: 40,
-                                  width: 100, 
-                                  child: ElevatedButton(
-                                    onPressed: () async {
-                                      Home.adjustedModel = model;
-                                      await showDialog(
-                                        context: context, 
-                                        builder: (BuildContext context) {
-                                          return Dialog(
-                                            child: ConstrainedBox(
-                                              constraints: const BoxConstraints(maxWidth: 800),
-                                              child: const PersonalDetailsForm()
-                                            )
-                                            
-                                          );
-                                        }
-                                      );
-                                      if (Home.ready == false) return;
-                                      setState(() {
-                                        editPage = null;
-                                      });
-                                      setState(() {
-                                        editPage = const AILoadingScreen();
-                                      });
+                              SizedBox(
+                                height: 40,
+                                width: 100, 
+                                child: ElevatedButton(
+                                  onPressed: () async {
+                                    Home.adjustedModel = model;
+                                    await showDialog(
+                                      context: context, 
+                                      builder: (BuildContext context) {
+                                        return Dialog(
+                                          child: ConstrainedBox(
+                                            constraints: const BoxConstraints(maxWidth: 800),
+                                            child: const PersonalDetailsForm()
+                                          )
+                                          
+                                        );
+                                      }
+                                    );
+                                    if (Home.ready == false) return;
+                                    setState(() {
+                                      editPage = null;
+                                    });
+                                    setState(() {
+                                      editPage = const AILoadingScreen();
+                                    });
 
 
-                                  GenerationResponse? response = await AIApi.generate(data: usermodel_to_input((Home.adjustedModel!)));
-                                  if (response?.data.description == null) {
-                                    editPage = const ErrorScreen(errormsg: "Rate Limit Exceeded!");
-                                    setState(() {});
-                                    return;
-                                  }
-                                  switch (tem) {
-                                    case Template.templateA:
-                                      templateAPdf = TemplateA(data: response!.data);
-                                      editPage = templateAPdf;
-                                      generatedFile = await templateAPdf!.transform();
-                                    break;
-                                    case Template.templateB:
-                                      templateBPdf = TemplateB(data: response!.data);
-                                      editPage = templateBPdf;
-                                      generatedFile = await templateBPdf!.transform();
-                                    break;
-                                    default:
-                                      templateCPdf = TemplateC(data: response!.data);
-                                      editPage = templateCPdf;
-                                      generatedFile = await templateCPdf!.transform();
-                                    break;
-                                  }
-                                  cvdata = response.data;
-                                  ready = true;
+                                GenerationResponse? response = await AIApi.generate(data: usermodeltoinput((Home.adjustedModel!)));
+                                if (response?.data.description == null) {
+                                  editPage = const ErrorScreen(errormsg: "Rate Limit Exceeded!");
                                   setState(() {});
-                                }, 
-                                child: Text("SURVEY", style: textStyle),
-                              ),
-                            )
+                                  return;
+                                }
+                                switch (tem) {
+                                  case Template.templateA:
+                                    templateAPdf = TemplateA(data: response!.data);
+                                    editPage = templateAPdf;
+                                    generatedFile = await templateAPdf!.transform();
+                                  break;
+                                  case Template.templateB:
+                                    templateBPdf = TemplateB(data: response!.data);
+                                    editPage = templateBPdf;
+                                    generatedFile = await templateBPdf!.transform();
+                                  break;
+                                  default:
+                                    templateCPdf = TemplateC(data: response!.data);
+                                    editPage = templateCPdf;
+                                    generatedFile = await templateCPdf!.transform();
+                                  break;
+                                }
+                                cvdata = response.data;
+                                ready = true;
+                                setState(() {});
+                              }, 
+                              child: Text("SURVEY", style: textStyle),
+                            ),
                           ),
                           const SizedBox(width: 43,),
                           SizedBox(
@@ -465,7 +476,7 @@ class _HomeState extends State<Home> {
                                   if(uploadFile != null) {
                                     AIInput? aiInput = await AIApi.extractPdf(file: uploadFile!);
                                     if(aiInput != null) {
-                                      ExtractionView().showModal(context, uploadFile!, aiInput.toJson());
+                                      extractionViewUpdate(aiInput);
                                     }
                                   }
                                 }
@@ -485,69 +496,68 @@ class _HomeState extends State<Home> {
                       ),
                       const SizedBox(height: 12,),
                       if(uploadFile != null || generatedFile != null)
-                      Container(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            SizedBox(
-                              height:40,
-                              width: 100,
-                              child:ElevatedButton(
-                                onPressed: () async {
-                                  
-                                }, 
-                                child: Text("GENERATE", style: textStyle),
-                              ),
+                    
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          SizedBox(
+                            height:40,
+                            width: 100,
+                            child:ElevatedButton(
+                              onPressed: () async {
+                                
+                              }, 
+                              child: Text("GENERATE", style: textStyle),
                             ),
-                            SizedBox(
-                              height: 40,
-                              width: 100,
-                              child: ElevatedButton(
-                                onPressed: () async {
-                                  await generateFile();
-                                  if (generatedFile != null) {
-                                    requirementsforshare(context, generatedFile);
-                                  }
-                                  updatePastCVs();
-                                },
-                                child: Text("SHARE", style: textStyle),
-                              ),
+                          ),
+                          SizedBox(
+                            height: 40,
+                            width: 100,
+                            child: ElevatedButton(
+                              onPressed: () async {
+                                await generateFile();
+                                if (generatedFile != null) {
+                                  requirementsforshareUpdate(generatedFile!);
+                                }
+                                updatePastCVs();
+                              },
+                              child: Text("SHARE", style: textStyle),
                             ),
-                            SizedBox(
-                              height: 40,
-                              width: 100,
-                              child: ElevatedButton(
-                                onPressed: () async {
-                                  await generateFile();
-                                  if (generatedFile != null) {
-                                    DownloadService.download(generatedFile!.bytes!.toList(), downloadName: generatedFile!.name);
-                                  }
-                                }, child: Text("DOWNLOAD", style: textStyle),
-                              ),
+                          ),
+                          SizedBox(
+                            height: 40,
+                            width: 100,
+                            child: ElevatedButton(
+                              onPressed: () async {
+                                await generateFile();
+                                if (generatedFile != null) {
+                                  DownloadService.download(generatedFile!.bytes!.toList(), downloadName: generatedFile!.name);
+                                }
+                              }, child: Text("DOWNLOAD", style: textStyle),
                             ),
-                            SizedBox(
-                              height: 40,
-                              width: 100,
-                              child: ElevatedButton(
-                                onPressed: () async {
-                                  await generateFile();
-                                  if(generatedFile != null) {
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return PdfView(
-                                          controller: PdfController(document: PdfDocument.openData(generatedFile!.bytes as FutureOr<Uint8List>)),
-                                          scrollDirection: Axis.horizontal,
-                                          pageSnapping: false,
-                                        );
-                                      }
-                                    );  
-                                  }
-                                }, child: Text("EXPAND", style: textStyle)
-                              )
-                            ),
-                          ],
-                        ),
+                          ),
+                          SizedBox(
+                            height: 40,
+                            width: 100,
+                            child: ElevatedButton(
+                              onPressed: () async {
+                                await generateFile();
+                                if(generatedFile != null) {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return PdfView(
+                                        controller: PdfController(document: PdfDocument.openData(generatedFile!.bytes as FutureOr<Uint8List>)),
+                                        scrollDirection: Axis.horizontal,
+                                        pageSnapping: false,
+                                      );
+                                    }
+                                  );  
+                                }
+                              }, child: Text("EXPAND", style: textStyle)
+                            )
+                          ),
+                        ],
                       ),
                       const SizedBox(height: 4,),
                       Expanded(child:
