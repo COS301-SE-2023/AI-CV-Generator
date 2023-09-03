@@ -44,16 +44,14 @@ public class AuthenticationService {
                     .build();
         }
         try {
-            byte[] array = new byte[7]; // length is bounded by 7
-            new Random().nextBytes(array);
-            String generatedString = new String(array, StandardCharsets.UTF_8);
+            String verificationCode = generateVerificationCode();
             var _user = UserEntity.builder()
                     .fname(request.getFname())
                     .lname(request.getLname())
                     .username(request.getUsername())
                     .password(passwordEncoder.encode(request.getPassword()))
                     .email(request.getEmail())
-                    .verificationCode(generatedString)
+                    .verificationCode(verificationCode)
                     .role(Role.USER)
                     .enabled(false)
                     .build();
@@ -62,7 +60,7 @@ public class AuthenticationService {
                     request.getEmail(),
                     (request.getFname() + " " + request.getLname()),
                     getSiteURL(actualRequest),
-                    generatedString
+                    verificationCode
             );
         } catch (MessagingException | UnsupportedEncodingException e) {
             return RegisterResponse.builder()
@@ -77,6 +75,19 @@ public class AuthenticationService {
     private String getSiteURL(HttpServletRequest request) {
         String siteURL = request.getRequestURL().toString();
         return siteURL.replace(request.getServletPath(), "");
+    }
+
+    private String generateVerificationCode() {
+        int leftLimit = 48;
+        int rightLimit = 122;
+        int targetStringLength = 7;
+        Random random = new Random();
+
+        return random.ints(leftLimit, rightLimit + 1)
+                .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
+                .limit(targetStringLength)
+                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                .toString();
     }
 
     public AuthResponse authenticate(AuthRequest request, HttpServletRequest actualRequest) {
