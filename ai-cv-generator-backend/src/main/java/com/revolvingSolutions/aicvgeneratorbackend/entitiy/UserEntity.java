@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Builder
@@ -56,6 +57,9 @@ public class UserEntity implements UserDetails {
 
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     public List<SkillEntity> skills;
+
+    @OneToMany(mappedBy = "user")
+    public Set<RegistrationTokenEntity> regTokens;
 
     @Enumerated(EnumType.STRING)
     public Role role;
