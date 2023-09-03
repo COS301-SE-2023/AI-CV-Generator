@@ -87,7 +87,7 @@ final darkTheme = ThemeData.dark(
     ),
   ),
   colorScheme: ColorScheme(
-    brightness: Brightness.light,
+    brightness: Brightness.dark,
     primary: primaryColour,
     onPrimary: onPrimaryColour,
     secondary: secondaryColour,
