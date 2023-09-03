@@ -104,7 +104,9 @@ final darkTheme = ThemeData.dark(
   //     TargetPlatform.windows: FadeUpwardsPageTransitionsBuilder()
   //   },
   // ),
-  primaryColour: Color.fromARGB(255, 250, 74, 91);
+  colorScheme: ColorScheme(
+    onPrimary: Color.fromARGB(255, 250, 74, 91),
+    ),
 
 );
 
