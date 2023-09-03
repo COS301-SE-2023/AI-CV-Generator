@@ -61,7 +61,7 @@ ThemeData mainTheme = ThemeData(
 );
 
 final darkTheme = ThemeData.dark(
-  inputDecorationDarkTheme: InputDecorationDarkTheme(
+  inputDecorationTheme: InputDecorationTheme(
     hintStyle: TextStyle(color: Colors.grey.withOpacity(0.7))
   ),
 
