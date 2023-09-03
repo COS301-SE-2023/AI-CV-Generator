@@ -99,6 +99,11 @@ final darkTheme = ThemeData.dark(
     surface: surfaceColour,
     onSurface: onSurfaceColour
   ),
+  pageTransitionsTheme: const PageTransitionsTheme(
+    builders: {
+      TargetPlatform.windows: FadeUpwardsPageTransitionsBuilder()
+    },
+  ),
 
 );
 
