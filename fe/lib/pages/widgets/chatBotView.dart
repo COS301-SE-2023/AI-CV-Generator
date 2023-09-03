@@ -42,14 +42,14 @@ class ChatBotViewState extends State<ChatBotView> {
         child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(20)),
-            border: Border.all(
-              // color: const Color(0xFF333C64),
-              
-            ),
+          border: Border.all(
+            color: Colors.grey.shade300
+          ),
+          color: Colors.grey.shade100
           ),
           height: 500, width: 500, 
           child: ClipRRect(
-            borderRadius: BorderRadius.all(Radius.circular(20)),
+            borderRadius: const BorderRadius.all(Radius.circular(20)),
             child: Scaffold(
               drawer: const NavDrawer(),
               appBar: AppBar(
@@ -57,9 +57,9 @@ class ChatBotViewState extends State<ChatBotView> {
                   alignment: Alignment.center,
                   padding: const EdgeInsets.only(right: 50),
                   child:Text("AI CHAT BOT", style: Theme.of(context).appBarTheme.toolbarTextStyle,),),
-                leading: IconButton(
-                  icon: const Icon(
-                    Icons.close,
+                  leading: IconButton(
+                    icon: const Icon(
+                      Icons.close,
                   ), 
                   onPressed: () {
                     setState(() {widget.visible = false;});
@@ -70,12 +70,17 @@ class ChatBotViewState extends State<ChatBotView> {
                 children: [
                   Expanded(
                     flex: 8,
-                    child: ListView(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade100
+                      ),
+                      child: ListView(
                       padding: const EdgeInsets.all(48),
                       children: [
                         ...messages
                       ],
-                    ),
+                      ),
+                    )
                   ),
                   Expanded(
                     child: TextField(
@@ -84,13 +89,13 @@ class ChatBotViewState extends State<ChatBotView> {
                         addMesssage(value, true);
                         controller.text = "";
                       },
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         fillColor: Colors.white,
                         hintText: "Type a message",
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.only(bottomLeft: Radius.circular(19), bottomRight: Radius.circular(19)),
                           borderSide:
-                          const BorderSide(color: Colors.black)
+                          BorderSide(color: Colors.black)
                         )
                       ),
                     )
