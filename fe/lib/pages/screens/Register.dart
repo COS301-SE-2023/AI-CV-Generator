@@ -33,6 +33,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   TextEditingController fnameController = TextEditingController();
   TextEditingController lnameController = TextEditingController();
   TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController passwordRetypeController = TextEditingController();
   
@@ -42,13 +43,12 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   @override
   Widget build(BuildContext context) {
     TextEditingController errorMessage = TextEditingController(text: "Error");
-    return Padding(
-        padding: const EdgeInsets.all(10),
-        child: ListView(
+    return Scaffold(
+          body: Column(
           children: <Widget>[
             Container(
                 alignment: Alignment.center,
-                padding: const EdgeInsets.all(10),
+                padding: const EdgeInsets.fromLTRB(10, 30, 10, 10),
                 child: const Image(
                   image: ResizeImage(
                     AssetImage('assets/images/logo.png'),
@@ -64,28 +64,38 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   'Register',
                   style: TextStyle(fontSize: 20),
                 )),
-            Container(
-              padding: const EdgeInsets.fromLTRB(500, 10, 500, 10),
-              child: TextField(
-                key: const Key('fname'),
-                controller: fnameController,
-                decoration: const InputDecoration(
-                  enabledBorder: OutlineInputBorder(),
-                  labelText: 'First Name',
-                ),
+         
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.fromLTRB(0, 10, 5, 10),
+                    width: 267.5,
+                    child: TextField(
+                      key: const Key('fname'),
+                      controller: fnameController,
+                      decoration: const InputDecoration(
+                        enabledBorder: OutlineInputBorder(),
+                        labelText: 'First Name',
+                      ),
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.fromLTRB(5, 10, 0, 10),
+                    width: 267.5,
+                    child: TextField(
+                      key: const Key('lname'),
+                      controller: lnameController,
+                      decoration: const InputDecoration(
+                        enabledBorder: OutlineInputBorder(),
+                        labelText: 'Last Name',
+                      ),
+                    ),
+                  )
+                  
+                ],
               ),
-            ),
-            Container(
-              padding: const EdgeInsets.fromLTRB(500, 10, 500, 10),
-              child: TextField(
-                key: const Key('lname'),
-                controller: lnameController,
-                decoration: const InputDecoration(
-                  enabledBorder: OutlineInputBorder(),
-                  labelText: 'Last Name',
-                ),
-              ),
-            ),
+            
             Container(
               padding: const EdgeInsets.fromLTRB(500, 10, 500, 10),
               child: TextField(
@@ -94,6 +104,17 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 decoration: const InputDecoration(
                   enabledBorder: OutlineInputBorder(),
                   labelText: 'User Name',
+                ),
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.fromLTRB(500, 10, 500, 10),
+              child: TextField(
+                key: const Key('email'),
+                controller: emailController,
+                decoration: const InputDecoration(
+                  enabledBorder: OutlineInputBorder(),
+                  labelText: 'Email',
                 ),
               ),
             ),
