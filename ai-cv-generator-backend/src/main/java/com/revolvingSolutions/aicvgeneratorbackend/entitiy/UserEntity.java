@@ -51,6 +51,12 @@ public class UserEntity implements UserDetails {
     @JsonManagedReference
     public List<LinkEntity> links;
 
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    public List<ReferenceEntity> references;
+
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    public List<SkillEntity> skills;
+
     @Enumerated(EnumType.STRING)
     public Role role;
 
