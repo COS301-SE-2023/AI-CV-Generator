@@ -219,6 +219,13 @@ class _HomeState extends State<Home> {
           ),
           TextButton(
             onPressed: () {
+                Navigator.pushNamed(context, '/jobs');
+            },
+            child: Text("JOBS", style: Theme.of(context).appBarTheme.toolbarTextStyle),
+          ),
+          SizedBox(width: 32,),
+          TextButton(
+            onPressed: () {
                 Navigator.pushNamed(context, '/about');
             },
             child: Text("ABOUT", style: Theme.of(context).appBarTheme.toolbarTextStyle),
