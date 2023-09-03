@@ -428,7 +428,7 @@ class _HomeState extends State<Home> {
                                         return Dialog(
                                           child: ConstrainedBox(
                                             constraints: const BoxConstraints(maxWidth: 800),
-                                            child: const PersonalDetailsForm()
+                                            child: PersonalDetailsForm()
                                           )
                                           
                                         );

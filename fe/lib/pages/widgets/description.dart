@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 
 
 class DescriptionForm extends StatefulWidget {
-  const DescriptionForm({super.key});
+   DescriptionForm({super.key});
 
   @override
   State<StatefulWidget> createState() => DescriptionFormState();
@@ -23,10 +23,10 @@ class DescriptionFormState extends State<DescriptionForm> {
   Widget build(BuildContext context) {
     descripC.text = Home.adjustedModel!.description??"";
     return Scaffold(
-      drawer: const NavDrawer(),
+      drawer:  NavDrawer(),
       appBar: AppBar(
         leading: IconButton(
-          icon: const Icon(
+          icon:  Icon(
             Icons.close,
           ), 
           onPressed: () async { 
@@ -42,15 +42,15 @@ class DescriptionFormState extends State<DescriptionForm> {
             ),
             Expanded(
               child:Container (
-                padding: const EdgeInsets.all(8.0),
-                constraints: BoxConstraints.tight(const Size(550,200)),
+                padding:  EdgeInsets.all(8.0),
+                constraints: BoxConstraints.tight( Size(550,200)),
                 child: Form(
                   key: _formKey,
                   child: TextFormField(
-                    key: const Key("Description start"),
+                    key:  Key("Description start"),
                     maxLines: 6,
                     controller: descripC,
-                    decoration: const InputDecoration(
+                    decoration:  InputDecoration(
                       labelText: 'Description',
                       enabledBorder: OutlineInputBorder(),
                       icon: Icon(Icons.person),
@@ -65,7 +65,7 @@ class DescriptionFormState extends State<DescriptionForm> {
                 )
               ),
             ),
-            const SizedBox(height: 200,),
+             SizedBox(height: 200,),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget> [
@@ -73,20 +73,20 @@ class DescriptionFormState extends State<DescriptionForm> {
                   height: 50,
                   width: 150,
                   child: ElevatedButton(
-                    child: const Text('Back'),
+                    child:  Text('Back'),
                     onPressed: () {
                       updateUser();
                       Navigator.of(context).pop();
-                      showQuestionaireModal(context, const SkillsDetailsForm());
+                      showQuestionaireModal(context,  SkillsDetailsForm());
                     },
                   ),
                 ),
-                const SizedBox(width: 64,),
+                 SizedBox(width: 64,),
                 SizedBox(
                   height: 50,
                   width: 150,
                   child: ElevatedButton(
-                    child: const Text('Save and Proceed'),
+                    child:  Text('Save and Proceed'),
                     onPressed: () async {
                       if(updateUser() == false) {
                         return;
@@ -99,7 +99,7 @@ class DescriptionFormState extends State<DescriptionForm> {
 
             ],
           ),
-            const SizedBox(height: 64,),
+             SizedBox(height: 64,),
           ]
         )
       )
@@ -111,7 +111,7 @@ class DescriptionFormState extends State<DescriptionForm> {
     return _formKey.currentState!.validate();
   }
 
-  Widget titleSection=const Column (
+  Widget titleSection= Column (
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: <Widget> [
         Padding (

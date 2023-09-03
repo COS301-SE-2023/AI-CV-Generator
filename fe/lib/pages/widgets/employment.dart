@@ -13,7 +13,7 @@ import 'package:flutter/material.dart';
 
 
 class EmploymentDetailsForm extends StatefulWidget {
-  const EmploymentDetailsForm({super.key});
+   EmploymentDetailsForm({super.key});
 
   @override
   State<StatefulWidget> createState() {
@@ -23,7 +23,7 @@ class EmploymentDetailsForm extends StatefulWidget {
 
 class _EmploymentDetailsFormState extends State<EmploymentDetailsForm> {
   final _formKey = GlobalKey<FormState>();
-    Column column = const Column(children: [],);
+    Column column =  Column(children: [],);
 
   @override
   void initState() {
@@ -37,15 +37,15 @@ class _EmploymentDetailsFormState extends State<EmploymentDetailsForm> {
       column.children.add(TextMonitorWidget(key: key, company: employmenthistory.company, title: employmenthistory.title, start: employmenthistory.startdate, end: employmenthistory.enddate));
       column.children.add(
         Padding(
-          padding: const EdgeInsets.only(left: 500),
+          padding:  EdgeInsets.only(left: 500),
           child: IconButton(
           onPressed: () {
             remove(key);
-          }, icon: const Icon(Icons.delete)
+          }, icon:  Icon(Icons.delete)
         ),
         )
       );
-      column.children.add(const SizedBox(height: 16,));
+      column.children.add( SizedBox(height: 16,));
     }
     setState(() {});
     super.initState();
@@ -72,15 +72,15 @@ class _EmploymentDetailsFormState extends State<EmploymentDetailsForm> {
     column.children.add(TextMonitorWidget(key: key));
     column.children.add(
       Padding(
-        padding: const EdgeInsets.only(left: 500),
+        padding:  EdgeInsets.only(left: 500),
         child: IconButton(
         onPressed: () {
           remove(key);
-        }, icon: const Icon(Icons.delete)
+        }, icon:  Icon(Icons.delete)
       ),
       )
     );
-    column.children.add(const SizedBox(height: 16,));
+    column.children.add( SizedBox(height: 16,));
     setState(() {});
   }
 
@@ -112,7 +112,7 @@ class _EmploymentDetailsFormState extends State<EmploymentDetailsForm> {
   TextEditingController jobTitle2 = TextEditingController();
   TextEditingController duration1 = TextEditingController();
   
-    Widget titleSection=const Column (
+    Widget titleSection= Column (
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: <Widget> [
         Padding (
@@ -130,10 +130,10 @@ class _EmploymentDetailsFormState extends State<EmploymentDetailsForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const NavDrawer(),
+      drawer:  NavDrawer(),
       appBar: AppBar(
         leading: IconButton(
-          icon: const Icon(
+          icon:  Icon(
             Icons.close,
           ), 
           onPressed: () async { 
@@ -158,7 +158,7 @@ class _EmploymentDetailsFormState extends State<EmploymentDetailsForm> {
                   children: [
                     ...column.children
                   ],
-                ) : const Center(
+                ) :  Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -178,9 +178,9 @@ class _EmploymentDetailsFormState extends State<EmploymentDetailsForm> {
             Align(
               alignment: Alignment.topCenter,
               child: Container ( 
-                padding: const EdgeInsets.all(20.0),
+                padding:  EdgeInsets.all(20.0),
                 child: ElevatedButton(
-                  child: const Text('Add'),
+                  child:  Text('Add'),
                   onPressed: () async {
                     add();
                   },
@@ -194,33 +194,33 @@ class _EmploymentDetailsFormState extends State<EmploymentDetailsForm> {
                   height: 50,
                   width: 150,
                   child: ElevatedButton(
-                    child: const Text('Back'),
+                    child:  Text('Back'),
                     onPressed: () async {
                       updateUser();
                       Navigator.of(context).pop();
-                      showQuestionaireModal(context, const QualificationsDetailsForm());
+                      showQuestionaireModal(context,  QualificationsDetailsForm());
                     },
                   ),
                 ),
-                const SizedBox(width: 64,),
+                 SizedBox(width: 64,),
                 SizedBox(
                   height: 50,
                   width: 150,
                   child: ElevatedButton(
-                    child: const Text('Save and Proceed'),
+                    child:  Text('Save and Proceed'),
                     onPressed: () async {
                       if(updateUser() == false) {
                         return;
                       }
                       Navigator.pop(context);
-                      showQuestionaireModal(context, const ReferencesDetailsForm());
+                      showQuestionaireModal(context,  ReferencesDetailsForm());
                     },
                   ),
                 ),
 
             ],
           ),
-            const SizedBox(height: 64,),
+             SizedBox(height: 64,),
           ],
         )
       )
@@ -230,7 +230,7 @@ class _EmploymentDetailsFormState extends State<EmploymentDetailsForm> {
 }
 
 class TextMonitorWidget extends StatefulWidget {
-  Column column = const Column(children: [],);
+  Column column =  Column(children: [],);
   TextEditingController companyC = TextEditingController();
   TextEditingController titleC = TextEditingController();
   String? company = "";
@@ -261,20 +261,20 @@ class TextMonitorWidgetState extends State<TextMonitorWidget> {
   }
 
   populate() {
-    widget.column.children.add(const SizedBox(height: 4,));
+    widget.column.children.add( SizedBox(height: 4,));
     widget.column.children.add(_buildCompanyField(widget.companyC));
-    widget.column.children.add(const SizedBox(height: 8,));
+    widget.column.children.add( SizedBox(height: 8,));
     widget.column.children.add(_buildJobTitleField(widget.titleC));
     widget.column.children.add(_buildEmploymentDurationField());
   }
 
   Widget _buildCompanyField(TextEditingController controller) {
     return Container (
-      constraints: BoxConstraints.tight(const Size(550,70)),
+      constraints: BoxConstraints.tight( Size(550,70)),
       child: TextFormField(
-        key: const Key("Company input"),
+        key:  Key("Company input"),
         controller: controller,
-        decoration: const InputDecoration(
+        decoration:  InputDecoration(
           contentPadding: EdgeInsets.all(5.0),
           labelText: 'Company',
           enabledBorder: OutlineInputBorder(),
@@ -293,11 +293,11 @@ class TextMonitorWidgetState extends State<TextMonitorWidget> {
   
   Widget _buildJobTitleField(TextEditingController controller) {
     return Container (
-      constraints: BoxConstraints.tight(const Size(550,70)),
+      constraints: BoxConstraints.tight( Size(550,70)),
       child: TextFormField(
-        key: const Key("Job Title input"),
+        key:  Key("Job Title input"),
         controller: controller,
-        decoration: const InputDecoration(
+        decoration:  InputDecoration(
           contentPadding: EdgeInsets.all(5.0),
           labelText: 'Job Title',
           enabledBorder: OutlineInputBorder(),
@@ -316,7 +316,7 @@ class TextMonitorWidgetState extends State<TextMonitorWidget> {
 
   Widget _buildEmploymentDurationField() {
     return Container (
-      constraints: BoxConstraints.tight(const Size(550,70)),
+      constraints: BoxConstraints.tight( Size(550,70)),
       child: Row(
         children: [
           Expanded(
@@ -325,8 +325,8 @@ class TextMonitorWidgetState extends State<TextMonitorWidget> {
               onDateSelected: (value) {
                 widget.start = value;
               },
-              key: const Key("Employment start"),
-              decoration: const InputDecoration(
+              key:  Key("Employment start"),
+              decoration:  InputDecoration(
                 border: OutlineInputBorder(),
                 contentPadding: EdgeInsets.all(5.0),
                 labelText: 'Start Date',
@@ -336,15 +336,15 @@ class TextMonitorWidgetState extends State<TextMonitorWidget> {
               mode: DateTimeFieldPickerMode.date,
             )
           ),
-          const SizedBox(width: 16,),
+           SizedBox(width: 16,),
           Expanded(
             child: DateTimeFormField(
               initialValue: widget.end,
               onDateSelected: (value) {
                 widget.end = value;
               },
-              key: const Key("Employment end"),
-              decoration: const InputDecoration(
+              key:  Key("Employment end"),
+              decoration:  InputDecoration(
                 border: OutlineInputBorder(),
                 contentPadding: EdgeInsets.all(5.0),
                 labelText: 'End Date',

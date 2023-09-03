@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import '../screens/home.dart';
 
 class ReferencesDetailsForm extends StatefulWidget {
-  const ReferencesDetailsForm({super.key});
+   ReferencesDetailsForm({super.key});
 
   @override
   State<StatefulWidget> createState() {
@@ -20,7 +20,7 @@ class ReferencesDetailsForm extends StatefulWidget {
 
 class _ReferencesDetailsFormState extends State<ReferencesDetailsForm> {
   final _formKey = GlobalKey<FormState>();
-  Column column = const Column(children: [],);
+  Column column =  Column(children: [],);
 
   @override
   void initState() {
@@ -34,15 +34,15 @@ class _ReferencesDetailsFormState extends State<ReferencesDetailsForm> {
       column.children.add(TextMonitorWidget(key: key, description: references.description, contact: references.contact,));
       column.children.add(
         Padding(
-          padding: const EdgeInsets.only(left: 500),
+          padding:  EdgeInsets.only(left: 500),
           child: IconButton(
             onPressed: () {
               remove(key);
-            }, icon: const Icon(Icons.delete)
+            }, icon:  Icon(Icons.delete)
           ),
         )
       );
-        column.children.add(const SizedBox(height: 16,));
+        column.children.add( SizedBox(height: 16,));
     }
     setState(() {});
     super.initState();
@@ -69,15 +69,15 @@ class _ReferencesDetailsFormState extends State<ReferencesDetailsForm> {
     column.children.add(TextMonitorWidget(key: key));
     column.children.add(
       Padding(
-        padding: const EdgeInsets.only(left: 500),
+        padding:  EdgeInsets.only(left: 500),
         child: IconButton(
         onPressed: () {
           remove(key);
-        }, icon: const Icon(Icons.delete)
+        }, icon:  Icon(Icons.delete)
       ),
       )
     );
-    column.children.add(const SizedBox(height: 16,));
+    column.children.add( SizedBox(height: 16,));
 
     setState(() {});
   }
@@ -107,10 +107,10 @@ class _ReferencesDetailsFormState extends State<ReferencesDetailsForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const NavDrawer(),
+      drawer:  NavDrawer(),
       appBar: AppBar(
         leading: IconButton(
-          icon: const Icon(
+          icon:  Icon(
             Icons.close,
           ), 
           onPressed: () async { 
@@ -134,7 +134,7 @@ class _ReferencesDetailsFormState extends State<ReferencesDetailsForm> {
                   children: [
                     ...column.children
                   ],
-                ) : const Center(
+                ) :  Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -154,9 +154,9 @@ class _ReferencesDetailsFormState extends State<ReferencesDetailsForm> {
             Align(
               alignment: Alignment.topCenter,
               child: Container ( 
-                padding: const EdgeInsets.all(20.0),
+                padding:  EdgeInsets.all(20.0),
                 child: ElevatedButton(
-                  child: const Text('Add'),
+                  child:  Text('Add'),
                   onPressed: () async {
                     add();
                   },
@@ -170,40 +170,40 @@ class _ReferencesDetailsFormState extends State<ReferencesDetailsForm> {
                   height: 50,
                   width: 150,
                   child: ElevatedButton(
-                    child: const Text('Back'),
+                    child:  Text('Back'),
                     onPressed: ()  {
                       updateUser();
                       Navigator.of(context).pop();
-                      showQuestionaireModal(context, const EmploymentDetailsForm());
+                      showQuestionaireModal(context,  EmploymentDetailsForm());
                     },
                   ),
                 ),
-                const SizedBox(width: 64,),
+                 SizedBox(width: 64,),
                 SizedBox(
                   height: 50,
                   width: 150,
                   child: ElevatedButton(
-                    child: const Text('Save and Proceed'),
+                    child:  Text('Save and Proceed'),
                     onPressed: () async {
                       if(updateUser() == false) {
                         return;
                       }
                       Navigator.of(context).pop();
-                      showQuestionaireModal(context, const SkillsDetailsForm());
+                      showQuestionaireModal(context,  SkillsDetailsForm());
                     },
                   ),
                 ),
 
             ],
           ),
-            const SizedBox(height: 64,),
+             SizedBox(height: 64,),
           ],
         )
       )
     );
   }
 
-  Widget titleSection=const Column (
+  Widget titleSection= Column (
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: <Widget> [
         Padding (
@@ -220,7 +220,7 @@ class _ReferencesDetailsFormState extends State<ReferencesDetailsForm> {
 }
 
 class TextMonitorWidget extends StatefulWidget {
-  Column column = const Column(children: [],);
+  Column column =  Column(children: [],);
   TextEditingController descriptionC = TextEditingController();
   TextEditingController contactC = TextEditingController();
   String? description = "";
@@ -247,19 +247,19 @@ class TextMonitorWidgetState extends State<TextMonitorWidget> {
   }
 
   populate() {
-    widget.column.children.add(const SizedBox(height: 4,));
+    widget.column.children.add( SizedBox(height: 4,));
     widget.column.children.add(_builddescriptionField(widget.descriptionC));
-    widget.column.children.add(const SizedBox(height: 8,));
+    widget.column.children.add( SizedBox(height: 8,));
     widget.column.children.add(_buildcontactField(widget.contactC));
   }
 
   Widget _builddescriptionField(TextEditingController controller) {
     return Container (
-      constraints: BoxConstraints.tight(const Size(550,70)),
+      constraints: BoxConstraints.tight( Size(550,70)),
       child: TextFormField(
-        key: const Key("description input"),
+        key:  Key("description input"),
         controller: controller,
-        decoration: const InputDecoration(
+        decoration:  InputDecoration(
           contentPadding: EdgeInsets.all(5.0),
           labelText: 'Description',
           enabledBorder: OutlineInputBorder(),
@@ -278,11 +278,11 @@ class TextMonitorWidgetState extends State<TextMonitorWidget> {
 
   Widget _buildcontactField(TextEditingController controller) {
     return Container (
-      constraints: BoxConstraints.tight(const Size(550,70)),
+      constraints: BoxConstraints.tight( Size(550,70)),
       child: TextFormField(
-        key: const Key("contact input"),
+        key:  Key("contact input"),
         controller: controller,
-        decoration: const InputDecoration(
+        decoration:  InputDecoration(
           contentPadding: EdgeInsets.all(5.0),
           labelText: 'Contact Information',
           enabledBorder: OutlineInputBorder(),
