@@ -68,6 +68,11 @@ final darkTheme = ThemeData.dark(
     hoverColor: black,
     focusColor: black
   ),
+  appBarTheme: const AppBarTheme(
+    toolbarTextStyle: TextStyle(fontSize: 16, color: white),
+    actionsIconTheme: IconThemeData(color: white, size: 32),
+    iconTheme: IconThemeData(color: white)
+  ),
 
 );
 
