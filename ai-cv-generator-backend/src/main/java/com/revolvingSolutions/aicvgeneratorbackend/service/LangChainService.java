@@ -100,7 +100,7 @@ public class LangChainService {
         return  resp;
     }
 
-    private void chatBotInterat() {
+    private void chatBotInteract() {
     }
 
     private static String interact(DescriptionAgent agent, String userMessage) {

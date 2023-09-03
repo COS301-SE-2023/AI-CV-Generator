@@ -1,4 +1,4 @@
-package com.revolvingSolutions.aicvgeneratorbackend.model.user;
+package com.revolvingSolutions.aicvgeneratorbackend.model.aimodels;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,8 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Skill {
-    public Integer skillid;
+public class AISkill {
     public String skill;
     public Integer level;
     public String reason;
