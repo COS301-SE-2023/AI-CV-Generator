@@ -2,6 +2,7 @@ package com.revolvingSolutions.aicvgeneratorbackend.controller;
 
 import com.revolvingSolutions.aicvgeneratorbackend.exception.FileNotFoundException;
 import com.revolvingSolutions.aicvgeneratorbackend.exception.NotIndatabaseException;
+import com.revolvingSolutions.aicvgeneratorbackend.model.email.Email;
 import com.revolvingSolutions.aicvgeneratorbackend.request.details.employment.AddEmploymentRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.details.employment.RemoveEmploymentRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.details.employment.UpdateEmploymentRequest;
@@ -39,6 +40,7 @@ import com.revolvingSolutions.aicvgeneratorbackend.response.file.GetFilesRespons
 import com.revolvingSolutions.aicvgeneratorbackend.response.user.GenerateUrlResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.user.GetUserResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.user.UpdateUserResponse;
+import com.revolvingSolutions.aicvgeneratorbackend.service.EmailService;
 import com.revolvingSolutions.aicvgeneratorbackend.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
@@ -54,6 +56,7 @@ import java.util.Date;
 @RequiredArgsConstructor
 public class UserController {
     private final UserService service;
+    private final EmailService emailService;
 
     @GetMapping(value="/user")
     public ResponseEntity<GetUserResponse> getUser() {
@@ -257,10 +260,16 @@ public class UserController {
     }
 
     @PostMapping(value = "/test")
-    public ResponseEntity<Resource> test(
-            @RequestBody DownloadFileRequest request
+    public ResponseEntity<String> test(
+            @RequestBody String message
     ) {
-        return service.getFileCover(request);
+        return ResponseEntity.ok(emailService.sendMail(
+                Email.builder()
+                        .messageBody(message)
+                        .recipient("nathanopperman123@gmail.com")
+                        .subject("None")
+                        .build()
+        ));
     }
 
 }

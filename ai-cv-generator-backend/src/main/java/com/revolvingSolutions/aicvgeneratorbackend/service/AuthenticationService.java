@@ -10,12 +10,17 @@ import com.revolvingSolutions.aicvgeneratorbackend.request.auth.AuthRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.auth.RefreshRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.auth.RegRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.response.auth.AuthResponse;
+import com.revolvingSolutions.aicvgeneratorbackend.response.auth.RegisterResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
@@ -25,26 +30,29 @@ public class AuthenticationService {
      private final  AuthService authService;
      private final RefreshTokenService refreshTokenService;
      private final AuthenticationManager authenticationManager;
-    public AuthResponse register(RegRequest request, HttpServletRequest actualRequest) {
+    public RegisterResponse register(RegRequest request, HttpServletRequest actualRequest) {
         if (repository.findByUsername(request.getUsername()).isPresent()) {
-            throw new UserAlreadyExistsException("Username already exists");
+            return RegisterResponse.builder()
+                    .success(false)
+                    .build();
         }
+
+        byte[] array = new byte[7]; // length is bounded by 7
+        new Random().nextBytes(array);
+        String generatedString = new String(array, StandardCharsets.UTF_8);
         var _user = UserEntity.builder()
                 .fname(request.getFname())
                 .lname(request.getLname())
                 .username(request.getUsername())
                 .password(passwordEncoder.encode(request.getPassword()))
+                .email(request.getEmail())
+                .verificationCode(generatedString)
                 .role(Role.USER)
+                .enabled(false)
                 .build();
         repository.save(_user);
-        var token = authService.genToken(_user,getClientIp(actualRequest));
-        var refreshToken = "";
-        if (_user.userid!= null) {
-            refreshToken = refreshTokenService.createRefreshToken(_user.userid).getToken();
-        }
-        return AuthResponse.builder()
-                .token(token)
-                .refreshToken(refreshToken)
+        return RegisterResponse.builder()
+                .success(true)
                 .build();
     }
 

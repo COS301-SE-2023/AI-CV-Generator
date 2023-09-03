@@ -4,6 +4,7 @@ import com.revolvingSolutions.aicvgeneratorbackend.request.auth.AuthRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.auth.RefreshRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.auth.RegRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.response.auth.AuthResponse;
+import com.revolvingSolutions.aicvgeneratorbackend.response.auth.RegisterResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.service.AuthenticationService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +22,7 @@ public class AuthController {
     private final AuthenticationService service;
 
     @PostMapping("/reg")
-    public ResponseEntity<AuthResponse> register(
+    public ResponseEntity<RegisterResponse> register(
             @RequestBody RegRequest request,
             HttpServletRequest actualRequest
     ) {
