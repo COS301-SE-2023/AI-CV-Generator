@@ -1,6 +1,7 @@
 import 'package:ai_cv_generator/dio/client/shareClient.dart';
 import 'package:ai_cv_generator/pages/screens/Register.dart';
 import 'package:ai_cv_generator/pages/screens/about.dart';
+import 'package:ai_cv_generator/pages/screens/help.dart';
 import 'package:ai_cv_generator/pages/screens/home.dart';
 import 'package:ai_cv_generator/pages/screens/login.dart';
 import 'package:ai_cv_generator/pages/widgets/pdf_window.dart';
@@ -40,6 +41,7 @@ class MyApp extends StatelessWidget {
         '/home':(context) => const Home(),
         '/profile':(context) => const Profile(),
         '/about':(context) => const AboutPage(),
+        '/help':(context) => const Help()
       },
       onGenerateRoute: (settings) {
         if (settings.name == '/profile') {

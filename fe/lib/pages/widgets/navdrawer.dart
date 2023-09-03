@@ -11,11 +11,7 @@ class NavDrawer extends StatelessWidget {
         children: <Widget>[
           DrawerHeader(
             decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.primary,
-                /*image: DecorationImage(
-                    fit: BoxFit.fill,
-                    image: AssetImage('assets/images/cover.jpg'))*/
-                    ),
+                color: Theme.of(context).colorScheme.primary),
             child: const Text(
               'Menu',
               style: TextStyle(color: Colors.white, fontSize: 25),
@@ -36,11 +32,11 @@ class NavDrawer extends StatelessWidget {
             title: const Text('About'),
             onTap: () => {Navigator.pushNamed(context, '/about')},
           ),
-          // ListTile(
-          //   leading: const Icon(Icons.settings),
-          //   title: const Text('Settings'),
-          //   onTap: () => {Navigator.of(context).pop()},
-          // ),
+          ListTile(
+            leading: const Icon(Icons.help),
+            title: const Text('Help'),
+            onTap: () => {Navigator.pushNamed(context, '/help')},
+          ),
           ListTile(
             leading: const Icon(Icons.exit_to_app),
             title: const Text('Logout'),

@@ -101,11 +101,12 @@ class ProfileState extends State<Profile> {
     descripC.addListener(update);
 
     void updateImage(Image img) {
-    setState ((){ 
-          image = Image(image:img.image );
-        
-      });
-}
+        setState ((){ image = Image(image:img.image );});
+    }
+
+    void back() {
+      Navigator.pop(context);
+    }
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -116,14 +117,9 @@ class ProfileState extends State<Profile> {
           ), 
           onPressed: () async { 
             await actualupdate();
-            Navigator.pop(context);
+            back();
           },
-        ),
-      actions: [
-        IconButton(onPressed: () {}, 
-        icon: const Icon(Icons.account_circle, size: profileButtonSize,), ),
-        const SizedBox(width: 16,)
-      ],
+        )
       ),
       body: SafeArea(
         child: Container(
