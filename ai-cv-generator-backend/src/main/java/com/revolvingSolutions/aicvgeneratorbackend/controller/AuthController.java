@@ -3,8 +3,10 @@ package com.revolvingSolutions.aicvgeneratorbackend.controller;
 import com.revolvingSolutions.aicvgeneratorbackend.request.auth.AuthRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.auth.RefreshRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.auth.RegRequest;
+import com.revolvingSolutions.aicvgeneratorbackend.request.auth.VerificationRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.response.auth.AuthResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.auth.RegisterResponse;
+import com.revolvingSolutions.aicvgeneratorbackend.response.auth.VerificationResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.service.AuthenticationService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +29,13 @@ public class AuthController {
             HttpServletRequest actualRequest
     ) {
         return ResponseEntity.ok(service.register(request,actualRequest));
+    }
+
+    @PostMapping("/verify")
+    public ResponseEntity<VerificationResponse> verify(
+            @RequestBody VerificationRequest request
+            ) {
+        return  ResponseEntity.ok(service.verify(request));
     }
 
     @PostMapping("/authenticate")
