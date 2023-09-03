@@ -11,14 +11,19 @@ import com.revolvingSolutions.aicvgeneratorbackend.request.auth.AuthRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.auth.RefreshRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.auth.RegRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.response.auth.AuthResponse;
+import com.revolvingSolutions.aicvgeneratorbackend.response.auth.Code;
 import com.revolvingSolutions.aicvgeneratorbackend.response.auth.RegisterResponse;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Random;
@@ -35,34 +40,43 @@ public class AuthenticationService {
     public RegisterResponse register(RegRequest request, HttpServletRequest actualRequest) {
         if (repository.findByUsername(request.getUsername()).isPresent()) {
             return RegisterResponse.builder()
-                    .success(false)
+                    .code(Code.failed)
                     .build();
         }
-
-        byte[] array = new byte[7]; // length is bounded by 7
-        new Random().nextBytes(array);
-        String generatedString = new String(array, StandardCharsets.UTF_8);
-        var _user = UserEntity.builder()
-                .fname(request.getFname())
-                .lname(request.getLname())
-                .username(request.getUsername())
-                .password(passwordEncoder.encode(request.getPassword()))
-                .email(request.getEmail())
-                .verificationCode(generatedString)
-                .role(Role.USER)
-                .enabled(false)
-                .build();
-        repository.save(_user);
-        emailService.sendMail(
-                Email.builder()
-                        .recipient(request.getEmail())
-                        .subject("Verification Code")
-                        .messageBody(generatedString)
-                        .build()
-        );
+        try {
+            byte[] array = new byte[7]; // length is bounded by 7
+            new Random().nextBytes(array);
+            String generatedString = new String(array, StandardCharsets.UTF_8);
+            var _user = UserEntity.builder()
+                    .fname(request.getFname())
+                    .lname(request.getLname())
+                    .username(request.getUsername())
+                    .password(passwordEncoder.encode(request.getPassword()))
+                    .email(request.getEmail())
+                    .verificationCode(generatedString)
+                    .role(Role.USER)
+                    .enabled(false)
+                    .build();
+            repository.save(_user);
+            emailService.sendVerificationEmail(
+                    request.getEmail(),
+                    (request.getFname() + " " + request.getLname()),
+                    getSiteURL(actualRequest),
+                    generatedString
+            );
+        } catch (MessagingException | UnsupportedEncodingException e) {
+            return RegisterResponse.builder()
+                    .code(Code.emailFailed)
+                    .build();
+        }
         return RegisterResponse.builder()
-                .success(true)
+                .code(Code.success)
                 .build();
+    }
+
+    private String getSiteURL(HttpServletRequest request) {
+        String siteURL = request.getRequestURL().toString();
+        return siteURL.replace(request.getServletPath(), "");
     }
 
     public AuthResponse authenticate(AuthRequest request, HttpServletRequest actualRequest) {
