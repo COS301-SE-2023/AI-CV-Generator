@@ -1,24 +1,24 @@
 // ignore_for_file: must_be_immutable
 import 'package:ai_cv_generator/models/user/Reference.dart';
-import 'package:ai_cv_generator/pages/widgets/employment.dart';
+import 'package:ai_cv_generator/pages/widgets/description.dart';
 import 'package:ai_cv_generator/pages/widgets/navdrawer.dart';
 import 'package:ai_cv_generator/pages/widgets/questionaireModal.dart';
 import 'package:ai_cv_generator/pages/util/strings.dart';
-import 'package:ai_cv_generator/pages/widgets/skillsForm.dart';
+import 'package:ai_cv_generator/pages/widgets/referencesForm.dart';
 import 'package:flutter/material.dart';
 
 import '../screens/home.dart';
 
-class ReferencesDetailsForm extends StatefulWidget {
-  const ReferencesDetailsForm({super.key});
+class SkillsDetailsForm extends StatefulWidget {
+  const SkillsDetailsForm({super.key});
 
   @override
   State<StatefulWidget> createState() {
-    return _ReferencesDetailsFormState();
+    return _SkillsDetailsFormState();
   }
 }
 
-class _ReferencesDetailsFormState extends State<ReferencesDetailsForm> {
+class _SkillsDetailsFormState extends State<SkillsDetailsForm> {
   final _formKey = GlobalKey<FormState>();
   Column column = const Column(children: [],);
 
@@ -141,7 +141,7 @@ class _ReferencesDetailsFormState extends State<ReferencesDetailsForm> {
                       Icon(Icons.people,color: Colors.grey,size: 100,),
                       SizedBox(height: 20),
                       Text(
-                        "No References...", 
+                        "No Skills...", 
                         style: TextStyle(
                           color: Colors.grey
                         )
@@ -174,7 +174,7 @@ class _ReferencesDetailsFormState extends State<ReferencesDetailsForm> {
                     onPressed: ()  {
                       updateUser();
                       Navigator.of(context).pop();
-                      showQuestionaireModal(context, const EmploymentDetailsForm());
+                      showQuestionaireModal(context, const ReferencesDetailsForm());
                     },
                   ),
                 ),
@@ -189,7 +189,7 @@ class _ReferencesDetailsFormState extends State<ReferencesDetailsForm> {
                         return;
                       }
                       Navigator.of(context).pop();
-                      showQuestionaireModal(context, const SkillsDetailsForm());
+                      showQuestionaireModal(context, const DescriptionForm());
                     },
                   ),
                 ),
@@ -209,7 +209,7 @@ class _ReferencesDetailsFormState extends State<ReferencesDetailsForm> {
         Padding (
           padding: EdgeInsets.all(8.0),
             child: Text (
-              StringsReferences.appsubHeadingTitle,
+              StringsSkill.appsubHeadingTitle,
               style: TextStyle (
                 fontSize: 20.0,
               ),
