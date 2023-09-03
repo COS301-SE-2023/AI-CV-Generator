@@ -4,6 +4,6 @@ import com.revolvingSolutions.aicvgeneratorbackend.entitiy.RegistrationTokenEnti
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface RegistrationTokenRepository extends JpaRepository<RegistrationTokenEntity,Long> {
-    public RegistrationTokenEntity findByRegistrationToken(final String token);
+    public RegistrationTokenEntity findByRegistrationToken(String token);
     Long removeByRegistrationToken(String token);
 }
