@@ -86,6 +86,19 @@ final darkTheme = ThemeData.dark(
     ),
     ),
   ),
+  colorScheme: ColorScheme(
+    brightness: Brightness.light,
+    primary: primaryColour,
+    onPrimary: onPrimaryColour,
+    secondary: secondaryColour,
+    onSecondary: onSecondaryColour,
+    error: errorColour,
+    onError: onErrorColour,
+    background: backgroundColour,
+    onBackground: onBackgroundColour,
+    surface: surfaceColour,
+    onSurface: onSurfaceColour
+  ),
 
 );
 
