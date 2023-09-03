@@ -64,9 +64,6 @@ public class UserEntity implements UserDetails {
     @Enumerated(EnumType.STRING)
     public Role role;
 
-    @Column(name = "verification_code", length = 64)
-    private String verificationCode;
-
     private boolean enabled;
 
     public String location;

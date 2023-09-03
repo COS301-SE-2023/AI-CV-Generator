@@ -1,6 +1,7 @@
 package com.revolvingSolutions.aicvgeneratorbackend.service;
 
 import com.revolvingSolutions.aicvgeneratorbackend.entitiy.RegistrationTokenEntity;
+import com.revolvingSolutions.aicvgeneratorbackend.entitiy.UserEntity;
 import com.revolvingSolutions.aicvgeneratorbackend.repository.RegistrationTokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.keygen.BytesKeyGenerator;
@@ -17,11 +18,12 @@ public class RegistrationTokenService {
     @Autowired
     private RegistrationTokenRepository registrationTokenRepository;
 
-    public RegistrationTokenEntity generateToken() {
+    public RegistrationTokenEntity generateToken(UserEntity user) {
         String value = Base64.getUrlEncoder().encodeToString(TOKEN_GENERATOR.generateKey());
         RegistrationTokenEntity token = RegistrationTokenEntity.builder()
                 .registrationToken(value)
                 .expireAt(LocalDateTime.now().plusSeconds(2000))
+                .user(user)
                 .build();
         registrationTokenRepository.save(token);
         return token;

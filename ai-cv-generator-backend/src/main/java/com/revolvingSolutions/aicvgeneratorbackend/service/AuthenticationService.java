@@ -1,6 +1,7 @@
 package com.revolvingSolutions.aicvgeneratorbackend.service;
 
 import com.revolvingSolutions.aicvgeneratorbackend.entitiy.RefreshToken;
+import com.revolvingSolutions.aicvgeneratorbackend.entitiy.RegistrationTokenEntity;
 import com.revolvingSolutions.aicvgeneratorbackend.entitiy.Role;
 import com.revolvingSolutions.aicvgeneratorbackend.entitiy.UserEntity;
 import com.revolvingSolutions.aicvgeneratorbackend.exception.RefreshException;
@@ -10,9 +11,11 @@ import com.revolvingSolutions.aicvgeneratorbackend.repository.UserRepository;
 import com.revolvingSolutions.aicvgeneratorbackend.request.auth.AuthRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.auth.RefreshRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.auth.RegRequest;
+import com.revolvingSolutions.aicvgeneratorbackend.request.auth.VerificationRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.response.auth.AuthResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.auth.Code;
 import com.revolvingSolutions.aicvgeneratorbackend.response.auth.RegisterResponse;
+import com.revolvingSolutions.aicvgeneratorbackend.response.auth.VerificationResponse;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,6 +29,7 @@ import org.springframework.stereotype.Service;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
 import java.util.Random;
 
 @Service
@@ -37,6 +41,7 @@ public class AuthenticationService {
      private final RefreshTokenService refreshTokenService;
      private final AuthenticationManager authenticationManager;
      private final EmailService emailService;
+     private final RegistrationTokenService registrationTokenService;
     public RegisterResponse register(RegRequest request, HttpServletRequest actualRequest) {
         if (repository.findByUsername(request.getUsername()).isPresent()) {
             return RegisterResponse.builder()
@@ -44,23 +49,23 @@ public class AuthenticationService {
                     .build();
         }
         try {
-            String verificationCode = generateVerificationCode();
             var _user = UserEntity.builder()
                     .fname(request.getFname())
                     .lname(request.getLname())
                     .username(request.getUsername())
                     .password(passwordEncoder.encode(request.getPassword()))
                     .email(request.getEmail())
-                    .verificationCode(verificationCode)
                     .role(Role.USER)
                     .enabled(false)
                     .build();
             repository.save(_user);
+            RegistrationTokenEntity token = registrationTokenService.generateToken(_user);
+
             emailService.sendVerificationEmail(
                     request.getEmail(),
                     (request.getFname() + " " + request.getLname()),
                     getSiteURL(actualRequest),
-                    verificationCode
+                    token.getRegistrationToken()
             );
         } catch (MessagingException | UnsupportedEncodingException e) {
             return RegisterResponse.builder()
@@ -72,24 +77,31 @@ public class AuthenticationService {
                 .build();
     }
 
+    public VerificationResponse verify(VerificationRequest request) {
+        RegistrationTokenEntity registrationToken = registrationTokenService.findToken(request.getRegistrationToken());
+        if (registrationToken == null ) {
+            return VerificationResponse.builder()
+                    .code(Code.failed)
+                    .build();
+        } else if (LocalDateTime.now().isBefore(registrationToken.getExpireAt())) {
+            return  VerificationResponse.builder()
+                    .code(Code.expired)
+                    .build();
+        } else {
+            UserEntity user = repository.getReferenceById(registrationToken.getUser().getUserid());
+            user.setEnabled(true);
+            repository.save(user);
+            registrationTokenService.removeToken(registrationToken);
+            return  VerificationResponse.builder()
+                    .code(Code.success)
+                    .build();
+        }
+    }
+
     private String getSiteURL(HttpServletRequest request) {
         String siteURL = request.getRequestURL().toString();
-        return siteURL;
+        return siteURL.replace(request.getServletPath(), "");
     }
-
-    private String generateVerificationCode() {
-        int leftLimit = 48;
-        int rightLimit = 122;
-        int targetStringLength = 7;
-        Random random = new Random();
-
-        return random.ints(leftLimit, rightLimit + 1)
-                .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
-                .limit(targetStringLength)
-                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
-                .toString();
-    }
-
     public AuthResponse authenticate(AuthRequest request, HttpServletRequest actualRequest) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
