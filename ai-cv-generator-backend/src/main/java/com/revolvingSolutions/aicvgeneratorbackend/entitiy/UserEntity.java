@@ -60,6 +60,11 @@ public class UserEntity implements UserDetails {
     @Enumerated(EnumType.STRING)
     public Role role;
 
+    @Column(name = "verification_code", length = 64)
+    private String verificationCode;
+
+    private boolean enabled;
+
     public String location;
     public String phoneNumber;
     public String email;
@@ -101,6 +106,6 @@ public class UserEntity implements UserDetails {
     //Not doing override for non expired
     @Override
     public boolean isEnabled() {
-        return true;
+        return enabled;
     }
 }
