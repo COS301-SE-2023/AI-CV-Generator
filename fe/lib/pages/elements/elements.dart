@@ -61,49 +61,50 @@ ThemeData mainTheme = ThemeData(
 );
 
 final darkTheme = ThemeData.dark(
-  inputDecorationTheme: InputDecorationTheme(
-    hintStyle: TextStyle(color: Colors.grey.withOpacity(0.7))
-  ),
-  buttonTheme: const ButtonThemeData(
-    hoverColor: black,
-    focusColor: black
-  ),
-  appBarTheme: const AppBarTheme(
-    toolbarTextStyle: TextStyle(fontSize: 16, color: white),
-    actionsIconTheme: IconThemeData(color: white, size: 32),
-    iconTheme: IconThemeData(color: white)
-  ),
-  elevatedButtonTheme: ElevatedButtonThemeData(
-    style: ButtonStyle(
-      backgroundColor: MaterialStateProperty.all(secondaryColour),
-    overlayColor: MaterialStateProperty.resolveWith<Color?>(
-      (Set<MaterialState> states) {
-        if (states.contains(MaterialState.pressed)) {
-          return accentColour;
-        }
-        return null;
-      },
-    ),
-    ),
-  ),
-  colorScheme: ColorScheme(
-    brightness: Brightness.dark,
-    primary: primaryColour,
-    onPrimary: onPrimaryColour,
-    secondary: secondaryColour,
-    onSecondary: onSecondaryColour,
-    error: errorColour,
-    onError: onErrorColour,
-    background: backgroundColour,
-    onBackground: onBackgroundColour,
-    surface: surfaceColour,
-    onSurface: onSurfaceColour
-  ),
-  pageTransitionsTheme: const PageTransitionsTheme(
-    builders: {
-      TargetPlatform.windows: FadeUpwardsPageTransitionsBuilder()
-    },
-  ),
+  // inputDecorationTheme: InputDecorationTheme(
+  //   hintStyle: TextStyle(color: Colors.grey.withOpacity(0.7))
+  // ),
+  // buttonTheme: const ButtonThemeData(
+  //   hoverColor: black,
+  //   focusColor: black
+  // ),
+  // appBarTheme: const AppBarTheme(
+  //   toolbarTextStyle: TextStyle(fontSize: 16, color: white),
+  //   actionsIconTheme: IconThemeData(color: white, size: 32),
+  //   iconTheme: IconThemeData(color: white)
+  // ),
+  // elevatedButtonTheme: ElevatedButtonThemeData(
+  //   style: ButtonStyle(
+  //     backgroundColor: MaterialStateProperty.all(secondaryColour),
+  //   overlayColor: MaterialStateProperty.resolveWith<Color?>(
+  //     (Set<MaterialState> states) {
+  //       if (states.contains(MaterialState.pressed)) {
+  //         return accentColour;
+  //       }
+  //       return null;
+  //     },
+  //   ),
+  //   ),
+  // ),
+  // colorScheme: ColorScheme(
+  //   brightness: Brightness.dark,
+  //   primary: primaryColour,
+  //   onPrimary: onPrimaryColour,
+  //   secondary: secondaryColour,
+  //   onSecondary: onSecondaryColour,
+  //   error: errorColour,
+  //   onError: onErrorColour,
+  //   background: backgroundColour,
+  //   onBackground: onBackgroundColour,
+  //   surface: surfaceColour,
+  //   onSurface: onSurfaceColour
+  // ),
+  // pageTransitionsTheme: const PageTransitionsTheme(
+  //   builders: {
+  //     TargetPlatform.windows: FadeUpwardsPageTransitionsBuilder()
+  //   },
+  // ),
+  primaryColour: Color.fromARGB(255, 250, 74, 91);
 
 );
 
