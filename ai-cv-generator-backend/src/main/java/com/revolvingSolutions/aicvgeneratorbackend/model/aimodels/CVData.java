@@ -25,4 +25,6 @@ public class CVData {
     private List<AIQualification> qualifications;
     private String education_description;
     private List<AILink> links;
+    private List<AIReference> references;
+    private List<AISkill> skills;
 }
