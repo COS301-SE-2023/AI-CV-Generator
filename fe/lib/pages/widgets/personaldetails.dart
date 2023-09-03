@@ -1,5 +1,5 @@
 // ignore_for_file: must_be_immutable
-import 'package:ai_cv_generator/pages/widgets/loadingScreen.dart';
+import 'package:ai_cv_generator/pages/widgets/loadingscreens/loadingScreen.dart';
 import 'package:ai_cv_generator/pages/widgets/navdrawer.dart';
 import 'package:ai_cv_generator/pages/widgets/qualifications.dart';
 import 'package:ai_cv_generator/pages/util/strings.dart';
@@ -238,7 +238,6 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
           enabledBorder: OutlineInputBorder(),
           icon: Icon(Icons.home),
         ),
-        // ignore: body_might_complete_normally_nullable
         validator: (value) {
           if (value == null || value.isEmpty) {
             return 'This field is required';

@@ -1,7 +1,9 @@
-import 'package:ai_cv_generator/pages/widgets/AILoadingScreen.dart';
+import 'package:ai_cv_generator/dio/client/fileApi.dart';
+import 'package:ai_cv_generator/pages/widgets/loadingscreens/JumpingDotsLoadingScreen.dart';
 import 'package:ai_cv_generator/pages/widgets/navdrawer.dart';
 import 'package:flutter/material.dart';
 import 'package:ai_cv_generator/pages/util/chatBot.dart';
+import 'package:jumping_dot/jumping_dot.dart';
 
 class ChatBotView extends StatefulWidget {
   bool visible;
@@ -15,11 +17,15 @@ class ChatBotViewState extends State<ChatBotView> {
   TextEditingController controller = TextEditingController();
   Chatbot chatBot = Chatbot();
   void addMesssage(String text, bool isSender) async {
-    messages.add(Message(text: text, isSender: isSender));
+    messages.add(Message(message: Text(text), isSender: isSender));
     setState(() {});
     if (isSender) {
+      messages.add(Message(
+        message: const JumpingDotsLoadingScreen(),
+        isSender: !isSender
+      ));
       String message = await chatBot.message(userMsg: text);
-      addMesssage(message.trim(), false);
+      messages.last = Message(message: Text(message), isSender: !isSender);
     }
     setState(() {});
   }
@@ -41,7 +47,7 @@ class ChatBotViewState extends State<ChatBotView> {
         alignment: Alignment.bottomRight,
         child: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(20)),
+          borderRadius: const BorderRadius.all(Radius.circular(20)),
           border: Border.all(
             color: Colors.grey.shade300
           ),
@@ -112,9 +118,9 @@ class ChatBotViewState extends State<ChatBotView> {
 }
 
 class Message extends StatelessWidget {
-  String text;
+  Widget message;
   bool isSender;
-  Message({super.key, required this.text, required this.isSender});
+  Message({super.key, required this.message, required this.isSender});
 
   BorderRadiusGeometry messageBorderRadiusGeometry() {
     if(isSender == true) {
@@ -162,7 +168,7 @@ class Message extends StatelessWidget {
             color: messageColour(context),
             borderRadius: messageBorderRadiusGeometry(),
           ),
-          child: Text(text),
+          child: message,
         ),
         const SizedBox(height: 8,)
       ],

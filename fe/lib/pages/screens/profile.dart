@@ -8,7 +8,7 @@ import 'package:ai_cv_generator/pages/widgets/cvHistory.dart';
 import 'package:ai_cv_generator/pages/elements/elements.dart';
 import 'package:ai_cv_generator/pages/widgets/employmentView.dart';
 import 'package:ai_cv_generator/pages/util/imageCropper.dart';
-import 'package:ai_cv_generator/pages/widgets/loadingScreen.dart';
+import 'package:ai_cv_generator/pages/widgets/loadingscreens/loadingScreen.dart';
 import 'package:ai_cv_generator/pages/widgets/referenceView.dart';
 import 'package:ai_cv_generator/pages/widgets/skillsView.dart';
 import 'package:flutter/material.dart';
