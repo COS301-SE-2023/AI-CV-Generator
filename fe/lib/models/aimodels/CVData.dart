@@ -1,6 +1,8 @@
 import 'package:ai_cv_generator/models/aimodels/AIEmployment.dart';
 import 'package:ai_cv_generator/models/aimodels/AILink.dart';
 import 'package:ai_cv_generator/models/aimodels/AIQualification.dart';
+import 'package:ai_cv_generator/models/aimodels/AIReference.dart';
+import 'package:ai_cv_generator/models/aimodels/AISkill.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'CVData.g.dart';
@@ -18,6 +20,8 @@ class CVData {
   List<AIQualification>? qualifications;
   String? education_description;
   List<AILink>? links;
+  List<AIReference>? references;
+  List<AISkill>? skills;
 
   CVData({
     required this.firstname,
@@ -30,7 +34,9 @@ class CVData {
     this.experience,
     this.qualifications,
     this.education_description,
-    this.links
+    this.links,
+    this.references,
+    this.skills
   });
 
   factory CVData.fromJson(Map<String,dynamic> json) => _$CVDataFromJson(json);

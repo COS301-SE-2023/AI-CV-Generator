@@ -22,6 +22,12 @@ AIInput _$AIInputFromJson(Map<String, dynamic> json) => AIInput(
       links: (json['links'] as List<dynamic>)
           .map((e) => AILink.fromJson(e as Map<String, dynamic>))
           .toList(),
+      references: (json['references'] as List<dynamic>)
+          .map((e) => AIReference.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      skills: (json['skills'] as List<dynamic>)
+          .map((e) => AISkill.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$AIInputToJson(AIInput instance) => <String, dynamic>{
@@ -34,4 +40,6 @@ Map<String, dynamic> _$AIInputToJson(AIInput instance) => <String, dynamic>{
       'experience': instance.experience,
       'qualifications': instance.qualifications,
       'links': instance.links,
+      'references': instance.references,
+      'skills': instance.skills,
     };

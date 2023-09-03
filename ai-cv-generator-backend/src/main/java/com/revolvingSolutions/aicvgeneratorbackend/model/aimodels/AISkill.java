@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AISkill {
     public String skill;
-    public Integer level;
+    public String level;
     public String reason;
 }
