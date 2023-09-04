@@ -90,7 +90,7 @@ class ChatBotViewState extends State<ChatBotView> {
                     child: Container(
                       decoration: BoxDecoration(
                         color: Colors.white,
-                        border: Border.all(),
+                        border: Border.all(color: Theme.of(context).colorScheme.primary),
                         borderRadius: BorderRadius.only(bottomLeft: Radius.circular(19), bottomRight: Radius.circular(19)),
                       ),
                       child: Row(
@@ -101,8 +101,10 @@ class ChatBotViewState extends State<ChatBotView> {
                             child: TextField(
                               controller: controller,
                               onSubmitted: (value) {
-                                addMesssage(value, true);
-                                controller.text = "";
+                                if(value != "") {
+                                  addMesssage(value, true);
+                                  controller.text = "";
+                                }
                               },
                               decoration: const InputDecoration(
                                 fillColor: Colors.white,
@@ -115,8 +117,10 @@ class ChatBotViewState extends State<ChatBotView> {
                         IconButton(
                           color: Theme.of(context).colorScheme.primary,
                             onPressed: () {
-                              addMesssage(controller.text, true);
+                              if(controller.text != "") {
+                                addMesssage(controller.text, true);
                                 controller.text = "";
+                              }
                             },
                             icon: Icon(Icons.send_rounded)
                           ),
