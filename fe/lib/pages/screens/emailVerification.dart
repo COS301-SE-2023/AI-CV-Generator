@@ -1,3 +1,5 @@
+import 'package:ai_cv_generator/dio/client/AuthApi.dart';
+import 'package:ai_cv_generator/dio/response/AuthResponses/Code.dart';
 import 'package:flutter/material.dart';
 
 class EmailVerification extends StatefulWidget {
@@ -18,8 +20,15 @@ class EmailVerificationState extends State<EmailVerification> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           TextButton(
-            onPressed: () {
-              
+            onPressed: () async {
+              Code code = await AuthApi.verify(code: widget.code!);
+              if (code == Code.success) {
+
+              } else if (code == Code.expired) {
+
+              } else {
+
+              }
             }, 
             child: Text("Verify email Account")
           )
