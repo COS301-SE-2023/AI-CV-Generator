@@ -1,4 +1,3 @@
-
 import 'package:ai_cv_generator/dio/client/dioClient.dart';
 import 'package:ai_cv_generator/dio/request/AuthRequests/LoginRequest.dart';
 import 'package:ai_cv_generator/dio/request/AuthRequests/RegisterRequest.dart';
@@ -12,6 +11,9 @@ import 'package:ai_cv_generator/dio/request/DetailsRequests/Qualification/AddQua
 import 'package:ai_cv_generator/dio/request/DetailsRequests/Reference/ReferenceRequest.dart';
 import 'package:ai_cv_generator/dio/request/DetailsRequests/Skill/SkillRequest.dart';
 import 'package:ai_cv_generator/dio/request/UserRequests/UpdateUserRequest.dart';
+import 'package:ai_cv_generator/dio/request/DetailsRequests/Qualification/RemoveQualificationRequest.dart';
+import 'package:ai_cv_generator/dio/request/DetailsRequests/Qualification/UpdateQualificationRequest.dart';
+import 'package:ai_cv_generator/dio/response/DetailsResponses/QualificationsResponse.dart';
 import 'package:ai_cv_generator/dio/response/AuthResponses/AuthResponse.dart';
 import 'package:ai_cv_generator/dio/response/DetailsResponses/EmploymentResponse.dart';
 import 'package:ai_cv_generator/dio/response/DetailsResponses/LinkResponse.dart';

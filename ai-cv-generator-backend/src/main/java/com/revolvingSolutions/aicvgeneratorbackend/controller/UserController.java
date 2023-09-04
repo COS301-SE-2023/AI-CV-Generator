@@ -94,7 +94,6 @@ public class UserController {
             @RequestParam("base") String base
             ) {
         GenerateUrlResponse response = service.generateUrlFromFile(base,file,duration);
-        System.out.println("Iam here"+response.getGeneratedUrl());
         return ResponseEntity.ok(response);
     }
 

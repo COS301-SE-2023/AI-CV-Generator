@@ -53,6 +53,8 @@ public class LangChainService {
                                     .qualifications(request.getData().getQualifications())
                                     .education_description(StaticValues.education_description)
                                     .links(request.getData().getLinks())
+                                    .references(request.getData().getReferences())
+                                    .skills(request.getData().getSkills())
                                     .build()
                     )
                     .build();
@@ -100,7 +102,7 @@ public class LangChainService {
         return  resp;
     }
 
-    private void chatBotInterat() {
+    private void chatBotInteract() {
     }
 
     private static String interact(DescriptionAgent agent, String userMessage) {

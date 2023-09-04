@@ -8,10 +8,14 @@ import 'package:ai_cv_generator/models/aimodels/AIEmployment.dart';
 import 'package:ai_cv_generator/models/aimodels/AIInput.dart';
 import 'package:ai_cv_generator/models/aimodels/AILink.dart';
 import 'package:ai_cv_generator/models/aimodels/AIQualification.dart';
+import 'package:ai_cv_generator/models/aimodels/AIReference.dart';
+import 'package:ai_cv_generator/models/aimodels/AISkill.dart';
 import 'package:ai_cv_generator/models/aimodels/CVData.dart';
 import 'package:ai_cv_generator/models/user/Employment.dart';
 import 'package:ai_cv_generator/models/user/Link.dart';
 import 'package:ai_cv_generator/models/user/Qualification.dart';
+import 'package:ai_cv_generator/models/user/Reference.dart';
+import 'package:ai_cv_generator/models/user/Skill.dart';
 import 'package:ai_cv_generator/pages/template/TemplateA.dart';
 import 'package:ai_cv_generator/pages/template/TemplateB.dart';
 import 'package:ai_cv_generator/pages/template/TemplateC.dart';
@@ -197,6 +201,25 @@ class _HomeState extends State<Home> {
         )
       );
     }
+    List<AIReference> references = [];
+    for (Reference ref in model.references??[]) {
+      references.add(
+        AIReference(
+          description: ref.description,
+          contact: ref.contact
+        )
+      );
+    }
+    List<AISkill> skills = [];
+    for (Skill skill in model.skills??[]) {
+      skills.add(
+        AISkill(
+          skill: skill.skill,
+          level: skill.level.toString(),
+          reason: skill.reason
+        )
+      );
+    }
     return AIInput(
       firstname: model.fname, 
       lastname: model.lname, 
@@ -206,7 +229,9 @@ class _HomeState extends State<Home> {
       description: model.description, 
       experience: exp, 
       qualifications: qual, 
-      links: links
+      links: links,
+      references: references,
+      skills: skills
     );
   }
 

@@ -135,7 +135,7 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
                   children: [
                     ...column.children
                   ],
-                ) :  Center(
+                ) : const Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

@@ -158,7 +158,7 @@ class _EmploymentDetailsFormState extends State<EmploymentDetailsForm> {
                   children: [
                     ...column.children
                   ],
-                ) :  Center(
+                ) : const Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
