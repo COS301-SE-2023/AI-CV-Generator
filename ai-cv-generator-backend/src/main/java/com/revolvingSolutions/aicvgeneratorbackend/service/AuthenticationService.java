@@ -87,7 +87,7 @@ public class AuthenticationService {
             emailService.sendVerificationEmail(
                     request.getEmail(),
                     (request.getFname() + " " + request.getLname()),
-                    getSiteURL(actualRequest),
+                    request.getSiteUrl(),
                     token.getRegistrationToken()
             );
         } catch (MessagingException | UnsupportedEncodingException e) {
