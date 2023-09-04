@@ -1,5 +1,7 @@
 import 'package:ai_cv_generator/dio/client/AuthApi.dart';
 import 'package:ai_cv_generator/dio/response/AuthResponses/Code.dart';
+import 'package:ai_cv_generator/pages/screens/emailConfirmation.dart';
+import 'package:ai_cv_generator/pages/widgets/loadingscreens/loadingScreen.dart';
 import 'package:flutter/material.dart';
  
 class RegisterPage extends StatelessWidget {
@@ -13,7 +15,7 @@ class RegisterPage extends StatelessWidget {
         elevation: 0,
         leading: IconButton(
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.popAndPushNamed(context,'confirm');
           }, 
           icon: const Icon(Icons.arrow_back,color: Colors.black,)
         ),
@@ -37,13 +39,36 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController passwordRetypeController = TextEditingController();
+
+  void confirm() {
+    Navigator.pushNamed(
+      context, '/confirm',
+      arguments: EmailConfirmationArguments(
+        email: emailController.text,
+        username: nameController.text
+      )
+    );
+  }
+
+   TextEditingController errorMessage = TextEditingController(text: "Error");
+    Stream<String> sampleListener(TextEditingController controller) async* { // <- here
+      while (true) {
+        await Future.delayed(const Duration(milliseconds: 10));
+        yield controller.value.text;
+      }
+    } 
+    
   
   bool error = false;
+  bool wait = false;
   Color? p2textColor;
+  Color? userNameAndPwordError;
  
   @override
   Widget build(BuildContext context) {
-    TextEditingController errorMessage = TextEditingController(text: "Error");
+    if (wait) {
+      return const LoadingScreen();
+    }
     return Scaffold(
           body: Column(
           children: <Widget>[
@@ -102,10 +127,23 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               child: TextField(
                 key: const Key('username'),
                 controller: nameController,
-                decoration: const InputDecoration(
-                  enabledBorder: OutlineInputBorder(),
+                decoration: InputDecoration(
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: userNameAndPwordError??const Color(0xFF000000),
+                      width: 1.0
+                    )
+                  ),
                   labelText: 'User Name',
                 ),
+                onChanged: (value) {
+                  error = false;
+                  userNameAndPwordError=null;
+                  p2textColor = null;
+                  setState(() {
+                    
+                  });
+                },
               ),
             ),
             Container(
@@ -117,6 +155,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   enabledBorder: OutlineInputBorder(),
                   labelText: 'Email',
                 ),
+                
               ),
             ),
             Container(
@@ -125,16 +164,19 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 key: const Key('password'),
                 obscureText: true,
                 controller: passwordController,
-                decoration: const InputDecoration(
-                  enabledBorder: OutlineInputBorder(),
+                decoration: InputDecoration(
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: userNameAndPwordError??const Color(0xFF000000),
+                      width: 1.0
+                    )
+                  ),
                   labelText: 'Password',
                 ),
                 onChanged: (value) {
                   if (passwordRetypeController.text != passwordController.text) {
                     setState(() {
                       p2textColor = const Color.fromRGBO(250, 0, 0, 0.466);
-                      errorMessage.text = "Password does not match";
-                      error = true;
                     });
                     
                   } else {
@@ -168,8 +210,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   if (passwordRetypeController.text != passwordController.text) {
                     setState(() {
                       p2textColor = const Color.fromRGBO(250, 0, 0, 0.466);
-                      errorMessage.text = "Password does not match";
-                      error = true;
                     });
                   } else {
                     setState(() {
@@ -188,38 +228,75 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   child: const Text('Register'),
                   onPressed: () async {
                     if (passwordController.text != passwordRetypeController.text) {
+                      errorMessage.text = "Password does not match";
                       setState(() {
-                        errorMessage.text = "Password does not match";
+                        p2textColor = const Color.fromRGBO(250, 0, 0, 0.466);
                         error = true;
                       });
                       return;
                     }
+                    wait = true;
+                    setState(() {
+                      
+                    });
                     Code code = await AuthApi.register(username: nameController.text,password: passwordController.text,email: emailController.text,fname: fnameController.text,lname: lnameController.text);
+                    wait = false;
+                    setState(() {
+                      
+                    });
                     if (code == Code.success) {
                       error = false;
-                      
+                      setState(() {
+                        
+                      });
+                      confirm();
                     } else if (code == Code.failed) {
                       setState(() {
-                        errorMessage.text = "Invalid username or password";
+                        errorMessage.text = "Invalid Username or Password";
+                        p2textColor = userNameAndPwordError = const Color.fromRGBO(250, 0, 0, 0.466);
                         error = true;
                       });
                     } else {
                       setState(() {
-                        errorMessage.text = "Error occurered when registering";
+                        errorMessage.text = "Invalid Username or Password";
+                        p2textColor = userNameAndPwordError = const Color.fromRGBO(250, 0, 0, 0.466);
                         error = true;
                       });
                     }
                   },
                 )
             ),
-            error ?
-             Center(child: Text(
-              errorMessage.text,
-              style: const TextStyle(
-              color: Colors.red,
-              backgroundColor: Color.fromARGB(0, 186, 40, 40)
-            ),)) : const Text(""),
+            if (error)
+             Center(
+              child: Container(
+                padding: const EdgeInsets.fromLTRB(500, 10, 500, 10),
+                child: StreamBuilder<String>(
+                  stream: sampleListener(errorMessage),
+                  builder: (context, AsyncSnapshot<String> snapshot) {
+                    if (snapshot.hasError || snapshot.data == null) {
+                      return const Text(
+                        "",
+                        style: TextStyle(
+                          color: Colors.red,
+                          fontSize: 20,
+                          backgroundColor: Color.fromARGB(0, 186, 40, 40)
+                        ),
+                      );
+                    } else {
+                      return Text(
+                        snapshot.data as String,
+                        style: const TextStyle(
+                          color: Colors.red,
+                          fontSize: 20,
+                          backgroundColor: Color.fromARGB(0, 186, 40, 40)
+                        ),
+                      );
+                    }
+                  }
+                )
+              )
+            )
           ],
-        ));
+      ));
   }
 }

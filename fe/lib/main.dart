@@ -1,6 +1,7 @@
 // internal
 import 'package:ai_cv_generator/pages/elements/elements.dart';
 import 'package:ai_cv_generator/dio/client/shareClient.dart';
+import 'package:ai_cv_generator/pages/screens/emailConfirmation.dart';
 import 'package:ai_cv_generator/pages/screens/emailVerification.dart';
 import 'package:ai_cv_generator/pages/screens/register.dart';
 import 'package:ai_cv_generator/pages/screens/about.dart';
@@ -28,17 +29,17 @@ Future<void> main() async {
     if (code != null) {
       runApp(MyApp(route: "/verify",code: code));
     } else {
-      runApp(MyApp(route: "/",));
+      runApp(const MyApp(route: "/",));
     }
   } else {
-    runApp(MyApp(route: "/"));
+    runApp(const MyApp(route: "/"));
   }
 }
 
 class MyApp extends StatelessWidget {
-  MyApp({super.key, required this.route, this.code});
+  const MyApp({super.key, required this.route, this.code});
   final String route;
-  String? code;
+  final String? code;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -50,6 +51,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/':(context) => const Login(),
         '/register':(context) => const RegisterPage(),
+        '/confirm':(context) => const EmailConfirmation(),
         '/home':(context) => const Home(),
         '/profile':(context) => const Profile(),
         '/jobs':(context) => const JobsPage(),
