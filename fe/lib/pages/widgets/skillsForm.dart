@@ -130,11 +130,14 @@ class _SkillsDetailsFormState extends State<SkillsDetailsForm> {
                 key: _formKey,
                 child: 
                 column.children.isNotEmpty ?
-                ListView(
-                  children: [
-                    ...column.children
-                  ],
-                ) :  Center(
+                Container(
+                  constraints: BoxConstraints(maxWidth: 600),
+                  child: ListView(
+                    children: [
+                      ...column.children
+                    ],
+                  ) 
+                ):  Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -227,7 +230,7 @@ class TextMonitorWidget extends StatefulWidget {
   String? skill = "";
   String? reason = "";
   int? level = 0;
-  TextMonitorWidget({super.key, this.skill, this.reason, this.level});
+  TextMonitorWidget({super.key, this.skill, this.reason, this.level,});
 
   getdata() {
     return {
@@ -255,17 +258,8 @@ class TextMonitorWidgetState extends State<TextMonitorWidget> {
     widget.skillC.text = widget.skill != null ? widget.skill! : "";
     widget.reasonC.text = widget.reason != null ? widget.reason! : "";
     widget.levelC.text = widget.reason != null ? widget.level!.toString() : "0";
+    widget.levelC.addListener(() {setState(() {});});
     super.initState();
-  }
-
-  populate() {
-    widget.row.children.add( SizedBox(width: 24,));
-    widget.row.children.add(Expanded(child:_buildskillField(widget.skillC)));
-    widget.row.children.add( SizedBox(width: 8,));
-    widget.row.children.add(Expanded(child:_buildreasonField(widget.reasonC)));
-    widget.row.children.add( SizedBox(width: 8,));
-    widget.row.children.add(Expanded(child:_buildlevelField(widget.levelC)));
-    widget.row.children.add( SizedBox(width: 24,));
   }
 
   Widget _buildskillField(TextEditingController controller) {
@@ -321,8 +315,7 @@ class TextMonitorWidgetState extends State<TextMonitorWidget> {
       child: DropdownButton<String>(
         value: level.text,
         onChanged: (String? newValue) {
-          level.text = newValue!;
-          setState(() {});
+          setState(() {level.text = newValue!;});
         },
         items: _dropdownItems.map((String value) {
           return DropdownMenuItem<String>(
@@ -336,7 +329,25 @@ class TextMonitorWidgetState extends State<TextMonitorWidget> {
 
   @override
   Widget build(BuildContext context) {
-    populate();
-    return widget.row;
+    return Container(
+      alignment: Alignment.bottomCenter,
+      height: 90,
+      width: 10,
+      decoration: BoxDecoration(
+        border: Border.all(),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Row(
+        children: [
+          SizedBox(width: 24,),
+          Expanded(flex: 2, child:_buildskillField(widget.skillC)),
+          SizedBox(width: 8,),
+          Expanded(flex: 2, child: _buildreasonField(widget.reasonC),),
+          SizedBox(width: 8,),
+          Expanded(flex: 1, child:_buildlevelField(widget.levelC)),
+          SizedBox(width: 24,)
+        ],
+      ),
+    );
   }
 }
