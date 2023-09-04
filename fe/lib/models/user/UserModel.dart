@@ -21,8 +21,8 @@ class UserModel {
   List<Qualification>? qualifications;
   List<Employment>? employmenthistory;
   List<Link>? links;
-  List<Skill>? skills;
   List<Reference>? references;
+  List<Skill>? skills;
   
 
   UserModel({

@@ -34,10 +34,20 @@ public class SecureConf {
     public SecurityFilterChain secureFilterChain(HttpSecurity httpSecure) throws Exception{
         httpSecure
                 .csrf(
-                        csrf -> csrf.disable()
+                        new Customizer<CsrfConfigurer<HttpSecurity>>() {
+                            @Override
+                            public void customize(CsrfConfigurer<HttpSecurity> httpSecurityCsrfConfigurer) {
+                                httpSecurityCsrfConfigurer.disable();
+                            }
+                        }
                 )
                 .cors(
-                        cors -> cors.disable()
+                        new Customizer<CorsConfigurer<HttpSecurity>>() {
+                            @Override
+                            public void customize(CorsConfigurer<HttpSecurity> httpSecurityCorsConfigurer) {
+
+                            }
+                        }
                 )
                 .authorizeHttpRequests(
                         authorizationManagerRequestMatcherRegistry ->
