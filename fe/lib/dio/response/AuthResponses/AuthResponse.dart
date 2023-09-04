@@ -1,4 +1,3 @@
-import 'package:ai_cv_generator/dio/response/AuthResponses/Code.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'AuthResponse.g.dart';

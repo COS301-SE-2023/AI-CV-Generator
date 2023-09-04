@@ -55,7 +55,7 @@ public class AuthenticationService {
                     .build();
         } else if (repository.findByUsername(request.getUsername()).isPresent()) {
             UserEntity user = repository.findByUsername(request.getUsername()).orElseThrow();
-            if (!passwordEncoder.matches(request.getPassword(),user.getPassword())) {
+            if (!passwordEncoder.matches(request.getPassword(),user.getPassword()) && request.getEmail().matches(user.getUsername())) {
                 return RegisterResponse.builder()
                         .code(Code.failed)
                         .build();
