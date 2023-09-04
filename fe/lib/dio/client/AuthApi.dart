@@ -13,13 +13,12 @@ class AuthApi extends DioClient {
     required String username,
     required String password
   }) async {
-    LoginRequest req = LoginRequest(username: username, password: password);
+    LoginRequest req = LoginRequest(username: username, password: password, siteUrl: "http://${Uri.base.host}:${Uri.base.port}");
     try {
       Response response = await DioClient.dio.post<Map<String,dynamic>>(
         'api/auth/authenticate',
         data: req.toJson(),
       );
-      print('Response Info: ${response.data}');
       AuthResponse resp = AuthResponse.fromJson(response.data);
       DioClient.SetAuth(resp.token);
       DioClient.SetRefresh(resp.refreshToken);
