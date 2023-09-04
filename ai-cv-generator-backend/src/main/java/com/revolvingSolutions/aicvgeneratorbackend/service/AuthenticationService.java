@@ -20,6 +20,7 @@ import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -42,6 +43,9 @@ public class AuthenticationService {
      private final AuthenticationManager authenticationManager;
      private final EmailService emailService;
      private final RegistrationTokenService registrationTokenService;
+
+     @Value("${app.api.blockEmailVerification}")
+     private Boolean requireEmailVerification;
     public RegisterResponse register(RegRequest request, HttpServletRequest actualRequest) {
         if (repository.findByUsername(request.getUsername()).isPresent() && repository.findByUsername(request.getUsername()).get().isEnabled()) {
             return RegisterResponse.builder()
@@ -130,7 +134,7 @@ public class AuthenticationService {
                 )
         );
         var _user = repository.findByUsername(request.getUsername()).orElseThrow();
-        if (!_user.isEnabled()) {
+        if (!requireEmailVerification&&!_user.isEnabled()) {
             throw new RuntimeException();
         }
         var token = authService.genToken(_user,getClientIp(actualRequest));
@@ -150,7 +154,7 @@ public class AuthenticationService {
                 .map(refreshTokenService::verifyExpiration)
                 .map(RefreshToken::getUser)
                 .map(user -> {
-                    if (!user.isEnabled()) {
+                    if (!requireEmailVerification&&!user.isEnabled()) {
                         throw new RefreshException(token,"Not registered!");
                     }
                     String newtoken = authService.genToken(user,getClientIp(actualRequest));
