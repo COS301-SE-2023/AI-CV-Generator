@@ -23,7 +23,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -53,8 +55,12 @@ public class AuthenticationService {
                     .build();
         } else if (repository.findByUsername(request.getUsername()).isPresent()) {
             UserEntity user = repository.findByUsername(request.getUsername()).orElseThrow();
+            if (!passwordEncoder.matches(request.getPassword(),user.getPassword())) {
+                return RegisterResponse.builder()
+                        .code(Code.failed)
+                        .build();
+            }
             RegistrationTokenEntity token = registrationTokenService.generateToken(user);
-            user.getRegTokens().add(token);
             repository.save(user);
             try {
                 emailService.sendVerificationEmail(
@@ -127,12 +133,21 @@ public class AuthenticationService {
         return siteURL.replace(request.getServletPath(), "");
     }
     public AuthResponse authenticate(AuthRequest request, HttpServletRequest actualRequest) {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        request.getUsername(),
-                        request.getPassword()
-                )
-        );
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            request.getUsername(),
+                            request.getPassword()
+                    )
+            );
+        } catch (DisabledException e) {
+            UserEntity user = repository.findByUsername(request.getUsername()).orElseThrow();
+            if (passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+                return AuthResponse.builder()
+                        .code(Code.notEnabled)
+                        .build();
+            }
+        }
         var _user = repository.findByUsername(request.getUsername()).orElseThrow();
         if (!requireEmailVerification&&!_user.isEnabled()) {
             throw new RuntimeException();
@@ -143,6 +158,7 @@ public class AuthenticationService {
 
 
         return AuthResponse.builder()
+                .code(Code.success)
                 .token(token)
                 .refreshToken(refreshToken)
                 .build();
@@ -158,7 +174,7 @@ public class AuthenticationService {
                         throw new RefreshException(token,"Not registered!");
                     }
                     String newtoken = authService.genToken(user,getClientIp(actualRequest));
-                    return new AuthResponse(newtoken, token);
+                    return new AuthResponse(Code.success,newtoken, token);
                         }
                 )
                 .orElseThrow(() -> new RefreshException(token, "Refresh token is not in database!"));
