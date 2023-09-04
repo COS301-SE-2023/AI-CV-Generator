@@ -133,35 +133,13 @@ public class AuthenticationService {
         return siteURL.replace(request.getServletPath(), "");
     }
     public AuthResponse authenticate(AuthRequest request, HttpServletRequest actualRequest) {
-        try {
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            request.getUsername(),
-                            request.getPassword()
-                    )
-            );
-        } catch (DisabledException e) {
-            UserEntity user = repository.findByUsername(request.getUsername()).orElseThrow();
-            if (passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-                RegistrationTokenEntity token = registrationTokenService.generateToken(user);
-                repository.save(user);
-                try {
-                    emailService.sendVerificationEmail(
-                            user.getEmail(),
-                            (user.getFname() + " " + user.getLname()),
-                            getSiteURL(actualRequest),
-                            token.getRegistrationToken()
-                    );
-                } catch (MessagingException | UnsupportedEncodingException ee) {
-                    return AuthResponse.builder()
-                            .code(Code.failed)
-                            .build();
-                }
-                return AuthResponse.builder()
-                        .code(Code.notEnabled)
-                        .build();
-            }
-        }
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        request.getUsername(),
+                        request.getPassword()
+                )
+        );
+
         var _user = repository.findByUsername(request.getUsername()).orElseThrow();
         if (!requireEmailVerification&&!_user.isEnabled()) {
             throw new RuntimeException();
@@ -172,7 +150,6 @@ public class AuthenticationService {
 
 
         return AuthResponse.builder()
-                .code(Code.success)
                 .token(token)
                 .refreshToken(refreshToken)
                 .build();
@@ -188,7 +165,7 @@ public class AuthenticationService {
                         throw new RefreshException(token,"Not registered!");
                     }
                     String newtoken = authService.genToken(user,getClientIp(actualRequest));
-                    return new AuthResponse(Code.success,newtoken, token);
+                    return new AuthResponse(newtoken, token);
                         }
                 )
                 .orElseThrow(() -> new RefreshException(token, "Refresh token is not in database!"));
