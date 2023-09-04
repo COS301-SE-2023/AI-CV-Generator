@@ -67,6 +67,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   bool wait = false;
   Color? p2textColor;
   Color? userNameAndPwordError;
+  bool accepted = false;
+  TermsAndConditions tAndCs = TermsAndConditions(accepted: false);
  
   @override
   Widget build(BuildContext context) {
@@ -228,7 +230,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             ),
             Container(
               padding:const EdgeInsets.fromLTRB(500, 0, 500, 10),
-              child: const TermsAndConditions(accepted: false),
+              child: tAndCs
             ),
             Container(
                 height: 35,
@@ -237,6 +239,10 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   key: const Key('register'),
                   child: const Text('Register'),
                   onPressed: () async {
+                    if (tAndCs.accepted) {
+                      print("Yes");
+                      return;
+                    }
                     if (passwordController.text != passwordRetypeController.text) {
                       errorMessage.text = "Password does not match";
                       setState(() {

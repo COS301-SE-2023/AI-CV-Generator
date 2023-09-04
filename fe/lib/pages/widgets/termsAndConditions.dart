@@ -2,8 +2,8 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 class TermsAndConditions extends StatefulWidget {
-  const TermsAndConditions({super.key, required this.accepted});
-  final bool accepted;
+  TermsAndConditions({super.key, required this.accepted});
+  bool accepted;
   
   @override
   State<StatefulWidget> createState() => TermsAndConditionsState();
@@ -63,6 +63,7 @@ class TermsAndConditionsState extends State<TermsAndConditions> {
               onChanged: (bool? value) {
                 setState(() {
                   agreed = value!;
+                  widget.accepted = agreed;
                 });
               }
             )
