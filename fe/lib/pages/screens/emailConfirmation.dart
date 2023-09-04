@@ -1,11 +1,18 @@
+import 'package:ai_cv_generator/dio/client/AuthApi.dart';
 import 'package:flutter/material.dart';
 
 class EmailConfirmationArguments{
   String email;
   String username;
+  String password;
+  String fname;
+  String lname;
   EmailConfirmationArguments({
     required this.email,
-    required this.username
+    required this.username,
+    required this.password,
+    required this.fname,
+    required this.lname
   });
 }
 
@@ -89,7 +96,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                       padding: const EdgeInsets.all(30),
                       child: ElevatedButton(
                         onPressed: () {
-                          
+                          AuthApi.register(username: args.username, password: args.password, email: args.email, fname: args.fname, lname: args.lname);
                         }, 
                         child: const Text(
                           "Resend Email",

@@ -45,7 +45,10 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       context, '/confirm',
       arguments: EmailConfirmationArguments(
         email: emailController.text,
-        username: nameController.text
+        username: nameController.text,
+        password: passwordController.text,
+        fname: fnameController.text,
+        lname: lnameController.text
       )
     );
   }

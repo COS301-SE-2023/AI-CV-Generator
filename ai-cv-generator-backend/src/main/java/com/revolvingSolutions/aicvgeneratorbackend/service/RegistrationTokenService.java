@@ -22,7 +22,7 @@ public class RegistrationTokenService {
         String value = Base64.getUrlEncoder().encodeToString(TOKEN_GENERATOR.generateKey());
         RegistrationTokenEntity token = RegistrationTokenEntity.builder()
                 .registrationToken(value)
-                .expireAt(LocalDateTime.now().plusSeconds(2000000))
+                .expireAt(LocalDateTime.now().plusSeconds(validationPeriod))
                 .user(user)
                 .build();
         registrationTokenRepository.save(token);
