@@ -1,10 +1,10 @@
 // ignore_for_file: must_be_immutable
-import 'package:ai_cv_generator/models/user/Reference.dart';
+import 'package:ai_cv_generator/models/user/Skill.dart';
 import 'package:ai_cv_generator/pages/widgets/description.dart';
-import 'package:ai_cv_generator/pages/widgets/employment.dart';
 import 'package:ai_cv_generator/pages/widgets/navdrawer.dart';
 import 'package:ai_cv_generator/pages/widgets/questionaireModal.dart';
 import 'package:ai_cv_generator/pages/util/strings.dart';
+import 'package:ai_cv_generator/pages/widgets/referencesForm.dart';
 import 'package:flutter/material.dart';
 
 import '../screens/home.dart';
@@ -24,14 +24,14 @@ class _SkillsDetailsFormState extends State<SkillsDetailsForm> {
 
   @override
   void initState() {
-    if(Home.adjustedModel!.references == null) {
+    if(Home.adjustedModel!.skills == null) {
       add();
       return;
     }
-    for(int i = 0; i < Home.adjustedModel!.references!.length; i++) {
-      Reference references = Home.adjustedModel!.references![i];
+    for(int i = 0; i < Home.adjustedModel!.skills!.length; i++) {
+      Skill skills = Home.adjustedModel!.skills![i];
       UniqueKey key = UniqueKey();
-      column.children.add(TextMonitorWidget(key: key, description: references.description, contact: references.contact,));
+      column.children.add(TextMonitorWidget(key: key, skill: skills.skill, reason: skills.reason, level: skills.level,));
       column.children.add(
         Padding(
           padding:  EdgeInsets.only(left: 500),
@@ -83,12 +83,12 @@ class _SkillsDetailsFormState extends State<SkillsDetailsForm> {
   }
 
   bool updateUser() {
-    Home.adjustedModel!.references = [];
+    Home.adjustedModel!.skills = [];
     for (var element in column.children) {
       if((element is TextMonitorWidget) == true) {
         Map data = (element as TextMonitorWidget).getdata();
         if(isDataNull(data.values) == false) {
-          Home.adjustedModel!.references!.add(Reference(contact: data['contact'].toString(), description: data['description'].toString(), refid: 0,));
+          Home.adjustedModel!.skills!.add(Skill(reason: data['reason'].toString(), skill: data['skill'].toString(), level: data['level'],  skillid: 0,));
         }
       }
     }
@@ -174,7 +174,7 @@ class _SkillsDetailsFormState extends State<SkillsDetailsForm> {
                     onPressed: ()  {
                       updateUser();
                       Navigator.of(context).pop();
-                      showQuestionaireModal(context,  EmploymentDetailsForm());
+                      showQuestionaireModal(context,  ReferencesDetailsForm());
                     },
                   ),
                 ),
@@ -203,7 +203,7 @@ class _SkillsDetailsFormState extends State<SkillsDetailsForm> {
     );
   }
 
-  Widget titleSection= Column (
+  Widget titleSection = Column (
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: <Widget> [
         Padding (
@@ -220,17 +220,20 @@ class _SkillsDetailsFormState extends State<SkillsDetailsForm> {
 }
 
 class TextMonitorWidget extends StatefulWidget {
-  Column column =  Column(children: [],);
-  TextEditingController descriptionC = TextEditingController();
-  TextEditingController contactC = TextEditingController();
-  String? description = "";
-  String? contact = "";
-  TextMonitorWidget({super.key, this.description, this.contact});
+  Row row =  Row(children: [],);
+  TextEditingController skillC = TextEditingController();
+  TextEditingController reasonC = TextEditingController();
+  TextEditingController levelC = TextEditingController();
+  String? skill = "";
+  String? reason = "";
+  int? level = 0;
+  TextMonitorWidget({super.key, this.skill, this.reason, this.level});
 
   getdata() {
     return {
-      "description": descriptionC.text,
-      "contact": contactC.text,
+      "skill": skillC.text,
+      "reason": reasonC.text,
+      "level": int.parse(levelC.text),
     };
   }
 
@@ -239,29 +242,41 @@ class TextMonitorWidget extends StatefulWidget {
 }
 
 class TextMonitorWidgetState extends State<TextMonitorWidget> {
+  final List<String> _dropdownItems = [
+    '0',
+    '1',
+    '2',
+    '3',
+    '4',
+    '5'
+  ];
   @override
   void initState() {
-    widget.descriptionC.text = widget.description != null ? widget.description! : "";
-    widget.contactC.text = widget.contact != null ? widget.contact! : "";
+    widget.skillC.text = widget.skill != null ? widget.skill! : "";
+    widget.reasonC.text = widget.reason != null ? widget.reason! : "";
+    widget.levelC.text = widget.reason != null ? widget.level!.toString() : "0";
     super.initState();
   }
 
   populate() {
-    widget.column.children.add( SizedBox(height: 4,));
-    widget.column.children.add(_builddescriptionField(widget.descriptionC));
-    widget.column.children.add( SizedBox(height: 8,));
-    widget.column.children.add(_buildcontactField(widget.contactC));
+    widget.row.children.add( SizedBox(width: 24,));
+    widget.row.children.add(Expanded(child:_buildskillField(widget.skillC)));
+    widget.row.children.add( SizedBox(width: 8,));
+    widget.row.children.add(Expanded(child:_buildreasonField(widget.reasonC)));
+    widget.row.children.add( SizedBox(width: 8,));
+    widget.row.children.add(Expanded(child:_buildlevelField(widget.levelC)));
+    widget.row.children.add( SizedBox(width: 24,));
   }
 
-  Widget _builddescriptionField(TextEditingController controller) {
+  Widget _buildskillField(TextEditingController controller) {
     return Container (
       constraints: BoxConstraints.tight( Size(550,70)),
       child: TextFormField(
-        key:  Key("description input"),
+        key:  Key("skill input"),
         controller: controller,
         decoration:  InputDecoration(
           contentPadding: EdgeInsets.all(5.0),
-          labelText: 'Description',
+          labelText: 'Skill',
           enabledBorder: OutlineInputBorder(),
           icon: Icon(Icons.school),
         ),
@@ -276,15 +291,15 @@ class TextMonitorWidgetState extends State<TextMonitorWidget> {
     );
   }
 
-  Widget _buildcontactField(TextEditingController controller) {
+  Widget _buildreasonField(TextEditingController controller) {
     return Container (
       constraints: BoxConstraints.tight( Size(550,70)),
       child: TextFormField(
-        key:  Key("contact input"),
+        key:  Key("reason input"),
         controller: controller,
         decoration:  InputDecoration(
           contentPadding: EdgeInsets.all(5.0),
-          labelText: 'Contact Information',
+          labelText: 'Reason',
           enabledBorder: OutlineInputBorder(),
           icon: Icon(Icons.article),
         ),
@@ -299,9 +314,29 @@ class TextMonitorWidgetState extends State<TextMonitorWidget> {
     );
   }
 
+  _buildlevelField(TextEditingController level) {
+    return Container (
+      alignment: Alignment.topCenter,
+      constraints: BoxConstraints.tight(Size(550,70)),
+      child: DropdownButton<String>(
+        value: level.text,
+        onChanged: (String? newValue) {
+          level.text = newValue!;
+          setState(() {});
+        },
+        items: _dropdownItems.map((String value) {
+          return DropdownMenuItem<String>(
+            value: value,
+            child: Text(value),
+          );
+        }).toList(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     populate();
-    return widget.column;
+    return widget.row;
   }
 }

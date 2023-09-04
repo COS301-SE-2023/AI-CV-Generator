@@ -25,7 +25,6 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
 
   @override
   void initState() {
-    print("hello world");
     if(Home.adjustedModel!.qualifications == null) {
       add();
       return;
