@@ -46,7 +46,7 @@ class LinksSectionState extends State<LinksSection> {
   }
 
   void add() {
-    userApi.AddLink(link: blankLink).then((value) {
+    UserApi.AddLink(link: blankLink).then((value) {
       Link newLink = getCorrect(value!)!;
       print(newLink.linkid);
       display(newLink);
@@ -59,7 +59,7 @@ class LinksSectionState extends State<LinksSection> {
     if(oldLink == null) {
       return;
     }
-    userApi.RemoveLink(link: oldLink);
+    UserApi.RemoveLink(link: oldLink);
     linksMap.remove(objectId);
     setState(() {});
   }
@@ -68,7 +68,7 @@ class LinksSectionState extends State<LinksSection> {
     linksMap.forEach((key, value) {
     Link? updatedLink = getLink(key);
       if(updatedLink != null) {
-        userApi.UpdateLink(link: updatedLink);
+        UserApi.UpdateLink(link: updatedLink);
       }
     });
   }

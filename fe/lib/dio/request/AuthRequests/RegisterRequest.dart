@@ -6,12 +6,14 @@ part 'RegisterRequest.g.dart';
 class RegisterRequest {
   String username;
   String password;
+  String email;
   String fname;
   String lname;
 
   RegisterRequest({
     required this.username,
     required this.password,
+    required this.email,
     required this.fname,
     required this.lname
   });

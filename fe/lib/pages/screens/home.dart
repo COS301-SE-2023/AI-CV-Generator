@@ -58,7 +58,7 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
-    userApi.getUser().then((value) {
+    UserApi.getUser().then((value) {
       model = value;
       setState(() {});
     });
@@ -262,7 +262,7 @@ class _HomeState extends State<Home> {
             child: GestureDetector(
               onTap: () async {
                 Navigator.pushNamed(context, '/profile');
-                model = await userApi.getUser();
+                model = await UserApi.getUser();
                 setState(() {});
               }, 
               child: Row(

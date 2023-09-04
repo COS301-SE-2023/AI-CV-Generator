@@ -34,7 +34,7 @@ class ProfileState extends State<Profile> {
   Image? image;
   @override
   void initState() {
-    userApi.getUser().then((value) {
+    UserApi.getUser().then((value) {
       if(value != null){
         model = value;
         setState(() {});
@@ -85,7 +85,7 @@ class ProfileState extends State<Profile> {
       employhistoryKey.currentState?.update();
       referenceKey.currentState?.update();
       skillKey.currentState?.update();
-      await userApi.updateUser(user: model!);
+      await UserApi.updateUser(user: model!);
     }
     
     void update() {

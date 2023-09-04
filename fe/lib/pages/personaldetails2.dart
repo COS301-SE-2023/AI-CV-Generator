@@ -25,7 +25,7 @@ class PersonalDetails extends StatelessWidget {
 }
 
 Future<UserModel?> getUser() async {
-  return await userApi.getUser();
+  return await UserApi.getUser();
 }
 
 class PersonalDetailsForm extends StatefulWidget {
@@ -51,11 +51,11 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
     user!.email = email.text;
     user!.phoneNumber = cell.text;
     user!.location = address.text;
-    await userApi.updateUser(user: user!);
+    await UserApi.updateUser(user: user!);
   }
 
   void getUser() async {
-    user = await userApi.getUser();
+    user = await UserApi.getUser();
     fname.text = user!.fname;
     lname.text = user!.lname;
     email.text = user!.email!;

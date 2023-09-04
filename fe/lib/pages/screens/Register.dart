@@ -1,3 +1,4 @@
+import 'package:ai_cv_generator/dio/client/AuthApi.dart';
 import 'package:ai_cv_generator/dio/client/userApi.dart';
 import 'package:flutter/material.dart';
  
@@ -193,7 +194,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                       });
                       return;
                     }
-                    String? resp = await userApi.register(username: nameController.text,password: passwordController.text,fname: fnameController.text,lname: lnameController.text);
+                    String? resp = await AuthApi.register(username: nameController.text,password: passwordController.text,email: emailController.text,fname: fnameController.text,lname: lnameController.text);
                     if (resp!= null && resp == "1") {
                       error = false;
                       Navigator.pushNamed(context, '/home');

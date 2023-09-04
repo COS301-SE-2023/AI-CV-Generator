@@ -1,7 +1,7 @@
 import 'package:ai_cv_generator/dio/client/userApi.dart';
 import 'package:flutter/material.dart';
 import 'package:ai_cv_generator/models/user/Skill.dart';
-import '../elements/elements.dart';
+import 'package:ai_cv_generator/pages/elements/elements.dart';
 
 class SkillSection extends StatefulWidget {
   final List<Skill> skill;
@@ -59,7 +59,7 @@ class SkillSectionState extends State<SkillSection> {
   }
 
   void add() {
-    userApi.addSkill(skill: blankSkill).then((value) {
+    UserApi.addSkill(skill: blankSkill).then((value) {
       Skill newSkill = getCorrect(value!)!;
       display(newSkill);
       setState(() {});
@@ -71,7 +71,7 @@ class SkillSectionState extends State<SkillSection> {
     if(oldSkill == null) {
       return;
     }
-    userApi.removeSkill(skill: oldSkill);
+    UserApi.removeSkill(skill: oldSkill);
     skillMap.remove(objectId);
     setState(() {});
   }
@@ -80,7 +80,7 @@ class SkillSectionState extends State<SkillSection> {
     skillMap.forEach((key, value) {
     Skill? updatedSkill = getSkill(key);
       if(updatedSkill != null) {
-        userApi.updateSkill(skill: updatedSkill);
+        UserApi.updateSkill(skill: updatedSkill);
       }
     });
   }

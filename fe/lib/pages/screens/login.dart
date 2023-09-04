@@ -1,4 +1,4 @@
-import 'package:ai_cv_generator/dio/client/userApi.dart';
+import 'package:ai_cv_generator/dio/client/AuthApi.dart';
 import 'package:flutter/material.dart';
  
 class Login extends StatelessWidget {
@@ -77,7 +77,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   key: const Key('login'),
                   child: const Text('Login'),
                   onPressed: () async {
-                    bool resp = await userApi.login(username: nameController.text,password: passwordController.text);
+                    bool resp = await AuthApi.login(username: nameController.text,password: passwordController.text);
                     if (resp) {
                       error = false;
                       Navigator.pushNamed(context, '/home');
