@@ -4,5 +4,6 @@ public enum Code {
     success,
     failed,
     emailFailed,
-    expired
+    expired,
+    notEnabled
 }

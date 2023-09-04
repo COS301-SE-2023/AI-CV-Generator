@@ -252,7 +252,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                       confirm();
                     } else if (code == Code.failed) {
                       setState(() {
-                        errorMessage.text = "Invalid Username or Password";
+                        errorMessage.text = "Username already Exists";
                         p2textColor = userNameAndPwordError = const Color.fromRGBO(250, 0, 0, 0.466);
                         error = true;
                       });
