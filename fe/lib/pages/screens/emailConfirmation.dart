@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 class EmailConfirmationArguments{
-  String? email;
+  String email;
   String username;
   EmailConfirmationArguments({
-    this.email,
+    required this.email,
     required this.username
   });
 }
@@ -41,12 +41,18 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   
   bool error = false;
   Color? p2textColor;
+
+  void backToLogin() {
+    Navigator.popUntil(context, ModalRoute.withName('/login'));
+  }
  
   @override
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context)!.settings.arguments as EmailConfirmationArguments;
     return Scaffold(
           body: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Container(
                 alignment: Alignment.center,
@@ -64,14 +70,52 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  "An email has been sent to ${args.email??'${args.username} email'}, please check your email to verify your account to continue",
+                  "An email has been sent to ${args.email}",
+                  style: const TextStyle(
+                    color: Color(0xFFEA6D79),
+                    fontSize: 20
+                  ),
                 ),
-                ElevatedButton(
-                  onPressed: () {
-                    
-                  }, 
-                  child: const Text("Resend Email")
+                const Text(
+                  "Please check your email to verify your account to continue",
+                  style: TextStyle(
+                    color: Color(0xFFEA6D79),
+                    fontSize: 20
+                  ),
+                ),
+                Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(30),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          
+                        }, 
+                        child: const Text(
+                          "Resend Email",
+                          style: TextStyle(
+                            color: Colors.white
+                          ),
+                        )
+                      ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.all(30),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          backToLogin();
+                        }, 
+                        child: const Text(
+                          "Login",
+                          style: TextStyle(
+                            color: Colors.white
+                          ),
+                        )
+                      ),
+                    )
+                  ],
                 )
+                
               ],
             ),
           ],

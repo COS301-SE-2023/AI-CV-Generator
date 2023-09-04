@@ -1,6 +1,4 @@
 import 'package:ai_cv_generator/dio/client/AuthApi.dart';
-import 'package:ai_cv_generator/dio/response/AuthResponses/Code.dart';
-import 'package:ai_cv_generator/pages/screens/emailConfirmation.dart';
 import 'package:ai_cv_generator/pages/widgets/loadingscreens/loadingScreen.dart';
 import 'package:flutter/material.dart';
  
@@ -25,15 +23,6 @@ class MyStatefulWidget extends StatefulWidget {
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   TextEditingController nameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-
-  void confirm() {
-    Navigator.pushNamed(
-      context, '/confirm',
-      arguments: EmailConfirmationArguments(
-        username: nameController.text
-      )
-    );
-  }
 
   bool error = false;
   bool wait = false;

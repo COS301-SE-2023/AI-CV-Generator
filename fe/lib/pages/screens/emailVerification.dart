@@ -31,7 +31,7 @@ class EmailVerificationState extends State<EmailVerification> {
 
               }
             }, 
-            child: Text("Verify email Account")
+            child: const Text("Verify email Account")
           )
         ],
       ),
