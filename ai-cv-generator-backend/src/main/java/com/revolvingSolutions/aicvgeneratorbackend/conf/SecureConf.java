@@ -34,23 +34,13 @@ public class SecureConf {
     public SecurityFilterChain secureFilterChain(HttpSecurity httpSecure) throws Exception{
         httpSecure
                 .csrf(
-                        new Customizer<CsrfConfigurer<HttpSecurity>>() {
-                            @Override
-                            public void customize(CsrfConfigurer<HttpSecurity> httpSecurityCsrfConfigurer) {
-                                    httpSecurityCsrfConfigurer.disable();
-                            }
-                        }
+                        csrf -> csrf.disable()
                 )
                 .cors(
-                        new Customizer<CorsConfigurer<HttpSecurity>>() {
-                            @Override
-                            public void customize(CorsConfigurer<HttpSecurity> httpSecurityCorsConfigurer) {
-
-                            }
-                        }
+                        cors -> cors.disable()
                 )
                 .authorizeHttpRequests(
-                        (authorizationManagerRequestMatcherRegistry) ->
+                        authorizationManagerRequestMatcherRegistry ->
                                 authorizationManagerRequestMatcherRegistry
                                         .requestMatchers("/api/auth/**","/share/**","/csrf")
                                         .permitAll()
@@ -58,7 +48,7 @@ public class SecureConf {
                                         .authenticated()
                 )
                 .sessionManagement(
-                        (sessionManagement) ->
+                        sessionManagement ->
                             sessionManagement.sessionCreationPolicy(
                                     SessionCreationPolicy.STATELESS
                             )
@@ -70,7 +60,7 @@ public class SecureConf {
                         authentificationFilter, UsernamePasswordAuthenticationFilter.class
                 )
                 .logout(
-                        (logout) ->
+                        logout ->
                                 logout.addLogoutHandler(
                                         logoutHandler
                                 )
