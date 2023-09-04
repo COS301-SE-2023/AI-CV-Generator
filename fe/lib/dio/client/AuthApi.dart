@@ -1,9 +1,11 @@
 import 'package:ai_cv_generator/dio/client/dioClient.dart';
 import 'package:ai_cv_generator/dio/request/AuthRequests/LoginRequest.dart';
 import 'package:ai_cv_generator/dio/request/AuthRequests/RegisterRequest.dart';
+import 'package:ai_cv_generator/dio/request/AuthRequests/VerificationRequest.dart';
 import 'package:ai_cv_generator/dio/response/AuthResponses/AuthResponse.dart';
 import 'package:ai_cv_generator/dio/response/AuthResponses/Code.dart';
 import 'package:ai_cv_generator/dio/response/AuthResponses/RegisterResponse.dart';
+import 'package:ai_cv_generator/dio/response/AuthResponses/VerificationResponse.dart';
 import 'package:dio/dio.dart';
 
 class AuthApi extends DioClient {
@@ -48,5 +50,20 @@ class AuthApi extends DioClient {
       DioClient.handleError(e);
       return Code.requestFailed;
     }
+  }
+
+  static Future<Code> verify({
+    required String code
+  }) async {
+    try {
+      Response response = await DioClient.dio.post<Map<String,dynamic>>(
+        'api/auth/verify',
+        data: VerificationRequest(registrationToken: code).toJson()
+      );
+      return VerificationResponse.fromJson(response.data).code;
+    } on DioException catch (e) {
+      DioClient.handleError(e);
+    }
+    return Code.failed;
   }
 }

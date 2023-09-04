@@ -1,6 +1,7 @@
 // internal
 import 'package:ai_cv_generator/pages/elements/elements.dart';
 import 'package:ai_cv_generator/dio/client/shareClient.dart';
+import 'package:ai_cv_generator/pages/screens/emailVerification.dart';
 import 'package:ai_cv_generator/pages/screens/register.dart';
 import 'package:ai_cv_generator/pages/screens/about.dart';
 import 'package:ai_cv_generator/pages/screens/help.dart';
@@ -23,15 +24,21 @@ Future<void> main() async {
     PlatformFile? file = await ShareApi.retrieveFile(uuid: uuid);
     runApp(ShareCVApp(file: file));
   } else if (myurl.path.contains("/verify")) {
-    String code = myurl.pathSegments.last;
-    print(code);
+    final String? code = myurl.queryParameters["code"];
+    if (code != null) {
+      runApp(MyApp(route: "/verify",code: code));
+    } else {
+      runApp(MyApp(route: "/",));
+    }
   } else {
-    runApp(const MyApp());
+    runApp(MyApp(route: "/"));
   }
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp({super.key, required this.route, this.code});
+  final String route;
+  String? code;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -39,7 +46,7 @@ class MyApp extends StatelessWidget {
       themeMode: ThemeMode.system,
       title: 'AI CV Generator',
       debugShowCheckedModeBanner: false,
-      initialRoute: '/',
+      initialRoute: route,
       routes: {
         '/':(context) => const Login(),
         '/register':(context) => const RegisterPage(),
@@ -47,7 +54,8 @@ class MyApp extends StatelessWidget {
         '/profile':(context) => const Profile(),
         '/jobs':(context) => const JobsPage(),
         '/about':(context) => const AboutPage(),
-        '/help':(context) => const Help()
+        '/help':(context) => const Help(),
+        '/verify':(context) => EmailVerification(code: code,)
       },
       onGenerateRoute: (settings) {
         if (settings.name == '/profile') {
