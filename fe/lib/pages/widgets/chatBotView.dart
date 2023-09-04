@@ -87,21 +87,41 @@ class ChatBotViewState extends State<ChatBotView> {
                     )
                   ),
                   Expanded(
-                    child: TextField(
-                      controller: controller,
-                      onSubmitted: (value) {
-                        addMesssage(value, true);
-                        controller.text = "";
-                      },
-                      decoration: const InputDecoration(
-                        fillColor: Colors.white,
-                        hintText: "Type a message",
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.only(bottomLeft: Radius.circular(19), bottomRight: Radius.circular(19)),
-                          borderSide:
-                          BorderSide(color: Colors.black)
-                        )
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border.all(),
+                        borderRadius: BorderRadius.only(bottomLeft: Radius.circular(19), bottomRight: Radius.circular(19)),
                       ),
+                      child: Row(
+                        children: [
+                          Expanded(child: Text("")),
+                          Expanded(
+                            flex: 50,
+                            child: TextField(
+                              controller: controller,
+                              onSubmitted: (value) {
+                                addMesssage(value, true);
+                                controller.text = "";
+                              },
+                              decoration: const InputDecoration(
+                                fillColor: Colors.white,
+                                hintText: "Type a message",
+                                border: InputBorder.none
+                              ),
+                            ),
+                          ),
+
+                        IconButton(
+                          color: Theme.of(context).colorScheme.primary,
+                            onPressed: () {
+                              addMesssage(controller.text, true);
+                                controller.text = "";
+                            },
+                            icon: Icon(Icons.send_rounded)
+                          ),
+                        ],
+                      )
                     )
                   )
                 ],
