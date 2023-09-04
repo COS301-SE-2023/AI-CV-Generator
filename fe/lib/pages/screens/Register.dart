@@ -2,6 +2,7 @@ import 'package:ai_cv_generator/dio/client/AuthApi.dart';
 import 'package:ai_cv_generator/dio/response/AuthResponses/Code.dart';
 import 'package:ai_cv_generator/pages/screens/emailConfirmation.dart';
 import 'package:ai_cv_generator/pages/widgets/loadingscreens/loadingScreen.dart';
+import 'package:ai_cv_generator/pages/widgets/termsAndConditions.dart';
 import 'package:flutter/material.dart';
  
 class RegisterPage extends StatelessWidget {
@@ -74,6 +75,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     }
     return Scaffold(
           body: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Container(
                 alignment: Alignment.center,
@@ -224,8 +227,12 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               ),
             ),
             Container(
-                height: 50,
-                padding: const EdgeInsets.fromLTRB(600, 0, 600, 0),
+              padding:const EdgeInsets.fromLTRB(500, 0, 500, 10),
+              child: const TermsAndConditions(accepted: false),
+            ),
+            Container(
+                height: 35,
+                padding: const EdgeInsets.fromLTRB(500, 0, 500, 0),
                 child: ElevatedButton(
                   key: const Key('register'),
                   child: const Text('Register'),
