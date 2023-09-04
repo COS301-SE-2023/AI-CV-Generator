@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 class EmailConfirmationArguments{
-  String email;
+  String? email;
   String username;
   EmailConfirmationArguments({
-    required this.email,
+    this.email,
     required this.username
   });
 }
@@ -64,7 +64,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  "An email has been sent to ${args.email}, please check your email to verify your account to continue",
+                  "An email has been sent to ${args.email??'${args.username} email'}, please check your email to verify your account to continue",
                 ),
                 ElevatedButton(
                   onPressed: () {

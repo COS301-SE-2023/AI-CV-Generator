@@ -15,7 +15,7 @@ class RegisterPage extends StatelessWidget {
         elevation: 0,
         leading: IconButton(
           onPressed: () {
-            Navigator.popAndPushNamed(context,'confirm');
+            Navigator.pop(context);
           }, 
           icon: const Icon(Icons.arrow_back,color: Colors.black,)
         ),

@@ -9,27 +9,25 @@ import 'package:ai_cv_generator/dio/response/AuthResponses/VerificationResponse.
 import 'package:dio/dio.dart';
 
 class AuthApi extends DioClient {
-  static Future<Code> login({
+  static Future<bool> login({
     required String username,
     required String password
   }) async {
-    LoginRequest req = LoginRequest(username: username, password: password, siteUrl: "http://${Uri.base.host}:${Uri.base.port}");
+    LoginRequest req = LoginRequest(username: username, password: password);
     try {
       Response response = await DioClient.dio.post<Map<String,dynamic>>(
         'api/auth/authenticate',
         data: req.toJson(),
       );
       AuthResponse resp = AuthResponse.fromJson(response.data);
-      if (resp.code == Code.notEnabled) {
-        return resp.code;
-      }
+      
       DioClient.SetAuth(resp.token);
       DioClient.SetRefresh(resp.refreshToken);
-      return Code.success;
+      return true;
     } on DioException catch (e) {
      DioClient.handleError(e);
     }
-    return Code.failed;
+    return false;
   }
 
   static Future<Code> register({

@@ -135,24 +135,7 @@ public class AuthenticationService {
         );
         var _user = repository.findByUsername(request.getUsername()).orElseThrow();
         if (!requireEmailVerification&&!_user.isEnabled()) {
-            RegistrationTokenEntity token = registrationTokenService.generateToken(_user);
-            _user.getRegTokens().add(token);
-            repository.save(_user);
-            try {
-                emailService.sendVerificationEmail(
-                        _user.getEmail(),
-                        (_user.getFname() + " " + _user.getLname()),
-                        request.getSiteUrl(),
-                        token.getRegistrationToken()
-                );
-                return AuthResponse.builder()
-                        .code(Code.notEnabled)
-                        .build();
-            } catch (MessagingException | UnsupportedEncodingException e) {
-                return AuthResponse.builder()
-                        .code(Code.failed)
-                        .build();
-            }
+            throw new RuntimeException();
         }
         var token = authService.genToken(_user,getClientIp(actualRequest));
         refreshTokenService.deleteByUserId(_user.userid);
@@ -160,7 +143,6 @@ public class AuthenticationService {
 
 
         return AuthResponse.builder()
-                .code(Code.success)
                 .token(token)
                 .refreshToken(refreshToken)
                 .build();
@@ -176,7 +158,7 @@ public class AuthenticationService {
                         throw new RefreshException(token,"Not registered!");
                     }
                     String newtoken = authService.genToken(user,getClientIp(actualRequest));
-                    return new AuthResponse(Code.success,newtoken, token);
+                    return new AuthResponse(newtoken, token);
                         }
                 )
                 .orElseThrow(() -> new RefreshException(token, "Refresh token is not in database!"));

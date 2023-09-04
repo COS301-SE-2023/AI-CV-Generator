@@ -24,4 +24,5 @@ const _$CodeEnumMap = {
   Code.emailFailed: 'emailFailed',
   Code.expired: 'expired',
   Code.requestFailed: 'requestFailed',
+  Code.notEnabled: 'notEnabled',
 };

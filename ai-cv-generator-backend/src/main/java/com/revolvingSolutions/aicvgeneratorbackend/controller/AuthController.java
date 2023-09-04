@@ -11,6 +11,7 @@ import com.revolvingSolutions.aicvgeneratorbackend.service.AuthenticationService
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,7 +44,13 @@ public class AuthController {
             @RequestBody AuthRequest request,
             HttpServletRequest actualRequest
     ) {
-        return ResponseEntity.ok(service.authenticate(request,actualRequest));
+        try {
+            return ResponseEntity.ok(service.authenticate(request,actualRequest));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatusCode.valueOf(403)).build();
+        }
+
     }
 
     @PostMapping("/refresh")

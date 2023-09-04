@@ -1,4 +1,7 @@
 import 'package:ai_cv_generator/dio/client/AuthApi.dart';
+import 'package:ai_cv_generator/dio/response/AuthResponses/Code.dart';
+import 'package:ai_cv_generator/pages/screens/emailConfirmation.dart';
+import 'package:ai_cv_generator/pages/widgets/loadingscreens/loadingScreen.dart';
 import 'package:flutter/material.dart';
  
 class Login extends StatelessWidget {
@@ -23,10 +26,23 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   TextEditingController nameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
+  void confirm() {
+    Navigator.pushNamed(
+      context, '/confirm',
+      arguments: EmailConfirmationArguments(
+        username: nameController.text
+      )
+    );
+  }
+
   bool error = false;
+  bool wait = false;
  
   @override
   Widget build(BuildContext context) {
+    if (wait) {
+      return const LoadingScreen();
+    }
     return Padding(
         padding: const EdgeInsets.all(10),
         child: ListView(
@@ -77,7 +93,13 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   key: const Key('login'),
                   child: const Text('Login'),
                   onPressed: () async {
+                    setState(() {
+                      wait = true;
+                    });
                     bool resp = await AuthApi.login(username: nameController.text,password: passwordController.text);
+                    setState(() {
+                      wait = false;
+                    });
                     if (resp) {
                       error = false;
                       Navigator.pushNamed(context, '/home');
