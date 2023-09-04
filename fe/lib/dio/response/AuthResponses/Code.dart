@@ -2,5 +2,6 @@ enum Code {
     success,
     failed,
     emailFailed,
-    expired
+    expired,
+    requestFailed
 }

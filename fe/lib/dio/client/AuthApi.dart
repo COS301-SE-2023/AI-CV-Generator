@@ -2,6 +2,8 @@ import 'package:ai_cv_generator/dio/client/dioClient.dart';
 import 'package:ai_cv_generator/dio/request/AuthRequests/LoginRequest.dart';
 import 'package:ai_cv_generator/dio/request/AuthRequests/RegisterRequest.dart';
 import 'package:ai_cv_generator/dio/response/AuthResponses/AuthResponse.dart';
+import 'package:ai_cv_generator/dio/response/AuthResponses/Code.dart';
+import 'package:ai_cv_generator/dio/response/AuthResponses/RegisterResponse.dart';
 import 'package:dio/dio.dart';
 
 class AuthApi extends DioClient {
@@ -26,7 +28,7 @@ class AuthApi extends DioClient {
     return false;
   }
 
-  static Future<String?> register({
+  static Future<Code> register({
     required String username,
     required String password,
     required String email,
@@ -39,14 +41,12 @@ class AuthApi extends DioClient {
         'api/auth/reg',
         data: req.toJson(),
       );
-      print('Response Info: ${response.data}');
-      AuthResponse resp = AuthResponse.fromJson(response.data);
-      DioClient.SetAuth(resp.token);
-      DioClient.SetRefresh(resp.refreshToken);
-      return "1";
+      
+      Code code = RegisterResponse.fromJson(response.data).code;
+      return code;
     } on DioException catch (e) {
       DioClient.handleError(e);
-      return e.message;
+      return Code.requestFailed;
     }
   }
 }

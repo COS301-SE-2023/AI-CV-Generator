@@ -1,5 +1,6 @@
 import 'package:ai_cv_generator/dio/client/AuthApi.dart';
 import 'package:ai_cv_generator/dio/client/userApi.dart';
+import 'package:ai_cv_generator/dio/response/AuthResponses/Code.dart';
 import 'package:flutter/material.dart';
  
 class RegisterPage extends StatelessWidget {
@@ -194,11 +195,11 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                       });
                       return;
                     }
-                    String? resp = await AuthApi.register(username: nameController.text,password: passwordController.text,email: emailController.text,fname: fnameController.text,lname: lnameController.text);
-                    if (resp!= null && resp == "1") {
+                    Code code = await AuthApi.register(username: nameController.text,password: passwordController.text,email: emailController.text,fname: fnameController.text,lname: lnameController.text);
+                    if (code == Code.success) {
                       error = false;
-                      Navigator.pushNamed(context, '/home');
-                    } else if (resp != null) {
+                      
+                    } else if (code == Code.failed) {
                       setState(() {
                         errorMessage.text = "Invalid username or password";
                         error = true;
