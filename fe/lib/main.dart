@@ -22,6 +22,9 @@ Future<void> main() async {
     String uuid = myurl.pathSegments.last;
     PlatformFile? file = await ShareApi.retrieveFile(uuid: uuid);
     runApp(ShareCVApp(file: file));
+  } else if (myurl.path.contains("/verify")) {
+    String code = myurl.pathSegments.last;
+    print(code);
   } else {
     runApp(const MyApp());
   }

@@ -9,13 +9,15 @@ class RegisterRequest {
   String email;
   String fname;
   String lname;
+  String siteUrl;
 
   RegisterRequest({
     required this.username,
     required this.password,
     required this.email,
     required this.fname,
-    required this.lname
+    required this.lname,
+    required this.siteUrl
   });
   
   factory RegisterRequest.fromJson(Map<String, dynamic> json) => _$RegisterRequestFromJson(json);

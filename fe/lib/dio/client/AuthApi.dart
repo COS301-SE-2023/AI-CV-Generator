@@ -33,7 +33,7 @@ class AuthApi extends DioClient {
     required String fname,
     required String lname
   }) async {
-    RegisterRequest req = RegisterRequest(username: username, password: password, email: email,fname: fname,lname: lname);
+    RegisterRequest req = RegisterRequest(username: username, password: password, email: email,fname: fname,lname: lname,siteUrl: "http://${Uri.base.host}:${Uri.base.port}");
     try {
       Response response = await DioClient.dio.post<Map<String,dynamic>>(
         'api/auth/reg',
