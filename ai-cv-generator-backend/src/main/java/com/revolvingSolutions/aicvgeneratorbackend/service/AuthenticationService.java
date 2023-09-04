@@ -143,6 +143,20 @@ public class AuthenticationService {
         } catch (DisabledException e) {
             UserEntity user = repository.findByUsername(request.getUsername()).orElseThrow();
             if (passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+                RegistrationTokenEntity token = registrationTokenService.generateToken(user);
+                repository.save(user);
+                try {
+                    emailService.sendVerificationEmail(
+                            user.getEmail(),
+                            (user.getFname() + " " + user.getLname()),
+                            getSiteURL(actualRequest),
+                            token.getRegistrationToken()
+                    );
+                } catch (MessagingException | UnsupportedEncodingException ee) {
+                    return AuthResponse.builder()
+                            .code(Code.failed)
+                            .build();
+                }
                 return AuthResponse.builder()
                         .code(Code.notEnabled)
                         .build();
