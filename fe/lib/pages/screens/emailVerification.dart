@@ -3,8 +3,9 @@ import 'package:ai_cv_generator/dio/response/AuthResponses/Code.dart';
 import 'package:flutter/material.dart';
 
 class EmailVerification extends StatefulWidget {
-  EmailVerification({super.key, this.code});
-  String? code;
+  
+  const EmailVerification({super.key, this.code});
+  final String? code;
   @override
   State<StatefulWidget> createState() => EmailVerificationState();
 }

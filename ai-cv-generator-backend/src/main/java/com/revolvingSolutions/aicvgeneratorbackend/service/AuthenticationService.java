@@ -65,7 +65,7 @@ public class AuthenticationService {
                 );
             } catch (MessagingException | UnsupportedEncodingException e) {
                 return RegisterResponse.builder()
-                        .code(Code.emailFailed)
+                        .code(Code.failed)
                         .build();
             }
             return RegisterResponse.builder()
@@ -92,7 +92,7 @@ public class AuthenticationService {
             );
         } catch (MessagingException | UnsupportedEncodingException e) {
             return RegisterResponse.builder()
-                    .code(Code.emailFailed)
+                    .code(Code.failed)
                     .build();
         }
         return RegisterResponse.builder()
