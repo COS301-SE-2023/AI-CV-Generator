@@ -1,3 +1,4 @@
+import 'package:ai_cv_generator/dio/response/AuthResponses/Code.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'AuthResponse.g.dart';
@@ -6,10 +7,12 @@ part 'AuthResponse.g.dart';
 class AuthResponse {
   String token;
   String refreshToken;
+  Code code;
 
   AuthResponse({
     required this.token,
-    required this.refreshToken
+    required this.refreshToken,
+    required this.code
   });
 
   factory AuthResponse.fromJson(Map<String, dynamic> json) => _$AuthResponseFromJson(json);

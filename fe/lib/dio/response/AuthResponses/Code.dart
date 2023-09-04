@@ -3,5 +3,6 @@ enum Code {
     failed,
     emailFailed,
     expired,
-    requestFailed
+    requestFailed,
+    notEnabled
 }
