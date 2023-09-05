@@ -167,7 +167,7 @@ public class LangChainService {
             modelName,
             0.0,
             1.0,
-            6000,
+            1000,
             0.0,0.0,
             Duration.ofMinutes(3),
             2,

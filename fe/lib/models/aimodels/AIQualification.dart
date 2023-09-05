@@ -5,15 +5,15 @@ part 'AIQualification.g.dart';
 @JsonSerializable()
 class AIQualification {
   AIQualification({
-    required this.qualification,
-    required this.institution,
-    required this.startDate,
-    required this.endDate
+    this.qualification,
+    this.institution,
+    this.startDate,
+    this.endDate
   });
-  String qualification;
-  String institution;
-  String startDate;
-  String endDate;
+  String? qualification;
+  String? institution;
+  String? startDate;
+  String? endDate;
 
   factory AIQualification.fromJson(Map<String,dynamic> json) => _$AIQualificationFromJson(json);
 

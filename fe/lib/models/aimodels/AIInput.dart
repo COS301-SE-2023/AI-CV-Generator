@@ -12,8 +12,8 @@ part 'AIInput.g.dart';
 class AIInput {
 
   AIInput({
-    required this.firstname,
-    required this.lastname,
+    this.firstname,
+    this.lastname,
     this.email,
     this.phoneNumber,
     this.location,
@@ -24,8 +24,8 @@ class AIInput {
     required this.references,
     required this.skills
   });
-  String firstname;
-  String lastname;
+  String? firstname;
+  String? lastname;
   String? email;
   String? phoneNumber;
   String? location;

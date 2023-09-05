@@ -9,8 +9,8 @@ part 'CVData.g.dart';
 
 @JsonSerializable()
 class CVData {
-  String firstname;
-  String lastname;
+  String? firstname;
+  String? lastname;
   String? email;
   String? phoneNumber;
   String? location; 
@@ -24,11 +24,11 @@ class CVData {
   List<AISkill>? skills;
 
   CVData({
-    required this.firstname,
-    required this.lastname,
-    required this.email,
-    required this.phoneNumber,
-    required this.location,
+    this.firstname,
+    this.lastname,
+    this.email,
+    this.phoneNumber,
+    this.location,
     this.description,
     this.employmenthistory,
     this.experience,
