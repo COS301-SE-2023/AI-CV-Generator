@@ -1,3 +1,4 @@
+import 'package:ai_cv_generator/pages/widgets/policy.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
@@ -39,7 +40,7 @@ class TermsAndConditionsState extends State<TermsAndConditions> {
                     text: "Terms of Service ",
                     style: const TextStyle(fontWeight: FontWeight.bold,),
                     recognizer: TapGestureRecognizer()..onTap = () {
-
+                      
                     }
                   ),
                   const TextSpan(

@@ -96,6 +96,8 @@ flutter:
     - assets/images/TemplateBAsset.png
     - assets/images/TemplateCAsset.jpg
     - assets/.env
+    - assets/markdown/Terms_of_use.md
+    - assets/markdown/Privacy_policy.md
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
