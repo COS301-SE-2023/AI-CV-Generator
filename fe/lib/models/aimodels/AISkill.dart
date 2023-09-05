@@ -5,13 +5,13 @@ part 'AISkill.g.dart';
 @JsonSerializable()
 class AISkill {
   AISkill({
-    required this.skill,
-    required this.level,
-    required this.reason
+    this.skill,
+    this.level,
+    this.reason
   });
-  String skill;
-  String level;
-  String reason;
+  String? skill;
+  String? level;
+  String? reason;
 
   factory AISkill.fromJson(Map<String,dynamic> json) => _$AISkillFromJson(json);
 

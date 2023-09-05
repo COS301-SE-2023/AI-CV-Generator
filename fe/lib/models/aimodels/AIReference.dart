@@ -5,11 +5,11 @@ part 'AIReference.g.dart';
 @JsonSerializable()
 class AIReference {
   AIReference({
-    required this.description,
-    required this.contact
+    this.description,
+    this.contact
   });
-  String description;
-  String contact;
+  String? description;
+  String? contact;
 
   factory AIReference.fromJson(Map<String,dynamic> json) => _$AIReferenceFromJson(json);
 
