@@ -33,11 +33,22 @@ class Policy extends StatelessWidget {
             onPressed: () => Navigator.of(context).pop(),
             style: flatButtonStyle,
             child: Container(
+              height: 50,
+              width: double.infinity,
+              alignment: Alignment.center,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(radius),
                   bottomRight: Radius.circular(radius)
                 )
+              ),
+              child: const Text(
+                "Done",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white
+                ),
               ),
             ),
           )

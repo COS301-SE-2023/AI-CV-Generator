@@ -60,6 +60,7 @@ dependencies:
   langchain_openai: ^0.0.5+1
   flutter_dotenv: ^5.1.0
   jumping_dot: ^0.0.6
+  flutter_markdown: ^0.6.17+2
 dev_dependencies:
   flutter_test:
     sdk: flutter
