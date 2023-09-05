@@ -122,7 +122,7 @@ class CreateJobCardState extends State<CreateJobCard> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20))),
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-        width: 200,
+        width: 210,
         height: 300,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -133,7 +133,7 @@ class CreateJobCardState extends State<CreateJobCard> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Text(widget.title ?? "N/A", style: TextStyle(fontSize: 16)),
+                  Text(widget.title ?? "N/A", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
                   SizedBox(height: 4),
                   Text(widget.subtitle ?? "N/A", style: TextStyle(fontSize: 14),),
                   SizedBox(height: 8,),
@@ -142,7 +142,7 @@ class CreateJobCardState extends State<CreateJobCard> {
                     color: Colors.grey,
                   ),
                   SizedBox(height: 8,),
-                  Text(widget.location ?? "N/A", style: TextStyle(fontSize: 12)),
+                  Text(widget.location ?? "N/A", style: TextStyle(fontSize: 12,)),
                 ],
               ),
             ),
