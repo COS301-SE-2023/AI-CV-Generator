@@ -1,4 +1,9 @@
+import 'package:ai_cv_generator/dio/client/WebScraperApi.dart';
+import 'package:ai_cv_generator/dio/client/userApi.dart';
+import 'package:ai_cv_generator/models/user/UserModel.dart';
+import 'package:ai_cv_generator/models/webscraper/JobResponseDTO.dart';
 import 'package:ai_cv_generator/pages/widgets/breadcrumb.dart';
+import 'package:ai_cv_generator/pages/widgets/loadingscreens/loadingScreen.dart';
 import 'package:flutter/material.dart';
 
 class JobsPage extends StatefulWidget {
@@ -9,8 +14,52 @@ class JobsPage extends StatefulWidget {
 }
 
 class JobsPageState extends State<JobsPage> {
+  List<Widget> jobCards = [];
+
+  @override
+  void initState() {
+    populate();
+    super.initState();
+  }
+
+  void populate() async {
+    UserModel? user = await userApi.getUser();
+    if(user != null) {
+      if(user.location != null)
+      {
+        List<JobResponseDTO>? jobs = await getJobs("accounting", user.location!);
+        setState(() {
+          createCards(jobs);
+        });
+      }
+    }
+  }
+
+  Future<List<JobResponseDTO>?> getJobs(String field, String location) async {
+    return await WebScrapperApi.scrapejobs(field: field, location: location);
+  }
+
+  createCards(List<JobResponseDTO>? jobs) {
+    if(jobs != null) {
+      jobs.forEach((element) {
+        jobCards.add(
+          CreateJobCard(
+            title: element.title,
+            subtitle: element.subTitle,
+            location: element.location,
+            salary: element.salary,
+            link: element.link,
+          )
+        );
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext build) {
+    if(jobCards.isEmpty == true) {
+      return LoadingScreen();
+    }
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -29,18 +78,23 @@ class JobsPageState extends State<JobsPage> {
         ],
       ),
       body: SafeArea(
-        child: Stack(
+        child: Column(
           children: [
             Breadcrumb(previousPage: "Home", currentPage: "Jobs",),
-            Center(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CreateJobCard()
-                ],
-              ),
+            Expanded(
+              child: SingleChildScrollView( 
+                child: Center(
+                  child:  Wrap(
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    // mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ...jobCards,
+                    ],
+                ),
+                )
+              )
             )
+
           ],
         )
       )
@@ -49,11 +103,11 @@ class JobsPageState extends State<JobsPage> {
 }
 
 class CreateJobCard extends StatefulWidget {
-  String? title = "N/A";
-  String? subtitle = "N/A";
-  String? location = "N/A";
-  String? salary = "N/A";
-  String? link = "N/A";
+  String? title;
+  String? subtitle;
+  String? location;
+  String? salary;
+  String? link;
   CreateJobCard({super.key, this.title, this.subtitle, this.location, this.salary, this.link});
 
   @override
@@ -61,41 +115,35 @@ class CreateJobCard extends StatefulWidget {
 }
 
 class CreateJobCardState extends State<CreateJobCard> {
-  @override
-  void initState() {
-    widget.title = "N/A";
-    widget.subtitle = "N/A";
-    widget.location = "N/A";
-    widget.salary = "N/A";
-    widget.link = "N/A";
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20))),
       child: Container(
-        padding: EdgeInsets.all(16),
-        width: 150,
-        height: 250,
+        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+        width: 180,
+        height: 300,
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Expanded(
               flex: 2,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Text(widget.title!),
+                  Text(widget.title ?? "N/A"),
                   SizedBox(height: 4),
-                  Text(widget.subtitle!),
+                  Text(widget.subtitle ?? "N/A"),
                   SizedBox(height: 8,),
                   Container(
                     height: 1,
                     color: Colors.grey,
                   ),
                   SizedBox(height: 8,),
-                  Text(widget.location!),
+                  Text(widget.location ?? "N/A"),
+                  SizedBox(height: 24,),
                 ],
               ),
             ),
@@ -103,11 +151,13 @@ class CreateJobCardState extends State<CreateJobCard> {
               child: SizedBox(
                 child: Column(
                   children: [
-                    Text(widget.salary!),
+                    Text(widget.salary ?? "N/A"),
                     SizedBox(height: 24,),
                     ElevatedButton(
                       onPressed: () {
+                        if(widget.link != null) {
 
+                        }
                       }, 
                       child: Text("VISIT"),
                     ),
