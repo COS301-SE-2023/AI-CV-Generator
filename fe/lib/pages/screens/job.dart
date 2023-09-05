@@ -122,7 +122,7 @@ class CreateJobCardState extends State<CreateJobCard> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20))),
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-        width: 200,
+        width: 210,
         height: 300,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
