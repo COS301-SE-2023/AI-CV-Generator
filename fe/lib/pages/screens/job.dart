@@ -25,13 +25,10 @@ class JobsPageState extends State<JobsPage> {
   void populate() async {
     UserModel? user = await userApi.getUser();
     if(user != null) {
-      if(user.location != null)
-      {
         List<JobResponseDTO>? jobs = await getJobs("accounting", user.location ?? "");
         setState(() {
           createCards(jobs);
         });
-      }
     }
   }
 
