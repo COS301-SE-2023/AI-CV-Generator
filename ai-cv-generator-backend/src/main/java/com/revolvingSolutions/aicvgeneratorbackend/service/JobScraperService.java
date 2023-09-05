@@ -1,13 +1,20 @@
 package com.revolvingSolutions.aicvgeneratorbackend.service;
 
+import com.revolvingSolutions.aicvgeneratorbackend.entitiy.UserEntity;
+import com.revolvingSolutions.aicvgeneratorbackend.exception.UnknownErrorException;
 import com.revolvingSolutions.aicvgeneratorbackend.model.webscrapper.JobResponseDTO;
+import com.revolvingSolutions.aicvgeneratorbackend.repository.UserRepository;
 import com.revolvingSolutions.aicvgeneratorbackend.request.webscraper.JobScrapeRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.response.webscraper.JobScrapeResponse;
+import lombok.RequiredArgsConstructor;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -15,7 +22,28 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Service
+@RequiredArgsConstructor
 public class JobScraperService {
+
+    private final UserRepository userRepository;
+
+    private UserEntity getAuthenticatedUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+            String currentUserName = authentication.getName();
+            var user_ = userRepository.findByUsername(currentUserName).orElseThrow();
+            return user_;
+        }
+        throw new UnknownErrorException("This should not be possible");
+    }
+    public JobScrapeResponse getRecommended() {
+        return scrapData(
+          JobScrapeRequest.builder()
+                  .field(getAuthenticatedUser().getDescription())
+                  .location(getAuthenticatedUser().getLocation())
+                  .build()
+        );
+    }
     public JobScrapeResponse scrapData(
         JobScrapeRequest request
     ) {

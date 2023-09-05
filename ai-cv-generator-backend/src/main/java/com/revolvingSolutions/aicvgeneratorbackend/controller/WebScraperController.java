@@ -24,4 +24,9 @@ public class WebScraperController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @GetMapping(value = "/recommended")
+    public  ResponseEntity<JobScrapeResponse> recommend() {
+        return ResponseEntity.ok(service.getRecommended());
+    }
 }
