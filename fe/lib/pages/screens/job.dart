@@ -84,13 +84,16 @@ class JobsPageState extends State<JobsPage> {
             Expanded(
               child: SingleChildScrollView( 
                 child: Center(
-                  child: Wrap(
-                    crossAxisAlignment: WrapCrossAlignment.center,
-                    // mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      ...jobCards,
-                    ],
-                ),
+                  child: Container(
+                    width: 1100,
+                    child: Wrap(
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      // mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ...jobCards,
+                      ],
+                    ),
+                  )
                 )
               )
             )
@@ -121,8 +124,8 @@ class CreateJobCardState extends State<CreateJobCard> {
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20))),
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-        width: 180,
+        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        width: 200,
         height: 300,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
