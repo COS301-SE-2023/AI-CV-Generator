@@ -5,6 +5,7 @@ import 'package:ai_cv_generator/models/webscraper/JobResponseDTO.dart';
 import 'package:ai_cv_generator/pages/widgets/breadcrumb.dart';
 import 'package:ai_cv_generator/pages/widgets/loadingscreens/loadingScreen.dart';
 import 'package:flutter/material.dart';
+import 'dart:html' as html;
 
 class JobsPage extends StatefulWidget {
   const JobsPage({super.key});
@@ -156,7 +157,7 @@ class CreateJobCardState extends State<CreateJobCard> {
                     ElevatedButton(
                       onPressed: () {
                         if(widget.link != null) {
-
+                          html.window.open(widget.link!, "new tab");
                         }
                       }, 
                       child: Text("VISIT"),
