@@ -1,13 +1,22 @@
+// internal
+import 'package:ai_cv_generator/pages/widgets/loadingscreens/loadingScreen.dart';
+
+// external
+import 'dart:js_interop';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 
 class Policy extends StatelessWidget {
   const Policy({
     super.key,
     required this.filename,
-    this.radius = 6
+    this.radius = 6,
+    this.waitPeriod = 200
   });
   final String filename;
   final double radius;
+  final int waitPeriod;
   @override
   Widget build(BuildContext context) {
     final ButtonStyle flatButtonStyle = TextButton.styleFrom(
@@ -27,7 +36,17 @@ class Policy extends StatelessWidget {
       child: Column(
         children: [
           Expanded(
-            child: Text("")
+            child: FutureBuilder(
+              future: Future.delayed(Duration(milliseconds: waitPeriod)).then((value) {return rootBundle.load(filename);}),
+              builder: (context, snapshot) {
+                if (!snapshot.isNull && snapshot.hasData) {
+                  return Markdown(
+                    data: snapshot.data as String
+                  );
+                }
+                return const LoadingScreen();
+              }
+            )
           ),
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
