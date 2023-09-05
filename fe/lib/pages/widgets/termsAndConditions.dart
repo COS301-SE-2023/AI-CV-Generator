@@ -40,7 +40,12 @@ class TermsAndConditionsState extends State<TermsAndConditions> {
                     text: "Terms of Service ",
                     style: const TextStyle(fontWeight: FontWeight.bold,),
                     recognizer: TapGestureRecognizer()..onTap = () {
-                      
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return const Policy(filename: "assets/markdown/Terms_of_use.md");
+                        }
+                      );
                     }
                   ),
                   const TextSpan(
@@ -50,7 +55,12 @@ class TermsAndConditionsState extends State<TermsAndConditions> {
                     text: "Privacy Policy.",
                     style: const TextStyle(fontWeight: FontWeight.bold,),
                     recognizer: TapGestureRecognizer()..onTap = () {
-
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return const Policy(filename: "assets/markdown/Privacy_policy.md");
+                        }
+                      );
                     }
                   )
                 ]

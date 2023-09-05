@@ -11,7 +11,7 @@ class Policy extends StatelessWidget {
   const Policy({
     super.key,
     required this.filename,
-    this.radius = 6,
+    this.radius = 10,
     this.waitPeriod = 200
   });
   final String filename;
@@ -31,48 +31,71 @@ class Policy extends StatelessWidget {
     );
     return Dialog(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(6)
+        borderRadius: BorderRadius.circular(radius)
       ),
-      child: Column(
-        children: [
-          Expanded(
-            child: FutureBuilder(
-              future: Future.delayed(Duration(milliseconds: waitPeriod)).then((value) {return rootBundle.load(filename);}),
-              builder: (context, snapshot) {
-                if (!snapshot.isNull && snapshot.hasData) {
-                  return Markdown(
-                    data: snapshot.data as String
-                  );
+      child: SizedBox(
+        width: 700,
+        height: 400,
+        child:
+        Column(
+          children: [
+            Expanded(
+              child: FutureBuilder(
+                future: Future.delayed(Duration(milliseconds: waitPeriod)).then((value) {return rootBundle.loadString(filename);}),
+                builder: (context, snapshot) {
+                  if (!snapshot.isNull && snapshot.hasData) {
+                    return Markdown(
+                      data: snapshot.data as String,
+                      styleSheet: MarkdownStyleSheet(
+                        p: const TextStyle(
+                          color: Colors.grey,
+                          fontSize: 10
+                        ),
+                        h1: const TextStyle(
+                          color: Colors.grey,
+                          fontSize: 30
+                        ),
+                        h2: const TextStyle(
+                          color: Colors.grey,
+                          fontSize: 20
+                        ),
+                        h3: const TextStyle(
+                          color: Colors.grey,
+                          fontSize: 15
+                        ),
+                      ),
+                    );
+                  }
+                  return const LoadingScreen();
                 }
-                return const LoadingScreen();
-              }
-            )
-          ),
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            style: flatButtonStyle,
-            child: Container(
-              height: 50,
-              width: double.infinity,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(radius),
-                  bottomRight: Radius.circular(radius)
-                )
-              ),
-              child: const Text(
-                "Done",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white
+              )
+            ),
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              style: flatButtonStyle,
+              child: Container(
+                height: 50,
+                width: double.infinity,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(radius),
+                    bottomRight: Radius.circular(radius)
+                  )
+                ),
+                child: const Text(
+                  "Done",
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white
+                  ),
                 ),
               ),
-            ),
-          )
-        ],
-      ),
+            )
+          ],
+        ),
+      )
     );
   }
 }
