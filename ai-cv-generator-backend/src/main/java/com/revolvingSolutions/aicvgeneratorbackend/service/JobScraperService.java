@@ -50,18 +50,22 @@ public class JobScraperService {
         Set<JobResponseDTO> responseDTOS = new HashSet<>();
         try {
             responseDTOS.addAll(linkedIn(request));
-            //responseDTOS.addAll(indeed(request));
-            //responseDTOS.addAll(simplyHired(request));
-            responseDTOS.addAll(careerBuilder(request));
-            responseDTOS.addAll(snagAJob(request));
-            return JobScrapeResponse.builder()
-                    .jobs(responseDTOS)
-                    .build();
         } catch (IOException e) {
-            e.printStackTrace();
-            throw new RuntimeException("Bad request with scraper");
+            System.out.println("LinkedIn failed");
         }
+
+        try {
+            responseDTOS.addAll(CBRE(request));
+        } catch (IOException e) {
+            System.out.println("CBRE failed");
+            e.printStackTrace();
+        }
+
+        return JobScrapeResponse.builder()
+                .jobs(responseDTOS)
+                .build();
     }
+
 
     private Set<JobResponseDTO> linkedIn(JobScrapeRequest request) throws IOException {
         Set<JobResponseDTO> responseDTOS = new HashSet<>();
@@ -85,43 +89,81 @@ public class JobScraperService {
         return responseDTOS;
     }
 
+    private Set<JobResponseDTO> CBRE(JobScrapeRequest request) throws IOException {
+        Set<JobResponseDTO> responseDTOS = new HashSet<>();
+        Document doc = Jsoup.connect("https://careers.cbre.com/en_US/careers/SearchJobs/"+request.getField().replaceAll(" ","%20")+"%20="+request.getLocation().replaceAll(" ", "%20")+"?listFilterMode=1&jobSort=relevancy&jobRecordsPerPage=25&").get();
+        Element main = doc.getElementsByTag("main").first();
+        Element list = main.getElementsByClass("section__content__results").first();
+        Elements listelements = doc.getElementsByClass("article article--result ");
+        for (Element el : listelements) {
+            try {
+                if (el.getElementsByClass("article__header__text__title article__header__text__title--4 ").isEmpty()) {
+                    continue;
+                }
+                Element link = el.getElementsByClass("article__header__text__title article__header__text__title--4 ").first().getElementsByTag("a").first();
+                Element subtitle = el.getElementsByClass("article__header__text__subtitle").first();
+                Elements spans = subtitle.getElementsByTag("span");
+                String subTitle = "";
+                for (Element ell: spans) {
+                    subTitle+= ell.ownText();
+                }
+                String location = "Location";
+                if (spans.size() >= 2) {
+                    location = spans.get(2).ownText();
+                }
+                responseDTOS.add(
+                        JobResponseDTO.builder()
+                                .title(link.ownText())
+                                .subTitle(subTitle)
+                                .location(location)
+                                .link(link.attr("href"))
+                                .build()
+                );
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println("Response DTOs failed");
+            }
+
+        }
+        return responseDTOS;
+    }
+
+    // Protected by Cloudflare
     private Set<JobResponseDTO> indeed(JobScrapeRequest request) throws IOException {
         Set<JobResponseDTO> responseDTOS = new HashSet<>();
         String keywords = request.getField().replaceAll(" ","+");
         String location = request.getLocation().replaceAll(" ","+");
         Connection.Response res = Jsoup.connect("https://za.indeed.com/jobs?q="+keywords+"&l="+location)
-                .followRedirects(false)
                 .timeout(0)
                 .method(Connection.Method.GET)
                 .header("User-Agent", "Mozilla/5.0")
+                .header("Referrer Policy","strict-origin-when-cross-origin")
+                .ignoreHttpErrors(true)
                 .execute();
+        res.cookies();
 
-        String loc = res.header("Location");
-        res = Jsoup.connect("https://za.indeed.com/jobs?q="+keywords+"&l="+location)
-                .timeout(0)
-                .data("is_check", "1")
-                .method(Connection.Method.POST)
-                .header("User-Agent", "Mozilla/5.0")
-                .header("Referer", loc)
-                .execute();
+        System.out.println(res.body());
 
-        Document doc = res.parse();
-        Element list = doc.getElementById("mosaic-provider-jobcards");
-        Elements els = list.getElementsByTag("li");
-        for (Element el : els) {
-            Element tag = el.getElementsByTag("a").first();
-            Element title = el.getElementsByTag("span").first();
-            responseDTOS.add(
-                    JobResponseDTO.builder()
-                            .title(title.ownText())
-                            .link(tag.attr("href"))
-                            .subTitle(el.getElementsByClass("companyName").first().ownText()+" "+el.getElementsByClass("companyLocation").first().ownText())
-                            .build()
-            );
-        }
-        return  responseDTOS;
+        return responseDTOS;
+
+//        Document doc = res.parse();
+//        Element list = doc.getElementById("mosaic-provider-jobcards");
+//        Elements els = list.getElementsByTag("li");
+//        for (Element el : els) {
+//            Element tag = el.getElementsByTag("a").first();
+//            Element title = el.getElementsByTag("span").first();
+//            responseDTOS.add(
+//                    JobResponseDTO.builder()
+//                            .title(title.ownText())
+//                            .link(tag.attr("href"))
+//                            .subTitle(el.getElementsByClass("companyName").first().ownText()+" "+el.getElementsByClass("companyLocation").first().ownText())
+//                            .build()
+//            );
+//        }
+//        return  responseDTOS;
     }
 
+    // Protected by Cloudflare
     private Set<JobResponseDTO> simplyHired(JobScrapeRequest request) throws IOException {
         Set<JobResponseDTO> responseDTOS = new HashSet<>();
         Document doc = Jsoup.connect("https://www.simplyhired.com/search?q="+request.getField().replaceAll(" ","+")+"&l="+request.getLocation().replaceAll(" ","+")).get();
