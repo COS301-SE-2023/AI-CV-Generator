@@ -86,22 +86,20 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                       wait = true;
                     });
                     bool resp = await AuthApi.login(username: nameController.text,password: passwordController.text);
-                    setState(() {
-                      wait = false;
-                    });
                     if (resp) {
                       error = false;
                       Navigator.pushNamed(context, '/home');
                     } else {
                       setState(() {
                         error = true;
+                        wait = false;
                       });
                     }
                   },
                 )
             ),
             error ?
-            const Center(child: Text("Password or Email invalid",style: TextStyle(
+            const Center(child: Text("Username or Password invalid",style: TextStyle(
               color: Colors.red,
               backgroundColor: Color.fromARGB(0, 186, 40, 40)
             ),)) : const Text(""),

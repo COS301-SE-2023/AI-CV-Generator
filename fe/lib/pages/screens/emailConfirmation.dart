@@ -1,4 +1,5 @@
 import 'package:ai_cv_generator/dio/client/AuthApi.dart';
+import 'package:ai_cv_generator/dio/response/AuthResponses/Code.dart';
 import 'package:flutter/material.dart';
 
 class EmailConfirmationArguments{
@@ -50,12 +51,33 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   Color? p2textColor;
 
   void backToLogin() {
-    Navigator.popUntil(context, ModalRoute.withName('/login'));
+    Navigator.popUntil(context, ModalRoute.withName('/'));
   }
+
+  TextEditingController errorMessage = TextEditingController(text: "Error");
+  Stream<String> sampleListener(TextEditingController controller) async* { // <- here
+    while (true) {
+      await Future.delayed(const Duration(milliseconds: 10));
+      yield controller.value.text;
+    }
+  }
+
  
   @override
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context)!.settings.arguments as EmailConfirmationArguments;
+    void confirm() {
+      Navigator.popAndPushNamed(
+        context, '/confirm',
+        arguments: EmailConfirmationArguments(
+          email: args.email,
+          username: args.username,
+          password: args.password,
+          fname: args.fname,
+          lname: args.lname
+        )
+      );
+    }
     return Scaffold(
           body: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -63,7 +85,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           children: <Widget>[
             Container(
                 alignment: Alignment.center,
-                padding: const EdgeInsets.fromLTRB(10, 30, 10, 10),
+                padding: const EdgeInsets.fromLTRB(10, 30, 100, 10),
                 child: const Image(
                   image: ResizeImage(
                     AssetImage('assets/images/logo.png'),
@@ -79,24 +101,36 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 Text(
                   "An email has been sent to ${args.email}",
                   style: const TextStyle(
-                    color: Color(0xFFEA6D79),
-                    fontSize: 20
+                    color: Colors.grey,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold
                   ),
                 ),
                 const Text(
                   "Please check your email to verify your account to continue",
                   style: TextStyle(
-                    color: Color(0xFFEA6D79),
-                    fontSize: 20
+                    color: Colors.grey,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold
                   ),
                 ),
                 Row(
                   children: [
                     Container(
-                      padding: const EdgeInsets.all(30),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          AuthApi.register(username: args.username, password: args.password, email: args.email, fname: args.fname, lname: args.lname);
+                      padding: const EdgeInsets.all(40),
+                      child: FloatingActionButton(
+                        onPressed: () async {
+                          Code code = await AuthApi.register(username: args.username, password: args.password, email: args.email, fname: args.fname, lname: args.lname);
+                          if (code == Code.success) {
+                            error = false;
+                            confirm();
+                          } else {
+                            error = true;
+                            errorMessage.text = "Unknown error accured!";
+                            setState(() {
+                              
+                            });
+                          }
                         }, 
                         child: const Text(
                           "Resend Email",
@@ -107,7 +141,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                       ),
                     ),
                     Container(
-                      padding: const EdgeInsets.all(30),
+                      padding: const EdgeInsets.all(40),
                       child: ElevatedButton(
                         onPressed: () {
                           backToLogin();
@@ -119,6 +153,36 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                           ),
                         )
                       ),
+                    ),
+                    if (error)
+                    Center(
+                      child: Container(
+                        padding: const EdgeInsets.fromLTRB(500, 10, 500, 10),
+                        child: StreamBuilder<String>(
+                          stream: sampleListener(errorMessage),
+                          builder: (context, AsyncSnapshot<String> snapshot) {
+                            if (snapshot.hasError || snapshot.data == null) {
+                              return const Text(
+                                "",
+                                style: TextStyle(
+                                  color: Colors.red,
+                                  fontSize: 20,
+                                  backgroundColor: Color.fromARGB(0, 186, 40, 40)
+                                ),
+                              );
+                            } else {
+                              return Text(
+                                snapshot.data as String,
+                                style: const TextStyle(
+                                  color: Colors.red,
+                                  fontSize: 20,
+                                  backgroundColor: Color.fromARGB(0, 186, 40, 40)
+                                ),
+                              );
+                            }
+                          }
+                        )
+                      )
                     )
                   ],
                 )

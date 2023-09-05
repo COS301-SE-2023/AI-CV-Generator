@@ -54,13 +54,13 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     );
   }
 
-   TextEditingController errorMessage = TextEditingController(text: "Error");
-    Stream<String> sampleListener(TextEditingController controller) async* { // <- here
-      while (true) {
-        await Future.delayed(const Duration(milliseconds: 10));
-        yield controller.value.text;
-      }
-    } 
+  TextEditingController errorMessage = TextEditingController(text: "Error");
+  Stream<String> sampleListener(TextEditingController controller) async* { // <- here
+    while (true) {
+      await Future.delayed(const Duration(milliseconds: 10));
+      yield controller.value.text;
+    }
+  } 
     
   
   bool error = false;
@@ -86,8 +86,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 child: const Image(
                   image: ResizeImage(
                     AssetImage('assets/images/logo.png'),
-                    width:175,
-                    height:175
+                    width:150,
+                    height:150
                     ),
                   )
                 ),
@@ -129,7 +129,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   
                 ],
               ),
-            
             Container(
               padding: const EdgeInsets.fromLTRB(500, 10, 500, 10),
               child: TextField(
@@ -239,8 +238,11 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   key: const Key('register'),
                   child: const Text('Register'),
                   onPressed: () async {
-                    if (tAndCs.accepted) {
-                      print("Yes");
+                    if (!tAndCs.accepted) {
+                      setState(() {
+                        error = true;
+                        errorMessage.text = "Please accept our Terms of Use and Privacy Policy";
+                      });
                       return;
                     }
                     if (passwordController.text != passwordRetypeController.text) {
@@ -283,8 +285,9 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 )
             ),
             if (error)
-             Center(
+            Center(
               child: Container(
+                height: 50,
                 padding: const EdgeInsets.fromLTRB(500, 10, 500, 10),
                 child: StreamBuilder<String>(
                   stream: sampleListener(errorMessage),
@@ -293,7 +296,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                       return const Text(
                         "",
                         style: TextStyle(
-                          color: Colors.red,
+                          color: Color(0xFFEA6D79),
                           fontSize: 20,
                           backgroundColor: Color.fromARGB(0, 186, 40, 40)
                         ),
@@ -302,8 +305,9 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                       return Text(
                         snapshot.data as String,
                         style: const TextStyle(
-                          color: Colors.red,
+                          color: Color(0xFFEA6D79),
                           fontSize: 20,
+                          fontWeight: FontWeight.bold,
                           backgroundColor: Color.fromARGB(0, 186, 40, 40)
                         ),
                       );
