@@ -22,7 +22,7 @@ class TermsAndConditionsState extends State<TermsAndConditions> {
       if (states.any(interactiveStates.contains)) {
         return Colors.grey;
       }
-      return Color(0xFFEA6D79);
+      return const Color(0xFFEA6D79);
     }
     return Padding(
       padding: const EdgeInsets.all(10),
