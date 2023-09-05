@@ -27,7 +27,7 @@ class JobsPageState extends State<JobsPage> {
     if(user != null) {
       if(user.location != null)
       {
-        List<JobResponseDTO>? jobs = await getJobs("accounting", user.location!);
+        List<JobResponseDTO>? jobs = await getJobs("accounting", user.location ?? "");
         setState(() {
           createCards(jobs);
         });
@@ -84,7 +84,7 @@ class JobsPageState extends State<JobsPage> {
             Expanded(
               child: SingleChildScrollView( 
                 child: Center(
-                  child:  Wrap(
+                  child: Wrap(
                     crossAxisAlignment: WrapCrossAlignment.center,
                     // mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -143,7 +143,6 @@ class CreateJobCardState extends State<CreateJobCard> {
                   ),
                   SizedBox(height: 8,),
                   Text(widget.location ?? "N/A"),
-                  SizedBox(height: 24,),
                 ],
               ),
             ),
@@ -151,7 +150,8 @@ class CreateJobCardState extends State<CreateJobCard> {
               child: SizedBox(
                 child: Column(
                   children: [
-                    Text(widget.salary ?? "N/A"),
+                    SizedBox(height: 16,),
+                    Text(widget.salary ?? "N/A", style: TextStyle(color: Colors.green),),
                     SizedBox(height: 24,),
                     ElevatedButton(
                       onPressed: () {
