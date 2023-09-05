@@ -1,23 +1,32 @@
 package com.revolvingSolutions.aicvgeneratorbackend.service;
 
+import com.revolvingSolutions.aicvgeneratorbackend.agent.EmploymentHistoryExpander;
+import com.revolvingSolutions.aicvgeneratorbackend.agent.FieldClassifierAgent;
 import com.revolvingSolutions.aicvgeneratorbackend.entitiy.UserEntity;
 import com.revolvingSolutions.aicvgeneratorbackend.exception.UnknownErrorException;
+import com.revolvingSolutions.aicvgeneratorbackend.model.user.User;
 import com.revolvingSolutions.aicvgeneratorbackend.model.webscrapper.JobResponseDTO;
 import com.revolvingSolutions.aicvgeneratorbackend.repository.UserRepository;
 import com.revolvingSolutions.aicvgeneratorbackend.request.webscraper.JobScrapeRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.response.webscraper.JobScrapeResponse;
+import dev.langchain4j.memory.chat.MessageWindowChatMemory;
+import dev.langchain4j.model.chat.ChatLanguageModel;
+import dev.langchain4j.model.openai.OpenAiChatModel;
+import dev.langchain4j.service.AiServices;
 import lombok.RequiredArgsConstructor;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.time.Duration;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -26,6 +35,7 @@ import java.util.Set;
 public class JobScraperService {
 
     private final UserRepository userRepository;
+    private final UserService userService;
 
     private UserEntity getAuthenticatedUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -36,11 +46,20 @@ public class JobScraperService {
         }
         throw new UnknownErrorException("This should not be possible");
     }
+
+    public User getAISafeModel() {
+        return userService.getUser().getUser();
+    }
     public JobScrapeResponse getRecommended() {
+        User user = getAISafeModel();
+
+        String location = "";
+        if (user.getLocation()!=null) location = user.getLocation();
+
         return scrapData(
           JobScrapeRequest.builder()
-                  .field(getAuthenticatedUser().getDescription())
-                  .location(getAuthenticatedUser().getLocation())
+                  .field(fieldClassifier(fieldClassifierchatLanguageModel()).chat(user.toString()))
+                  .location(location)
                   .build()
         );
     }
@@ -102,6 +121,7 @@ public class JobScraperService {
                 }
                 Element link = el.getElementsByClass("article__header__text__title article__header__text__title--4 ").first().getElementsByTag("a").first();
                 Element subtitle = el.getElementsByClass("article__header__text__subtitle").first();
+                if (subtitle!= null) continue;
                 Elements spans = subtitle.getElementsByTag("span");
                 String subTitle = "";
                 for (Element ell: spans) {
@@ -195,6 +215,36 @@ public class JobScraperService {
     private Set<JobResponseDTO> snagAJob(JobScrapeRequest request) throws IOException {
         Set<JobResponseDTO> responseDTOS = new HashSet<>();
         return  responseDTOS;
+    }
+
+    @Value("${langchain4j.chat-model.openai.api-key}")
+    private String apikey;
+    @Value("${langchain4j.chat-model.openai.model-name}")
+    private String modelName;
+
+    @Value("${langchain4j.chat-model.openai.temperature}")
+    private Double temperature;
+
+    private ChatLanguageModel fieldClassifierchatLanguageModel() {
+        return new OpenAiChatModel(
+                apikey,
+                modelName,
+                temperature,
+                1.0,
+                1000,
+                0.0,0.0,
+                Duration.ofMinutes(2),
+                2,
+                true,
+                true
+        );
+    }
+
+    private FieldClassifierAgent fieldClassifier(ChatLanguageModel chatLanguageModel) {
+        return AiServices.builder(FieldClassifierAgent.class)
+                .chatLanguageModel(chatLanguageModel)
+                .chatMemory(MessageWindowChatMemory.withCapacity(3))
+                .build();
     }
 
 }
