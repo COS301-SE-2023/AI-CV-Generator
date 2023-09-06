@@ -27,7 +27,8 @@ class JobsPageState extends State<JobsPage> {
   void populate() async {
     UserModel? user = await userApi.getUser();
     if(user != null) {
-        List<JobResponseDTO>? jobs = await getJobs("accounting", user.location ?? "");
+        // List<JobResponseDTO>? jobs = await getJobs("accounting", user.location ?? "");
+        List<JobResponseDTO>? jobs = await getRecommended();
         setState(() {
           createCards(jobs);
         });
@@ -36,6 +37,10 @@ class JobsPageState extends State<JobsPage> {
 
   Future<List<JobResponseDTO>?> getJobs(String field, String location) async {
     return await WebScrapperApi.scrapejobs(field: field, location: location);
+  }
+
+  Future<List<JobResponseDTO>?> getRecommended() async {
+    return await WebScrapperApi.recommended();
   }
 
   createCards(List<JobResponseDTO>? jobs) {
