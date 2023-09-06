@@ -8,7 +8,7 @@ public interface FieldClassifierAgent {
                     "A user will provide their details in a paragraph,"+
                     "and you should decide what their field of interest is, " +
                     "and nothing more." +
-                    "If you cannot determine the users field simply respond with :\"\""
+                    "If you cannot determine the users field simply respond with an empty string"
     )
     String chat(String userMessage);
 }
