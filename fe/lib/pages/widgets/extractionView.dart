@@ -43,7 +43,9 @@ class ExtractionView {
       if(value is List) {
         for(int i = 0; i < value.length; i++) {
           value[i].toJson().forEach((key, data) {
-            widgets.add(Text(data));
+            if(data!= null) {
+              widgets.add(Text(data));
+            }
           });
           if(i != value.length-1) {
             widgets.add(const SizedBox(height: 8,));
