@@ -7,10 +7,10 @@ part of 'AIEmployment.dart';
 // **************************************************************************
 
 AIEmployment _$AIEmploymentFromJson(Map<String, dynamic> json) => AIEmployment(
-      company: json['company'] as String,
-      jobTitle: json['jobTitle'] as String,
-      startDate: json['startDate'] as String,
-      endDate: json['endDate'] as String,
+      company: json['company'] as String?,
+      jobTitle: json['jobTitle'] as String?,
+      startDate: json['startDate'] as String?,
+      endDate: json['endDate'] as String?,
     );
 
 Map<String, dynamic> _$AIEmploymentToJson(AIEmployment instance) =>

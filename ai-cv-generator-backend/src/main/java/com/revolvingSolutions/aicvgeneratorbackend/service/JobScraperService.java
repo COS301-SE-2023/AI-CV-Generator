@@ -19,6 +19,9 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -77,7 +80,13 @@ public class JobScraperService {
             responseDTOS.addAll(CBRE(request));
         } catch (IOException e) {
             System.out.println("CBRE failed");
+        }
+
+        try {
+            responseDTOS.addAll(careerJunction(request));
+        } catch (IOException e) {
             e.printStackTrace();
+            System.out.println("CareerJunction failed");
         }
 
         return JobScrapeResponse.builder()
@@ -154,20 +163,20 @@ public class JobScraperService {
         Set<JobResponseDTO> responseDTOS = new HashSet<>();
         String keywords = request.getField().replaceAll(" ","+");
         String location = request.getLocation().replaceAll(" ","+");
-        Connection.Response res = Jsoup.connect("https://za.indeed.com/jobs?q="+keywords+"&l="+location)
-                .timeout(0)
-                .method(Connection.Method.GET)
-                .header("User-Agent", "Mozilla/5.0")
-                .header("Referrer Policy","strict-origin-when-cross-origin")
-                .ignoreHttpErrors(true)
-                .execute();
-        res.cookies();
+        //driver.get("https://za.indeed.com/jobs?q="+keywords+"&l="+location);
+//        Connection.Response res = Jsoup.connect("https://za.indeed.com/jobs?q="+keywords+"&l="+location)
+//                .timeout(0)
+//                .method(Connection.Method.GET)
+//                .header("User-Agent", "Mozilla/5.0")
+//                .header("Referrer Policy","strict-origin-when-cross-origin")
+//                .ignoreHttpErrors(true)
+//                .execute();
+//
+//
+//        System.out.println(res.body());
 
-        System.out.println(res.body());
 
-        return responseDTOS;
-
-//        Document doc = res.parse();
+//        Document doc = Jsoup.parse(driver.getPageSource());
 //        Element list = doc.getElementById("mosaic-provider-jobcards");
 //        Elements els = list.getElementsByTag("li");
 //        for (Element el : els) {
@@ -181,7 +190,7 @@ public class JobScraperService {
 //                            .build()
 //            );
 //        }
-//        return  responseDTOS;
+        return  responseDTOS;
     }
 
     // Protected by Cloudflare
@@ -208,8 +217,54 @@ public class JobScraperService {
         return  responseDTOS;
     }
 
-    private Set<JobResponseDTO> careerBuilder(JobScrapeRequest request) throws IOException {
+    private Set<JobResponseDTO> careerJunction(JobScrapeRequest request) throws IOException {
         Set<JobResponseDTO> responseDTOS = new HashSet<>();
+        Document doc = Jsoup.connect("https://www.careerjunction.co.za/jobs/results?keywords="+request.getField().replaceAll(" ","%20")+"&location="+request.getLocation().replaceAll(" ", "%20")).get();
+        Elements elements = doc.getElementsByClass("module job-result  ");
+        for (Element el: elements) {
+            try {
+                Elements title = el.getElementsByClass("job-result-title");
+                Elements logo = el.getElementsByClass("job-result-logo-title");
+                Elements overview = el.getElementsByClass("job-overview");
+                if (title.isEmpty()) continue;
+                Elements titleA = title.get(0).getElementsByTag("a");
+                if (titleA.isEmpty()) continue;
+                String subtitle = null;
+                if (titleA.size() == 2) {
+                    subtitle = titleA.get(1).ownText();
+                }
+                String location = null;
+                String salary = null;
+                String imgLink = null;
+                if (!overview.isEmpty()) {
+                    Elements locationEl = overview.get(0).getElementsByClass("location");
+                    if (!locationEl.isEmpty()) {
+                        location = locationEl.get(0).getElementsByTag("a").get(0).ownText();
+                    }
+                    Elements salaryEl = overview.get(0).getElementsByClass("salary");
+                    if (!salaryEl.isEmpty()) {
+                        salary = salaryEl.get(0).ownText();
+                    }
+                }
+                Elements imgEl = el.getElementsByTag("img");
+                if (!imgEl.isEmpty()) {
+                    imgLink = imgEl.get(0).attr("src");
+                }
+                responseDTOS.add(
+                        JobResponseDTO.builder()
+                                .title(titleA.first().ownText())
+                                .link(titleA.first().attr("href"))
+                                .location(location)
+                                .subTitle(subtitle)
+                                .salary(salary)
+                                .imgLink(imgLink)
+                                .build()
+                );
+            } catch (Exception e) {
+                System.out.println("Invalid Response");
+            }
+
+        }
         return  responseDTOS;
     }
 

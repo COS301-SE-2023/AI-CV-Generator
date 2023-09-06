@@ -14,5 +14,6 @@ public class JobResponseDTO {
     public String subTitle;
     public String link;
     public String location;
+    public String imgLink;
     public String salary;
 }

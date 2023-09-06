@@ -7,8 +7,8 @@ part of 'AIReference.dart';
 // **************************************************************************
 
 AIReference _$AIReferenceFromJson(Map<String, dynamic> json) => AIReference(
-      description: json['description'] as String,
-      contact: json['contact'] as String,
+      description: json['description'] as String?,
+      contact: json['contact'] as String?,
     );
 
 Map<String, dynamic> _$AIReferenceToJson(AIReference instance) =>

@@ -7,9 +7,9 @@ part of 'AISkill.dart';
 // **************************************************************************
 
 AISkill _$AISkillFromJson(Map<String, dynamic> json) => AISkill(
-      skill: json['skill'] as String,
-      level: json['level'] as String,
-      reason: json['reason'] as String,
+      skill: json['skill'] as String?,
+      level: json['level'] as String?,
+      reason: json['reason'] as String?,
     );
 
 Map<String, dynamic> _$AISkillToJson(AISkill instance) => <String, dynamic>{

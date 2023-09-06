@@ -125,7 +125,7 @@ class CreateJobCardState extends State<CreateJobCard> {
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         width: 210,
-        height: 300,
+        height: 350,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [

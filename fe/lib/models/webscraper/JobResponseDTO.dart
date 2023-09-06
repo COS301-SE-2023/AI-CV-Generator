@@ -9,13 +9,15 @@ class JobResponseDTO {
   String? link;
   String? location;
   String? salary;
+  String? imgLink;
 
   JobResponseDTO({
     required this.title,
     required this.subTitle,
     this.link,
     this.location,
-    this.salary
+    this.salary,
+    this.imgLink
   });
 
   factory JobResponseDTO.fromJson(Map<String, dynamic> json) => _$JobResponseDTOFromJson(json);

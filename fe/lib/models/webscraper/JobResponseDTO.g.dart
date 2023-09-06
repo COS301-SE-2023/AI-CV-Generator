@@ -13,6 +13,7 @@ JobResponseDTO _$JobResponseDTOFromJson(Map<String, dynamic> json) =>
       link: json['link'] as String?,
       location: json['location'] as String?,
       salary: json['salary'] as String?,
+      imgLink: json['imgLink'] as String?,
     );
 
 Map<String, dynamic> _$JobResponseDTOToJson(JobResponseDTO instance) =>
@@ -22,4 +23,5 @@ Map<String, dynamic> _$JobResponseDTOToJson(JobResponseDTO instance) =>
       'link': instance.link,
       'location': instance.location,
       'salary': instance.salary,
+      'imgLink': instance.imgLink,
     };

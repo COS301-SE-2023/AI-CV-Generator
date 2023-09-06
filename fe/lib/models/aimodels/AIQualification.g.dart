@@ -8,10 +8,10 @@ part of 'AIQualification.dart';
 
 AIQualification _$AIQualificationFromJson(Map<String, dynamic> json) =>
     AIQualification(
-      qualification: json['qualification'] as String,
-      institution: json['institution'] as String,
-      startDate: json['startDate'] as String,
-      endDate: json['endDate'] as String,
+      qualification: json['qualification'] as String?,
+      institution: json['institution'] as String?,
+      startDate: json['startDate'] as String?,
+      endDate: json['endDate'] as String?,
     );
 
 Map<String, dynamic> _$AIQualificationToJson(AIQualification instance) =>

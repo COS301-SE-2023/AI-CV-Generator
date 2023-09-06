@@ -7,8 +7,8 @@ part of 'AIInput.dart';
 // **************************************************************************
 
 AIInput _$AIInputFromJson(Map<String, dynamic> json) => AIInput(
-      firstname: json['firstname'] as String,
-      lastname: json['lastname'] as String,
+      firstname: json['firstname'] as String?,
+      lastname: json['lastname'] as String?,
       email: json['email'] as String?,
       phoneNumber: json['phoneNumber'] as String?,
       location: json['location'] as String?,
