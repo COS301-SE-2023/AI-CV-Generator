@@ -95,6 +95,7 @@ public class JobScraperService {
             if (el.getElementsByClass("base-search-card__title").isEmpty() || el.getElementsByClass("base-search-card__subtitle").isEmpty() || el.getElementsByClass("job-search-card__location").isEmpty()) {
                 continue;
             }
+
             Element link = el.getElementsByClass("hidden-nested-link").first();
             responseDTOS.add(
                     JobResponseDTO.builder()

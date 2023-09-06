@@ -22,4 +22,17 @@ class WebScrapperApi extends DioClient {
     }
     return jobs;
   }
+
+  static Future<List<JobResponseDTO>?> recommended() async {
+    List<JobResponseDTO>? jobs;
+    try {
+      Response response = await DioClient.dio.get(
+        'api/scrape/recommended'
+      );
+      jobs = JobScrapeResponse.fromJson(response.data).jobs;
+    } on DioException catch(e) {
+      DioClient.handleError(e);
+    }
+    return jobs;
+  }
 }
