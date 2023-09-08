@@ -104,7 +104,7 @@ public class LangChainService {
     }
 
     private ChatResponse chatBotInteract() {
-
+        return null;
     }
 
     private static String interact(DescriptionAgent agent, String userMessage) {
