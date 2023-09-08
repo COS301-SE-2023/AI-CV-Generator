@@ -38,7 +38,7 @@ Linkedin link: [Click Here](https://www.linkedin.com/in/amanda-khuzwayo-89413013
 
 Linkedin link: [Click Here](https://www.linkedin.com/in/nathan-opperman-703214278/)
 
-| ![Vaghelis new picture](https://drive.google.com/file/d/1ovrlKcT1YyF2p1y3QuWTa37PIcKxSpeO/view?usp=sharing) | Vaghelis Gkikas|
+| ![Vaghelis new picture](https://github.com/COS301-SE-2023/AI-CV-Generator/assets/94606154/aa083737-f416-46ed-9518-b2a860adbd3c) | Vaghelis Gkikas|
 |----------------------|---------------------------|
 | My knowledge includes HTML, CSS, JavaScript, ReactJS, ExpressJS, MySQL, SQL, NodeJS, GDScript, Blender, C++, and Java. With my knowledge of these technologies, I am well-equipped to tackle a wide range of software development projects: web development and enterprise application development. | Roles and Responsibilities: Services Engineering, UI/UX, Front-end, Data Engineering |
 
