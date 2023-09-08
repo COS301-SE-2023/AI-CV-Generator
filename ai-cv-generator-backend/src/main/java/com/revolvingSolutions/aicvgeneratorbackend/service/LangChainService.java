@@ -7,6 +7,7 @@ import com.revolvingSolutions.aicvgeneratorbackend.model.aimodels.AIEmployment;
 import com.revolvingSolutions.aicvgeneratorbackend.model.aimodels.CVData;
 import com.revolvingSolutions.aicvgeneratorbackend.request.AI.ExtractionRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.AI.GenerationRequest;
+import com.revolvingSolutions.aicvgeneratorbackend.response.AI.ChatResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.AI.ExtractionResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.AI.GenerationResponse;
 
@@ -102,7 +103,8 @@ public class LangChainService {
         return  resp;
     }
 
-    private void chatBotInteract() {
+    private ChatResponse chatBotInteract() {
+
     }
 
     private static String interact(DescriptionAgent agent, String userMessage) {
