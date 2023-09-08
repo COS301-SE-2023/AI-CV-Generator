@@ -13,5 +13,5 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ChatResponse {
-    private List<ChatMessage> messages;
+    private List<String> messages;
 }

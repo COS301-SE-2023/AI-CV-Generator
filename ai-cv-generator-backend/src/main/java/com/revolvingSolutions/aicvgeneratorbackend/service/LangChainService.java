@@ -12,7 +12,9 @@ import com.revolvingSolutions.aicvgeneratorbackend.response.AI.ChatResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.AI.ExtractionResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.AI.GenerationResponse;
 
+import dev.langchain4j.data.message.AiMessage;
 import dev.langchain4j.data.message.ChatMessage;
+import dev.langchain4j.data.message.UserMessage;
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
 import dev.langchain4j.model.chat.ChatLanguageModel;
 import dev.langchain4j.model.openai.OpenAiChatModel;
@@ -104,9 +106,10 @@ public class LangChainService {
         return  resp;
     }
 
-    private ChatResponse chatBotInteract(ChatRequest request) {
-        ChatBotAgent chatBot = chatBotAgent(chatLanguageModel());
-        ChatMessage response = chatBot.chat(request.getUserMessage());
+    public ChatResponse chatBotInteract(ChatRequest request) {
+        ChatBotAgent chatBot = chatBotAgent(chatLanguageModel(),request.getMessages());
+        String response = chatBot.chat(request.getUserMessage());
+        request.getMessages().add(request.getUserMessage());
         request.getMessages().add(response);
         return ChatResponse.builder()
                 .messages(request.getMessages())
@@ -230,10 +233,26 @@ public class LangChainService {
                 .build();
     }
 
-    public ChatBotAgent chatBotAgent(ChatLanguageModel chatLanguageModel) {
+    public ChatBotAgent chatBotAgent(ChatLanguageModel chatLanguageModel, List<String> messages) {
+        List<ChatMessage> messagesOff = new ArrayList<ChatMessage>();
+        Boolean user = true;
+        for (int x=0;x<messages.size();x++) {
+            if (user) {
+                user = false;
+                messagesOff.add(new UserMessage(messages.get(x)));
+            } else {
+                user = true;
+                messagesOff.add(new AiMessage(messages.get(x)));
+            }
+        }
         return AiServices.builder(ChatBotAgent.class)
                 .chatLanguageModel(chatLanguageModel)
-                .chatMemory(MessageWindowChatMemory.withCapacity(100))
+                .chatMemory(
+                        MessageWindowChatMemory.builder()
+                                .previousMessages(messagesOff)
+                                .capacityInMessages(100)
+                                .build()
+                )
                 .build();
     }
 }

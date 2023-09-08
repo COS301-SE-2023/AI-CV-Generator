@@ -14,6 +14,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ChatRequest {
-    private List<ChatMessage> messages;
+    private List<String> messages;
     private String userMessage;
 }
