@@ -42,4 +42,4 @@ Linkedin link: [Click Here](https://www.linkedin.com/in/nathan-opperman-70321427
 |----------------------|---------------------------|
 | My knowledge includes HTML, CSS, JavaScript, ReactJS, ExpressJS, MySQL, SQL, NodeJS, GDScript, Blender, C++, and Java. With my knowledge of these technologies, I am well-equipped to tackle a wide range of software development projects, namely: web development and enterprise application development. | Roles and Responsibilities: Services Engineering, UI/UX, Front-end, Data Engineering |
 
-Linkedin link: [Click Here](linkedin.com/in/vaghelis-gkikas-7a7217278)
+Linkedin link: [Click Here](https://www.linkedin.com/in/vaghelis-gkikas-7a7217278)
