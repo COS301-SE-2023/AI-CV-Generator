@@ -5,6 +5,7 @@ import com.revolvingSolutions.aicvgeneratorbackend.agent.*;
 import com.revolvingSolutions.aicvgeneratorbackend.constants.StaticValues;
 import com.revolvingSolutions.aicvgeneratorbackend.model.aimodels.AIEmployment;
 import com.revolvingSolutions.aicvgeneratorbackend.model.aimodels.CVData;
+import com.revolvingSolutions.aicvgeneratorbackend.request.AI.ChatRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.AI.ExtractionRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.AI.GenerationRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.response.AI.ChatResponse;
@@ -103,8 +104,13 @@ public class LangChainService {
         return  resp;
     }
 
-    private ChatResponse chatBotInteract() {
-        return null;
+    private ChatResponse chatBotInteract(ChatRequest request) {
+        ChatBotAgent chatBot = chatBotAgent(chatLanguageModel());
+        ChatMessage response = chatBot.chat(request.getUserMessage());
+        request.getMessages().add(response);
+        return ChatResponse.builder()
+                .messages(request.getMessages())
+                .build();
     }
 
     private static String interact(DescriptionAgent agent, String userMessage) {
@@ -221,6 +227,13 @@ public class LangChainService {
         return AiServices.builder(ExtractionAgent.class)
                 .chatLanguageModel(extractionChatLanguageModel)
                 .chatMemory(MessageWindowChatMemory.withCapacity(5))
+                .build();
+    }
+
+    public ChatBotAgent chatBotAgent(ChatLanguageModel chatLanguageModel) {
+        return AiServices.builder(ChatBotAgent.class)
+                .chatLanguageModel(chatLanguageModel)
+                .chatMemory(MessageWindowChatMemory.withCapacity(100))
                 .build();
     }
 }
