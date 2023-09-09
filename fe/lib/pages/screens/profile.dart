@@ -238,7 +238,8 @@ class ProfileState extends State<Profile> {
                                     SectionInput(controller: lnameC, hint: "Last Name", fontSize: 24,),
                                 ]
                               ),
-                              SectionInput(controller: emailC, hint: "Email", height: 34),
+                              Text(emailC.text ?? "EMAIL", style: TextStyle(fontSize: 34)),
+                              // SectionInput(controller: emailC, hint: "Email", height: 34),
                               SectionInput(controller: locationC, hint: "Address", height: 34),
                               SectionInput(controller: phoneNoC, hint: "Phone number", height: 34,),
                               const SizedBox(height: 55,),
