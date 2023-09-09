@@ -13,24 +13,14 @@ class Breadcrumb extends StatelessWidget {
         alignment: Alignment.topLeft,
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(5.0),
         ),
-        child: RichText(
-          text: TextSpan(
-            text: "$previousPage / ",
-            style: const TextStyle(
-              fontSize: 24,
-            ),
-            children: <TextSpan>[
-              TextSpan(
-                text: currentPage,
-                style: const TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold
-                ),
-              )
-            ]
-          ),
+        child: Row(
+          children: [
+            TextButton(onPressed: () {
+              Navigator.pushNamed(context, '/' + previousPage.toLowerCase());
+            }, child: Text(previousPage, style: TextStyle(fontSize: 24),)),
+            Text("/ " + currentPage, style: TextStyle(fontSize: 24),)
+          ],
         )
       );
   }
