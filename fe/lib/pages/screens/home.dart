@@ -511,11 +511,9 @@ class _HomeState extends State<Home> {
                                   updatePastCVs();
                                 
                                   await generateFile();
-                                  if(uploadFile != null) {
-                                    AIInput? aiInput = await AIApi.extractPdf(file: uploadFile!);
-                                    if(aiInput != null) {
-                                      extractionViewUpdate(aiInput);
-                                    }
+                                  AIInput? aiInput = await AIApi.extractPdf(file: uploadFile!);
+                                  if(aiInput != null) {
+                                    extractionViewUpdate(aiInput);
                                   }
                                 }
                               }, 
