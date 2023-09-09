@@ -176,22 +176,22 @@ class Message extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: messageAlignment(),
+      // crossAxisAlignment: messageAlignment(),
       children: [
         Container(
           padding: const EdgeInsets.all(16),
           alignment: Alignment.center,
-          constraints: const BoxConstraints(
-            minHeight: 60,
-            maxWidth: 150
-          ),
+          // constraints: const BoxConstraints(
+          //   minHeight: 60,
+          //   maxWidth: 150
+          // ),
           decoration: BoxDecoration(
             color: messageColour(context),
             borderRadius: messageBorderRadiusGeometry(),
           ),
           child: message,
         ),
-        const SizedBox(height: 8,)
+        const SizedBox(height: 16,)
       ],
     );
   }
