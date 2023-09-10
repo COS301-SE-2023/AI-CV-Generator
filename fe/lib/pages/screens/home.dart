@@ -455,7 +455,6 @@ class _HomeState extends State<Home> {
                                             constraints: const BoxConstraints(maxWidth: 800),
                                             child: PersonalDetailsForm()
                                           )
-                                          
                                         );
                                       }
                                     );
@@ -514,6 +513,41 @@ class _HomeState extends State<Home> {
                                   AIInput? aiInput = await AIApi.extractPdf(file: uploadFile!);
                                   if(aiInput != null) {
                                     extractionViewUpdate(aiInput);
+                                    
+                                  if (Home.ready == false) return;
+                                    setState(() {
+                                      editPage = null;
+                                    });
+                                    setState(() {
+                                      editPage = const AILoadingScreen();
+                                    });
+
+                                  GenerationResponse? response = await AIApi.generate(data: usermodeltoinput((Home.adjustedModel!)));
+                                  if (response?.data.description == null) {
+                                    editPage = const ErrorScreen(errormsg: "Rate Limit Exceeded!");
+                                    setState(() {});
+                                    return;
+                                  }
+                                  switch (tem) {
+                                    case Template.templateA:
+                                      templateAPdf = TemplateA(data: response!.data);
+                                      editPage = templateAPdf;
+                                      generatedFile = await templateAPdf!.transform();
+                                    break;
+                                    case Template.templateB:
+                                      templateBPdf = TemplateB(data: response!.data);
+                                      editPage = templateBPdf;
+                                      generatedFile = await templateBPdf!.transform();
+                                    break;
+                                    default:
+                                      templateCPdf = TemplateC(data: response!.data);
+                                      editPage = templateCPdf;
+                                      generatedFile = await templateCPdf!.transform();
+                                    break;
+                                  }
+                                  cvdata = response.data;
+                                  ready = true;
+                                  setState(() {});
                                   }
                                 }
                               }, 

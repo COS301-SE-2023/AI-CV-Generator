@@ -20,12 +20,28 @@ class ExtractionView {
                     height: 640,
                     width: 400,
                     child: SectionContainer(
-                      child: ListView(
-                        padding: const EdgeInsets.only(right: 16),
+                      child: Column(
                         children: [
-                          ...extractedData(data)
+                          Expanded(
+                            flex: 10,
+                            child: ListView(
+                              padding: const EdgeInsets.only(right: 16),
+                              children: [
+                                ...extractedData(data)
+                              ],
+                            ),
+                          ),
+                          SizedBox(height: 16,),
+                          Expanded(
+                            child: ElevatedButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: Text("Save and Proceed"),
+                            )
+                          )
                         ],
-                      ),
+                      )
                     )
                   ),
                 ),
