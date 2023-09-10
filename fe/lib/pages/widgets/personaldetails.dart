@@ -73,7 +73,7 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
               child: titleSection,
             ),
             Expanded(
-              flex: 4,
+              flex: 8,
               child: Container ( 
                 padding: const EdgeInsets.all(16.0),
                 child: _buildForm(),
@@ -116,23 +116,27 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
 
 
   Widget _buildForm() {
-    return Form(
-        key: _formKey,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            _buildNameField(),
-            SizedBox(height: 8,),
-            _buildLastNameField(),
-            SizedBox(height: 8,),
-            _buildEmailField(),
-            SizedBox(height: 8,),
-            _buildCellField(),
-            SizedBox(height: 8,),
-            _buildAddrField(),
-          ],
-        ));
-  }
+  return SingleChildScrollView(
+    child: Form(
+      key: _formKey,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          _buildNameField(),
+          SizedBox(height: 8,),
+          _buildLastNameField(),
+          SizedBox(height: 8,),
+          _buildEmailField(),
+          SizedBox(height: 8,),
+          _buildCellField(),
+          SizedBox(height: 8,),
+          _buildAddrField(),
+        ],
+      ),
+    ),
+  );
+}
+
 
   Widget _buildNameField() {
     return Container (
