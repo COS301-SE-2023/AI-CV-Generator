@@ -1,6 +1,7 @@
 import 'package:ai_cv_generator/models/user/UserModel.dart';
 import 'package:ai_cv_generator/pages/screens/home.dart';
 import 'package:ai_cv_generator/pages/util/strings.dart';
+import 'package:ai_cv_generator/pages/widgets/description.dart';
 import 'package:ai_cv_generator/pages/widgets/employment.dart';
 import 'package:ai_cv_generator/pages/widgets/personaldetails.dart';
 import 'package:ai_cv_generator/pages/widgets/qualifications.dart';
@@ -19,7 +20,7 @@ void main(){
       Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak'); // Replace AdjustedModel with your actual model class
       
     // Build our widget and trigger a frame.
-      await tester.pumpWidget(const MaterialApp(home: PersonalDetailsForm()));
+      await tester.pumpWidget( MaterialApp(home: PersonalDetailsForm()));
 
       expect(find.text(StringsPersonal.appsubHeadingTitle), findsOneWidget);
       expect(find.text('First Name'), findsOneWidget);
@@ -34,7 +35,7 @@ void main(){
     testWidgets("Personal Details Input test", (WidgetTester tester) async {
       Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak'); // Replace AdjustedModel with your actual model class
       // Build our widget and trigger a frame.
-      await tester.pumpWidget(const MaterialApp(home: PersonalDetailsForm()));
+      await tester.pumpWidget( MaterialApp(home: PersonalDetailsForm()));
 
       await tester.enterText(find.byKey(const Key("Name input")), 'John');
       await tester.enterText(find.byKey(const Key("Last Name input")), 'Doe');
@@ -58,7 +59,7 @@ void main(){
       Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak'); // Replace AdjustedModel with your actual model class
       
     // Build our widget and trigger a frame.
-      await tester.pumpWidget(const MaterialApp(home: QualificationsDetailsForm()));
+      await tester.pumpWidget( MaterialApp(home: QualificationsDetailsForm()));
 
       expect(find.text(StringsQualifications.appsubHeadingTitle), findsOneWidget);
       expect(find.text('Institution'), findsOneWidget);
@@ -71,7 +72,7 @@ void main(){
       Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak'); // Replace AdjustedModel with your actual model class
       
     // Build our widget and trigger a frame.
-      await tester.pumpWidget(const MaterialApp(home: QualificationsDetailsForm()));
+      await tester.pumpWidget( MaterialApp(home: QualificationsDetailsForm()));
 
       await tester.enterText(find.byKey(const Key("Institution input")), 'University of Pretoria');
       await tester.enterText(find.byKey(const Key("Qualification input")), 'BSc Computer Science');
@@ -97,7 +98,7 @@ void main(){
       Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak'); // Replace AdjustedModel with your actual model class
       
     // Build our widget and trigger a frame.
-      await tester.pumpWidget(const MaterialApp(home: EmploymentDetailsForm()));
+      await tester.pumpWidget( MaterialApp(home: EmploymentDetailsForm()));
 
       expect(find.text(StringsEmployment.appsubHeadingTitle), findsOneWidget);
       expect(find.text('Company'), findsOneWidget);
@@ -110,7 +111,7 @@ void main(){
       Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak'); // Replace AdjustedModel with your actual model class
       
     // Build our widget and trigger a frame.
-      await tester.pumpWidget(const MaterialApp(home: EmploymentDetailsForm()));
+      await tester.pumpWidget( MaterialApp(home: EmploymentDetailsForm()));
 
       await tester.enterText(find.byKey(const Key("Company input")), 'University of Pretoria');
       await tester.enterText(find.byKey(const Key("Job Title input")), 'BSc Computer Science');
@@ -196,4 +197,31 @@ void main(){
     });
   });
   
+  group("Test Description", () {
+    testWidgets("Description Form should render correctly", (WidgetTester tester) async {
+      Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak'); // Replace AdjustedModel with your actual model class
+      
+    // Build our widget and trigger a frame.
+      await tester.pumpWidget( MaterialApp(home: DescriptionForm()));
+
+      expect(find.text(StringsDescription.appsubHeadingTitle), findsOneWidget);
+      expect(find.text('Description'), findsOneWidget);
+    });
+
+    testWidgets("Description Input test", (WidgetTester tester) async {
+      Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak'); // Replace AdjustedModel with your actual model class
+      // Build our widget and trigger a frame.
+      await tester.pumpWidget( MaterialApp(home: DescriptionForm()));
+
+      await tester.enterText(find.byKey(const Key("Description start")), 'I am intelligent');
+      await tester.pump();
+
+      // Tap the Save and Proceed button again.
+      await tester.tap(find.text('Save and Proceed'));
+      //await tester.pumpAndSettle();
+
+      // Verify that there are no validation errors.
+      expect(find.text('Please enter some text'), findsNothing);
+    });
+  });
 }
