@@ -57,8 +57,6 @@ dependencies:
   mockito: ^5.4.2
   langchain: ^0.0.5 
   syncfusion_flutter_pdf: ^20.3.49
-  langchain_openai: ^0.0.5+1
-  flutter_dotenv: ^5.1.0
   jumping_dot: ^0.0.6
   url_launcher: ^6.1.14
 dev_dependencies:
