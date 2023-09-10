@@ -8,21 +8,61 @@ name: Tests
 on: [push, workflow_dispatch]
 
 jobs:
-  change_directory:
+  unit_tests:
     runs-on: ubuntu-latest
-    steps:
-    - run: cd fe
-
-
-  drive:
-    runs-on: ubuntu-latest
+    env: 
+      working-directory: fe
+      
     steps:
     - uses: actions/checkout@v1
     - uses: subosito/flutter-action@v1
-      with:
-        channel: "stable"
-    # - run: cd fe
     - run: flutter pub get
-    - run: flutter test  
-    - run: flutter test fe/integration_test/app_test.dart
+      working-directory: ${{env.working-directory}}
+    #- run: flutter test --coverage
+     # working-directory: ${{env.working-directory}}
+    #- name: Upload coverage reports to Codecov
+     # uses: codecov/codecov-action@v3
+      #env:
+       # CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
+  backend_tests:
+    runs-on: ubuntu-latest
+    env: 
+      working-directory: ai-cv-generator-backend
+      
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'oracle'
+        java-version: '17'
+        cache: 'maven'
+        path: ~/.m2
+        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+    - name: Build with Maven
+      run: mvn --batch-mode --update-snapshots package
+    - name: Build and test project with Maven
+      run: mvn -B package --file pom.xml
+    - name: Run tests 
+      run: mvn --batch-mode -Dmaven.test.failure.ignore=true test
+      working-directory: ${{env.working-directory}}
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v3
+      env:
+        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+      
+  #integration_tests:
+   #   runs-on: ubuntu-latest
+    #  env: 
+     #   working-directory: fe
+
+     # steps:
+     # - uses: actions/checkout@v1
+     # - uses: subosito/flutter-action@v1
+     # - run: flutter pub get
+    #    working-directory: ${{env.working-directory}}
+     # - run: sudo apt-get install ninja-build
+      #  working-directory: ${{env.working-directory}}
+     # - run: xvfb-run flutter test -d linux integration_test/app_test.dart
+    

@@ -5,10 +5,10 @@ part 'AILink.g.dart';
 @JsonSerializable()
 class AILink {
   AILink({
-    required this.url
+    this.url
   });
 
-  String url;
+  String? url;
 
   factory AILink.fromJson(Map<String,dynamic> json) => _$AILinkFromJson(json);
 

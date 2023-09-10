@@ -5,16 +5,24 @@ import com.revolvingSolutions.aicvgeneratorbackend.agent.*;
 import com.revolvingSolutions.aicvgeneratorbackend.constants.StaticValues;
 import com.revolvingSolutions.aicvgeneratorbackend.model.aimodels.AIEmployment;
 import com.revolvingSolutions.aicvgeneratorbackend.model.aimodels.CVData;
+import com.revolvingSolutions.aicvgeneratorbackend.request.AI.ChatRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.AI.ExtractionRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.AI.GenerationRequest;
+import com.revolvingSolutions.aicvgeneratorbackend.response.AI.ChatResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.AI.ExtractionResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.AI.GenerationResponse;
 
+import dev.langchain4j.data.message.AiMessage;
 import dev.langchain4j.data.message.ChatMessage;
+import dev.langchain4j.data.message.UserMessage;
+import dev.langchain4j.memory.ChatMemory;
+import dev.langchain4j.memory.chat.ChatMemoryProvider;
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
 import dev.langchain4j.model.chat.ChatLanguageModel;
 import dev.langchain4j.model.openai.OpenAiChatModel;
 import dev.langchain4j.service.AiServices;
+import dev.langchain4j.store.memory.chat.ChatMemoryStore;
+import dev.langchain4j.store.memory.chat.InMemoryChatMemoryStore;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -53,6 +61,8 @@ public class LangChainService {
                                     .qualifications(request.getData().getQualifications())
                                     .education_description(StaticValues.education_description)
                                     .links(request.getData().getLinks())
+                                    .references(request.getData().getReferences())
+                                    .skills(request.getData().getSkills())
                                     .build()
                     )
                     .build();
@@ -100,7 +110,14 @@ public class LangChainService {
         return  resp;
     }
 
-    private void chatBotInterat() {
+    public ChatResponse chatBotInteract(ChatRequest request) {
+        ChatBotAgent chatBot = chatBotAgent(chatLanguageModel(),request.getMessages());
+        String response = chatBot.chat(0,request.getUserMessage());
+        request.getMessages().add(request.getUserMessage());
+        request.getMessages().add(response);
+        return ChatResponse.builder()
+                .messages(request.getMessages())
+                .build();
     }
 
     private static String interact(DescriptionAgent agent, String userMessage) {
@@ -145,49 +162,52 @@ public class LangChainService {
     private Double temperature;
 
     private ChatLanguageModel chatLanguageModel() {
-        return new OpenAiChatModel(
-            apikey,
-            modelName,
-            temperature,
-            1.0,
-            1000,
-            0.0,0.0,
-            Duration.ofMinutes(2),
-            2,
-            true,
-            true
-        );
+        return OpenAiChatModel.builder()
+                .modelName(modelName)
+                .apiKey(apikey)
+                .temperature(temperature)
+                .logRequests(true)
+                .logResponses(true)
+                .maxRetries(2)
+                .maxTokens(1000)
+                .topP(1.0)
+                .timeout(Duration.ofMinutes(2))
+                .frequencyPenalty(0.0)
+                .presencePenalty(0.0)
+                .build();
     }
 
     private ChatLanguageModel extractionChatLanguageModel() {
-        return new OpenAiChatModel(
-            apikey,
-            modelName,
-            0.0,
-            1.0,
-            6000,
-            0.0,0.0,
-            Duration.ofMinutes(3),
-            2,
-            true,
-            true
-        );
+        return OpenAiChatModel.builder()
+                .modelName(modelName)
+                .apiKey(apikey)
+                .temperature(temperature)
+                .logRequests(true)
+                .logResponses(true)
+                .maxRetries(2)
+                .maxTokens(1000)
+                .topP(1.0)
+                .timeout(Duration.ofMinutes(3))
+                .frequencyPenalty(0.0)
+                .presencePenalty(0.0)
+                .build();
     }
 
     private ChatLanguageModel chatBotLanguageModel(List<ChatMessage> messages) {
-        OpenAiChatModel model =  new OpenAiChatModel(
-            apikey,
-            modelName,
-            temperature,
-            1.0,
-            500,
-            0.0,
-            0.0,
-            Duration.ofMinutes(2),
-            2,
-            true,
-            true
-        );
+        OpenAiChatModel model = OpenAiChatModel.builder()
+                .modelName(modelName)
+                .apiKey(apikey)
+                .temperature(temperature)
+                .logRequests(true)
+                .logResponses(true)
+                .maxRetries(2)
+                .maxTokens(500)
+                .topP(1.0)
+                .timeout(Duration.ofMinutes(3))
+                .frequencyPenalty(0.0)
+                .presencePenalty(0.0)
+                .build();
+
         model.sendMessages(messages);
         return model;
     }
@@ -195,28 +215,76 @@ public class LangChainService {
     private DescriptionAgent descriptionAgent(ChatLanguageModel chatLanguageModel) {
         return AiServices.builder(DescriptionAgent.class)
                 .chatLanguageModel(chatLanguageModel)
-                .chatMemory(MessageWindowChatMemory.withCapacity(3))
+                .chatMemory(MessageWindowChatMemory.withMaxMessages(3))
                 .build();
     }
 
     private EmploymentHistoryExpander employmentHistoryExpander(ChatLanguageModel chatLanguageModel) {
         return AiServices.builder(EmploymentHistoryExpander.class)
                 .chatLanguageModel(chatLanguageModel)
-                .chatMemory(MessageWindowChatMemory.withCapacity(3))
+                .chatMemory(MessageWindowChatMemory.withMaxMessages(3))
                 .build();
     }
 
     private EducationDescriptionAgent educationDescriptionAgent(ChatLanguageModel chatLanguageModel) {
         return AiServices.builder(EducationDescriptionAgent.class)
                 .chatLanguageModel(chatLanguageModel)
-                .chatMemory(MessageWindowChatMemory.withCapacity(3))
+                .chatMemory(MessageWindowChatMemory.withMaxMessages(3))
                 .build();
     }
 
     public ExtractionAgent extractionAgent(ChatLanguageModel extractionChatLanguageModel) {
         return AiServices.builder(ExtractionAgent.class)
                 .chatLanguageModel(extractionChatLanguageModel)
-                .chatMemory(MessageWindowChatMemory.withCapacity(5))
+                .chatMemory(MessageWindowChatMemory.withMaxMessages(5))
                 .build();
+    }
+
+    public ChatBotAgent chatBotAgent(ChatLanguageModel chatLanguageModel, List<String> messages) {
+        List<ChatMessage> messagesOff = new ArrayList<ChatMessage>();
+        Boolean user = true;
+        for (int x=0;x<messages.size();x++) {
+            if (user) {
+                user = false;
+                messagesOff.add(new UserMessage(messages.get(x)));
+            } else {
+                user = true;
+                messagesOff.add(new AiMessage(messages.get(x)));
+            }
+        }
+        PersistentChatMemoryStore store = new PersistentChatMemoryStore(messagesOff);
+
+        return AiServices.builder(ChatBotAgent.class)
+                .chatLanguageModel(chatLanguageModel)
+                .chatMemoryProvider(
+                        memoryId-> MessageWindowChatMemory.builder()
+                                .chatMemoryStore(store)
+                                .maxMessages(100)
+                                .build()
+                )
+                .build();
+    }
+}
+
+class PersistentChatMemoryStore implements ChatMemoryStore {
+
+    public PersistentChatMemoryStore(List<ChatMessage> messages) {
+        this.messages = messages;
+    }
+    private List<ChatMessage> messages;
+
+    @Override
+    public List<ChatMessage> getMessages(Object memoryId) {
+        return messages;
+    }
+
+    @Override
+    public void updateMessages(Object memoryId, List<ChatMessage> messages) {
+        this.messages = messages;
+    }
+
+    @Override
+    public void deleteMessages(Object memoryId) {
+        messages = new ArrayList<>();
     }
 }

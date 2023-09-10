@@ -1,5 +1,5 @@
 // ignore_for_file: must_be_immutable
-import 'package:ai_cv_generator/pages/widgets/loadingScreen.dart';
+import 'package:ai_cv_generator/pages/widgets/loadingscreens/loadingScreen.dart';
 import 'package:ai_cv_generator/pages/widgets/navdrawer.dart';
 import 'package:ai_cv_generator/pages/widgets/qualifications.dart';
 import 'package:ai_cv_generator/pages/util/strings.dart';
@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:ai_cv_generator/pages/screens/home.dart';
 
 class PersonalDetailsForm extends StatefulWidget {
-  const PersonalDetailsForm({super.key});
+   PersonalDetailsForm({super.key});
 
   @override
   State<StatefulWidget> createState() {
@@ -52,13 +52,13 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
   @override
   Widget build(BuildContext context) {
     if(Home.adjustedModel == null) {
-      return const LoadingScreen();
+      return  LoadingScreen();
     }
     return Scaffold(
-      drawer: const NavDrawer(),
+      drawer:  NavDrawer(),
       appBar: AppBar(
         leading: IconButton(
-          icon: const Icon(
+          icon:  Icon(
             Icons.close,
           ), 
           onPressed: () async { 
@@ -75,7 +75,7 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
             Expanded(
               flex: 8,
               child: Container ( 
-                padding: const EdgeInsets.all(16.0),
+                padding:  EdgeInsets.all(16.0),
                 child: _buildForm(),
               ),
             ),
@@ -83,23 +83,23 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
               height: 50,
                 width: 150,
               child: ElevatedButton(
-                child: const Text('Save and Proceed'),
+                child:  Text('Save and Proceed'),
                 onPressed: () async {
                   if(await updateUser() == false) {
                     return;
                   }
-                  showQuestionaireModal(context, const QualificationsDetailsForm());
+                  showQuestionaireModal(context,  QualificationsDetailsForm());
                 },
               ),
             ),
-            const SizedBox(height: 64,),
+             SizedBox(height: 64,),
           ],
         ),
       ),
     );
   }
 
-  Widget titleSection=const Column (
+  Widget titleSection= Column (
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: <Widget> [
         Padding (
@@ -140,11 +140,11 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
 
   Widget _buildNameField() {
     return Container (
-      constraints: BoxConstraints.tight(const Size(550,70)),
+      constraints: BoxConstraints.tight( Size(550,70)),
       child: TextFormField(
-        key: const Key("Name input"),
+        key:  Key("Name input"),
         controller: fname,
-        decoration: const InputDecoration(
+        decoration:  InputDecoration(
           contentPadding: EdgeInsets.all(5.0),
           labelText: 'First Name',
           enabledBorder: OutlineInputBorder(),
@@ -163,11 +163,11 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
 
   Widget _buildLastNameField() {
     return Container (
-      constraints: BoxConstraints.tight(const Size(550,70)),
+      constraints: BoxConstraints.tight( Size(550,70)),
       child: TextFormField(
-        key: const Key("Last Name input"),
+        key:  Key("Last Name input"),
         controller: lname,
-        decoration: const InputDecoration(
+        decoration:  InputDecoration(
           contentPadding: EdgeInsets.all(5.0),
           labelText: 'Last Name',
           enabledBorder: OutlineInputBorder(),
@@ -186,11 +186,11 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
 
   Widget _buildEmailField() {
     return Container (
-      constraints: BoxConstraints.tight(const Size(550,70)),
+      constraints: BoxConstraints.tight( Size(550,70)),
       child: TextFormField(
-        key: const Key("Email input"),
+        key:  Key("Email input"),
         controller: email,
-        decoration: const InputDecoration(
+        decoration:  InputDecoration(
           contentPadding: EdgeInsets.all(5.0),
           labelText: 'Email',
           enabledBorder: OutlineInputBorder(),
@@ -209,11 +209,11 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
 
   Widget _buildCellField() {
     return Container (
-      constraints: BoxConstraints.tight(const Size(550,70)),
+      constraints: BoxConstraints.tight( Size(550,70)),
       child: TextFormField(
-        key: const Key("Cell input"),
+        key:  Key("Cell input"),
         controller: cell,
-        decoration: const InputDecoration(
+        decoration:  InputDecoration(
           contentPadding: EdgeInsets.all(5.0),
           labelText: 'Contact Number',
           enabledBorder: OutlineInputBorder(),
@@ -232,17 +232,16 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
 
   Widget _buildAddrField() {
     return Container (
-      constraints: BoxConstraints.tight(const Size(550,70)),
+      constraints: BoxConstraints.tight( Size(550,70)),
       child: TextFormField(
-        key: const Key("Address input"),
+        key:  Key("Address input"),
         controller: address,
-        decoration: InputDecoration(
+        decoration:  InputDecoration(
           contentPadding: EdgeInsets.all(5.0),
-          labelText: 'Address',
+          labelText: 'General Location',
           enabledBorder: OutlineInputBorder(),
           icon: Icon(Icons.home),
         ),
-        // ignore: body_might_complete_normally_nullable
         validator: (value) {
           if (value == null || value.isEmpty) {
             return 'This field is required';
@@ -261,7 +260,7 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
         onPressed: () {
             _submitForm();
           },
-          child: const Text('Save & Proceed'),
+          child:  Text('Save & Proceed'),
       )
     );
     

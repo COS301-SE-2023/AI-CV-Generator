@@ -25,7 +25,7 @@ public class SkillEntity {
 
     public String skill;
 
-    public int level;
+    public Integer level;
 
     public String reason;
 }

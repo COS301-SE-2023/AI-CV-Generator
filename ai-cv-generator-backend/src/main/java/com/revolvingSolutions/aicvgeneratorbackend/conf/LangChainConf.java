@@ -28,40 +28,42 @@ public class LangChainConf {
 
     @Bean
     public ChatLanguageModel chatLanguageModel() {
-        return new OpenAiChatModel(
-                apikey,
-                modelName,
-                temperature,
-                1.0,
-                1000,
-                0.0,0.0,
-                Duration.ofMinutes(2),
-                2,
-                true,
-                true
-        );
+        return OpenAiChatModel.builder()
+                .modelName(modelName)
+                .apiKey(apikey)
+                .temperature(temperature)
+                .logRequests(true)
+                .logResponses(true)
+                .maxRetries(2)
+                .maxTokens(1000)
+                .topP(1.0)
+                .timeout(Duration.ofMinutes(2))
+                .frequencyPenalty(0.0)
+                .presencePenalty(0.0)
+                .build();
     }
 
     public ChatLanguageModel extractionChatLanguageModel() {
-        return new OpenAiChatModel(
-                apikey,
-                modelName,
-                0.0,
-                1.0,
-                3000,
-                0.0,0.0,
-                Duration.ofMinutes(3),
-                2,
-                true,
-                true
-        );
+        return OpenAiChatModel.builder()
+                .modelName(modelName)
+                .apiKey(apikey)
+                .temperature(temperature)
+                .logRequests(true)
+                .logResponses(true)
+                .maxRetries(2)
+                .maxTokens(3000)
+                .topP(1.0)
+                .timeout(Duration.ofMinutes(3))
+                .frequencyPenalty(0.0)
+                .presencePenalty(0.0)
+                .build();
     }
 
     @Bean
     public DescriptionAgent descriptionAgent(ChatLanguageModel chatLanguageModel) {
         return AiServices.builder(DescriptionAgent.class)
                 .chatLanguageModel(chatLanguageModel)
-                .chatMemory(MessageWindowChatMemory.withCapacity(3))
+                .chatMemory(MessageWindowChatMemory.withMaxMessages(3))
                 .build();
     }
 
@@ -69,7 +71,7 @@ public class LangChainConf {
     public EmploymentHistoryExpander employmentHistoryExpander(ChatLanguageModel chatLanguageModel) {
         return AiServices.builder(EmploymentHistoryExpander.class)
                 .chatLanguageModel(chatLanguageModel)
-                .chatMemory(MessageWindowChatMemory.withCapacity(3))
+                .chatMemory(MessageWindowChatMemory.withMaxMessages(3))
                 .build();
     }
 
@@ -77,7 +79,7 @@ public class LangChainConf {
     public EducationDescriptionAgent educationDescriptionAgent(ChatLanguageModel chatLanguageModel) {
         return AiServices.builder(EducationDescriptionAgent.class)
                 .chatLanguageModel(chatLanguageModel)
-                .chatMemory(MessageWindowChatMemory.withCapacity(3))
+                .chatMemory(MessageWindowChatMemory.withMaxMessages(3))
                 .build();
     }
 
@@ -85,7 +87,7 @@ public class LangChainConf {
     public ExtractionAgent extractionAgent(ChatLanguageModel extractionChatLanguageModel) {
         return AiServices.builder(ExtractionAgent.class)
                 .chatLanguageModel(extractionChatLanguageModel)
-                .chatMemory(MessageWindowChatMemory.withCapacity(5))
+                .chatMemory(MessageWindowChatMemory.withMaxMessages(5))
                 .build();
     }
 }

@@ -7,7 +7,7 @@ part of 'AILink.dart';
 // **************************************************************************
 
 AILink _$AILinkFromJson(Map<String, dynamic> json) => AILink(
-      url: json['url'] as String,
+      url: json['url'] as String?,
     );
 
 Map<String, dynamic> _$AILinkToJson(AILink instance) => <String, dynamic>{

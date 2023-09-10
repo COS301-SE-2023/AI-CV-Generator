@@ -1,4 +1,4 @@
-import 'dart:typed_data';
+// internal
 import 'package:ai_cv_generator/dio/client/fileApi.dart';
 import 'package:ai_cv_generator/dio/client/userApi.dart';
 import 'package:ai_cv_generator/models/user/Employment.dart';
@@ -8,11 +8,15 @@ import 'package:ai_cv_generator/pages/widgets/cvHistory.dart';
 import 'package:ai_cv_generator/pages/elements/elements.dart';
 import 'package:ai_cv_generator/pages/widgets/employmentView.dart';
 import 'package:ai_cv_generator/pages/util/imageCropper.dart';
-import 'package:ai_cv_generator/pages/widgets/loadingScreen.dart';
+import 'package:ai_cv_generator/pages/widgets/loadingscreens/loadingScreen.dart';
 import 'package:ai_cv_generator/pages/widgets/referenceView.dart';
+import 'package:ai_cv_generator/pages/widgets/skillsView.dart';
+import 'package:ai_cv_generator/pages/widgets/linksView.dart';
+import 'package:ai_cv_generator/pages/widgets/qualificationsView.dart';
+
+// external
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
-import '../widgets/linksView.dart';
-import '../widgets/qualificationsView.dart';
 import 'package:image_picker_web/image_picker_web.dart';
 
 class Profile extends StatefulWidget {
@@ -60,11 +64,13 @@ class ProfileState extends State<Profile> {
     GlobalKey<QualificationsSectionState> qualificationsKey = GlobalKey<QualificationsSectionState>();
     GlobalKey<EmploymentSectionState> employhistoryKey = GlobalKey<EmploymentSectionState>();
     GlobalKey<ReferenceSectionState> referenceKey = GlobalKey<ReferenceSectionState>();
+    GlobalKey<SkillSectionState> skillKey = GlobalKey<SkillSectionState>();
 
     LinksSection linkC = LinksSection(key: linksKey, links: model!.links != null ? model!.links! : []);
     QualificationsSection qualificationsC = QualificationsSection(key: qualificationsKey, qualifications: model!.qualifications != null ? model!.qualifications! : []);
     EmploymentSection employmentC = EmploymentSection(key: employhistoryKey, employment: model!.employmenthistory != null ? model!.employmenthistory! : [Employment(company: 'ERROR', title: 'ERORR', startdate: DateTime.now(), enddate: DateTime.now(), empid: 0)]);
     ReferenceSection referenceC = ReferenceSection(key: referenceKey, reference: model!.references != null ? model!.references! : []);
+    SkillSection skillC = SkillSection(key: skillKey, skill: model!.skills != null ? model!.skills! : []);
     
     DateTime time = DateTime.now();
     Future<void> actualupdate() async {
@@ -78,6 +84,7 @@ class ProfileState extends State<Profile> {
       qualificationsKey.currentState?.update();
       employhistoryKey.currentState?.update();
       referenceKey.currentState?.update();
+      skillKey.currentState?.update();
       await userApi.updateUser(user: model!);
     }
     
@@ -97,11 +104,16 @@ class ProfileState extends State<Profile> {
     descripC.addListener(update);
 
     void updateImage(Image img) {
-    setState ((){ 
-          image = Image(image:img.image );
-        
-      });
-}
+        setState ((){ image = Image(image:img.image );});
+    }
+
+    void back() {
+      Navigator.pop(context);
+    }
+
+    Future<Uint8List?> getImageAsBytes(Uint8List data) {
+      return imagecrop(context, data);
+    }
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -112,14 +124,9 @@ class ProfileState extends State<Profile> {
           ), 
           onPressed: () async { 
             await actualupdate();
-            Navigator.pop(context);
+            back();
           },
-        ),
-      actions: [
-        IconButton(onPressed: () {}, 
-        icon: const Icon(Icons.account_circle, size: profileButtonSize,), ),
-        const SizedBox(width: 16,)
-      ],
+        )
       ),
       body: SafeArea(
         child: Container(
@@ -143,7 +150,7 @@ class ProfileState extends State<Profile> {
                           flex: 4,
                           child: Column(
                             children: [
-                              const SizedBox(height: 184,),
+                              // const SizedBox(height: 184,),
                               SectionContainer(
                                 child: Column(
                                   children: [
@@ -164,6 +171,8 @@ class ProfileState extends State<Profile> {
                               employmentC,
                               const SizedBox(height: 16,),
                               referenceC,
+                              const SizedBox(height: 16,),
+                              skillC,
                               const SizedBox(height: 16,),
                               SectionContainer(
                                 child: Column(
@@ -201,11 +210,16 @@ class ProfileState extends State<Profile> {
                                         color: const Color(0xFF333C64),
                                         onPressed: () async {
                                           await actualupdate();
+                                          
                                           Uint8List? imgByte =  await ImagePickerWeb.getImageAsBytes();
                                           if(imgByte == null) {
                                             return;
                                           }
-                                          imgByte = await imagecrop(context, imgByte);
+                                          image = null;
+                                          setState(() {
+                                            
+                                          });
+                                          imgByte = await getImageAsBytes(imgByte);
                                           if(imgByte != null){
                                             final changed = await FileApi.updateProfileImage(img: imgByte);
                                             image = changed;
@@ -224,7 +238,8 @@ class ProfileState extends State<Profile> {
                                     SectionInput(controller: lnameC, hint: "Last Name", fontSize: 24,),
                                 ]
                               ),
-                              SectionInput(controller: emailC, hint: "Email", height: 34),
+                              Text(emailC.text ?? "EMAIL", style: TextStyle(fontSize: 34)),
+                              // SectionInput(controller: emailC, hint: "Email", height: 34),
                               SectionInput(controller: locationC, hint: "Address", height: 34),
                               SectionInput(controller: phoneNoC, hint: "Phone number", height: 34,),
                               const SizedBox(height: 55,),
@@ -257,6 +272,7 @@ class TextInputField extends StatefulWidget {
 }
 
 class TextInputFieldState extends State<TextInputField> {
+
   @override
   Widget build(BuildContext context) {
     TextEditingController editor = widget.editor;

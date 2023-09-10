@@ -7,8 +7,8 @@ part of 'AIInput.dart';
 // **************************************************************************
 
 AIInput _$AIInputFromJson(Map<String, dynamic> json) => AIInput(
-      firstname: json['firstname'] as String,
-      lastname: json['lastname'] as String,
+      firstname: json['firstname'] as String?,
+      lastname: json['lastname'] as String?,
       email: json['email'] as String?,
       phoneNumber: json['phoneNumber'] as String?,
       location: json['location'] as String?,
@@ -22,6 +22,12 @@ AIInput _$AIInputFromJson(Map<String, dynamic> json) => AIInput(
       links: (json['links'] as List<dynamic>)
           .map((e) => AILink.fromJson(e as Map<String, dynamic>))
           .toList(),
+      references: (json['references'] as List<dynamic>)
+          .map((e) => AIReference.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      skills: (json['skills'] as List<dynamic>)
+          .map((e) => AISkill.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$AIInputToJson(AIInput instance) => <String, dynamic>{
@@ -34,4 +40,6 @@ Map<String, dynamic> _$AIInputToJson(AIInput instance) => <String, dynamic>{
       'experience': instance.experience,
       'qualifications': instance.qualifications,
       'links': instance.links,
+      'references': instance.references,
+      'skills': instance.skills,
     };

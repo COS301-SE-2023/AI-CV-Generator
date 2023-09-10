@@ -79,3 +79,4 @@ build/
 
 ai_cvgenerator_backend/src/main/resources/application.yml
 fe/assets/.env
+ai_cvgenerator_backend/Info/target.html

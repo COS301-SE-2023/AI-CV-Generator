@@ -1,10 +1,13 @@
 
 import 'package:ai_cv_generator/dio/client/dioClient.dart';
+import 'package:ai_cv_generator/dio/request/AIRequests/ChatRequest.dart';
 import 'package:ai_cv_generator/dio/request/AIRequests/ExtractionRequest.dart';
 import 'package:ai_cv_generator/dio/request/AIRequests/GenerationRequest.dart';
+import 'package:ai_cv_generator/dio/response/AIResponses/ChatResponse.dart';
 import 'package:ai_cv_generator/dio/response/AIResponses/ExtractionResponse.dart';
 import 'package:ai_cv_generator/dio/response/AIResponses/GenerationResponse.dart';
 import 'package:ai_cv_generator/models/aimodels/AIInput.dart';
+import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:syncfusion_flutter_pdf/pdf.dart'; 
 
@@ -41,4 +44,16 @@ class AIApi extends DioClient {
       },);
     return data;
   }
+
+  static Future<List<String>?> chat({
+    required List<String> messages,
+    required String userMessage
+  }) async {
+    Response response = await DioClient.dio.post(
+      'generate/chat',
+      data: ChatRequest(messages: messages, userMessage: userMessage).toJson()
+    );
+    return ChatResponse.fromJson(response.data).messages;
+  }
 }
+

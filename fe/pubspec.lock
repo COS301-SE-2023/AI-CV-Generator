@@ -233,14 +233,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.5"
-  dart_openai:
-    dependency: transitive
-    description:
-      name: dart_openai
-      sha256: "707f6975454513f4a6197125b5a0fbe92ab7cbe4b8ea9111e529a09d7a3ce0c3"
-      url: "https://pub.dev"
-    source: hosted
-    version: "4.0.0"
   dart_style:
     dependency: transitive
     description:
@@ -329,22 +321,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.3.1"
-  fetch_api:
-    dependency: transitive
-    description:
-      name: fetch_api
-      sha256: "7896632eda5af40c4459d673ad601df21d4c3ae6a45997e300a92ca63ec9fe4c"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.1"
-  fetch_client:
-    dependency: transitive
-    description:
-      name: fetch_client
-      sha256: "83c07b07a63526a43630572c72715707ca113a8aa3459efbc7b2d366b79402af"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.2"
   ffi:
     dependency: transitive
     description:
@@ -382,14 +358,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_dotenv:
-    dependency: "direct main"
-    description:
-      name: flutter_dotenv
-      sha256: "9357883bdd153ab78cbf9ffa07656e336b8bbb2b5a3ca596b0b27e119f7c7d77"
-      url: "https://pub.dev"
-    source: hosted
-    version: "5.1.0"
   flutter_driver:
     dependency: transitive
     description: flutter
@@ -567,19 +535,19 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.7.0"
+  jumping_dot:
+    dependency: "direct main"
+    description:
+      name: jumping_dot
+      sha256: a2f755140da73d018bf5198acd83cdd2898a393e5ea45ee94250b9ba44566d1c
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.6"
   langchain:
     dependency: "direct main"
     description:
       name: langchain
       sha256: b30596124747cf8a385d56a30127b0dc60b6509199e8de5faebe9a65bf31ac6b
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.0.5+1"
-  langchain_openai:
-    dependency: "direct main"
-    description:
-      name: langchain_openai
-      sha256: "5674abc7ecd8ead31984b255885cbd139ed4a54c78146e03a7fd0490e5640523"
       url: "https://pub.dev"
     source: hosted
     version: "0.0.5+1"
@@ -1004,14 +972,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.5.1"
-  tiktoken:
-    dependency: transitive
-    description:
-      name: tiktoken
-      sha256: a100ca6e387e18be7b711478c8d18627e0753536846600a5961a83631ce5c586
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.3"
   timing:
     dependency: transitive
     description:
@@ -1036,6 +996,46 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.0+1"
+  url_launcher:
+    dependency: "direct main"
+    description:
+      name: url_launcher
+      sha256: "47e208a6711459d813ba18af120d9663c20bdf6985d6ad39fe165d2538378d27"
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.1.14"
+  url_launcher_android:
+    dependency: transitive
+    description:
+      name: url_launcher_android
+      sha256: b04af59516ab45762b2ca6da40fa830d72d0f6045cd97744450b73493fa76330
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.1.0"
+  url_launcher_ios:
+    dependency: transitive
+    description:
+      name: url_launcher_ios
+      sha256: "7c65021d5dee51813d652357bc65b8dd4a6177082a9966bc8ba6ee477baa795f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.1.5"
+  url_launcher_linux:
+    dependency: transitive
+    description:
+      name: url_launcher_linux
+      sha256: b651aad005e0cb06a01dbd84b428a301916dc75f0e7ea6165f80057fee2d8e8e
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.6"
+  url_launcher_macos:
+    dependency: transitive
+    description:
+      name: url_launcher_macos
+      sha256: b55486791f666e62e0e8ff825e58a023fd6b1f71c49926483f1128d3bbd8fe88
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.7"
   url_launcher_platform_interface:
     dependency: transitive
     description:
@@ -1052,6 +1052,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.17"
+  url_launcher_windows:
+    dependency: transitive
+    description:
+      name: url_launcher_windows
+      sha256: "95fef3129dc7cfaba2bc3d5ba2e16063bb561fc6d78e63eee16162bc70029069"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.8"
   uuid:
     dependency: transitive
     description:

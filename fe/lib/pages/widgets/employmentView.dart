@@ -110,6 +110,25 @@ class EmploymentSectionState extends State<EmploymentSection> {
 
   List<Widget> populate() {
     List<Widget> linkWidgets = [];
+    if (employmentMap.isEmpty) {
+      linkWidgets.add(
+        const Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.cases_rounded,color: Colors.grey,size: 100,),
+              SizedBox(height: 20),
+              Text(
+                "No Work Experience...", 
+                style: TextStyle(
+                  color: Colors.grey
+                )
+              )
+            ],
+          ),
+        )
+      );
+    }
     employmentMap.forEach((key, value) {
       linkWidgets.add(employmentMap[key]['widget']);
       if(editing == true) {

@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 import '../screens/home.dart';
 
 class QualificationsDetailsForm extends StatefulWidget {
-  const QualificationsDetailsForm({super.key});
+   QualificationsDetailsForm({super.key});
 
   @override
   State<StatefulWidget> createState() {
@@ -21,7 +21,7 @@ class QualificationsDetailsForm extends StatefulWidget {
 
 class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
   final _formKey = GlobalKey<FormState>();
-  Column column = Column(children: [],);
+  Column column =  Column(children: [],);
 
   @override
   void initState() {
@@ -35,15 +35,15 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
       column.children.add(TextMonitorWidget(key: key, institution: qualification.intstitution, qualification: qualification.qualification, start: qualification.date, end: qualification.endo));
       column.children.add(
         Padding(
-          padding: const EdgeInsets.only(left: 500),
+          padding:  EdgeInsets.only(left: 500),
           child: IconButton(
             onPressed: () {
               remove(key);
-            }, icon: const Icon(Icons.delete)
+            }, icon:  Icon(Icons.delete)
           ),
         )
       );
-        column.children.add(const SizedBox(height: 16,));
+        column.children.add( SizedBox(height: 16,));
     }
     setState(() {});
     super.initState();
@@ -70,15 +70,15 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
     column.children.add(TextMonitorWidget(key: key));
     column.children.add(
       Padding(
-        padding: const EdgeInsets.only(left: 500),
+        padding:  EdgeInsets.only(left: 500),
         child: IconButton(
         onPressed: () {
           remove(key);
-        }, icon: const Icon(Icons.delete)
+        }, icon:  Icon(Icons.delete)
       ),
       )
     );
-    column.children.add(const SizedBox(height: 16,));
+    column.children.add( SizedBox(height: 16,));
 
     setState(() {});
   }
@@ -108,10 +108,10 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const NavDrawer(),
+      drawer:  NavDrawer(),
       appBar: AppBar(
         leading: IconButton(
-          icon: const Icon(
+          icon:  Icon(
             Icons.close,
           ), 
           onPressed: () async { 
@@ -129,19 +129,35 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
               flex: 4,
               child: Form(
                 key: _formKey,
-                child: ListView(
+                child: 
+                column.children.isNotEmpty ?
+                ListView(
                   children: [
                     ...column.children
                   ],
-                ),
+                ) : const Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.school,color: Colors.grey,size: 100,),
+                      SizedBox(height: 20),
+                      Text(
+                        "No Qualifications...", 
+                        style: TextStyle(
+                          color: Colors.grey
+                        )
+                      )
+                    ],
+                  ),
+                )
               )
             ),
             Align(
               alignment: Alignment.topCenter,
               child: Container ( 
-                padding: const EdgeInsets.all(20.0),
+                padding:  EdgeInsets.all(20.0),
                 child: ElevatedButton(
-                  child: const Text('Add'),
+                  child:  Text('Add'),
                   onPressed: () async {
                     add();
                   },
@@ -155,40 +171,40 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
                   height: 50,
                   width: 150,
                   child: ElevatedButton(
-                    child: const Text('Back'),
+                    child:  Text('Back'),
                     onPressed: ()  {
                       updateUser();
                       Navigator.of(context).pop();
-                      showQuestionaireModal(context, const PersonalDetailsForm());
+                      showQuestionaireModal(context,  PersonalDetailsForm());
                     },
                   ),
                 ),
-                const SizedBox(width: 64,),
+                 SizedBox(width: 64,),
                 SizedBox(
                   height: 50,
                   width: 150,
                   child: ElevatedButton(
-                    child: const Text('Save and Proceed'),
+                    child:  Text('Save and Proceed'),
                     onPressed: () async {
                       if(updateUser() == false) {
                         return;
                       }
                       Navigator.of(context).pop();
-                      showQuestionaireModal(context, const EmploymentDetailsForm());
+                      showQuestionaireModal(context,  EmploymentDetailsForm());
                     },
                   ),
                 ),
 
             ],
           ),
-            const SizedBox(height: 64,),
+             SizedBox(height: 64,),
           ],
         )
       )
     );
   }
 
-  Widget titleSection=const Column (
+  Widget titleSection= Column (
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: <Widget> [
         Padding (
@@ -205,7 +221,7 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
 }
 
 class TextMonitorWidget extends StatefulWidget {
-  Column column = Column(children: [],);
+  Column column =  Column(children: [],);
   TextEditingController institutionC = TextEditingController();
   TextEditingController qualificationC = TextEditingController();
   String? institution = "";
@@ -236,20 +252,20 @@ class TextMonitorWidgetState extends State<TextMonitorWidget> {
   }
 
   populate() {
-    widget.column.children.add(SizedBox(height: 4,));
+    widget.column.children.add( SizedBox(height: 4,));
     widget.column.children.add(_buildInstitutionField(widget.institutionC));
-    widget.column.children.add(SizedBox(height: 8,));
+    widget.column.children.add( SizedBox(height: 8,));
     widget.column.children.add(_buildQualificationField(widget.qualificationC));
     widget.column.children.add(_buildGraduationField());
   }
 
   Widget _buildInstitutionField(TextEditingController controller) {
     return Container (
-      constraints: BoxConstraints.tight(const Size(550,70)),
+      constraints: BoxConstraints.tight( Size(550,70)),
       child: TextFormField(
-        key: const Key("Institution input"),
+        key:  Key("Institution input"),
         controller: controller,
-        decoration: const InputDecoration(
+        decoration:  InputDecoration(
           contentPadding: EdgeInsets.all(5.0),
           labelText: 'Institution',
           enabledBorder: OutlineInputBorder(),
@@ -268,11 +284,11 @@ class TextMonitorWidgetState extends State<TextMonitorWidget> {
 
   Widget _buildQualificationField(TextEditingController controller) {
     return Container (
-      constraints: BoxConstraints.tight(const Size(550,70)),
+      constraints: BoxConstraints.tight( Size(550,70)),
       child: TextFormField(
-        key: const Key("Qualification input"),
+        key:  Key("Qualification input"),
         controller: controller,
-        decoration: const InputDecoration(
+        decoration:  InputDecoration(
           contentPadding: EdgeInsets.all(5.0),
           labelText: 'Qualification',
           enabledBorder: OutlineInputBorder(),
@@ -292,7 +308,7 @@ class TextMonitorWidgetState extends State<TextMonitorWidget> {
   Widget _buildGraduationField() {
     return Container (
       width: 100,
-      constraints: BoxConstraints.tight(const Size(550,70)),
+      constraints: BoxConstraints.tight( Size(550,70)),
       child: Row(
         children: [
           Expanded(
@@ -312,7 +328,7 @@ class TextMonitorWidgetState extends State<TextMonitorWidget> {
               mode: DateTimeFieldPickerMode.date,
             )
           ),
-          const SizedBox(width: 16,),
+           SizedBox(width: 16,),
           Expanded(
             child: DateTimeFormField(
               initialValue: widget.end,

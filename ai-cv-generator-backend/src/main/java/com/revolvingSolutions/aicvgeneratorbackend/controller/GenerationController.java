@@ -1,12 +1,15 @@
 package com.revolvingSolutions.aicvgeneratorbackend.controller;
 
 
+import com.revolvingSolutions.aicvgeneratorbackend.request.AI.ChatRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.AI.ExtractionRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.AI.GenerationRequest;
+import com.revolvingSolutions.aicvgeneratorbackend.response.AI.ChatResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.AI.ExtractionResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.AI.GenerationResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.service.LangChainService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,6 +41,20 @@ public class GenerationController {
             );
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PostMapping(value = "/chat")
+    public ResponseEntity<ChatResponse> chat(
+            @RequestBody ChatRequest request
+    ) {
+        try {
+            return ResponseEntity.ok(
+                    generationService.chatBotInteract(request)
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatusCode.valueOf(405)).build();
         }
     }
 }

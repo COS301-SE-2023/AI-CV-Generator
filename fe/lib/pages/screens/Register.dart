@@ -35,6 +35,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   TextEditingController nameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController passwordRetypeController = TextEditingController();
+   final _formKey = GlobalKey<FormState>();
   
   bool error = false;
   Color? p2textColor;
@@ -43,161 +44,211 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   Widget build(BuildContext context) {
     TextEditingController errorMessage = TextEditingController(text: "Error");
     return Padding(
-        padding: const EdgeInsets.all(10),
-        child: ListView(
-          children: <Widget>[
-            Container(
-                alignment: Alignment.center,
-                padding: const EdgeInsets.all(10),
-                child: const Image(
-                  image: ResizeImage(
-                    AssetImage('assets/images/logo.png'),
-                    width:175,
-                    height:175
-                    ),
-                  )
-                ),
-            Container(
-                alignment: Alignment.center,
-                padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-                child: const Text(
-                  'Register',
-                  style: TextStyle(fontSize: 20),
-                )),
-            Container(
-              padding: const EdgeInsets.fromLTRB(500, 10, 500, 10),
-              child: TextField(
-                key: const Key('fname'),
-                controller: fnameController,
-                decoration: const InputDecoration(
-                  enabledBorder: OutlineInputBorder(),
-                  labelText: 'First Name',
-                ),
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.fromLTRB(500, 10, 500, 10),
-              child: TextField(
-                key: const Key('lname'),
-                controller: lnameController,
-                decoration: const InputDecoration(
-                  enabledBorder: OutlineInputBorder(),
-                  labelText: 'Last Name',
-                ),
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.fromLTRB(500, 10, 500, 10),
-              child: TextField(
-                key: const Key('username'),
-                controller: nameController,
-                decoration: const InputDecoration(
-                  enabledBorder: OutlineInputBorder(),
-                  labelText: 'User Name',
-                ),
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.fromLTRB(500, 10, 500, 10),
-              child: TextField(
-                key: const Key('password'),
-                obscureText: true,
-                controller: passwordController,
-                decoration: const InputDecoration(
-                  enabledBorder: OutlineInputBorder(),
-                  labelText: 'Password',
-                ),
-                onChanged: (value) {
-                  if (passwordRetypeController.text != passwordController.text) {
-                    setState(() {
-                      p2textColor = const Color.fromRGBO(250, 0, 0, 0.466);
-                      errorMessage.text = "Password does not match";
-                      error = true;
-                    });
-                    
-                  } else {
-                    setState(() {
-                      p2textColor = null;
-                      error = false;
-                    });
-                  }
-                },
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.fromLTRB(500, 10, 500, 10),
-              child: TextField(
-                key: const Key('passwordretype'),
-                obscureText: true,
-                controller: passwordRetypeController,
-                decoration: InputDecoration(
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: p2textColor??const Color(0xFF000000),
-                      width: 1.0
+        padding: const EdgeInsets.symmetric(vertical: 32),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: <Widget>[
+              Container(
+                  alignment: Alignment.center,
+                  padding: const EdgeInsets.all(10),
+                  child: const Image(
+                    image: ResizeImage(
+                      AssetImage('assets/images/logo.png'),
+                      width:175,
+                      height:175
+                      ),
                     )
                   ),
-                  labelText: 'Retype Password',
-                  labelStyle: TextStyle(
-                    color: p2textColor
-                  )
-                ),
-                onChanged: (value) {
-                  if (passwordRetypeController.text != passwordController.text) {
-                    setState(() {
-                      p2textColor = const Color.fromRGBO(250, 0, 0, 0.466);
-                      errorMessage.text = "Password does not match";
-                      error = true;
-                    });
-                  } else {
-                    setState(() {
-                      p2textColor = null;
-                      error = false;
-                    });
-                  }
-                },
-              ),
-            ),
-            Container(
-                height: 50,
-                padding: const EdgeInsets.fromLTRB(600, 0, 600, 0),
-                child: ElevatedButton(
-                  key: const Key('register'),
-                  child: const Text('Register'),
-                  onPressed: () async {
-                    if (passwordController.text != passwordRetypeController.text) {
-                      setState(() {
-                        errorMessage.text = "Password does not match";
-                        error = true;
-                      });
-                      return;
-                    }
-                    String? resp = await userApi.register(username: nameController.text,password: passwordController.text,fname: fnameController.text,lname: lnameController.text);
-                    if (resp!= null && resp == "1") {
-                      error = false;
-                      Navigator.pushNamed(context, '/home');
-                    } else if (resp != null) {
-                      setState(() {
-                        errorMessage.text = "Invalid username or password";
-                        error = true;
-                      });
-                    } else {
-                      setState(() {
-                        errorMessage.text = "Error occurered when registering";
-                        error = true;
-                      });
-                    }
-                  },
+              Container(
+                  alignment: Alignment.center,
+                  padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                  child: const Text(
+                    'Register',
+                    style: TextStyle(fontSize: 20),
+                  )),
+              Expanded(
+                child: SizedBox(
+                  width: 512,
+                  child: TextFormField(
+                    validator: (value) {
+                      if(value == null || value.isEmpty) {
+                        return "Please enter your first name";
+                      }
+                      return null;
+                    },
+                    key: const Key('fname'),
+                    controller: fnameController,
+                    decoration: const InputDecoration(
+                      enabledBorder: OutlineInputBorder(),
+                      labelText: 'First Name',
+                    ),
+                  ),
                 )
-            ),
-            error ?
-             Center(child: Text(
-              errorMessage.text,
-              style: const TextStyle(
-              color: Colors.red,
-              backgroundColor: Color.fromARGB(0, 186, 40, 40)
-            ),)) : const Text(""),
-          ],
-        ));
+              ),
+              Expanded(
+                child: SizedBox(
+                  width: 512,
+                  child: TextFormField(
+                    validator: (value) {
+                      if(value == null || value.isEmpty) {
+                        return "Please enter your last name";
+                      }
+                      return null;
+                    },
+                    key: const Key('lname'),
+                    controller: lnameController,
+                    decoration: const InputDecoration(
+                      enabledBorder: OutlineInputBorder(),
+                      labelText: 'Last Name',
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: SizedBox(
+                  width: 512,
+                  child: TextFormField(
+                    validator: (value) {
+                      if(value == null || value.isEmpty) {
+                        return "Please enter your username";
+                      }
+                      return null;
+                    },
+                    key: const Key('username'),
+                    controller: nameController,
+                    decoration: const InputDecoration(
+                      enabledBorder: OutlineInputBorder(),
+                      labelText: 'Username',
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: SizedBox(
+                  width: 512,
+                  child: TextFormField(
+                    validator: (value) {
+                      if(value == null || value.isEmpty) {
+                        return "Please enter your password";
+                      }
+                      return null;
+                    },
+                    key: const Key('password'),
+                    obscureText: true,
+                    controller: passwordController,
+                    decoration: const InputDecoration(
+                      enabledBorder: OutlineInputBorder(),
+                      labelText: 'Password',
+                    ),
+                    // onChanged: (value) {
+                    //   if (passwordRetypeController.text != passwordController.text) {
+                    //     setState(() {
+                    //       p2textColor = const Color.fromRGBO(250, 0, 0, 0.466);
+                    //       errorMessage.text = "Password does not match";
+                    //       error = true;
+                    //     });
+                        
+                    //   } else {
+                    //     setState(() {
+                    //       p2textColor = null;
+                    //       error = false;
+                    //     });
+                    //   }
+                    // },
+                  ),
+                ),
+              ),
+              Expanded(
+                child: SizedBox(
+                  width: 512,
+                  child: TextFormField(
+                    validator: (value) {
+                      if(value == null || value.isEmpty) {
+                        return "Please retype your password";
+                      }
+                      if (passwordRetypeController.text != passwordController.text) {
+                        return "Passwords do not match";
+                      }
+                      return null;
+                    },
+                    key: const Key('passwordretype'),
+                    obscureText: true,
+                    controller: passwordRetypeController,
+                    decoration: InputDecoration(
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: p2textColor??const Color(0xFF000000),
+                          width: 1.0
+                        )
+                      ),
+                      labelText: 'Retype Password',
+                      labelStyle: TextStyle(
+                        color: p2textColor
+                      )
+                    ),
+                  ),
+                ),
+                  // onChanged: (value) {
+                  //   if (passwordRetypeController.text != passwordController.text) {
+                  //     setState(() {
+                  //       p2textColor = const Color.fromRGBO(250, 0, 0, 0.466);
+                  //       errorMessage.text = "Password does not match";
+                  //       error = true;
+                  //     });
+                  //   } else {
+                  //     setState(() {
+                  //       p2textColor = null;
+                  //       error = false;
+                  //     });
+                  //   }
+                  // },
+              ),
+              Container(
+                  height: 50,
+                  padding: const EdgeInsets.fromLTRB(600, 0, 600, 0),
+                  child: ElevatedButton(
+                    key: const Key('register'),
+                    child: const Text('Register'),
+                    onPressed: () async {
+                      if(_formKey.currentState!.validate() == false) {
+                          return;
+                      }
+                      if (passwordController.text != passwordRetypeController.text) {
+                        setState(() {
+                          errorMessage.text = "Password does not match";
+                          error = true;
+                        });
+                        return;
+                      }
+                      String? resp = await userApi.register(username: nameController.text,password: passwordController.text,fname: fnameController.text,lname: lnameController.text);
+                      if (resp!= null && resp == "1") {
+                        error = false;
+                        Navigator.pushNamed(context, '/home');
+                      } else if (resp != null) {
+                        setState(() {
+                          errorMessage.text = "Invalid username or password";
+                          error = true;
+                        });
+                      } else {
+                        setState(() {
+                          errorMessage.text = "Error occurered when registering";
+                          error = true;
+                        });
+                      }
+                    },
+                  )
+              ),
+              error ?
+              Center(child: Text(
+                errorMessage.text,
+                style: const TextStyle(
+                color: Colors.red,
+                backgroundColor: Color.fromARGB(0, 186, 40, 40)
+              ),)) : const Text(""),
+            ],
+          )
+      )
+    );
   }
 }

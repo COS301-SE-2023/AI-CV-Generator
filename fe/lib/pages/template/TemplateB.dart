@@ -1,7 +1,6 @@
 import 'package:ai_cv_generator/dio/client/fileApi.dart';
 import 'package:ai_cv_generator/models/aimodels/CVData.dart';
-import 'package:ai_cv_generator/models/user/UserModel.dart';
-import 'package:ai_cv_generator/pages/widgets/loadingScreen.dart';
+import 'package:ai_cv_generator/pages/widgets/loadingscreens/loadingScreen.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -36,7 +35,7 @@ class TemplateB extends StatefulWidget {
   Future<PlatformFile> transform() async {
     var templateBpdf = TemplateBPdf(fname: fnameC!.text, lnameC: lnameC!.text, emailC: emailC!.text, locationC: locationC!.text, phoneNumberC: phoneNumberC!.text, nameC: nameC!.text, detailsC: detailsC!.text, descriptionHeadingC: descriptionHeadingC!.text, descriptionC: descriptionC!.text, employmentHeadingC: employmentHeadingC!.text, employmentC: employmentC!.text, qualificationHeadingC:qualificationHeadingC!.text, qualificationC: qualificationC!.text, linksHeadingC: linksHeadingC!.text, linksC: linksC!.text);
     await templateBpdf.writeOnPdf();
-    return await templateBpdf!.getPdf();
+    return await templateBpdf.getPdf();
   }
   
   @override
@@ -46,30 +45,24 @@ class TemplateB extends StatefulWidget {
 class TemplateBState extends State<TemplateB> {
   @override
   void initState() {
-    widget.nameC!.text = widget.data!.firstname + " " + widget.data.lastname;
-    widget.detailsC!.text = (widget.data!.location??"Please provide Location!") + " | " +
-    (widget.data!.phoneNumber??"Please provide phone number!") + " | " +
-    (widget.data!.email??"Please provide email!");
+    widget.nameC!.text = "${widget.data.firstname} ${widget.data.lastname}";
+    widget.detailsC!.text = "${widget.data.location??"Please provide Location!"} | ${widget.data.phoneNumber??"Please provide phone number!"} | ${widget.data.email??"Please provide email!"}";
     widget.descriptionHeadingC!.text = "Professional Summary";
     widget.employmentHeadingC!.text = "Experience";
     widget.qualificationHeadingC!.text = "Qualifications";
     widget.linksHeadingC!.text = "Links";
-    widget.descriptionC!.text = widget.data!.description!;
+    widget.descriptionC!.text = widget.data.description!;
     for(int i = 0; i < widget.data.employmenthistory!.length; i++) {
-      widget.employmentC!.text += widget.data!.employmenthistory![i].company + " | "
-      + widget.data!.employmenthistory![i].startDate + " - "
-      + widget.data!.employmenthistory![i].endDate + " | " + widget.data!.employmenthistory![i].jobTitle + "\n\n" + widget.data!.experience![i] + "\n\n";
+      widget.employmentC!.text += "${widget.data.employmenthistory![i].company} | ${widget.data.employmenthistory![i].startDate} - ${widget.data.employmenthistory![i].endDate} | ${widget.data.employmenthistory![i].jobTitle}\n\n${widget.data.experience![i]}\n\n";
     }
 
-    for(int i = 0; i < widget.data!.qualifications!.length; i++) {
-      widget.qualificationC!.text += widget.data!.qualifications![i].institution + " | "
-      + widget.data!.qualifications![i].startDate + " - "
-      + widget.data!.qualifications![i].endDate + " | " + widget.data!.qualifications![i].qualification + "\n\n";
+    for(int i = 0; i < widget.data.qualifications!.length; i++) {
+      widget.qualificationC!.text += "${widget.data.qualifications![i].institution} | ${widget.data.qualifications![i].startDate} - ${widget.data.qualifications![i].endDate} | ${widget.data.qualifications![i].qualification}\n\n";
     }
-    widget.qualificationC!.text += widget.data!.education_description!;
+    widget.qualificationC!.text += widget.data.education_description!;
     
-    for(int i = 0; i < widget.data!.links!.length; i++) {
-      widget.linksC!.text += widget.data!.links![i].url + "\n";
+    for(int i = 0; i < widget.data.links!.length; i++) {
+      widget.linksC!.text += "${widget.data.links![i].url}\n";
     }
 
     super.initState();
@@ -117,7 +110,7 @@ class TemplateBState extends State<TemplateB> {
           ],
         ),
           Padding(
-            padding: EdgeInsets.all(32),
+            padding: const EdgeInsets.all(32),
             child: Row(
               children: [
                 Expanded( child:
@@ -210,7 +203,7 @@ class TextFieldInputState extends State<TextFieldInput> {
         fontSize: widget.fontSize
       ),
       decoration: 
-      InputDecoration(
+      const InputDecoration(
         isDense: true,
         contentPadding: EdgeInsets.zero,
         border: InputBorder.none
@@ -267,9 +260,7 @@ class TemplateBPdf {
   Future<void> writeOnPdf() async {
     pdf = pw.Document();
     Uint8List? img = await FileApi.getProfileImageUint8List();
-    if (img == null) {
-      img = (await rootBundle.load('assets/images/NicePng_watsapp-icon-png_9332131.png')).buffer.asUint8List();
-    }
+    img ??= (await rootBundle.load('assets/images/NicePng_watsapp-icon-png_9332131.png')).buffer.asUint8List();
     pdf.addPage(
      pw.MultiPage(
         pageFormat: PdfPageFormat.a4,
@@ -290,9 +281,9 @@ class TemplateBPdf {
                         children: [
                           pw.Image(pw.MemoryImage(img!),width: 170,height: 170),
                           pw.SizedBox(height: 40),
-                          pw.Text(nameC, style: pw.TextStyle(fontSize: 32,color: PdfColors.white)),
+                          pw.Text(nameC, style: const pw.TextStyle(fontSize: 32,color: PdfColors.white)),
                           pw.SizedBox(height: 32),
-                          pw.Text(detailsC, style: pw.TextStyle(color: PdfColors.white)),
+                          pw.Text(detailsC, style: const pw.TextStyle(color: PdfColors.white)),
                           pw.SizedBox(height: 32),
                         ] 
                       )
@@ -301,7 +292,7 @@ class TemplateBPdf {
                       alignment: pw.Alignment.center,
                       child: pw.Text(
                         descriptionHeadingC,
-                        style: pw.TextStyle(fontSize: 24, color: PdfColors.blue200,)
+                        style: const pw.TextStyle(fontSize: 24, color: PdfColors.blue200,)
                       ),
                     ),
                     pw.SizedBox(height: 8),
@@ -315,7 +306,7 @@ class TemplateBPdf {
                         borderRadius: pw.BorderRadius.circular(20),
                         color: PdfColors.grey300
                       ),
-                      child: pw.Text(descriptionC, style: pw.TextStyle(fontSize: 16)),
+                      child: pw.Text(descriptionC, style: const pw.TextStyle(fontSize: 16)),
                     ),
                     
                     pw.SizedBox(height: 16),
@@ -323,7 +314,7 @@ class TemplateBPdf {
                       alignment: pw.Alignment.centerLeft,
                       child: pw.Text(
                         employmentHeadingC,
-                        style: pw.TextStyle(fontSize: 24, color: PdfColors.blue200,)
+                        style: const pw.TextStyle(fontSize: 24, color: PdfColors.blue200,)
                       ),
                     ),
                     pw.SizedBox(height: 8),
@@ -337,7 +328,7 @@ class TemplateBPdf {
                         borderRadius: pw.BorderRadius.circular(20),
                         color: PdfColors.grey300
                       ),
-                      child: pw.Text(employmentC, style: pw.TextStyle(fontSize: 16))
+                      child: pw.Text(employmentC, style: const pw.TextStyle(fontSize: 16))
                     ),
 
                     pw.SizedBox(height: 150),
@@ -345,7 +336,7 @@ class TemplateBPdf {
                       alignment: pw.Alignment.centerLeft,
                       child: pw.Text(
                         qualificationHeadingC,
-                        style: pw.TextStyle(fontSize: 24, color: PdfColors.blue200,)
+                        style: const pw.TextStyle(fontSize: 24, color: PdfColors.blue200,)
                       ),
                     ),
                     pw.SizedBox(height: 8),
@@ -359,14 +350,14 @@ class TemplateBPdf {
                         borderRadius: pw.BorderRadius.circular(20),
                         color: PdfColors.grey300
                       ),
-                      child: pw.Text(qualificationC, style: pw.TextStyle(fontSize: 16))
+                      child: pw.Text(qualificationC, style: const pw.TextStyle(fontSize: 16))
                     ),
                     pw.SizedBox(height: 16),
                     pw.Align(
                       alignment: pw.Alignment.centerLeft,
                       child: pw.Text(
                         linksHeadingC,
-                        style: pw.TextStyle(fontSize: 24, color: PdfColors.blue200,)
+                        style: const pw.TextStyle(fontSize: 24, color: PdfColors.blue200,)
                       ),
                     ),
                     pw.SizedBox(height: 8),
@@ -374,7 +365,7 @@ class TemplateBPdf {
                       alignment: pw.Alignment.centerLeft,
                       child: pw.Text(
                         linksC,
-                        style: pw.TextStyle(fontSize: 16,)
+                        style: const pw.TextStyle(fontSize: 16,)
                       ),
                     ),
                   ]
