@@ -105,7 +105,12 @@ ThemeData darkTheme = ThemeData(
   //   },
   // ),
   brightness: Brightness.dark,
-
+  appBarTheme: const AppBarTheme(
+    backgroundColor: Color(0xFFEA6D79),
+    toolbarTextStyle: TextStyle(fontSize: 16, color: white),
+    actionsIconTheme: IconThemeData(color: white, size: 32),
+  ),
+  
   
 
 );
