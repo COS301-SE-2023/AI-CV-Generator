@@ -1,6 +1,7 @@
 import 'package:ai_cv_generator/dio/client/AuthApi.dart';
 import 'package:ai_cv_generator/dio/response/AuthResponses/Code.dart';
 import 'package:ai_cv_generator/pages/screens/emailConfirmation.dart';
+import 'package:ai_cv_generator/pages/util/errorMessage.dart';
 import 'package:ai_cv_generator/pages/widgets/loadingscreens/loadingScreen.dart';
 import 'package:ai_cv_generator/pages/widgets/termsAndConditions.dart';
 import 'package:flutter/material.dart';
@@ -52,16 +53,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         lname: lnameController.text
       )
     );
-  }
-
-  TextEditingController errorMessage = TextEditingController(text: "Error");
-  Stream<String> sampleListener(TextEditingController controller) async* { // <- here
-    while (true) {
-      await Future.delayed(const Duration(milliseconds: 10));
-      yield controller.value.text;
-    }
   } 
-    
   
   bool error = false;
   bool wait = false;
@@ -69,6 +61,10 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   Color? userNameAndPwordError;
   bool accepted = false;
   TermsAndConditions tAndCs = TermsAndConditions(accepted: false);
+
+  showError(String message) {
+    showMessage(message, context);
+  }
  
   @override
   Widget build(BuildContext context) {
@@ -239,14 +235,14 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   child: const Text('Register'),
                   onPressed: () async {
                     if (!tAndCs.accepted) {
+                      showError("Please accept our Terms of Use and Privacy Policy");
                       setState(() {
                         error = true;
-                        errorMessage.text = "Please accept our Terms of Use and Privacy Policy";
                       });
                       return;
                     }
                     if (passwordController.text != passwordRetypeController.text) {
-                      errorMessage.text = "Password does not match";
+                      showError("Password does not match");
                       setState(() {
                         p2textColor = const Color.fromRGBO(250, 0, 0, 0.466);
                         error = true;
@@ -269,52 +265,20 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                       });
                       confirm();
                     } else if (code == Code.failed) {
+                      showError("Username already Exists");
                       setState(() {
-                        errorMessage.text = "Username already Exists";
                         p2textColor = userNameAndPwordError = const Color.fromRGBO(250, 0, 0, 0.466);
                         error = true;
                       });
                     } else {
+                      showError("Invalid Username or Password");
                       setState(() {
-                        errorMessage.text = "Invalid Username or Password";
                         p2textColor = userNameAndPwordError = const Color.fromRGBO(250, 0, 0, 0.466);
                         error = true;
                       });
                     }
                   },
                 )
-            ),
-            if (error)
-            Center(
-              child: Container(
-                height: 50,
-                padding: const EdgeInsets.fromLTRB(500, 10, 500, 10),
-                child: StreamBuilder<String>(
-                  stream: sampleListener(errorMessage),
-                  builder: (context, AsyncSnapshot<String> snapshot) {
-                    if (snapshot.hasError || snapshot.data == null) {
-                      return const Text(
-                        "",
-                        style: TextStyle(
-                          color: Color(0xFFEA6D79),
-                          fontSize: 20,
-                          backgroundColor: Color.fromARGB(0, 186, 40, 40)
-                        ),
-                      );
-                    } else {
-                      return Text(
-                        snapshot.data as String,
-                        style: const TextStyle(
-                          color: Color(0xFFEA6D79),
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          backgroundColor: Color.fromARGB(0, 186, 40, 40)
-                        ),
-                      );
-                    }
-                  }
-                )
-              )
             )
           ],
       ));
