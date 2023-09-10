@@ -1,4 +1,5 @@
 import 'package:ai_cv_generator/dio/client/AuthApi.dart';
+import 'package:ai_cv_generator/pages/util/errorMessage.dart';
 import 'package:ai_cv_generator/pages/widgets/loadingscreens/loadingScreen.dart';
 import 'package:flutter/material.dart';
  
@@ -24,8 +25,15 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   TextEditingController nameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
-  bool error = false;
   bool wait = false;
+
+  showError(String message) {
+    showMessage(message, context);
+  }
+
+  home() {
+    Navigator.pushNamed(context, "/home");
+  }
  
   @override
   Widget build(BuildContext context) {
@@ -87,22 +95,16 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     });
                     bool resp = await AuthApi.login(username: nameController.text,password: passwordController.text);
                     if (resp) {
-                      error = false;
-                      Navigator.pushNamed(context, '/home');
+                      home();
                     } else {
+                      showError("Invalid Login!");
                       setState(() {
-                        error = true;
                         wait = false;
                       });
                     }
                   },
                 )
             ),
-            error ?
-            const Center(child: Text("Username or Password invalid",style: TextStyle(
-              color: Colors.red,
-              backgroundColor: Color.fromARGB(0, 186, 40, 40)
-            ),)) : const Text(""),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[

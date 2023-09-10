@@ -55,7 +55,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     );
   } 
   
-  bool error = false;
   bool wait = false;
   Color? p2textColor;
   Color? userNameAndPwordError;
@@ -140,7 +139,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   labelText: 'User Name',
                 ),
                 onChanged: (value) {
-                  error = false;
                   userNameAndPwordError=null;
                   p2textColor = null;
                   setState(() {
@@ -185,7 +183,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   } else {
                     setState(() {
                       p2textColor = null;
-                      error = false;
                     });
                   }
                 },
@@ -217,7 +214,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   } else {
                     setState(() {
                       p2textColor = null;
-                      error = false;
                     });
                   }
                 },
@@ -237,7 +233,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     if (!tAndCs.accepted) {
                       showError("Please accept our Terms of Use and Privacy Policy");
                       setState(() {
-                        error = true;
                       });
                       return;
                     }
@@ -245,7 +240,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                       showError("Password does not match");
                       setState(() {
                         p2textColor = const Color.fromRGBO(250, 0, 0, 0.466);
-                        error = true;
                       });
                       return;
                     }
@@ -259,7 +253,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                       
                     });
                     if (code == Code.success) {
-                      error = false;
                       setState(() {
                         
                       });
@@ -268,13 +261,11 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                       showError("Username already Exists");
                       setState(() {
                         p2textColor = userNameAndPwordError = const Color.fromRGBO(250, 0, 0, 0.466);
-                        error = true;
                       });
                     } else {
                       showError("Invalid Username or Password");
                       setState(() {
                         p2textColor = userNameAndPwordError = const Color.fromRGBO(250, 0, 0, 0.466);
-                        error = true;
                       });
                     }
                   },
