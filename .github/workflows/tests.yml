@@ -18,6 +18,10 @@ jobs:
     - uses: subosito/flutter-action@v1
     - run: flutter pub get
       working-directory: ${{env.working-directory}}
+    - name: 'Create env file'
+      run: |
+          echo "${{ secrets.ENV_FILE }}" > .env
+      working-directory: fe/assets
     - run: flutter test 
       working-directory: ${{env.working-directory}}
     #- name: Upload coverage reports to Codecov
