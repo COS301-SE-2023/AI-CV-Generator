@@ -8,7 +8,7 @@ name: Tests
 on: [push, workflow_dispatch]
 
 jobs:
-  unit_tests:
+  frontend_tests:
     runs-on: ubuntu-latest
     env: 
       working-directory: fe
