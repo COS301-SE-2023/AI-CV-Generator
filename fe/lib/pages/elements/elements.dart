@@ -110,7 +110,11 @@ ThemeData darkTheme = ThemeData(
     toolbarTextStyle: TextStyle(fontSize: 16, color: white),
     actionsIconTheme: IconThemeData(color: white, size: 32),
   ),
-  
+  colorScheme: ColorScheme.dark(
+    background: Colors.grey[1000]!,
+    primary: Color(0xFFEA6D79),
+    secondary: Color(0xFFFDA187),
+  )
   
 
 );
