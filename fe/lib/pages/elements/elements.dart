@@ -60,8 +60,8 @@ ThemeData mainTheme = ThemeData(
   ),
 );
 
-final darkTheme = ThemeData.dark(
-  // inputDecorationTheme: InputDecorationTheme(
+ThemeData darkTheme = ThemeData(
+  // inputDecoration: InputDecorationTheme(
   //   hintStyle: TextStyle(color: Colors.grey.withOpacity(0.7))
   // ),
   // buttonTheme: const ButtonThemeData(
@@ -104,6 +104,8 @@ final darkTheme = ThemeData.dark(
   //     TargetPlatform.windows: FadeUpwardsPageTransitionsBuilder()
   //   },
   // ),
+  Brightness: Brightness.dark,
+
   
 
 );
