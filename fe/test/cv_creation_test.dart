@@ -27,7 +27,7 @@ void main(){
       expect(find.text('Last Name'), findsOneWidget);
       expect(find.text('Email'), findsOneWidget);
       expect(find.text('Contact Number'), findsOneWidget);
-      expect(find.text('Address'), findsOneWidget);
+      expect(find.text('General Location'), findsOneWidget);
       expect(find.text('Save and Proceed'), findsOneWidget);
 
     });
