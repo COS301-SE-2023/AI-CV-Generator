@@ -111,12 +111,17 @@ ThemeData darkTheme = ThemeData(
     actionsIconTheme: IconThemeData(color: white, size: 32),
   ),
   colorScheme: ColorScheme.dark(
-    background: Colors.grey[1000]!,
+    background: Colors.grey[700]!,
     primary: Color(0xFFEA6D79),
     secondary: Color(0xFFFDA187),
+    onBackground: onBackgroundColour,
+    surface: surfaceColour,
+    onSurface: onSurfaceColour,
+    onSecondary: onSecondaryColour,
+    error: errorColour,
+    onError: onErrorColour,
+    onPrimary: onPrimaryColour
   )
-  
-
 );
 
 class SectionHeading extends StatefulWidget {
