@@ -61,6 +61,7 @@ dependencies:
   flutter_dotenv: ^5.1.0
   jumping_dot: ^0.0.6
   flutter_markdown: ^0.6.17+2
+  flutter_svg: ^2.0.7
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -98,6 +99,11 @@ flutter:
     - assets/.env
     - assets/markdown/Terms_of_use.md
     - assets/markdown/Privacy_policy.md
+    - assets/images/error-905.svg
+    - assets/images/rain-svgrepo-com.svg
+    - assets/images/close-circle-svgrepo-com.svg
+    - assets/images/circle-xmark-svgrepo-com.svg
+    - assets/images/circle-filled-circle-radio-filled-round-bullet-svgrepo-com.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
