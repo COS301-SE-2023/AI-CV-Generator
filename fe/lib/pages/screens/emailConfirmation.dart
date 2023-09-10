@@ -118,7 +118,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   children: [
                     Container(
                       padding: const EdgeInsets.all(40),
-                      child: FloatingActionButton(
+                      child: ElevatedButton(
                         onPressed: () async {
                           Code code = await AuthApi.register(username: args.username, password: args.password, email: args.email, fname: args.fname, lname: args.lname);
                           if (code == Code.success) {
