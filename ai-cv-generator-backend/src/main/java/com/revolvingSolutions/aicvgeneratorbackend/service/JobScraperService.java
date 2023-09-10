@@ -278,24 +278,25 @@ public class JobScraperService {
     private Double temperature;
 
     private ChatLanguageModel fieldClassifierchatLanguageModel() {
-        return new OpenAiChatModel(
-                apikey,
-                modelName,
-                temperature,
-                1.0,
-                1000,
-                0.0,0.0,
-                Duration.ofMinutes(2),
-                2,
-                true,
-                true
-        );
+        return OpenAiChatModel.builder()
+                .modelName(modelName)
+                .apiKey(apikey)
+                .temperature(temperature)
+                .logRequests(true)
+                .logResponses(true)
+                .maxRetries(2)
+                .maxTokens(1000)
+                .topP(1.0)
+                .timeout(Duration.ofMinutes(3))
+                .frequencyPenalty(0.0)
+                .presencePenalty(0.0)
+                .build();
     }
 
     private FieldClassifierAgent fieldClassifier(ChatLanguageModel chatLanguageModel) {
         return AiServices.builder(FieldClassifierAgent.class)
                 .chatLanguageModel(chatLanguageModel)
-                .chatMemory(MessageWindowChatMemory.withCapacity(3))
+                .chatMemory(MessageWindowChatMemory.withMaxMessages(3))
                 .build();
     }
 
