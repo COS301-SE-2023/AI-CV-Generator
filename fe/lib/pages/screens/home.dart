@@ -506,8 +506,6 @@ class _HomeState extends State<Home> {
                                 uploadFile = await pdfAPI.pick_cvfile();
                                 if(uploadFile != null) {                    
                                   filenameC.text = uploadFile!.name;
-                                  await FileApi.uploadFile(file: uploadFile);
-                                  updatePastCVs();
                                 
                                   await generateFile();
                                   AIInput? aiInput = await AIApi.extractPdf(file: uploadFile!);

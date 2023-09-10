@@ -185,7 +185,7 @@ public class LangChainService {
                 .logRequests(true)
                 .logResponses(true)
                 .maxRetries(2)
-                .maxTokens(3000)
+                .maxTokens(1000)
                 .topP(1.0)
                 .timeout(Duration.ofMinutes(3))
                 .frequencyPenalty(0.0)
