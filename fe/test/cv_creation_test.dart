@@ -138,7 +138,7 @@ void main(){
       Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak'); // Replace AdjustedModel with your actual model class
       
     // Build our widget and trigger a frame.
-      await tester.pumpWidget(const MaterialApp(home: SkillsForm()));
+      await tester.pumpWidget( MaterialApp(home: SkillsForm()));
 
       expect(find.text(StringsSkill.appsubHeadingTitle), findsOneWidget);
       expect(find.text('Skill 1'), findsOneWidget);
@@ -148,7 +148,7 @@ void main(){
     testWidgets("Skills Input test", (WidgetTester tester) async {
       Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak'); // Replace AdjustedModel with your actual model class
       // Build our widget and trigger a frame.
-      await tester.pumpWidget(const MaterialApp(home: SkillsForm()));
+      await tester.pumpWidget( MaterialApp(home: SkillsForm()));
 
       await tester.enterText(find.byKey(const Key("Skill1")), 'C++');
       await tester.enterText(find.byKey(const Key("Skill2")), 'Java');
@@ -169,7 +169,7 @@ void main(){
       Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak'); // Replace AdjustedModel with your actual model class
       
     // Build our widget and trigger a frame.
-      await tester.pumpWidget(const MaterialApp(home: ReferencesForm()));
+      await tester.pumpWidget( MaterialApp(home: ReferencesForm()));
 
       expect(find.text(StringsReferences.appsubHeadingTitle), findsOneWidget);
       expect(find.text('Full Name'), findsOneWidget);
@@ -180,7 +180,7 @@ void main(){
     testWidgets("References Input test", (WidgetTester tester) async {
       Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak'); // Replace AdjustedModel with your actual model class
       // Build our widget and trigger a frame.
-      await tester.pumpWidget(const MaterialApp(home: ReferencesForm()));
+      await tester.pumpWidget( MaterialApp(home: ReferencesForm()));
 
       await tester.enterText(find.byKey(const Key("Name input")), 'John Doe');
       await tester.enterText(find.byKey(const Key("Job Title input")), 'Senior Software Engineer');
@@ -213,7 +213,7 @@ void main(){
       // Build our widget and trigger a frame.
       await tester.pumpWidget( MaterialApp(home: DescriptionForm()));
 
-      await tester.enterText(find.byKey(const Key("Description start")), 'I am intelligent');
+      await tester.enterText(find.byKey( Key("Description start")), 'I am intelligent');
       await tester.pump();
 
       // Tap the Save and Proceed button again.
