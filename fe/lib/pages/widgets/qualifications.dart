@@ -301,7 +301,7 @@ class TextMonitorWidgetState extends State<TextMonitorWidget> {
               onDateSelected: (value) {
                 widget.start = value;
               },
-              key: const Key("Graduation input"),
+              key: const Key("Start date input"),
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 contentPadding: EdgeInsets.all(5.0),
@@ -319,7 +319,7 @@ class TextMonitorWidgetState extends State<TextMonitorWidget> {
               onDateSelected: (value) {
                 widget.end = value;
               },
-              key: const Key("Graduation input"),
+              key: const Key("End date input"),
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 contentPadding: EdgeInsets.all(5.0),
