@@ -104,7 +104,7 @@ ThemeData darkTheme = ThemeData(
   //     TargetPlatform.windows: FadeUpwardsPageTransitionsBuilder()
   //   },
   // ),
-  Brightness: Brightness.dark,
+  brightness: Brightness.dark,
 
   
 
