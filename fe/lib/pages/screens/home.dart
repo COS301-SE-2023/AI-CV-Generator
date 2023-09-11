@@ -1,5 +1,5 @@
 // internal
-import 'package:ai_cv_generator/api/DownloadService.dart';
+import 'package:ai_cv_generator/api/downloadService.dart';
 import 'package:ai_cv_generator/dio/client/fileApi.dart';
 import 'package:ai_cv_generator/api/pdfApi.dart';
 import 'package:ai_cv_generator/dio/client/AIApi.dart';

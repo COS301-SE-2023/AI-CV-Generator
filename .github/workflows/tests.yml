@@ -8,7 +8,7 @@ name: Tests
 on: [push, workflow_dispatch]
 
 jobs:
-  unit_tests:
+  frontend_tests:
     runs-on: ubuntu-latest
     env: 
       working-directory: fe
@@ -18,12 +18,16 @@ jobs:
     - uses: subosito/flutter-action@v1
     - run: flutter pub get
       working-directory: ${{env.working-directory}}
-    #- run: flutter test --coverage
-     # working-directory: ${{env.working-directory}}
-    #- name: Upload coverage reports to Codecov
-     # uses: codecov/codecov-action@v3
-      #env:
-       # CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+    - name: 'Create env file'
+      run: |
+          echo "${{ secrets.ENV_FILE }}" > .env
+      working-directory: fe/assets
+    - run: flutter test 
+      working-directory: ${{env.working-directory}}
+    - name: Upload coverage reports to Codecov
+      uses: codecov/codecov-action@v3
+      env:
+        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
   backend_tests:
     runs-on: ubuntu-latest
@@ -47,10 +51,10 @@ jobs:
     - name: Run tests 
       run: mvn --batch-mode -Dmaven.test.failure.ignore=true test
       working-directory: ${{env.working-directory}}
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v3
-      env:
-        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+    #- name: Upload coverage to Codecov
+     # uses: codecov/codecov-action@v3
+      #env:
+       # CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
       
   #integration_tests:
    #   runs-on: ubuntu-latest

@@ -1,4 +1,4 @@
-import 'package:ai_cv_generator/api/DownloadService.dart';
+import 'package:ai_cv_generator/api/downloadService.dart';
 import 'package:ai_cv_generator/dio/client/fileApi.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
