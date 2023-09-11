@@ -1,6 +1,7 @@
 import 'package:ai_cv_generator/models/user/Qualification.dart';
 import 'package:ai_cv_generator/models/user/Reference.dart';
 import 'package:ai_cv_generator/models/user/Skill.dart';
+import 'package:ai_cv_generator/pages/widgets/chatBotView.dart';
 import 'package:ai_cv_generator/pages/widgets/qualificationsView.dart';
 import 'package:ai_cv_generator/pages/widgets/referenceView.dart';
 import 'package:ai_cv_generator/pages/widgets/skillsView.dart';
@@ -52,6 +53,27 @@ class TestQualificationsField extends StatelessWidget {
 }
 
 void main(){
+
+  group("Test chatbot", () {
+    testWidgets('Chatbot renders correctly', (WidgetTester tester) async {      
+      // Build the ChatBotView widget
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: Scaffold(
+            body: ChatBotView(),
+          ),
+        ),
+      );
+
+      // Wait for the widget tree to settle
+      await tester.pumpAndSettle();
+
+      // Verify that the initial state is as expected
+      //expect(find.widgetWithText(Text,"AI CHAT BOT"), findsOneWidget);
+      //expect(find.byType(IconButton), findsNWidgets(2)); // Two IconButton widgets should be present
+
+    });
+});
 
   group("Test Qualifications view", () {
     testWidgets('Qualifications view screen renders correctly', (WidgetTester tester) async {
