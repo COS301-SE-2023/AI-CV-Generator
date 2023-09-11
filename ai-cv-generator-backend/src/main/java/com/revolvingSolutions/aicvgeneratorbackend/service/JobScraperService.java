@@ -9,10 +9,15 @@ import com.revolvingSolutions.aicvgeneratorbackend.model.webscrapper.JobResponse
 import com.revolvingSolutions.aicvgeneratorbackend.repository.UserRepository;
 import com.revolvingSolutions.aicvgeneratorbackend.request.webscraper.JobScrapeRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.response.webscraper.JobScrapeResponse;
+import dev.langchain4j.data.embedding.Embedding;
+import dev.langchain4j.data.segment.TextSegment;
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
 import dev.langchain4j.model.chat.ChatLanguageModel;
 import dev.langchain4j.model.openai.OpenAiChatModel;
+import dev.langchain4j.model.openai.OpenAiEmbeddingModel;
 import dev.langchain4j.service.AiServices;
+import dev.langchain4j.store.embedding.EmbeddingMatch;
+import dev.langchain4j.store.embedding.EmbeddingStore;
 import lombok.RequiredArgsConstructor;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -27,7 +32,9 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+
 
 @Service
 @RequiredArgsConstructor
@@ -51,13 +58,11 @@ public class JobScraperService {
     }
     public JobScrapeResponse getRecommended() {
         User user = getAISafeModel();
-
         String location = "";
         if (user.getLocation()!=null) location = user.getLocation();
-
         return scrapData(
           JobScrapeRequest.builder()
-                  .field(fieldClassifier(fieldClassifierchatLanguageModel()).chat(user.toString()))
+                  .field("")
                   .location(location)
                   .build()
         );
