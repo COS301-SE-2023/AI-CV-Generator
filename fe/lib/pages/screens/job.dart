@@ -30,8 +30,8 @@ class JobsPageState extends State<JobsPage> {
   void populate() async {
     UserModel? user = await userApi.getUser();
     if(user != null) {
-        List<JobResponseDTO>? jobs = await getJobs("accounting", "Pretoria");
-        // List<JobResponseDTO>? jobs = await getRecommended();
+        // List<JobResponseDTO>? jobs = await getJobs("accounting", "Pretoria");
+        List<JobResponseDTO>? jobs = await getRecommended();
         setState(() {
           // for(int i = 0; i < 10; i++)
           // {
