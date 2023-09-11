@@ -11,8 +11,10 @@ import dev.langchain4j.data.segment.TextSegment;
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
 import dev.langchain4j.model.chat.ChatLanguageModel;
 import dev.langchain4j.model.embedding.EmbeddingModel;
+import dev.langchain4j.model.moderation.ModerationModel;
 import dev.langchain4j.model.openai.OpenAiChatModel;
 import dev.langchain4j.model.openai.OpenAiEmbeddingModel;
+import dev.langchain4j.model.openai.OpenAiModerationModel;
 import dev.langchain4j.model.openai.OpenAiTokenizer;
 import dev.langchain4j.retriever.EmbeddingStoreRetriever;
 import dev.langchain4j.retriever.Retriever;
@@ -146,5 +148,10 @@ public class LangChainConf {
             System.out.println("Warning Something has BADLY gone Wrong!");
         }
         return embeddingStore;
+    }
+
+    @Bean
+    public ModerationModel moderationModel() {
+        return OpenAiModerationModel.withApiKey(apikey);
     }
 }

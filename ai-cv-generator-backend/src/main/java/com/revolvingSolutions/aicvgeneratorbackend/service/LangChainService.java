@@ -18,6 +18,7 @@ import dev.langchain4j.data.message.UserMessage;
 import dev.langchain4j.data.segment.TextSegment;
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
 import dev.langchain4j.model.chat.ChatLanguageModel;
+import dev.langchain4j.model.moderation.ModerationModel;
 import dev.langchain4j.model.openai.OpenAiChatModel;
 import dev.langchain4j.retriever.Retriever;
 import dev.langchain4j.service.AiServices;
@@ -119,7 +120,7 @@ public class LangChainService {
                 .build();
     }
 
-    private static String interact(DescriptionAgent agent, String userMessage) {
+    public static String interact(DescriptionAgent agent, String userMessage) {
         System.out.println("==========================================================================================");
         System.out.println("[User]: " + userMessage);
         System.out.println("==========================================================================================");
@@ -152,6 +153,17 @@ public class LangChainService {
         return agentAnswer;
     }
 
+    private static String interact(ChatBotAgent agent, String userMessage) {
+        System.out.println("==========================================================================================");
+        System.out.println("[User]: " + userMessage);
+        System.out.println("==========================================================================================");
+        String agentAnswer = agent.chat(0,userMessage);
+        System.out.println("==========================================================================================");
+        System.out.println("[EducationDescriptionAgent]: " + agentAnswer);
+        System.out.println("==========================================================================================");
+        return agentAnswer;
+    }
+
     @Value("${langchain4j.chat-model.openai.api-key}")
     private String apikey;
     @Value("${langchain4j.chat-model.openai.model-name}")
@@ -161,6 +173,7 @@ public class LangChainService {
     private Double temperature;
 
     private final Retriever<TextSegment> retriever;
+    private final ModerationModel moderationModel;
 
     private ChatLanguageModel chatLanguageModel() {
         return OpenAiChatModel.builder()
@@ -195,7 +208,7 @@ public class LangChainService {
     }
 
     private ChatLanguageModel chatBotLanguageModel() {
-        OpenAiChatModel model = OpenAiChatModel.builder()
+        return OpenAiChatModel.builder()
                 .modelName("gpt-4")
                 .apiKey(apikey)
                 .temperature(0.0)
@@ -208,7 +221,6 @@ public class LangChainService {
                 .frequencyPenalty(0.0)
                 .presencePenalty(0.0)
                 .build();
-        return model;
     }
     private DescriptionAgent descriptionAgent(ChatLanguageModel chatLanguageModel) {
         return AiServices.builder(DescriptionAgent.class)
@@ -260,6 +272,7 @@ public class LangChainService {
                                 .maxMessages(100)
                                 .build()
                 )
+                .moderationModel(moderationModel)
                 .retriever(retriever)
                 .build();
     }
