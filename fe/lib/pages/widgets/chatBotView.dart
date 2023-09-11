@@ -71,6 +71,7 @@ class ChatBotViewState extends State<ChatBotView> {
           Expanded(
             child: CircleAvatar(
               backgroundColor: Colors.grey,
+              backgroundImage: Image.asset('assets/images/ImgLogo.jpg').image,
             ),
           ),
           Expanded(
