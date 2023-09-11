@@ -9,8 +9,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthResponse {
+public class ResendEmailResponse {
     private Code code;
-    private String token;
-    private String refreshToken;
 }

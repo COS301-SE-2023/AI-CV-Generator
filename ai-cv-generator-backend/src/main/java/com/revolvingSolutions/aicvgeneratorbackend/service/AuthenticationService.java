@@ -8,14 +8,8 @@ import com.revolvingSolutions.aicvgeneratorbackend.exception.RefreshException;
 import com.revolvingSolutions.aicvgeneratorbackend.exception.UserAlreadyExistsException;
 import com.revolvingSolutions.aicvgeneratorbackend.model.email.Email;
 import com.revolvingSolutions.aicvgeneratorbackend.repository.UserRepository;
-import com.revolvingSolutions.aicvgeneratorbackend.request.auth.AuthRequest;
-import com.revolvingSolutions.aicvgeneratorbackend.request.auth.RefreshRequest;
-import com.revolvingSolutions.aicvgeneratorbackend.request.auth.RegRequest;
-import com.revolvingSolutions.aicvgeneratorbackend.request.auth.VerificationRequest;
-import com.revolvingSolutions.aicvgeneratorbackend.response.auth.AuthResponse;
-import com.revolvingSolutions.aicvgeneratorbackend.response.auth.Code;
-import com.revolvingSolutions.aicvgeneratorbackend.response.auth.RegisterResponse;
-import com.revolvingSolutions.aicvgeneratorbackend.response.auth.VerificationResponse;
+import com.revolvingSolutions.aicvgeneratorbackend.request.auth.*;
+import com.revolvingSolutions.aicvgeneratorbackend.response.auth.*;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.HttpServletRequest;
@@ -106,6 +100,41 @@ public class AuthenticationService {
                 .build();
     }
 
+    public ResendEmailResponse resendEmail(ResendEmailRequest request, HttpServletRequest actualRequest) {
+        if (repository.findByUsername(request.getUsername()).isPresent() && repository.findByUsername(request.getUsername()).get().isEnabled()) {
+            return ResendEmailResponse.builder()
+                    .code(Code.failed)
+                    .build();
+        } else if (repository.findByUsername(request.getUsername()).isPresent()) {
+            UserEntity user = repository.findByUsername(request.getUsername()).orElseThrow();
+            if (!passwordEncoder.matches(request.getPassword(),user.getPassword())) {
+                return ResendEmailResponse.builder()
+                        .code(Code.failed)
+                        .build();
+            }
+            RegistrationTokenEntity token = registrationTokenService.generateToken(user);
+            repository.save(user);
+            try {
+                emailService.sendVerificationEmail(
+                        user.getEmail(),
+                        (user.getFname()+" "+user.getLname()),
+                        getSiteURL(actualRequest),
+                        token.getRegistrationToken()
+                );
+            } catch (MessagingException | UnsupportedEncodingException e) {
+                return ResendEmailResponse.builder()
+                        .code(Code.failed)
+                        .build();
+            }
+            return ResendEmailResponse.builder()
+                    .code(Code.success)
+                    .build();
+        }
+        return ResendEmailResponse.builder()
+                .code(Code.failed)
+                .build();
+    }
+
     public VerificationResponse verify(VerificationRequest request) {
         RegistrationTokenEntity registrationToken = registrationTokenService.findToken(request.getRegistrationToken());
         if (registrationToken == null ) {
@@ -133,23 +162,25 @@ public class AuthenticationService {
         return siteURL.replace(request.getServletPath(), "");
     }
     public AuthResponse authenticate(AuthRequest request, HttpServletRequest actualRequest) {
+        var _user = repository.findByUsername(request.getUsername()).orElseThrow();
+        if (!_user.isEnabled() && passwordEncoder.matches(request.getPassword(), _user.getPassword())) {
+            return AuthResponse.builder()
+                    .code(Code.notEnabled)
+                    .build();
+        }
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getUsername(),
                         request.getPassword()
                 )
         );
-
-        var _user = repository.findByUsername(request.getUsername()).orElseThrow();
-        if (!requireEmailVerification&&!_user.isEnabled()) {
-            throw new RuntimeException();
-        }
         var token = authService.genToken(_user,getClientIp(actualRequest));
         refreshTokenService.deleteByUserId(_user.userid);
         String refreshToken = refreshTokenService.createRefreshToken(_user.userid).getToken();
 
 
         return AuthResponse.builder()
+                .code(Code.success)
                 .token(token)
                 .refreshToken(refreshToken)
                 .build();

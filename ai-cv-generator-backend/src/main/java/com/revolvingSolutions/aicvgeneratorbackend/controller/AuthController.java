@@ -1,11 +1,9 @@
 package com.revolvingSolutions.aicvgeneratorbackend.controller;
 
-import com.revolvingSolutions.aicvgeneratorbackend.request.auth.AuthRequest;
-import com.revolvingSolutions.aicvgeneratorbackend.request.auth.RefreshRequest;
-import com.revolvingSolutions.aicvgeneratorbackend.request.auth.RegRequest;
-import com.revolvingSolutions.aicvgeneratorbackend.request.auth.VerificationRequest;
+import com.revolvingSolutions.aicvgeneratorbackend.request.auth.*;
 import com.revolvingSolutions.aicvgeneratorbackend.response.auth.AuthResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.auth.RegisterResponse;
+import com.revolvingSolutions.aicvgeneratorbackend.response.auth.ResendEmailResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.auth.VerificationResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.service.AuthenticationService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -50,7 +48,18 @@ public class AuthController {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatusCode.valueOf(403)).build();
         }
+    }
 
+    @PostMapping("/resend")
+    public ResponseEntity<ResendEmailResponse> resend(
+            @RequestBody ResendEmailRequest request,
+            HttpServletRequest actualRequest
+    ) {
+        try {
+            return ResponseEntity.ok(service.resendEmail(request,actualRequest));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatusCode.valueOf(405)).build();
+        }
     }
 
     @PostMapping("/refresh")
