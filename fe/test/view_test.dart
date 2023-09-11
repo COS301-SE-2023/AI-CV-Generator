@@ -1,15 +1,116 @@
+import 'package:ai_cv_generator/models/user/Qualification.dart';
 import 'package:ai_cv_generator/models/user/Reference.dart';
 import 'package:ai_cv_generator/models/user/Skill.dart';
+import 'package:ai_cv_generator/pages/widgets/qualificationsView.dart';
 import 'package:ai_cv_generator/pages/widgets/referenceView.dart';
 import 'package:ai_cv_generator/pages/widgets/skillsView.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+class TestQualificationsField extends StatelessWidget {
+  final TextEditingController qualificationC;
+  final TextEditingController intstitutionC;
+
+  const TestQualificationsField({
+    Key? key,
+    required this.qualificationC,
+    required this.intstitutionC,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 8),
+      child: Column(
+        children: [
+          TextFormField(
+            key: const Key('Institution input'),
+            style: const TextStyle(fontSize: 20),
+            controller: intstitutionC,
+            textAlign: TextAlign.right,
+            decoration: const InputDecoration(
+              hintText: "INSTITUTION NAME",
+              border: InputBorder.none,
+            ),
+          ),
+          const SizedBox(width: 8),
+          TextFormField(
+            key: const Key('Qualification input'),
+            controller: qualificationC,
+            textAlign: TextAlign.right,
+            decoration: const InputDecoration(
+              hintText: "QUALIFICATION NAME",
+              hintStyle: TextStyle(fontSize: 15),
+              border: InputBorder.none,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 void main(){
 
   group("Test Qualifications view", () {
-    testWidgets('Qualifications view screen renders correctly test', (WidgetTester tester) async {
+    testWidgets('Qualifications view screen renders correctly', (WidgetTester tester) async {
+      // Create an empty list of references
+      final List<Qualification> emptyQualifications = [];
+
+      // Build the ReferenceSection widget with the empty list
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: QualificationsSection(qualifications: emptyQualifications),
+          ),
+        ),
+      );
+
+      // Verify that the ReferenceSection widget is displayed
+      expect(find.byType(QualificationsSection), findsOneWidget);
+
+      // Verify that there is a message indicating no references
+      expect(find.text("No Qualifications..."), findsOneWidget);
+    });
+
+    testWidgets('Qualifications input', (WidgetTester tester) async {
+      // Create a TextEditingController for each input field
+      final TextEditingController qualificationController = TextEditingController();
+      final TextEditingController institutionController = TextEditingController();
+
+      // Build the QualificationsField widget with the controllers
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: TestQualificationsField(
+              qualificationC: qualificationController,
+              intstitutionC: institutionController,
+            ),
+          ),
+        ),
+      );
+
+      // Enter text into the qualification field
+      await tester.enterText(find.byKey(const Key('Qualification input')), 'BSc Computer Science');
+      // Verify that the text was entered correctly
+      expect(qualificationController.text, 'BSc Computer Science');
+
+      // Enter text into the institution field
+      await tester.enterText(find.byKey(const Key('Institution input')), 'University of XYZ');
+      // Verify that the text was entered correctly
+      expect(institutionController.text, 'University of XYZ');
+
+      //Date pickers test
+
+      // Clean up the controllers
+      qualificationController.dispose();
+      institutionController.dispose();
+    });
+});
+
+  group("Test References view", () {
+    testWidgets('References view screen renders correctly', (WidgetTester tester) async {
       // Create an empty list of references
       final List<Reference> emptyReferences = [];
 
@@ -29,7 +130,7 @@ void main(){
       expect(find.text("No References..."), findsOneWidget);
     });
 
-    testWidgets('Skills view screen input test', (WidgetTester tester) async {
+    testWidgets('Skills view screen input', (WidgetTester tester) async {
       // Create a list of sample references
       final List<Reference> sampleReferences = [
         Reference(description: 'Reference 1', contact: 'Contact 1', refid: 1),

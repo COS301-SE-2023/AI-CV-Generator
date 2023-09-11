@@ -217,6 +217,7 @@ class QualificationsFieldState extends State<QualificationsField> {
       child: Column(
         children: [
             TextFormField(
+            key: const Key('Institution input'),
             style: const TextStyle(fontSize: 20),
             controller: widget.intstitutionC,
             textAlign: TextAlign.right,
@@ -227,6 +228,7 @@ class QualificationsFieldState extends State<QualificationsField> {
             ),
             const SizedBox(width: 8,),
             TextFormField(
+            key: const Key('Qualification input'),
             // style: TextStyle(fontSize: 5),
             controller: widget.qualificationC,
             textAlign: TextAlign.right,
