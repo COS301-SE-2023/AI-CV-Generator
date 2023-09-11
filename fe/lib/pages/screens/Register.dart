@@ -46,11 +46,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     Navigator.pushNamed(
       context, '/confirm',
       arguments: EmailConfirmationArguments(
-        email: emailController.text,
         username: nameController.text,
         password: passwordController.text,
-        fname: fnameController.text,
-        lname: lnameController.text
       )
     );
   } 

@@ -45,7 +45,6 @@ public class AuthController {
         try {
             return ResponseEntity.ok(service.authenticate(request,actualRequest));
         } catch (Exception e) {
-            e.printStackTrace();
             return ResponseEntity.status(HttpStatusCode.valueOf(403)).build();
         }
     }

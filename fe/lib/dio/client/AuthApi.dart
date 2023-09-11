@@ -1,15 +1,17 @@
 import 'package:ai_cv_generator/dio/client/dioClient.dart';
 import 'package:ai_cv_generator/dio/request/AuthRequests/LoginRequest.dart';
 import 'package:ai_cv_generator/dio/request/AuthRequests/RegisterRequest.dart';
+import 'package:ai_cv_generator/dio/request/AuthRequests/ResendEmailRequest.dart';
 import 'package:ai_cv_generator/dio/request/AuthRequests/VerificationRequest.dart';
 import 'package:ai_cv_generator/dio/response/AuthResponses/AuthResponse.dart';
 import 'package:ai_cv_generator/dio/response/AuthResponses/Code.dart';
 import 'package:ai_cv_generator/dio/response/AuthResponses/RegisterResponse.dart';
+import 'package:ai_cv_generator/dio/response/AuthResponses/ResendEmailResponse.dart';
 import 'package:ai_cv_generator/dio/response/AuthResponses/VerificationResponse.dart';
 import 'package:dio/dio.dart';
 
 class AuthApi extends DioClient {
-  static Future<bool> login({
+  static Future<Code> login({
     required String username,
     required String password
   }) async {
@@ -20,14 +22,16 @@ class AuthApi extends DioClient {
         data: req.toJson(),
       );
       AuthResponse resp = AuthResponse.fromJson(response.data);
-      
+      if (resp.code ==Code.notEnabled) {
+        return resp.code;
+      }
       DioClient.SetAuth(resp.token);
       DioClient.SetRefresh(resp.refreshToken);
-      return true;
+      return resp.code;
     } on DioException catch (e) {
      DioClient.handleError(e);
     }
-    return false;
+    return Code.failed;
   }
 
   static Future<Code> register({
@@ -50,6 +54,27 @@ class AuthApi extends DioClient {
       DioClient.handleError(e);
       return Code.requestFailed;
     }
+  }
+
+  static Future<Code> resendEmail({
+    required String username,
+    required String password
+  }) async {
+    try {
+      Response response = await DioClient.dio.post<Map<String,dynamic>>(
+        'api/auth/resend',
+        data: ResendEmailRequest(username: username, password: password).toJson()
+      );
+      return ResendEmailResponse.fromJson(response.data).code;
+    } on DioException catch (e) {
+      DioClient.handleError(e);
+      if (e.response != null && e.response!.statusCode == 404) {
+        return Code.requestFailed;
+      } else if (e.response != null && e.response!.statusCode == 403) {
+        return Code.failed;
+      }
+    }
+    return Code.requestFailed;
   }
 
   static Future<Code> verify({

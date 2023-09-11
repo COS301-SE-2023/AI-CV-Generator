@@ -3,17 +3,11 @@ import 'package:ai_cv_generator/dio/response/AuthResponses/Code.dart';
 import 'package:flutter/material.dart';
 
 class EmailConfirmationArguments{
-  String email;
   String username;
   String password;
-  String fname;
-  String lname;
   EmailConfirmationArguments({
-    required this.email,
     required this.username,
-    required this.password,
-    required this.fname,
-    required this.lname
+    required this.password
   });
 }
 
@@ -70,11 +64,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       Navigator.popAndPushNamed(
         context, '/confirm',
         arguments: EmailConfirmationArguments(
-          email: args.email,
           username: args.username,
-          password: args.password,
-          fname: args.fname,
-          lname: args.lname
+          password: args.password
         )
       );
     }
@@ -99,7 +90,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  "An email has been sent to ${args.email}",
+                  "An email has been sent to your email account",
                   style: const TextStyle(
                     color: Colors.grey,
                     fontSize: 20,
@@ -120,7 +111,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                       padding: const EdgeInsets.all(40),
                       child: ElevatedButton(
                         onPressed: () async {
-                          Code code = await AuthApi.register(username: args.username, password: args.password, email: args.email, fname: args.fname, lname: args.lname);
+                          //Code code = await AuthApi.register(username: args.username, password: args.password, email: args.email, fname: args.fname, lname: args.lname);
+                          Code code = await AuthApi.resendEmail(username: args.username, password: args.password);
                           if (code == Code.success) {
                             error = false;
                             confirm();

@@ -1,4 +1,5 @@
 import 'package:ai_cv_generator/dio/client/AuthApi.dart';
+import 'package:ai_cv_generator/dio/response/AuthResponses/Code.dart';
 import 'package:ai_cv_generator/pages/util/errorMessage.dart';
 import 'package:ai_cv_generator/pages/widgets/loadingscreens/loadingScreen.dart';
 import 'package:flutter/material.dart';
@@ -33,6 +34,10 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
   home() {
     Navigator.pushNamed(context, "/home");
+  }
+
+  confirm() {
+    Navigator.pushNamed(context, "/confirm");
   }
  
   @override
@@ -93,14 +98,22 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     setState(() {
                       wait = true;
                     });
-                    bool resp = await AuthApi.login(username: nameController.text,password: passwordController.text);
-                    if (resp) {
+                    Code resp = await AuthApi.login(username: nameController.text,password: passwordController.text);
+                    if (resp == Code.success) {
                       home();
-                    } else {
+                    } else if (resp == Code.failed) {
                       showError("Invalid Login!");
                       setState(() {
                         wait = false;
                       });
+                    } else if (resp == Code.requestFailed) {
+                      showError("Something went wrong!!");
+                      setState(() {
+                        
+                      });
+                    } else if (resp == Code.notEnabled) {
+                      await AuthApi.resendEmail(username: nameController.text, password: passwordController.text);
+                      confirm();
                     }
                   },
                 )
