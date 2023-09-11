@@ -59,6 +59,7 @@ dependencies:
   syncfusion_flutter_pdf: ^20.3.49
   jumping_dot: ^0.0.6
   url_launcher: ^6.1.14
+  cached_network_image: ^3.2.3
 dev_dependencies:
   flutter_test:
     sdk: flutter

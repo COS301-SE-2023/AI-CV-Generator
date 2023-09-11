@@ -5,6 +5,7 @@ import 'package:ai_cv_generator/models/webscraper/JobResponseDTO.dart';
 import 'package:ai_cv_generator/pages/elements/elements.dart';
 import 'package:ai_cv_generator/pages/widgets/breadcrumb.dart';
 import 'package:ai_cv_generator/pages/widgets/loadingscreens/loadingScreen.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:universal_html/html.dart';
 
@@ -65,7 +66,7 @@ class JobsPageState extends State<JobsPage> {
             location: element.location,
             salary: element.salary,
             link: element.link,
-            // imageLink: element.imgLink,
+            imageLink: element.imgLink,
           )
         );
       });
@@ -98,9 +99,9 @@ class JobsPageState extends State<JobsPage> {
         child: Column(
           children: [
             Breadcrumb(previousPage: "Home", currentPage: "Jobs",),
-            Text("RECOMMENDED JOBS FOR YOU", style: TextStyle(fontSize: 24),),
             SizedBox(height: 24,),
-            // if()
+            Text("RECOMMENDED FOR YOU", style: TextStyle(fontSize: 60),),
+            SizedBox(height: 24,),
             Expanded(
               child: SingleChildScrollView( 
                 child: Center(
@@ -111,7 +112,9 @@ class JobsPageState extends State<JobsPage> {
                       crossAxisAlignment: WrapCrossAlignment.center,
                       // mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        ...jobCards,
+                        if(jobCards.isEmpty == true)
+                          Padding(padding: EdgeInsets.symmetric(vertical: 160), child:LoadingScreen(),),
+                          ...jobCards,
                       ],
                     ),
                   )
@@ -176,11 +179,12 @@ class CreateJobCardState extends State<CreateJobCard> {
                       ),
                     ),
                     Expanded(
-                      child: CircleAvatar(
-                        radius: 30,
-                        backgroundColor: Colors.pink,
-                        backgroundImage: NetworkImage(widget.link!),
-                      )
+                      child: CachedNetworkImage(
+                        imageUrl: widget.imageLink ?? "http://via.placeholder.com/350x150",
+                        progressIndicatorBuilder: (context, url, downloadProgress) => 
+                                CircularProgressIndicator(value: downloadProgress.progress),
+                        errorWidget: (context, url, error) => Icon(Icons.error),
+                      ),
                     )
                 ],
               ),
@@ -192,22 +196,25 @@ class CreateJobCardState extends State<CreateJobCard> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(widget.salary ?? "N/A", style: TextStyle(color: Colors.green),),
-                        Text(widget.location ?? "N/A", style: TextStyle(fontSize: 12,)),
-                      ],
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(widget.salary ?? "N/A", style: TextStyle(color: Colors.green),),
+                          Text(widget.location ?? "N/A", style: TextStyle(fontSize: 12,)),
+                        ],
+                      ),
                     ),
+                    SizedBox(width: 24,),
                     ElevatedButton(
-                      onPressed: () {
-                        if(widget.link != null) {
-                          launchUrl(Uri.parse(widget.link!));
-                        }
-                      }, 
-                      child: Text("VISIT"),
-                    ),
+                        onPressed: () {
+                          if(widget.link != null) {
+                            launchUrl(Uri.parse(widget.link!));
+                          }
+                        }, 
+                        child: Text("VISIT"),
+                    )
                   ],
                 )
               )
