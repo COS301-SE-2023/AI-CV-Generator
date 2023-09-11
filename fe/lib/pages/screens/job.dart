@@ -30,8 +30,8 @@ class JobsPageState extends State<JobsPage> {
   void populate() async {
     UserModel? user = await userApi.getUser();
     if(user != null) {
-        // List<JobResponseDTO>? jobs = await getJobs("accounting", "Pretoria");
-        List<JobResponseDTO>? jobs = await getRecommended();
+        List<JobResponseDTO>? jobs = await getJobs("accounting", "Pretoria");
+        // List<JobResponseDTO>? jobs = await getRecommended();
         setState(() {
           // for(int i = 0; i < 10; i++)
           // {
@@ -208,9 +208,10 @@ class CreateJobCardState extends State<CreateJobCard> {
                     ),
                     SizedBox(width: 24,),
                     ElevatedButton(
-                        onPressed: () {
+                        onPressed: () async {
                           if(widget.link != null) {
-                            launchUrl(Uri.parse(widget.link!));
+                            if (await canLaunchUrl(Uri.parse(widget.link!)))
+                              await launchUrl(Uri.parse(widget.link!));
                           }
                         }, 
                         child: Text("VISIT"),

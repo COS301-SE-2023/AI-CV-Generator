@@ -187,18 +187,18 @@ public class JobScraperService {
                 }
                 Elements imgEl = el.getElementsByTag("img");
                 if (!imgEl.isEmpty()) {
-                    imgLink = imgEl.get(0).attr("src");
+                    imgLink = "https://www.careerjunction.co.za"+ imgEl.get(0).attr("src");
                 } else {
                     imgLink = "https://mir-s3-cdn-cf.behance.net/projects/404/8f446a164156565.Y3JvcCwxMzgwLDEwODAsMjcwLDA.jpg";
                 }
                 responseDTOS.add(
                         JobResponseDTO.builder()
                                 .title(titleA.first().ownText())
-                                .link(titleA.first().attr("href"))
+                                .link("/")
                                 .location(location)
                                 .subTitle(subtitle)
                                 .salary(salary)
-                                .imgLink(imgLink)
+                                .imgLink("https://www.iitpsa.org.za/wp-content/uploads/2012/07/CJ_Logo_Master.jpg")
                                 .build()
                 );
             } catch (Exception e) {
@@ -207,6 +207,17 @@ public class JobScraperService {
 
         }
         return  responseDTOS;
+    }
+
+    private String getLogoImage(String link) {
+        try {
+            Document doc = Jsoup.connect(link).get();
+            Elements elements = doc.getElementsByClass("cjun-logo-company");
+            if (elements.isEmpty()) return "/";
+            return elements.first().attr("src");
+        } catch (IOException e) {
+            return "/";
+        }
     }
 
     private Set<JobResponseDTO> snagAJob(JobScrapeRequest request) throws IOException {

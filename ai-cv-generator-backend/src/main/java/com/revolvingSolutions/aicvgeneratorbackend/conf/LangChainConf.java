@@ -50,6 +50,9 @@ public class LangChainConf {
     @Value("${langchain4j.chat-model.openai.temperature}")
     private Double temperature;
 
+    @Value("${app.api.embedimformation}")
+    private Boolean embed;
+
 
     @Bean
     public ChatLanguageModel chatLanguageModel() {
@@ -134,7 +137,9 @@ public class LangChainConf {
     public EmbeddingStore<TextSegment> embeddingStore(EmbeddingModel embeddingModel, ResourceLoader resourceLoader) throws IOException {
         EmbeddingStore<TextSegment> embeddingStore = new InMemoryEmbeddingStore<>();
         Document document;
+        if (embed) return embeddingStore;
         try {
+
             Resource resource = resourceLoader.getResource("classpath:data.txt");
             document = loadDocument(resource.getFile().toPath());
             DocumentSplitter documentSplitter = DocumentSplitters.recursive(100,new OpenAiTokenizer(GPT_3_5_TURBO));
