@@ -145,6 +145,7 @@ public class LangChainConf {
                     .build();
             ingestor.ingest(document);
         } catch (Exception e) {
+            e.printStackTrace();
             System.out.println("Warning Something has BADLY gone Wrong!");
         }
         return embeddingStore;
