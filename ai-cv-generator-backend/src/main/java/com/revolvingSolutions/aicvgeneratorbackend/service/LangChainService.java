@@ -196,9 +196,9 @@ public class LangChainService {
 
     private ChatLanguageModel chatBotLanguageModel() {
         OpenAiChatModel model = OpenAiChatModel.builder()
-                .modelName(modelName)
+                .modelName("gpt-4")
                 .apiKey(apikey)
-                .temperature(0.1)
+                .temperature(0.0)
                 .logRequests(true)
                 .logResponses(true)
                 .maxRetries(2)
@@ -210,7 +210,6 @@ public class LangChainService {
                 .build();
         return model;
     }
-
     private DescriptionAgent descriptionAgent(ChatLanguageModel chatLanguageModel) {
         return AiServices.builder(DescriptionAgent.class)
                 .chatLanguageModel(chatLanguageModel)

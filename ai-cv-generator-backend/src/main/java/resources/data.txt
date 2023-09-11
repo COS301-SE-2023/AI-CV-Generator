@@ -1,3 +1,56 @@
+TERMS OF SERVICE
+Welcome to the AI CV Generator, provided by Revolving Solutions ("Company," "we," "us," or "our"). By accessing or using our Service, you ("User," "you," or "your") agree to comply with and be bound by the following terms and conditions. Please read these terms carefully before using the Service. If you do not agree with any part of these terms, you should not use the Service.
+
+1. User Eligibility
+
+1.1 You must be at least 18 years of age or have the legal capacity to enter into agreements to use this Service.
+
+2. Service Description
+
+2.1 AI CV Generator: Our Service allows you to create and generate professional resumes and curriculum vitae ("CVs") using artificial intelligence.
+
+2.2 Job Listing Web Scraper: We may provide you with the option to use a web scraping tool that collects job listings from various websites based on the information provided in your CV. You consent to this data collection as described in our Privacy Policy.
+
+3. User Obligations
+
+3.1 You agree to provide accurate, complete, and up-to-date information when using our Service.
+
+3.2 You are responsible for maintaining the confidentiality of your account credentials and for all activities that occur under your account.
+
+3.3 You agree not to use the Service for any illegal, unethical, or unauthorized purposes, including but not limited to distributing, transmitting, or storing any harmful or malicious content.
+
+4. Privacy and Data Usage
+
+4.1 We collect and process personal information as described in our Privacy Policy. By using our Service, you consent to the collection and use of your data in accordance with our Privacy Policy.
+
+4.2 You grant us the right to use the information in your CV to perform web scraping and return job listings relevant to your skills and experience.
+
+5. Intellectual Property
+
+5.1 All content, including but not limited to text, images, logos, and software, provided on the Service, is protected by intellectual property laws and is the property of the Company or its licensors.
+
+6. Limitation of Liability
+
+6.1 The Company makes no warranties or representations regarding the accuracy, reliability, or completeness of the Service.
+
+6.2 The Company shall not be liable for any direct, indirect, incidental, special, consequential, or punitive damages arising out of or in connection with your use of the Service.
+
+7. Termination
+
+7.1 We reserve the right to terminate or suspend your access to the Service at any time for any reason without notice.
+
+8. Changes to Terms and Conditions
+
+8.1 The Company reserves the right to modify or revise these terms and conditions at any time. Changes will be effective immediately upon posting on the Service. Your continued use of the Service after any such changes constitute your acceptance of the new terms and conditions.
+
+9. Governing Law
+
+9.1 These terms and conditions are governed by and constructed in accordance with the laws of South Africa and the POPI Act, without regard to its conflict of law principles.
+
+By using our Service, you acknowledge that you have read, understood, and agree to these terms and conditions. If you have any questions or concerns, please contact us at solutionsrevolving@gmail.com.
+
+TIPS FOR CREATING YOUR CV
+
 How much personal information should I include?
 Generally, you should avoid too much personal information on your resume. Remember the employer is looking for an overview of your skills, think about what is relevant.
 
@@ -7,8 +60,8 @@ You should try and avoid inserting any photographs or graphics onto your resume.
 Should I put my hobbies / interests on my resume?
 It is fine to include hobbies and interests on your resume but always consider if they are likely to add or detract from your resume. Remember not everyone enjoys the same pastimes.
 
-Should I include academic or extracurricular achievements on my resume?
-Definitely, such achievements as school prefect or captain may show leadership skills and any involvement in extra mural activity will be well received by an employer looking for staff who demonstrate a work/life balance.
+Question: Should I include academic or extracurricular achievements on my resume?
+Answer: Definitely, such achievements as school prefect or captain may show leadership skills and any involvement in extra mural activity will be well received by an employer looking for staff who demonstrate a work/life balance.
 
 Should I put my work email address on my resume?
 You should avoid using your work contact details when applying for other positions unless you have clarified this with your current employer. If you are going to set up a Hotmail address or something similar, be sure it is an appropriate address and avoid using nicknames as this could give a negative impression to a future employer.
@@ -19,11 +72,13 @@ We would recommend that a resume be no longer than 4-5 pages, this is ample spac
 Should I include a cover letter?
 Cover letters are only useful if they are specifically tailored to the role. Don't use a generic cover letter as it looks as though you haven't put in any effort. If you are going to use a cover letter, use it to clearly outline where your skills and experience match those required in the role and ensure that it is correctly addressed.
 
+HOW TO USE THIS WEBSITE
+
 How do I create a CV?
-You can create a CV by either clicking 'SURVEY' whereby you can supply the required information manually or by clicking 'NOPE' whereby you can upload a CV where the information can be extracted from it and used to create a new CV.
+You can create a CV by either clicking Survey button whereby you can supply the required information manually or by clicking Upload button whereby you can upload a CV where the information can be extracted from it and used to create a new CV.
 
 How can I access my details?
 You can access your details through the profile page where you can access, modify, add or delete your details.
 
 Where can I look for jobs?
-You can look for jobs by clicking any of the
+You can look for jobs by clicking any of the JOBS tab at the top of the page where you can view all jobs available based on your location and interests
