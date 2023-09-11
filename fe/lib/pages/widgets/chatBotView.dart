@@ -1,3 +1,4 @@
+import 'package:ai_cv_generator/dio/client/fileApi.dart';
 import 'package:ai_cv_generator/pages/widgets/loadingscreens/JumpingDotsLoadingScreen.dart';
 import 'package:ai_cv_generator/pages/widgets/navdrawer.dart';
 import 'package:flutter/material.dart';
@@ -10,12 +11,13 @@ class ChatBotView extends StatefulWidget {
 }
 
 class ChatBotViewState extends State<ChatBotView> {
+  Image? userImage;
   bool visible = false;
   List<Widget> messages = [];
   TextEditingController controller = TextEditingController();
   Chatbot chatBot = Chatbot();
   void addMesssage(String text, bool isSender) async {
-    messages.add(Message(message: Text(text), isSender: isSender));
+    messages.add(addImage(Message(message: Text(text), isSender: isSender), userImage!, isSender));
     setState(() {});
     if (isSender) {
       messages.add(Message(
@@ -23,17 +25,63 @@ class ChatBotViewState extends State<ChatBotView> {
         isSender: !isSender
       ));
       String message = await chatBot.message(userMsg: text);
-      messages.last = Message(message: Text(message), isSender: !isSender);
+      messages.last = addImage(Message(message: Text(message), isSender: !isSender), userImage!, !isSender);
     }
     setState(() {});
   }
 
   @override
   void initState() {
+    FileApi.getProfileImage().then((value) {
+      userImage = value;
+    });
     chatBot.greeting().then((value) {
       addMesssage(value, false);
     });
     super.initState();
+  }
+
+  Widget addImage(Widget widget, Image image, bool isSender)
+  {
+    if(isSender == true)
+    {
+      return Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Expanded(
+            child: SizedBox(),
+          ),
+          Expanded(
+            flex: 4,
+            child: widget,
+          ),
+          Expanded(
+            child: CircleAvatar(
+              backgroundImage: image.image,
+            ),
+          )
+        ],
+      );
+    }
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+          Expanded(
+            child: CircleAvatar(
+              backgroundColor: Colors.grey,
+            ),
+          ),
+          Expanded(
+            flex: 4,
+            child: widget,
+          ),
+          Expanded(
+            child: SizedBox(),
+          ),
+      ],
+    );
   }
 
   @override
@@ -79,7 +127,7 @@ class ChatBotViewState extends State<ChatBotView> {
                         color: Colors.grey.shade100
                       ),
                       child: ListView(
-                      padding: const EdgeInsets.all(48),
+                      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
                       children: [
                         ...messages
                       ],
@@ -148,13 +196,15 @@ class Message extends StatelessWidget {
       return const BorderRadius.only(
         bottomLeft: Radius.circular(20),
         topLeft: Radius.circular(20),
+        bottomRight: Radius.circular(20),
         topRight: Radius.circular(20),
       );
     }
     return const BorderRadius.only(
         bottomRight: Radius.circular(20),
-        topLeft: Radius.circular(20),
+        bottomLeft: Radius.circular(20),
         topRight: Radius.circular(20),
+        topLeft: Radius.circular(20),
       );
   }
 
