@@ -112,6 +112,7 @@ public class JobScraperService {
                             .title(el.getElementsByClass("base-search-card__title").first().ownText())
                             .subTitle(link.ownText())
                             .link(link.attr("href"))
+                            .imgLink("https://static.vecteezy.com/system/resources/previews/018/930/587/original/linkedin-logo-linkedin-icon-transparent-free-png.png")
                             .location(el.getElementsByClass("job-search-card__location").first().ownText())
                             .build()
             );
@@ -147,6 +148,7 @@ public class JobScraperService {
                                 .title(link.ownText())
                                 .subTitle(subTitle)
                                 .location(location)
+                                .imgLink("https://careers.cbre.com/portal/4/images/socialShare.jpg")
                                 .link(link.attr("href"))
                                 .build()
                 );
@@ -250,6 +252,8 @@ public class JobScraperService {
                 Elements imgEl = el.getElementsByTag("img");
                 if (!imgEl.isEmpty()) {
                     imgLink = imgEl.get(0).attr("src");
+                } else {
+                    imgLink = "https://mir-s3-cdn-cf.behance.net/projects/404/8f446a164156565.Y3JvcCwxMzgwLDEwODAsMjcwLDA.jpg";
                 }
                 responseDTOS.add(
                         JobResponseDTO.builder()
