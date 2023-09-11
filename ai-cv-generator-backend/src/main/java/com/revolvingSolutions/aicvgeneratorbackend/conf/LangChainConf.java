@@ -2,6 +2,7 @@ package com.revolvingSolutions.aicvgeneratorbackend.conf;
 
 
 import com.revolvingSolutions.aicvgeneratorbackend.agent.*;
+import dev.langchain4j.classification.TextClassifier;
 import dev.langchain4j.data.document.Document;
 import dev.langchain4j.data.document.DocumentSplitter;
 import dev.langchain4j.data.document.splitter.DocumentSplitters;
@@ -130,15 +131,20 @@ public class LangChainConf {
     @Bean
     public EmbeddingStore<TextSegment> embeddingStore(EmbeddingModel embeddingModel, ResourceLoader resourceLoader) throws IOException {
         EmbeddingStore<TextSegment> embeddingStore = new InMemoryEmbeddingStore<>();
-        Resource resource = resourceLoader.getResource("classpath:data.txt");
-        Document document = loadDocument(resource.getFile().toPath());
-        DocumentSplitter documentSplitter = DocumentSplitters.recursive(100,new OpenAiTokenizer(GPT_3_5_TURBO));
-        EmbeddingStoreIngestor ingestor = EmbeddingStoreIngestor.builder()
-                .documentSplitter(documentSplitter)
-                .embeddingStore(embeddingStore)
-                .embeddingModel(embeddingModel)
-                .build();
-        ingestor.ingest(document);
+        Document document;
+        try {
+            Resource resource = resourceLoader.getResource("classpath:data.txt");
+            document = loadDocument(resource.getFile().toPath());
+            DocumentSplitter documentSplitter = DocumentSplitters.recursive(100,new OpenAiTokenizer(GPT_3_5_TURBO));
+            EmbeddingStoreIngestor ingestor = EmbeddingStoreIngestor.builder()
+                    .documentSplitter(documentSplitter)
+                    .embeddingStore(embeddingStore)
+                    .embeddingModel(embeddingModel)
+                    .build();
+            ingestor.ingest(document);
+        } catch (Exception e) {
+            System.out.println("Warning Something has BADLY gone Wrong!");
+        }
         return embeddingStore;
     }
 }
