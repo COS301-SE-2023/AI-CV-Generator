@@ -1,6 +1,5 @@
 package com.revolvingSolutions.aicvgeneratorbackend.service;
 
-import com.revolvingSolutions.aicvgeneratorbackend.agent.EmploymentHistoryExpander;
 import com.revolvingSolutions.aicvgeneratorbackend.agent.FieldClassifierAgent;
 import com.revolvingSolutions.aicvgeneratorbackend.entitiy.UserEntity;
 import com.revolvingSolutions.aicvgeneratorbackend.exception.UnknownErrorException;
@@ -29,6 +28,7 @@ import java.time.Duration;
 import java.util.HashSet;
 import java.util.Set;
 
+
 @Service
 @RequiredArgsConstructor
 public class JobScraperService {
@@ -51,13 +51,11 @@ public class JobScraperService {
     }
     public JobScrapeResponse getRecommended() {
         User user = getAISafeModel();
-
         String location = "";
         if (user.getLocation()!=null) location = user.getLocation();
-
         return scrapData(
           JobScrapeRequest.builder()
-                  .field(fieldClassifier(fieldClassifierchatLanguageModel()).chat(user.toString()))
+                  .field("")
                   .location(location)
                   .build()
         );
@@ -107,6 +105,7 @@ public class JobScraperService {
                             .title(el.getElementsByClass("base-search-card__title").first().ownText())
                             .subTitle(link.ownText())
                             .link(link.attr("href"))
+                            .imgLink("https://static.vecteezy.com/system/resources/previews/018/930/587/original/linkedin-logo-linkedin-icon-transparent-free-png.png")
                             .location(el.getElementsByClass("job-search-card__location").first().ownText())
                             .build()
             );
@@ -142,6 +141,7 @@ public class JobScraperService {
                                 .title(link.ownText())
                                 .subTitle(subTitle)
                                 .location(location)
+                                .imgLink("https://careers.cbre.com/portal/4/images/socialShare.jpg")
                                 .link(link.attr("href"))
                                 .build()
                 );
@@ -245,6 +245,8 @@ public class JobScraperService {
                 Elements imgEl = el.getElementsByTag("img");
                 if (!imgEl.isEmpty()) {
                     imgLink = imgEl.get(0).attr("src");
+                } else {
+                    imgLink = "https://mir-s3-cdn-cf.behance.net/projects/404/8f446a164156565.Y3JvcCwxMzgwLDEwODAsMjcwLDA.jpg";
                 }
                 responseDTOS.add(
                         JobResponseDTO.builder()

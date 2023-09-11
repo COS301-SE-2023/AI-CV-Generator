@@ -15,14 +15,13 @@ import com.revolvingSolutions.aicvgeneratorbackend.response.AI.GenerationRespons
 import dev.langchain4j.data.message.AiMessage;
 import dev.langchain4j.data.message.ChatMessage;
 import dev.langchain4j.data.message.UserMessage;
-import dev.langchain4j.memory.ChatMemory;
-import dev.langchain4j.memory.chat.ChatMemoryProvider;
+import dev.langchain4j.data.segment.TextSegment;
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
 import dev.langchain4j.model.chat.ChatLanguageModel;
 import dev.langchain4j.model.openai.OpenAiChatModel;
+import dev.langchain4j.retriever.Retriever;
 import dev.langchain4j.service.AiServices;
 import dev.langchain4j.store.memory.chat.ChatMemoryStore;
-import dev.langchain4j.store.memory.chat.InMemoryChatMemoryStore;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -111,7 +110,7 @@ public class LangChainService {
     }
 
     public ChatResponse chatBotInteract(ChatRequest request) {
-        ChatBotAgent chatBot = chatBotAgent(chatLanguageModel(),request.getMessages());
+        ChatBotAgent chatBot = chatBotAgent(chatBotLanguageModel(),request.getMessages());
         String response = chatBot.chat(0,request.getUserMessage());
         request.getMessages().add(request.getUserMessage());
         request.getMessages().add(response);
@@ -161,6 +160,8 @@ public class LangChainService {
     @Value("${langchain4j.chat-model.openai.temperature}")
     private Double temperature;
 
+    private final Retriever<TextSegment> retriever;
+
     private ChatLanguageModel chatLanguageModel() {
         return OpenAiChatModel.builder()
                 .modelName(modelName)
@@ -193,11 +194,11 @@ public class LangChainService {
                 .build();
     }
 
-    private ChatLanguageModel chatBotLanguageModel(List<ChatMessage> messages) {
+    private ChatLanguageModel chatBotLanguageModel() {
         OpenAiChatModel model = OpenAiChatModel.builder()
                 .modelName(modelName)
                 .apiKey(apikey)
-                .temperature(temperature)
+                .temperature(0.1)
                 .logRequests(true)
                 .logResponses(true)
                 .maxRetries(2)
@@ -207,8 +208,6 @@ public class LangChainService {
                 .frequencyPenalty(0.0)
                 .presencePenalty(0.0)
                 .build();
-
-        model.sendMessages(messages);
         return model;
     }
 
@@ -262,6 +261,7 @@ public class LangChainService {
                                 .maxMessages(100)
                                 .build()
                 )
+                .retriever(retriever)
                 .build();
     }
 }
