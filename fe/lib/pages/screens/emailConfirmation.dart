@@ -45,7 +45,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   Color? p2textColor;
 
   void backToLogin() {
-    Navigator.popUntil(context, ModalRoute.withName('/'));
+    Navigator.popAndPushNamed(context, "/");
   }
 
   TextEditingController errorMessage = TextEditingController(text: "Error");

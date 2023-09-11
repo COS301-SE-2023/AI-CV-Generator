@@ -6,13 +6,13 @@ part 'AuthResponse.g.dart';
 @JsonSerializable()
 class AuthResponse {
   Code code;
-  String token;
-  String refreshToken;
+  String? token;
+  String? refreshToken;
 
   AuthResponse({
     required this.code,
-    required this.token,
-    required this.refreshToken
+    this.token,
+    this.refreshToken
   });
 
   factory AuthResponse.fromJson(Map<String, dynamic> json) => _$AuthResponseFromJson(json);

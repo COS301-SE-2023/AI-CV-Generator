@@ -8,8 +8,8 @@ part of 'AuthResponse.dart';
 
 AuthResponse _$AuthResponseFromJson(Map<String, dynamic> json) => AuthResponse(
       code: $enumDecode(_$CodeEnumMap, json['code']),
-      token: json['token'] as String,
-      refreshToken: json['refreshToken'] as String,
+      token: json['token'] as String?,
+      refreshToken: json['refreshToken'] as String?,
     );
 
 Map<String, dynamic> _$AuthResponseToJson(AuthResponse instance) =>

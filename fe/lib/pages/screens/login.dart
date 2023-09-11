@@ -1,5 +1,6 @@
 import 'package:ai_cv_generator/dio/client/AuthApi.dart';
 import 'package:ai_cv_generator/dio/response/AuthResponses/Code.dart';
+import 'package:ai_cv_generator/pages/screens/emailConfirmation.dart';
 import 'package:ai_cv_generator/pages/util/errorMessage.dart';
 import 'package:ai_cv_generator/pages/widgets/loadingscreens/loadingScreen.dart';
 import 'package:flutter/material.dart';
@@ -37,7 +38,13 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   }
 
   confirm() {
-    Navigator.pushNamed(context, "/confirm");
+    Navigator.popAndPushNamed(
+      context, '/confirm',
+      arguments: EmailConfirmationArguments(
+        username: nameController.text,
+        password: passwordController.text,
+      )
+    );
   }
  
   @override

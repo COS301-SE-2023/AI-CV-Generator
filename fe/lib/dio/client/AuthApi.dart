@@ -25,8 +25,8 @@ class AuthApi extends DioClient {
       if (resp.code ==Code.notEnabled) {
         return resp.code;
       }
-      DioClient.SetAuth(resp.token);
-      DioClient.SetRefresh(resp.refreshToken);
+      DioClient.SetAuth(resp.token!);
+      DioClient.SetRefresh(resp.refreshToken!);
       return resp.code;
     } on DioException catch (e) {
      DioClient.handleError(e);

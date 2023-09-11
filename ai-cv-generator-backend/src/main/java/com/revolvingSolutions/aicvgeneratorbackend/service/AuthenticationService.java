@@ -196,7 +196,7 @@ public class AuthenticationService {
                         throw new RefreshException(token,"Not registered!");
                     }
                     String newtoken = authService.genToken(user,getClientIp(actualRequest));
-                    return new AuthResponse(newtoken, token);
+                    return new AuthResponse(Code.success,newtoken, token);
                         }
                 )
                 .orElseThrow(() -> new RefreshException(token, "Refresh token is not in database!"));
