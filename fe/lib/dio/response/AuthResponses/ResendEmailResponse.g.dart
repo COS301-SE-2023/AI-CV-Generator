@@ -1,22 +1,20 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'AuthResponse.dart';
+part of 'ResendEmailResponse.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-AuthResponse _$AuthResponseFromJson(Map<String, dynamic> json) => AuthResponse(
+ResendEmailResponse _$ResendEmailResponseFromJson(Map<String, dynamic> json) =>
+    ResendEmailResponse(
       code: $enumDecode(_$CodeEnumMap, json['code']),
-      token: json['token'] as String,
-      refreshToken: json['refreshToken'] as String,
     );
 
-Map<String, dynamic> _$AuthResponseToJson(AuthResponse instance) =>
+Map<String, dynamic> _$ResendEmailResponseToJson(
+        ResendEmailResponse instance) =>
     <String, dynamic>{
       'code': _$CodeEnumMap[instance.code]!,
-      'token': instance.token,
-      'refreshToken': instance.refreshToken,
     };
 
 const _$CodeEnumMap = {

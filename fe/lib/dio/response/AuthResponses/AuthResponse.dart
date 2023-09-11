@@ -1,13 +1,16 @@
+import 'package:ai_cv_generator/dio/response/AuthResponses/Code.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'AuthResponse.g.dart';
 
 @JsonSerializable()
 class AuthResponse {
+  Code code;
   String token;
   String refreshToken;
 
   AuthResponse({
+    required this.code,
     required this.token,
     required this.refreshToken
   });
