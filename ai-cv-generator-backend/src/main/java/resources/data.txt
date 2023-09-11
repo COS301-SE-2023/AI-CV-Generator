@@ -19,5 +19,11 @@ We would recommend that a resume be no longer than 4-5 pages, this is ample spac
 Should I include a cover letter?
 Cover letters are only useful if they are specifically tailored to the role. Don't use a generic cover letter as it looks as though you haven't put in any effort. If you are going to use a cover letter, use it to clearly outline where your skills and experience match those required in the role and ensure that it is correctly addressed.
 
-How do I use this app?
-You can not.
+How do I create a CV?
+You can create a CV by either clicking 'SURVEY' whereby you can supply the required information manually or by clicking 'NOPE' whereby you can upload a CV where the information can be extracted from it and used to create a new CV.
+
+How can I access my details?
+You can access your details through the profile page where you can access, modify, add or delete your details.
+
+Where can I look for jobs?
+You can look for jobs by clicking any of the

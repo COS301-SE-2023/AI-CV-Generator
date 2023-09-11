@@ -8,7 +8,7 @@ import dev.langchain4j.service.UserMessage;
 
 public interface ChatBotAgent {
     @SystemMessage({
-            "You are a customer support agent of a web application."
+            "You are a customer support agent."
     })
     String chat(@MemoryId int memoryId,@UserMessage String userMessage);
 }

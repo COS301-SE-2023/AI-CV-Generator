@@ -110,7 +110,7 @@ public class LangChainService {
     }
 
     public ChatResponse chatBotInteract(ChatRequest request) {
-        ChatBotAgent chatBot = chatBotAgent(chatLanguageModel(),request.getMessages());
+        ChatBotAgent chatBot = chatBotAgent(chatBotLanguageModel(),request.getMessages());
         String response = chatBot.chat(0,request.getUserMessage());
         request.getMessages().add(request.getUserMessage());
         request.getMessages().add(response);
@@ -194,11 +194,11 @@ public class LangChainService {
                 .build();
     }
 
-    private ChatLanguageModel chatBotLanguageModel(List<ChatMessage> messages) {
+    private ChatLanguageModel chatBotLanguageModel() {
         OpenAiChatModel model = OpenAiChatModel.builder()
                 .modelName(modelName)
                 .apiKey(apikey)
-                .temperature(temperature)
+                .temperature(0.1)
                 .logRequests(true)
                 .logResponses(true)
                 .maxRetries(2)
@@ -208,8 +208,6 @@ public class LangChainService {
                 .frequencyPenalty(0.0)
                 .presencePenalty(0.0)
                 .build();
-
-        model.sendMessages(messages);
         return model;
     }
 
