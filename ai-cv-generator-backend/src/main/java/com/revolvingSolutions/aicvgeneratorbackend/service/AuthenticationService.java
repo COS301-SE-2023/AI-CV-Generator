@@ -219,6 +219,30 @@ public class AuthenticationService {
         }
     }
 
+    public ChangePasswordResponse changePassword(ChangePasswordRequest request, HttpServletRequest actualRequest) {
+        final PasswordResetTokenEntity token = resetPasswordTokenService.findToken(request.getToken());
+        if (token == null) {
+            return ChangePasswordResponse.builder()
+                    .code(Code.failed)
+                    .build();
+        } else if (token.getExpireAt().isBefore(LocalDateTime.now())) {
+            return ChangePasswordResponse.builder()
+                    .code(Code.expired)
+                    .build();
+        } else {
+            UserEntity user = token.getUser();
+            changePassword(user,request.getNewPassword());
+            return ChangePasswordResponse.builder()
+                    .code(Code.success)
+                    .build();
+        }
+    }
+
+    private void changePassword(UserEntity user, String password) {
+        user.setPassword(passwordEncoder.encode(password));
+        repository.save(user);
+    }
+
     public AuthResponse refresh(RefreshRequest request, HttpServletRequest actualRequest) {
         String token = request.getRefreshToken();
         return refreshTokenService.findByToken(token)
