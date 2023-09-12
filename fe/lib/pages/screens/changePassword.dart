@@ -190,7 +190,7 @@ class ChangePasswordState extends State<ChangePasswordWidget> {
                 padding: const EdgeInsets.fromLTRB(600, 0, 600, 0),
                 child: ElevatedButton(
                   key: const Key('ChangePassword'),
-                  child: const Text('Send Verification Code'),
+                  child: const Text('Confirm'),
                   onPressed: () async {
                     if (passwordController.text != passwordRetypeController.text) {
                       showError("Password does not match");

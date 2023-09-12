@@ -16,7 +16,7 @@ showHappyMessage(String message, BuildContext context) {
               padding: const EdgeInsets.all(16),
               height: 90,
               decoration: const BoxDecoration(
-                color: Color.fromARGB(255, 255, 255, 0),
+                color: Color.fromARGB(255, 81, 54, 234),
                 borderRadius: BorderRadius.all(Radius.circular(4))
               ),
               child: Row(
@@ -72,7 +72,7 @@ showHappyMessage(String message, BuildContext context) {
                   SvgPicture.asset(
                     "assets/images/circle-filled-circle-radio-filled-round-bullet-svgrepo-com.svg",
                     height: 40,
-                    color: Color.fromARGB(255, 81, 54, 234),
+                    color: const Color.fromARGB(255, 81, 54, 234),
                   ),
                   Positioned(
                     //top: 10,
