@@ -122,7 +122,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     } else if (resp == Code.requestFailed) {
                       showError("Something went wrong!!");
                       setState(() {
-                        
+                        wait = false;
                       });
                     } else if (resp == Code.notEnabled) {
                       await AuthApi.resendEmail(username: nameController.text, password: passwordController.text);

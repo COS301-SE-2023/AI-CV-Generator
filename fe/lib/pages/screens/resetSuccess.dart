@@ -3,20 +3,19 @@ import 'package:ai_cv_generator/dio/response/AuthResponses/Code.dart';
 import 'package:ai_cv_generator/pages/util/errorMessage.dart';
 import 'package:flutter/material.dart';
 
-class EmailVerification extends StatefulWidget {
+class ResetSuccess extends StatefulWidget {
   
-  const EmailVerification({super.key, this.code});
+  const ResetSuccess({super.key, this.code});
   final String? code;
   @override
-  State<StatefulWidget> createState() => EmailVerificationState();
+  State<StatefulWidget> createState() => ResetSuccessState();
 }
 
-class EmailVerificationState extends State<EmailVerification> {
+class ResetSuccessState extends State<ResetSuccess> {
 
   toLogin() {
     Navigator.popAndPushNamed(context, "/");
   }
-
   showError(String message) {
     showMessage(message, context);
   }
@@ -44,7 +43,7 @@ class EmailVerificationState extends State<EmailVerification> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const Text(
-                  "Please check your email to verify your account to continue",
+                  "Please check your email to change your password",
                   style: TextStyle(
                     color: Colors.grey,
                     fontSize: 20,
