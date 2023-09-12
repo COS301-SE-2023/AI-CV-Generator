@@ -1,12 +1,18 @@
 import 'package:ai_cv_generator/dio/client/dioClient.dart';
+import 'package:ai_cv_generator/dio/request/AuthRequests/ChangePasswordRequest.dart';
 import 'package:ai_cv_generator/dio/request/AuthRequests/LoginRequest.dart';
 import 'package:ai_cv_generator/dio/request/AuthRequests/RegisterRequest.dart';
 import 'package:ai_cv_generator/dio/request/AuthRequests/ResendEmailRequest.dart';
+import 'package:ai_cv_generator/dio/request/AuthRequests/ResetPasswordRequest.dart';
+import 'package:ai_cv_generator/dio/request/AuthRequests/ValidatePasswordResetRequest.dart';
 import 'package:ai_cv_generator/dio/request/AuthRequests/VerificationRequest.dart';
 import 'package:ai_cv_generator/dio/response/AuthResponses/AuthResponse.dart';
+import 'package:ai_cv_generator/dio/response/AuthResponses/ChangePasswordResponse.dart';
 import 'package:ai_cv_generator/dio/response/AuthResponses/Code.dart';
 import 'package:ai_cv_generator/dio/response/AuthResponses/RegisterResponse.dart';
 import 'package:ai_cv_generator/dio/response/AuthResponses/ResendEmailResponse.dart';
+import 'package:ai_cv_generator/dio/response/AuthResponses/ResetPasswordResponse.dart';
+import 'package:ai_cv_generator/dio/response/AuthResponses/ValidatePasswordResetResponse.dart';
 import 'package:ai_cv_generator/dio/response/AuthResponses/VerificationResponse.dart';
 import 'package:dio/dio.dart';
 
@@ -90,5 +96,52 @@ class AuthApi extends DioClient {
       DioClient.handleError(e);
     }
     return Code.failed;
+  }
+
+  static Future<Code> reset({
+    required String username,
+    required String email
+  }) async {
+    try {
+      Response response = await DioClient.dio.post<Map<String,dynamic>>(
+        'api/auth/reset',
+        data: ResetPasswordRequest(username: username, email: email, siteUrl: "http://${Uri.base.host}:${Uri.base.port}").toJson()
+      );
+      return ResetPasswordResponse.fromJson(response.data).code;
+    } on DioException catch (e) {
+      DioClient.handleError(e);
+    }
+    return Code.requestFailed;
+  }
+
+  static Future<Code> validateReset({
+    required String token
+  }) async {
+    try {
+      Response response = await DioClient.dio.post<Map<String,dynamic>>(
+        'api/auth/validate',
+        data: ValidatePasswordResetRequest(token: token).toJson()
+      );
+      return ValidatePasswordResetResponse.fromJson(response.data).code;
+    } on DioException catch (e) {
+      DioClient.handleError(e);
+    }
+    return Code.requestFailed;
+  }
+
+  static Future<Code> changePassword({
+    required String newPassword,
+    required String token
+  }) async {
+    try {
+      Response response = await DioClient.dio.post<Map<String,dynamic>>(
+        'api/auth/validate',
+        data: ChangePasswordRequest(newPassword: newPassword, token: token).toJson()
+      );
+      return ChangePasswordResponse.fromJson(response.data).code;
+    } on DioException catch (e) {
+      DioClient.handleError(e);
+    }
+    return Code.requestFailed;
   }
 }
