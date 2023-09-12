@@ -52,22 +52,6 @@ class MockQualificationsField extends StatelessWidget {
   }
 }
 
-class MockMessage extends StatelessWidget {
-  final String message;
-  final bool isSender;
-
-  const MockMessage({
-    required this.message,
-    required this.isSender,
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(message);
-  }
-}
-
 void main(){
 
   group("Test chatbot", () {
@@ -90,7 +74,7 @@ void main(){
       });
   });
 
-    testWidgets('Sending message to chatbot', (WidgetTester tester) async {
+    testWidgets('Message input', (WidgetTester tester) async {
       await tester.runAsync(() async {
 
         const String message = "Hello";
