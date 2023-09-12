@@ -9,6 +9,7 @@ import 'package:ai_cv_generator/pages/screens/job.dart';
 import 'package:ai_cv_generator/pages/screens/login.dart';
 import 'package:ai_cv_generator/pages/widgets/pdf_window.dart';
 import 'package:ai_cv_generator/pages/screens/profile.dart';
+import 'package:ai_cv_generator/pages/screens/verification.dart';
 
 // external
 import 'package:file_picker/file_picker.dart';
@@ -42,7 +43,8 @@ class MyApp extends StatelessWidget {
         '/profile':(context) => const Profile(),
         '/jobs':(context) => const JobsPage(),
         '/about':(context) => const AboutPage(),
-        '/help':(context) => const Help()
+        '/help':(context) => const Help(),
+        '/verify':(context) => Verification(),
       },
       onGenerateRoute: (settings) {
         if (settings.name == '/profile') {
