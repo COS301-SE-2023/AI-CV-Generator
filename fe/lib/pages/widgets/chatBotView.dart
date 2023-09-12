@@ -174,25 +174,29 @@ class Message extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      // crossAxisAlignment: messageAlignment(),
-      children: [
-        Container(
-          padding: const EdgeInsets.all(16),
-          alignment: Alignment.center,
-          // constraints: const BoxConstraints(
-          //   minHeight: 60,
-          //   maxWidth: 150
-          // ),
-          decoration: BoxDecoration(
-            color: messageColour(context),
-            borderRadius: messageBorderRadiusGeometry(),
-          ),
-          child: message,
-        ),
-        const SizedBox(height: 16,)
-      ],
-    );
+    return Builder(
+      key: const Key('Message input'), // Assign the key to the Builder
+      builder: (BuildContext context) {
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          // crossAxisAlignment: messageAlignment(),
+          children: [
+            Container(
+              padding: const EdgeInsets.all(16),
+              alignment: Alignment.center,
+              // constraints: const BoxConstraints(
+              //   minHeight: 60,
+              //   maxWidth: 150
+              // ),
+              decoration: BoxDecoration(
+                color: messageColour(context),
+                borderRadius: messageBorderRadiusGeometry(),
+              ),
+              child: message,
+            ),
+            const SizedBox(height: 16,)
+          ],
+        );
+      });
   }
 }
