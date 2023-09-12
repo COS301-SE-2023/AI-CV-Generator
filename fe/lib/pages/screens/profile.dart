@@ -27,6 +27,7 @@ class Profile extends StatefulWidget {
 }
 
 bool isEditingEnabled = false;
+bool imageLoading = false;
 
 class ProfileState extends State<Profile> {
   final _formKey = GlobalKey<FormState>();
@@ -197,38 +198,42 @@ class ProfileState extends State<Profile> {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
+                                  imageLoading == true ? 
+                                  const CircularProgressIndicator(color: Colors.grey, strokeWidth: 1,) :
                                   CircleAvatar(
-                                        radius: 95.0,
-                                        backgroundColor: Theme.of(context).colorScheme.secondary,
-                                        child: CircleAvatar(
-                                          radius: 90.0,
-                                          backgroundImage: image!.image,
-                                          backgroundColor: Colors.grey.shade300
-                                        ),
-                                      ),
-                                      IconButton(
-                                        color: const Color(0xFF333C64),
-                                        onPressed: () async {
-                                          await actualupdate();
-                                          
-                                          Uint8List? imgByte =  await ImagePickerWeb.getImageAsBytes();
-                                          if(imgByte == null) {
+                                    radius: 95.0,
+                                    backgroundColor: Theme.of(context).colorScheme.secondary,
+                                    child: CircleAvatar(
+                                      radius: 90.0,
+                                      backgroundImage: image!.image,
+                                      backgroundColor: Colors.grey.shade300
+                                    ),
+                                  ),
+                                    IconButton(
+                                      color: const Color(0xFF333C64),
+                                      onPressed: () async {
+                                        Uint8List? imgByte =  await ImagePickerWeb.getImageAsBytes();
+                                        if(imgByte == null) {
                                             return;
-                                          }
+                                        }
+                                        actualupdate().then((value) async {
                                           image = null;
-                                          setState(() {
-                                            
-                                          });
-                                          imgByte = await getImageAsBytes(imgByte);
+                                          imgByte = await getImageAsBytes(imgByte!);
                                           if(imgByte != null){
-                                            final changed = await FileApi.updateProfileImage(img: imgByte);
+                                            final changed = await FileApi.updateProfileImage(img: imgByte!);
                                             image = changed;
-                                            setState(() {});
+                                            setState(() {
+                                              imageLoading = false;
+                                            });
                                           }
-                                        }, 
-                                        icon: const Icon(Icons.edit)),
+                                        });
+                                        setState(() {
+                                          imageLoading = true;
+                                        });
+                                        
+                                      }, 
+                                      icon: const Icon(Icons.edit)),
                                     ],
-
                               ),
                               const SizedBox(height: 16,),
                               Wrap(

@@ -1,5 +1,6 @@
 package com.revolvingSolutions.aicvgeneratorbackend.service;
 
+import com.revolvingSolutions.aicvgeneratorbackend.agent.DescriptionAgent;
 import com.revolvingSolutions.aicvgeneratorbackend.agent.FieldClassifierAgent;
 import com.revolvingSolutions.aicvgeneratorbackend.entitiy.UserEntity;
 import com.revolvingSolutions.aicvgeneratorbackend.exception.UnknownErrorException;
@@ -51,6 +52,7 @@ public class JobScraperService {
     }
     public JobScrapeResponse getRecommended() {
         User user = getAISafeModel();
+        String field = fieldClassifier(fieldClassifierchatLanguageModel()).chat(descriptionAgent(chatLanguageModel()).chat(user.toString()));
         String location = "";
         if (user.getLocation()!=null) location = user.getLocation();
         return scrapData(
@@ -154,65 +156,6 @@ public class JobScraperService {
         return responseDTOS;
     }
 
-    // Protected by Cloudflare
-    private Set<JobResponseDTO> indeed(JobScrapeRequest request) throws IOException {
-        Set<JobResponseDTO> responseDTOS = new HashSet<>();
-        String keywords = request.getField().replaceAll(" ","+");
-        String location = request.getLocation().replaceAll(" ","+");
-        //driver.get("https://za.indeed.com/jobs?q="+keywords+"&l="+location);
-//        Connection.Response res = Jsoup.connect("https://za.indeed.com/jobs?q="+keywords+"&l="+location)
-//                .timeout(0)
-//                .method(Connection.Method.GET)
-//                .header("User-Agent", "Mozilla/5.0")
-//                .header("Referrer Policy","strict-origin-when-cross-origin")
-//                .ignoreHttpErrors(true)
-//                .execute();
-//
-//
-//        System.out.println(res.body());
-
-
-//        Document doc = Jsoup.parse(driver.getPageSource());
-//        Element list = doc.getElementById("mosaic-provider-jobcards");
-//        Elements els = list.getElementsByTag("li");
-//        for (Element el : els) {
-//            Element tag = el.getElementsByTag("a").first();
-//            Element title = el.getElementsByTag("span").first();
-//            responseDTOS.add(
-//                    JobResponseDTO.builder()
-//                            .title(title.ownText())
-//                            .link(tag.attr("href"))
-//                            .subTitle(el.getElementsByClass("companyName").first().ownText()+" "+el.getElementsByClass("companyLocation").first().ownText())
-//                            .build()
-//            );
-//        }
-        return  responseDTOS;
-    }
-
-    // Protected by Cloudflare
-    private Set<JobResponseDTO> simplyHired(JobScrapeRequest request) throws IOException {
-        Set<JobResponseDTO> responseDTOS = new HashSet<>();
-        Document doc = Jsoup.connect("https://www.simplyhired.com/search?q="+request.getField().replaceAll(" ","+")+"&l="+request.getLocation().replaceAll(" ","+")).get();
-        Element list = doc.getElementById("job-list");
-        if (list == null) {
-            return null;
-        }
-        Elements els = list.getElementsByTag("li");
-        for (Element el : els) {
-            Element titleLink = el.getElementsByTag("a").first();
-
-            responseDTOS.add(
-                    JobResponseDTO.builder()
-                            .title(titleLink.ownText())
-                            .link(titleLink.attr("href"))
-                            .subTitle(el.getElementsByAttributeValue("data-testid","companyName").first().ownText())
-                            .build()
-            );
-        }
-
-        return  responseDTOS;
-    }
-
     private Set<JobResponseDTO> careerJunction(JobScrapeRequest request) throws IOException {
         Set<JobResponseDTO> responseDTOS = new HashSet<>();
         Document doc = Jsoup.connect("https://www.careerjunction.co.za/jobs/results?keywords="+request.getField().replaceAll(" ","%20")+"&location="+request.getLocation().replaceAll(" ", "%20")).get();
@@ -244,18 +187,18 @@ public class JobScraperService {
                 }
                 Elements imgEl = el.getElementsByTag("img");
                 if (!imgEl.isEmpty()) {
-                    imgLink = imgEl.get(0).attr("src");
+                    imgLink = "https://www.careerjunction.co.za"+ imgEl.get(0).attr("src");
                 } else {
                     imgLink = "https://mir-s3-cdn-cf.behance.net/projects/404/8f446a164156565.Y3JvcCwxMzgwLDEwODAsMjcwLDA.jpg";
                 }
                 responseDTOS.add(
                         JobResponseDTO.builder()
                                 .title(titleA.first().ownText())
-                                .link(titleA.first().attr("href"))
+                                .link("/")
                                 .location(location)
                                 .subTitle(subtitle)
                                 .salary(salary)
-                                .imgLink(imgLink)
+                                .imgLink("https://www.iitpsa.org.za/wp-content/uploads/2012/07/CJ_Logo_Master.jpg")
                                 .build()
                 );
             } catch (Exception e) {
@@ -264,6 +207,17 @@ public class JobScraperService {
 
         }
         return  responseDTOS;
+    }
+
+    private String getLogoImage(String link) {
+        try {
+            Document doc = Jsoup.connect(link).get();
+            Elements elements = doc.getElementsByClass("cjun-logo-company");
+            if (elements.isEmpty()) return "/";
+            return elements.first().attr("src");
+        } catch (IOException e) {
+            return "/";
+        }
     }
 
     private Set<JobResponseDTO> snagAJob(JobScrapeRequest request) throws IOException {
@@ -295,8 +249,31 @@ public class JobScraperService {
                 .build();
     }
 
+    private ChatLanguageModel chatLanguageModel() {
+        return OpenAiChatModel.builder()
+                .modelName(modelName)
+                .apiKey(apikey)
+                .temperature(temperature)
+                .logRequests(true)
+                .logResponses(true)
+                .maxRetries(2)
+                .maxTokens(1000)
+                .topP(1.0)
+                .timeout(Duration.ofMinutes(2))
+                .frequencyPenalty(0.0)
+                .presencePenalty(0.0)
+                .build();
+    }
+
     private FieldClassifierAgent fieldClassifier(ChatLanguageModel chatLanguageModel) {
         return AiServices.builder(FieldClassifierAgent.class)
+                .chatLanguageModel(chatLanguageModel)
+                .chatMemory(MessageWindowChatMemory.withMaxMessages(3))
+                .build();
+    }
+
+    private DescriptionAgent descriptionAgent(ChatLanguageModel chatLanguageModel) {
+        return AiServices.builder(DescriptionAgent.class)
                 .chatLanguageModel(chatLanguageModel)
                 .chatMemory(MessageWindowChatMemory.withMaxMessages(3))
                 .build();

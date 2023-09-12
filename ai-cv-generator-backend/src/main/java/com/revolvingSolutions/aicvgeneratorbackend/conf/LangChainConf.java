@@ -11,8 +11,10 @@ import dev.langchain4j.data.segment.TextSegment;
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
 import dev.langchain4j.model.chat.ChatLanguageModel;
 import dev.langchain4j.model.embedding.EmbeddingModel;
+import dev.langchain4j.model.moderation.ModerationModel;
 import dev.langchain4j.model.openai.OpenAiChatModel;
 import dev.langchain4j.model.openai.OpenAiEmbeddingModel;
+import dev.langchain4j.model.openai.OpenAiModerationModel;
 import dev.langchain4j.model.openai.OpenAiTokenizer;
 import dev.langchain4j.retriever.EmbeddingStoreRetriever;
 import dev.langchain4j.retriever.Retriever;
@@ -47,6 +49,9 @@ public class LangChainConf {
 
     @Value("${langchain4j.chat-model.openai.temperature}")
     private Double temperature;
+
+    @Value("${app.api.embedimformation}")
+    private Boolean embed;
 
 
     @Bean
@@ -132,7 +137,9 @@ public class LangChainConf {
     public EmbeddingStore<TextSegment> embeddingStore(EmbeddingModel embeddingModel, ResourceLoader resourceLoader) throws IOException {
         EmbeddingStore<TextSegment> embeddingStore = new InMemoryEmbeddingStore<>();
         Document document;
+        if (embed) return embeddingStore;
         try {
+
             Resource resource = resourceLoader.getResource("classpath:data.txt");
             document = loadDocument(resource.getFile().toPath());
             DocumentSplitter documentSplitter = DocumentSplitters.recursive(100,new OpenAiTokenizer(GPT_3_5_TURBO));
@@ -143,8 +150,14 @@ public class LangChainConf {
                     .build();
             ingestor.ingest(document);
         } catch (Exception e) {
+            e.printStackTrace();
             System.out.println("Warning Something has BADLY gone Wrong!");
         }
         return embeddingStore;
+    }
+
+    @Bean
+    public ModerationModel moderationModel() {
+        return OpenAiModerationModel.withApiKey(apikey);
     }
 }

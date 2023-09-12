@@ -4,8 +4,8 @@ part 'JobResponseDTO.g.dart';
 
 @JsonSerializable()
 class JobResponseDTO {
-  String title;
-  String subTitle;
+  String? title;
+  String? subTitle;
   String? link;
   String? location;
   String? salary;
