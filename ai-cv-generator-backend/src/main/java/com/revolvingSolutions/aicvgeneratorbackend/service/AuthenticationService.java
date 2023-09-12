@@ -128,12 +128,12 @@ public class AuthenticationService {
     }
 
     public VerificationResponse verify(VerificationRequest request) {
-        RegistrationTokenEntity registrationToken = registrationTokenService.findToken(request.getRegistrationToken());
+        final RegistrationTokenEntity registrationToken = registrationTokenService.findToken(request.getRegistrationToken());
         if (registrationToken == null ) {
             return VerificationResponse.builder()
                     .code(Code.failed)
                     .build();
-        } else if (! LocalDateTime.now().isBefore(registrationToken.getExpireAt())) {
+        } else if (registrationToken.getExpireAt().isBefore(LocalDateTime.now())) {
             registrationTokenService.removeToken(registrationToken);
             return  VerificationResponse.builder()
                     .code(Code.expired)
@@ -198,6 +198,23 @@ public class AuthenticationService {
         } catch (MessagingException | UnsupportedEncodingException e) {
             return ResetPasswordResponse.builder()
                     .code(Code.failed)
+                    .build();
+        }
+    }
+
+    public ValidatePasswordResetResponse validateReset(ValidatePasswordResetRequest request, HttpServletRequest actualRequest) {
+        final PasswordResetTokenEntity token = resetPasswordTokenService.findToken(request.getToken());
+        if (token == null) {
+            return ValidatePasswordResetResponse.builder()
+                    .code(Code.failed)
+                    .build();
+        } else if (token.getExpireAt().isBefore(LocalDateTime.now())) {
+            return ValidatePasswordResetResponse.builder()
+                    .code(Code.expired)
+                    .build();
+        } else {
+            return ValidatePasswordResetResponse.builder()
+                    .code(Code.success)
                     .build();
         }
     }

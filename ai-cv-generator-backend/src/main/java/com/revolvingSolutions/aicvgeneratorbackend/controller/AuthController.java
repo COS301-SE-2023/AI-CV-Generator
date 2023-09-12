@@ -70,6 +70,18 @@ public class AuthController {
         }
     }
 
+    @PostMapping("/validate")
+    public ResponseEntity<ValidatePasswordResetResponse> validateReset(
+            @RequestBody ValidatePasswordResetRequest request,
+            HttpServletRequest actualRequest
+    ) {
+        try {
+            return ResponseEntity.ok(service.validateReset(request,actualRequest));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatusCode.valueOf(403)).build();
+        }
+    }
+
     @PostMapping("/refresh")
     public ResponseEntity<AuthResponse> refresh(
             @RequestBody RefreshRequest request,
