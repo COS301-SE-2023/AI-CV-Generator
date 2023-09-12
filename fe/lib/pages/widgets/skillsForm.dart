@@ -114,7 +114,7 @@ class _SkillsDetailsFormState extends State<SkillsDetailsForm> {
             Icons.close,
           ), 
           onPressed: () async { 
-            Navigator.pop(context);
+            Navigator.popUntil(context, ModalRoute.withName('/home'));
           },
         ),
       ),
