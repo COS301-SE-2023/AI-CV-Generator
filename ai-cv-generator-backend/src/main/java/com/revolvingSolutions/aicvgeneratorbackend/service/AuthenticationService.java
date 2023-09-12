@@ -2,7 +2,6 @@ package com.revolvingSolutions.aicvgeneratorbackend.service;
 
 import com.revolvingSolutions.aicvgeneratorbackend.entitiy.*;
 import com.revolvingSolutions.aicvgeneratorbackend.exception.RefreshException;
-import com.revolvingSolutions.aicvgeneratorbackend.repository.PasswordResetTokenRepository;
 import com.revolvingSolutions.aicvgeneratorbackend.repository.UserRepository;
 import com.revolvingSolutions.aicvgeneratorbackend.request.auth.*;
 import com.revolvingSolutions.aicvgeneratorbackend.response.auth.*;
@@ -16,9 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.UnsupportedEncodingException;
-import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -226,12 +223,14 @@ public class AuthenticationService {
                     .code(Code.failed)
                     .build();
         } else if (token.getExpireAt().isBefore(LocalDateTime.now())) {
+            resetPasswordTokenService.removeToken(token);
             return ChangePasswordResponse.builder()
                     .code(Code.expired)
                     .build();
         } else {
-            UserEntity user = token.getUser();
+            UserEntity user = repository.getReferenceById(token.getUser().getUserid());
             changePassword(user,request.getNewPassword());
+            resetPasswordTokenService.removeToken(token);
             return ChangePasswordResponse.builder()
                     .code(Code.success)
                     .build();

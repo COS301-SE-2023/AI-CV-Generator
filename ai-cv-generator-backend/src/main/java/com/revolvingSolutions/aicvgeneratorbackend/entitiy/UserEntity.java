@@ -61,6 +61,9 @@ public class UserEntity implements UserDetails {
     @OneToMany(mappedBy = "user")
     public Set<RegistrationTokenEntity> regTokens;
 
+    @OneToMany(mappedBy = "user")
+    public Set<PasswordResetTokenEntity> passwordResetToken;
+
     @Enumerated(EnumType.STRING)
     public Role role;
 

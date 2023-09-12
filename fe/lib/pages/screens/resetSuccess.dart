@@ -56,23 +56,10 @@ class ResetSuccessState extends State<ResetSuccess> {
                       padding: const EdgeInsets.all(40),
                       child: FloatingActionButton(
                         onPressed: () async {
-                          Code response = await AuthApi.verify(code: widget.code!);
-                          if (response == Code.success) {
-                            toLogin();
-                          } else if (response == Code.expired) {
-                            showError("Unfortunatley this token is expired");
-                            setState(() {
-                              
-                            });
-                          } else {
-                            showError("Verification failed something went wrong!");
-                            setState(() {
-                              
-                            });
-                          }
+                          toLogin();
                         }, 
                         child: const Text(
-                          "Verify",
+                          "Login",
                           style: TextStyle(
                             color: Colors.white
                           ),

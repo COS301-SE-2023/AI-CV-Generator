@@ -113,6 +113,9 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     });
                     Code resp = await AuthApi.login(username: nameController.text,password: passwordController.text);
                     if (resp == Code.success) {
+                      setState(() {
+                        wait = false;
+                      });
                       home();
                     } else if (resp == Code.failed) {
                       showError("Invalid Login!");

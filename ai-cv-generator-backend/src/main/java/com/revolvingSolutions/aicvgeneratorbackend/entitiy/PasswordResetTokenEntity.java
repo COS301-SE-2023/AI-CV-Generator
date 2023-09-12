@@ -31,8 +31,8 @@ public class PasswordResetTokenEntity {
     @Basic(optional = false)
     private LocalDateTime expireAt;
 
-    @OneToOne(targetEntity = UserEntity.class, fetch = FetchType.EAGER)
-    @JoinColumn(nullable = false, name = "userid")
+    @ManyToOne
+    @JoinColumn(nullable = false, name = "userid",referencedColumnName = "userid")
     private UserEntity user;
 
 }

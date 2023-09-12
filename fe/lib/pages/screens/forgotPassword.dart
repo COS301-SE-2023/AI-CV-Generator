@@ -1,6 +1,7 @@
 import 'package:ai_cv_generator/dio/client/AuthApi.dart';
 import 'package:ai_cv_generator/dio/response/AuthResponses/Code.dart';
 import 'package:ai_cv_generator/pages/util/errorMessage.dart';
+import 'package:ai_cv_generator/pages/util/successMessage.dart';
 import 'package:ai_cv_generator/pages/widgets/loadingscreens/loadingScreen.dart';
 import 'package:flutter/material.dart';
 
@@ -38,6 +39,9 @@ class ForgotPasswordState extends State<ForgotPasswordWidget> {
 
   showError(String message) {
     showMessage(message, context);
+  }
+  showSuccess(String message) {
+    showHappyMessage(message, context);
   }
   toResetSuccess() {
     Navigator.popAndPushNamed(context, "/resetSuccess");
@@ -77,7 +81,6 @@ class ForgotPasswordState extends State<ForgotPasswordWidget> {
               padding: const EdgeInsets.fromLTRB(500, 10, 500, 10),
               child: TextField(
                 key: const Key('email'),
-                obscureText: true,
                 controller: emailController,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
@@ -97,7 +100,10 @@ class ForgotPasswordState extends State<ForgotPasswordWidget> {
                     });
                     Code resp = await AuthApi.reset(username: nameController.text, email: emailController.text);
                     if (resp == Code.success) {
-                      
+                      setState(() {
+                        wait = false;
+                      });
+                      toResetSuccess();
                     } else if (resp == Code.failed) {
                       showError("Invalid Credentials!!");
                       setState(() {
