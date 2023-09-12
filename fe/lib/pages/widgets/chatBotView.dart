@@ -12,7 +12,7 @@ class ChatBotView extends StatefulWidget {
 
 class ChatBotViewState extends State<ChatBotView> {
   Image? userImage;
-  bool visible = false;
+  bool visible = true;
   List<Widget> messages = [];
   TextEditingController controller = TextEditingController();
   Chatbot chatBot = Chatbot();
@@ -88,7 +88,7 @@ class ChatBotViewState extends State<ChatBotView> {
   @override
   Widget build(BuildContext context) {
     return Visibility(
-      visible: visible,
+      visible: !visible,
       child: Container(
         padding: const EdgeInsets.only(right: 48, bottom: 48), 
         alignment: Alignment.bottomRight,
@@ -115,7 +115,7 @@ class ChatBotViewState extends State<ChatBotView> {
                       Icons.close,
                   ), 
                   onPressed: () {
-                    setState(() {visible = false;});
+                    setState(() {visible = true;});
                   },
                 ),
               ),

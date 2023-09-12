@@ -674,7 +674,7 @@ class _HomeState extends State<Home> {
             child: IconButton(
               color: Theme.of(context).colorScheme.secondary,
               onPressed: () {
-                setState(() {chatBotKey.currentState!.visible = true;});
+                setState(() {chatBotKey.currentState!.visible = false;});
               },
               icon: const Icon(Icons.message),
             ),
