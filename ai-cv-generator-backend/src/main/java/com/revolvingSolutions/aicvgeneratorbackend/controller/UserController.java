@@ -56,7 +56,6 @@ import java.util.Date;
 @RequiredArgsConstructor
 public class UserController {
     private final UserService service;
-    private final EmailService emailService;
 
     @GetMapping(value="/user")
     public ResponseEntity<GetUserResponse> getUser() {
@@ -257,19 +256,6 @@ public class UserController {
         } catch (FileNotFoundException e) {
             return ResponseEntity.notFound().build();
         }
-    }
-
-    @PostMapping(value = "/test")
-    public ResponseEntity<String> test(
-            @RequestBody String message
-    ) {
-        return ResponseEntity.ok(emailService.sendMail(
-                Email.builder()
-                        .messageBody(message)
-                        .recipient("nathanopperman123@gmail.com")
-                        .subject("None")
-                        .build()
-        ));
     }
 
 }
