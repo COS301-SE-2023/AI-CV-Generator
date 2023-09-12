@@ -218,7 +218,6 @@ class ProfileState extends State<Profile> {
                                         }
                                         actualupdate().then((value) async {
                                           image = null;
-
                                           imgByte = await getImageAsBytes(imgByte!);
                                           if(imgByte != null){
                                             final changed = await FileApi.updateProfileImage(img: imgByte!);

@@ -182,7 +182,8 @@ class SkillSectionState extends State<SkillSection> {
   Table createTable(linkWidgets) {
     return Table(
         border: TableBorder.all(
-          borderRadius:const BorderRadius.all(Radius.circular(10)),
+          width: 0.5,
+          borderRadius:const BorderRadius.all(Radius.circular(5)),
         ),
         defaultVerticalAlignment: TableCellVerticalAlignment.middle,
         children: <TableRow>[
