@@ -1,8 +1,10 @@
 // internal
 import 'package:ai_cv_generator/pages/elements/elements.dart';
 import 'package:ai_cv_generator/dio/client/shareClient.dart';
+import 'package:ai_cv_generator/pages/screens/changePassword.dart';
 import 'package:ai_cv_generator/pages/screens/emailConfirmation.dart';
 import 'package:ai_cv_generator/pages/screens/emailVerification.dart';
+import 'package:ai_cv_generator/pages/screens/forgotPassword.dart';
 import 'package:ai_cv_generator/pages/screens/register.dart';
 import 'package:ai_cv_generator/pages/screens/about.dart';
 import 'package:ai_cv_generator/pages/screens/help.dart';
@@ -28,6 +30,13 @@ Future<void> main() async {
     final String? code = myurl.queryParameters["code"];
     if (code != null) {
       runApp(MyApp(route: "/verify",code: code));
+    } else {
+      runApp(const MyApp(route: "/",));
+    }
+  } else if (myurl.path.contains("/reset")) {
+    final String? code = myurl.queryParameters["code"];
+    if (code != null) {
+      runApp(MyApp(route: "/validate",code: code,));
     } else {
       runApp(const MyApp(route: "/",));
     }
@@ -57,7 +66,9 @@ class MyApp extends StatelessWidget {
         '/jobs':(context) => const JobsPage(),
         '/about':(context) => const AboutPage(),
         '/help':(context) => const Help(),
-        '/verify':(context) => EmailVerification(code: code,)
+        '/verify':(context) => EmailVerification(code: code,),
+        '/validate':(context) => ChangePassword(code: code,),
+        '/forgot':(context) => const ForgotPassword()
       },
       onGenerateRoute: (settings) {
         if (settings.name == '/profile') {

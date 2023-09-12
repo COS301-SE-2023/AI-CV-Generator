@@ -37,6 +37,10 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     Navigator.pushNamed(context, "/home");
   }
 
+  forgotPassword() {
+    Navigator.pushNamed(context, "/forgot");
+  }
+
   confirm() {
     Navigator.popAndPushNamed(
       context, '/confirm',
@@ -92,7 +96,9 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               ),
             ),
             TextButton(
-              onPressed: () {},
+              onPressed: () {
+                forgotPassword();
+              },
               child: const Text('Forgot Password',),
             ),
             Container(
