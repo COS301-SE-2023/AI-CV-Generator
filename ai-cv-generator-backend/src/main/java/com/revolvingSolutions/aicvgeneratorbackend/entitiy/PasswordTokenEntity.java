@@ -33,7 +33,7 @@ public class PasswordTokenEntity {
     private LocalDateTime expireAt;
 
     @ManyToOne
-    @JoinColumn(name = "userid",referencedColumnName = "userid")
+    @JoinColumn(name = "userid", referencedColumnName = "userid")
     private UserEntity user;
 
 }

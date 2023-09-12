@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 import java.util.Base64;
 
 @Service
-public class ResetPasswordTokenService {
+public class PasswordTokenService {
     private static final BytesKeyGenerator TOKEN_GENERATOR = KeyGenerators.secureRandom();
     private static final int validationPeriod = 2000;
     @Autowired
@@ -34,7 +34,11 @@ public class ResetPasswordTokenService {
     }
 
     public PasswordTokenEntity findToken(String value) {
-        return  passwordResetTokenRepository.findByPasswordToken(value);
+        return  passwordResetTokenRepository.findByPasswordToken(value).orElseThrow();
+    }
+
+    public void save(PasswordTokenEntity token) {
+        passwordResetTokenRepository.save(token);
     }
 
 }

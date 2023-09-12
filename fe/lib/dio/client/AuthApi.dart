@@ -135,7 +135,7 @@ class AuthApi extends DioClient {
   }) async {
     try {
       Response response = await DioClient.dio.post<Map<String,dynamic>>(
-        'api/auth/validate',
+        'api/auth/change',
         data: ChangePasswordRequest(newPassword: newPassword, token: token).toJson()
       );
       return ChangePasswordResponse.fromJson(response.data).code;

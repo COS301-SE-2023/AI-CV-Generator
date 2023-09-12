@@ -27,7 +27,7 @@ public class AuthenticationService {
      private final AuthenticationManager authenticationManager;
      private final EmailService emailService;
      private final RegistrationTokenService registrationTokenService;
-     private final ResetPasswordTokenService resetPasswordTokenService;
+     private final PasswordTokenService resetPasswordTokenService;
 
      @Value("${app.api.blockEmailVerification}")
      private Boolean requireEmailVerification;
@@ -206,6 +206,7 @@ public class AuthenticationService {
                     .code(Code.failed)
                     .build();
         } else if (token.getExpireAt().isBefore(LocalDateTime.now())) {
+            resetPasswordTokenService.removeToken(token);
             return ValidatePasswordResetResponse.builder()
                     .code(Code.expired)
                     .build();
