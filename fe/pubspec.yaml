@@ -104,6 +104,7 @@ flutter:
     - assets/images/close-circle-svgrepo-com.svg
     - assets/images/circle-xmark-svgrepo-com.svg
     - assets/images/circle-filled-circle-radio-filled-round-bullet-svgrepo-com.svg
+    - assets/images/party-popper-svgrepo-com.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
