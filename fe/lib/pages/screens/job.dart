@@ -210,8 +210,8 @@ class CreateJobCardState extends State<CreateJobCard> {
                     ElevatedButton(
                         onPressed: () async {
                           if(widget.link != null) {
-                            if (await canLaunchUrl(Uri.parse(widget.link!)))
-                              await launchUrl(Uri.parse(widget.link!));
+                            if (await canLaunchUrl(Uri.parse(widget.link ?? "")))
+                              await launchUrl(Uri.parse(widget.link ?? ""));
                           }
                         }, 
                         child: Text("VISIT"),
