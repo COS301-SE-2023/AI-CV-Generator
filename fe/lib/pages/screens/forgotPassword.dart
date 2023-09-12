@@ -116,5 +116,4 @@ class ForgotPasswordState extends State<ForgotPasswordWidget> {
       )
     );
   }
-
 }

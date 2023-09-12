@@ -44,10 +44,10 @@ class EmailVerificationState extends State<EmailVerification> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const Text(
-                  "Please check your email to verify your account to continue",
+                  "Please verify your account to continue",
                   style: TextStyle(
                     color: Colors.grey,
-                    fontSize: 20,
+                    fontSize: 25,
                     fontWeight: FontWeight.bold
                   ),
                 ),
