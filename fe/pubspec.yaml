@@ -62,6 +62,7 @@ dependencies:
   jumping_dot: ^0.0.6
   flutter_markdown: ^0.6.17+2
   flutter_svg: ^2.0.7
+  responsive_framework: ^1.1.1
 dev_dependencies:
   flutter_test:
     sdk: flutter

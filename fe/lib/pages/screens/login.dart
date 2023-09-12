@@ -53,6 +53,9 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
  
   @override
   Widget build(BuildContext context) {
+    Size screenSize = MediaQuery.of(context).size;
+    double w = screenSize.width/100;
+    double h = screenSize.height/100; 
     if (wait) {
       return const LoadingScreen();
     }
@@ -62,18 +65,18 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           children: <Widget>[
             Container(
                 alignment: Alignment.center,
-                padding: const EdgeInsets.all(10),
-                child: const Image(image: ResizeImage(AssetImage('assets/images/logo.png'),width:350,height:350),)
+                padding: EdgeInsets.all(1*w),
+                child: const Image(image: ResizeImage(AssetImage('assets/images/logo.png'),width:350,height:350),fit: BoxFit.contain,)
                 ),
             Container(
                 alignment: Alignment.center,
-                padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                padding: EdgeInsets.fromLTRB(2*w, 1*h, 2*w, 1*h),
                 child: const Text(
                   'Log in',
                   style: TextStyle(fontSize: 20),
                 )),
             Container(
-              padding: const EdgeInsets.fromLTRB(500, 10, 500, 10),
+              padding: EdgeInsets.fromLTRB(33*w, 1*h, 33*w, 1*h),
               child: TextField(
                 key: const Key('name'),
                 controller: nameController,
@@ -84,7 +87,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               ),
             ),
             Container(
-              padding: const EdgeInsets.fromLTRB(500, 10, 500, 10),
+              padding: EdgeInsets.fromLTRB(33*w, 1*h, 33*w, 1*h),
               child: TextField(
                 key: const Key('password'),
                 obscureText: true,
@@ -103,7 +106,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             ),
             Container(
                 height: 50,
-                padding: const EdgeInsets.fromLTRB(600, 0, 600, 0),
+                padding: EdgeInsets.fromLTRB(38*w, 1*h, 38*w, 1*h),
                 child: ElevatedButton(
                   key: const Key('login'),
                   child: const Text('Login'),
