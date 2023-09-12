@@ -183,11 +183,11 @@ public class AuthenticationService {
                     .build();
         }
         try {
-            PasswordResetTokenEntity token = resetPasswordTokenService.generateToken(user);
+            PasswordTokenEntity token = resetPasswordTokenService.generateToken(user);
             emailService.sendPasswordResetEmail(
                     user.getEmail(),(user.getFname()+" "+user.getLname()),
                     request.getSiteUrl(),
-                    token.getToken()
+                    token.getPasswordToken()
             );
             return ResetPasswordResponse.builder()
                     .code(Code.success)
@@ -200,7 +200,7 @@ public class AuthenticationService {
     }
 
     public ValidatePasswordResetResponse validateReset(ValidatePasswordResetRequest request, HttpServletRequest actualRequest) {
-        final PasswordResetTokenEntity token = resetPasswordTokenService.findToken(request.getToken());
+        final PasswordTokenEntity token = resetPasswordTokenService.findToken(request.getToken());
         if (token == null) {
             return ValidatePasswordResetResponse.builder()
                     .code(Code.failed)
@@ -217,7 +217,7 @@ public class AuthenticationService {
     }
 
     public ChangePasswordResponse changePassword(ChangePasswordRequest request, HttpServletRequest actualRequest) {
-        final PasswordResetTokenEntity token = resetPasswordTokenService.findToken(request.getToken());
+        final PasswordTokenEntity token = resetPasswordTokenService.findToken(request.getToken());
         if (token == null) {
             return ChangePasswordResponse.builder()
                     .code(Code.failed)
@@ -229,7 +229,8 @@ public class AuthenticationService {
                     .build();
         } else {
             UserEntity user = repository.getReferenceById(token.getUser().getUserid());
-            changePassword(user,request.getNewPassword());
+            user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+            repository.save(user);
             resetPasswordTokenService.removeToken(token);
             return ChangePasswordResponse.builder()
                     .code(Code.success)

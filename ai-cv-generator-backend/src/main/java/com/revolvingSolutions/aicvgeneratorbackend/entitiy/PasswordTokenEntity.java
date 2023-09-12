@@ -14,14 +14,15 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "passwordResetToken")
-public class PasswordResetTokenEntity {
+@Entity()
+@Table(name = "PasswordToken")
+public class PasswordTokenEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(unique = true)
-    private String token;
+    private String passwordToken;
 
     @CreationTimestamp
     @Column(updatable = false)
@@ -32,7 +33,7 @@ public class PasswordResetTokenEntity {
     private LocalDateTime expireAt;
 
     @ManyToOne
-    @JoinColumn(nullable = false, name = "userid",referencedColumnName = "userid")
+    @JoinColumn(name = "userid",referencedColumnName = "userid")
     private UserEntity user;
 
 }

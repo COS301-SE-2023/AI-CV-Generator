@@ -1,8 +1,8 @@
 package com.revolvingSolutions.aicvgeneratorbackend.service;
 
-import com.revolvingSolutions.aicvgeneratorbackend.entitiy.PasswordResetTokenEntity;
+import com.revolvingSolutions.aicvgeneratorbackend.entitiy.PasswordTokenEntity;
 import com.revolvingSolutions.aicvgeneratorbackend.entitiy.UserEntity;
-import com.revolvingSolutions.aicvgeneratorbackend.repository.PasswordResetTokenEntityRepository;
+import com.revolvingSolutions.aicvgeneratorbackend.repository.PasswordTokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.keygen.BytesKeyGenerator;
 import org.springframework.security.crypto.keygen.KeyGenerators;
@@ -16,12 +16,12 @@ public class ResetPasswordTokenService {
     private static final BytesKeyGenerator TOKEN_GENERATOR = KeyGenerators.secureRandom();
     private static final int validationPeriod = 2000;
     @Autowired
-    private PasswordResetTokenEntityRepository passwordResetTokenRepository;
+    private PasswordTokenRepository passwordResetTokenRepository;
 
-    public PasswordResetTokenEntity generateToken(UserEntity user) {
+    public PasswordTokenEntity generateToken(UserEntity user) {
         String value = Base64.getUrlEncoder().encodeToString(TOKEN_GENERATOR.generateKey());
-        PasswordResetTokenEntity token = PasswordResetTokenEntity.builder()
-                .token(value)
+        PasswordTokenEntity token = PasswordTokenEntity.builder()
+                .passwordToken(value)
                 .expireAt(LocalDateTime.now().plusSeconds(validationPeriod))
                 .user(user)
                 .build();
@@ -29,12 +29,12 @@ public class ResetPasswordTokenService {
         return  token;
     }
 
-    public void removeToken(PasswordResetTokenEntity token) {
-        passwordResetTokenRepository.delete(token);
+    public void removeToken(PasswordTokenEntity passwordToken) {
+        passwordResetTokenRepository.delete(passwordToken);
     }
 
-    public PasswordResetTokenEntity findToken(String value) {
-        return  passwordResetTokenRepository.findByToken(value);
+    public PasswordTokenEntity findToken(String value) {
+        return  passwordResetTokenRepository.findByPasswordToken(value);
     }
 
 }
