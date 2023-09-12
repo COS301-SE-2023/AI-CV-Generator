@@ -9,11 +9,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-class TestQualificationsField extends StatelessWidget {
+class MockQualificationsField extends StatelessWidget {
   final TextEditingController qualificationC;
   final TextEditingController intstitutionC;
 
-  const TestQualificationsField({
+  const MockQualificationsField({
     Key? key,
     required this.qualificationC,
     required this.intstitutionC,
@@ -52,26 +52,64 @@ class TestQualificationsField extends StatelessWidget {
   }
 }
 
+class MockMessage extends StatelessWidget {
+  final String message;
+  final bool isSender;
+
+  const MockMessage({
+    required this.message,
+    required this.isSender,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(message);
+  }
+}
+
 void main(){
 
   group("Test chatbot", () {
-    testWidgets('Chatbot renders correctly', (WidgetTester tester) async {      
-      // Build the ChatBotView widget
-      await tester.pumpWidget(
+    testWidgets('Chatbot window should not be visible', (WidgetTester tester) async {
+      await tester.runAsync(() async {
+        await tester.pumpWidget(
         const MaterialApp(
-          home: Scaffold(
-            body: ChatBotView(),
+            home: Scaffold(
+              body: ChatBotView(),
+            ),
           ),
-        ),
-      );
+        );
 
-      // Wait for the widget tree to settle
-      await tester.pumpAndSettle();
+      
+        // Verify that the initial state is as expected
+        expect(find.text('AI CHAT BOT'), findsNothing);
+        expect(find.text('Type a message'), findsNothing);
+        expect(find.byIcon(Icons.send_rounded), findsNothing);
+        expect(find.byIcon(Icons.close), findsNothing);
+      });
+  });
 
-      // Verify that the initial state is as expected
-      //expect(find.widgetWithText(Text,"AI CHAT BOT"), findsOneWidget);
-      //expect(find.byType(IconButton), findsNWidgets(2)); // Two IconButton widgets should be present
+    testWidgets('Sending message to chatbot', (WidgetTester tester) async {
+      await tester.runAsync(() async {
 
+        const String message = "Hello";
+        bool isSender = true;
+        
+        await tester.pumpWidget(
+           MaterialApp(
+            home: Scaffold(
+              body: Message(
+                message: const Text(message), 
+                isSender: isSender),
+            ),
+          ),
+        );
+
+        expect(find.byKey(const Key('Message input')), findsOneWidget);
+        //await tester.pump();
+
+      });
     });
 });
 
@@ -105,7 +143,7 @@ void main(){
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: TestQualificationsField(
+            body: MockQualificationsField(
               qualificationC: qualificationController,
               intstitutionC: institutionController,
             ),
