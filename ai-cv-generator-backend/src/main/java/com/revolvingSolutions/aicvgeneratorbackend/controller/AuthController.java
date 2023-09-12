@@ -82,6 +82,18 @@ public class AuthController {
         }
     }
 
+    @PostMapping("/change")
+    public ResponseEntity<ChangePasswordResponse> changePassword(
+            @RequestBody ChangePasswordRequest request,
+            HttpServletRequest actualRequest
+    ) {
+        try {
+            return ResponseEntity.ok(service.changePassword(request,actualRequest));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatusCode.valueOf(403)).build();
+        }
+    }
+
     @PostMapping("/refresh")
     public ResponseEntity<AuthResponse> refresh(
             @RequestBody RefreshRequest request,
