@@ -11,7 +11,6 @@ import 'package:ai_cv_generator/pages/screens/help.dart';
 import 'package:ai_cv_generator/pages/screens/home.dart';
 import 'package:ai_cv_generator/pages/screens/job.dart';
 import 'package:ai_cv_generator/pages/screens/login.dart';
-import 'package:ai_cv_generator/pages/screens/resetSuccess.dart';
 import 'package:ai_cv_generator/pages/widgets/pdf_window.dart';
 import 'package:ai_cv_generator/pages/screens/profile.dart';
 
@@ -69,8 +68,7 @@ class MyApp extends StatelessWidget {
         '/help':(context) => const Help(),
         '/verify':(context) => EmailVerification(code: code,),
         '/validate':(context) => ChangePassword(code: code,),
-        '/forgot':(context) => const ForgotPassword(),
-        '/resetSuccess':(context) => const ResetSuccess()
+        '/forgot':(context) => const ForgotPassword()
       },
       onGenerateRoute: (settings) {
         if (settings.name == '/profile') {

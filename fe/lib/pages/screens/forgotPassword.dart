@@ -43,8 +43,8 @@ class ForgotPasswordState extends State<ForgotPasswordWidget> {
   showSuccess(String message) {
     showHappyMessage(message, context);
   }
-  toResetSuccess() {
-    Navigator.popAndPushNamed(context, "/resetSuccess");
+  toLogin() {
+    Navigator.pop(context);
   }
   bool wait = false;
   @override
@@ -100,10 +100,11 @@ class ForgotPasswordState extends State<ForgotPasswordWidget> {
                     });
                     Code resp = await AuthApi.reset(username: nameController.text, email: emailController.text);
                     if (resp == Code.success) {
+                      showSuccess("Please check your email for further instructions!");
                       setState(() {
                         wait = false;
                       });
-                      toResetSuccess();
+                      toLogin();
                     } else if (resp == Code.failed) {
                       showError("Invalid Credentials!!");
                       setState(() {
