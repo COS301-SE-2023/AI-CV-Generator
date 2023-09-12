@@ -40,6 +40,9 @@ class AuthenticationServiceTest {
     @Mock
     private RegistrationTokenService registrationTokenService;
 
+    @Mock
+    private ResetPasswordTokenService passwordTokenService;
+
     private AutoCloseable closeable;
     @BeforeEach
     void setUp() {
@@ -51,7 +54,8 @@ class AuthenticationServiceTest {
                 refreshTokenService,
                 authenticationManager,
                 emailService,
-                registrationTokenService
+                registrationTokenService,
+                passwordTokenService
         );
     }
 

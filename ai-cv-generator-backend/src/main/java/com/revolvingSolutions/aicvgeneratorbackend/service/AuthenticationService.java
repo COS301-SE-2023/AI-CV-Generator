@@ -1,33 +1,24 @@
 package com.revolvingSolutions.aicvgeneratorbackend.service;
 
-import com.revolvingSolutions.aicvgeneratorbackend.entitiy.RefreshToken;
-import com.revolvingSolutions.aicvgeneratorbackend.entitiy.RegistrationTokenEntity;
-import com.revolvingSolutions.aicvgeneratorbackend.entitiy.Role;
-import com.revolvingSolutions.aicvgeneratorbackend.entitiy.UserEntity;
+import com.revolvingSolutions.aicvgeneratorbackend.entitiy.*;
 import com.revolvingSolutions.aicvgeneratorbackend.exception.RefreshException;
-import com.revolvingSolutions.aicvgeneratorbackend.exception.UserAlreadyExistsException;
-import com.revolvingSolutions.aicvgeneratorbackend.model.email.Email;
+import com.revolvingSolutions.aicvgeneratorbackend.repository.PasswordResetTokenRepository;
 import com.revolvingSolutions.aicvgeneratorbackend.repository.UserRepository;
 import com.revolvingSolutions.aicvgeneratorbackend.request.auth.*;
 import com.revolvingSolutions.aicvgeneratorbackend.response.auth.*;
 import jakarta.mail.MessagingException;
-import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
+import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.Random;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -39,6 +30,7 @@ public class AuthenticationService {
      private final AuthenticationManager authenticationManager;
      private final EmailService emailService;
      private final RegistrationTokenService registrationTokenService;
+     private final ResetPasswordTokenService resetPasswordTokenService;
 
      @Value("${app.api.blockEmailVerification}")
      private Boolean requireEmailVerification;
@@ -184,6 +176,30 @@ public class AuthenticationService {
                 .token(token)
                 .refreshToken(refreshToken)
                 .build();
+    }
+
+    public ResetPasswordResponse reset(ResetPasswordRequest request, HttpServletRequest actualRequest) {
+        UserEntity user = repository.findByUsername(request.getUsername()).orElseThrow();
+        if (!user.getEmail().matches(request.getEmail())) {
+            return ResetPasswordResponse.builder()
+                    .code(Code.failed)
+                    .build();
+        }
+        try {
+            PasswordResetTokenEntity token = resetPasswordTokenService.generateToken(user);
+            emailService.sendPasswordResetEmail(
+                    user.getEmail(),(user.getFname()+" "+user.getLname()),
+                    request.getSiteUrl(),
+                    token.getToken()
+            );
+            return ResetPasswordResponse.builder()
+                    .code(Code.success)
+                    .build();
+        } catch (MessagingException | UnsupportedEncodingException e) {
+            return ResetPasswordResponse.builder()
+                    .code(Code.failed)
+                    .build();
+        }
     }
 
     public AuthResponse refresh(RefreshRequest request, HttpServletRequest actualRequest) {

@@ -1,10 +1,7 @@
 package com.revolvingSolutions.aicvgeneratorbackend.controller;
 
 import com.revolvingSolutions.aicvgeneratorbackend.request.auth.*;
-import com.revolvingSolutions.aicvgeneratorbackend.response.auth.AuthResponse;
-import com.revolvingSolutions.aicvgeneratorbackend.response.auth.RegisterResponse;
-import com.revolvingSolutions.aicvgeneratorbackend.response.auth.ResendEmailResponse;
-import com.revolvingSolutions.aicvgeneratorbackend.response.auth.VerificationResponse;
+import com.revolvingSolutions.aicvgeneratorbackend.response.auth.*;
 import com.revolvingSolutions.aicvgeneratorbackend.service.AuthenticationService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -58,6 +55,18 @@ public class AuthController {
             return ResponseEntity.ok(service.resendEmail(request,actualRequest));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatusCode.valueOf(405)).build();
+        }
+    }
+
+    @PostMapping("/reset")
+    public ResponseEntity<ResetPasswordResponse> reset(
+            @RequestBody ResetPasswordRequest request,
+            HttpServletRequest actualRequest
+    ) {
+        try {
+            return ResponseEntity.ok(service.reset(request,actualRequest));
+        } catch (Exception e) {
+            return  ResponseEntity.status(HttpStatusCode.valueOf(403)).build();
         }
     }
 

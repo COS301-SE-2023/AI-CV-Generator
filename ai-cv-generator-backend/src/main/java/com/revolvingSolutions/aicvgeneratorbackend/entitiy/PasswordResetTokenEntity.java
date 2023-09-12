@@ -5,25 +5,34 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
-import java.util.Date;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "passwordResetToken")
-public class PasswordResetToken {
-    private static final int EXPIRATION_TIME = 60*24;
+public class PasswordResetTokenEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true)
     private String token;
+
+    @CreationTimestamp
+    @Column(updatable = false)
+    private Timestamp timestamp;
+
+    @Column(updatable = false)
+    @Basic(optional = false)
+    private LocalDateTime expireAt;
 
     @OneToOne(targetEntity = UserEntity.class, fetch = FetchType.EAGER)
     @JoinColumn(nullable = false, name = "userid")
     private UserEntity user;
 
-    private Date expirationDate;
 }
