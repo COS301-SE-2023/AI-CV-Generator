@@ -61,99 +61,101 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     }
     return Padding(
         padding: const EdgeInsets.all(10),
-        child: ListView(
-          children: <Widget>[
-            Container(
-                alignment: Alignment.center,
-                padding: EdgeInsets.all(1*w),
-                child: const Image(image: ResizeImage(AssetImage('assets/images/logo.png'),width:350,height:350),fit: BoxFit.contain,)
-                ),
-            Container(
-                alignment: Alignment.center,
-                padding: EdgeInsets.fromLTRB(2*w, 1*h, 2*w, 1*h),
-                child: const Text(
-                  'Log in',
-                  style: TextStyle(fontSize: 20),
-                )),
-            Container(
-              padding: EdgeInsets.fromLTRB(33*w, 1*h, 33*w, 1*h),
-              child: TextField(
-                key: const Key('name'),
-                controller: nameController,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'User Name',
-                ),
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.fromLTRB(33*w, 1*h, 33*w, 1*h),
-              child: TextField(
-                key: const Key('password'),
-                obscureText: true,
-                controller: passwordController,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Password',
-                ),
-              ),
-            ),
-            TextButton(
-              onPressed: () {
-                forgotPassword();
-              },
-              child: const Text('Forgot Password',),
-            ),
-            Container(
-                height: 50,
-                padding: EdgeInsets.fromLTRB(38*w, 1*h, 38*w, 1*h),
-                child: ElevatedButton(
-                  key: const Key('login'),
-                  child: const Text('Login'),
-                  onPressed: () async {
-                    setState(() {
-                      wait = true;
-                    });
-                    Code resp = await AuthApi.login(username: nameController.text,password: passwordController.text);
-                    if (resp == Code.success) {
-                      setState(() {
-                        wait = false;
-                      });
-                      home();
-                    } else if (resp == Code.failed) {
-                      showError("Invalid Login!");
-                      setState(() {
-                        wait = false;
-                      });
-                    } else if (resp == Code.requestFailed) {
-                      showError("Something went wrong!!");
-                      setState(() {
-                        wait = false;
-                      });
-                    } else if (resp == Code.notEnabled) {
-                      await AuthApi.resendEmail(username: nameController.text, password: passwordController.text);
-                      confirm();
-                    }
-                  },
-                )
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                const Text('Do not have an Account yet?'),
-                TextButton(
-                  key: const Key('create_account'),
-                  child: const Text(
-                    'Create Account',
-                    style: TextStyle(fontSize: 20),
+        child: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              Container(
+                  alignment: Alignment.center,
+                  padding: EdgeInsets.all(1*w),
+                  child: const Image(image: ResizeImage(AssetImage('assets/images/logo.png'),width:350,height:350),fit: BoxFit.contain,)
                   ),
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/register');
-                  },
-                )
-              ],
-            ),
-          ],
+              Container(
+                  alignment: Alignment.center,
+                  padding: EdgeInsets.fromLTRB(2*w, 1*h, 2*w, 1*h),
+                  child: const Text(
+                    'Log in',
+                    style: TextStyle(fontSize: 20),
+                  )),
+              Container(
+                padding: EdgeInsets.fromLTRB(33*w, 1*h, 33*w, 1*h),
+                child: TextField(
+                  key: const Key('name'),
+                  controller: nameController,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'User Name',
+                  ),
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.fromLTRB(33*w, 1*h, 33*w, 1*h),
+                child: TextField(
+                  key: const Key('password'),
+                  obscureText: true,
+                  controller: passwordController,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Password',
+                  ),
+                ),
+              ),
+              TextButton(
+                onPressed: () {
+                  forgotPassword();
+                },
+                child: const Text('Forgot Password',),
+              ),
+              Container(
+                  height: 40,
+                  width: 250,
+                  child: ElevatedButton(
+                    key: const Key('login'),
+                    child: const Text('Login'),
+                    onPressed: () async {
+                      setState(() {
+                        wait = true;
+                      });
+                      Code resp = await AuthApi.login(username: nameController.text,password: passwordController.text);
+                      if (resp == Code.success) {
+                        setState(() {
+                          wait = false;
+                        });
+                        home();
+                      } else if (resp == Code.failed) {
+                        showError("Invalid Login!");
+                        setState(() {
+                          wait = false;
+                        });
+                      } else if (resp == Code.requestFailed) {
+                        showError("Something went wrong!!");
+                        setState(() {
+                          wait = false;
+                        });
+                      } else if (resp == Code.notEnabled) {
+                        await AuthApi.resendEmail(username: nameController.text, password: passwordController.text);
+                        confirm();
+                      }
+                    },
+                  )
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  const Text('Do not have an Account yet?'),
+                  TextButton(
+                    key: const Key('create_account'),
+                    child: const Text(
+                      'Create Account',
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/register');
+                    },
+                  )
+                ],
+              ),
+            ],
+          )
         )
       );
   }
