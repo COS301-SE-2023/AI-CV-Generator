@@ -441,6 +441,7 @@ class _HomeState extends State<Home> {
                         children: [
                           Row(
                             children: [
+                              SizedBox(width: 40,),
                               SizedBox(
                                 height: 40,
                                 width: 100, 
@@ -498,7 +499,7 @@ class _HomeState extends State<Home> {
                               child: Text("SURVEY", style: textStyle),
                             ),
                           ),
-                          const SizedBox(width: 43,),
+                          SizedBox(width: 16,),
                           SizedBox(
                             height: 40,
                             width: 100, 
@@ -554,20 +555,20 @@ class _HomeState extends State<Home> {
                             ),
                           ),
                           const SizedBox(width: 48,),
-                          Expanded(
-                            flex: 2,
-                            child: Text(
+                          // Expanded(
+                          //   flex: 2,
+                            Text(
                               filenameC.text,
                               style: textStyle
                             ),
-                          ),
+                          // ),
                         ],
                       ),
                       const SizedBox(height: 12,),
                       if(uploadFile != null || generatedFile != null)
                     
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           SizedBox(
                             height:40,
@@ -579,6 +580,7 @@ class _HomeState extends State<Home> {
                               child: Text("GENERATE", style: textStyle),
                             ),
                           ),
+                          SizedBox(width: 16,),
                           SizedBox(
                             height: 40,
                             width: 100,
@@ -593,6 +595,7 @@ class _HomeState extends State<Home> {
                               child: Text("SHARE", style: textStyle),
                             ),
                           ),
+                          SizedBox(width: 16,),
                           SizedBox(
                             height: 40,
                             width: 100,
@@ -605,6 +608,7 @@ class _HomeState extends State<Home> {
                               }, child: Text("DOWNLOAD", style: textStyle),
                             ),
                           ),
+                          SizedBox(width: 16,),
                           SizedBox(
                             height: 40,
                             width: 100,
