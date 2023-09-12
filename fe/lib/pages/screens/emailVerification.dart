@@ -61,7 +61,7 @@ class EmailVerificationState extends State<EmailVerification> {
                           if (response == Code.success) {
                             toLogin();
                           } else if (response == Code.expired) {
-                            showError("Unfortunatley this token is expired please register again");
+                            showError("Unfortunatley this token is expired please resend verification email again");
                             setState(() {
                               
                             });

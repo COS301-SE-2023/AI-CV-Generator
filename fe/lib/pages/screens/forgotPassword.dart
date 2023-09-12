@@ -39,6 +39,9 @@ class ForgotPasswordState extends State<ForgotPasswordWidget> {
   showError(String message) {
     showMessage(message, context);
   }
+  toResetSuccess() {
+    Navigator.popAndPushNamed(context, "/resetSuccess");
+  }
   bool wait = false;
   @override
   Widget build(BuildContext context) {
@@ -96,7 +99,7 @@ class ForgotPasswordState extends State<ForgotPasswordWidget> {
                     if (resp == Code.success) {
                       
                     } else if (resp == Code.failed) {
-                      showError("Invalid Login!");
+                      showError("Invalid Credentials!!");
                       setState(() {
                         wait = false;
                       });
