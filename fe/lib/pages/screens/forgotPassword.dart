@@ -73,7 +73,7 @@ class ForgotPasswordState extends State<ForgotPasswordWidget> {
                 controller: nameController,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
-                  labelText: 'User Name',
+                  labelText: 'Username',
                 ),
               ),
             ),
@@ -88,9 +88,12 @@ class ForgotPasswordState extends State<ForgotPasswordWidget> {
                 ),
               ),
             ),
+            const SizedBox(
+              height: 16,
+            ),
             Container(
-                height: 50,
-                padding: const EdgeInsets.fromLTRB(600, 0, 600, 0),
+                height: 40,
+                padding: const EdgeInsets.fromLTRB(630, 0, 630, 0),
                 child: ElevatedButton(
                   key: const Key('forgotPassword'),
                   child: const Text('Send Verification Code'),
