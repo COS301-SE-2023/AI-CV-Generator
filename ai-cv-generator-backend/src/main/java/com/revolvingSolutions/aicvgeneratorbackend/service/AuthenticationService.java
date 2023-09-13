@@ -22,7 +22,7 @@ import java.time.LocalDateTime;
 public class AuthenticationService {
      private  final UserRepository repository;
      private final PasswordEncoder passwordEncoder;
-     private final  AuthService authService;
+     private final AuthService authService;
      private final RefreshTokenService refreshTokenService;
      private final AuthenticationManager authenticationManager;
      private final EmailService emailService;
