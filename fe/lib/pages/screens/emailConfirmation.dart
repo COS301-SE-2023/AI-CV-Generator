@@ -1,5 +1,7 @@
 import 'package:ai_cv_generator/dio/client/AuthApi.dart';
 import 'package:ai_cv_generator/dio/response/AuthResponses/Code.dart';
+import 'package:ai_cv_generator/pages/util/errorMessage.dart';
+import 'package:ai_cv_generator/pages/util/successMessage.dart';
 import 'package:flutter/material.dart';
 
 class EmailConfirmationArguments{
@@ -12,7 +14,9 @@ class EmailConfirmationArguments{
 }
 
 class EmailConfirmation extends StatelessWidget {
-  const  EmailConfirmation({Key? key}) : super(key: key);
+  const  EmailConfirmation({Key? key, this.username, this.password}) : super(key: key);
+  final String? username;
+  final String? password;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,13 +31,15 @@ class EmailConfirmation extends StatelessWidget {
           icon: const Icon(Icons.arrow_back,color: Colors.black,)
         ),
       ),
-        body: const MyStatefulWidget(),
+        body: MyStatefulWidget(username: username,password: password,),
     );
   }
 }
  
 class MyStatefulWidget extends StatefulWidget {
-  const MyStatefulWidget({Key? key}) : super(key: key);
+  const MyStatefulWidget({Key? key,this.username,this.password }) : super(key: key);
+  final String? username;
+  final String? password;
  
   @override
   State<MyStatefulWidget> createState() => _MyStatefulWidgetState();
@@ -45,7 +51,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   Color? p2textColor;
 
   void backToLogin() {
-    Navigator.popAndPushNamed(context, "/");
+    Navigator.pop(context);
   }
 
   TextEditingController errorMessage = TextEditingController(text: "Error");
@@ -56,141 +62,125 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     }
   }
 
+  @override
+  void initState() {
+    
+    super.initState();
+  }
+
+  showError(String message) {
+    showMessage(message, context);
+  }
+  showSuccess(String message) {
+    showHappyMessage(message, context);
+  }
+
  
   @override
   Widget build(BuildContext context) {
-    final args = ModalRoute.of(context)!.settings.arguments as EmailConfirmationArguments;
-    void confirm() {
-      Navigator.popAndPushNamed(
-        context, '/confirm',
-        arguments: EmailConfirmationArguments(
-          username: args.username,
-          password: args.password
-        )
-      );
-    }
+    String? username = widget.username;
+    String? password = widget.password;
+    Size screenSize = MediaQuery.of(context).size;
+    double w = screenSize.width/100;
+    double h = screenSize.height/100; 
     return Scaffold(
-          body: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Container(
-                alignment: Alignment.center,
-                padding: const EdgeInsets.fromLTRB(10, 30, 100, 10),
-                child: const Image(
-                  image: ResizeImage(
-                    AssetImage('assets/images/logo.png'),
-                    width:350,
-                    height:350
-                    ),
-                  )
-                ),
-            Column(
+          body: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text("Check your inbox",
-                      style: TextStyle(fontSize: 28, color: Theme.of(context).colorScheme.primary),
-                      ),
-                      SizedBox(width: 16,),
-                      Icon(Icons.email, color: Theme.of(context).colorScheme.primary),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 16,
-                  ),
-                  Text("Click on the link in the email to complete the verification process", style: TextStyle(fontSize: 16)),
-                ],
-              ),
-              SizedBox(
-                height: 8,
-              ),
-                Column(
-                  children: [
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
                     Container(
-                      child: TextButton(
-                        onPressed: () async {
-                          //Code code = await AuthApi.register(username: args.username, password: args.password, email: args.email, fname: args.fname, lname: args.lname);
-                          Code code = await AuthApi.resendEmail(username: args.username, password: args.password);
-                          if (code == Code.success) {
-                            error = false;
-                            confirm();
-                          } else {
-                            error = true;
-                            errorMessage.text = "Unknown error occurred!";
-                            setState(() {
-                              
-                            });
-                          }
-                        }, 
-                        child: Text(
-                          "Resend Email?",
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.primary
+                        alignment: Alignment.center,
+                        padding: EdgeInsets.fromLTRB(1*w, 3*h, 10*w, 1*h),
+                        child: const Image(
+                          image: ResizeImage(
+                            AssetImage('assets/images/logo.png'),
+                            width:350,
+                            height:350
+                            ),
+                            fit: BoxFit.contain,
+                          )
+                        ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text("Check your inbox",
+                              style: TextStyle(fontSize: 28, color: Theme.of(context).colorScheme.primary),
+                              ),
+                              SizedBox(width: 1.6*w,),
+                              Icon(Icons.email, color: Theme.of(context).colorScheme.primary),
+                            ],
                           ),
-                        )
-                      ),
-                    ),
-                    SizedBox(
-                      height: 24,
-                    ),
-                    Container(
-                      height: 40,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          backToLogin();
-                        }, 
-                        child: const Text(
-                          "Login",
-                          style: TextStyle(
-                            color: Colors.black
+                          SizedBox(
+                            height: 1.6*h,
                           ),
-                        )
+                          const Text("Click on the link in the email to complete the verification process", style: TextStyle(fontSize: 16)),
+                        ],
                       ),
-                    ),
-                    if (error)
-                    Center(
-                      child: Container(
-                        padding: const EdgeInsets.fromLTRB(500, 10, 500, 10),
-                        child: StreamBuilder<String>(
-                          stream: sampleListener(errorMessage),
-                          builder: (context, AsyncSnapshot<String> snapshot) {
-                            if (snapshot.hasError || snapshot.data == null) {
-                              return const Text(
-                                "",
-                                style: TextStyle(
-                                  color: Colors.red,
-                                  fontSize: 20,
-                                  backgroundColor: Color.fromARGB(0, 186, 40, 40)
-                                ),
-                              );
-                            } else {
-                              return Text(
-                                snapshot.data as String,
-                                style: const TextStyle(
-                                  color: Colors.red,
-                                  fontSize: 20,
-                                  backgroundColor: Color.fromARGB(0, 186, 40, 40)
-                                ),
-                              );
-                            }
-                          }
+                      SizedBox(
+                        height: 0.8*h,
+                      ),
+                        Column(
+                          children: [
+                            Container(
+                              child: TextButton(
+                                onPressed: () async {
+                                  Code code = await AuthApi.resendEmail(username: username!, password: password!);
+                                  if (code == Code.success) {
+                                    showSuccess("Email sent!!");
+                                  } else {
+                                    showError("Unknown error occurred!");
+                                    setState(() {
+                                      
+                                    });
+                                  }
+                                }, 
+                                child: Text(
+                                  "Resend Email?",
+                                  style: TextStyle(
+                                    color: Theme.of(context).colorScheme.primary
+                                  ),
+                                )
+                              ),
+                            ),
+                            SizedBox(
+                              height: 2.4*h,
+                            ),
+                            Container(
+                              height: 4*h,
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  backToLogin();
+                                }, 
+                                child: const Text(
+                                  "Login",
+                                  style: TextStyle(
+                                    color: Colors.black
+                                  ),
+                                )
+                              ),
+                            ),
+                          ],
                         )
-                      )
-                    )
+                        
+                      ],
+                    ),
                   ],
-                )
-                
-              ],
-            ),
-          ],
-      ));
+              )
+            ]
+          )
+      
+    );
   }
 }

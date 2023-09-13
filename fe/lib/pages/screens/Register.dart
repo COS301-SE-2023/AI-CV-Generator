@@ -43,13 +43,11 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   TextEditingController passwordRetypeController = TextEditingController();
 
   void confirm() {
-    Navigator.pushNamed(
-      context, '/confirm',
-      arguments: EmailConfirmationArguments(
-        username: nameController.text,
-        password: passwordController.text,
-      )
+    Navigator.push(
+      context, 
+      MaterialPageRoute(builder: (context) => EmailConfirmation(username: nameController.text,password: passwordController.text,))
     );
+    Navigator.pop(context);
   } 
   
   bool wait = false;

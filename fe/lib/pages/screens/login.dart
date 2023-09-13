@@ -42,12 +42,9 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   }
 
   confirm() {
-    Navigator.popAndPushNamed(
-      context, '/confirm',
-      arguments: EmailConfirmationArguments(
-        username: nameController.text,
-        password: passwordController.text,
-      )
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => EmailConfirmation(username: nameController.text, password: passwordController.text,))
     );
   }
  
@@ -142,6 +139,9 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                         });
                       } else if (resp == Code.notEnabled) {
                         await AuthApi.resendEmail(username: nameController.text, password: passwordController.text);
+                        setState(() {
+                          wait = false;
+                        });
                         confirm();
                       }
                     },
