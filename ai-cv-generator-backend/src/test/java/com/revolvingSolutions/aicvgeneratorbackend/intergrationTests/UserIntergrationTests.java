@@ -542,4 +542,6 @@ public class UserIntergrationTests {
         assertThat(response.getBody().getQualifications().get(0).getQualification().matches("Qualification")).isTrue();
         assertThat(response.getBody().getQualifications().get(0).getIntstitution().matches("Instatution")).isTrue();
     }
+
+
 }

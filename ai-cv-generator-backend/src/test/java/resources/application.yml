@@ -13,6 +13,7 @@ spring:
         format_sql: true
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
+app.key: 0601d109d0d2b0fa9c4484b4a5c94ee5ecc62ccec3bd7d99e972d18994d0e2e42f6d0fcfc41216a5ab72ee7af96d213e1c314abdde40f52731ff24c2bf8f7323
 app.tokenExpire-factor: 90
 app.api.connectTimeout: 3000
 app.api.requestTimeout: 3000
