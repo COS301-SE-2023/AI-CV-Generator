@@ -22,7 +22,7 @@ class EmailVerificationState extends State<EmailVerification> {
   }
 
   @override
-  Widget build(Object context) {
+  Widget build(BuildContext context) {
     return Scaffold(
           body: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -43,19 +43,18 @@ class EmailVerificationState extends State<EmailVerification> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const Text(
+                Text(
                   "Please verify your account to continue",
-                  style: TextStyle(
-                    color: Colors.grey,
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold
-                  ),
+                  style: TextStyle(fontSize: 28, color: Theme.of(context).colorScheme.primary),
+                ),
+                SizedBox(
+                  height: 48,
                 ),
                 Row(
                   children: [
                     Container(
-                      padding: const EdgeInsets.all(40),
-                      child: FloatingActionButton(
+                      height: 40,
+                      child: ElevatedButton(
                         onPressed: () async {
                           Code response = await AuthApi.verify(code: widget.code!);
                           if (response == Code.success) {
@@ -75,7 +74,7 @@ class EmailVerificationState extends State<EmailVerification> {
                         child: const Text(
                           "Verify",
                           style: TextStyle(
-                            color: Colors.white
+                            color: Colors.black
                           ),
                         )
                       ),

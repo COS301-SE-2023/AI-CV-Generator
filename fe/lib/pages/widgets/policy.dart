@@ -33,9 +33,10 @@ class Policy extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(radius)
       ),
-      child: SizedBox(
+      child: Container(
+        padding: EdgeInsets.all(24),
         width: 700,
-        height: 400,
+        height: 600,
         child:
         Column(
           children: [
@@ -53,22 +54,28 @@ class Policy extends StatelessWidget {
                         ),
                         h1: const TextStyle(
                           color: Colors.grey,
-                          fontSize: 30
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold
                         ),
                         h2: const TextStyle(
                           color: Colors.grey,
-                          fontSize: 20
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold
                         ),
                         h3: const TextStyle(
                           color: Colors.grey,
                           fontSize: 15
                         ),
+                        blockSpacing: 10
                       ),
                     );
                   }
                   return const LoadingScreen();
                 }
               )
+            ),
+            SizedBox(
+              height: 16,
             ),
             TextButton(
               onPressed: () => Navigator.of(context).pop(),

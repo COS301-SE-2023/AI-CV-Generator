@@ -83,7 +83,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   controller: nameController,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
-                    labelText: 'User Name',
+                    labelText: 'Username',
                   ),
                 ),
               ),
@@ -103,7 +103,16 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 onPressed: () {
                   forgotPassword();
                 },
-                child: const Text('Forgot Password',),
+                child: const Text(
+                  'Forgot your password?',
+                  style: TextStyle(
+                    decoration: TextDecoration.underline,
+                  ),
+                ),
+                
+              ),
+              const SizedBox(
+                height: 16,
               ),
               Container(
                   height: 40,
@@ -138,15 +147,20 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     },
                   )
               ),
+              const SizedBox(
+                height: 16,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  const Text('Do not have an Account yet?'),
+                  const Text('Don\'t have an account yet?'),
                   TextButton(
                     key: const Key('create_account'),
                     child: const Text(
-                      'Create Account',
-                      style: TextStyle(fontSize: 20),
+                      'Register here',
+                      style: TextStyle(
+                        decoration: TextDecoration.underline,
+                      ),
                     ),
                     onPressed: () {
                       Navigator.pushNamed(context, '/register');
