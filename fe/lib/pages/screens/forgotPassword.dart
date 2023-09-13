@@ -2,6 +2,7 @@ import 'package:ai_cv_generator/dio/client/AuthApi.dart';
 import 'package:ai_cv_generator/dio/response/AuthResponses/Code.dart';
 import 'package:ai_cv_generator/pages/util/errorMessage.dart';
 import 'package:ai_cv_generator/pages/util/successMessage.dart';
+import 'package:ai_cv_generator/pages/widgets/buttons/generalTextButtonLarge.dart';
 import 'package:ai_cv_generator/pages/widgets/loadingscreens/loadingScreen.dart';
 import 'package:flutter/material.dart';
 
@@ -49,25 +50,27 @@ class ForgotPasswordState extends State<ForgotPasswordWidget> {
   bool wait = false;
   @override
   Widget build(BuildContext context) {
+    Size screenSize = MediaQuery.of(context).size;
+    double w = screenSize.width/100;
+    double h = screenSize.height/100; 
     if (wait) return const LoadingScreen();
-    return Padding(
-      padding: const EdgeInsets.all(10),
-      child: ListView(
+    return SingleChildScrollView(
+      child: Column(
         children: <Widget>[
           Container(
                 alignment: Alignment.center,
-                padding: const EdgeInsets.all(10),
+                padding: EdgeInsets.all(1*w),
                 child: const Image(image: ResizeImage(AssetImage('assets/images/logo.png'),width:350,height:350),)
                 ),
             Container(
                 alignment: Alignment.center,
-                padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                padding: EdgeInsets.fromLTRB(2*w, 1*h, 2*w, 1*h),
                 child: const Text(
                   'Forgot Password',
                   style: TextStyle(fontSize: 20),
                 )),
             Container(
-              padding: const EdgeInsets.fromLTRB(500, 10, 500, 10),
+              padding: EdgeInsets.fromLTRB(33*w, 1*h, 33*w, 1*h),
               child: TextField(
                 key: const Key('name'),
                 controller: nameController,
@@ -78,7 +81,7 @@ class ForgotPasswordState extends State<ForgotPasswordWidget> {
               ),
             ),
             Container(
-              padding: const EdgeInsets.fromLTRB(500, 10, 500, 10),
+              padding: EdgeInsets.fromLTRB(33*w, 1*h, 33*w, 1*h),
               child: TextField(
                 key: const Key('email'),
                 controller: emailController,
@@ -88,16 +91,16 @@ class ForgotPasswordState extends State<ForgotPasswordWidget> {
                 ),
               ),
             ),
-            const SizedBox(
-              height: 16,
+            SizedBox(
+              height: 3*h,
             ),
-            Container(
-                height: 40,
-                padding: const EdgeInsets.fromLTRB(630, 0, 630, 0),
-                child: ElevatedButton(
+            SizedBox(
+                height: 5*h,
+                width: 15*w,
+                child: InkWell(
                   key: const Key('forgotPassword'),
-                  child: const Text('Send Verification Code'),
-                  onPressed: () async {
+                  child: const GeneralButtonStyleLarge(text: "Send Verification Code"),
+                  onTap: () async {
                     setState(() {
                       wait = true;
                     });
