@@ -325,106 +325,109 @@ class _HomeState extends State<Home> {
                         children: [
                           const Align(
                             alignment: Alignment.topCenter,
-                            child: Text("TEMPLATES", style: TextStyle(fontSize: 16),),
+                            child: Text(
+                              "TEMPLATES",
+                              style: TextStyle(fontSize: 16),
+                              ),
                           ),
+                          const SizedBox(height: 16,),
                           SingleChildScrollView(
-                            
                             child: SizedBox(
                               height: 499,
                               child: GridView.count(
                                 crossAxisCount: 1,
                                 children:[
-                                Container(
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: tempA,
-                                      width: 5
-                                    )
-                                  ),
-                                  padding: const EdgeInsets.fromLTRB(0,5, 0,5),
-                                  child: MouseRegion(
-                                    cursor: SystemMouseCursors.click,
-                                    child: GestureDetector(
-                                      onTap: () async {
-                                        if (tem != Template.templateA) {
-                                          tem = Template.templateA;
-                                          tempA = Colors.blue;
-                                          tempB = tempC= Colors.transparent;
-                                          if (ready) {
-                                            templateAPdf = TemplateA(data: cvdata!);
-                                            editPage = templateAPdf;
-                                            generatedFile = await templateAPdf!.transform();
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                        color: tempA,
+                                        width: 1
+                                      )
+                                    ),
+                                    padding: const EdgeInsets.fromLTRB(0,5, 0,5),
+                                    child: MouseRegion(
+                                      cursor: SystemMouseCursors.click,
+                                      child: GestureDetector(
+                                        onTap: () async {
+                                          if (tem != Template.templateA) {
+                                            tem = Template.templateA;
+                                            tempA = Colors.blue;
+                                            tempB = tempC= Colors.transparent;
+                                            if (ready) {
+                                              templateAPdf = TemplateA(data: cvdata!);
+                                              editPage = templateAPdf;
+                                              generatedFile = await templateAPdf!.transform();
+                                            }
+                                            setState(() {
+                                              
+                                            });
                                           }
-                                          setState(() {
-                                            
-                                          });
-                                        }
-                                      },
-                                      child: Image(image: Image.asset("assets/images/TemplateAAsset.jpg").image,height: 250,width: 100,),
-                                    )
-                                  ),
-                                ),
-                                Container(
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: tempB,
-                                      width: 5
+                                        },
+                                        child: Image(image: Image.asset("assets/images/TemplateAAsset.jpg").image,height: 250,width: 100,),
+                                      )
                                     ),
                                   ),
-                                  padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
-                                  child: MouseRegion(
-                                    cursor: SystemMouseCursors.click,
-                                    child: GestureDetector(
-                                      onTap: () async {
-                                        if (tem != Template.templateB) {
-                                          tem = Template.templateB;
-                                          tempB = Colors.blue;
-                                          tempA = tempC = Colors.transparent;
-                                          if (ready) {
-                                            templateBPdf = TemplateB(data: cvdata!);
-                                            editPage = templateBPdf;
-                                            generatedFile = await templateBPdf!.transform();
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                        color: tempB,
+                                        width: 1
+                                      ),
+                                    ),
+                                    padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+                                    child: MouseRegion(
+                                      cursor: SystemMouseCursors.click,
+                                      child: GestureDetector(
+                                        onTap: () async {
+                                          if (tem != Template.templateB) {
+                                            tem = Template.templateB;
+                                            tempB = Colors.blue;
+                                            tempA = tempC = Colors.transparent;
+                                            if (ready) {
+                                              templateBPdf = TemplateB(data: cvdata!);
+                                              editPage = templateBPdf;
+                                              generatedFile = await templateBPdf!.transform();
+                                            }
+                                            setState(() {
+                                                
+                                            });
                                           }
-                                          setState(() {
-                                              
-                                          });
-                                        }
-                                      },
-                                      child: Image(image: Image.asset("assets/images/TemplateBAsset.png").image,height: 250,width: 100,),
-                                    )
-                                  ),
-                                ),
-                                Container(
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: tempC,
-                                      width: 5
+                                        },
+                                        child: Image(image: Image.asset("assets/images/TemplateBAsset.png").image,height: 250,width: 100,),
+                                      )
                                     ),
                                   ),
-                                  padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
-                                  child: MouseRegion(
-                                    cursor: SystemMouseCursors.click,
-                                    child: GestureDetector(
-                                      onTap: () async {
-                                        if (tem != Template.templateC) {
-                                          tem = Template.templateC;
-                                          tempC = Colors.blue;
-                                          tempB = tempA = Colors.transparent;
-                                          if (ready) {
-                                            templateCPdf = TemplateC(data: cvdata!);
-                                            editPage = templateCPdf;
-                                            generatedFile = await templateCPdf!.transform();
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                        color: tempC,
+                                        width: 1
+                                      ),
+                                    ),
+                                    padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+                                    child: MouseRegion(
+                                      cursor: SystemMouseCursors.click,
+                                      child: GestureDetector(
+                                        onTap: () async {
+                                          if (tem != Template.templateC) {
+                                            tem = Template.templateC;
+                                            tempC = Colors.blue;
+                                            tempB = tempA = Colors.transparent;
+                                            if (ready) {
+                                              templateCPdf = TemplateC(data: cvdata!);
+                                              editPage = templateCPdf;
+                                              generatedFile = await templateCPdf!.transform();
+                                            }
+                                            setState(() {
+                                                
+                                            });
                                           }
-                                          setState(() {
-                                              
-                                          });
-                                        }
-                                      },
-                                      child: Image(image: Image.asset("assets/images/TemplateCAsset.jpg").image,height: 250,width: 100,),
-                                    )
-                                  ),
-                                )
-                              ],
+                                        },
+                                        child: Image(image: Image.asset("assets/images/TemplateCAsset.jpg").image,height: 250,width: 100,),
+                                      )
+                                    ),
+                                  )
+                                ],
                               )
                             ),
                           )
@@ -441,6 +444,7 @@ class _HomeState extends State<Home> {
                         children: [
                           Row(
                             children: [
+                              SizedBox(width: 40,),
                               SizedBox(
                                 height: 40,
                                 width: 100, 
@@ -451,6 +455,7 @@ class _HomeState extends State<Home> {
                                       context: context, 
                                       builder: (BuildContext context) {
                                         return Dialog(
+                                          backgroundColor: Colors.transparent,
                                           child: ConstrainedBox(
                                             constraints: const BoxConstraints(maxWidth: 800),
                                             child: PersonalDetailsForm()
@@ -497,7 +502,7 @@ class _HomeState extends State<Home> {
                               child: Text("SURVEY", style: textStyle),
                             ),
                           ),
-                          const SizedBox(width: 43,),
+                          SizedBox(width: 16,),
                           SizedBox(
                             height: 40,
                             width: 100, 
@@ -553,20 +558,20 @@ class _HomeState extends State<Home> {
                             ),
                           ),
                           const SizedBox(width: 48,),
-                          Expanded(
-                            flex: 2,
-                            child: Text(
+                          // Expanded(
+                          //   flex: 2,
+                            Text(
                               filenameC.text,
                               style: textStyle
                             ),
-                          ),
+                          // ),
                         ],
                       ),
                       const SizedBox(height: 12,),
                       if(uploadFile != null || generatedFile != null)
                     
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           SizedBox(
                             height:40,
@@ -578,6 +583,7 @@ class _HomeState extends State<Home> {
                               child: Text("GENERATE", style: textStyle),
                             ),
                           ),
+                          SizedBox(width: 16,),
                           SizedBox(
                             height: 40,
                             width: 100,
@@ -592,6 +598,7 @@ class _HomeState extends State<Home> {
                               child: Text("SHARE", style: textStyle),
                             ),
                           ),
+                          SizedBox(width: 16,),
                           SizedBox(
                             height: 40,
                             width: 100,
@@ -604,6 +611,7 @@ class _HomeState extends State<Home> {
                               }, child: Text("DOWNLOAD", style: textStyle),
                             ),
                           ),
+                          SizedBox(width: 16,),
                           SizedBox(
                             height: 40,
                             width: 100,
@@ -656,7 +664,16 @@ class _HomeState extends State<Home> {
                           color: Theme.of(context).colorScheme.surface,
                         ),
                         child: SizedBox.expand(
-                          child: Center(child: CVHistory(context: context,list: list,axis: Axis.vertical,),)
+                          child: Center(
+                            child: Transform.scale(
+                              scale: 0.9,
+                              child: CVHistory(
+                                context: context,
+                                list: list,
+                                axis: Axis.vertical,
+                              ),
+                            )
+                          )
                         )
                       ),
                     ),

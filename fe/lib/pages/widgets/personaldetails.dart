@@ -62,7 +62,7 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
             Icons.close,
           ), 
           onPressed: () async { 
-            Navigator.pop(context);
+            Navigator.popUntil(context, ModalRoute.withName('/home'));
           },
         ),
       ),
@@ -70,6 +70,7 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
         child: Column(
           children: [
             Expanded(
+              flex: 2,
               child: titleSection,
             ),
             Expanded(

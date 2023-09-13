@@ -114,7 +114,7 @@ class _ReferencesDetailsFormState extends State<ReferencesDetailsForm> {
             Icons.close,
           ), 
           onPressed: () async { 
-            Navigator.pop(context);
+            Navigator.popUntil(context, ModalRoute.withName('/home'));
           },
         ),
       ),

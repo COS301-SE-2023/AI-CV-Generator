@@ -115,7 +115,7 @@ class _QualificationsDetailsFormState extends State<QualificationsDetailsForm> {
             Icons.close,
           ), 
           onPressed: () async { 
-            Navigator.pop(context);
+           Navigator.popUntil(context, ModalRoute.withName('/home'));
           },
         ),
       ),

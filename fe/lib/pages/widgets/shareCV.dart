@@ -122,13 +122,19 @@ void requirementsforshare(BuildContext context, PlatformFile? file) {
                         String linkToCV = await FileApi.generateUrl(filename: file!.name,duration: duration);
                         Clipboard.setData(ClipboardData(text: linkToCV));
                       },
-                      child: const Row(
+                      child: Row(
                         children: [
-                          Icon(Icons.link),
-                          SizedBox(width: 8.0),
+                          Icon(
+                            Icons.link,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                          const SizedBox(width: 8.0),
                           Text(
                             'Copy Link',
-                            style: TextStyle(fontSize: 16.0),
+                            style: TextStyle(
+                              fontSize: 16.0,
+                              color: Theme.of(context).colorScheme.primary
+                              ),
                           ),
                         ]
                       )
