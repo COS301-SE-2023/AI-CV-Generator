@@ -89,27 +89,31 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(
-                  "An email has been sent to your email account",
-                  style: const TextStyle(
-                    color: Colors.grey,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold
+                Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("Check your inbox", style: TextStyle(fontSize: 28, color: Theme.of(context).colorScheme.primary),),
+                      SizedBox(width: 16,),
+                      Icon(Icons.email, color: Theme.of(context).colorScheme.primary),
+                    ],
                   ),
-                ),
-                const Text(
-                  "Please check your email to verify your account to continue",
-                  style: TextStyle(
-                    color: Colors.grey,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold
+                  SizedBox(
+                    height: 16,
                   ),
-                ),
-                Row(
+                  Text("Click on the link in the email to complete the verification process", style: TextStyle(fontSize: 16)),
+                ],
+              ),
+              SizedBox(
+                height: 8,
+              ),
+                Column(
                   children: [
                     Container(
-                      padding: const EdgeInsets.all(40),
-                      child: ElevatedButton(
+                      child: TextButton(
                         onPressed: () async {
                           //Code code = await AuthApi.register(username: args.username, password: args.password, email: args.email, fname: args.fname, lname: args.lname);
                           Code code = await AuthApi.resendEmail(username: args.username, password: args.password);
@@ -118,22 +122,25 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                             confirm();
                           } else {
                             error = true;
-                            errorMessage.text = "Unknown error accured!";
+                            errorMessage.text = "Unknown error occurred!";
                             setState(() {
                               
                             });
                           }
                         }, 
-                        child: const Text(
-                          "Resend Email",
+                        child: Text(
+                          "Resend Email?",
                           style: TextStyle(
-                            color: Colors.white
+                            color: Theme.of(context).colorScheme.primary
                           ),
                         )
                       ),
                     ),
+                    SizedBox(
+                      height: 24,
+                    ),
                     Container(
-                      padding: const EdgeInsets.all(40),
+                      height: 40,
                       child: ElevatedButton(
                         onPressed: () {
                           backToLogin();
@@ -141,7 +148,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                         child: const Text(
                           "Login",
                           style: TextStyle(
-                            color: Colors.white
+                            color: Colors.black
                           ),
                         )
                       ),
