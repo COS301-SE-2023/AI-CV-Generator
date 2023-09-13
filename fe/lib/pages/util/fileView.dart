@@ -11,8 +11,7 @@ class FileView extends StatelessWidget {
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
     double w = screenSize.width/100;
-    double h = screenSize.height/100; 
-    PdfViewerController controller = PdfViewerController();
+    double h = screenSize.height/100;
     return Scaffold(
       backgroundColor: Colors.transparent,
       extendBodyBehindAppBar: true,
@@ -37,8 +36,7 @@ class FileView extends StatelessWidget {
               height: 85*h,
               child: SfPdfViewer.memory(
                 file!.bytes!,
-                pageSpacing: 8,
-                controller: controller,
+                pageSpacing: 8
               ),
             ),
             Container(
