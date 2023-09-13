@@ -11,7 +11,7 @@ import 'package:ai_cv_generator/pages/screens/help.dart';
 import 'package:ai_cv_generator/pages/screens/home.dart';
 import 'package:ai_cv_generator/pages/screens/job.dart';
 import 'package:ai_cv_generator/pages/screens/login.dart';
-import 'package:ai_cv_generator/pages/widgets/pdf_window.dart';
+import 'package:ai_cv_generator/pages/util/fileView.dart';
 import 'package:ai_cv_generator/pages/screens/profile.dart';
 
 // external
@@ -100,7 +100,7 @@ class ShareCVApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
       routes: {
-        '/':(context) => PdfWindow(file: file),
+        '/':(context) => FileView(file: file),
       },
     );
   }

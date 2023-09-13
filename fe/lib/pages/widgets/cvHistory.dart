@@ -1,4 +1,4 @@
-import 'package:ai_cv_generator/pages/widgets/pdf_window.dart';
+import 'package:ai_cv_generator/pages/util/fileView.dart';
 import 'package:flutter/material.dart';
 import 'package:ai_cv_generator/dio/client/fileApi.dart';
 
@@ -41,7 +41,7 @@ class CVHistoryState extends State<CVHistory> {
                 return Dialog(
                   backgroundColor: Colors.transparent,
                   elevation: 0.0,
-                  child: PdfWindow(file: value,)
+                  child: FileView(file: value,)
                 );
             });
           });

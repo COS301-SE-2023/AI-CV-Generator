@@ -1,5 +1,5 @@
 import 'dart:typed_data';
-import 'package:ai_cv_generator/pages/widgets/pdf_window.dart';
+import 'package:ai_cv_generator/pages/util/fileView.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:pdf/pdf.dart';
@@ -166,7 +166,7 @@ class Templates {
         context: context,
         builder: (context) {
           return Dialog(
-            child: PdfWindow(file: file,)
+            child: FileView(file: file,)
           );
         });
     },);
