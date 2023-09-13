@@ -139,7 +139,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                         width: 1.0
                       )
                     ),
-                    labelText: 'User Name',
+                    labelText: 'Username',
                   ),
                   onChanged: (value) {
                     userNameAndPwordError=null;
@@ -226,6 +226,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 child: tAndCs
               ),
               Container(
+                  height: 40,
+                  width: 250,
                   child: ElevatedButton(
                     key: const Key('register'),
                     child: const Text('Register'),
