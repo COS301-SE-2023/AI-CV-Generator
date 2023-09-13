@@ -1,7 +1,7 @@
 import 'package:ai_cv_generator/dio/client/userApi.dart';
 import 'package:flutter/material.dart';
 import 'package:ai_cv_generator/models/user/Reference.dart';
-import '../elements/elements.dart';
+import 'package:ai_cv_generator/pages/elements/elements.dart';
 
 class ReferenceSection extends StatefulWidget {
   final List<Reference> reference;
@@ -52,7 +52,7 @@ class ReferenceSectionState extends State<ReferenceSection> {
   }
 
   void add() {
-    userApi.addReference(reference: blankReference).then((value) {
+    UserApi.addReference(reference: blankReference).then((value) {
       Reference newReference = getCorrect(value!)!;
       print(newReference.refid);
       display(newReference);
@@ -65,7 +65,7 @@ class ReferenceSectionState extends State<ReferenceSection> {
     if(oldReference == null) {
       return;
     }
-    userApi.removeReference(reference: oldReference);
+    UserApi.removeReference(reference: oldReference);
     referenceMap.remove(objectId);
     setState(() {});
   }
@@ -74,7 +74,7 @@ class ReferenceSectionState extends State<ReferenceSection> {
     referenceMap.forEach((key, value) {
     Reference? updatedReference = getReference(key);
       if(updatedReference != null) {
-        userApi.updateReference(reference: updatedReference);
+        UserApi.updateReference(reference: updatedReference);
       }
     });
   }

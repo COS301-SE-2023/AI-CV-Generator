@@ -23,7 +23,6 @@ class FileApi extends DioClient {
   ) async {
     if (file == null) return null;
     final pdf = await PdfDocument.openData(file.bytes!);
-    
     var page = await pdf.getPage(1);
     var imgPDF = await page.render();
     var img = await imgPDF.createImageDetached();

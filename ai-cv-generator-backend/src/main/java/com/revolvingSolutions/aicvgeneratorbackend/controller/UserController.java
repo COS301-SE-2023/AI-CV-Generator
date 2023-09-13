@@ -2,6 +2,7 @@ package com.revolvingSolutions.aicvgeneratorbackend.controller;
 
 import com.revolvingSolutions.aicvgeneratorbackend.exception.FileNotFoundException;
 import com.revolvingSolutions.aicvgeneratorbackend.exception.NotIndatabaseException;
+import com.revolvingSolutions.aicvgeneratorbackend.model.email.Email;
 import com.revolvingSolutions.aicvgeneratorbackend.request.details.employment.AddEmploymentRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.details.employment.RemoveEmploymentRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.details.employment.UpdateEmploymentRequest;
@@ -39,6 +40,7 @@ import com.revolvingSolutions.aicvgeneratorbackend.response.file.GetFilesRespons
 import com.revolvingSolutions.aicvgeneratorbackend.response.user.GenerateUrlResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.user.GetUserResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.user.UpdateUserResponse;
+import com.revolvingSolutions.aicvgeneratorbackend.service.EmailService;
 import com.revolvingSolutions.aicvgeneratorbackend.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
@@ -253,13 +255,6 @@ public class UserController {
         } catch (FileNotFoundException e) {
             return ResponseEntity.notFound().build();
         }
-    }
-
-    @PostMapping(value = "/test")
-    public ResponseEntity<Resource> test(
-            @RequestBody DownloadFileRequest request
-    ) {
-        return service.getFileCover(request);
     }
 
 }

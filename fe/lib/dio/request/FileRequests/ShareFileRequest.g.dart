@@ -17,5 +17,5 @@ Map<String, dynamic> _$ShareFileRequestToJson(ShareFileRequest instance) =>
     <String, dynamic>{
       'filename': instance.filename,
       'base': instance.base,
-      'duration': instance.duration.inMilliseconds,
+      'duration': instance.duration.inMicroseconds,
     };

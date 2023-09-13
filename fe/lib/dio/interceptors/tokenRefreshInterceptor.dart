@@ -32,8 +32,8 @@ class TokenRevalidator extends Interceptor {
         );
         if (resp.statusCode == 200) {
           AuthResponse response = AuthResponse.fromJson(resp.data);
-          DioClient.SetAuth(response.token);
-          DioClient.SetRefresh(response.refreshToken);
+          DioClient.SetAuth(response.token!);
+          DioClient.SetRefresh(response.refreshToken!);
           final options = Options(
             method: err.requestOptions.method
           );
