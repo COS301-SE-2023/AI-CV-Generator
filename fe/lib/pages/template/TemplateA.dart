@@ -1,10 +1,10 @@
 import 'dart:typed_data';
 import 'package:ai_cv_generator/models/aimodels/CVData.dart';
+import 'package:ai_cv_generator/pages/util/fileView.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
-import '../widgets/pdf_window.dart';
 
 // Ui counter part for pdf
 class TemplateA extends StatefulWidget {
@@ -319,7 +319,7 @@ class TemplateAPdf {
         context: context,
         builder: (context) {
           return Dialog(
-            child: PdfWindow(file: file,)
+            child: FileView(file: file,)
           );
         });
     },);

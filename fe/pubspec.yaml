@@ -42,7 +42,6 @@ dependencies:
   date_field: ^3.0.5
   file_picker: ^5.2.10
   http: ^1.1.0
-  pdfx: ^2.3.0
   dio: ^5.1.2
   json_annotation: ^4.8.1
   shared_preferences: ^2.2.0
@@ -56,10 +55,15 @@ dependencies:
   crop_your_image: ^0.7.5
   mockito: ^5.4.2
   langchain: ^0.0.5 
-  syncfusion_flutter_pdf: ^20.3.49
+  syncfusion_flutter_pdf: ^22.1.34
   jumping_dot: ^0.0.6
   url_launcher: ^6.1.14
   cached_network_image: ^3.2.3
+  flutter_markdown: ^0.6.17+2
+  flutter_svg: ^2.0.7
+  responsive_framework: ^1.1.1
+  syncfusion_flutter_pdfviewer: ^22.2.12
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -95,6 +99,14 @@ flutter:
     - assets/images/TemplateBAsset.png
     - assets/images/TemplateCAsset.jpg
     - assets/.env
+    - assets/markdown/Terms_of_use.md
+    - assets/markdown/Privacy_policy.md
+    - assets/images/error-905.svg
+    - assets/images/rain-svgrepo-com.svg
+    - assets/images/close-circle-svgrepo-com.svg
+    - assets/images/circle-xmark-svgrepo-com.svg
+    - assets/images/circle-filled-circle-radio-filled-round-bullet-svgrepo-com.svg
+    - assets/images/party-popper-svgrepo-com.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

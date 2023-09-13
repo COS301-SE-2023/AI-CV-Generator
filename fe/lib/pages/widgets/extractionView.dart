@@ -1,5 +1,5 @@
 import 'package:ai_cv_generator/pages/elements/elements.dart';
-import 'package:ai_cv_generator/pages/widgets/pdf_window.dart';
+import 'package:ai_cv_generator/pages/util/fileView.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
@@ -11,7 +11,7 @@ class ExtractionView {
         return Dialog(
           child: Stack(
             children: [
-              Transform.scale(scaleX: 1.0, child: PdfWindow(file: file,)),
+              Transform.scale(scaleX: 1.0, child: FileView(file: file,)),
               Container(
                 child: Positioned(
                   right: 28,

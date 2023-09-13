@@ -19,6 +19,7 @@ import 'package:ai_cv_generator/models/user/Skill.dart';
 import 'package:ai_cv_generator/pages/template/TemplateA.dart';
 import 'package:ai_cv_generator/pages/template/TemplateB.dart';
 import 'package:ai_cv_generator/pages/template/TemplateC.dart';
+import 'package:ai_cv_generator/pages/util/fileView.dart';
 import 'package:ai_cv_generator/pages/widgets/loadingscreens/AILoadingScreen.dart';
 import 'package:ai_cv_generator/pages/widgets/EmptyCV.dart';
 import 'package:ai_cv_generator/pages/widgets/loadingscreens/ErrorScreen.dart';
@@ -26,7 +27,6 @@ import 'package:ai_cv_generator/pages/widgets/chatBotView.dart';
 import 'package:ai_cv_generator/pages/widgets/cvHistory.dart';
 import 'package:ai_cv_generator/pages/widgets/loadingscreens/loadingScreen.dart';
 import 'package:ai_cv_generator/pages/widgets/navdrawer.dart';
-import 'package:ai_cv_generator/pages/widgets/pdf_window.dart';
 import 'package:ai_cv_generator/pages/widgets/personaldetails.dart';
 import 'package:ai_cv_generator/pages/widgets/extractionView.dart';
 import 'package:ai_cv_generator/models/user/UserModel.dart';
@@ -38,7 +38,6 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import 'package:pdfx/pdfx.dart';
 import 'dart:async';
 
 // special
@@ -62,7 +61,7 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
-    userApi.getUser().then((value) {
+    UserApi.getUser().then((value) {
       model = value;
       setState(() {});
     });
@@ -79,7 +78,7 @@ class _HomeState extends State<Home> {
                 return Dialog(
                   backgroundColor: Colors.transparent,
                   elevation: 0.0,
-                  child: PdfWindow(file: value,)
+                  child: FileView(file: value,)
                 );
             });
           });
@@ -160,10 +159,8 @@ class _HomeState extends State<Home> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return PdfView(
-          controller: PdfController(document: PdfDocument.openData(generatedFile!.bytes as FutureOr<Uint8List>)),
-          scrollDirection: Axis.horizontal,
-          pageSnapping: false,
+        return Dialog(
+          child: FileView(file: generatedFile,),
         );
       }
     );
@@ -287,7 +284,7 @@ class _HomeState extends State<Home> {
             child: GestureDetector(
               onTap: () async {
                 Navigator.pushNamed(context, '/profile');
-                model = await userApi.getUser();
+                model = await UserApi.getUser();
                 setState(() {});
               }, 
               child: Row(

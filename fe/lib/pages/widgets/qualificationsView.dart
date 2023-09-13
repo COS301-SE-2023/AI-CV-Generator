@@ -55,7 +55,7 @@ class QualificationsSectionState extends State<QualificationsSection> {
   }
 
   void add() {
-    userApi.addQulaification(qualification: blankQualification).then((value) {
+    UserApi.addQulaification(qualification: blankQualification).then((value) {
       Qualification newQualification = getCorrect(value!)!;
       display(newQualification);
       setState(() {});
@@ -67,7 +67,7 @@ class QualificationsSectionState extends State<QualificationsSection> {
     if(oldQualification == null) {
       return;
     }
-    userApi.removeQulaification(qualification: oldQualification);
+    UserApi.removeQulaification(qualification: oldQualification);
     qualificationsMap.remove(objectId);
     setState(() {});
   }
@@ -76,7 +76,7 @@ class QualificationsSectionState extends State<QualificationsSection> {
     qualificationsMap.forEach((key, value) {
     Qualification? updatedQualification = getQualification(key);
       if(updatedQualification != null) {
-        userApi.updateQulaification(qualification: updatedQualification);
+        UserApi.updateQulaification(qualification: updatedQualification);
       }
     });
   }

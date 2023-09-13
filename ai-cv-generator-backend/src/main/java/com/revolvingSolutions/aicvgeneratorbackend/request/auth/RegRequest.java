@@ -12,6 +12,8 @@ import lombok.NoArgsConstructor;
 public class RegRequest {
     private String fname;
     private String lname;
+    private String email;
     private String username;
     private String password;
+    private String siteUrl;
 }
