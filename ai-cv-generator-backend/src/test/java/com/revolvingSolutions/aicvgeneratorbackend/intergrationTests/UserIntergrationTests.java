@@ -227,7 +227,7 @@ public class UserIntergrationTests {
         // when
         ResponseEntity<Resource> response = userController.getProfileImage();
         // then
-        assertThat(response.getStatusCode().isSameCodeAs(HttpStatusCode.valueOf(200))).isTrue();
+        assertThat(response.getStatusCode().isSameCodeAs(HttpStatusCode.valueOf(404))).isTrue();
 
         // Is null since byte data was null
         assertThat(response.getBody() == null).isTrue();
