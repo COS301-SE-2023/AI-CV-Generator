@@ -2,6 +2,7 @@ import 'package:ai_cv_generator/dio/client/AuthApi.dart';
 import 'package:ai_cv_generator/dio/response/AuthResponses/Code.dart';
 import 'package:ai_cv_generator/pages/screens/emailConfirmation.dart';
 import 'package:ai_cv_generator/pages/util/errorMessage.dart';
+import 'package:ai_cv_generator/pages/widgets/buttons/generalTextButton.dart';
 import 'package:ai_cv_generator/pages/widgets/loadingscreens/loadingScreen.dart';
 import 'package:ai_cv_generator/pages/widgets/termsAndConditions.dart';
 import 'package:flutter/material.dart';
@@ -223,12 +224,12 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 child: tAndCs
               ),
               Container(
-                  height: 40,
-                  width: 250,
-                  child: ElevatedButton(
+                  height: 5*h,
+                  width: 10*w,
+                  child: InkWell(
                     key: const Key('register'),
-                    child: const Text('Register'),
-                    onPressed: () async {
+                    child: const GeneralButtonStyle(text: "Register"),
+                    onTap: () async {
                       if (!tAndCs.accepted) {
                         showError("Please accept our Terms of Use and Privacy Policy");
                         setState(() {

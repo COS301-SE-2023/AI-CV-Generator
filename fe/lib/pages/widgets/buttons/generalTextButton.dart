@@ -28,13 +28,13 @@ class GeneralButtonStyle extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                const Text(""),
                 Text(
                   text,
                   style: TextStyle(
-                      fontSize: 0.8*w,
+                      fontSize: 0.9*w,
                       fontWeight: FontWeight.w600,
-                      color: Colors.white),
+                      color: Colors.white
+                    ),
                 )
               ],
             ),

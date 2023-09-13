@@ -2,6 +2,7 @@ import 'package:ai_cv_generator/dio/client/AuthApi.dart';
 import 'package:ai_cv_generator/dio/response/AuthResponses/Code.dart';
 import 'package:ai_cv_generator/pages/screens/emailConfirmation.dart';
 import 'package:ai_cv_generator/pages/util/errorMessage.dart';
+import 'package:ai_cv_generator/pages/widgets/buttons/generalTextButton.dart';
 import 'package:ai_cv_generator/pages/widgets/loadingscreens/loadingScreen.dart';
 import 'package:flutter/material.dart';
  
@@ -112,12 +113,12 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 height: 16,
               ),
               Container(
-                  height: 40,
-                  width: 250,
-                  child: ElevatedButton(
+                  width: w*10,
+                  height: h*5,
+                  child: InkWell(
                     key: const Key('login'),
-                    child: const Text('Login'),
-                    onPressed: () async {
+                    child: const GeneralButtonStyle(text: "Login"),
+                    onTap: () async {
                       setState(() {
                         wait = true;
                       });
