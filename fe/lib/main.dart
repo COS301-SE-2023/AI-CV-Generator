@@ -13,7 +13,6 @@ import 'package:ai_cv_generator/pages/screens/job.dart';
 import 'package:ai_cv_generator/pages/screens/login.dart';
 import 'package:ai_cv_generator/pages/widgets/pdf_window.dart';
 import 'package:ai_cv_generator/pages/screens/profile.dart';
-import 'package:ai_cv_generator/pages/screens/verification.dart';
 
 // external
 import 'package:file_picker/file_picker.dart';

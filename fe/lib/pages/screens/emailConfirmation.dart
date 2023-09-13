@@ -14,7 +14,7 @@ class EmailConfirmationArguments{
 }
 
 class EmailConfirmation extends StatelessWidget {
-  const  EmailConfirmation({Key? key, this.username, this.password}) : super(key: key);
+  const EmailConfirmation({Key? key, this.username, this.password}) : super(key: key);
   final String? username;
   final String? password;
   @override
@@ -51,7 +51,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   Color? p2textColor;
 
   void backToLogin() {
-    Navigator.pop(context);
+    Navigator.popUntil(context, ModalRoute.withName("/"));
   }
 
   TextEditingController errorMessage = TextEditingController(text: "Error");

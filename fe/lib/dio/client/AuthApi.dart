@@ -69,7 +69,7 @@ class AuthApi extends DioClient {
     try {
       Response response = await DioClient.dio.post<Map<String,dynamic>>(
         'api/auth/resend',
-        data: ResendEmailRequest(username: username, password: password).toJson()
+        data: ResendEmailRequest(username: username, password: password,siteUrl: "http://${Uri.base.host}:${Uri.base.port}").toJson()
       );
       return ResendEmailResponse.fromJson(response.data).code;
     } on DioException catch (e) {

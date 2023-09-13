@@ -47,7 +47,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       context, 
       MaterialPageRoute(builder: (context) => EmailConfirmation(username: nameController.text,password: passwordController.text,))
     );
-    Navigator.pop(context);
   } 
   
   bool wait = false;
@@ -252,6 +251,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                       setState(() {
                         
                       });
+                      print(code);
                       if (code == Code.success) {
                         setState(() {
                           

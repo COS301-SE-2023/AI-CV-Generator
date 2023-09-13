@@ -6,10 +6,12 @@ part 'ResendEmailRequest.g.dart';
 class ResendEmailRequest {
   String username;
   String password;
+  String siteUrl;
 
   ResendEmailRequest({
     required this.username,
-    required this.password
+    required this.password,
+    required this.siteUrl
   });
   
   factory ResendEmailRequest.fromJson(Map<String, dynamic> json) => _$ResendEmailRequestFromJson(json);
