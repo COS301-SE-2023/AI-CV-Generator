@@ -113,7 +113,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 height: 16,
               ),
               Container(
-                  width: w*10,
+                  // width: w*10,
                   height: h*5,
                   child: InkWell(
                     key: const Key('login'),
