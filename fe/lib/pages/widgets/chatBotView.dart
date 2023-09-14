@@ -13,10 +13,11 @@ class ChatBotView extends StatefulWidget {
 class ChatBotViewState extends State<ChatBotView> {
   Image? userImage;
   bool visible = true;
+  bool suggestion = true;
   List<Widget> messages = [];
   TextEditingController controller = TextEditingController();
   Chatbot chatBot = Chatbot();
-  void addMesssage(String text, bool isSender) async {
+  void addMessage(String text, bool isSender) async {
     messages.add(addImage(Message(message: Text(text), isSender: isSender), userImage!, isSender));
     setState(() {});
     if (isSender) {
@@ -36,7 +37,7 @@ class ChatBotViewState extends State<ChatBotView> {
       userImage = value;
     });
     chatBot.greeting().then((value) {
-      addMesssage(value, false);
+      addMessage(value, false);
     });
     super.initState();
   }
@@ -49,7 +50,7 @@ class ChatBotViewState extends State<ChatBotView> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          Expanded(
+          const Expanded(
             child: SizedBox(),
           ),
           Expanded(
@@ -78,7 +79,7 @@ class ChatBotViewState extends State<ChatBotView> {
             flex: 4,
             child: widget,
           ),
-          Expanded(
+          const Expanded(
             child: SizedBox(),
           ),
       ],
@@ -100,7 +101,8 @@ class ChatBotViewState extends State<ChatBotView> {
           ),
           color: Colors.grey.shade100
           ),
-          height: 500, width: 500, 
+          height: 500, 
+          width: 500, 
           child: ClipRRect(
             borderRadius: const BorderRadius.all(Radius.circular(20)),
             child: Scaffold(
@@ -109,7 +111,9 @@ class ChatBotViewState extends State<ChatBotView> {
                 title: Container(
                   alignment: Alignment.center,
                   padding: const EdgeInsets.only(right: 50),
-                  child:Text("AI CHAT BOT", style: Theme.of(context).appBarTheme.toolbarTextStyle,),),
+                  child:Text("AI CHAT BOT",
+                    style: Theme.of(context).appBarTheme.toolbarTextStyle,),
+                  ),
                   leading: IconButton(
                     icon: const Icon(
                       Icons.close,
@@ -119,71 +123,155 @@ class ChatBotViewState extends State<ChatBotView> {
                   },
                 ),
               ),
-              body: Column(
-                children: [
-                  Expanded(
-                    flex: 8,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.grey.shade100
-                      ),
-                      child: ListView(
-                      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-                      children: [
-                        ...messages
-                      ],
-                      ),
-                    )
-                  ),
-                  Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(color: Theme.of(context).colorScheme.primary),
-                        borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20)),
-                      ),
-                      child: Row(
-                        children: [
-                          Expanded(child: Text("")),
-                          Expanded(
-                            flex: 40,
-                            child: TextField(
-                              controller: controller,
-                              onSubmitted: (value) {
-                                if(value != "") {
-                                  addMesssage(value, true);
+                body: Column(
+                  children: [
+                    Expanded(
+                      flex: 8,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.grey.shade100
+                        ),
+                        child: Stack(
+                          children: [
+                            ListView(
+                              padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+                              children: [
+                                ...messages,
+                              ],
+                            ),
+                          Visibility(
+                            visible: suggestion,
+                            child: Container(
+                              alignment: Alignment.bottomCenter,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      TextButton(
+                                        child: const SuggestionText(text: "Resume photo?"),
+                                        onPressed: () {
+                                          setState(() {
+                                            suggestion = false;
+                                            addMessage("Should I put my photo on my resume?", true);
+                                          });
+                                        }
+                                      ),
+                                      TextButton(
+                                        child: const SuggestionText(text: "Creating a CV?"),
+                                        onPressed: () {
+                                          setState(() {
+                                            suggestion = false;
+                                            addMessage("How do I create a CV?", true);
+                                          });
+                                        }
+                                      ),
+                                      TextButton(
+                                        child: const SuggestionText(text: "Accessing my details?"),
+                                        onPressed: () {
+                                          setState(() {
+                                            suggestion = false;
+                                            addMessage("How can I access my details?", true);
+                                          });
+                                        }
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 8,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      TextButton(
+                                        child: const SuggestionText(text: "Resume length?"),
+                                        onPressed: () {
+                                          setState(() {
+                                            suggestion = false;
+                                            addMessage("How long should my resume be?", true);
+                                          });
+                                        }
+                                      ),
+                                      TextButton(
+                                        child: const SuggestionText(text: "Including a cover letter?"),
+                                        onPressed: () {
+                                          setState(() {
+                                            suggestion = false;
+                                            addMessage("Should I include a cover letter?", true);
+                                          });
+                                        }
+                                      ),
+                                      TextButton(
+                                        child: const SuggestionText(text: "Looking for jobs?"),
+                                        onPressed: () {
+                                          setState(() {
+                                            suggestion = false;
+                                            addMessage("Where can I look for jobs?", true);
+                                          });
+                                        }
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 16,
+                                  ),
+                                ],
+                              )
+                              )
+                            ),
+                          ],
+                        )
+                      )
+                    ),
+                    Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(color: Theme.of(context).colorScheme.primary),
+                          borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20)),
+                        ),
+                        child: Row(
+                          children: [
+                            const Expanded(child: Text("")),
+                            Expanded(
+                              flex: 40,
+                              child: TextField(
+                                controller: controller,
+                                onSubmitted: (value) {
+                                  if(value != "") {
+                                    addMessage(value, true);
+                                    controller.text = "";
+                                  }
+                                },
+                                decoration: const InputDecoration(
+                                  fillColor: Colors.white,
+                                  hintText: "Type a message",
+                                  border: InputBorder.none
+                                ),
+                              ),
+                            ),
+                            IconButton(
+                              color: Theme.of(context).colorScheme.primary,
+                              onPressed: () {
+                                if(controller.text != "") {
+                                  addMessage(controller.text, true);
                                   controller.text = "";
                                 }
                               },
-                              decoration: const InputDecoration(
-                                fillColor: Colors.white,
-                                hintText: "Type a message",
-                                border: InputBorder.none
-                              ),
+                              icon: Icon(Icons.send_rounded)
                             ),
-                          ),
-                          IconButton(
-                            color: Theme.of(context).colorScheme.primary,
-                            onPressed: () {
-                              if(controller.text != "") {
-                                addMesssage(controller.text, true);
-                                controller.text = "";
-                              }
-                            },
-                            icon: Icon(Icons.send_rounded)
-                          ),
-                        ],
+                          ],
+                        )
                       )
                     )
-                  )
-                ],
-              )
-            ),
+                  ],
+                ),
+              ),
             ),
         ),
       )
     );
-
   }
 }
 
@@ -244,6 +332,30 @@ class Message extends StatelessWidget {
         ),
         const SizedBox(height: 16,)
       ],
+    );
+  }
+}
+
+class SuggestionText extends StatefulWidget {
+  const SuggestionText({super.key, required this.text});
+  final String text;
+  @override
+  SuggestionTextState createState() => SuggestionTextState();
+}
+
+class SuggestionTextState extends State<SuggestionText> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      alignment: Alignment.center,
+      child: Text(
+        textAlign: TextAlign.center,
+        widget.text,
+        style: const TextStyle(
+          fontSize: 12,
+          fontWeight: FontWeight.bold
+        ),
+      ),
     );
   }
 }
