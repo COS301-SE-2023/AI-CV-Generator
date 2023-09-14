@@ -108,10 +108,6 @@ class HomeState extends State<Home> {
   void initState() {
     UserApi.getUser().then((value) {
       model = value;
-      if (model == null) {
-        showError("Something went wrong");
-        toLogin();
-      }
       nameController.text = model!.fname;
       setOffLoadingScreen();
     });

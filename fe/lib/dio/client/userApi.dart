@@ -40,10 +40,9 @@ class UserApi extends DioClient {
         )
       );
       user = UserResponse.fromJson(response.data).user;
-    } on Error catch (e) {
-      //DioClient.handleError(e);
+    } on DioException catch (e) {
+      DioClient.handleError(e);
     }
-    print("I get here");
     return user;
   }
 
