@@ -1,9 +1,10 @@
-import 'package:ai_cv_generator/dio/client/fileApi.dart';
 import 'package:ai_cv_generator/models/aimodels/CVData.dart';
 import 'package:ai_cv_generator/pages/widgets/loadingScreens/loadingScreen.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
+// Option enum for template Picking
+enum TemplateOption {templateA,templateB,templateC,templateD}
 class Template extends StatefulWidget{
 
   Template({
@@ -63,8 +64,6 @@ class Template extends StatefulWidget{
     return TemplateState();
   }
 }
-
-enum TemplateOption {templateA,templateB,templateC,templateD}
 
 class TemplateState extends State<Template> {
   

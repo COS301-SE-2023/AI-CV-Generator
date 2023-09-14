@@ -1,6 +1,7 @@
 import 'package:ai_cv_generator/dio/client/userApi.dart';
 import 'package:ai_cv_generator/models/user/UserModel.dart';
 import 'package:ai_cv_generator/pages/screens/underContruction.dart';
+import 'package:ai_cv_generator/pages/template/Template.dart';
 import 'package:ai_cv_generator/pages/util/errorMessage.dart';
 import 'package:ai_cv_generator/pages/util/successMessage.dart';
 import 'package:ai_cv_generator/pages/widgets/buttons/appBarButton.dart';
@@ -20,6 +21,7 @@ class Home extends StatefulWidget {
 class HomeState extends State<Home> {
   // control variables
   bool wait = true; // Initial Loading screen
+  TemplateOption option = TemplateOption.templateA; // Default option on start
 
   // variables
   UserModel? model;
@@ -68,9 +70,8 @@ class HomeState extends State<Home> {
   toProfile() async {
     Navigator.pushNamed(context, '/profile');
     model = await UserApi.getUser();
-    nameController.text = model!.fname;
     setState(() {
-      
+      nameController.text = model!.fname;
     });
   }
 
@@ -93,6 +94,7 @@ class HomeState extends State<Home> {
     super.initState();
   }
 
+
   // Build
   @override
   Widget build(BuildContext context) {
@@ -100,6 +102,35 @@ class HomeState extends State<Home> {
     Size screenSize = MediaQuery.of(context).size;
     double w = screenSize.width/100;
     double h = screenSize.height/100; 
+
+    // Widget Builders
+    // Template Option builder
+    Widget templateChoice(TemplateOption pick, String assetPath) {
+      Color isPicked = Colors.transparent;
+      if (option == pick) isPicked = Colors.blue;
+      return Container(
+        padding: EdgeInsets.only(
+          bottom: h*0.2
+        ),
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: isPicked,
+            width: 3
+          )
+        ),
+        child: MouseRegion(
+          cursor: SystemMouseCursors.click,
+          child: GestureDetector(
+            onTap: () {
+              setState(() {
+                option = pick;
+              });
+            },
+            child: Image(image: Image.asset(assetPath).image),
+          )
+        )
+      );
+    }
 
     // Loading Screen
     if(wait) {
@@ -148,9 +179,61 @@ class HomeState extends State<Home> {
           )
         ],
       ),
-      body: Container(
-        child: Text("work in Progress"),
-      ),
+      body: SingleChildScrollView(
+        child: Stack(
+          children: [
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 128, vertical: 24),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox(
+                      width: w*25,
+                      height: h*85,
+                      child: Container(
+                        padding: EdgeInsets.fromLTRB(2.4*w,2.4*h, 2.4*w, 2.4*h),
+                        decoration: BoxDecoration(
+                          borderRadius: const BorderRadius.all(Radius.circular(20)),
+                          border: Border.all(
+                            color: const Color.fromARGB(0, 0, 0, 0),
+                          ),
+                          color: Theme.of(context).colorScheme.surface,
+                        ),
+                        child: Column(
+                          children: [
+                            Align(
+                              alignment: Alignment.topCenter,
+                              child: Text(
+                                "TEMPLATES",
+                                style: TextStyle(fontSize: 2.6*h),
+                                ),
+                            ),
+                            SizedBox(height: 1.6*h,),
+                            SingleChildScrollView(
+                              child: SizedBox(
+                                height: 70*h,
+                                child: GridView.count(
+                                  crossAxisCount: 1,
+                                  children:[
+                                    templateChoice(TemplateOption.templateA, "assets/images/TemplateAAsset.jpg"),
+                                    templateChoice(TemplateOption.templateB, "assets/images/TemplateBAsset.png"),
+                                    templateChoice(TemplateOption.templateC, "assets/images/TemplateCAsset.jpg")
+                                  ],
+                                )
+                              ),
+                            )
+                          ],
+                        )
+                      )
+                    ),
+                  ]
+                )
+              )
+            )
+          ],
+        ),
+      )
     );
   }
 
