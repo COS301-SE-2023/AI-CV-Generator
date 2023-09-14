@@ -45,9 +45,7 @@ class UserApi extends DioClient {
     }
     return user;
   }
-
-
-  //Will expand into different updates later on
+  
   static Future<UserModel?> updateUser({
       required UserModel user
     }) async {
