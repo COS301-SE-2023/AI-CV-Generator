@@ -2,12 +2,12 @@ import 'package:ai_cv_generator/dio/client/WebScraperApi.dart';
 import 'package:ai_cv_generator/dio/client/userApi.dart';
 import 'package:ai_cv_generator/models/user/UserModel.dart';
 import 'package:ai_cv_generator/models/webscraper/JobResponseDTO.dart';
-import 'package:ai_cv_generator/pages/elements/elements.dart';
+import 'package:ai_cv_generator/pages/util/errorMessage.dart';
+import 'package:ai_cv_generator/pages/util/successMessage.dart';
 import 'package:ai_cv_generator/pages/widgets/breadcrumb.dart';
 import 'package:ai_cv_generator/pages/widgets/loadingscreens/loadingScreen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:universal_html/html.dart';
 
 import 'package:url_launcher/url_launcher.dart';
 
@@ -27,23 +27,29 @@ class JobsPageState extends State<JobsPage> {
     super.initState();
   }
 
+  showError(String message) {
+    showMessage(message, context);
+  }
+
+  showSuccess(String message) {
+    showHappyMessage(message, context);
+  }
+
+  toLogin() {
+    Navigator.popUntil(context, ModalRoute.withName("/"));
+  }
+
   void populate() async {
     UserModel? user = await UserApi.getUser();
     if(user != null) {
         List<JobResponseDTO>? jobs = await getJobs("accounting", "Pretoria");
         // List<JobResponseDTO>? jobs = await getRecommended();
         setState(() {
-          // for(int i = 0; i < 10; i++)
-          // {
-          //   jobCards.add(CreateJobCard(
-          //     title: "Cashier",
-          //     subtitle: "Shoprite",
-          //     location: "Pretoria, Gauteng",
-          //     salary: "R10000 - R16000 per month",
-          //   ));
-          // }
           createCards(jobs);
         });
+    } else {
+      showError("Something went wrong!");
+      toLogin();
     }
   }
 
