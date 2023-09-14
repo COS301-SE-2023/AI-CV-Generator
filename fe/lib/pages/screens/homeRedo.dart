@@ -1,9 +1,12 @@
 import 'package:ai_cv_generator/dio/client/userApi.dart';
+import 'package:ai_cv_generator/models/aimodels/CVData.dart';
 import 'package:ai_cv_generator/models/user/UserModel.dart';
 import 'package:ai_cv_generator/pages/template/Template.dart';
 import 'package:ai_cv_generator/pages/util/errorMessage.dart';
 import 'package:ai_cv_generator/pages/util/successMessage.dart';
+import 'package:ai_cv_generator/pages/widgets/EmptyCV.dart';
 import 'package:ai_cv_generator/pages/widgets/buttons/appBarButton.dart';
+import 'package:ai_cv_generator/pages/widgets/buttons/generalTextButton.dart';
 import 'package:ai_cv_generator/pages/widgets/loadingScreens/loadingScreen.dart';
 import 'package:ai_cv_generator/pages/widgets/navdrawer.dart';
 import 'package:flutter/material.dart';
@@ -26,9 +29,11 @@ class HomeState extends State<Home> {
   bool wait = true; // Initial Loading screen
   TemplateOption option = TemplateOption.templateA; // Default option on start
   bool showButtons = false;
+  bool generated = false;
 
   // variables
   UserModel? model;
+  CVData? data;
 
   // Error/Success Messaging
   showError(String message) {
@@ -150,6 +155,7 @@ class HomeState extends State<Home> {
       );
     }
 
+
     // Loading Screen
     if(wait) {
       return const LoadingScreen();
@@ -198,16 +204,17 @@ class HomeState extends State<Home> {
         ],
       ),
       body: SingleChildScrollView(
-        child: Stack(
+        child: Row(
           children: [
             Center(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 128, vertical: 24),
+              child: Container(
+                padding: EdgeInsets.fromLTRB(w*5, h*3, w*1,h*1),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    SizedBox(
-                      width: w*25,
+                    Container(
+                      padding: EdgeInsets.fromLTRB(0, 0, 2*w, 0),
+                      width: w*30,
                       height: h*85,
                       child: Container(
                         padding: EdgeInsets.fromLTRB(2.4*w,2.4*h, 2.4*w, 2.4*h),
@@ -244,95 +251,48 @@ class HomeState extends State<Home> {
                           ],
                         )
                       )
-                      
                     ),
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 0),
-                        child: Column(
-                          children: [
-                            Row(
+                      padding: EdgeInsets.fromLTRB(2*w, 0, 2*w, 0),
+                      width: 35*w,
+                      height: 85*h,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            width: 30*w,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                SizedBox(width: 40,),
                                 SizedBox(
-                                  height: 40,
-                                  width: 100, 
-                                  child: ElevatedButton(
-                                    onPressed: () async {
+                                  height: 5*h,
+                                  width: 10*w, 
+                                  child: InkWell(
+                                    onTap: () async {
                                       
+                                  
                                     }, 
-                                    child: Text("SURVEY", style: textStyle),
+                                    child: const GeneralButtonStyle(text: "Survey"),
                                   ),
                                 ),
-                                SizedBox(width: 16,),
+                                SizedBox(width: 5*w,),
                                 SizedBox(
-                                  height: 40,
-                                  width: 100, 
-                                  child: ElevatedButton(
-                                    onPressed: () async {
+                                  height: 5*h,
+                                  width: 10*w, 
+                                  child: InkWell(
+                                    onTap: () async {
                                       
                                     }, 
-                                  child: Text("UPLOAD", style: textStyle),
+                                    child: const GeneralButtonStyle(text: "Upload"),
+                                  ),
                                 ),
-                              ),
-                              const SizedBox(width: 48,),
-                              Text(
-                                "Filename",
-                                style: textStyle
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                          const SizedBox(height: 12,),
-                          if (showButtons)
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SizedBox(
-                                height:40,
-                                width: 100,
-                                child:ElevatedButton(
-                                  onPressed: () async {
-                                    
-                                  }, 
-                                  child: Text("GENERATE", style: textStyle),
-                                ),
-                              ),
-                              SizedBox(width: 16,),
-                              SizedBox(
-                                height: 40,
-                                width: 100,
-                                child: ElevatedButton(
-                                  onPressed: () async {
-                                    
-                                  },
-                                  child: Text("SHARE", style: textStyle),
-                                ),
-                              ),
-                              SizedBox(width: 16,),
-                              SizedBox(
-                                height: 40,
-                                width: 100,
-                                child: ElevatedButton(
-                                  onPressed: () async {
-                                    
-                                  }, child: Text("DOWNLOAD", style: textStyle),
-                                ),
-                              ),
-                              SizedBox(width: 16,),
-                              SizedBox(
-                                height: 40,
-                                width: 100,
-                                child: ElevatedButton(
-                                  onPressed: () async {
-                                    
-                                  }, child: Text("EXPAND", style: textStyle)
-                                )
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 4,),
-                          Expanded(child:
-                            Container(
-                              height: 400,
+                          SizedBox(height: 4*h,),
+                          Expanded(
+                            child: Container(
+                              width: 35*w,
                               decoration: BoxDecoration(
                                 borderRadius: const BorderRadius.all(Radius.circular(20)),
                                 border: Border.all(
@@ -340,13 +300,24 @@ class HomeState extends State<Home> {
                                 ),
                                 color: Theme.of(context).colorScheme.surface,
                               ),
-                              child: const Text("Not Ready"),
+                              child: 
+                              generated == true?
+                              Template(
+                                option: option, 
+                                data: CVData(
+
+                                )
+                              ) : const EmptyCVScreen()
                             ),
-                          ),
+                          )
                         ],
                       ),
                     ),
-                
+                    Container(
+                      child: Column(
+                        
+                      ),
+                    )
                   ]
                 )
               )
