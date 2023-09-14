@@ -1,6 +1,5 @@
 import 'package:ai_cv_generator/dio/client/userApi.dart';
 import 'package:ai_cv_generator/models/user/UserModel.dart';
-import 'package:ai_cv_generator/pages/screens/underContruction.dart';
 import 'package:ai_cv_generator/pages/template/Template.dart';
 import 'package:ai_cv_generator/pages/util/errorMessage.dart';
 import 'package:ai_cv_generator/pages/util/successMessage.dart';
@@ -19,9 +18,14 @@ class Home extends StatefulWidget {
 }
 
 class HomeState extends State<Home> {
+
+  // constants
+  final TextStyle textStyle = const TextStyle(fontSize: 12);
+
   // control variables
   bool wait = true; // Initial Loading screen
   TemplateOption option = TemplateOption.templateA; // Default option on start
+  bool showButtons = false;
 
   // variables
   UserModel? model;
@@ -46,6 +50,20 @@ class HomeState extends State<Home> {
   setOffLoadingScreen() {
     setState(() {
       wait = false;
+    });
+  }
+
+  // show buttons
+  // On
+  showButton() {
+    setState(() {
+      showButtons = true;
+    });
+  }
+
+  noShowButton() {
+    setState(() {
+      showButtons = false;
     });
   }
 
@@ -226,7 +244,109 @@ class HomeState extends State<Home> {
                           ],
                         )
                       )
+                      
                     ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 0),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                SizedBox(width: 40,),
+                                SizedBox(
+                                  height: 40,
+                                  width: 100, 
+                                  child: ElevatedButton(
+                                    onPressed: () async {
+                                      
+                                    }, 
+                                    child: Text("SURVEY", style: textStyle),
+                                  ),
+                                ),
+                                SizedBox(width: 16,),
+                                SizedBox(
+                                  height: 40,
+                                  width: 100, 
+                                  child: ElevatedButton(
+                                    onPressed: () async {
+                                      
+                                    }, 
+                                  child: Text("UPLOAD", style: textStyle),
+                                ),
+                              ),
+                              const SizedBox(width: 48,),
+                              Text(
+                                "Filename",
+                                style: textStyle
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 12,),
+                          if (showButtons)
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SizedBox(
+                                height:40,
+                                width: 100,
+                                child:ElevatedButton(
+                                  onPressed: () async {
+                                    
+                                  }, 
+                                  child: Text("GENERATE", style: textStyle),
+                                ),
+                              ),
+                              SizedBox(width: 16,),
+                              SizedBox(
+                                height: 40,
+                                width: 100,
+                                child: ElevatedButton(
+                                  onPressed: () async {
+                                    
+                                  },
+                                  child: Text("SHARE", style: textStyle),
+                                ),
+                              ),
+                              SizedBox(width: 16,),
+                              SizedBox(
+                                height: 40,
+                                width: 100,
+                                child: ElevatedButton(
+                                  onPressed: () async {
+                                    
+                                  }, child: Text("DOWNLOAD", style: textStyle),
+                                ),
+                              ),
+                              SizedBox(width: 16,),
+                              SizedBox(
+                                height: 40,
+                                width: 100,
+                                child: ElevatedButton(
+                                  onPressed: () async {
+                                    
+                                  }, child: Text("EXPAND", style: textStyle)
+                                )
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 4,),
+                          Expanded(child:
+                            Container(
+                              height: 400,
+                              decoration: BoxDecoration(
+                                borderRadius: const BorderRadius.all(Radius.circular(20)),
+                                border: Border.all(
+                                  color: const Color.fromARGB(0, 0, 0, 0),
+                                ),
+                                color: Theme.of(context).colorScheme.surface,
+                              ),
+                              child: const Text("Not Ready"),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                
                   ]
                 )
               )
