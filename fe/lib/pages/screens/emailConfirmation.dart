@@ -169,7 +169,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                       height: 2.4*h,
                     ),
                     Container(
-                      // height: 5*h,
+                       height: 5*h,
+                       width: 10*w,
                       child: InkWell(
                         child: const GeneralButtonStyle(
                           text: "Login"
