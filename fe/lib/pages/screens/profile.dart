@@ -178,7 +178,10 @@ class ProfileState extends State<Profile> {
                               SectionContainer(
                                 child: Column(
                                   children: [
-                                    SectionHeading(text: "CVs", alignment: Alignment.topLeft,),
+                                    SectionHeading(
+                                      text: "CVs",
+                                      alignment: Alignment.topLeft,
+                                    ),
                                     CVHistory(context: context,axis: Axis.horizontal,),
                                   ],
                                 ),
@@ -186,9 +189,7 @@ class ProfileState extends State<Profile> {
                             ],
                           ),
                         ),
-                      
-                        const SizedBox(width: 128,),
-                      
+                        const SizedBox(width: 128,),                     
                         Expanded(
                           flex: 2,
                           child: Column(
@@ -199,7 +200,10 @@ class ProfileState extends State<Profile> {
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   imageLoading == true ? 
-                                  const CircularProgressIndicator(color: Colors.grey, strokeWidth: 1,) :
+                                  const CircularProgressIndicator(
+                                    color: Colors.grey,
+                                    strokeWidth: 1,
+                                  ) :
                                   CircleAvatar(
                                     radius: 95.0,
                                     backgroundColor: Theme.of(context).colorScheme.secondary,
@@ -238,16 +242,34 @@ class ProfileState extends State<Profile> {
                               const SizedBox(height: 16,),
                               Wrap(
                                 children: [
-                                    SectionInput(controller: fnameC, hint: "First Name", fontSize: 24,),
+                                    SectionInput(
+                                      controller: fnameC,
+                                      hint: "First Name",
+                                      fontSize: 24,
+                                    ),
                                     const SizedBox(width: 8,),
-                                    SectionInput(controller: lnameC, hint: "Last Name", fontSize: 24,),
+                                    SectionInput(
+                                      controller: lnameC,
+                                      hint: "Last Name",
+                                      fontSize: 24,
+                                    ),
                                 ]
                               ),
-                              // Text(emailC.text ?? "Email", style: TextStyle(fontSize: 34)),
-                              SectionInput(controller: emailC, hint: "Email", height: 34),
+                              Text(
+                                emailC.text ?? "Email",
+                                style: TextStyle(fontSize: 16)
+                              ),
                               // SectionInput(controller: emailC, hint: "Email", height: 34),
-                              SectionInput(controller: locationC, hint: "Address", height: 34),
-                              SectionInput(controller: phoneNoC, hint: "Phone number", height: 34,),
+                              SectionInput(
+                                controller: locationC,
+                                hint: "Address",
+                                height: 34
+                              ),
+                              SectionInput(
+                                controller: phoneNoC,
+                                hint: "Phone number",
+                                height: 34,
+                              ),
                               const SizedBox(height: 55,),
                               qualificationsC,
                               const SizedBox(height: 16,),
