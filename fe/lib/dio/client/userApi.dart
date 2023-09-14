@@ -30,7 +30,7 @@ class UserApi extends DioClient {
   static Future<UserModel?> getUser() async {
     UserModel? user;
     try {
-      Response response = await Dio().get(
+      Response response = await DioClient.dio.get(
         'api/User/user',
         options: Options(
           followRedirects: false,
