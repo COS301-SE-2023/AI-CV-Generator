@@ -31,7 +31,7 @@ class GeneralButtonStyle extends StatelessWidget {
                 Text(
                   text,
                   style: TextStyle(
-                      fontSize: 0.9*w,
+                      // fontSize: 0.9*w,
                       fontWeight: FontWeight.w600,
                       color: Colors.white
                     ),
