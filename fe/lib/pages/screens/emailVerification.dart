@@ -39,7 +39,7 @@ class EmailVerificationState extends State<EmailVerification> {
           children: <Widget>[
             Container(
                 alignment: Alignment.center,
-                padding: EdgeInsets.fromLTRB(1*w, 3*h, 10*w, 1*h),
+                // padding: EdgeInsets.fromLTRB(1*w, 3*h, 10*w, 1*h),
                 child: const Image(
                   image: ResizeImage(
                     AssetImage('assets/images/logo.png'),
@@ -48,49 +48,54 @@ class EmailVerificationState extends State<EmailVerification> {
                     ),
                   )
                 ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  "Please verify your account to continue",
-                  style: TextStyle(fontSize: 28, color: Theme.of(context).colorScheme.primary),
-                ),
-                SizedBox(
-                  height: 4.8*h,
-                ),
-                Row(
-                  children: [
-                    Container(
-                      height: 5*h,
-                      width: 10*w,
-                      child: InkWell(
-                        onTap: () async {
-                          Code response = await AuthApi.verify(code: widget.code!);
-                          if (response == Code.success) {
-                            showSuccess("Account has been verified");
-                            toLogin();
-                          } else if (response == Code.expired) {
-                            showError("Unfortunatley this token is expired please resend verification email again");
-                            setState(() {
-                              
-                            });
-                          } else {
-                            showError("Verification failed something went wrong!");
-                            setState(() {
-                              
-                            });
-                          }
-                        }, 
-                        child: const GeneralButtonStyle(text: "Verify")
-                      ),
+            Container(
+              alignment: Alignment.center,
+              height: h*40,
+              width: w*40,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    textAlign: TextAlign.center,
+                    "Please verify your account to continue",
+                    style: TextStyle(
+                      fontSize: 28,
+                      color: Theme.of(context).colorScheme.primary
                     ),
-                  ],
-                )
-                
+                  ),
+                  SizedBox(
+                    height: 4.8*h,
+                  ),
+            Container(
+              height: 5*h,
+              width: 10*w,
+              child: InkWell(
+                onTap: () async {
+                  Code response = await AuthApi.verify(code: widget.code!);
+                  if (response == Code.success) {
+                    showSuccess("Account has been verified");
+                    toLogin();
+                  } else if (response == Code.expired) {
+                    showError("Unfortunatley this token is expired please resend verification email again");
+                    setState(() {
+                      
+                    });
+                  } else {
+                    showError("Verification failed something went wrong!");
+                    setState(() {
+                      
+                    });
+                  }
+                }, 
+                child: const GeneralButtonStyle(text: "Verify")
+              ),
+            ),
               ],
             ),
-          ],
-      ));
+          )
+        ],
+      )
+    );
   }
 }

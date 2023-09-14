@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class GeneralButtonStyle extends StatelessWidget {
-  const GeneralButtonStyle({super.key, required this.text});
+class AppBarButtonStyle extends StatelessWidget {
+  const AppBarButtonStyle({super.key, required this.text});
   final String text;
   @override
   Widget build(BuildContext context) {
@@ -13,15 +13,15 @@ class GeneralButtonStyle extends StatelessWidget {
       children: [
         Center(
           child: Container(
-            height: h*5,
-            width: w*10,
+            height: 4.5*h,
+            width: 80,
             decoration: BoxDecoration(
               gradient: const LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   colors: [
-                    Color(0xFFFDA187),
-                    Color(0xFFEA6D79),
+                    Colors.white,
+                    Colors.white
                   ]),
               borderRadius: BorderRadius.circular(16.0),
             ),
@@ -31,9 +31,8 @@ class GeneralButtonStyle extends StatelessWidget {
                 Text(
                   text,
                   style: TextStyle(
-                      // fontSize: 0.9*w,
                       fontWeight: FontWeight.w600,
-                      color: Colors.white
+                      color: Theme.of(context).colorScheme.primary
                     ),
                 )
               ],

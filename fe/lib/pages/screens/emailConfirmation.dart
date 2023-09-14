@@ -2,6 +2,7 @@ import 'package:ai_cv_generator/dio/client/AuthApi.dart';
 import 'package:ai_cv_generator/dio/response/AuthResponses/Code.dart';
 import 'package:ai_cv_generator/pages/util/errorMessage.dart';
 import 'package:ai_cv_generator/pages/util/successMessage.dart';
+import 'package:ai_cv_generator/pages/widgets/buttons/generalTextButton.dart';
 import 'package:flutter/material.dart';
 
 class EmailConfirmationArguments{
@@ -84,103 +85,108 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     double w = screenSize.width/100;
     double h = screenSize.height/100; 
     return Scaffold(
-          body: Column(
+      body: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Container(
+            alignment: Alignment.center,
+            // padding: EdgeInsets.fromLTRB(1*w, 3*h, 10*w, 1*h),
+            child: Image(
+              fit: BoxFit.contain,
+              image: ResizeImage(
+                const AssetImage('assets/images/logo.png'),
+                width:w.toInt()*200,
+                height:h.toInt()*200
+              ),
+            )
+          ),
+          Container(
+            height: h*40,
+            width: w*40,
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
                   Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Container(
-                        alignment: Alignment.center,
-                        padding: EdgeInsets.fromLTRB(1*w, 3*h, 10*w, 1*h),
-                        child: const Image(
-                          image: ResizeImage(
-                            AssetImage('assets/images/logo.png'),
-                            width:350,
-                            height:350
-                            ),
-                            fit: BoxFit.contain,
-                          )
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Check your inbox",
+                        style: TextStyle(
+                          fontSize: 28, 
+                          color: Theme.of(context).colorScheme.primary
                         ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text("Check your inbox",
-                              style: TextStyle(fontSize: 28, color: Theme.of(context).colorScheme.primary),
-                              ),
-                              SizedBox(width: 1.6*w,),
-                              Icon(Icons.email, color: Theme.of(context).colorScheme.primary),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 1.6*h,
-                          ),
-                          const Text("Click on the link in the email to complete the verification process", style: TextStyle(fontSize: 16)),
-                        ],
                       ),
-                      SizedBox(
-                        height: 0.8*h,
+                      SizedBox(width: 1.6*w,),
+                      Icon(
+                        Icons.email,
+                        color: Theme.of(context).colorScheme.primary
                       ),
-                        Column(
-                          children: [
-                            Container(
-                              child: TextButton(
-                                onPressed: () async {
-                                  Code code = await AuthApi.resendEmail(username: username!, password: password!);
-                                  if (code == Code.success) {
-                                    showSuccess("Email sent!!");
-                                  } else {
-                                    showError("Unknown error occurred!");
-                                    setState(() {
-                                      
-                                    });
-                                  }
-                                }, 
-                                child: Text(
-                                  "Resend Email?",
-                                  style: TextStyle(
-                                    color: Theme.of(context).colorScheme.primary
-                                  ),
-                                )
-                              ),
-                            ),
-                            SizedBox(
-                              height: 2.4*h,
-                            ),
-                            Container(
-                              height: 4*h,
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  backToLogin();
-                                }, 
-                                child: const Text(
-                                  "Login",
-                                  style: TextStyle(
-                                    color: Colors.black
-                                  ),
-                                )
-                              ),
-                            ),
-                          ],
+                    ],
+                  ),
+                  SizedBox(
+                    height: 1.6*h,
+                  ),
+                  const Text(
+                    "Click on the link in the email to complete the verification process",
+                    style: TextStyle(fontSize: 16),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 0.8*h,
+              ),
+                Column(
+                  children: [
+                    Container(
+                      child: TextButton(
+                        onPressed: () async {
+                          Code code = await AuthApi.resendEmail(username: username!, password: password!);
+                          if (code == Code.success) {
+                            showSuccess("Email sent!!");
+                          } else {
+                            showError("Unknown error occurred!");
+                            setState(() {
+                              
+                            });
+                          }
+                        }, 
+                        child: Text(
+                          "Resend Email?",
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.primary
+                          ),
                         )
-                        
-                      ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 2.4*h,
+                    ),
+                    Container(
+                       height: 5*h,
+                       width: 10*w,
+                      child: InkWell(
+                        child: const GeneralButtonStyle(
+                          text: "Login"
+                        ),
+                        onTap: () {
+                          backToLogin();
+                        },
+                      ),
                     ),
                   ],
-              )
-            ]
-          )
-      
+                )
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

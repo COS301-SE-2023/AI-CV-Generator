@@ -87,7 +87,7 @@ class ForgotPasswordState extends State<ForgotPasswordWidget> {
                 controller: emailController,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
-                  labelText: 'Confirm your Email',
+                  labelText: 'Confirm Your Email',
                 ),
               ),
             ),
@@ -95,35 +95,35 @@ class ForgotPasswordState extends State<ForgotPasswordWidget> {
               height: 3*h,
             ),
             SizedBox(
-                height: 5*h,
-                width: 15*w,
-                child: InkWell(
-                  key: const Key('forgotPassword'),
-                  child: const GeneralButtonStyleLarge(text: "Send Verification Code"),
-                  onTap: () async {
+              height: 5*h,
+              width: 15*w,
+              child: InkWell(
+                key: const Key('forgotPassword'),
+                child: const GeneralButtonStyleLarge(text: "Send Verification Code",),
+                onTap: () async {
+                  setState(() {
+                    wait = true;
+                  });
+                  Code resp = await AuthApi.reset(username: nameController.text, email: emailController.text);
+                  if (resp == Code.success) {
+                    showSuccess("Please check your email for further instructions!");
                     setState(() {
-                      wait = true;
+                      wait = false;
                     });
-                    Code resp = await AuthApi.reset(username: nameController.text, email: emailController.text);
-                    if (resp == Code.success) {
-                      showSuccess("Please check your email for further instructions!");
-                      setState(() {
-                        wait = false;
-                      });
-                      toLogin();
-                    } else if (resp == Code.failed) {
-                      showError("Invalid Credentials!!");
-                      setState(() {
-                        wait = false;
-                      });
-                    } else if (resp == Code.requestFailed) {
-                      showError("Something went wrong!!");
-                      setState(() {
-                        wait = false;
-                      });
-                    }
-                  },
-                )
+                    toLogin();
+                  } else if (resp == Code.failed) {
+                    showError("Invalid Credentials!!");
+                    setState(() {
+                      wait = false;
+                    });
+                  } else if (resp == Code.requestFailed) {
+                    showError("Something went wrong!!");
+                    setState(() {
+                      wait = false;
+                    });
+                  }
+                },
+              )
             ),
         ]
       )
