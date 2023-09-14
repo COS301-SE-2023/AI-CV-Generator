@@ -26,7 +26,30 @@ class DioClient {
   static const baseurl = "http://localhost:8080/"; //This will be the actual base usl during development of the system
   //final baseurl = "https//mockbackend/api"; //Until the backend is fully established
 
-  
+  static Future<Response> get(String path) async {
+    return await DioClient.dio.get(
+      path,
+      options: Options(
+        followRedirects: false,
+        validateStatus: (status) {
+          return (status !< 500);
+        }
+      )
+    );
+  }
+
+  static Future<Response> post(String path, String data) async {
+    return await DioClient.dio.get(
+      path,
+      data: data,
+      options: Options(
+        followRedirects: false,
+        validateStatus: (status) {
+          return (status !< 500);
+        }
+      )
+    );
+  }
 
   // Extreamely temporary (implementing secure method later on)
   // Keeping as is until final demo
