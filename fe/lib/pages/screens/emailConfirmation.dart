@@ -115,11 +115,18 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text("Check your inbox",
-                      style: TextStyle(fontSize: 28, color: Theme.of(context).colorScheme.primary),
+                      Text(
+                        "Check your inbox",
+                        style: TextStyle(
+                          fontSize: 28, 
+                          color: Theme.of(context).colorScheme.primary
+                        ),
                       ),
                       SizedBox(width: 1.6*w,),
-                      Icon(Icons.email, color: Theme.of(context).colorScheme.primary),
+                      Icon(
+                        Icons.email,
+                        color: Theme.of(context).colorScheme.primary
+                      ),
                     ],
                   ),
                   SizedBox(
@@ -166,9 +173,9 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                       child: InkWell(
                         child: const GeneralButtonStyle(
                           text: "Login"
-                          ),
+                        ),
                         onTap: () {
-                        backToLogin();
+                          backToLogin();
                         },
                       ),
                     ),
