@@ -2,6 +2,7 @@ import 'package:ai_cv_generator/dio/client/AuthApi.dart';
 import 'package:ai_cv_generator/dio/response/AuthResponses/Code.dart';
 import 'package:ai_cv_generator/pages/util/errorMessage.dart';
 import 'package:ai_cv_generator/pages/util/successMessage.dart';
+import 'package:ai_cv_generator/pages/widgets/buttons/generalTextButton.dart';
 import 'package:ai_cv_generator/pages/widgets/loadingscreens/loadingScreen.dart';
 import 'package:flutter/material.dart';
 
@@ -54,7 +55,7 @@ class ChangePasswordState extends State<ChangePasswordWidget> {
   }
   bool wait = true;
   bool failed = true;
-  String message = "Unfortunatley this link is no longer valid";
+  String message = "Unfortunately this link is no longer valid";
 
   @override
   void initState() {
@@ -188,10 +189,9 @@ class ChangePasswordState extends State<ChangePasswordWidget> {
             Container(
                 height: 50,
                 padding: const EdgeInsets.fromLTRB(600, 0, 600, 0),
-                child: ElevatedButton(
-                  key: const Key('ChangePassword'),
-                  child: const Text('Confirm'),
-                  onPressed: () async {
+                child: InkWell(
+                  child: const GeneralButtonStyle(text: "Confirm"),
+                  onTap: () async {
                     if (passwordController.text != passwordRetypeController.text) {
                       showError("Password does not match");
                       return;
