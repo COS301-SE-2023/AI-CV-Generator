@@ -106,7 +106,6 @@ public class AuthenticationService {
             try {
                 emailService.sendVerificationEmail(
                         user.getEmail(),
-                        (user.getFname()+" "+user.getLname()),
                         request.getSiteUrl(),
                         token.getRegistrationToken()
                 );
@@ -185,7 +184,7 @@ public class AuthenticationService {
         try {
             PasswordTokenEntity token = resetPasswordTokenService.generateToken(user);
             emailService.sendPasswordResetEmail(
-                    user.getEmail(),(user.getFname()+" "+user.getLname()),
+                    user.getEmail(),
                     request.getSiteUrl(),
                     token.getPasswordToken()
             );

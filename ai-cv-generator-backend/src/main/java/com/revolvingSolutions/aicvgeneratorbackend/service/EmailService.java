@@ -34,7 +34,7 @@ public class EmailService {
         }
     }
 
-    public void sendVerificationEmail(String userEmail,String name, String siteURL, String verificationCode) throws MessagingException, UnsupportedEncodingException {
+    public void sendVerificationEmail(String userEmail, String siteURL, String verificationCode) throws MessagingException, UnsupportedEncodingException {
         String fromAddress = "solutionsrevolving@gmail.com";
         String senderName = "Revolving Solutions";
         String subject = "Please verify your registration";
@@ -187,7 +187,7 @@ public class EmailService {
         javaMailSender.send(message);
     }
 
-    public void sendPasswordResetEmail(String userEmail,String name, String siteURL, String passwordResetCode) throws MessagingException, UnsupportedEncodingException {
+    public void sendPasswordResetEmail(String userEmail, String siteURL, String passwordResetCode) throws MessagingException, UnsupportedEncodingException {
         String fromAddress = "solutionsrevolving@gmail.com";
         String senderName = "Revolving Solutions";
         String subject = "Reset Password";
