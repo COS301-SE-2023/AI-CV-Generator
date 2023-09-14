@@ -1,5 +1,6 @@
 import 'package:ai_cv_generator/dio/interceptors/HeaderInterceptor.dart';
 import 'package:ai_cv_generator/dio/interceptors/Logger.dart';
+import 'package:ai_cv_generator/dio/interceptors/missingErrorInterceptor.dart';
 import 'package:ai_cv_generator/dio/interceptors/tokenRefreshInterceptor.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -18,6 +19,7 @@ class DioClient {
     ),
   ) ..interceptors.addAll(
     [
+      ErrorInterceptor(),
       Logger(log: true),
       HeaderAdder(),
       TokenRevalidator()
@@ -27,7 +29,7 @@ class DioClient {
   //final baseurl = "https//mockbackend/api"; //Until the backend is fully established
 
   static Future<Response> get(String path) async {
-    return await DioClient.dio.get(
+    return await dio.get(
       path,
       options: Options(
         followRedirects: false,
