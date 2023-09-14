@@ -48,7 +48,6 @@ public class AuthenticationService {
             try {
                 emailService.sendVerificationEmail(
                         request.getEmail(),
-                        (request.getFname() + " " + request.getLname()),
                         getSiteURL(actualRequest),
                         token.getRegistrationToken()
                 );
@@ -75,7 +74,6 @@ public class AuthenticationService {
             RegistrationTokenEntity token = registrationTokenService.generateToken(_user);
             emailService.sendVerificationEmail(
                     request.getEmail(),
-                    (request.getFname() + " " + request.getLname()),
                     request.getSiteUrl(),
                     token.getRegistrationToken()
             );
