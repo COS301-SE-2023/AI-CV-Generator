@@ -22,6 +22,7 @@ class JobsPage extends StatefulWidget {
 
 class JobsPageState extends State<JobsPage> {
   List<Widget> jobCards = [];
+  List<Widget> previousJobs = [];
   TextEditingController occupationC = TextEditingController();
   TextEditingController locationC = TextEditingController();
   final _formKey = GlobalKey<FormState>();
@@ -29,6 +30,7 @@ class JobsPageState extends State<JobsPage> {
   @override
   void initState() {
     populate();
+    previousJobs = jobCards;
     super.initState();
   }
 
@@ -60,11 +62,14 @@ class JobsPageState extends State<JobsPage> {
 
   Future<void> searchJobs(String occupation, String location) async {
     List<JobResponseDTO>? jobs = await getJobs(occupation, location);
+    setState(() {
     if(jobs.isNull == true || jobs!.isEmpty == true) {
       showError("No jobs to display!");
-    }
-    setState(() {
+      jobCards = previousJobs;
+    } else {
       createCards(jobs);
+      previousJobs = jobCards;
+    }
     });
   }
 
