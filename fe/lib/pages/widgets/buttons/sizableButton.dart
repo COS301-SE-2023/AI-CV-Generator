@@ -1,27 +1,26 @@
 import 'package:flutter/material.dart';
 
-class AppBarButtonStyle extends StatelessWidget {
-  const AppBarButtonStyle({super.key, required this.text});
+class SizableButtonStyle extends StatelessWidget {
+  const SizableButtonStyle({super.key, required this.text, required this.width, required this.height});
   final String text;
+  final double width;
+  final double height;
   @override
   Widget build(BuildContext context) {
-    Size screenSize = MediaQuery.of(context).size;
-    //double w = screenSize.width/100;
-    double h = screenSize.height/100; 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Center(
           child: Container(
-            height: 4.5*h,
-            width: 80,
+            height: width,
+            width: height,
             decoration: BoxDecoration(
               gradient: const LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   colors: [
-                    Colors.white,
-                    Colors.white
+                    Color(0xFFFDA187),
+                    Color(0xFFEA6D79),
                   ]),
               borderRadius: BorderRadius.circular(16.0),
             ),
@@ -30,9 +29,9 @@ class AppBarButtonStyle extends StatelessWidget {
               children: [
                 Text(
                   text,
-                  style: TextStyle(
+                  style: const TextStyle(
                       fontWeight: FontWeight.w600,
-                      color: Theme.of(context).colorScheme.primary
+                      color: Colors.white
                     ),
                 )
               ],

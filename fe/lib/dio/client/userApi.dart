@@ -24,25 +24,28 @@ import 'package:ai_cv_generator/models/user/Reference.dart';
 import 'package:ai_cv_generator/models/user/Skill.dart';
 import 'package:ai_cv_generator/models/user/UserModel.dart';
 import 'package:dio/dio.dart';
-import 'package:ai_cv_generator/dio/request/DetailsRequests/Qualification/RemoveQualificationRequest.dart';
-import 'package:ai_cv_generator/dio/request/DetailsRequests/Qualification/UpdateQualificationRequest.dart';
-import 'package:ai_cv_generator/dio/response/DetailsResponses/QualificationsResponse.dart';
 import 'package:ai_cv_generator/models/user/Link.dart' as lin;
 
 class UserApi extends DioClient {
   static Future<UserModel?> getUser() async {
     UserModel? user;
     try {
-      Response response = await DioClient.dio.get('api/User/user');
+      Response response = await DioClient.dio.get(
+        'api/User/user',
+        options: Options(
+          followRedirects: false,
+          validateStatus: (status) {
+            return (status !< 500);
+          }
+        )
+      );
       user = UserResponse.fromJson(response.data).user;
     } on DioException catch (e) {
       DioClient.handleError(e);
     }
     return user;
   }
-
-
-  //Will expand into different updates later on
+  
   static Future<UserModel?> updateUser({
       required UserModel user
     }) async {
@@ -314,5 +317,4 @@ class UserApi extends DioClient {
     }
     return null;
   }
-  
 }

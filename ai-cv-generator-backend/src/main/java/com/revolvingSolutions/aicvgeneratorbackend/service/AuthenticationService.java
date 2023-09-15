@@ -45,43 +45,33 @@ public class AuthenticationService {
             }
             RegistrationTokenEntity token = registrationTokenService.generateToken(user);
             repository.save(user);
-            try {
-                emailService.sendVerificationEmail(
-                        request.getEmail(),
-                        getSiteURL(actualRequest),
-                        token.getRegistrationToken()
-                );
-            } catch (MessagingException | UnsupportedEncodingException e) {
-                return RegisterResponse.builder()
-                        .code(Code.failed)
-                        .build();
-            }
-            return RegisterResponse.builder()
-                    .code(Code.success)
-                    .build();
-        }
-        try {
-            var _user = UserEntity.builder()
-                    .fname(request.getFname())
-                    .lname(request.getLname())
-                    .username(request.getUsername())
-                    .password(passwordEncoder.encode(request.getPassword()))
-                    .email(request.getEmail())
-                    .role(Role.USER)
-                    .enabled(false)
-                    .build();
-            repository.save(_user);
-            RegistrationTokenEntity token = registrationTokenService.generateToken(_user);
+
             emailService.sendVerificationEmail(
                     request.getEmail(),
                     request.getSiteUrl(),
                     token.getRegistrationToken()
             );
-        } catch (MessagingException | UnsupportedEncodingException e) {
+
             return RegisterResponse.builder()
-                    .code(Code.failed)
+                    .code(Code.success)
                     .build();
         }
+        var _user = UserEntity.builder()
+                .fname(request.getFname())
+                .lname(request.getLname())
+                .username(request.getUsername())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .email(request.getEmail())
+                .role(Role.USER)
+                .enabled(false)
+                .build();
+        repository.save(_user);
+        RegistrationTokenEntity token = registrationTokenService.generateToken(_user);
+        emailService.sendVerificationEmail(
+                request.getEmail(),
+                request.getSiteUrl(),
+                token.getRegistrationToken()
+        );
         return RegisterResponse.builder()
                 .code(Code.success)
                 .build();
@@ -101,17 +91,11 @@ public class AuthenticationService {
             }
             RegistrationTokenEntity token = registrationTokenService.generateToken(user);
             repository.save(user);
-            try {
-                emailService.sendVerificationEmail(
-                        user.getEmail(),
-                        request.getSiteUrl(),
-                        token.getRegistrationToken()
-                );
-            } catch (MessagingException | UnsupportedEncodingException e) {
-                return ResendEmailResponse.builder()
-                        .code(Code.failed)
-                        .build();
-            }
+            emailService.sendVerificationEmail(
+                    user.getEmail(),
+                    request.getSiteUrl(),
+                    token.getRegistrationToken()
+            );
             return ResendEmailResponse.builder()
                     .code(Code.success)
                     .build();
@@ -179,21 +163,16 @@ public class AuthenticationService {
                     .code(Code.failed)
                     .build();
         }
-        try {
-            PasswordTokenEntity token = resetPasswordTokenService.generateToken(user);
-            emailService.sendPasswordResetEmail(
-                    user.getEmail(),
-                    request.getSiteUrl(),
-                    token.getPasswordToken()
-            );
-            return ResetPasswordResponse.builder()
-                    .code(Code.success)
-                    .build();
-        } catch (MessagingException | UnsupportedEncodingException e) {
-            return ResetPasswordResponse.builder()
-                    .code(Code.failed)
-                    .build();
-        }
+        PasswordTokenEntity token = resetPasswordTokenService.generateToken(user);
+        emailService.sendPasswordResetEmail(
+                user.getEmail(),
+                request.getSiteUrl(),
+                token.getPasswordToken()
+        );
+        return ResetPasswordResponse.builder()
+                .code(Code.success)
+                .build();
+
     }
 
     public ValidatePasswordResetResponse validateReset(ValidatePasswordResetRequest request, HttpServletRequest actualRequest) {

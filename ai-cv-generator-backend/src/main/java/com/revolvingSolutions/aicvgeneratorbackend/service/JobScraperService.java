@@ -59,31 +59,45 @@ public class JobScraperService {
           JobScrapeRequest.builder()
                   .field("")
                   .location(location)
+                  .amount(10)
                   .build()
         );
     }
+
+    private int amount = 0;
     public JobScrapeResponse scrapData(
         JobScrapeRequest request
     ) {
+        amount = request.getAmount();
         Set<JobResponseDTO> responseDTOS = new HashSet<>();
         try {
             responseDTOS.addAll(linkedIn(request));
+            amount -= responseDTOS.size();
         } catch (IOException e) {
             System.out.println("LinkedIn failed");
         }
 
         try {
-            responseDTOS.addAll(CBRE(request));
+            if (amount != 0) {
+                responseDTOS.addAll(CBRE(request));
+                amount = request.getAmount() - responseDTOS.size();
+            }
+
         } catch (IOException e) {
             System.out.println("CBRE failed");
         }
 
         try {
-            responseDTOS.addAll(careerJunction(request));
+            if (amount != 0) {
+                responseDTOS.addAll(careerJunction(request));
+                amount = request.getAmount() - responseDTOS.size();
+            }
+
         } catch (IOException e) {
-            e.printStackTrace();
             System.out.println("CareerJunction failed");
         }
+
+        amount = 0;
 
         return JobScrapeResponse.builder()
                 .jobs(responseDTOS)
@@ -97,6 +111,7 @@ public class JobScraperService {
         Element list = doc.getElementsByClass("jobs-search__results-list").first();
         Elements listelements = doc.getElementsByTag("li");
         for (Element el : listelements) {
+            if (responseDTOS.size() == amount) return responseDTOS;
             if (el.getElementsByClass("base-search-card__title").isEmpty() || el.getElementsByClass("base-search-card__subtitle").isEmpty() || el.getElementsByClass("job-search-card__location").isEmpty()) {
                 continue;
             }
@@ -122,6 +137,7 @@ public class JobScraperService {
         Element list = main.getElementsByClass("section__content__results").first();
         Elements listelements = doc.getElementsByClass("article article--result ");
         for (Element el : listelements) {
+            if (responseDTOS.size() == amount) return responseDTOS;
             try {
                 if (el.getElementsByClass("article__header__text__title article__header__text__title--4 ").isEmpty()) {
                     continue;
@@ -148,7 +164,6 @@ public class JobScraperService {
                                 .build()
                 );
             } catch (Exception e) {
-                e.printStackTrace();
                 System.out.println("Response DTOs failed");
             }
 
@@ -161,6 +176,7 @@ public class JobScraperService {
         Document doc = Jsoup.connect("https://www.careerjunction.co.za/jobs/results?keywords="+request.getField().replaceAll(" ","%20")+"&location="+request.getLocation().replaceAll(" ", "%20")).get();
         Elements elements = doc.getElementsByClass("module job-result  ");
         for (Element el: elements) {
+            if (responseDTOS.size() == amount) return responseDTOS;
             try {
                 Elements title = el.getElementsByClass("job-result-title");
                 Elements logo = el.getElementsByClass("job-result-logo-title");

@@ -3,6 +3,8 @@ import 'package:ai_cv_generator/dio/client/fileApi.dart';
 import 'package:ai_cv_generator/dio/client/userApi.dart';
 import 'package:ai_cv_generator/models/user/Employment.dart';
 import 'package:ai_cv_generator/models/user/UserModel.dart';
+import 'package:ai_cv_generator/pages/util/errorMessage.dart';
+import 'package:ai_cv_generator/pages/util/successMessage.dart';
 import 'package:ai_cv_generator/pages/widgets/breadcrumb.dart';
 import 'package:ai_cv_generator/pages/widgets/cvHistory.dart';
 import 'package:ai_cv_generator/pages/elements/elements.dart';
@@ -38,6 +40,10 @@ class ProfileState extends State<Profile> {
     UserApi.getUser().then((value) {
       if(value != null){
         model = value;
+        if (model == null) {
+          showError("Something went wrong");
+          toLogin();
+        }
         setState(() {});
       }
     });
@@ -48,6 +54,18 @@ class ProfileState extends State<Profile> {
       });
     });
     super.initState();
+  }
+
+  showError(String message) {
+    showMessage(message, context);
+  }
+
+  showSuccess(String message) {
+    showHappyMessage(message, context);
+  }
+
+  toLogin() {
+    Navigator.popUntil(context, ModalRoute.withName("/"));
   }
 
   @override

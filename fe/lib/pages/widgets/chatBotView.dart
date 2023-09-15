@@ -351,6 +351,12 @@ class SuggestionTextState extends State<SuggestionText> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: 120,
+      height: 40,
+      // decoration: BoxDecoration(
+      //   border: Border.all(),
+      //   borderRadius: BorderRadius.circular(20)
+      // ),
       alignment: Alignment.center,
       child: Text(
         textAlign: TextAlign.center,

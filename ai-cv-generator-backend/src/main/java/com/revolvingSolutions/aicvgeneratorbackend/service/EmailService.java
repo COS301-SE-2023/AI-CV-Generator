@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.io.UnsupportedEncodingException;
@@ -34,7 +35,8 @@ public class EmailService {
         }
     }
 
-    public void sendVerificationEmail(String userEmail, String siteURL, String verificationCode) throws MessagingException, UnsupportedEncodingException {
+    @Async
+    public void sendVerificationEmail(String userEmail, String siteURL, String verificationCode) {
         String fromAddress = "solutionsrevolving@gmail.com";
         String senderName = "Revolving Solutions";
         String subject = "Please verify your registration";
@@ -174,20 +176,21 @@ public class EmailService {
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message);
 
-        helper.setFrom(fromAddress, senderName);
-        helper.setTo(userEmail);
-        helper.setSubject(subject);
-
-        String verifyURL = siteURL + "/verify?code=" + verificationCode;
-
-        content = content.replace("[[URL]]", verifyURL);
-
-        helper.setText(content, true);
-
-        javaMailSender.send(message);
+        try {
+            helper.setFrom(fromAddress, senderName);
+            helper.setTo(userEmail);
+            helper.setSubject(subject);
+            String verifyURL = siteURL + "/verify?code=" + verificationCode;
+            content = content.replace("[[URL]]", verifyURL);
+            helper.setText(content, true);
+            javaMailSender.send(message);
+        } catch (MessagingException | UnsupportedEncodingException e) {
+            return;
+        }
     }
 
-    public void sendPasswordResetEmail(String userEmail, String siteURL, String passwordResetCode) throws MessagingException, UnsupportedEncodingException {
+    @Async
+    public void sendPasswordResetEmail(String userEmail, String siteURL, String passwordResetCode) {
         String fromAddress = "solutionsrevolving@gmail.com";
         String senderName = "Revolving Solutions";
         String subject = "Reset Password";
@@ -327,16 +330,16 @@ public class EmailService {
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message);
 
-        helper.setFrom(fromAddress, senderName);
-        helper.setTo(userEmail);
-        helper.setSubject(subject);
-
-        String verifyURL = siteURL + "/reset?code=" + passwordResetCode;
-
-        content = content.replace("[[URL]]", verifyURL);
-
-        helper.setText(content, true);
-
-        javaMailSender.send(message);
+        try {
+            helper.setFrom(fromAddress, senderName);
+            helper.setTo(userEmail);
+            helper.setSubject(subject);
+            String verifyURL = siteURL + "/reset?code=" + passwordResetCode;
+            content = content.replace("[[URL]]", verifyURL);
+            helper.setText(content, true);
+            javaMailSender.send(message);
+        } catch (MessagingException | UnsupportedEncodingException e) {
+            return;
+        }
     }
 }

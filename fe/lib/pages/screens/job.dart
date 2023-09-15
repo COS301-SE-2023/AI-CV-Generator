@@ -1,13 +1,15 @@
+import 'dart:js_interop';
+
 import 'package:ai_cv_generator/dio/client/WebScraperApi.dart';
 import 'package:ai_cv_generator/dio/client/userApi.dart';
 import 'package:ai_cv_generator/models/user/UserModel.dart';
 import 'package:ai_cv_generator/models/webscraper/JobResponseDTO.dart';
-import 'package:ai_cv_generator/pages/elements/elements.dart';
+import 'package:ai_cv_generator/pages/util/errorMessage.dart';
+import 'package:ai_cv_generator/pages/util/successMessage.dart';
 import 'package:ai_cv_generator/pages/widgets/breadcrumb.dart';
 import 'package:ai_cv_generator/pages/widgets/loadingscreens/loadingScreen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:universal_html/html.dart';
 
 import 'package:url_launcher/url_launcher.dart';
 
@@ -20,11 +22,26 @@ class JobsPage extends StatefulWidget {
 
 class JobsPageState extends State<JobsPage> {
   List<Widget> jobCards = [];
+  TextEditingController occupationC = TextEditingController();
+  TextEditingController locationC = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
     populate();
     super.initState();
+  }
+
+  showError(String message) {
+    showMessage(message, context);
+  }
+
+  showSuccess(String message) {
+    showHappyMessage(message, context);
+  }
+
+  toLogin() {
+    Navigator.popUntil(context, ModalRoute.withName("/"));
   }
 
   void populate() async {
@@ -33,18 +50,22 @@ class JobsPageState extends State<JobsPage> {
         List<JobResponseDTO>? jobs = await getJobs("accounting", "Pretoria");
         // List<JobResponseDTO>? jobs = await getRecommended();
         setState(() {
-          // for(int i = 0; i < 10; i++)
-          // {
-          //   jobCards.add(CreateJobCard(
-          //     title: "Cashier",
-          //     subtitle: "Shoprite",
-          //     location: "Pretoria, Gauteng",
-          //     salary: "R10000 - R16000 per month",
-          //   ));
-          // }
           createCards(jobs);
         });
+    } else {
+      showError("Something went wrong!");
+      toLogin();
     }
+  }
+
+  Future<void> searchJobs(String occupation, String location) async {
+    List<JobResponseDTO>? jobs = await getJobs(occupation, location);
+    if(jobs.isNull == true || jobs!.isEmpty == true) {
+      showError("No jobs to display!");
+    }
+    setState(() {
+      createCards(jobs);
+    });
   }
 
   Future<List<JobResponseDTO>?> getJobs(String field, String location) async {
@@ -75,9 +96,10 @@ class JobsPageState extends State<JobsPage> {
 
   @override
   Widget build(BuildContext build) {
-    // if(jobCards.isEmpty == true) {
-    //   return LoadingScreen();
-    // }
+    Size screenSize = MediaQuery.of(context).size;
+    double w = screenSize.width/100;
+    double h = screenSize.height/100;
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -91,37 +113,142 @@ class JobsPageState extends State<JobsPage> {
         ),
         actions: [
           IconButton(onPressed: () {}, 
-          icon: const Icon(Icons.account_circle, size: 32,)),
-          const SizedBox(width: 16,)
+            icon: const Icon(
+              Icons.account_circle,
+              size: 32,
+            )
+          ),
+          const SizedBox(
+            width: 16,
+          )
         ],
       ),
       body: SafeArea(
         child: Column(
+          mainAxisSize: MainAxisSize.max,
           children: [
-            Breadcrumb(previousPage: "Home", currentPage: "Jobs",),
-            SizedBox(height: 24,),
-            Text("RECOMMENDED FOR YOU", style: TextStyle(fontSize: 60),),
-            SizedBox(height: 24,),
+            const Breadcrumb(
+              previousPage: "Home",
+              currentPage: "Jobs",
+            ),
+            const SizedBox(
+              height: 24,
+            ),
             Expanded(
-              child: SingleChildScrollView( 
-                child: Center(
-                  child: Container(
-                    alignment: Alignment.center,
-                    width: 1800,
-                    child: Wrap(
-                      crossAxisAlignment: WrapCrossAlignment.center,
-                      // mainAxisAlignment: MainAxisAlignment.center,
+              child: ListView(
+                children: [
+                  const Text(
+                    "RECOMMENDED FOR YOU",
+                    style: TextStyle(fontSize: 60),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(
+                    height: 24,
+                  ),
+                  Form(
+                    key: _formKey,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        if(jobCards.isEmpty == true)
-                          Padding(padding: EdgeInsets.symmetric(vertical: 160), child:LoadingScreen(),),
-                          ...jobCards,
+                        Container(
+                          width: w*40,
+                          child: TextFormField(
+                            key: const Key("occupation"),
+                            decoration: const InputDecoration(
+                              hintText: "Type in your occupation",
+                              border: OutlineInputBorder()
+                            ),
+                            controller: occupationC,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter your occupation';
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                        Container(
+                          width: w*20,
+                          child: TextFormField(
+                            key: const Key("occupation"),
+                            decoration: const InputDecoration(
+                              hintText: "Type in your location",
+                              border: OutlineInputBorder()
+                            ),
+                            controller: locationC,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter your location';
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                        Container(
+                          alignment: Alignment.center,
+                          child: Material(
+                            child: InkWell(
+                              hoverColor: Colors.grey,
+                              onTap: () async{
+                                if(_formKey.currentState!.validate() == true) {
+                                  setState(() {
+                                    jobCards = [];
+                                  });
+                                  await searchJobs(occupationC.text, locationC.text);
+                                }
+                              },
+                              child: Container(
+                                alignment: Alignment.center,
+                                width: 10*w,
+                                height: 50,
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                      begin: Alignment.topLeft,
+                                      end: Alignment.bottomRight,
+                                      colors: [
+                                        const Color(0xFFFDA187).withOpacity(0.9),
+                                        const Color(0xFFEA6D79).withOpacity(0.9),
+                                      ]
+                                  ),
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                child: const Text(
+                                  "Search",
+                                  style: TextStyle(
+                                    color: Colors.white
+                                  ),
+                                )
+                              )
+                            ),
+                          )
+                        )
                       ],
                     ),
+                  ),
+                  const SizedBox(
+                    height: 24,
+                  ),
+                  Center(
+                    child: Container(
+                      alignment: Alignment.center,
+                      width: 1800,
+                      child: Wrap(
+                        crossAxisAlignment: WrapCrossAlignment.center,
+                        children: [
+                          if(jobCards.isEmpty == true)
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical: 160),
+                              child:LoadingScreen(),
+                            ),
+                            ...jobCards,
+                        ],
+                      ),
+                    )
                   )
-                )
-              )
+                ],
+              ),
             )
-
           ],
         )
       )
@@ -130,13 +257,13 @@ class JobsPageState extends State<JobsPage> {
 }
 
 class CreateJobCard extends StatefulWidget {
-  String? title;
-  String? subtitle;
-  String? location;
-  String? salary;
-  String? link;
-  String? imageLink;
-  CreateJobCard({super.key, this.title, this.subtitle, this.location, this.salary, this.link, this.imageLink});
+  final String? title;
+  final String? subtitle;
+  final String? location;
+  final String? salary;
+  final String? link;
+  final String? imageLink;
+  const CreateJobCard({super.key, this.title, this.subtitle, this.location, this.salary, this.link, this.imageLink});
 
   @override
   CreateJobCardState createState() => CreateJobCardState();
