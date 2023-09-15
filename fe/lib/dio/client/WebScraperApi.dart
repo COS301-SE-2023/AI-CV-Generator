@@ -8,13 +8,14 @@ import 'package:dio/dio.dart';
 class WebScrapperApi extends DioClient {
   static Future<List<JobResponseDTO>?> scrapejobs({
     required String field,
-    required String location
+    required String location,
+    int? amount
   }) async {
     List<JobResponseDTO>? jobs;
     try {
       Response response = await DioClient.dio.post(
         'api/scrape/jobs',
-        data: JobScrapeRequest(field: field, location: location).toJson()
+        data: JobScrapeRequest(field: field, location: location, amount: amount??10).toJson()
       );
       jobs = JobScrapeResponse.fromJson(response.data).jobs;
     } on DioException catch(e) {

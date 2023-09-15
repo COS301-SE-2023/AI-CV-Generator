@@ -6,10 +6,12 @@ part 'JobScrapeRequest.g.dart';
 class JobScrapeRequest {
   String field;
   String location;
+  int amount;
 
   JobScrapeRequest({
     required this.field,
-    required this.location
+    required this.location,
+    required this.amount
   });
 
   factory JobScrapeRequest.fromJson(Map<String, dynamic> json) => _$JobScrapeRequestFromJson(json);
