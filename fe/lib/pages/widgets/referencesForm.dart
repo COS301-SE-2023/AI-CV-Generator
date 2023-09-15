@@ -1,16 +1,16 @@
 // ignore_for_file: must_be_immutable
 import 'package:ai_cv_generator/models/user/Reference.dart';
+import 'package:ai_cv_generator/pages/widgets/buttons/customizableButton.dart';
 import 'package:ai_cv_generator/pages/widgets/employment.dart';
 import 'package:ai_cv_generator/pages/widgets/navdrawer.dart';
 import 'package:ai_cv_generator/pages/widgets/questionaireModal.dart';
 import 'package:ai_cv_generator/pages/util/strings.dart';
 import 'package:ai_cv_generator/pages/widgets/skillsForm.dart';
 import 'package:flutter/material.dart';
-
-import '../screens/home.dart';
+import 'package:ai_cv_generator/pages/screens/homeRedo.dart';
 
 class ReferencesDetailsForm extends StatefulWidget {
-   ReferencesDetailsForm({super.key});
+  const ReferencesDetailsForm({super.key});
 
   @override
   State<StatefulWidget> createState() {
@@ -20,6 +20,7 @@ class ReferencesDetailsForm extends StatefulWidget {
 
 class _ReferencesDetailsFormState extends State<ReferencesDetailsForm> {
   final _formKey = GlobalKey<FormState>();
+  // ignore: prefer_const_constructors, prefer_const_literals_to_create_immutables
   Column column =  Column(children: [],);
 
   @override
@@ -34,15 +35,15 @@ class _ReferencesDetailsFormState extends State<ReferencesDetailsForm> {
       column.children.add(TextMonitorWidget(key: key, description: references.description, contact: references.contact,));
       column.children.add(
         Padding(
-          padding:  EdgeInsets.only(left: 500),
+          padding: const EdgeInsets.only(left: 500),
           child: IconButton(
             onPressed: () {
               remove(key);
-            }, icon:  Icon(Icons.delete)
+            }, icon: const Icon(Icons.delete)
           ),
         )
       );
-        column.children.add( SizedBox(height: 16,));
+        column.children.add(const SizedBox(height: 16,));
     }
     setState(() {});
     super.initState();
@@ -69,15 +70,15 @@ class _ReferencesDetailsFormState extends State<ReferencesDetailsForm> {
     column.children.add(TextMonitorWidget(key: key));
     column.children.add(
       Padding(
-        padding:  EdgeInsets.only(left: 500),
+        padding: const EdgeInsets.only(left: 500),
         child: IconButton(
         onPressed: () {
           remove(key);
-        }, icon:  Icon(Icons.delete)
+        }, icon: const Icon(Icons.delete)
       ),
       )
     );
-    column.children.add( SizedBox(height: 16,));
+    column.children.add(const SizedBox(height: 16,));
 
     setState(() {});
   }
@@ -104,13 +105,26 @@ class _ReferencesDetailsFormState extends State<ReferencesDetailsForm> {
     return false;
   }
 
+  back() {
+    Navigator.of(context).pop();
+    showQuestionaireModal(context, const EmploymentDetailsForm());
+  }
+
+  toNext() {
+    Navigator.of(context).pop();
+    showQuestionaireModal(context,  SkillsDetailsForm());
+  }
+
   @override
   Widget build(BuildContext context) {
+    Size screenSize = MediaQuery.of(context).size;
+    double w = screenSize.width/100;
+    double h = screenSize.height/100; 
     return Scaffold(
-      drawer:  NavDrawer(),
+      drawer: const NavDrawer(),
       appBar: AppBar(
         leading: IconButton(
-          icon:  Icon(
+          icon: const Icon(
             Icons.close,
           ), 
           onPressed: () async { 
@@ -122,7 +136,7 @@ class _ReferencesDetailsFormState extends State<ReferencesDetailsForm> {
         child: Column(
           children: [
             Expanded(
-              child: titleSection,
+              child: titleSection(w,h),
             ),
             Expanded(
               flex: 4,
@@ -138,12 +152,13 @@ class _ReferencesDetailsFormState extends State<ReferencesDetailsForm> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.people,color: Colors.grey,size: 100,),
-                      SizedBox(height: 20),
+                      Icon(Icons.people,color: Colors.grey,size: w*h*1,),
+                      SizedBox(height: h*2),
                       Text(
                         "No References...", 
                         style: TextStyle(
-                          color: Colors.grey
+                          color: Colors.grey,
+                          fontSize: w*h*0.15
                         )
                       )
                     ],
@@ -154,72 +169,72 @@ class _ReferencesDetailsFormState extends State<ReferencesDetailsForm> {
             Align(
               alignment: Alignment.topCenter,
               child: Container ( 
-                padding:  EdgeInsets.all(20.0),
-                child: ElevatedButton(
-                  child:  Text('Add'),
-                  onPressed: () async {
-                    add();
-                  },
-                ),
+                padding: const EdgeInsets.all(20.0),
+                child: CustomizableButton(
+                  text: 'Add',
+                  width: w*3,
+                  height: h*4,
+                  onTap: () => add(),
+                  fontSize: w*h*0.1,
+                )
               )
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget> [
-                SizedBox(
-                  height: 50,
-                  width: 150,
-                  child: ElevatedButton(
-                    child:  Text('Back'),
-                    onPressed: ()  {
-                      updateUser();
-                      Navigator.of(context).pop();
-                      showQuestionaireModal(context,  EmploymentDetailsForm());
-                    },
-                  ),
+                CustomizableButton(
+                  text: 'Back',
+                  width: w*8,
+                  height: h*5,
+                  onTap: () {
+                    updateUser();
+                    back();
+                  },
+                  fontSize: w*h*0.1,
                 ),
-                 SizedBox(width: 64,),
-                SizedBox(
-                  height: 50,
-                  width: 150,
-                  child: ElevatedButton(
-                    child:  Text('Save and Proceed'),
-                    onPressed: () async {
-                      if(updateUser() == false) {
-                        return;
-                      }
-                      Navigator.of(context).pop();
-                      showQuestionaireModal(context,  SkillsDetailsForm());
-                    },
-                  ),
+                SizedBox(width: 6.4*w,),
+                CustomizableButton(
+                  text: 'Save and Proceed',
+                  width: w*8,
+                  height: h*5,
+                  onTap: () {
+                    if(updateUser() == false) {
+                      return;
+                    }
+                    toNext();
+                  },
+                  fontSize: w*h*0.1,
                 ),
-
-            ],
-          ),
-             SizedBox(height: 64,),
+              ],
+            ),
+            SizedBox(height: 5*h,),
           ],
         )
       )
     );
   }
 
-  Widget titleSection= Column (
+  Widget titleSection(double w,double h) {
+    return Column (
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: <Widget> [
         Padding (
-          padding: EdgeInsets.all(8.0),
+          padding: EdgeInsets.all(0.8*w),
             child: Text (
               StringsReferences.appsubHeadingTitle,
               style: TextStyle (
-                fontSize: 20.0,
+                fontSize: w*h*0.2
               ),
           ),
         ),
       ],
     );
+  }
+
 }
 
 class TextMonitorWidget extends StatefulWidget {
+  // ignore: prefer_const_constructors, prefer_const_literals_to_create_immutables
   Column column =  Column(children: [],);
   TextEditingController descriptionC = TextEditingController();
   TextEditingController contactC = TextEditingController();
@@ -247,19 +262,19 @@ class TextMonitorWidgetState extends State<TextMonitorWidget> {
   }
 
   populate() {
-    widget.column.children.add( SizedBox(height: 4,));
+    widget.column.children.add(const SizedBox(height: 4,));
     widget.column.children.add(_builddescriptionField(widget.descriptionC));
-    widget.column.children.add( SizedBox(height: 8,));
+    widget.column.children.add(const SizedBox(height: 8,));
     widget.column.children.add(_buildcontactField(widget.contactC));
   }
 
   Widget _builddescriptionField(TextEditingController controller) {
     return Container (
-      constraints: BoxConstraints.tight( Size(550,70)),
+      constraints: BoxConstraints.tight(const Size(550,70)),
       child: TextFormField(
-        key:  Key("description input"),
+        key: const Key("description input"),
         controller: controller,
-        decoration:  InputDecoration(
+        decoration: const InputDecoration(
           contentPadding: EdgeInsets.all(5.0),
           labelText: 'Description',
           enabledBorder: OutlineInputBorder(),
@@ -278,11 +293,11 @@ class TextMonitorWidgetState extends State<TextMonitorWidget> {
 
   Widget _buildcontactField(TextEditingController controller) {
     return Container (
-      constraints: BoxConstraints.tight( Size(550,70)),
+      constraints: BoxConstraints.tight(const Size(550,70)),
       child: TextFormField(
-        key:  Key("contact input"),
+        key: const Key("contact input"),
         controller: controller,
-        decoration:  InputDecoration(
+        decoration: const InputDecoration(
           contentPadding: EdgeInsets.all(5.0),
           labelText: 'Contact Information',
           enabledBorder: OutlineInputBorder(),
