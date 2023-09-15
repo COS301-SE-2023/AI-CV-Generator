@@ -21,6 +21,7 @@ import 'package:ai_cv_generator/pages/util/successMessage.dart';
 import 'package:ai_cv_generator/pages/widgets/EmptyCV.dart';
 import 'package:ai_cv_generator/pages/widgets/buttons/appBarButton.dart';
 import 'package:ai_cv_generator/pages/widgets/buttons/customizableButton.dart';
+import 'package:ai_cv_generator/pages/widgets/chatBotView.dart';
 import 'package:ai_cv_generator/pages/widgets/loadingScreens/loadingScreen.dart';
 import 'package:ai_cv_generator/pages/widgets/navdrawer.dart';
 import 'package:ai_cv_generator/pages/widgets/personaldetails.dart';
@@ -32,6 +33,7 @@ import 'dart:math' as math;
 
 import 'package:intl/intl.dart';
 
+GlobalKey<ChatBotViewState> chatBotKey = GlobalKey();
 class Home extends StatefulWidget {
   const Home({super.key});
   static UserModel? adjustedModel;
@@ -58,6 +60,9 @@ class HomeState extends State<Home> {
   CVData? data;
   List<Widget> list = [];
   PlatformFile? file;
+  bool isChatBotVisible = false;
+
+  ChatBotView chatBot = const ChatBotView();
 
   // Error/Success Messaging
   showError(String message) {
@@ -89,7 +94,7 @@ class HomeState extends State<Home> {
       showButtons = true;
     });
   }
-
+  // Off
   noShowButton() {
     setState(() {
       showButtons = false;
@@ -622,12 +627,35 @@ class HomeState extends State<Home> {
                             iconSize: h*w*0.2,
                             color: Theme.of(context).colorScheme.secondary,
                             onPressed: () {
-                              //setState(() {chatBotKey.currentState!.visible = false;});
+                              // /setState(() {chatBotKey.currentState!.visible = false;});
+                              showDialog(
+                                barrierColor: Color(0x01000000),
+                                context: context, 
+                                builder: (BuildContext context) {
+                                  return Column(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: <Widget>[
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                          left:w*70,
+                                          right: 0,
+                                          top: h*4,
+                                          bottom: 0
+                                        ),
+                                        child: Column(
+                                          children: <Widget>[
+                                            chatBot
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  );
+                                }
+                              );
                             },
                             icon: const Icon(Icons.message),
                           ),
                         ),
-                        //ChatBotView(key: chatBotKey),
                       ],
                     ),
                   
