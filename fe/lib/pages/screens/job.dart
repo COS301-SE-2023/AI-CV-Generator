@@ -189,6 +189,7 @@ class JobsPageState extends State<JobsPage> {
                           alignment: Alignment.center,
                           child: Material(
                             child: InkWell(
+                              hoverColor: Colors.grey,
                               onTap: () async{
                                 if(_formKey.currentState!.validate() == true) {
                                   setState(() {
@@ -202,12 +203,12 @@ class JobsPageState extends State<JobsPage> {
                                 width: 10*w,
                                 height: 50,
                                 decoration: BoxDecoration(
-                                  gradient: const LinearGradient(
+                                  gradient: LinearGradient(
                                       begin: Alignment.topLeft,
                                       end: Alignment.bottomRight,
                                       colors: [
-                                        Color(0xFFFDA187),
-                                        Color(0xFFEA6D79),
+                                        const Color(0xFFFDA187).withOpacity(0.9),
+                                        const Color(0xFFEA6D79).withOpacity(0.9),
                                       ]
                                   ),
                                   borderRadius: BorderRadius.circular(5),
