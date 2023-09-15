@@ -144,6 +144,15 @@ class JobsPageState extends State<JobsPage> {
                           controller: occupationC,
                         ),
                       ),
+                      Container(
+                        height: 50,
+                        child:  ElevatedButton(
+                          onPressed: () {
+
+                        },
+                        child: Text("Search")),
+                      )
+
                     ],
                   ),
                   const SizedBox(
