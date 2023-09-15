@@ -81,9 +81,10 @@ class JobsPageState extends State<JobsPage> {
 
   @override
   Widget build(BuildContext build) {
-    // if(jobCards.isEmpty == true) {
-    //   return LoadingScreen();
-    // }
+    Size screenSize = MediaQuery.of(context).size;
+    double w = screenSize.width/100;
+    double h = screenSize.height/100;
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -104,9 +105,16 @@ class JobsPageState extends State<JobsPage> {
       body: SafeArea(
         child: Column(
           children: [
-            Breadcrumb(previousPage: "Home", currentPage: "Jobs",),
+            const Breadcrumb(
+              previousPage: "Home",
+              currentPage: "Jobs",
+            ),
             SizedBox(height: 24,),
-            Text("RECOMMENDED FOR YOU", style: TextStyle(fontSize: 60),),
+            const Text(
+              "RECOMMENDED FOR YOU",
+              style: TextStyle(fontSize: 60),
+              textAlign: TextAlign.center,
+            ),
             SizedBox(height: 24,),
             Expanded(
               child: SingleChildScrollView( 
