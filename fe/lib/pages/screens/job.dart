@@ -149,13 +149,13 @@ class JobsPageState extends State<JobsPage> {
 }
 
 class CreateJobCard extends StatefulWidget {
-  String? title;
-  String? subtitle;
-  String? location;
-  String? salary;
-  String? link;
-  String? imageLink;
-  CreateJobCard({super.key, this.title, this.subtitle, this.location, this.salary, this.link, this.imageLink});
+  final String? title;
+  final String? subtitle;
+  final String? location;
+  final String? salary;
+  final String? link;
+  final String? imageLink;
+  const CreateJobCard({super.key, this.title, this.subtitle, this.location, this.salary, this.link, this.imageLink});
 
   @override
   CreateJobCardState createState() => CreateJobCardState();
