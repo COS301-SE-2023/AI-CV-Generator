@@ -12,4 +12,5 @@ import lombok.NoArgsConstructor;
 public class JobScrapeRequest {
     String field;
     String location;
+    Integer amount;
 }

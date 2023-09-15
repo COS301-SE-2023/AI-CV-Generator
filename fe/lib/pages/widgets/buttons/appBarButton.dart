@@ -6,7 +6,7 @@ class AppBarButtonStyle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
-    double w = screenSize.width/100;
+    //double w = screenSize.width/100;
     double h = screenSize.height/100; 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
