@@ -1,3 +1,5 @@
+import 'dart:js_interop';
+
 import 'package:ai_cv_generator/dio/client/WebScraperApi.dart';
 import 'package:ai_cv_generator/dio/client/userApi.dart';
 import 'package:ai_cv_generator/models/user/UserModel.dart';
@@ -22,6 +24,7 @@ class JobsPageState extends State<JobsPage> {
   List<Widget> jobCards = [];
   TextEditingController occupationC = TextEditingController();
   TextEditingController locationC = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -53,6 +56,16 @@ class JobsPageState extends State<JobsPage> {
       showError("Something went wrong!");
       toLogin();
     }
+  }
+
+  Future<void> searchJobs(String occupation, String location) async {
+    List<JobResponseDTO>? jobs = await getJobs(occupation, location);
+    if(jobs.isNull == true || jobs!.isEmpty == true) {
+      showError("No jobs to display!");
+    }
+    setState(() {
+      createCards(jobs);
+    });
   }
 
   Future<List<JobResponseDTO>?> getJobs(String field, String location) async {
@@ -132,39 +145,61 @@ class JobsPageState extends State<JobsPage> {
                   const SizedBox(
                     height: 24,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        width: w*40,
-                        child: TextField(
-                          decoration: const InputDecoration(
-                            hintText: "Type in your occupation",
-                            border: OutlineInputBorder()
+                  Form(
+                    key: _formKey,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          width: w*40,
+                          child: TextFormField(
+                            key: const Key("occupation"),
+                            decoration: const InputDecoration(
+                              hintText: "Type in your occupation",
+                              border: OutlineInputBorder()
+                            ),
+                            controller: occupationC,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter your occupation';
+                              }
+                              return null;
+                            },
                           ),
-                          controller: occupationC,
                         ),
-                      ),
-                      Container(
-                        width: w*20,
-                        child: TextField(
-                          decoration: const InputDecoration(
-                            hintText: "Type in your location",
-                            border: OutlineInputBorder()
+                        Container(
+                          width: w*20,
+                          child: TextFormField(
+                            key: const Key("occupation"),
+                            decoration: const InputDecoration(
+                              hintText: "Type in your location",
+                              border: OutlineInputBorder()
+                            ),
+                            controller: locationC,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter your location';
+                              }
+                              return null;
+                            },
                           ),
-                          controller: locationC,
                         ),
-                      ),
-                      Container(
-                        height: 50,
-                        child:  ElevatedButton(
-                          onPressed: () {
-
-                        },
-                        child: Text("Search")),
-                      )
-
-                    ],
+                        Container(
+                          height: 50,
+                          child:  ElevatedButton(
+                            onPressed: () async{
+                              if(_formKey.currentState!.validate() == true) {
+                                setState(() {
+                                  jobCards = [];
+                                });
+                                await searchJobs(occupationC.text, locationC.text);
+                              }
+                          },
+                          child: Text("Search")),
+                        )
+                      ],
+                    ),
                   ),
                   const SizedBox(
                     height: 24,
@@ -177,7 +212,10 @@ class JobsPageState extends State<JobsPage> {
                         crossAxisAlignment: WrapCrossAlignment.center,
                         children: [
                           if(jobCards.isEmpty == true)
-                            Padding(padding: EdgeInsets.symmetric(vertical: 160), child:LoadingScreen(),),
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical: 160),
+                              child:LoadingScreen(),
+                            ),
                             ...jobCards,
                         ],
                       ),
