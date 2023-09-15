@@ -21,6 +21,7 @@ class JobsPage extends StatefulWidget {
 class JobsPageState extends State<JobsPage> {
   List<Widget> jobCards = [];
   TextEditingController occupationC = TextEditingController();
+  TextEditingController locationC = TextEditingController();
 
   @override
   void initState() {
@@ -142,6 +143,16 @@ class JobsPageState extends State<JobsPage> {
                             border: OutlineInputBorder()
                           ),
                           controller: occupationC,
+                        ),
+                      ),
+                      Container(
+                        width: w*20,
+                        child: TextField(
+                          decoration: const InputDecoration(
+                            hintText: "Type in your location",
+                            border: OutlineInputBorder()
+                          ),
+                          controller: locationC,
                         ),
                       ),
                       Container(
