@@ -427,7 +427,9 @@ class HomeState extends State<Home> {
                                   width: 7*w, 
                                   height: 5*h, 
                                   onTap: () async {
+                                    Home.ready = false;
                                     Home.adjustedModel = model;
+                                    noShowButton();
                                     await showDialog(
                                       context: context, 
                                       builder: (BuildContext context) {
@@ -475,10 +477,21 @@ class HomeState extends State<Home> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 CustomizableButton(
-                                  text: "Generate", 
+                                  text: " Re-Generate", 
                                   width: 6*w, 
                                   height: 5*h, 
-                                  onTap: () {},
+                                  onTap: () async {
+                                    generated = false;
+                                    noShowButton();
+                                    setCVLoadingOn();
+                                    data = await AIApi.generateAI(data: userModelToInput(Home.adjustedModel!));
+                                    if (data != null && data!.description == null) {
+                                      setCVErrorOn();
+                                    }
+                                    showButton();
+                                    generated = true;
+                                    setCVLoadingOff();
+                                  },
                                   fontSize: w*0.7
                                 ),
                                 SizedBox(width: 1*w,),
