@@ -20,6 +20,7 @@ class JobsPage extends StatefulWidget {
 
 class JobsPageState extends State<JobsPage> {
   List<Widget> jobCards = [];
+  TextEditingController occupationC = TextEditingController();
 
   @override
   void initState() {
@@ -98,8 +99,14 @@ class JobsPageState extends State<JobsPage> {
         ),
         actions: [
           IconButton(onPressed: () {}, 
-          icon: const Icon(Icons.account_circle, size: 32,)),
-          const SizedBox(width: 16,)
+            icon: const Icon(
+              Icons.account_circle,
+              size: 32,
+            )
+          ),
+          const SizedBox(
+            width: 16,
+          )
         ],
       ),
       body: SafeArea(
@@ -120,6 +127,24 @@ class JobsPageState extends State<JobsPage> {
                     "RECOMMENDED FOR YOU",
                     style: TextStyle(fontSize: 60),
                     textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(
+                    height: 24,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: w*40,
+                        child: TextField(
+                          decoration: const InputDecoration(
+                            hintText: "Type in your occupation",
+                            border: OutlineInputBorder()
+                          ),
+                          controller: occupationC,
+                        ),
+                      ),
+                    ],
                   ),
                   const SizedBox(
                     height: 24,
