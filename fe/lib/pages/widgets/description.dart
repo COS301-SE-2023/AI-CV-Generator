@@ -1,6 +1,7 @@
 // internal
-import 'package:ai_cv_generator/pages/screens/home.dart';
+import 'package:ai_cv_generator/pages/screens/homeRedo.dart';
 import 'package:ai_cv_generator/pages/util/strings.dart';
+import 'package:ai_cv_generator/pages/widgets/buttons/customizableButton.dart';
 import 'package:ai_cv_generator/pages/widgets/navdrawer.dart';
 import 'package:ai_cv_generator/pages/widgets/questionaireModal.dart';
 import 'package:ai_cv_generator/pages/widgets/skillsForm.dart';
@@ -10,7 +11,7 @@ import 'package:flutter/material.dart';
 
 
 class DescriptionForm extends StatefulWidget {
-   DescriptionForm({super.key});
+   const DescriptionForm({super.key});
 
   @override
   State<StatefulWidget> createState() => DescriptionFormState();
@@ -19,14 +20,28 @@ class DescriptionForm extends StatefulWidget {
 class DescriptionFormState extends State<DescriptionForm> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController descripC = TextEditingController();
+
+  back() {
+     Navigator.of(context).pop();
+    showQuestionaireModal(context, const SkillsDetailsForm());
+  }
+
+  toNext() {
+    Home.ready = true;
+    Navigator.popUntil(context, ModalRoute.withName('/home'));
+  }
+
   @override
   Widget build(BuildContext context) {
     descripC.text = Home.adjustedModel!.description??"";
+    Size screenSize = MediaQuery.of(context).size;
+    double w = screenSize.width/100;
+    double h = screenSize.height/100; 
     return Scaffold(
-      drawer:  NavDrawer(),
+      drawer: const NavDrawer(),
       appBar: AppBar(
         leading: IconButton(
-          icon:  Icon(
+          icon: const Icon(
             Icons.close,
           ), 
           onPressed: () async { 
@@ -38,19 +53,19 @@ class DescriptionFormState extends State<DescriptionForm> {
         child: Column(
           children: [
             Expanded(
-              child: titleSection,
+              child: titleSection(w,h),
             ),
             Expanded(
               child:Container (
-                padding:  EdgeInsets.all(8.0),
-                constraints: BoxConstraints.tight( Size(550,200)),
+                padding: const EdgeInsets.all(8.0),
+                constraints: BoxConstraints.tight(const Size(550,200)),
                 child: Form(
                   key: _formKey,
                   child: TextFormField(
-                    key:  Key("Description start"),
+                    key: const Key("Description start"),
                     maxLines: 6,
                     controller: descripC,
-                    decoration:  InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Description',
                       enabledBorder: OutlineInputBorder(),
                       icon: Icon(Icons.person),
@@ -65,41 +80,36 @@ class DescriptionFormState extends State<DescriptionForm> {
                 )
               ),
             ),
-             SizedBox(height: 200,),
+            const SizedBox(height: 200,),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget> [
-                SizedBox(
-                  height: 50,
-                  width: 150,
-                  child: ElevatedButton(
-                    child:  Text('Back'),
-                    onPressed: () {
-                      updateUser();
-                      Navigator.of(context).pop();
-                      showQuestionaireModal(context,  SkillsDetailsForm());
-                    },
-                  ),
+                CustomizableButton(
+                  text: 'Back',
+                  width: w*8,
+                  height: h*5,
+                  onTap: () {
+                    updateUser();
+                    back();
+                  },
+                  fontSize: w*h*0.1,
                 ),
-                 SizedBox(width: 64,),
-                SizedBox(
-                  height: 50,
-                  width: 150,
-                  child: ElevatedButton(
-                    child:  Text('Save and Proceed'),
-                    onPressed: () async {
-                      if(updateUser() == false) {
-                        return;
-                      }
-                      Home.ready = true;
-                      Navigator.popUntil(context, ModalRoute.withName('/home'));
-                    },
-                  ),
+                SizedBox(width: 6.4*w,),
+                CustomizableButton(
+                  text: 'Save and Proceed',
+                  width: w*8,
+                  height: h*5,
+                  onTap: () {
+                    if(updateUser() == false) {
+                      return;
+                    }
+                    toNext();
+                  },
+                  fontSize: w*h*0.1,
                 ),
-
-            ],
-          ),
-             SizedBox(height: 64,),
+              ],
+            ),
+            SizedBox(height: 5*h,),
           ]
         )
       )
@@ -111,19 +121,20 @@ class DescriptionFormState extends State<DescriptionForm> {
     return _formKey.currentState!.validate();
   }
 
-  Widget titleSection= Column (
+  Widget titleSection(double w,double h) {
+    return Column (
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: <Widget> [
         Padding (
-          padding: EdgeInsets.all(8.0),
+          padding: EdgeInsets.all(0.8*w),
             child: Text (
               StringsDescription.appsubHeadingTitle,
               style: TextStyle (
-                fontSize: 20.0,
+                fontSize: w*h*0.2
               ),
           ),
         ),
       ],
     );
-
+  }
 }
