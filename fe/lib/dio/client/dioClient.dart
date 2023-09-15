@@ -19,7 +19,7 @@ class DioClient {
     ),
   ) ..interceptors.addAll(
     [
-      ErrorInterceptor(),
+      //ErrorInterceptor(),
       Logger(log: true),
       HeaderAdder(),
       TokenRevalidator()
