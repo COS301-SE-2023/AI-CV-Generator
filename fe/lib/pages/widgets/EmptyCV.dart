@@ -5,12 +5,15 @@ class   EmptyCVScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
+    Size screenSize = MediaQuery.of(context).size;
+    double w = screenSize.width/100;
+    double h = screenSize.height/100; 
+    return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.emoji_emotions_outlined,color: Colors.grey,size: 100,),
-          SizedBox(height: 20),
+          Icon(Icons.emoji_emotions_outlined,color: Colors.grey,size: w*h*1,),
+          SizedBox(height: h*w*0.2),
           Text("Create CV !!!", style: TextStyle(
             color: Colors.grey
           )),

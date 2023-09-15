@@ -8,6 +8,7 @@ import 'package:ai_cv_generator/pages/util/fileView.dart';
 import 'package:ai_cv_generator/pages/util/successMessage.dart';
 import 'package:ai_cv_generator/pages/widgets/EmptyCV.dart';
 import 'package:ai_cv_generator/pages/widgets/buttons/appBarButton.dart';
+import 'package:ai_cv_generator/pages/widgets/buttons/customizableButton.dart';
 import 'package:ai_cv_generator/pages/widgets/buttons/generalTextButton.dart';
 import 'package:ai_cv_generator/pages/widgets/loadingScreens/loadingScreen.dart';
 import 'package:ai_cv_generator/pages/widgets/navdrawer.dart';
@@ -253,13 +254,13 @@ class HomeState extends State<Home> {
           children: [
             Center(
               child: Container(
-                padding: EdgeInsets.fromLTRB(w*5, h*3, w*1,h*1),
+                padding: EdgeInsets.fromLTRB(w*8, h*3, w*1,h*1),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
                       padding: EdgeInsets.fromLTRB(0, 0, 2*w, 0),
-                      width: w*30,
+                      width: w*25,
                       height: h*85,
                       child: Container(
                         padding: EdgeInsets.fromLTRB(2.4*w,2.4*h, 2.4*w, 2.4*h),
@@ -309,28 +310,66 @@ class HomeState extends State<Home> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                SizedBox(
-                                  height: 5*h,
-                                  width: 10*w, 
-                                  child: InkWell(
-                                    onTap: () async {
-                                      
-                                  
-                                    }, 
-                                    child: const GeneralButtonStyle(text: "Survey"),
-                                  ),
+                                CustomizableButton(
+                                  text: "Survey", 
+                                  width: 7*w, 
+                                  height: 5*h, 
+                                  onTap: () {
+                                    showButton();
+                                  },
+                                  fontSize: w*0.8
                                 ),
-                                SizedBox(width: 5*w,),
-                                SizedBox(
-                                  height: 5*h,
-                                  width: 10*w, 
-                                  child: InkWell(
-                                    onTap: () async {
-                                      
-                                    }, 
-                                    child: const GeneralButtonStyle(text: "Upload"),
-                                  ),
+                                SizedBox(width: 4*w,),
+                                CustomizableButton(
+                                  text: "Upload", 
+                                  width: 7*w, 
+                                  height: 5*h, 
+                                  onTap: () {},
+                                  fontSize: w*0.8
+                                )
+                              ],
+                            ),
+                          ),
+                          if (showButtons)
+                          Container(
+                            padding: EdgeInsets.only(
+                              top: h*2
+                            ),
+                            width: 30*w,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                CustomizableButton(
+                                  text: "Generate", 
+                                  width: 6*w, 
+                                  height: 5*h, 
+                                  onTap: () {},
+                                  fontSize: w*0.7
                                 ),
+                                SizedBox(width: 1*w,),
+                                CustomizableButton(
+                                  text: "Expand", 
+                                  width: 6*w, 
+                                  height: 5*h, 
+                                  onTap: () {},
+                                  fontSize: w*0.7
+                                ),
+                                SizedBox(width: 1*w,),
+                                CustomizableButton(
+                                  text: "Download", 
+                                  width: 6*w, 
+                                  height: 5*h, 
+                                  onTap: () {},
+                                  fontSize: w*0.7
+                                ),
+                                SizedBox(width: 1*w,),
+                                CustomizableButton(
+                                  text: "Share", 
+                                  width: 6*w, 
+                                  height: 5*h, 
+                                  onTap: () {},
+                                  fontSize: w*0.7
+                                )
                               ],
                             ),
                           ),
@@ -399,13 +438,13 @@ class HomeState extends State<Home> {
                                               ...list
                                             ]
                                         )
-                                      ) : const Center(
+                                      ) : Center(
                                       child: Column(
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
-                                          Icon(Icons.insert_drive_file,color: Colors.grey,size: 100,),
-                                          SizedBox(height: 20),
-                                          Text("No CVs...", 
+                                          Icon(Icons.insert_drive_file,color: Colors.grey,size: w*h*1,),
+                                          SizedBox(height: w*h*0.2),
+                                          const Text("No CVs...", 
                                           style: TextStyle(
                                             color: Colors.grey
                                           )
