@@ -42,7 +42,7 @@ class AboutPageState extends State<AboutPage> {
           children: [
             const Breadcrumb(previousPage: "Home", currentPage: "About",),
             const SizedBox(
-              height: 48,
+              height: 24,
             ),
             Expanded(
               child: ListView(
@@ -53,7 +53,7 @@ class AboutPageState extends State<AboutPage> {
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(
-                    height: 16,
+                    height: 48,
                   ),
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: (30*w).toDouble()),
