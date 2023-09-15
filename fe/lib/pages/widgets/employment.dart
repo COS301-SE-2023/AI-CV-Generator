@@ -119,7 +119,7 @@ class _EmploymentDetailsFormState extends State<EmploymentDetailsForm> {
 
     toNext() {
       Navigator.pop(context);
-      showQuestionaireModal(context,  ReferencesDetailsForm());
+      showQuestionaireModal(context, const ReferencesDetailsForm());
     }
 
   @override
@@ -238,7 +238,6 @@ class _EmploymentDetailsFormState extends State<EmploymentDetailsForm> {
       ],
     );
   }
-
 }
 
 class TextMonitorWidget extends StatefulWidget {

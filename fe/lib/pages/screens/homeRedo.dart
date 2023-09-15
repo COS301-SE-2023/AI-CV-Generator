@@ -11,6 +11,7 @@ import 'package:ai_cv_generator/pages/widgets/buttons/appBarButton.dart';
 import 'package:ai_cv_generator/pages/widgets/buttons/customizableButton.dart';
 import 'package:ai_cv_generator/pages/widgets/loadingScreens/loadingScreen.dart';
 import 'package:ai_cv_generator/pages/widgets/navdrawer.dart';
+import 'package:ai_cv_generator/pages/widgets/personaldetails.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
@@ -36,6 +37,7 @@ class HomeState extends State<Home> {
   TemplateOption option = TemplateOption.templateA; // Default option on start
   bool showButtons = false;
   bool generated = false;
+  bool loading = false;
 
   // variables
   UserModel? model;
@@ -77,6 +79,19 @@ class HomeState extends State<Home> {
   noShowButton() {
     setState(() {
       showButtons = false;
+    });
+  }
+
+  // CV AI Loading screen
+  setCVLoadingOn() {
+    setState(() {
+      loading = true;
+    });
+  }
+
+  setCVLoadingOff() {
+    setState(() {
+      loading = true;
     });
   }
 
@@ -315,8 +330,23 @@ class HomeState extends State<Home> {
                                   text: "Survey", 
                                   width: 7*w, 
                                   height: 5*h, 
-                                  onTap: () {
+                                  onTap: () async {
+                                    Home.adjustedModel = model;
+                                    await showDialog(
+                                      context: context, 
+                                      builder: (BuildContext context) {
+                                        return Dialog(
+                                          backgroundColor: Colors.transparent,
+                                          child: ConstrainedBox(
+                                            constraints: const BoxConstraints(maxWidth: 800),
+                                            child: PersonalDetailsForm()
+                                          )
+                                        );
+                                      }
+                                    );
+                                    if (Home.ready == false) return;
                                     showButton();
+                                    setCVLoadingOn();
                                   },
                                   fontSize: w*0.8
                                 ),
@@ -325,7 +355,9 @@ class HomeState extends State<Home> {
                                   text: "Upload", 
                                   width: 7*w, 
                                   height: 5*h, 
-                                  onTap: () {},
+                                  onTap: () {
+                                    print(model!.toJson());
+                                  },
                                   fontSize: w*0.8
                                 )
                               ],
@@ -392,7 +424,7 @@ class HomeState extends State<Home> {
                                 data: CVData(
 
                                 )
-                              ) : const EmptyCVScreen()
+                              ) : EmptyCVScreen(loading: loading,)
                             ),
                           )
                         ],

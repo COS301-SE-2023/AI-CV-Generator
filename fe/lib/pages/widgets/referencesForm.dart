@@ -112,7 +112,7 @@ class _ReferencesDetailsFormState extends State<ReferencesDetailsForm> {
 
   toNext() {
     Navigator.of(context).pop();
-    showQuestionaireModal(context,  SkillsDetailsForm());
+    showQuestionaireModal(context, const SkillsDetailsForm());
   }
 
   @override

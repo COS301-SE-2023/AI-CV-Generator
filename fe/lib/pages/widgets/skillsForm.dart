@@ -112,7 +112,7 @@ class _SkillsDetailsFormState extends State<SkillsDetailsForm> {
 
   toNext() {
     Navigator.of(context).pop();
-    showQuestionaireModal(context,  DescriptionForm());
+    showQuestionaireModal(context, const DescriptionForm());
   }
 
   @override
