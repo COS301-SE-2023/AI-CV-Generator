@@ -1,16 +1,16 @@
 // ignore_for_file: must_be_immutable
 import 'package:ai_cv_generator/models/user/Skill.dart';
+import 'package:ai_cv_generator/pages/widgets/buttons/customizableButton.dart';
 import 'package:ai_cv_generator/pages/widgets/description.dart';
 import 'package:ai_cv_generator/pages/widgets/navdrawer.dart';
 import 'package:ai_cv_generator/pages/widgets/questionaireModal.dart';
 import 'package:ai_cv_generator/pages/util/strings.dart';
 import 'package:ai_cv_generator/pages/widgets/referencesForm.dart';
 import 'package:flutter/material.dart';
-
-import '../screens/home.dart';
+import 'package:ai_cv_generator/pages/screens/homeRedo.dart';
 
 class SkillsDetailsForm extends StatefulWidget {
-   SkillsDetailsForm({super.key});
+  const SkillsDetailsForm({super.key});
 
   @override
   State<StatefulWidget> createState() {
@@ -20,6 +20,7 @@ class SkillsDetailsForm extends StatefulWidget {
 
 class _SkillsDetailsFormState extends State<SkillsDetailsForm> {
   final _formKey = GlobalKey<FormState>();
+  // ignore: prefer_const_constructors, prefer_const_literals_to_create_immutables
   Column column =  Column(children: [],);
 
   @override
@@ -34,15 +35,15 @@ class _SkillsDetailsFormState extends State<SkillsDetailsForm> {
       column.children.add(TextMonitorWidget(key: key, skill: skills.skill, reason: skills.reason, level: skills.level,));
       column.children.add(
         Padding(
-          padding:  EdgeInsets.only(left: 500),
+          padding: const EdgeInsets.only(left: 500),
           child: IconButton(
             onPressed: () {
               remove(key);
-            }, icon:  Icon(Icons.delete)
+            }, icon: const Icon(Icons.delete)
           ),
         )
       );
-        column.children.add( SizedBox(height: 16,));
+        column.children.add(const SizedBox(height: 16,));
     }
     setState(() {});
     super.initState();
@@ -69,15 +70,15 @@ class _SkillsDetailsFormState extends State<SkillsDetailsForm> {
     column.children.add(TextMonitorWidget(key: key));
     column.children.add(
       Padding(
-        padding:  EdgeInsets.only(left: 500),
+        padding: const EdgeInsets.only(left: 500),
         child: IconButton(
         onPressed: () {
           remove(key);
-        }, icon:  Icon(Icons.delete)
+        }, icon: const Icon(Icons.delete)
       ),
       )
     );
-    column.children.add( SizedBox(height: 16,));
+    column.children.add(const SizedBox(height: 16,));
 
     setState(() {});
   }
@@ -104,13 +105,26 @@ class _SkillsDetailsFormState extends State<SkillsDetailsForm> {
     return false;
   }
 
+  back() {
+    Navigator.of(context).pop();
+    showQuestionaireModal(context, const ReferencesDetailsForm());
+  }
+
+  toNext() {
+    Navigator.of(context).pop();
+    showQuestionaireModal(context,  DescriptionForm());
+  }
+
   @override
   Widget build(BuildContext context) {
+    Size screenSize = MediaQuery.of(context).size;
+    double w = screenSize.width/100;
+    double h = screenSize.height/100; 
     return Scaffold(
-      drawer:  NavDrawer(),
+      drawer: const NavDrawer(),
       appBar: AppBar(
         leading: IconButton(
-          icon:  Icon(
+          icon: const Icon(
             Icons.close,
           ), 
           onPressed: () async { 
@@ -122,7 +136,7 @@ class _SkillsDetailsFormState extends State<SkillsDetailsForm> {
         child: Column(
           children: [
             Expanded(
-              child: titleSection,
+              child: titleSection(w,h),
             ),
             Expanded(
               flex: 4,
@@ -131,7 +145,7 @@ class _SkillsDetailsFormState extends State<SkillsDetailsForm> {
                 child: 
                 column.children.isNotEmpty ?
                 Container(
-                  constraints: BoxConstraints(maxWidth: 600),
+                  constraints: const BoxConstraints(maxWidth: 600),
                   child: ListView(
                     children: [
                       ...column.children
@@ -141,12 +155,13 @@ class _SkillsDetailsFormState extends State<SkillsDetailsForm> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.build,color: Colors.grey,size: 100,),
-                      SizedBox(height: 20),
+                      Icon(Icons.build,color: Colors.grey,size: w*h*1,),
+                      SizedBox(height: h*2),
                       Text(
                         "No Skills...", 
                         style: TextStyle(
-                          color: Colors.grey
+                          color: Colors.grey,
+                          fontSize: w*h*0.15
                         )
                       )
                     ],
@@ -157,72 +172,71 @@ class _SkillsDetailsFormState extends State<SkillsDetailsForm> {
             Align(
               alignment: Alignment.topCenter,
               child: Container ( 
-                padding:  EdgeInsets.all(20.0),
-                child: ElevatedButton(
-                  child:  Text('Add'),
-                  onPressed: () async {
-                    add();
-                  },
-                ),
+                padding: const EdgeInsets.all(20.0),
+                child: CustomizableButton(
+                  text: 'Add',
+                  width: w*3,
+                  height: h*4,
+                  onTap: () => add(),
+                  fontSize: w*h*0.1,
+                )
               )
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget> [
-                SizedBox(
-                  height: 50,
-                  width: 150,
-                  child: ElevatedButton(
-                    child:  Text('Back'),
-                    onPressed: ()  {
-                      updateUser();
-                      Navigator.of(context).pop();
-                      showQuestionaireModal(context,  ReferencesDetailsForm());
-                    },
-                  ),
+                CustomizableButton(
+                  text: 'Back',
+                  width: w*8,
+                  height: h*5,
+                  onTap: () {
+                    updateUser();
+                    back();
+                  },
+                  fontSize: w*h*0.1,
                 ),
-                 SizedBox(width: 64,),
-                SizedBox(
-                  height: 50,
-                  width: 150,
-                  child: ElevatedButton(
-                    child:  Text('Save and Proceed'),
-                    onPressed: () async {
-                      if(updateUser() == false) {
-                        return;
-                      }
-                      Navigator.of(context).pop();
-                      showQuestionaireModal(context,  DescriptionForm());
-                    },
-                  ),
+                SizedBox(width: 6.4*w,),
+                CustomizableButton(
+                  text: 'Save and Proceed',
+                  width: w*8,
+                  height: h*5,
+                  onTap: () {
+                    if(updateUser() == false) {
+                      return;
+                    }
+                    toNext();
+                  },
+                  fontSize: w*h*0.1,
                 ),
-
-            ],
-          ),
-             SizedBox(height: 64,),
+              ],
+            ),
+            SizedBox(height: 5*h,),
           ],
         )
       )
     );
   }
 
-  Widget titleSection = Column (
+  Widget titleSection(double w,double h) {
+    return Column (
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: <Widget> [
         Padding (
-          padding: EdgeInsets.all(8.0),
+          padding: EdgeInsets.all(0.8*w),
             child: Text (
               StringsSkill.appsubHeadingTitle,
               style: TextStyle (
-                fontSize: 20.0,
+                fontSize: w*h*0.2
               ),
           ),
         ),
       ],
     );
+  }
 }
 
 class TextMonitorWidget extends StatefulWidget {
+  // ignore: prefer_const_constructors, prefer_const_literals_to_create_immutables
   Row row =  Row(children: [],);
   TextEditingController skillC = TextEditingController();
   TextEditingController reasonC = TextEditingController();
@@ -264,11 +278,11 @@ class TextMonitorWidgetState extends State<TextMonitorWidget> {
 
   Widget _buildskillField(TextEditingController controller) {
     return Container (
-      constraints: BoxConstraints.tight( Size(550,70)),
+      constraints: BoxConstraints.tight(const Size(550,70)),
       child: TextFormField(
-        key:  Key("skill input"),
+        key: const Key("skill input"),
         controller: controller,
-        decoration:  InputDecoration(
+        decoration: const InputDecoration(
           contentPadding: EdgeInsets.all(5.0),
           labelText: 'Skill',
           enabledBorder: OutlineInputBorder(),
@@ -287,11 +301,11 @@ class TextMonitorWidgetState extends State<TextMonitorWidget> {
 
   Widget _buildreasonField(TextEditingController controller) {
     return Container (
-      constraints: BoxConstraints.tight( Size(550,70)),
+      constraints: BoxConstraints.tight(const Size(550,70)),
       child: TextFormField(
-        key:  Key("reason input"),
+        key: const Key("reason input"),
         controller: controller,
-        decoration:  InputDecoration(
+        decoration: const InputDecoration(
           contentPadding: EdgeInsets.all(5.0),
           labelText: 'Reason',
           enabledBorder: OutlineInputBorder(),
@@ -311,7 +325,7 @@ class TextMonitorWidgetState extends State<TextMonitorWidget> {
   _buildlevelField(TextEditingController level) {
     return Container (
       alignment: Alignment.topCenter,
-      constraints: BoxConstraints.tight(Size(550,70)),
+      constraints: BoxConstraints.tight(const Size(550,70)),
       child: DropdownButton<String>(
         value: level.text,
         onChanged: (String? newValue) {
@@ -339,13 +353,13 @@ class TextMonitorWidgetState extends State<TextMonitorWidget> {
       ),
       child: Row(
         children: [
-          SizedBox(width: 24,),
+          const SizedBox(width: 24,),
           Expanded(flex: 2, child:_buildskillField(widget.skillC)),
-          SizedBox(width: 8,),
+          const SizedBox(width: 8,),
           Expanded(flex: 2, child: _buildreasonField(widget.reasonC),),
-          SizedBox(width: 8,),
+          const SizedBox(width: 8,),
           Expanded(flex: 1, child:_buildlevelField(widget.levelC)),
-          SizedBox(width: 24,)
+          const SizedBox(width: 24,)
         ],
       ),
     );
