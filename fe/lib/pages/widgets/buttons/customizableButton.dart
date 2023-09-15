@@ -24,8 +24,8 @@ class CustomizableButton extends StatelessWidget {
           children: [
             Center(
               child: Container(
-                height: width,
-                width: height,
+                height: height,
+                width: width,
                 decoration: BoxDecoration(
                   gradient: const LinearGradient(
                       begin: Alignment.topLeft,
