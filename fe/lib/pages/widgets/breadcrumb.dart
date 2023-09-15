@@ -13,7 +13,6 @@ class Breadcrumb extends StatelessWidget {
     double w = screenSize.width/100;
     double h = screenSize.height/100;
     return Container(
-      // height: h*3,
       alignment: Alignment.topLeft,
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       decoration: const BoxDecoration(),
@@ -21,7 +20,7 @@ class Breadcrumb extends StatelessWidget {
           children: [
             TextButton(
               onPressed: () {
-                Navigator.pushNamed(context, '/' + previousPage.toLowerCase());
+                Navigator.pushNamed(context, "/ + ${previousPage.toLowerCase()}");
               },
               child: Text(
                 previousPage,
@@ -31,9 +30,10 @@ class Breadcrumb extends StatelessWidget {
               )
             ),
             Text(
-              "/ " + currentPage,
+              "/ ${currentPage} ", 
               style: const TextStyle(
-                fontSize: 24
+                fontSize: 24,
+                fontWeight: FontWeight.bold
               ),
             )
           ],
