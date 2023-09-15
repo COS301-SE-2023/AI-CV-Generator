@@ -14,6 +14,9 @@ class AboutPage extends StatefulWidget {
 class AboutPageState extends State<AboutPage> {
   @override
   Widget build(BuildContext context) {
+    Size screenSize = MediaQuery.of(context).size;
+    double w = screenSize.width/100;
+    double h = screenSize.height/100;
     return  Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -28,7 +31,9 @@ class AboutPageState extends State<AboutPage> {
       actions: [
         IconButton(onPressed: () {}, 
         icon: const Icon(Icons.account_circle, size: 32,)),
-        const SizedBox(width: 16,)
+        const SizedBox(
+          width: 16,
+        )
       ],
       ),
       body: SafeArea(
@@ -36,6 +41,9 @@ class AboutPageState extends State<AboutPage> {
           mainAxisSize: MainAxisSize.max,
           children: [
             const Breadcrumb(previousPage: "Home", currentPage: "About",),
+            const SizedBox(
+              height: 48,
+            ),
             Expanded(
               child: ListView(
                 children: [
@@ -48,12 +56,7 @@ class AboutPageState extends State<AboutPage> {
                     height: 16,
                   ),
                   Container(
-                    width: 200,
-                    padding: const EdgeInsets.symmetric(horizontal: 90),
-                    decoration: BoxDecoration(
-                      // color: Theme.of(context).colorScheme.surface,
-                      borderRadius: BorderRadius.circular(20.0),
-                    ),
+                    padding: EdgeInsets.symmetric(horizontal: (30*w).toDouble()),
                     child: const Text(
                       style: TextStyle(fontSize: 18), 
                       "A challenge for job seekers in South Africa is the creation of an effective CV, cover letter, or email that can make them stand out to potential employers. Many job seekers lack the necessary knowledge and skills to craft high-quality job application documents that highlight their strengths and experiences. The AI CV Generator aims to aid job seekers in creating appealing job application documents that will increase their chances of acquiring a job.",
