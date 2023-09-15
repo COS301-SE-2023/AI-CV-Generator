@@ -104,38 +104,43 @@ class JobsPageState extends State<JobsPage> {
       ),
       body: SafeArea(
         child: Column(
+          mainAxisSize: MainAxisSize.max,
           children: [
             const Breadcrumb(
               previousPage: "Home",
               currentPage: "Jobs",
             ),
-            SizedBox(height: 24,),
-            const Text(
-              "RECOMMENDED FOR YOU",
-              style: TextStyle(fontSize: 60),
-              textAlign: TextAlign.center,
+            const SizedBox(
+              height: 24,
             ),
-            SizedBox(height: 24,),
             Expanded(
-              child: SingleChildScrollView( 
-                child: Center(
-                  child: Container(
-                    alignment: Alignment.center,
-                    width: 1800,
-                    child: Wrap(
-                      crossAxisAlignment: WrapCrossAlignment.center,
-                      // mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        if(jobCards.isEmpty == true)
-                          Padding(padding: EdgeInsets.symmetric(vertical: 160), child:LoadingScreen(),),
-                          ...jobCards,
-                      ],
-                    ),
+              child: ListView(
+                children: [
+                  const Text(
+                    "RECOMMENDED FOR YOU",
+                    style: TextStyle(fontSize: 60),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(
+                    height: 24,
+                  ),
+                  Center(
+                    child: Container(
+                      alignment: Alignment.center,
+                      width: 1800,
+                      child: Wrap(
+                        crossAxisAlignment: WrapCrossAlignment.center,
+                        children: [
+                          if(jobCards.isEmpty == true)
+                            Padding(padding: EdgeInsets.symmetric(vertical: 160), child:LoadingScreen(),),
+                            ...jobCards,
+                        ],
+                      ),
+                    )
                   )
-                )
-              )
+                ],
+              ),
             )
-
           ],
         )
       )
