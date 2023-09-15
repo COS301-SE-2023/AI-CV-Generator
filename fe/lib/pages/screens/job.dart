@@ -186,9 +186,21 @@ class JobsPageState extends State<JobsPage> {
                           ),
                         ),
                         Container(
+                          alignment: Alignment.center,
+                          width: 10*w,
                           height: 50,
-                          child:  ElevatedButton(
-                            onPressed: () async{
+                          decoration: BoxDecoration(
+                            gradient: const LinearGradient(
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                                colors: [
+                                  Color(0xFFFDA187),
+                                  Color(0xFFEA6D79),
+                                ]),
+                            borderRadius: BorderRadius.circular(16.0),
+                          ),
+                          child:  InkWell(
+                            onTap: () async{
                               if(_formKey.currentState!.validate() == true) {
                                 setState(() {
                                   jobCards = [];
@@ -196,7 +208,13 @@ class JobsPageState extends State<JobsPage> {
                                 await searchJobs(occupationC.text, locationC.text);
                               }
                           },
-                          child: Text("Search")),
+                          child: const Text(
+                            "Search",
+                            style: TextStyle(
+                              color: Colors.white
+                            ),
+                            )
+                          ),
                         )
                       ],
                     ),
