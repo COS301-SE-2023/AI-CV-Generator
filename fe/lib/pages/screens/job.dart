@@ -187,34 +187,41 @@ class JobsPageState extends State<JobsPage> {
                         ),
                         Container(
                           alignment: Alignment.center,
-                          width: 10*w,
-                          height: 50,
-                          decoration: BoxDecoration(
-                            gradient: const LinearGradient(
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                                colors: [
-                                  Color(0xFFFDA187),
-                                  Color(0xFFEA6D79),
-                                ]),
-                            borderRadius: BorderRadius.circular(16.0),
-                          ),
-                          child:  InkWell(
-                            onTap: () async{
-                              if(_formKey.currentState!.validate() == true) {
-                                setState(() {
-                                  jobCards = [];
-                                });
-                                await searchJobs(occupationC.text, locationC.text);
-                              }
-                          },
-                          child: const Text(
-                            "Search",
-                            style: TextStyle(
-                              color: Colors.white
+                          child: Material(
+                            child: InkWell(
+                              hoverColor: Colors.grey,
+                              onTap: () async{
+                                if(_formKey.currentState!.validate() == true) {
+                                  setState(() {
+                                    jobCards = [];
+                                  });
+                                  await searchJobs(occupationC.text, locationC.text);
+                                }
+                              },
+                              child: Container(
+                                alignment: Alignment.center,
+                                width: 10*w,
+                                height: 50,
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                      begin: Alignment.topLeft,
+                                      end: Alignment.bottomRight,
+                                      colors: [
+                                        const Color(0xFFFDA187).withOpacity(0.9),
+                                        const Color(0xFFEA6D79).withOpacity(0.9),
+                                      ]
+                                  ),
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                child: const Text(
+                                  "Search",
+                                  style: TextStyle(
+                                    color: Colors.white
+                                  ),
+                                )
+                              )
                             ),
-                            )
-                          ),
+                          )
                         )
                       ],
                     ),

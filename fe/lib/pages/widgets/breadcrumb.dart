@@ -9,17 +9,33 @@ class Breadcrumb extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size screenSize = MediaQuery.of(context).size;
+    double w = screenSize.width/100;
+    double h = screenSize.height/100;
     return Container(
-        alignment: Alignment.topLeft,
-        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-        decoration: BoxDecoration(
-        ),
+      // height: h*3,
+      alignment: Alignment.topLeft,
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      decoration: const BoxDecoration(),
         child: Row(
           children: [
-            TextButton(onPressed: () {
-              Navigator.pushNamed(context, '/' + previousPage.toLowerCase());
-            }, child: Text(previousPage, style: TextStyle(fontSize: 24),)),
-            Text("/ " + currentPage, style: TextStyle(fontSize: 24),)
+            TextButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/' + previousPage.toLowerCase());
+              },
+              child: Text(
+                previousPage,
+                style: const TextStyle(
+                  fontSize: 24
+                ),
+              )
+            ),
+            Text(
+              "/ " + currentPage,
+              style: const TextStyle(
+                fontSize: 24
+              ),
+            )
           ],
         )
       );
