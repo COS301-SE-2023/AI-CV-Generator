@@ -193,7 +193,7 @@ class TemplateState extends State<Template> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Image(image: img!.image, height: 170,width: 170,),
+                    Image(image: img.image, height: 170,width: 170,),
                     const SizedBox(height: 40,),
                     TextFieldInput(
                       controller: widget.nameC!, 
@@ -231,7 +231,7 @@ class TemplateState extends State<Template> {
                         decoration: BoxDecoration(
                           border: Border.all(
                             width: 2,
-                            color: widget.colC!
+                            color: widget.colC??Colors.white
                           ),
                           borderRadius: BorderRadius.circular(20),
                           color: widget.colD
