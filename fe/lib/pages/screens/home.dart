@@ -237,7 +237,7 @@ class _HomeState extends State<Home> {
   TextStyle textStyle = const TextStyle(fontSize: 12);
   TextEditingController filenameC = TextEditingController();
   List<Widget> list = [];
-  Widget? editPage = const EmptyCVScreen(loading: false,);
+  Widget? editPage = const EmptyCVScreen(status: ScreenStatus.empty,);
   TemplateA? templateAPdf;
   Color tempA = Colors.blue;
   TemplateB? templateBPdf;

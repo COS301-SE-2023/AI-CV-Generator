@@ -7,6 +7,7 @@ import 'package:ai_cv_generator/dio/response/AIResponses/ChatResponse.dart';
 import 'package:ai_cv_generator/dio/response/AIResponses/ExtractionResponse.dart';
 import 'package:ai_cv_generator/dio/response/AIResponses/GenerationResponse.dart';
 import 'package:ai_cv_generator/models/aimodels/AIInput.dart';
+import 'package:ai_cv_generator/models/aimodels/CVData.dart';
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:syncfusion_flutter_pdf/pdf.dart'; 
@@ -27,6 +28,23 @@ class AIApi extends DioClient {
         
       },);
       return response;
+  }
+
+  static Future<CVData?> generateAI({
+    required AIInput data
+  }) async {
+    // Creating input
+      CVData? output;
+      await DioClient.dio.post(
+        'generate/gen',
+        data: GenerationRequest(data:data).toJson()
+      ).then((value) {
+        output = GenerationResponse.fromJson(value.data).data;
+      }).timeout(const Duration(milliseconds: 35000), 
+      onTimeout: () {
+        
+      },);
+      return output;
   }
 
   static Future<AIInput?> extractPdf({

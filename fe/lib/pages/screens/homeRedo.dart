@@ -1,6 +1,18 @@
+import 'package:ai_cv_generator/dio/client/AIApi.dart';
 import 'package:ai_cv_generator/dio/client/fileApi.dart';
 import 'package:ai_cv_generator/dio/client/userApi.dart';
+import 'package:ai_cv_generator/models/aimodels/AIEmployment.dart';
+import 'package:ai_cv_generator/models/aimodels/AIInput.dart';
+import 'package:ai_cv_generator/models/aimodels/AILink.dart';
+import 'package:ai_cv_generator/models/aimodels/AIQualification.dart';
+import 'package:ai_cv_generator/models/aimodels/AIReference.dart';
+import 'package:ai_cv_generator/models/aimodels/AISkill.dart';
 import 'package:ai_cv_generator/models/aimodels/CVData.dart';
+import 'package:ai_cv_generator/models/user/Employment.dart';
+import 'package:ai_cv_generator/models/user/Link.dart';
+import 'package:ai_cv_generator/models/user/Qualification.dart';
+import 'package:ai_cv_generator/models/user/Reference.dart';
+import 'package:ai_cv_generator/models/user/Skill.dart';
 import 'package:ai_cv_generator/models/user/UserModel.dart';
 import 'package:ai_cv_generator/pages/template/Template.dart';
 import 'package:ai_cv_generator/pages/util/errorMessage.dart';
@@ -17,6 +29,8 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter/painting.dart' as paint;
 import 'dart:math' as math;
+
+import 'package:intl/intl.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -37,7 +51,7 @@ class HomeState extends State<Home> {
   TemplateOption option = TemplateOption.templateA; // Default option on start
   bool showButtons = false;
   bool generated = false;
-  bool loading = false;
+  ScreenStatus status = ScreenStatus.empty;
 
   // variables
   UserModel? model;
@@ -85,13 +99,27 @@ class HomeState extends State<Home> {
   // CV AI Loading screen
   setCVLoadingOn() {
     setState(() {
-      loading = true;
+      status = ScreenStatus.loading;
     });
   }
 
   setCVLoadingOff() {
     setState(() {
-      loading = true;
+      status = ScreenStatus.empty;
+    });
+  }
+
+  // CV AI Error screen
+  // On
+  setCVErrorOn() {
+    setState(() {
+      status = ScreenStatus.error;
+    });
+  }
+
+  setCVError() {
+    setState(() {
+      status = ScreenStatus.empty;
     });
   }
 
@@ -103,6 +131,74 @@ class HomeState extends State<Home> {
       yield controller.value.text;
     }
   } 
+
+  // Coverters
+  // UserModel to AiInput
+  AIInput userModelToInput(UserModel model) { 
+    final DateFormat formatter = DateFormat('yyyy-MM-dd');
+    List<AIEmployment> exp = [];
+    for (Employment emp in model.employmenthistory??[]) {
+      exp.add(
+        AIEmployment(
+          company: emp.company, 
+          jobTitle: emp.title, 
+          startDate: formatter.format(emp.startdate), 
+          endDate: formatter.format(emp.enddate)
+          )
+      );
+    }
+    List<AIQualification> qual = [];
+    for (Qualification qua in model.qualifications??[]) {
+      qual.add(
+        AIQualification(
+          qualification: qua.qualification, 
+          institution: qua.intstitution, 
+          startDate: formatter.format(qua.date), 
+          endDate: formatter.format(qua.endo)
+        )
+      );
+    }
+    List<AILink> links = [];
+    for (Link lin in model.links??[]) {
+      links.add(
+        AILink(
+          url: lin.url
+        )
+      );
+    }
+    List<AIReference> references = [];
+    for (Reference ref in model.references??[]) {
+      references.add(
+        AIReference(
+          description: ref.description,
+          contact: ref.contact
+        )
+      );
+    }
+    List<AISkill> skills = [];
+    for (Skill skill in model.skills??[]) {
+      skills.add(
+        AISkill(
+          skill: skill.skill,
+          level: skill.level.toString(),
+          reason: skill.reason
+        )
+      );
+    }
+    return AIInput(
+      firstname: model.fname, 
+      lastname: model.lname, 
+      email: model.email, 
+      phoneNumber: model.phoneNumber, 
+      location: model.location, 
+      description: model.description, 
+      experience: exp, 
+      qualifications: qual, 
+      links: links,
+      references: references,
+      skills: skills
+    );
+  }
 
   // Routing
   toJobs() {
@@ -339,7 +435,7 @@ class HomeState extends State<Home> {
                                           backgroundColor: Colors.transparent,
                                           child: ConstrainedBox(
                                             constraints: const BoxConstraints(maxWidth: 800),
-                                            child: PersonalDetailsForm()
+                                            child: const PersonalDetailsForm()
                                           )
                                         );
                                       }
@@ -347,6 +443,12 @@ class HomeState extends State<Home> {
                                     if (Home.ready == false) return;
                                     showButton();
                                     setCVLoadingOn();
+                                    data = await AIApi.generateAI(data: userModelToInput(Home.adjustedModel!));
+                                    if (data != null && data!.description == null) {
+                                      setCVErrorOn();
+                                    }
+                                    generated = true;
+                                    setCVLoadingOff();
                                   },
                                   fontSize: w*0.8
                                 ),
@@ -421,10 +523,8 @@ class HomeState extends State<Home> {
                               generated == true?
                               Template(
                                 option: option, 
-                                data: CVData(
-
-                                )
-                              ) : EmptyCVScreen(loading: loading,)
+                                data: data??CVData()
+                              ) : EmptyCVScreen(status: status,)
                             ),
                           )
                         ],
