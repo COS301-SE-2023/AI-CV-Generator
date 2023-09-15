@@ -9,9 +9,9 @@ import 'package:ai_cv_generator/pages/util/successMessage.dart';
 import 'package:ai_cv_generator/pages/widgets/EmptyCV.dart';
 import 'package:ai_cv_generator/pages/widgets/buttons/appBarButton.dart';
 import 'package:ai_cv_generator/pages/widgets/buttons/customizableButton.dart';
-import 'package:ai_cv_generator/pages/widgets/buttons/generalTextButton.dart';
 import 'package:ai_cv_generator/pages/widgets/loadingScreens/loadingScreen.dart';
 import 'package:ai_cv_generator/pages/widgets/navdrawer.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter/painting.dart' as paint;
@@ -41,6 +41,7 @@ class HomeState extends State<Home> {
   UserModel? model;
   CVData? data;
   List<Widget> list = [];
+  PlatformFile? file;
 
   // Error/Success Messaging
   showError(String message) {
@@ -254,7 +255,7 @@ class HomeState extends State<Home> {
           children: [
             Center(
               child: Container(
-                padding: EdgeInsets.fromLTRB(w*8, h*3, w*1,h*1),
+                padding: EdgeInsets.fromLTRB(w*8, h*3, 0,h*1),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -459,9 +460,34 @@ class HomeState extends State<Home> {
                           )
                         ],
                       ),
-                    )
+                    ),
+                    SizedBox(
+                      width: 1.1*w,
+                    ),
+                    
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          height: 70*h,
+                        ),
+                        SizedBox(
+                          child: IconButton(
+                            iconSize: h*w*0.2,
+                            color: Theme.of(context).colorScheme.secondary,
+                            onPressed: () {
+                              //setState(() {chatBotKey.currentState!.visible = false;});
+                            },
+                            icon: const Icon(Icons.message),
+                          ),
+                        ),
+                        //ChatBotView(key: chatBotKey),
+                      ],
+                    ),
+                  
                   ]
-                )
+                ),
               )
             )
           ],
