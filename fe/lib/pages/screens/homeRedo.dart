@@ -1,3 +1,4 @@
+import 'package:ai_cv_generator/api/pdfApi.dart';
 import 'package:ai_cv_generator/dio/client/AIApi.dart';
 import 'package:ai_cv_generator/dio/client/fileApi.dart';
 import 'package:ai_cv_generator/dio/client/userApi.dart';
@@ -22,6 +23,7 @@ import 'package:ai_cv_generator/pages/widgets/EmptyCV.dart';
 import 'package:ai_cv_generator/pages/widgets/buttons/appBarButton.dart';
 import 'package:ai_cv_generator/pages/widgets/buttons/customizableButton.dart';
 import 'package:ai_cv_generator/pages/widgets/chatBotView.dart';
+import 'package:ai_cv_generator/pages/widgets/extractionView.dart';
 import 'package:ai_cv_generator/pages/widgets/loadingScreens/loadingScreen.dart';
 import 'package:ai_cv_generator/pages/widgets/navdrawer.dart';
 import 'package:ai_cv_generator/pages/widgets/personaldetails.dart';
@@ -126,6 +128,10 @@ class HomeState extends State<Home> {
     setState(() {
       status = ScreenStatus.empty;
     });
+  }
+
+  Future<bool> extractionViewUpdate(AIInput aiInput, PlatformFile file) async {
+    return await ExtractionView().showModal(context, file, aiInput.toJson());
   }
 
   // Updatable Widgets
@@ -464,8 +470,27 @@ class HomeState extends State<Home> {
                                   text: "Upload", 
                                   width: 7*w, 
                                   height: 5*h, 
-                                  onTap: () {
-                                    print(model!.toJson());
+                                  onTap: () async {
+                                    PlatformFile? file = await pdfAPI.pick_cvfile();
+                                    if (file == null) return;
+                                    setCVLoadingOn();
+                                    AIInput? aiInput = await AIApi.extractPdf(file: file);
+                                    if (aiInput == null) {
+                                      showError("Something went wrong!");
+                                      return;
+                                    }
+                                    noShowButton();
+                                    if (await extractionViewUpdate(aiInput, file) == false) {
+                                      setCVLoadingOff();
+                                      return;
+                                    }
+                                    showButton();
+                                    data = await AIApi.generateAI(data: aiInput);
+                                    if (data != null && data!.description == null) {
+                                      setCVErrorOn();
+                                    }
+                                    generated = true;
+                                    setCVLoadingOff();
                                   },
                                   fontSize: w*0.8
                                 )
