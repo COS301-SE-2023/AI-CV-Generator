@@ -56,6 +56,7 @@ class HomeState extends State<Home> {
   bool showButtons = false;
   bool generated = false;
   ScreenStatus status = ScreenStatus.empty;
+  AIInput? aiInput;
 
   // variables
   UserModel? model;
@@ -456,7 +457,8 @@ class HomeState extends State<Home> {
                                     if (Home.ready == false) return;
                                     showButton();
                                     setCVLoadingOn();
-                                    data = await AIApi.generateAI(data: userModelToInput(Home.adjustedModel!));
+                                    aiInput = userModelToInput(Home.adjustedModel!);
+                                    data = await AIApi.generateAI(data: aiInput!);
                                     if (data != null && data!.description == null) {
                                       setCVErrorOn();
                                     }
@@ -474,18 +476,18 @@ class HomeState extends State<Home> {
                                     PlatformFile? file = await pdfAPI.pick_cvfile();
                                     if (file == null) return;
                                     setCVLoadingOn();
-                                    AIInput? aiInput = await AIApi.extractPdf(file: file);
+                                    aiInput = await AIApi.extractPdf(file: file);
                                     if (aiInput == null) {
                                       showError("Something went wrong!");
                                       return;
                                     }
                                     noShowButton();
-                                    if (await extractionViewUpdate(aiInput, file) == false) {
+                                    if (await extractionViewUpdate(aiInput!, file) == false) {
                                       setCVLoadingOff();
                                       return;
                                     }
                                     showButton();
-                                    data = await AIApi.generateAI(data: aiInput);
+                                    data = await AIApi.generateAI(data: aiInput!);
                                     if (data != null && data!.description == null) {
                                       setCVErrorOn();
                                     }
@@ -514,7 +516,7 @@ class HomeState extends State<Home> {
                                     generated = false;
                                     noShowButton();
                                     setCVLoadingOn();
-                                    data = await AIApi.generateAI(data: userModelToInput(Home.adjustedModel!));
+                                    data = await AIApi.generateAI(data: aiInput!);
                                     if (data != null && data!.description == null) {
                                       setCVErrorOn();
                                     }

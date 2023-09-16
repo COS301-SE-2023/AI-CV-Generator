@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 class ExtractionView {
-  Future<bool> showModal(BuildContext context, PlatformFile file, Map data) async {
+  Future<bool> showModal(BuildContext context, PlatformFile file, Map<String,dynamic> data) async {
     bool proceed = false;
     await showDialog(
       context: context,
@@ -57,7 +57,6 @@ class ExtractionView {
                             onTap: () {
                               proceed = true;
                               Navigator.pop(context);
-                            
                             },
                             text: "Save and Proceed",
                             width: 10*w,
