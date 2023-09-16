@@ -313,7 +313,7 @@ class TemplateState extends State<Template> {
                         decoration: BoxDecoration(
                           border: Border.all(
                             width: 2,
-                            color: widget.colC!
+                            color: widget.colC??Colors.white
                           ),
                           borderRadius: BorderRadius.circular(20),
                           color: widget.colD
@@ -328,7 +328,7 @@ class TemplateState extends State<Template> {
                         decoration: BoxDecoration(
                           border: Border.all(
                             width: 2,
-                            color: widget.colC!
+                            color: widget.colC??Colors.white
                           ),
                           borderRadius: BorderRadius.circular(20),
                           color: widget.colD
