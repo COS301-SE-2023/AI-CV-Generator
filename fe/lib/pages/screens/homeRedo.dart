@@ -1,3 +1,4 @@
+import 'package:ai_cv_generator/api/downloadService.dart';
 import 'package:ai_cv_generator/api/pdfApi.dart';
 import 'package:ai_cv_generator/dio/client/AIApi.dart';
 import 'package:ai_cv_generator/dio/client/fileApi.dart';
@@ -27,6 +28,7 @@ import 'package:ai_cv_generator/pages/widgets/extractionView.dart';
 import 'package:ai_cv_generator/pages/widgets/loadingScreens/loadingScreen.dart';
 import 'package:ai_cv_generator/pages/widgets/navdrawer.dart';
 import 'package:ai_cv_generator/pages/widgets/personaldetails.dart';
+import 'package:ai_cv_generator/pages/widgets/shareCV.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
@@ -60,7 +62,7 @@ class HomeState extends State<Home> {
 
   // variables
   UserModel? model;
-  CVData? data;
+  CVData? data = CVData();
   List<Widget> list = [];
   PlatformFile? file;
   bool isChatBotVisible = false;
@@ -288,9 +290,35 @@ class HomeState extends State<Home> {
     );
   }
 
+  // Display PDF
+  showPdf(PlatformFile file) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          backgroundColor: Colors.transparent,
+          elevation: 0.0,
+          child: FileView(file: file,),
+        );
+      }
+    );
+  }
+  // Share Pdf
+  void requirementsforshareUpdate(PlatformFile file) {
+    requirementsforshare(context, file);
+    setState(() {});
+  }
+
   // Build
   @override
   Widget build(BuildContext context) {
+
+    // Template
+    Template template = Template(
+      option: option, 
+      data: data!
+    );
+
     // Window Resizing
     Size screenSize = MediaQuery.of(context).size;
     double w = screenSize.width/100;
@@ -531,7 +559,14 @@ class HomeState extends State<Home> {
                                   text: "Expand", 
                                   width: 6*w, 
                                   height: 5*h, 
-                                  onTap: () {},
+                                  onTap: () async {
+                                    PlatformFile? file = await template.transform();
+                                    if (file == null) {
+                                      showError("Something went wrong!");
+                                      return;
+                                    }
+                                    showPdf(file);
+                                  },
                                   fontSize: w*0.7
                                 ),
                                 SizedBox(width: 1*w,),
@@ -539,7 +574,14 @@ class HomeState extends State<Home> {
                                   text: "Download", 
                                   width: 6*w, 
                                   height: 5*h, 
-                                  onTap: () {},
+                                  onTap: () async {
+                                    PlatformFile? file = await template.transform();
+                                    if (file == null) {
+                                      showError("Something went wrong!");
+                                      return;
+                                    }
+                                    DownloadService.download(file.bytes!.toList(), downloadName: file.name);
+                                  },
                                   fontSize: w*0.7
                                 ),
                                 SizedBox(width: 1*w,),
@@ -547,7 +589,14 @@ class HomeState extends State<Home> {
                                   text: "Share", 
                                   width: 6*w, 
                                   height: 5*h, 
-                                  onTap: () {},
+                                  onTap: () async {
+                                    PlatformFile? file = await template.transform();
+                                    if (file == null) {
+                                      showError("Something went wrong!");
+                                      return;
+                                    }
+                                    requirementsforshareUpdate(file);
+                                  },
                                   fontSize: w*0.7
                                 )
                               ],
@@ -566,10 +615,7 @@ class HomeState extends State<Home> {
                               ),
                               child: 
                               generated == true?
-                              Template(
-                                option: option, 
-                                data: data??CVData()
-                              ) : EmptyCVScreen(status: status,)
+                              template : EmptyCVScreen(status: status,)
                             ),
                           )
                         ],
@@ -656,7 +702,7 @@ class HomeState extends State<Home> {
                             onPressed: () {
                               // /setState(() {chatBotKey.currentState!.visible = false;});
                               showDialog(
-                                barrierColor: Color(0x01000000),
+                                barrierColor: const Color(0x01000000),
                                 context: context, 
                                 builder: (BuildContext context) {
                                   return Column(
