@@ -237,7 +237,7 @@ class _HomeState extends State<Home> {
   TextStyle textStyle = const TextStyle(fontSize: 12);
   TextEditingController filenameC = TextEditingController();
   List<Widget> list = [];
-  Widget? editPage = const EmptyCVScreen();
+  Widget? editPage = const EmptyCVScreen(status: ScreenStatus.empty,);
   TemplateA? templateAPdf;
   Color tempA = Colors.blue;
   TemplateB? templateBPdf;
@@ -448,6 +448,7 @@ class _HomeState extends State<Home> {
                                 child: ElevatedButton(
                                   onPressed: () async {
                                     Home.adjustedModel = model;
+                                    print(adjustedmodel);
                                     await showDialog(
                                       context: context, 
                                       builder: (BuildContext context) {

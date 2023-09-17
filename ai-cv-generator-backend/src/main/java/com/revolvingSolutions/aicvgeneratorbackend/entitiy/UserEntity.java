@@ -69,9 +69,11 @@ public class UserEntity implements UserDetails {
 
     private boolean enabled;
 
+    @Column(nullable = false,updatable = false)
+    public String email;
+
     public String location;
     public String phoneNumber;
-    public String email;
     public String description;
 
     @Override

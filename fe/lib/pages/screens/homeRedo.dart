@@ -1,6 +1,20 @@
+import 'package:ai_cv_generator/api/downloadService.dart';
+import 'package:ai_cv_generator/api/pdfApi.dart';
+import 'package:ai_cv_generator/dio/client/AIApi.dart';
 import 'package:ai_cv_generator/dio/client/fileApi.dart';
 import 'package:ai_cv_generator/dio/client/userApi.dart';
+import 'package:ai_cv_generator/models/aimodels/AIEmployment.dart';
+import 'package:ai_cv_generator/models/aimodels/AIInput.dart';
+import 'package:ai_cv_generator/models/aimodels/AILink.dart';
+import 'package:ai_cv_generator/models/aimodels/AIQualification.dart';
+import 'package:ai_cv_generator/models/aimodels/AIReference.dart';
+import 'package:ai_cv_generator/models/aimodels/AISkill.dart';
 import 'package:ai_cv_generator/models/aimodels/CVData.dart';
+import 'package:ai_cv_generator/models/user/Employment.dart';
+import 'package:ai_cv_generator/models/user/Link.dart';
+import 'package:ai_cv_generator/models/user/Qualification.dart';
+import 'package:ai_cv_generator/models/user/Reference.dart';
+import 'package:ai_cv_generator/models/user/Skill.dart';
 import 'package:ai_cv_generator/models/user/UserModel.dart';
 import 'package:ai_cv_generator/pages/template/Template.dart';
 import 'package:ai_cv_generator/pages/util/errorMessage.dart';
@@ -8,14 +22,22 @@ import 'package:ai_cv_generator/pages/util/fileView.dart';
 import 'package:ai_cv_generator/pages/util/successMessage.dart';
 import 'package:ai_cv_generator/pages/widgets/EmptyCV.dart';
 import 'package:ai_cv_generator/pages/widgets/buttons/appBarButton.dart';
-import 'package:ai_cv_generator/pages/widgets/buttons/generalTextButton.dart';
+import 'package:ai_cv_generator/pages/widgets/buttons/customizableButton.dart';
+import 'package:ai_cv_generator/pages/widgets/chatBotView.dart';
+import 'package:ai_cv_generator/pages/widgets/extractionView.dart';
 import 'package:ai_cv_generator/pages/widgets/loadingScreens/loadingScreen.dart';
 import 'package:ai_cv_generator/pages/widgets/navdrawer.dart';
+import 'package:ai_cv_generator/pages/widgets/personaldetails.dart';
+import 'package:ai_cv_generator/pages/widgets/shareCV.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter/painting.dart' as paint;
 import 'dart:math' as math;
 
+import 'package:intl/intl.dart';
+
+GlobalKey<ChatBotViewState> chatBotKey = GlobalKey();
 class Home extends StatefulWidget {
   const Home({super.key});
   static UserModel? adjustedModel;
@@ -35,11 +57,17 @@ class HomeState extends State<Home> {
   TemplateOption option = TemplateOption.templateA; // Default option on start
   bool showButtons = false;
   bool generated = false;
+  ScreenStatus status = ScreenStatus.empty;
+  AIInput? aiInput;
 
   // variables
   UserModel? model;
-  CVData? data;
+  CVData? data = CVData();
   List<Widget> list = [];
+  PlatformFile? file;
+  bool isChatBotVisible = false;
+
+  ChatBotView chatBot = const ChatBotView();
 
   // Error/Success Messaging
   showError(String message) {
@@ -71,11 +99,42 @@ class HomeState extends State<Home> {
       showButtons = true;
     });
   }
-
+  // Off
   noShowButton() {
     setState(() {
       showButtons = false;
     });
+  }
+
+  // CV AI Loading screen
+  setCVLoadingOn() {
+    setState(() {
+      status = ScreenStatus.loading;
+    });
+  }
+
+  setCVLoadingOff() {
+    setState(() {
+      status = ScreenStatus.empty;
+    });
+  }
+
+  // CV AI Error screen
+  // On
+  setCVErrorOn() {
+    setState(() {
+      status = ScreenStatus.error;
+    });
+  }
+
+  setCVError() {
+    setState(() {
+      status = ScreenStatus.empty;
+    });
+  }
+
+  Future<bool> extractionViewUpdate(AIInput aiInput, PlatformFile file) async {
+    return await ExtractionView().showModal(context, file, aiInput.toJson());
   }
 
   // Updatable Widgets
@@ -86,6 +145,74 @@ class HomeState extends State<Home> {
       yield controller.value.text;
     }
   } 
+
+  // Coverters
+  // UserModel to AiInput
+  AIInput userModelToInput(UserModel model) { 
+    final DateFormat formatter = DateFormat('yyyy-MM-dd');
+    List<AIEmployment> exp = [];
+    for (Employment emp in model.employmenthistory??[]) {
+      exp.add(
+        AIEmployment(
+          company: emp.company, 
+          jobTitle: emp.title, 
+          startDate: formatter.format(emp.startdate), 
+          endDate: formatter.format(emp.enddate)
+          )
+      );
+    }
+    List<AIQualification> qual = [];
+    for (Qualification qua in model.qualifications??[]) {
+      qual.add(
+        AIQualification(
+          qualification: qua.qualification, 
+          institution: qua.intstitution, 
+          startDate: formatter.format(qua.date), 
+          endDate: formatter.format(qua.endo)
+        )
+      );
+    }
+    List<AILink> links = [];
+    for (Link lin in model.links??[]) {
+      links.add(
+        AILink(
+          url: lin.url
+        )
+      );
+    }
+    List<AIReference> references = [];
+    for (Reference ref in model.references??[]) {
+      references.add(
+        AIReference(
+          description: ref.description,
+          contact: ref.contact
+        )
+      );
+    }
+    List<AISkill> skills = [];
+    for (Skill skill in model.skills??[]) {
+      skills.add(
+        AISkill(
+          skill: skill.skill,
+          level: skill.level.toString(),
+          reason: skill.reason
+        )
+      );
+    }
+    return AIInput(
+      firstname: model.fname, 
+      lastname: model.lname, 
+      email: model.email, 
+      phoneNumber: model.phoneNumber, 
+      location: model.location, 
+      description: model.description, 
+      experience: exp, 
+      qualifications: qual, 
+      links: links,
+      references: references,
+      skills: skills
+    );
+  }
 
   // Routing
   toJobs() {
@@ -163,9 +290,35 @@ class HomeState extends State<Home> {
     );
   }
 
+  // Display PDF
+  showPdf(PlatformFile file) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          backgroundColor: Colors.transparent,
+          elevation: 0.0,
+          child: FileView(file: file,),
+        );
+      }
+    );
+  }
+  // Share Pdf
+  void requirementsforshareUpdate(PlatformFile file) {
+    requirementsforshare(context, file);
+    setState(() {});
+  }
+
   // Build
   @override
   Widget build(BuildContext context) {
+
+    // Template
+    Template template = Template(
+      option: option, 
+      data: data!
+    );
+
     // Window Resizing
     Size screenSize = MediaQuery.of(context).size;
     double w = screenSize.width/100;
@@ -253,13 +406,13 @@ class HomeState extends State<Home> {
           children: [
             Center(
               child: Container(
-                padding: EdgeInsets.fromLTRB(w*5, h*3, w*1,h*1),
+                padding: EdgeInsets.fromLTRB(w*8, h*3, 0,h*1),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
                       padding: EdgeInsets.fromLTRB(0, 0, 2*w, 0),
-                      width: w*30,
+                      width: w*25,
                       height: h*85,
                       child: Container(
                         padding: EdgeInsets.fromLTRB(2.4*w,2.4*h, 2.4*w, 2.4*h),
@@ -309,28 +462,143 @@ class HomeState extends State<Home> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                SizedBox(
-                                  height: 5*h,
-                                  width: 10*w, 
-                                  child: InkWell(
-                                    onTap: () async {
-                                      
-                                  
-                                    }, 
-                                    child: const GeneralButtonStyle(text: "Survey"),
-                                  ),
+                                CustomizableButton(
+                                  text: "Survey", 
+                                  width: 7*w, 
+                                  height: 5*h, 
+                                  onTap: () async {
+                                    Home.ready = false;
+                                    Home.adjustedModel = model;
+                                    noShowButton();
+                                    await showDialog(
+                                      context: context, 
+                                      builder: (BuildContext context) {
+                                        return Dialog(
+                                          backgroundColor: Colors.transparent,
+                                          child: ConstrainedBox(
+                                            constraints: const BoxConstraints(maxWidth: 800),
+                                            child: const PersonalDetailsForm()
+                                          )
+                                        );
+                                      }
+                                    );
+                                    if (Home.ready == false) return;
+                                    showButton();
+                                    setCVLoadingOn();
+                                    aiInput = userModelToInput(Home.adjustedModel!);
+                                    data = await AIApi.generateAI(data: aiInput!);
+                                    if (data != null && data!.description == null) {
+                                      setCVErrorOn();
+                                    }
+                                    generated = true;
+                                    setCVLoadingOff();
+                                  },
+                                  fontSize: w*0.8
                                 ),
-                                SizedBox(width: 5*w,),
-                                SizedBox(
-                                  height: 5*h,
-                                  width: 10*w, 
-                                  child: InkWell(
-                                    onTap: () async {
-                                      
-                                    }, 
-                                    child: const GeneralButtonStyle(text: "Upload"),
-                                  ),
+                                SizedBox(width: 4*w,),
+                                CustomizableButton(
+                                  text: "Upload", 
+                                  width: 7*w, 
+                                  height: 5*h, 
+                                  onTap: () async {
+                                    PlatformFile? file = await pdfAPI.pick_cvfile();
+                                    if (file == null) return;
+                                    setCVLoadingOn();
+                                    aiInput = await AIApi.extractPdf(file: file);
+                                    if (aiInput == null) {
+                                      showError("Something went wrong!");
+                                      return;
+                                    }
+                                    noShowButton();
+                                    if (await extractionViewUpdate(aiInput!, file) == false) {
+                                      setCVLoadingOff();
+                                      return;
+                                    }
+                                    showButton();
+                                    data = await AIApi.generateAI(data: aiInput!);
+                                    if (data != null && data!.description == null) {
+                                      setCVErrorOn();
+                                    }
+                                    generated = true;
+                                    setCVLoadingOff();
+                                  },
+                                  fontSize: w*0.8
+                                )
+                              ],
+                            ),
+                          ),
+                          if (showButtons)
+                          Container(
+                            padding: EdgeInsets.only(
+                              top: h*2
+                            ),
+                            width: 30*w,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                CustomizableButton(
+                                  text: " Re-Generate", 
+                                  width: 6*w, 
+                                  height: 5*h, 
+                                  onTap: () async {
+                                    generated = false;
+                                    noShowButton();
+                                    setCVLoadingOn();
+                                    data = await AIApi.generateAI(data: aiInput!);
+                                    if (data != null && data!.description == null) {
+                                      setCVErrorOn();
+                                    }
+                                    showButton();
+                                    generated = true;
+                                    setCVLoadingOff();
+                                  },
+                                  fontSize: w*0.7
                                 ),
+                                SizedBox(width: 1*w,),
+                                CustomizableButton(
+                                  text: "Expand", 
+                                  width: 6*w, 
+                                  height: 5*h, 
+                                  onTap: () async {
+                                    PlatformFile? file = await template.transform();
+                                    if (file == null) {
+                                      showError("Something went wrong!");
+                                      return;
+                                    }
+                                    showPdf(file);
+                                  },
+                                  fontSize: w*0.7
+                                ),
+                                SizedBox(width: 1*w,),
+                                CustomizableButton(
+                                  text: "Download", 
+                                  width: 6*w, 
+                                  height: 5*h, 
+                                  onTap: () async {
+                                    PlatformFile? file = await template.transform();
+                                    if (file == null) {
+                                      showError("Something went wrong!");
+                                      return;
+                                    }
+                                    DownloadService.download(file.bytes!.toList(), downloadName: file.name);
+                                  },
+                                  fontSize: w*0.7
+                                ),
+                                SizedBox(width: 1*w,),
+                                CustomizableButton(
+                                  text: "Share", 
+                                  width: 6*w, 
+                                  height: 5*h, 
+                                  onTap: () async {
+                                    PlatformFile? file = await template.transform();
+                                    if (file == null) {
+                                      showError("Something went wrong!");
+                                      return;
+                                    }
+                                    requirementsforshareUpdate(file);
+                                  },
+                                  fontSize: w*0.7
+                                )
                               ],
                             ),
                           ),
@@ -347,12 +615,7 @@ class HomeState extends State<Home> {
                               ),
                               child: 
                               generated == true?
-                              Template(
-                                option: option, 
-                                data: CVData(
-
-                                )
-                              ) : const EmptyCVScreen()
+                              template : EmptyCVScreen(status: status,)
                             ),
                           )
                         ],
@@ -399,13 +662,13 @@ class HomeState extends State<Home> {
                                               ...list
                                             ]
                                         )
-                                      ) : const Center(
+                                      ) : Center(
                                       child: Column(
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
-                                          Icon(Icons.insert_drive_file,color: Colors.grey,size: 100,),
-                                          SizedBox(height: 20),
-                                          Text("No CVs...", 
+                                          Icon(Icons.insert_drive_file,color: Colors.grey,size: w*h*1,),
+                                          SizedBox(height: w*h*0.2),
+                                          const Text("No CVs...", 
                                           style: TextStyle(
                                             color: Colors.grey
                                           )
@@ -420,9 +683,57 @@ class HomeState extends State<Home> {
                           )
                         ],
                       ),
-                    )
+                    ),
+                    SizedBox(
+                      width: 1.1*w,
+                    ),
+                    
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          height: 70*h,
+                        ),
+                        SizedBox(
+                          child: IconButton(
+                            iconSize: h*w*0.2,
+                            color: Theme.of(context).colorScheme.secondary,
+                            onPressed: () {
+                              // /setState(() {chatBotKey.currentState!.visible = false;});
+                              showDialog(
+                                barrierColor: const Color(0x01000000),
+                                context: context, 
+                                builder: (BuildContext context) {
+                                  return Column(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: <Widget>[
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                          left:w*70,
+                                          right: 0,
+                                          top: h*4,
+                                          bottom: 0
+                                        ),
+                                        child: Column(
+                                          children: <Widget>[
+                                            chatBot
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  );
+                                }
+                              );
+                            },
+                            icon: const Icon(Icons.message),
+                          ),
+                        ),
+                      ],
+                    ),
+                  
                   ]
-                )
+                ),
               )
             )
           ],

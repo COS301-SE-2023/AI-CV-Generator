@@ -16,7 +16,7 @@ class ChatBotViewState extends State<ChatBotView> {
   bool suggestion = true;
   List<Widget> messages = [];
   TextEditingController controller = TextEditingController();
-  Chatbot chatBot = Chatbot();
+  static Chatbot chatBot = Chatbot();
   void addMessage(String text, bool isSender) async {
     messages.add(addImage(Message(message: Text(text), isSender: isSender), userImage!, isSender));
     setState(() {});
@@ -86,10 +86,14 @@ class ChatBotViewState extends State<ChatBotView> {
     );
   }
 
+  exit() {
+    Navigator.pop(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Visibility(
-      visible: !visible,
+      visible: true,
       child: Container(
         padding: const EdgeInsets.only(right: 48, bottom: 48), 
         alignment: Alignment.bottomRight,
@@ -119,7 +123,7 @@ class ChatBotViewState extends State<ChatBotView> {
                       Icons.close,
                   ), 
                   onPressed: () {
-                    setState(() {visible = true;});
+                    exit();
                   },
                 ),
               ),
@@ -240,6 +244,7 @@ class ChatBotViewState extends State<ChatBotView> {
                                 controller: controller,
                                 onSubmitted: (value) {
                                   if(value != "") {
+                                    suggestion = false;
                                     addMessage(value, true);
                                     controller.text = "";
                                   }
@@ -255,6 +260,7 @@ class ChatBotViewState extends State<ChatBotView> {
                               color: Theme.of(context).colorScheme.primary,
                               onPressed: () {
                                 if(controller.text != "") {
+                                  suggestion = false;
                                   addMessage(controller.text, true);
                                   controller.text = "";
                                 }

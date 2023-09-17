@@ -258,6 +258,13 @@ class ProfileState extends State<Profile> {
                                     ],
                               ),
                               const SizedBox(height: 16,),
+                              Text(
+                                emailC.text,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.grey.shade600
+                                )
+                              ),
                               Wrap(
                                 children: [
                                     SectionInput(
@@ -272,10 +279,6 @@ class ProfileState extends State<Profile> {
                                       fontSize: 24,
                                     ),
                                 ]
-                              ),
-                              Text(
-                                emailC.text ?? "Email",
-                                style: TextStyle(fontSize: 16)
                               ),
                               // SectionInput(controller: emailC, hint: "Email", height: 34),
                               SectionInput(

@@ -6,12 +6,14 @@ class CustomizableButton extends StatelessWidget {
     required this.text, 
     required this.width, 
     required this.height,
-    required this.onTap
+    required this.onTap,
+    required this.fontSize
   });
   final String text;
   final double width;
   final double height;
   final GestureTapCallback onTap;
+  final double fontSize;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -24,8 +26,8 @@ class CustomizableButton extends StatelessWidget {
           children: [
             Center(
               child: Container(
-                height: width,
-                width: height,
+                height: height,
+                width: width,
                 decoration: BoxDecoration(
                   gradient: const LinearGradient(
                       begin: Alignment.topLeft,
@@ -41,9 +43,10 @@ class CustomizableButton extends StatelessWidget {
                   children: [
                     Text(
                       text,
-                      style: const TextStyle(
+                      style: TextStyle(
                           fontWeight: FontWeight.w600,
-                          color: Colors.white
+                          color: Colors.white,
+                          fontSize: fontSize
                         ),
                     )
                   ],

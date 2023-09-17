@@ -398,7 +398,6 @@ public class UserService {
         user.setFname(request.getUser().getFname());
         user.setLname(request.getUser().getLname());
         user.setUsername(request.getUser().getUsername());
-        user.setEmail(request.getUser().getEmail());
         user.setLocation(request.getUser().getLocation());
         user.setPhoneNumber(request.getUser().getPhoneNumber());
         user.setDescription(request.getUser().getDescription());

@@ -1,4 +1,7 @@
 import 'package:ai_cv_generator/models/aimodels/CVData.dart';
+import 'package:ai_cv_generator/pages/template/TemplateA.dart';
+import 'package:ai_cv_generator/pages/template/TemplateB.dart';
+import 'package:ai_cv_generator/pages/template/TemplateC.dart';
 import 'package:ai_cv_generator/pages/widgets/loadingScreens/loadingScreen.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -56,7 +59,70 @@ class Template extends StatefulWidget{
   final TextEditingController? linksC = TextEditingController();
 
   Future<PlatformFile?> transform() async {
-    return null;
+    switch(option) {
+      case TemplateOption.templateA:
+        var templateApdf = TemplateAPdf(
+          fname: fnameC!.text, 
+          lnameC: lnameC!.text, 
+          emailC: emailC!.text, 
+          locationC: locationC!.text, 
+          phoneNumberC: phoneNumberC!.text, 
+          nameC: nameC!.text, 
+          detailsC: detailsC!.text, 
+          descriptionHeadingC: descriptionHeadingC!.text, 
+          descriptionC: descriptionC!.text, 
+          employmentHeadingC: employmentHeadingC!.text, 
+          employmentC: employmentC!.text, 
+          qualificationHeadingC:qualificationHeadingC!.text, 
+          qualificationC: qualificationC!.text, 
+          linksHeadingC: linksHeadingC!.text, 
+          linksC: linksC!.text
+        );
+        templateApdf.writeOnPdf();
+        return await templateApdf.getPdf();
+      case TemplateOption.templateB:
+        var templateBpdf = TemplateBPdf(
+          fname: fnameC!.text, 
+          lnameC: lnameC!.text, 
+          emailC: emailC!.text, 
+          locationC: locationC!.text, 
+          phoneNumberC: phoneNumberC!.text, 
+          nameC: nameC!.text, 
+          detailsC: detailsC!.text, 
+          descriptionHeadingC: descriptionHeadingC!.text, 
+          descriptionC: descriptionC!.text, 
+          employmentHeadingC: employmentHeadingC!.text, 
+          employmentC: employmentC!.text, 
+          qualificationHeadingC:qualificationHeadingC!.text, 
+          qualificationC: qualificationC!.text, 
+          linksHeadingC: linksHeadingC!.text, 
+          linksC: linksC!.text
+        );
+        await templateBpdf.writeOnPdf();
+        return await templateBpdf.getPdf();
+      case TemplateOption.templateC:
+      break;
+      case TemplateOption.templateD:
+        var templateCpdf = TemplateCPdf(
+          fname: fnameC!.text, 
+          lnameC: lnameC!.text, 
+          emailC: emailC!.text, 
+          locationC: locationC!.text, 
+          phoneNumberC: phoneNumberC!.text, 
+          nameC: nameC!.text, 
+          detailsC: detailsC!.text, 
+          descriptionHeadingC: descriptionHeadingC!.text, 
+          descriptionC: descriptionC!.text, 
+          employmentHeadingC: employmentHeadingC!.text, 
+          employmentC: employmentC!.text, 
+          qualificationHeadingC:qualificationHeadingC!.text, 
+          qualificationC: qualificationC!.text, 
+          linksHeadingC: linksHeadingC!.text, 
+          linksC: linksC!.text
+        );
+        templateCpdf.writeOnPdf();
+        return await templateCpdf.getPdf();
+    }
   }
   @override
   State<StatefulWidget> createState() {
@@ -77,7 +143,9 @@ class TemplateState extends State<Template> {
 
   @override
   Widget build(BuildContext context) {
-    
+    if (widget.data.description == null) {
+        return const LoadingScreen();
+    }
     widget.nameC!.text = "${widget.data.firstname} ${widget.data.lastname}";
     widget.detailsC!.text = "${widget.data.location??"Please provide Location!"} | ${widget.data.phoneNumber??"Please provide phone number!"} | ${widget.data.email??"Please provide email!"}";
     widget.descriptionHeadingC!.text = "Professional Summary";
@@ -95,7 +163,6 @@ class TemplateState extends State<Template> {
     for(int i = 0; i < widget.data.links!.length; i++) {
       widget.linksC!.text += "${widget.data.links![i].url}\n";
     }
-
     switch (widget.option) {
       case TemplateOption.templateA:
         return templateA();
@@ -193,7 +260,7 @@ class TemplateState extends State<Template> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Image(image: img!.image, height: 170,width: 170,),
+                    Image(image: img.image, height: 170,width: 170,),
                     const SizedBox(height: 40,),
                     TextFieldInput(
                       controller: widget.nameC!, 
@@ -231,7 +298,7 @@ class TemplateState extends State<Template> {
                         decoration: BoxDecoration(
                           border: Border.all(
                             width: 2,
-                            color: widget.colC!
+                            color: widget.colC??Colors.white
                           ),
                           borderRadius: BorderRadius.circular(20),
                           color: widget.colD
@@ -246,7 +313,7 @@ class TemplateState extends State<Template> {
                         decoration: BoxDecoration(
                           border: Border.all(
                             width: 2,
-                            color: widget.colC!
+                            color: widget.colC??Colors.white
                           ),
                           borderRadius: BorderRadius.circular(20),
                           color: widget.colD
@@ -261,7 +328,7 @@ class TemplateState extends State<Template> {
                         decoration: BoxDecoration(
                           border: Border.all(
                             width: 2,
-                            color: widget.colC!
+                            color: widget.colC??Colors.white
                           ),
                           borderRadius: BorderRadius.circular(20),
                           color: widget.colD

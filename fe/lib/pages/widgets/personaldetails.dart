@@ -1,14 +1,14 @@
 // ignore_for_file: must_be_immutable
-import 'package:ai_cv_generator/pages/widgets/loadingscreens/loadingScreen.dart';
+import 'package:ai_cv_generator/pages/widgets/buttons/customizableButton.dart';
 import 'package:ai_cv_generator/pages/widgets/navdrawer.dart';
 import 'package:ai_cv_generator/pages/widgets/qualifications.dart';
 import 'package:ai_cv_generator/pages/util/strings.dart';
 import 'package:ai_cv_generator/pages/widgets/questionaireModal.dart';
 import 'package:flutter/material.dart';
-import 'package:ai_cv_generator/pages/screens/home.dart';
+import 'package:ai_cv_generator/pages/screens/homeRedo.dart';
 
 class PersonalDetailsForm extends StatefulWidget {
-   PersonalDetailsForm({super.key});
+  const PersonalDetailsForm({super.key});
 
   @override
   State<StatefulWidget> createState() {
@@ -26,9 +26,7 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
 
   @override
   void initState() {
-    getUser().then((value) {
-      setState(() {});
-    });
+    getUser();
     super.initState();
   }
 
@@ -41,7 +39,7 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
     return _formKey.currentState!.validate();
   }
 
-  Future<void> getUser() async {
+  getUser()  {
     fname.text = Home.adjustedModel!.fname;
     lname.text = Home.adjustedModel!.lname;
     email.text = Home.adjustedModel!.email?? "";
@@ -49,16 +47,21 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
     address.text = Home.adjustedModel!.location?? "";
   }
 
+  // navigation
+  toNext() {
+    showQuestionaireModal(context, const QualificationsDetailsForm());
+  }
+
   @override
   Widget build(BuildContext context) {
-    if(Home.adjustedModel == null) {
-      return  LoadingScreen();
-    }
+    Size screenSize = MediaQuery.of(context).size;
+    double w = screenSize.width/100;
+    double h = screenSize.height/100; 
     return Scaffold(
-      drawer:  NavDrawer(),
+      drawer:  const NavDrawer(),
       appBar: AppBar(
         leading: IconButton(
-          icon:  Icon(
+          icon: const Icon(
             Icons.close,
           ), 
           onPressed: () async { 
@@ -69,51 +72,51 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
       body: Center(
         child: Column(
           children: [
-            Expanded(
-              flex: 2,
-              child: titleSection,
+            Container(
+              child: titleSection(w,h),
             ),
             Expanded(
               flex: 8,
               child: Container ( 
-                padding:  EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(16.0),
                 child: _buildForm(),
               ),
             ),
-            SizedBox(
-              height: 50,
-                width: 150,
-              child: ElevatedButton(
-                child:  Text('Save and Proceed'),
-                onPressed: () async {
-                  if(await updateUser() == false) {
-                    return;
-                  }
-                  showQuestionaireModal(context,  QualificationsDetailsForm());
-                },
-              ),
+            CustomizableButton(
+              text: 'Save and Proceed', 
+              width: w*10, 
+              height: h*5, 
+              onTap: () async {
+                if(await updateUser() == false) {
+                  return;
+                }
+                toNext();
+              }, 
+              fontSize: w*0.8
             ),
-             SizedBox(height: 64,),
+            SizedBox(height: 6.4*h,),
           ],
         ),
       ),
     );
   }
 
-  Widget titleSection= Column (
+  Widget titleSection(double w,double h) {
+    return Column (
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: <Widget> [
         Padding (
-          padding: EdgeInsets.all(8.0),
+          padding: EdgeInsets.all(0.8*w),
             child: Text (
               StringsPersonal.appsubHeadingTitle,
               style: TextStyle (
-                fontSize: 20.0,
+                fontSize: w*h*0.2
               ),
           ),
         ),
       ],
     );
+  }
 
 
   Widget _buildForm() {
@@ -124,13 +127,13 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           _buildNameField(),
-          SizedBox(height: 8,),
+          const SizedBox(height: 8,),
           _buildLastNameField(),
-          SizedBox(height: 8,),
+          const SizedBox(height: 8,),
           _buildEmailField(),
-          SizedBox(height: 8,),
+          const SizedBox(height: 8,),
           _buildCellField(),
-          SizedBox(height: 8,),
+          const SizedBox(height: 8,),
           _buildAddrField(),
         ],
       ),
@@ -143,9 +146,9 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
     return Container (
       constraints: BoxConstraints.tight( Size(550,70)),
       child: TextFormField(
-        key:  Key("Name input"),
+        key: const Key("Name input"),
         controller: fname,
-        decoration:  InputDecoration(
+        decoration: const InputDecoration(
           contentPadding: EdgeInsets.all(5.0),
           labelText: 'First Name',
           enabledBorder: OutlineInputBorder(),
@@ -164,11 +167,11 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
 
   Widget _buildLastNameField() {
     return Container (
-      constraints: BoxConstraints.tight( Size(550,70)),
+      constraints: BoxConstraints.tight(const Size(550,70)),
       child: TextFormField(
-        key:  Key("Last Name input"),
+        key: const Key("Last Name input"),
         controller: lname,
-        decoration:  InputDecoration(
+        decoration: const InputDecoration(
           contentPadding: EdgeInsets.all(5.0),
           labelText: 'Last Name',
           enabledBorder: OutlineInputBorder(),
@@ -187,11 +190,11 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
 
   Widget _buildEmailField() {
     return Container (
-      constraints: BoxConstraints.tight( Size(550,70)),
+      constraints: BoxConstraints.tight(const Size(550,70)),
       child: TextFormField(
-        key:  Key("Email input"),
+        key: const Key("Email input"),
         controller: email,
-        decoration:  InputDecoration(
+        decoration: const InputDecoration(
           contentPadding: EdgeInsets.all(5.0),
           labelText: 'Email',
           enabledBorder: OutlineInputBorder(),
@@ -210,11 +213,11 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
 
   Widget _buildCellField() {
     return Container (
-      constraints: BoxConstraints.tight( Size(550,70)),
+      constraints: BoxConstraints.tight(const Size(550,70)),
       child: TextFormField(
-        key:  Key("Cell input"),
+        key: const Key("Cell input"),
         controller: cell,
-        decoration:  InputDecoration(
+        decoration: const InputDecoration(
           contentPadding: EdgeInsets.all(5.0),
           labelText: 'Contact Number',
           enabledBorder: OutlineInputBorder(),
@@ -233,11 +236,11 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
 
   Widget _buildAddrField() {
     return Container (
-      constraints: BoxConstraints.tight( Size(550,70)),
+      constraints: BoxConstraints.tight(const Size(550,70)),
       child: TextFormField(
-        key:  Key("Address input"),
+        key: const Key("Address input"),
         controller: address,
-        decoration:  InputDecoration(
+        decoration: const InputDecoration(
           contentPadding: EdgeInsets.all(5.0),
           labelText: 'General Location',
           enabledBorder: OutlineInputBorder(),
@@ -251,23 +254,5 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
         },
       )
     );
-  }
-
-  Widget _buildSubmitButton() {
-    return SizedBox(
-      width: 150,
-      height: 30,
-      child: ElevatedButton(
-        onPressed: () {
-            _submitForm();
-          },
-          child:  Text('Save & Proceed'),
-      )
-    );
-    
-  }
-
-  void _submitForm() {
-    Navigator.pushNamed(context, "/qualificationsdetails");
   }
 }
