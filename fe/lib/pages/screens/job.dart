@@ -63,7 +63,7 @@ class JobsPageState extends State<JobsPage> {
   Future<void> searchJobs(String occupation, String location) async {
     List<JobResponseDTO>? jobs = await getJobs(occupation, location);
     setState(() {
-    if(jobs.isNull == true || jobs!.isEmpty == true) {
+    if(jobs == null || jobs!.isEmpty == true) {
       showError("No jobs to display!");
       jobCards = previousJobs;
     } else {
