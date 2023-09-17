@@ -244,6 +244,7 @@ class ChatBotViewState extends State<ChatBotView> {
                                 controller: controller,
                                 onSubmitted: (value) {
                                   if(value != "") {
+                                    suggestion = false;
                                     addMessage(value, true);
                                     controller.text = "";
                                   }
@@ -259,6 +260,7 @@ class ChatBotViewState extends State<ChatBotView> {
                               color: Theme.of(context).colorScheme.primary,
                               onPressed: () {
                                 if(controller.text != "") {
+                                  suggestion = false;
                                   addMessage(controller.text, true);
                                   controller.text = "";
                                 }
