@@ -136,8 +136,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     key: const Key('login'),
                     child: const GeneralButtonStyle(text: "Login"),
                     onTap: () async {
-                      if(_formKey.currentState!.validate() == false)
-                      {
+                      if(_formKey.currentState!.validate() == false) {
                         return;
                       }
                       setState(() {
