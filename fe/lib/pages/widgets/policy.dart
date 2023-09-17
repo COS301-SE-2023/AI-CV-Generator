@@ -44,7 +44,7 @@ class Policy extends StatelessWidget {
               child: FutureBuilder(
                 future: Future.delayed(Duration(milliseconds: waitPeriod)).then((value) {return rootBundle.loadString(filename);}),
                 builder: (context, snapshot) {
-                  if (!snapshot.isNull && snapshot.hasData) {
+                  if (!(snapshot == null) && snapshot.hasData) {
                     return Markdown(
                       data: snapshot.data as String,
                       styleSheet: MarkdownStyleSheet(
