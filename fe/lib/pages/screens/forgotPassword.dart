@@ -52,80 +52,102 @@ class ForgotPasswordState extends State<ForgotPasswordWidget> {
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
     double w = screenSize.width/100;
-    double h = screenSize.height/100; 
+    double h = screenSize.height/100;
+    final _formKey = GlobalKey<FormState>();
+
     if (wait) return const LoadingScreen();
-    return SingleChildScrollView(
-      child: Column(
-        children: <Widget>[
-          Container(
-                alignment: Alignment.center,
-                padding: EdgeInsets.all(1*w),
-                child: const Image(image: ResizeImage(AssetImage('assets/images/logo.png'),width:350,height:350),)
-                ),
+    return Form(
+      key: _formKey,
+      child: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
             Container(
-                alignment: Alignment.center,
-                padding: EdgeInsets.fromLTRB(2*w, 1*h, 2*w, 1*h),
-                child: const Text(
-                  'Forgot Password',
-                  style: TextStyle(fontSize: 20),
-                )),
-            Container(
-              padding: EdgeInsets.fromLTRB(33*w, 1*h, 33*w, 1*h),
-              child: TextField(
-                key: const Key('name'),
-                controller: nameController,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Username',
+                  alignment: Alignment.center,
+                  padding: EdgeInsets.all(1*w),
+                  child: const Image(image: ResizeImage(AssetImage('assets/images/logo.png'),width:350,height:350),)
+                  ),
+              Container(
+                  alignment: Alignment.center,
+                  padding: EdgeInsets.fromLTRB(2*w, 1*h, 2*w, 1*h),
+                  child: const Text(
+                    'Forgot Password',
+                    style: TextStyle(fontSize: 20),
+                  )),
+              Container(
+                height: 80,
+                padding: EdgeInsets.fromLTRB(33*w, 1*h, 33*w, 1*h),
+                child: TextFormField(
+                  key: const Key('name'),
+                  controller: nameController,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Username',
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'This field is required';
+                    }
+                    return null;
+                  },
                 ),
               ),
-            ),
-            Container(
-              padding: EdgeInsets.fromLTRB(33*w, 1*h, 33*w, 1*h),
-              child: TextField(
-                key: const Key('email'),
-                controller: emailController,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Confirm Your Email',
+              Container(
+                height: 80,
+                padding: EdgeInsets.fromLTRB(33*w, 1*h, 33*w, 1*h),
+                child: TextFormField(
+                  key: const Key('email'),
+                  controller: emailController,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Confirm Your Email',
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'This field is required';
+                    }
+                    return null;
+                  },
                 ),
               ),
-            ),
-            SizedBox(
-              height: 3*h,
-            ),
-            SizedBox(
-              height: 5*h,
-              width: 15*w,
-              child: InkWell(
-                key: const Key('forgotPassword'),
-                child: const GeneralButtonStyleLarge(text: "Send Verification Code",),
-                onTap: () async {
-                  setState(() {
-                    wait = true;
-                  });
-                  Code resp = await AuthApi.reset(username: nameController.text, email: emailController.text);
-                  if (resp == Code.success) {
-                    showSuccess("Please check your email for further instructions!");
+              SizedBox(
+                height: 3*h,
+              ),
+              SizedBox(
+                height: 5*h,
+                width: 15*w,
+                child: InkWell(
+                  key: const Key('forgotPassword'),
+                  child: const GeneralButtonStyleLarge(text: "Send Verification Code",),
+                  onTap: () async {
+                    if(_formKey.currentState!.validate() == false) {
+                      return;
+                    }
                     setState(() {
-                      wait = false;
+                      wait = true;
                     });
-                    toLogin();
-                  } else if (resp == Code.failed) {
-                    showError("Invalid Credentials!!");
-                    setState(() {
-                      wait = false;
-                    });
-                  } else if (resp == Code.requestFailed) {
-                    showError("Something went wrong!!");
-                    setState(() {
-                      wait = false;
-                    });
-                  }
-                },
-              )
-            ),
-        ]
+                    Code resp = await AuthApi.reset(username: nameController.text, email: emailController.text);
+                    if (resp == Code.success) {
+                      showSuccess("Please check your email for further instructions!");
+                      setState(() {
+                        wait = false;
+                      });
+                      toLogin();
+                    } else if (resp == Code.failed) {
+                      showError("Invalid Credentials!!");
+                      setState(() {
+                        wait = false;
+                      });
+                    } else if (resp == Code.requestFailed) {
+                      showError("Something went wrong!!");
+                      setState(() {
+                        wait = false;
+                      });
+                    }
+                  },
+                )
+              ),
+          ]
+        )
       )
     );
   }

@@ -51,13 +51,16 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
  
   @override
   Widget build(BuildContext context) {
+    final _formKey = GlobalKey<FormState>();
     Size screenSize = MediaQuery.of(context).size;
     double w = screenSize.width/100;
     double h = screenSize.height/100; 
     if (wait) {
       return const LoadingScreen();
     }
-    return Padding(
+    return Form(
+      key: _formKey,
+      child: Padding(
         padding: const EdgeInsets.all(10),
         child: SingleChildScrollView(
           child: Column(
@@ -75,19 +78,27 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     style: TextStyle(fontSize: 20),
                   )),
               Container(
+                height: 80,
                 padding: EdgeInsets.fromLTRB(33*w, 1*h, 33*w, 1*h),
-                child: TextField(
+                child: TextFormField(
                   key: const Key('name'),
                   controller: nameController,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Username',
                   ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'This field is required';
+                    }
+                    return null;
+                  },
                 ),
               ),
               Container(
+                height: 80,
                 padding: EdgeInsets.fromLTRB(33*w, 1*h, 33*w, 1*h),
-                child: TextField(
+                child: TextFormField(
                   key: const Key('password'),
                   obscureText: true,
                   controller: passwordController,
@@ -95,6 +106,12 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     border: OutlineInputBorder(),
                     labelText: 'Password',
                   ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'This field is required';
+                    }
+                    return null;
+                  },
                 ),
               ),
               TextButton(
@@ -119,6 +136,9 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     key: const Key('login'),
                     child: const GeneralButtonStyle(text: "Login"),
                     onTap: () async {
+                      if(_formKey.currentState!.validate() == false) {
+                        return;
+                      }
                       setState(() {
                         wait = true;
                       });
@@ -172,6 +192,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             ],
           )
         )
-      );
+      )
+    );
   }
 }
