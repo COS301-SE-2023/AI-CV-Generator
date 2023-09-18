@@ -1,5 +1,3 @@
-import 'dart:js_interop';
-
 import 'package:ai_cv_generator/dio/client/WebScraperApi.dart';
 import 'package:ai_cv_generator/dio/client/userApi.dart';
 import 'package:ai_cv_generator/models/user/UserModel.dart';
@@ -7,6 +5,7 @@ import 'package:ai_cv_generator/models/webscraper/JobResponseDTO.dart';
 import 'package:ai_cv_generator/pages/util/errorMessage.dart';
 import 'package:ai_cv_generator/pages/util/successMessage.dart';
 import 'package:ai_cv_generator/pages/widgets/breadcrumb.dart';
+import 'package:ai_cv_generator/pages/widgets/buttons/customizableButton.dart';
 import 'package:ai_cv_generator/pages/widgets/loadingscreens/loadingScreen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -84,7 +83,6 @@ class JobsPageState extends State<JobsPage> {
   createCards(List<JobResponseDTO>? jobs) {
     if(jobs != null) {
       jobs.forEach((element) {
-        print(element.imgLink);
         jobCards.add(
           CreateJobCard(
             title: element.title,
@@ -173,6 +171,9 @@ class JobsPageState extends State<JobsPage> {
                             },
                           ),
                         ),
+                        const SizedBox(
+                          width: 4,
+                        ),
                         Container(
                           width: w*20,
                           child: TextFormField(
@@ -189,6 +190,9 @@ class JobsPageState extends State<JobsPage> {
                               return null;
                             },
                           ),
+                        ),
+                        const SizedBox(
+                          width: 4,
                         ),
                         Container(
                           alignment: Alignment.center,
@@ -216,7 +220,7 @@ class JobsPageState extends State<JobsPage> {
                                         const Color(0xFFEA6D79).withOpacity(0.9),
                                       ]
                                   ),
-                                  borderRadius: BorderRadius.circular(5),
+                                  borderRadius: BorderRadius.circular(16),
                                 ),
                                 child: const Text(
                                   "Search",
@@ -224,7 +228,7 @@ class JobsPageState extends State<JobsPage> {
                                     color: Colors.white
                                   ),
                                 )
-                              )
+                              ),
                             ),
                           )
                         )
@@ -242,7 +246,7 @@ class JobsPageState extends State<JobsPage> {
                         crossAxisAlignment: WrapCrossAlignment.center,
                         children: [
                           if(jobCards.isEmpty == true)
-                            Padding(
+                            const Padding(
                               padding: EdgeInsets.symmetric(vertical: 160),
                               child:LoadingScreen(),
                             ),
@@ -279,9 +283,9 @@ class CreateJobCardState extends State<CreateJobCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20))),
+      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20))),
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
         width: 400,
         height: 300,
         child: Column(
@@ -290,7 +294,7 @@ class CreateJobCardState extends State<CreateJobCard> {
             Expanded(
               flex: 2,
               child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 16),
+                padding: const EdgeInsets.symmetric(horizontal: 16),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15),
                   color: Theme.of(context).colorScheme.surface
@@ -305,8 +309,8 @@ class CreateJobCardState extends State<CreateJobCard> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(widget.subtitle ?? "N/A", style: TextStyle(fontSize: 14),),
-                          Text(widget.title ?? "N/A", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold,)),
+                          Text(widget.subtitle ?? "N/A", style: const TextStyle(fontSize: 14),),
+                          Text(widget.title ?? "N/A", style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold,)),
                         ],
                       ),
                     ),
@@ -315,7 +319,7 @@ class CreateJobCardState extends State<CreateJobCard> {
                         imageUrl: widget.imageLink ?? "http://via.placeholder.com/350x150",
                         progressIndicatorBuilder: (context, url, downloadProgress) => 
                                 CircularProgressIndicator(value: downloadProgress.progress),
-                        errorWidget: (context, url, error) => Icon(Icons.error),
+                        errorWidget: (context, url, error) => const Icon(Icons.error),
                       ),
                     )
                 ],
@@ -324,7 +328,7 @@ class CreateJobCardState extends State<CreateJobCard> {
             ),
             Expanded(
               child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 16),
+                padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -333,20 +337,24 @@ class CreateJobCardState extends State<CreateJobCard> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(widget.salary ?? "N/A", style: TextStyle(color: Colors.green),),
-                          Text(widget.location ?? "N/A", style: TextStyle(fontSize: 12,)),
+                          Text(widget.salary ?? "N/A", style: const TextStyle(color: Colors.green),),
+                          Text(widget.location ?? "N/A", style: const TextStyle(fontSize: 12,)),
                         ],
                       ),
                     ),
-                    SizedBox(width: 24,),
-                    ElevatedButton(
-                        onPressed: () async {
-                          if(widget.link != null) {
-                            if (await canLaunchUrl(Uri.parse(widget.link ?? "")))
-                              await launchUrl(Uri.parse(widget.link ?? ""));
+                    const SizedBox(width: 24,),
+                    CustomizableButton(
+                      text: 'VISIT', 
+                      width: 60, 
+                      height: 30, 
+                      onTap: () async {
+                        if(widget.link != null) {
+                          if (await canLaunchUrl(Uri.parse(widget.link ?? ""))) {
+                            await launchUrl(Uri.parse(widget.link ?? ""));
                           }
-                        }, 
-                        child: Text("VISIT"),
+                        }
+                      }, 
+                      fontSize: 12
                     )
                   ],
                 )

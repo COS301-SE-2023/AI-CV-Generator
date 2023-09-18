@@ -1,3 +1,4 @@
+import 'package:ai_cv_generator/dio/client/fileApi.dart';
 import 'package:ai_cv_generator/models/aimodels/CVData.dart';
 import 'package:ai_cv_generator/pages/template/TemplateA.dart';
 import 'package:ai_cv_generator/pages/template/TemplateB.dart';
@@ -123,6 +124,7 @@ class Template extends StatefulWidget{
         templateCpdf.writeOnPdf();
         return await templateCpdf.getPdf();
     }
+    return null;
   }
   @override
   State<StatefulWidget> createState() {
@@ -135,11 +137,13 @@ class TemplateState extends State<Template> {
   
   @override
   void initState() {
-    
+    FileApi.getProfileImage().then((value) {
+      img = value;
+    });
     super.initState();
   }
 
-  Image img = const Image(image: AssetImage("assets/images/NicePng_watsapp-icon-png_9332131.png"));
+  Image? img;
 
   @override
   Widget build(BuildContext context) {
@@ -260,7 +264,7 @@ class TemplateState extends State<Template> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Image(image: img.image, height: 170,width: 170,),
+                    Image(image: img!.image, height: 170,width: 170,),
                     const SizedBox(height: 40,),
                     TextFieldInput(
                       controller: widget.nameC!, 

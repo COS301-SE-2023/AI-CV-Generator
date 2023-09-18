@@ -1,26 +1,26 @@
 import 'package:flutter/material.dart';
 
-class CustomizableButton extends StatefulWidget {
-  const CustomizableButton({
+class CustomizableIconButton extends StatefulWidget {
+  const CustomizableIconButton({
     super.key, 
-    required this.text, 
+    required this.icon, 
     required this.width, 
     required this.height,
     required this.onTap,
-    required this.fontSize
+    required this.iconSize
   });
-  final String text;
+  final IconData icon;
   final double width;
   final double height;
   final GestureTapCallback onTap;
-  final double fontSize;
+  final double iconSize;
   
   @override
-  State<StatefulWidget> createState() => CustomizableButtonState();
+  State<StatefulWidget> createState() => CustomizableIconButtonState();
   
 }
 
-class CustomizableButtonState extends State<CustomizableButton> {
+class CustomizableIconButtonState extends State<CustomizableIconButton> {
   Alignment begin = Alignment.topLeft;
   Alignment end = Alignment.bottomRight;
   @override
@@ -54,18 +54,15 @@ class CustomizableButtonState extends State<CustomizableButton> {
                         Color(0xFFFDA187),
                         Color(0xFFEA6D79),
                       ]),
-                  borderRadius: BorderRadius.circular(16.0),
+                  shape: BoxShape.circle
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Text(
-                      widget.text,
-                      style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white,
-                          fontSize: widget.fontSize
-                        ),
+                    Icon(
+                      widget.icon,
+                      size: widget.iconSize,
+                      color: Colors.white,
                     )
                   ],
                 ),
