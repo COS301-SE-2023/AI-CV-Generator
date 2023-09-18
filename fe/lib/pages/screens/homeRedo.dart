@@ -134,7 +134,7 @@ class HomeState extends State<Home> {
   }
 
   Future<bool> extractionViewUpdate(AIInput aiInput, PlatformFile file) async {
-    return await ExtractionView().showModal(context, file, aiInput.toJson());
+    return await ExtractionView().showModal(context, file, aiInput);
   }
 
   // Updatable Widgets
