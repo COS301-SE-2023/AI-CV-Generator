@@ -17,6 +17,7 @@ import 'package:ai_cv_generator/models/user/Reference.dart';
 import 'package:ai_cv_generator/models/user/Skill.dart';
 import 'package:ai_cv_generator/models/user/UserModel.dart';
 import 'package:ai_cv_generator/pages/template/Template.dart';
+import 'package:ai_cv_generator/pages/util/colourPickBox.dart';
 import 'package:ai_cv_generator/pages/util/errorMessage.dart';
 import 'package:ai_cv_generator/pages/util/fileView.dart';
 import 'package:ai_cv_generator/pages/util/successMessage.dart';
@@ -33,6 +34,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter/painting.dart' as paint;
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'dart:math' as math;
 
 import 'package:intl/intl.dart';
@@ -66,6 +68,12 @@ class HomeState extends State<Home> {
   List<Widget> list = [];
   PlatformFile? file;
   bool isChatBotVisible = false;
+
+  // template colours
+  Color a = Colors.lightGreen;
+  Color b = Colors.blue;
+  Color c = Colors.blue.shade100;
+  Color d = Colors.grey.shade300;
 
   ChatBotView chatBot = const ChatBotView();
 
@@ -316,7 +324,11 @@ class HomeState extends State<Home> {
     // Template
     Template template = Template(
       option: option, 
-      data: data!
+      data: data!,
+      colA: a,
+      colB: b,
+      colC: c,
+      colD: d,
     );
 
     // Window Resizing
@@ -403,10 +415,12 @@ class HomeState extends State<Home> {
       ),
       body: SingleChildScrollView(
         child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Center(
               child: Container(
-                padding: EdgeInsets.fromLTRB(w*8, h*3, 0,h*1),
+                padding: EdgeInsets.fromLTRB(0, h*3, 0,h*1),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -449,6 +463,67 @@ class HomeState extends State<Home> {
                           ],
                         )
                       )
+                    ),
+                    if (generated) 
+                    SizedBox(
+                      height: h*28,
+                      child: Column(
+                        children: [
+                          ColourBox(
+                            color: a, 
+                            h: h, 
+                            w: h, 
+                            onTap: () async {
+                              a = await pickColour(context, a);
+                              setState(() {
+                                
+                              });
+                            }
+                          ),
+                          SizedBox(
+                            height: h*1,
+                          ),
+                          ColourBox(
+                            color: b, 
+                            h: h, 
+                            w: h, 
+                            onTap: () async {
+                              b = await pickColour(context, b);
+                              setState(() {
+                                
+                              });
+                            }
+                          ),
+                          SizedBox(
+                            height: h*1,
+                          ),
+                          ColourBox(
+                            color: c, 
+                            h: h, 
+                            w: h, 
+                            onTap: () async {
+                              c = await pickColour(context, c);
+                              setState(() {
+                                
+                              });
+                            }
+                          ),
+                          SizedBox(
+                            height: h*1,
+                          ),
+                          ColourBox(
+                            color: d, 
+                            h: h, 
+                            w: h, 
+                            onTap: () async {
+                              d = await pickColour(context, d);
+                              setState(() {
+                                
+                              });
+                            }
+                          )
+                        ],
+                      ),
                     ),
                     Container(
                       padding: EdgeInsets.fromLTRB(2*w, 0, 2*w, 0),
@@ -523,7 +598,7 @@ class HomeState extends State<Home> {
                                     setCVLoadingOff();
                                   },
                                   fontSize: w*0.8
-                                )
+                                ),
                               ],
                             ),
                           ),

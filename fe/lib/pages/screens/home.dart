@@ -36,7 +36,6 @@ import 'package:ai_cv_generator/pages/widgets/shareCV.dart';
 // external
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'dart:async';
 
@@ -148,7 +147,7 @@ class _HomeState extends State<Home> {
   }
 
   void extractionViewUpdate(AIInput aiInput) {
-    ExtractionView().showModal(context, uploadFile!, aiInput.toJson());
+    ExtractionView().showModal(context, uploadFile!, aiInput);
   }
 
   void requirementsforshareUpdate(PlatformFile file) {
