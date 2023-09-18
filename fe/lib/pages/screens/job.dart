@@ -173,6 +173,9 @@ class JobsPageState extends State<JobsPage> {
                             },
                           ),
                         ),
+                        const SizedBox(
+                          width: 4,
+                        ),
                         Container(
                           width: w*20,
                           child: TextFormField(
@@ -189,6 +192,9 @@ class JobsPageState extends State<JobsPage> {
                               return null;
                             },
                           ),
+                        ),
+                        const SizedBox(
+                          width: 4,
                         ),
                         Container(
                           alignment: Alignment.center,
@@ -242,7 +248,7 @@ class JobsPageState extends State<JobsPage> {
                         crossAxisAlignment: WrapCrossAlignment.center,
                         children: [
                           if(jobCards.isEmpty == true)
-                            Padding(
+                            const Padding(
                               padding: EdgeInsets.symmetric(vertical: 160),
                               child:LoadingScreen(),
                             ),
@@ -346,7 +352,10 @@ class CreateJobCardState extends State<CreateJobCard> {
                               await launchUrl(Uri.parse(widget.link ?? ""));
                           }
                         }, 
-                        child: Text("VISIT"),
+                        child: const Text(
+                          "VISIT",
+                          style: TextStyle(color: Colors.white),
+                        ),
                     )
                   ],
                 )
