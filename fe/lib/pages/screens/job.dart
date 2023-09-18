@@ -84,7 +84,7 @@ class JobsPageState extends State<JobsPage> {
   createCards(List<JobResponseDTO>? jobs) {
     if(jobs != null) {
       jobs.forEach((element) {
-        print(element.imgLink);
+        // print(element.imgLink);
         jobCards.add(
           CreateJobCard(
             title: element.title,
