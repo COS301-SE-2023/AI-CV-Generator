@@ -24,6 +24,7 @@ import 'package:ai_cv_generator/pages/util/successMessage.dart';
 import 'package:ai_cv_generator/pages/widgets/EmptyCV.dart';
 import 'package:ai_cv_generator/pages/widgets/buttons/appBarButton.dart';
 import 'package:ai_cv_generator/pages/widgets/buttons/customizableButton.dart';
+import 'package:ai_cv_generator/pages/widgets/buttons/customizableIconButton.dart';
 import 'package:ai_cv_generator/pages/widgets/chatBotView.dart';
 import 'package:ai_cv_generator/pages/widgets/extractionView.dart';
 import 'package:ai_cv_generator/pages/widgets/loadingScreens/loadingScreen.dart';
@@ -465,9 +466,19 @@ class HomeState extends State<Home> {
                       )
                     ),
                     if (generated) 
-                    SizedBox(
+                    Container(
                       height: h*28,
+                      width: 6*w,
+                      decoration: BoxDecoration(
+                        borderRadius: const BorderRadius.all(Radius.circular(12)),
+                        border: Border.all(
+                          color: const Color.fromARGB(0, 0, 0, 0),
+                        ),
+                        color: Theme.of(context).colorScheme.surface,
+                      ),
                       child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           ColourBox(
                             color: a, 
@@ -771,11 +782,12 @@ class HomeState extends State<Home> {
                           height: 70*h,
                         ),
                         SizedBox(
-                          child: IconButton(
-                            iconSize: h*w*0.2,
-                            color: Theme.of(context).colorScheme.secondary,
-                            onPressed: () {
-                              // /setState(() {chatBotKey.currentState!.visible = false;});
+                          child: CustomizableIconButton(
+                            icon: Icons.message,
+                            height: w*4,
+                            width: w*4,
+                            iconSize: w*h*0.2,
+                            onTap: () {
                               showDialog(
                                 barrierColor: const Color(0x01000000),
                                 context: context, 
@@ -801,8 +813,7 @@ class HomeState extends State<Home> {
                                 }
                               );
                             },
-                            icon: const Icon(Icons.message),
-                          ),
+                          )
                         ),
                       ],
                     ),

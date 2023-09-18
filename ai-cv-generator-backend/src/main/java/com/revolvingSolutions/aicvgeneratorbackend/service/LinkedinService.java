@@ -27,7 +27,7 @@ public class LinkedinService {
     public CompletableFuture<Set<JobResponseDTO>> linkedIn(JobScrapeRequest request) throws IOException {
         System.out.println("LinkedIn start");
         Set<JobResponseDTO> responseDTOS = new HashSet<>();
-        Document doc = Jsoup.connect("https://za.linkedin.com/jobs/search?keywords="+request.getField().replaceAll(" ","%20")+"&location="+request.getLocation().replaceAll(" ", "%20")+"&geoId=100001436&trk=public_jobs_jobs-search-bar_search-submit&position=1&pageNum=0").get();
+        Document doc = Jsoup.connect("https://www.linkedin.com/jobs/search?keywords="+request.getField().replaceAll(" ","%20")+"&location="+request.getLocation().replaceAll(" ", "%20")).get();
         Element list = doc.getElementsByClass("jobs-search__results-list").first();
         Elements listelements = doc.getElementsByTag("li");
         for (Element el : listelements) {
