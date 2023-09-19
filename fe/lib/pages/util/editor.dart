@@ -72,6 +72,12 @@ class EditorState extends State<Editor> {
   TextEditingController startDateController = TextEditingController();
   TextEditingController endDateController = TextEditingController();
 
+  // Text editing controllers for qualification
+  TextEditingController qualificationController = TextEditingController();
+  TextEditingController institutionController = TextEditingController();
+  TextEditingController startDateQuaController = TextEditingController();
+  TextEditingController endDateQuaController = TextEditingController();
+
   // Will regenerate the PDF with changes
   updatePdf() {
     setState(() {
@@ -150,14 +156,27 @@ class EditorState extends State<Editor> {
     }
   }
 
-  selectExperienceList(double w, double h) {
+  selectExperienceList() {
     updateEmploymentList();
     setState(() {
       option = PageOption.experienceList;
     });
   }
 
+  updateQualificationList() {
+    qualificationList = [];
+    for (AIQualification qua in data.qualifications!) {
+      qualificationList.add(
+        qualificationButton(
+          qua, 
+          data.qualifications!.indexOf(qua)
+        )
+      );
+    }
+  }
+
   selectQualificationList() {
+    updateQualificationList();
     setState(() {
       option = PageOption.qualificationList;
     });
@@ -187,11 +206,11 @@ class EditorState extends State<Editor> {
     });
   }
 
-  saveExperience(double w, double h) {
-    data.employmenthistory![employmentIndex].company = companyController.text;
-    data.employmenthistory![employmentIndex].jobTitle = jobTitleController.text;
-    data.employmenthistory![employmentIndex].startDate = startDateController.text;
-    data.employmenthistory![employmentIndex].endDate = endDateController.text;
+  saveExperience() {
+    employment!.company = companyController.text;
+    employment!.jobTitle = jobTitleController.text;
+    employment!.startDate = startDateController.text;
+    employment!.endDate = endDateController.text;
     setState(() {
       data.employmenthistory![employmentIndex] = employment!;
       option = PageOption.experienceList;
@@ -200,7 +219,7 @@ class EditorState extends State<Editor> {
     updatePdf();
   }
 
-  addExperience(double w, double h) {
+  addExperience() {
     AIEmployment newEmployment = AIEmployment(
       company: 'Company',
       jobTitle: 'JobTitle',
@@ -227,18 +246,29 @@ class EditorState extends State<Editor> {
   }
 
   selectQualification(AIQualification qualification, int qualificationIndex) {
+    qualificationController.text = qualification.qualification??'Qualification';
+    institutionController.text = qualification.institution??'Instatution';
+    startDateQuaController.text = qualification.startDate??'Start Date';
+    endDateQuaController.text = qualification.endDate??'End Date';
     setState(() {
       this.qualification = qualification;
       this.qualificationIndex = qualificationIndex;
       option = PageOption.qualification;
     });
+    updateQualificationList();
+    updatePdf();
   }
 
   saveQualification() {
+    qualification!.qualification = qualificationController.text;
+    qualification!.institution = institutionController.text;
+    qualification!.startDate = startDateQuaController.text;
+    qualification!.endDate = endDateQuaController.text;
     setState(() {
       data.qualifications![qualificationIndex] = qualification!;
       option = PageOption.qualificationList;
     });
+    updateQualificationList();
     updatePdf();
   }
 
@@ -249,9 +279,14 @@ class EditorState extends State<Editor> {
       startDate: '${DateTime.now().year}/${DateTime.now().month}/${DateTime.now().day}',
       endDate: '${DateTime.now().year}/${DateTime.now().month}/${DateTime.now().day}'
     );
+    qualificationController.text = newQualification.qualification!;
+    institutionController.text = newQualification.institution!;
+    startDateQuaController.text = newQualification.startDate!;
+    endDateQuaController.text = newQualification.endDate!;
     setState(() {
       data.qualifications!.add(newQualification);
     });
+    updateQualificationList();
     updatePdf();
   }
 
@@ -259,6 +294,7 @@ class EditorState extends State<Editor> {
     setState(() {
       data.qualifications!.removeAt(index);
     });
+    updateQualificationList();
     updatePdf();
   }
 
@@ -353,6 +389,60 @@ class EditorState extends State<Editor> {
         },
         onDeletePressed: () {
           deleteExperience(index);
+        }
+      ),
+    );
+  }
+
+  Widget qualificationButton(AIQualification qualificationOp,int index) {
+    return Container(
+      padding: const EdgeInsets.only(
+        top: 5,
+        bottom: 5
+      ),
+      child: DeletableMenuButton(
+        text: '${qualificationOp.qualification??'Qualification'} / ${qualificationOp.institution??'Instatution'}',
+        onTap: () {
+          selectQualification(qualificationOp, index);
+        },
+        onDeletePressed: () {
+          deleteQualification(index);
+        }
+      ),
+    );
+  }
+
+  Widget skillButton(AISkill skillOp,int index) {
+    return Container(
+      padding: const EdgeInsets.only(
+        top: 5,
+        bottom: 5
+      ),
+      child: DeletableMenuButton(
+        text: '${skillOp.skill??'Skill'} / ${skillOp.reason??'Reason'}',
+        onTap: () {
+          selectSkill(skillOp, index);
+        },
+        onDeletePressed: () {
+          deleteSkill(index);
+        }
+      ),
+    );
+  }
+
+  Widget referenceButton(AIReference referenceOp,int index) {
+    return Container(
+      padding: const EdgeInsets.only(
+        top: 5,
+        bottom: 5
+      ),
+      child: DeletableMenuButton(
+        text: '${referenceOp.contact??'Contact'} / ${referenceOp.description??'Description'}',
+        onTap: () {
+          selectReference(referenceOp, index);
+        },
+        onDeletePressed: () {
+          deleteReference(index);
         }
       ),
     );
@@ -469,7 +559,7 @@ class EditorState extends State<Editor> {
           width: w*30,
           height: h*10,
           onTap: () {
-            selectExperienceList(w,h);
+            selectExperienceList();
           },
           fontSize: 1.2*w,
         ),
@@ -805,7 +895,7 @@ class EditorState extends State<Editor> {
               width: 7*w, 
               height: 28, 
               onTap: () {
-                addExperience(w,h);
+                addExperience();
               }, 
               fontSize: w*0.8
             )
@@ -817,7 +907,67 @@ class EditorState extends State<Editor> {
 
   Widget qualificationListMenu(double w, double h) {
     return Column(
-      children: [Text('Not Ready')],
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        const SizedBox(height: 10,),
+        Align(
+          alignment: Alignment.topCenter,
+          child: Text(
+            'Qualifications',
+            style: TextStyle(fontSize: 1.6*w),
+          ),
+        ),
+        const SizedBox(height: 20,),
+        if (qualificationList.isNotEmpty)
+        ...qualificationList,
+        if (qualificationList.isEmpty) 
+        SizedBox(
+          width: w*30,
+          height: 300,
+          child: const Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.school,color: Colors.grey,size: 100,),
+                SizedBox(height: 20),
+                Text(
+                  "No Qualifications...", 
+                  style: TextStyle(
+                    color: Colors.grey
+                  )
+                )
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(height: 20,),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            CustomizableButton(
+              text: 'Back', 
+              width: 7*w, 
+              height: 28, 
+              onTap: () {
+                selectMain();
+              }, 
+              fontSize: w*0.8
+            ),
+            SizedBox(width: w*3,),
+            CustomizableButton(
+              text: 'Add', 
+              width: 7*w, 
+              height: 28, 
+              onTap: () {
+                addQualification();
+              }, 
+              fontSize: w*0.8
+            )
+          ],
+        )
+      ],
     );
   }
 
@@ -933,7 +1083,7 @@ class EditorState extends State<Editor> {
                   controller: endDateController,
                   decoration: const InputDecoration(
                     enabledBorder: OutlineInputBorder(),
-                    labelText: 'endDate',
+                    labelText: 'End Date',
                   ),
                   validator: (value) {
                     return null;
@@ -952,7 +1102,7 @@ class EditorState extends State<Editor> {
               width: 7*w, 
               height: 28, 
               onTap: () {
-                saveExperience(w,h);
+                saveExperience();
               }, 
               fontSize: w*0.8
             ),
@@ -962,7 +1112,7 @@ class EditorState extends State<Editor> {
               width: 7*w, 
               height: 28, 
               onTap: () {
-                selectExperienceList(w,h);
+                selectExperienceList();
               }, 
               fontSize: w*0.8
             )
@@ -985,6 +1135,103 @@ class EditorState extends State<Editor> {
           ),
         ),
         const SizedBox(height: 20,),
+        SizedBox(
+          height: 80,
+          width: 30*w,
+          child: TextFormField(
+            key: const Key('qualification'),
+            controller: qualificationController,
+            decoration: const InputDecoration(
+              enabledBorder: OutlineInputBorder(),
+              labelText: 'Qualification',
+            ),
+            validator: (value) {
+              return null;
+            },
+          ),
+        ),
+        const SizedBox(height: 20,),
+        SizedBox(
+          height: 80,
+          width: 30*w,
+          child: TextFormField(
+            key: const Key('instatution'),
+            controller: institutionController,
+            decoration: const InputDecoration(
+              enabledBorder: OutlineInputBorder(),
+              labelText: 'Instatution/School',
+            ),
+            validator: (value) {
+              return null;
+            },
+          ),
+        ),
+        const SizedBox(height: 20,),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  setState(() {
+                    datePicker(context).then((value) {
+                      if(value != null) {
+                        startDateQuaController.text = '${value.year}/${value.month}/${value.day}';
+                      }
+                    });
+                  });
+                });
+              },
+              child: SizedBox(
+                height: 80,
+                width: 14*w,
+                child: TextFormField(
+                  enabled: false,
+                  key: const Key('startDate'),
+                  controller: startDateQuaController,
+                  decoration: const InputDecoration(
+                    enabledBorder: OutlineInputBorder(),
+                    labelText: 'Start Date',
+                  ),
+                  validator: (value) {
+                    return null;
+                  },
+                ),
+              ),
+            ),
+            SizedBox(width: 2*w,),
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  setState(() {
+                    datePicker(context).then((value) {
+                      if(value != null) {
+                        endDateQuaController.text = '${value.year}/${value.month}/${value.day}';
+                      }
+                    });
+                  });
+                });
+              },
+              child: SizedBox(
+                height: 80,
+                width: 14*w,
+                child: TextFormField(
+                  enabled: false,
+                  key: const Key('endDate'),
+                  controller: endDateQuaController,
+                  decoration: const InputDecoration(
+                    enabledBorder: OutlineInputBorder(),
+                    labelText: 'End Date',
+                  ),
+                  validator: (value) {
+                    return null;
+                  },
+                ),
+              ),
+            )
+          ],
+        ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
