@@ -110,8 +110,18 @@ class EditorState extends State<Editor> {
   }
 
   selectProfetionalSummary() {
+    descriptionController.text = data.description??'Description';
+    educationalDescriptionController.text = data.education_description??'Education Description';
     setState(() {
       option = PageOption.professionalSummary;
+    });
+  }
+
+  saveProfessionalSummary() {
+    data.description = descriptionController.text;
+    data.education_description = educationalDescriptionController.text;
+    setState(() {
+      option = PageOption.main;
     });
   }
 
@@ -581,7 +591,82 @@ class EditorState extends State<Editor> {
                       ],
                     ),
                     PageOption.professionalSummary => Column(
-                      children: [const Text("Not Ready")],
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Align(
+                          alignment: Alignment.topCenter,
+                          child: Text(
+                            'Professional Summary',
+                            style: TextStyle(fontSize: 1.6*w),
+                          ),
+                        ),
+                        const SizedBox(height: 20,),
+                        Container (
+                          constraints: BoxConstraints.tight(Size(30*w,200)),
+                          child: TextFormField(
+                            key: const Key("Description start"),
+                            maxLines: 6,
+                            controller: descriptionController,
+                            decoration: const InputDecoration(
+                              labelText: 'Description',
+                              enabledBorder: OutlineInputBorder(),
+                              icon: Icon(Icons.person),
+                            ),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter some text';
+                              }
+                              return null;
+                            },
+                          )
+                        ),
+                        Container (
+                          constraints: BoxConstraints.tight(Size(30*w,200)),
+                          child: TextFormField(
+                            key: const Key("Educational Description"),
+                            maxLines: 6,
+                            controller: educationalDescriptionController,
+                            decoration: const InputDecoration(
+                              labelText: 'Educational Description',
+                              enabledBorder: OutlineInputBorder(),
+                              icon: Icon(Icons.person),
+                            ),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter some text';
+                              }
+                              return null;
+                            },
+                          )
+                        ),
+                        const SizedBox(height: 20,),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            CustomizableButton(
+                              text: 'Update', 
+                              width: 7*w, 
+                              height: 28, 
+                              onTap: () {
+                                saveProfessionalSummary();
+                              }, 
+                              fontSize: w*0.8
+                            ),
+                            SizedBox(width: w*3,),
+                            CustomizableButton(
+                              text: 'Cancel', 
+                              width: 7*w, 
+                              height: 28, 
+                              onTap: () {
+                                selectMain();
+                              }, 
+                              fontSize: w*0.8
+                            )
+                          ],
+                        )
+                      ],
                     ),
                     PageOption.experienceList => Column(
                       children: [const Text("Not Ready")],
