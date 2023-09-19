@@ -149,7 +149,7 @@ class EditorState extends State<Editor> {
 
   saveExperience() {
     setState(() {
-      data.employmenthistory!.insert(employmentIndex, employment!);
+      data.employmenthistory![employmentIndex] = employment!;
       option = PageOption.experienceList;
     });
     updatePdf();
@@ -188,7 +188,7 @@ class EditorState extends State<Editor> {
 
   saveQualification() {
     setState(() {
-      data.qualifications!.insert(qualificationIndex, qualification!);
+      data.qualifications![qualificationIndex] = qualification!;
       option = PageOption.qualificationList;
     });
     updatePdf();
@@ -227,7 +227,7 @@ class EditorState extends State<Editor> {
 
   saveSkill() {
     setState(() {
-      data.skills!.insert(skillIndex, skill!);
+      data.skills![skillIndex] = skill!;
       option = PageOption.skillList;
     });
     updatePdf();
@@ -265,7 +265,7 @@ class EditorState extends State<Editor> {
 
   saveReference() {
     setState(() {
-      data.references!.insert(referenceIndex, reference!);
+      data.references![referenceIndex] = reference!;
       option = PageOption.referenceList;
     });
     updatePdf();
