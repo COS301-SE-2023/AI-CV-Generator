@@ -15,6 +15,7 @@ import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 enum PageOption {
   main,
   personDetails,
+  professionalSummary,
   experienceList,
   qualificationList,
   skillList,
@@ -48,6 +49,17 @@ class EditorState extends State<Editor> {
   int referenceIndex = 0;
   AIReference? reference;
 
+  // Text editing controllers for personalDetails
+  TextEditingController fnameController = TextEditingController();
+  TextEditingController lnameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController phoneNumberController = TextEditingController();
+  TextEditingController locationController = TextEditingController();
+
+  // Text editing controllers for professional descriptions
+  TextEditingController descriptionController = TextEditingController();
+  TextEditingController educationalDescriptionController = TextEditingController();
+
   // Will regenerate the PDF with changes
   updatePdf() {
     setState(() {
@@ -75,8 +87,31 @@ class EditorState extends State<Editor> {
   }
 
   selectPersonalDetails() {
+    fnameController.text = data.firstname??'First Name';
+    lnameController.text = data.lastname??'Last Name';
+    emailController.text = data.email??'Email';
+    phoneNumberController.text = data.phoneNumber??'Phone Number';
+    locationController.text = data.location??'Location';
     setState(() {
       option = PageOption.personDetails;
+    });
+  }
+
+  savePersonalDetails() {
+    data.firstname = fnameController.text;
+    data.lastname = lnameController.text;
+    data.email = emailController.text;
+    data.phoneNumber = phoneNumberController.text;
+    data.location = locationController.text;
+    setState(() {
+      option = PageOption.main;
+    });
+    updatePdf();
+  }
+
+  selectProfetionalSummary() {
+    setState(() {
+      option = PageOption.professionalSummary;
     });
   }
 
@@ -291,7 +326,7 @@ class EditorState extends State<Editor> {
           ),
           color: Colors.grey.shade100
         ),
-        width: 67*w,
+        width: 69*w,
         height: 85*h,
         child: ClipRRect(
           borderRadius: const BorderRadius.all(Radius.circular(20)),
@@ -302,7 +337,7 @@ class EditorState extends State<Editor> {
                   Icons.close,
                 ), 
                 onPressed: () async { 
-                  Navigator.popUntil(context, ModalRoute.withName('/home'));
+                  Navigator.pop(context);
                 },
               ),
             ),
@@ -319,6 +354,7 @@ class EditorState extends State<Editor> {
                     pageSpacing: 8
                   ),
                 ),
+                SizedBox(width: 2*w,),
                 SingleChildScrollView(
                   child: 
                   // Menus
@@ -334,7 +370,17 @@ class EditorState extends State<Editor> {
                           onTap: () {
                             selectPersonalDetails();
                           },
-                          fontSize: 18,
+                          fontSize: 1.2*w,
+                        ),
+                        const SizedBox(height: 10,),
+                        MenuButton(
+                          text: 'Professional Summary',
+                          width: w*30,
+                          height: h*10,
+                          onTap: () {
+                            selectProfetionalSummary();
+                          },
+                          fontSize: 1.2*w,
                         ),
                         const SizedBox(height: 10,),
                         MenuButton(
@@ -344,7 +390,7 @@ class EditorState extends State<Editor> {
                           onTap: () {
                             selectExperienceList();
                           },
-                          fontSize: 18,
+                          fontSize: 1.2*w,
                         ),
                         const SizedBox(height: 10,),
                         MenuButton(
@@ -354,7 +400,7 @@ class EditorState extends State<Editor> {
                           onTap: () {
                             selectQualificationList();
                           },
-                          fontSize: 18,
+                          fontSize: 1.2*w,
                         ),
                         const SizedBox(height: 10,),
                         MenuButton(
@@ -364,7 +410,7 @@ class EditorState extends State<Editor> {
                           onTap: () {
                             selectSkillList();
                           },
-                          fontSize: 18,
+                          fontSize: 1.2*w,
                         ),
                         const SizedBox(height: 10,),
                         MenuButton(
@@ -374,7 +420,7 @@ class EditorState extends State<Editor> {
                           onTap: () {
                             selectReferenceList();
                           },
-                          fontSize: 18,
+                          fontSize: 1.2*w,
                         ),
                         const SizedBox(height: 20,),
                         Row(
@@ -405,9 +451,137 @@ class EditorState extends State<Editor> {
                       ],
                     ),
                     PageOption.personDetails => Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        
+                        Align(
+                          alignment: Alignment.topCenter,
+                          child: Text(
+                            'Personal Details',
+                            style: TextStyle(fontSize: 1.6*w),
+                          ),
+                        ),
+                        const SizedBox(height: 20,),
+                        Row(
+                          children: [
+                            Container(
+                              height: 80,
+                              width: w*14.8,
+                              padding: EdgeInsets.fromLTRB(0*w, 0, 0.2*w, 0),
+                              child: TextFormField(
+                                key: const Key('fname'),
+                                controller: fnameController,
+                                decoration: const InputDecoration(
+                                  enabledBorder: OutlineInputBorder(),
+                                  labelText: 'First Name',
+                                ),
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'This field is required';
+                                  }
+                                  return null;
+                                },
+                              ),
+                            ),
+                            Container(
+                              height: 80,
+                              width: w*14.8,
+                              padding: EdgeInsets.fromLTRB(0.2*w, 0, 0*w, 0),
+                              child: TextFormField(
+                                key: const Key('lname'),
+                                controller: lnameController,
+                                decoration: const InputDecoration(
+                                  enabledBorder: OutlineInputBorder(),
+                                  labelText: 'Last Name',
+                                ),
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'This field is required';
+                                }
+                                return null;
+                              },
+                              ),
+                            )
+                          ],
+                        ),
+                        SizedBox(
+                          height: 80,
+                          width: 30*w,
+                          child: TextFormField(
+                            key: const Key('email'),
+                            controller: emailController,
+                            decoration: const InputDecoration(
+                              enabledBorder: OutlineInputBorder(),
+                              labelText: 'Email',
+                            ),
+                            validator: (value) {
+                                if (!RegExp(r"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
+                                .hasMatch(value!)) {
+                                return 'This is not a valid email';
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                        SizedBox(
+                          height: 80,
+                          width: 30*w,
+                          child: TextFormField(
+                            key: const Key('phoneNumber'),
+                            controller: phoneNumberController,
+                            decoration: const InputDecoration(
+                              enabledBorder: OutlineInputBorder(),
+                              labelText: 'Phone Number',
+                            ),
+                            validator: (value) {
+                              return null;
+                            },
+                          ),
+                        ),
+                        SizedBox(
+                          height: 80,
+                          width: 30*w,
+                          child: TextFormField(
+                            key: const Key('location'),
+                            controller: locationController,
+                            decoration: const InputDecoration(
+                              enabledBorder: OutlineInputBorder(),
+                              labelText: 'Location/Address',
+                            ),
+                            validator: (value) {
+                              return null;
+                            },
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            CustomizableButton(
+                              text: 'Update', 
+                              width: 7*w, 
+                              height: 28, 
+                              onTap: () {
+                                savePersonalDetails();
+                              }, 
+                              fontSize: w*0.8
+                            ),
+                            SizedBox(width: w*3,),
+                            CustomizableButton(
+                              text: 'Cancel', 
+                              width: 7*w, 
+                              height: 28, 
+                              onTap: () {
+                                selectMain();
+                              }, 
+                              fontSize: w*0.8
+                            )
+                          ],
+                        )
                       ],
+                    ),
+                    PageOption.professionalSummary => Column(
+                      children: [const Text("Not Ready")],
                     ),
                     PageOption.experienceList => Column(
                       children: [const Text("Not Ready")],
