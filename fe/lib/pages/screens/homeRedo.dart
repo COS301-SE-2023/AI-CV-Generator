@@ -35,7 +35,6 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter/painting.dart' as paint;
-import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'dart:math' as math;
 
 import 'package:intl/intl.dart';
@@ -382,18 +381,28 @@ class HomeState extends State<Home> {
               width: 40*w,
             ),
           ),
-          InkWell(
-            onTap: () {
-                toJobs();
-            },
-            child: const AppBarButtonStyle(text: "Jobs"),
+          SizedBox(
+            width: 80,
+            height: 28,
+            child: InkWell(
+              hoverColor: Colors.transparent,
+              onTap: () {
+                  toJobs();
+              },
+              child: const AppBarButtonStyle(text: "Jobs"),
+            ),
           ),
           SizedBox(width: 3.2*w,),
-          InkWell(
-            onTap: () {
-                toAbout();
-            },
-            child: const AppBarButtonStyle(text: "About")
+          SizedBox(
+            width: 80,
+            height: 28,
+            child: InkWell(
+              hoverColor: Colors.transparent,
+              onTap: () {
+                  toAbout();
+              },
+              child: const AppBarButtonStyle(text: "About")
+            ),
           ),
           SizedBox(width: 4*w,),
           MouseRegion(

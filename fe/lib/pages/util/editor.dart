@@ -114,6 +114,7 @@ class EditorState extends State<Editor> {
       widget.data.employmenthistory!.insert(employmentIndex, employment!);
       option = PageOption.experienceList;
     });
+    updatePdf();
   }
 
   addExperience() {
@@ -129,12 +130,14 @@ class EditorState extends State<Editor> {
       employmentIndex = widget.data.employmenthistory!.indexOf(newEmployment);
       option = PageOption.experience;
     });
+    updatePdf();
   }
 
   deleteExperience(int index) {
     setState(() {
       widget.data.employmenthistory!.removeAt(index);
     });
+    updatePdf();
   }
 
   selectQualification(AIQualification qualification, int qualificationIndex) {
@@ -150,6 +153,7 @@ class EditorState extends State<Editor> {
       widget.data.qualifications!.insert(qualificationIndex, qualification!);
       option = PageOption.qualificationList;
     });
+    updatePdf();
   }
 
   addQualification() {
@@ -165,12 +169,14 @@ class EditorState extends State<Editor> {
       qualificationIndex = widget.data.qualifications!.indexOf(newQualification);
       option = PageOption.qualification;
     });
+    updatePdf();
   }
 
   deleteQualification(int index) {
     setState(() {
       widget.data.qualifications!.removeAt(index);
     });
+    updatePdf();
   }
 
   selectSkill(AISkill skill,int skillIndex) {
@@ -186,6 +192,7 @@ class EditorState extends State<Editor> {
       widget.data.skills!.insert(skillIndex, skill!);
       option = PageOption.skillList;
     });
+    updatePdf();
   }
 
   addSkill() {
@@ -200,12 +207,14 @@ class EditorState extends State<Editor> {
       skillIndex = widget.data.skills!.indexOf(newSkill);
       option = PageOption.skill;
     });
+    updatePdf();
   }
 
   deleteSkill(int index) {
     setState(() {
       widget.data.skills!.removeAt(index);
     });
+    updatePdf();
   } 
 
   selectReference(AIReference reference, int referenceIndex) {
@@ -221,6 +230,7 @@ class EditorState extends State<Editor> {
       widget.data.references!.insert(referenceIndex, reference!);
       option = PageOption.referenceList;
     });
+    updatePdf();
   }
 
   addReference() {
@@ -234,12 +244,14 @@ class EditorState extends State<Editor> {
       referenceIndex = widget.data.references!.indexOf(newReference);
       option = PageOption.reference;
     });
+    updatePdf();
   }
 
   deleteReference(int index) {
     setState(() {
       widget.data.references!.removeAt(index);
     });
+    updatePdf();
   }
 
   @override
@@ -305,7 +317,6 @@ class EditorState extends State<Editor> {
             }
           )
         ]
-        
       ),
     );
   }

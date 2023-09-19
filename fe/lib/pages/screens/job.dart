@@ -198,7 +198,7 @@ class JobsPageState extends State<JobsPage> {
                           alignment: Alignment.center,
                           child: Material(
                             child: InkWell(
-                              hoverColor: Colors.grey,
+                              hoverColor: Colors.transparent,
                               onTap: () async{
                                 if(_formKey.currentState!.validate() == true) {
                                   setState(() {

@@ -5,15 +5,15 @@ class AppBarButtonStyle extends StatelessWidget {
   final String text;
   @override
   Widget build(BuildContext context) {
-    Size screenSize = MediaQuery.of(context).size;
-    //double w = screenSize.width/100;
-    double h = screenSize.height/100; 
+    // Size screenSize = MediaQuery.of(context).size;
+    // double w = screenSize.width/100;
+    // double h = screenSize.height/100; 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Center(
           child: Container(
-            height: 4.5*h,
+            height: 28,
             width: 80,
             decoration: BoxDecoration(
               gradient: const LinearGradient(

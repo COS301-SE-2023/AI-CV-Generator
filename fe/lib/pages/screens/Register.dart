@@ -208,18 +208,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                         ),
                         labelText: 'Password',
                       ),
-                      // onChanged: (value) {
-                      //   if (passwordRetypeController.text != passwordController.text) {
-                      //     setState(() {
-                      //       p2textColor = const Color.fromRGBO(250, 0, 0, 0.466);
-                      //     });
-                          
-                      //   } else {
-                      //     setState(() {
-                      //       p2textColor = null;
-                      //     });
-                      //   }
-                      // },
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'This field is required';
@@ -247,17 +235,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                           color: p2textColor
                         )
                       ),
-                      // onChanged: (value) {
-                      //   if (passwordRetypeController.text != passwordController.text) {
-                      //     setState(() {
-                      //       p2textColor = const Color.fromRGBO(250, 0, 0, 0.466);
-                      //     });
-                      //   } else {
-                      //     setState(() {
-                      //       p2textColor = null;
-                      //     });
-                      //   }
-                      // },
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'This field is required';
@@ -269,10 +246,11 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   Container(
                     child: tAndCs
                   ),
-                  Container(
-                      height: 6*h,
-                      width: 11*w,
+                  SizedBox(
+                      height: 5*h,
+                      width: 10*w,
                       child: InkWell(
+                        hoverColor: Colors.transparent,
                         key: const Key('register'),
                         child: const GeneralButtonStyle(text: "Register"),
                         onTap: () async {

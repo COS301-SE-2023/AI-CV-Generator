@@ -133,6 +133,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   width: w*10,
                   height: h*5,
                   child: InkWell(
+                    hoverColor: Colors.transparent,
                     key: const Key('login'),
                     child: const GeneralButtonStyle(text: "Login"),
                     onTap: () async {
