@@ -99,6 +99,7 @@ flutter:
     - assets/images/TemplateAAsset.jpg
     - assets/images/TemplateBAsset.png
     - assets/images/TemplateCAsset.jpg
+    - assets/Documents/DocumentTest.pdf
     - assets/.env
     - assets/markdown/Terms_of_use.md
     - assets/markdown/Privacy_policy.md

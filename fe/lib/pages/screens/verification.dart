@@ -10,7 +10,7 @@ class Verification extends StatefulWidget {
 }
 
 class VerificationState extends State<Verification> {
-  TextEditingController codeC = new TextEditingController();
+  TextEditingController codeC = TextEditingController();
   bool isLoading = false;
   bool isResendLoading = false;
   bool verified = false;
@@ -31,7 +31,7 @@ class VerificationState extends State<Verification> {
         ),
       ),
       body: Center(
-        child: Container(
+        child: SizedBox(
           // alignment: Alignment.centerLeft,
           width: 500,
           child: Column(
@@ -48,12 +48,12 @@ class VerificationState extends State<Verification> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text("Error", style: TextStyle(fontSize: 28, color: Theme.of(context).colorScheme.primary),),
-                      SizedBox(width: 16,),
+                      const SizedBox(width: 16,),
                       Icon(Icons.error, color: Theme.of(context).colorScheme.primary),
                     ],
                   ),
-                  SizedBox(height: 16,),
-                  Text("Incorrect code.", style: TextStyle(fontSize: 16)),
+                  const SizedBox(height: 16,),
+                  const Text("Incorrect code.", style: TextStyle(fontSize: 16)),
                 ],
               ) :
               Column(
@@ -64,33 +64,33 @@ class VerificationState extends State<Verification> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text("Check your inbox", style: TextStyle(fontSize: 28, color: Theme.of(context).colorScheme.primary),),
-                      SizedBox(width: 16,),
+                      const SizedBox(width: 16,),
                       Icon(Icons.email, color: Theme.of(context).colorScheme.primary),
                     ],
                   ),
-                  SizedBox(height: 16,),
-                  Text("We sent a code to your email.", style: TextStyle(fontSize: 16)),
+                  const SizedBox(height: 16,),
+                  const Text("We sent a code to your email.", style: TextStyle(fontSize: 16)),
                 ],
               ) : Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text("Verified", style: TextStyle(fontSize: 28, color: Theme.of(context).colorScheme.primary),),
-                      SizedBox(width: 16,),
+                      const SizedBox(width: 16,),
                       Icon(Icons.check, color: Theme.of(context).colorScheme.primary),
                     ],
                   ),
-              SizedBox(height: 72,),
+              const SizedBox(height: 72,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    constraints: BoxConstraints.tight(Size(300,70)),
+                    constraints: BoxConstraints.tight(const Size(300,70)),
                     child: TextFormField(
                       keyboardType: TextInputType.number,
                       inputFormatters: <TextInputFormatter>[
                         FilteringTextInputFormatter.digitsOnly
                       ],
-                      key: Key("Code input"),
+                      key: const Key("Code input"),
                       controller: codeC,
                       decoration: const InputDecoration(
                         contentPadding: EdgeInsets.all(5.0),
@@ -105,24 +105,24 @@ class VerificationState extends State<Verification> {
                       },
                     )
                   ),
-                  SizedBox(width: 16,),
-                  Container(
+                  const SizedBox(width: 16,),
+                  SizedBox(
                     height: 40,
                       child: ElevatedButton(
                         onPressed: () {
                           setState(() {
-                            if (codeC.text == null || codeC.text.isEmpty) {
+                            if (codeC.text.isEmpty) {
                               return;
                             }
                             isLoading = true;
-                            Timer.periodic(Duration(seconds: 3), (timer) {
+                            Timer.periodic(const Duration(seconds: 3), (timer) {
                               setState(() {
                                 isLoading = false;
                                 //if success
                                 // verified = true;
                                 //else error
                                 error = true;
-                                Timer.periodic(Duration(seconds: 3), (timer) {
+                                Timer.periodic(const Duration(seconds: 3), (timer) {
                                   setState(() {
                                     error = false;
                                   });
@@ -136,11 +136,11 @@ class VerificationState extends State<Verification> {
                 ),
                 ],
               ),
-              SizedBox(height: 32,),
+              const SizedBox(height: 32,),
               TextButton(onPressed: () {
                 if(isResendLoading == false)
                 {
-                  Timer.periodic(Duration(seconds: 3), (timer) {
+                  Timer.periodic(const Duration(seconds: 3), (timer) {
                     setState(() {
                       isResendLoading = false;
                     });
@@ -150,7 +150,7 @@ class VerificationState extends State<Verification> {
                   });
                 }
               },
-              child: isResendLoading ? const CircularProgressIndicator(color: Colors.grey, strokeWidth: 1,) : Text("Resend Mail?", style: TextStyle(fontSize: 16,)),)
+              child: isResendLoading ? const CircularProgressIndicator(color: Colors.grey, strokeWidth: 1,) : const Text("Resend Mail?", style: TextStyle(fontSize: 16,)),)
             ],
           ),
         ),
