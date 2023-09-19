@@ -29,6 +29,7 @@ class CustomizableIconButtonState extends State<CustomizableIconButton> {
       width: widget.width,
       height: widget.height,
       child: InkWell(
+        borderRadius: BorderRadius.circular(50),
         hoverColor: Colors.transparent,
         onTap: widget.onTap,
         onHover: (value) {

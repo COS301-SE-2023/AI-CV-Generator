@@ -12,6 +12,7 @@ import 'package:ai_cv_generator/pages/screens/homeRedo.dart';
 import 'package:ai_cv_generator/pages/screens/job.dart';
 import 'package:ai_cv_generator/pages/screens/login.dart';
 import 'package:ai_cv_generator/pages/screens/profile.dart';
+import 'package:ai_cv_generator/pages/screens/testPage.dart';
 import 'package:ai_cv_generator/pages/util/sharedFileView.dart';
 
 // external
