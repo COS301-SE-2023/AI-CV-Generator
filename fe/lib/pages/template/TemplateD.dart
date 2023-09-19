@@ -54,7 +54,7 @@ class _CreatePdfState extends State<CreatePdfStatefulWidget> {
                 backgroundColor: Colors.lightBlue,
                 disabledForegroundColor: Colors.grey,
               ),
-              onPressed: generateInvoice,
+              onPressed: templateD,
               child: const Text('Generate PDF'),
             )
           ],
@@ -63,7 +63,7 @@ class _CreatePdfState extends State<CreatePdfStatefulWidget> {
     );
   }
   TextEditingController controller = TextEditingController(text: "INVOICE");
-  Future<void> generateInvoice() async {
+  Future<void> templateD() async {
     //Create a PDF document.
     final PdfDocument document = PdfDocument();
     //Add page to the PDF
@@ -114,69 +114,6 @@ class _CreatePdfState extends State<CreatePdfStatefulWidget> {
                       pageSpacing: 8
                     ),
                   ),
-                ],
-              ),
-            ),
-          )
-        );
-      }
-    );
-  }
-
-  Future<void> templateD(PdfDocument document, PdfPage page, List<int> bytes,Size pageSize,PdfGrid grid) async {
-    showDialog(
-      context: context, 
-      builder: (context) {
-        Size screenSize = MediaQuery.of(context).size;
-      double w = screenSize.width/100;
-      double h = screenSize.height/100;
-        return SizedBox(
-          width: 37*w,
-          child: Scaffold(
-            backgroundColor: Colors.transparent,
-            extendBodyBehindAppBar: true,
-            appBar: AppBar(
-              backgroundColor: Colors.transparent,
-              elevation: 0,
-              leading: IconButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                }, 
-                icon: const Icon(Icons.arrow_back,color: Colors.white,)
-              ),
-            ),
-            body: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    padding: EdgeInsets.all(w*1),
-                    width: 32*w,
-                    height: 85*h,
-                    child: SfPdfViewer.memory(
-                      Uint8List.fromList(bytes),
-                      pageSpacing: 8
-                    ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.all(w*0.1),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                       Container(
-                        height: 5*h,
-                        width: 10*w,
-                        child:  TextField(controller: controller,onChanged: (value) {
-                          Navigator.pop(context);
-                          List<int> bytes = document.saveSync();
-                          templateD(document, page, bytes, pageSize, grid);
-                        }),
-                       )
-                      ],
-                    ),
-                  )
                 ],
               ),
             ),
