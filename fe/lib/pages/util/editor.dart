@@ -388,401 +388,17 @@ class EditorState extends State<Editor> {
                   child: 
                   // Menus
                   switch(option) {
-                    PageOption.main => Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        MenuButton(
-                          text: 'Pesonal Details',
-                          width: w*30,
-                          height: h*10,
-                          onTap: () {
-                            selectPersonalDetails();
-                          },
-                          fontSize: 1.2*w,
-                        ),
-                        const SizedBox(height: 10,),
-                        MenuButton(
-                          text: 'Professional Summary',
-                          width: w*30,
-                          height: h*10,
-                          onTap: () {
-                            selectProfetionalSummary();
-                          },
-                          fontSize: 1.2*w,
-                        ),
-                        const SizedBox(height: 10,),
-                        MenuButton(
-                          text: 'Experience',
-                          width: w*30,
-                          height: h*10,
-                          onTap: () {
-                            selectExperienceList();
-                          },
-                          fontSize: 1.2*w,
-                        ),
-                        const SizedBox(height: 10,),
-                        MenuButton(
-                          text: 'Education',
-                          width: w*30,
-                          height: h*10,
-                          onTap: () {
-                            selectQualificationList();
-                          },
-                          fontSize: 1.2*w,
-                        ),
-                        const SizedBox(height: 10,),
-                        MenuButton(
-                          text: 'Skills',
-                          width: w*30,
-                          height: h*10,
-                          onTap: () {
-                            selectSkillList();
-                          },
-                          fontSize: 1.2*w,
-                        ),
-                        const SizedBox(height: 10,),
-                        MenuButton(
-                          text: 'References',
-                          width: w*30,
-                          height: h*10,
-                          onTap: () {
-                            selectReferenceList();
-                          },
-                          fontSize: 1.2*w,
-                        ),
-                        const SizedBox(height: 20,),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            CustomizableButton(
-                              text: 'Save', 
-                              width: 7*w, 
-                              height: 28, 
-                              onTap: () {
-                                save();
-                              }, 
-                              fontSize: w*0.8
-                            ),
-                            SizedBox(width: w*3,),
-                            CustomizableButton(
-                              text: 'Cancel', 
-                              width: 7*w, 
-                              height: 28, 
-                              onTap: () {
-                                cancel();
-                              }, 
-                              fontSize: w*0.8
-                            )
-                          ],
-                        )
-                      ],
-                    ),
-                    PageOption.personDetails => Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Align(
-                          alignment: Alignment.topCenter,
-                          child: Text(
-                            'Personal Details',
-                            style: TextStyle(fontSize: 1.6*w),
-                          ),
-                        ),
-                        const SizedBox(height: 20,),
-                        Row(
-                          children: [
-                            Container(
-                              height: 80,
-                              width: w*14.8,
-                              padding: EdgeInsets.fromLTRB(0*w, 0, 0.2*w, 0),
-                              child: TextFormField(
-                                key: const Key('fname'),
-                                controller: fnameController,
-                                decoration: const InputDecoration(
-                                  enabledBorder: OutlineInputBorder(),
-                                  labelText: 'First Name',
-                                ),
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'This field is required';
-                                  }
-                                  return null;
-                                },
-                              ),
-                            ),
-                            Container(
-                              height: 80,
-                              width: w*14.8,
-                              padding: EdgeInsets.fromLTRB(0.2*w, 0, 0*w, 0),
-                              child: TextFormField(
-                                key: const Key('lname'),
-                                controller: lnameController,
-                                decoration: const InputDecoration(
-                                  enabledBorder: OutlineInputBorder(),
-                                  labelText: 'Last Name',
-                                ),
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'This field is required';
-                                }
-                                return null;
-                              },
-                              ),
-                            )
-                          ],
-                        ),
-                        SizedBox(
-                          height: 80,
-                          width: 30*w,
-                          child: TextFormField(
-                            key: const Key('email'),
-                            controller: emailController,
-                            decoration: const InputDecoration(
-                              enabledBorder: OutlineInputBorder(),
-                              labelText: 'Email',
-                            ),
-                            validator: (value) {
-                                if (!RegExp(r"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
-                                .hasMatch(value!)) {
-                                return 'This is not a valid email';
-                              }
-                              return null;
-                            },
-                          ),
-                        ),
-                        SizedBox(
-                          height: 80,
-                          width: 30*w,
-                          child: TextFormField(
-                            key: const Key('phoneNumber'),
-                            controller: phoneNumberController,
-                            decoration: const InputDecoration(
-                              enabledBorder: OutlineInputBorder(),
-                              labelText: 'Phone Number',
-                            ),
-                            validator: (value) {
-                              return null;
-                            },
-                          ),
-                        ),
-                        SizedBox(
-                          height: 80,
-                          width: 30*w,
-                          child: TextFormField(
-                            key: const Key('location'),
-                            controller: locationController,
-                            decoration: const InputDecoration(
-                              enabledBorder: OutlineInputBorder(),
-                              labelText: 'Location/Address',
-                            ),
-                            validator: (value) {
-                              return null;
-                            },
-                          ),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            CustomizableButton(
-                              text: 'Update', 
-                              width: 7*w, 
-                              height: 28, 
-                              onTap: () {
-                                savePersonalDetails();
-                              }, 
-                              fontSize: w*0.8
-                            ),
-                            SizedBox(width: w*3,),
-                            CustomizableButton(
-                              text: 'Cancel', 
-                              width: 7*w, 
-                              height: 28, 
-                              onTap: () {
-                                selectMain();
-                              }, 
-                              fontSize: w*0.8
-                            )
-                          ],
-                        )
-                      ],
-                    ),
-                    PageOption.professionalSummary => Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Align(
-                          alignment: Alignment.topCenter,
-                          child: Text(
-                            'Professional Summary',
-                            style: TextStyle(fontSize: 1.6*w),
-                          ),
-                        ),
-                        const SizedBox(height: 20,),
-                        Container (
-                          constraints: BoxConstraints.tight(Size(30*w,200)),
-                          child: TextFormField(
-                            key: const Key("Description start"),
-                            maxLines: 6,
-                            controller: descriptionController,
-                            decoration: const InputDecoration(
-                              labelText: 'Description',
-                              enabledBorder: OutlineInputBorder(),
-                              icon: Icon(Icons.person),
-                            ),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter some text';
-                              }
-                              return null;
-                            },
-                          )
-                        ),
-                        Container (
-                          constraints: BoxConstraints.tight(Size(30*w,200)),
-                          child: TextFormField(
-                            key: const Key("Educational Description"),
-                            maxLines: 6,
-                            controller: educationalDescriptionController,
-                            decoration: const InputDecoration(
-                              labelText: 'Educational Description',
-                              enabledBorder: OutlineInputBorder(),
-                              icon: Icon(Icons.person),
-                            ),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter some text';
-                              }
-                              return null;
-                            },
-                          )
-                        ),
-                        const SizedBox(height: 20,),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            CustomizableButton(
-                              text: 'Update', 
-                              width: 7*w, 
-                              height: 28, 
-                              onTap: () {
-                                saveProfessionalSummary();
-                              }, 
-                              fontSize: w*0.8
-                            ),
-                            SizedBox(width: w*3,),
-                            CustomizableButton(
-                              text: 'Cancel', 
-                              width: 7*w, 
-                              height: 28, 
-                              onTap: () {
-                                selectMain();
-                              }, 
-                              fontSize: w*0.8
-                            )
-                          ],
-                        )
-                      ],
-                    ),
-                    PageOption.experienceList => Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Align(
-                          alignment: Alignment.topCenter,
-                          child: Text(
-                            'Experience',
-                            style: TextStyle(fontSize: 1.6*w),
-                          ),
-                        ),
-                        const SizedBox(height: 20,),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            CustomizableButton(
-                              text: 'Back', 
-                              width: 7*w, 
-                              height: 28, 
-                              onTap: () {
-                                selectMain();
-                              }, 
-                              fontSize: w*0.8
-                            ),
-                            SizedBox(width: w*3,),
-                            CustomizableButton(
-                              text: 'Add', 
-                              width: 7*w, 
-                              height: 28, 
-                              onTap: () {
-                                addExperience();
-                              }, 
-                              fontSize: w*0.8
-                            )
-                          ],
-                        )
-                      ],
-                    ),
-                    PageOption.qualificationList => Column(
-                      children: [const Text("Not Ready")],
-                    ),
-                    PageOption.skillList => Column(
-                      children: [const Text("Not Ready")],
-                    ),
-                    PageOption.referenceList => Column(
-                      children: [const Text("Not Ready")],
-                    ),
-                    PageOption.experience => Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Align(
-                          alignment: Alignment.topCenter,
-                          child: Text(
-                            'Experience',
-                            style: TextStyle(fontSize: 1.6*w),
-                          ),
-                        ),
-                        const SizedBox(height: 20,),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            CustomizableButton(
-                              text: 'Update', 
-                              width: 7*w, 
-                              height: 28, 
-                              onTap: () {
-                                saveExperience();
-                              }, 
-                              fontSize: w*0.8
-                            ),
-                            SizedBox(width: w*3,),
-                            CustomizableButton(
-                              text: 'Cancel', 
-                              width: 7*w, 
-                              height: 28, 
-                              onTap: () {
-                                selectExperienceList();
-                              }, 
-                              fontSize: w*0.8
-                            )
-                          ],
-                        )
-                      ],
-                    ),
-                    PageOption.qualification => Column(
-                      children: [const Text("Not Ready")],
-                    ),
-                    PageOption.skill => Column(
-                      children: [const Text("Not Ready")],
-                    ),
-                    PageOption.reference => Column(
-                      children: [const Text("Not Ready")],
-                    )
+                    PageOption.main => mainMenu(w,h),
+                    PageOption.personDetails => personalDetailMenu(w, h),
+                    PageOption.professionalSummary => professionalSummaryMenu(w, h),
+                    PageOption.experienceList => experienceListMenu(w, h),
+                    PageOption.qualificationList => qualificationListMenu(w, h),
+                    PageOption.skillList => skillListMenu(w, h),
+                    PageOption.referenceList => referenceListMenu(w, h),
+                    PageOption.experience => experienceMenu(w, h),
+                    PageOption.qualification => qualificationMenu(w, h),
+                    PageOption.skill => skillMenu(w, h),
+                    PageOption.reference => referenceMenu(w, h)
                   }
                 )
               ]
@@ -793,6 +409,545 @@ class EditorState extends State<Editor> {
     );
   }
 
-  
+  // Menus
+  // Main Menu
+  Widget mainMenu(double w, double h) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        MenuButton(
+          text: 'Pesonal Details',
+          width: w*30,
+          height: h*10,
+          onTap: () {
+            selectPersonalDetails();
+          },
+          fontSize: 1.2*w,
+        ),
+        const SizedBox(height: 10,),
+        MenuButton(
+          text: 'Professional Summary',
+          width: w*30,
+          height: h*10,
+          onTap: () {
+            selectProfetionalSummary();
+          },
+          fontSize: 1.2*w,
+        ),
+        const SizedBox(height: 10,),
+        MenuButton(
+          text: 'Experience',
+          width: w*30,
+          height: h*10,
+          onTap: () {
+            selectExperienceList();
+          },
+          fontSize: 1.2*w,
+        ),
+        const SizedBox(height: 10,),
+        MenuButton(
+          text: 'Education',
+          width: w*30,
+          height: h*10,
+          onTap: () {
+            selectQualificationList();
+          },
+          fontSize: 1.2*w,
+        ),
+        const SizedBox(height: 10,),
+        MenuButton(
+          text: 'Skills',
+          width: w*30,
+          height: h*10,
+          onTap: () {
+            selectSkillList();
+          },
+          fontSize: 1.2*w,
+        ),
+        const SizedBox(height: 10,),
+        MenuButton(
+          text: 'References',
+          width: w*30,
+          height: h*10,
+          onTap: () {
+            selectReferenceList();
+          },
+          fontSize: 1.2*w,
+        ),
+        const SizedBox(height: 20,),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            CustomizableButton(
+              text: 'Save', 
+              width: 7*w, 
+              height: 28, 
+              onTap: () {
+                save();
+              }, 
+              fontSize: w*0.8
+            ),
+            SizedBox(width: w*3,),
+            CustomizableButton(
+              text: 'Cancel', 
+              width: 7*w, 
+              height: 28, 
+              onTap: () {
+                cancel();
+              }, 
+              fontSize: w*0.8
+            )
+          ],
+        )
+      ],
+    );
+  }
+
+
+  // Personal Details Menu
+  Widget personalDetailMenu(double w, double h) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Align(
+          alignment: Alignment.topCenter,
+          child: Text(
+            'Personal Details',
+            style: TextStyle(fontSize: 1.6*w),
+          ),
+        ),
+        const SizedBox(height: 20,),
+        Row(
+          children: [
+            Container(
+              height: 80,
+              width: w*14.8,
+              padding: EdgeInsets.fromLTRB(0*w, 0, 0.2*w, 0),
+              child: TextFormField(
+                key: const Key('fname'),
+                controller: fnameController,
+                decoration: const InputDecoration(
+                  enabledBorder: OutlineInputBorder(),
+                  labelText: 'First Name',
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'This field is required';
+                  }
+                  return null;
+                },
+              ),
+            ),
+            Container(
+              height: 80,
+              width: w*14.8,
+              padding: EdgeInsets.fromLTRB(0.2*w, 0, 0*w, 0),
+              child: TextFormField(
+                key: const Key('lname'),
+                controller: lnameController,
+                decoration: const InputDecoration(
+                  enabledBorder: OutlineInputBorder(),
+                  labelText: 'Last Name',
+                ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'This field is required';
+                }
+                return null;
+              },
+              ),
+            )
+          ],
+        ),
+        SizedBox(
+          height: 80,
+          width: 30*w,
+          child: TextFormField(
+            key: const Key('email'),
+            controller: emailController,
+            decoration: const InputDecoration(
+              enabledBorder: OutlineInputBorder(),
+              labelText: 'Email',
+            ),
+            validator: (value) {
+                if (!RegExp(r"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
+                .hasMatch(value!)) {
+                return 'This is not a valid email';
+              }
+              return null;
+            },
+          ),
+        ),
+        SizedBox(
+          height: 80,
+          width: 30*w,
+          child: TextFormField(
+            key: const Key('phoneNumber'),
+            controller: phoneNumberController,
+            decoration: const InputDecoration(
+              enabledBorder: OutlineInputBorder(),
+              labelText: 'Phone Number',
+            ),
+            validator: (value) {
+              return null;
+            },
+          ),
+        ),
+        SizedBox(
+          height: 80,
+          width: 30*w,
+          child: TextFormField(
+            key: const Key('location'),
+            controller: locationController,
+            decoration: const InputDecoration(
+              enabledBorder: OutlineInputBorder(),
+              labelText: 'Location/Address',
+            ),
+            validator: (value) {
+              return null;
+            },
+          ),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            CustomizableButton(
+              text: 'Update', 
+              width: 7*w, 
+              height: 28, 
+              onTap: () {
+                savePersonalDetails();
+              }, 
+              fontSize: w*0.8
+            ),
+            SizedBox(width: w*3,),
+            CustomizableButton(
+              text: 'Cancel', 
+              width: 7*w, 
+              height: 28, 
+              onTap: () {
+                selectMain();
+              }, 
+              fontSize: w*0.8
+            )
+          ],
+        )
+      ],
+    );
+  }
+
+  Widget professionalSummaryMenu(double w, double h) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Align(
+          alignment: Alignment.topCenter,
+          child: Text(
+            'Professional Summary',
+            style: TextStyle(fontSize: 1.6*w),
+          ),
+        ),
+        const SizedBox(height: 20,),
+        Container (
+          constraints: BoxConstraints.tight(Size(30*w,200)),
+          child: TextFormField(
+            key: const Key("Description start"),
+            maxLines: 6,
+            controller: descriptionController,
+            decoration: const InputDecoration(
+              labelText: 'Description',
+              enabledBorder: OutlineInputBorder(),
+              icon: Icon(Icons.person),
+            ),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter some text';
+              }
+              return null;
+            },
+          )
+        ),
+        Container (
+          constraints: BoxConstraints.tight(Size(30*w,200)),
+          child: TextFormField(
+            key: const Key("Educational Description"),
+            maxLines: 6,
+            controller: educationalDescriptionController,
+            decoration: const InputDecoration(
+              labelText: 'Educational Description',
+              enabledBorder: OutlineInputBorder(),
+              icon: Icon(Icons.person),
+            ),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter some text';
+              }
+              return null;
+            },
+          )
+        ),
+        const SizedBox(height: 20,),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            CustomizableButton(
+              text: 'Update', 
+              width: 7*w, 
+              height: 28, 
+              onTap: () {
+                saveProfessionalSummary();
+              }, 
+              fontSize: w*0.8
+            ),
+            SizedBox(width: w*3,),
+            CustomizableButton(
+              text: 'Cancel', 
+              width: 7*w, 
+              height: 28, 
+              onTap: () {
+                selectMain();
+              }, 
+              fontSize: w*0.8
+            )
+          ],
+        )
+      ],
+    );
+  }
+
+  Widget experienceListMenu(double w, double h) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Align(
+          alignment: Alignment.topCenter,
+          child: Text(
+            'Experience',
+            style: TextStyle(fontSize: 1.6*w),
+          ),
+        ),
+        const SizedBox(height: 20,),
+
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            CustomizableButton(
+              text: 'Back', 
+              width: 7*w, 
+              height: 28, 
+              onTap: () {
+                selectMain();
+              }, 
+              fontSize: w*0.8
+            ),
+            SizedBox(width: w*3,),
+            CustomizableButton(
+              text: 'Add', 
+              width: 7*w, 
+              height: 28, 
+              onTap: () {
+                addExperience();
+              }, 
+              fontSize: w*0.8
+            )
+          ],
+        )
+      ],
+    );
+  }
+
+  Widget qualificationListMenu(double w, double h) {
+    return Column(
+      children: [Text('Not Ready')],
+    );
+  }
+
+  Widget skillListMenu(double w, double h) {
+    return Column(
+      children: [Text('Not Ready')],
+    );
+  }
+
+  Widget referenceListMenu(double w, double h) {
+    return Column(
+      children: [Text('Not Ready')],
+    );
+  }
+
+  Widget experienceMenu(double w, double h) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Align(
+          alignment: Alignment.topCenter,
+          child: Text(
+            'Experience',
+            style: TextStyle(fontSize: 1.6*w),
+          ),
+        ),
+        const SizedBox(height: 20,),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            CustomizableButton(
+              text: 'Update', 
+              width: 7*w, 
+              height: 28, 
+              onTap: () {
+                saveExperience();
+              }, 
+              fontSize: w*0.8
+            ),
+            SizedBox(width: w*3,),
+            CustomizableButton(
+              text: 'Cancel', 
+              width: 7*w, 
+              height: 28, 
+              onTap: () {
+                selectExperienceList();
+              }, 
+              fontSize: w*0.8
+            )
+          ],
+        )
+      ],
+    );
+  }
+
+  Widget qualificationMenu(double w, double h) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Align(
+          alignment: Alignment.topCenter,
+          child: Text(
+            'Qualification',
+            style: TextStyle(fontSize: 1.6*w),
+          ),
+        ),
+        const SizedBox(height: 20,),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            CustomizableButton(
+              text: 'Update', 
+              width: 7*w, 
+              height: 28, 
+              onTap: () {
+                saveQualification();
+              }, 
+              fontSize: w*0.8
+            ),
+            SizedBox(width: w*3,),
+            CustomizableButton(
+              text: 'Cancel', 
+              width: 7*w, 
+              height: 28, 
+              onTap: () {
+                selectQualificationList();
+              }, 
+              fontSize: w*0.8
+            )
+          ],
+        )
+      ],
+    );
+  }
+
+  Widget skillMenu(double w, double h) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Align(
+          alignment: Alignment.topCenter,
+          child: Text(
+            'Skill',
+            style: TextStyle(fontSize: 1.6*w),
+          ),
+        ),
+        const SizedBox(height: 20,),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            CustomizableButton(
+              text: 'Update', 
+              width: 7*w, 
+              height: 28, 
+              onTap: () {
+                saveSkill();
+              }, 
+              fontSize: w*0.8
+            ),
+            SizedBox(width: w*3,),
+            CustomizableButton(
+              text: 'Cancel', 
+              width: 7*w, 
+              height: 28, 
+              onTap: () {
+                selectSkillList();
+              }, 
+              fontSize: w*0.8
+            )
+          ],
+        )
+      ],
+    );
+  }
+
+  Widget referenceMenu(double w, double h) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Align(
+          alignment: Alignment.topCenter,
+          child: Text(
+            'Reference',
+            style: TextStyle(fontSize: 1.6*w),
+          ),
+        ),
+        const SizedBox(height: 20,),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            CustomizableButton(
+              text: 'Update', 
+              width: 7*w, 
+              height: 28, 
+              onTap: () {
+                saveReference();
+              }, 
+              fontSize: w*0.8
+            ),
+            SizedBox(width: w*3,),
+            CustomizableButton(
+              text: 'Cancel', 
+              width: 7*w, 
+              height: 28, 
+              onTap: () {
+                selectReferenceList();
+              }, 
+              fontSize: w*0.8
+            )
+          ],
+        )
+      ],
+    );
+  }
 
 }
