@@ -6,6 +6,8 @@ import 'package:ai_cv_generator/models/aimodels/AIReference.dart';
 import 'package:ai_cv_generator/models/aimodels/AISkill.dart';
 import 'package:ai_cv_generator/models/aimodels/CVData.dart';
 import 'package:ai_cv_generator/pages/template/Template.dart';
+import 'package:ai_cv_generator/pages/widgets/buttons/customizableButton.dart';
+import 'package:ai_cv_generator/pages/widgets/buttons/menuButton.dart';
 import 'package:ai_cv_generator/pages/widgets/loadingScreens/loadingScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
@@ -13,6 +15,7 @@ import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 enum PageOption {
   main,
   personDetails,
+  professionalSummary,
   experienceList,
   qualificationList,
   skillList,
@@ -24,16 +27,17 @@ enum PageOption {
 }
 
 class Editor extends StatefulWidget {
-  const Editor({super.key, required this.data,required this.option});
-  final CVData data;
+  Editor({super.key, required this.data,required this.option});
+  CVData data;
   final TemplateOption option;
   @override
-  State<StatefulWidget> createState() => EditableTextState();
+  State<StatefulWidget> createState() => EditorState();
 }
 
 class EditorState extends State<Editor> {
 
   bool wait = true;
+  late CVData data;
   Uint8List? bytes;
   PageOption option = PageOption.main;
   int employmentIndex = 0;
@@ -44,6 +48,17 @@ class EditorState extends State<Editor> {
   AISkill? skill;
   int referenceIndex = 0;
   AIReference? reference;
+
+  // Text editing controllers for personalDetails
+  TextEditingController fnameController = TextEditingController();
+  TextEditingController lnameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController phoneNumberController = TextEditingController();
+  TextEditingController locationController = TextEditingController();
+
+  // Text editing controllers for professional descriptions
+  TextEditingController descriptionController = TextEditingController();
+  TextEditingController educationalDescriptionController = TextEditingController();
 
   // Will regenerate the PDF with changes
   updatePdf() {
@@ -72,8 +87,31 @@ class EditorState extends State<Editor> {
   }
 
   selectPersonalDetails() {
+    fnameController.text = data.firstname??'First Name';
+    lnameController.text = data.lastname??'Last Name';
+    emailController.text = data.email??'Email';
+    phoneNumberController.text = data.phoneNumber??'Phone Number';
+    locationController.text = data.location??'Location';
     setState(() {
       option = PageOption.personDetails;
+    });
+  }
+
+  savePersonalDetails() {
+    data.firstname = fnameController.text;
+    data.lastname = lnameController.text;
+    data.email = emailController.text;
+    data.phoneNumber = phoneNumberController.text;
+    data.location = locationController.text;
+    setState(() {
+      option = PageOption.main;
+    });
+    updatePdf();
+  }
+
+  selectProfetionalSummary() {
+    setState(() {
+      option = PageOption.professionalSummary;
     });
   }
 
@@ -111,7 +149,7 @@ class EditorState extends State<Editor> {
 
   saveExperience() {
     setState(() {
-      widget.data.employmenthistory!.insert(employmentIndex, employment!);
+      data.employmenthistory![employmentIndex] = employment!;
       option = PageOption.experienceList;
     });
     updatePdf();
@@ -125,9 +163,9 @@ class EditorState extends State<Editor> {
       endDate: DateTime.now().toString()
     );
     setState(() {
-      widget.data.employmenthistory!.add(newEmployment);
+      data.employmenthistory!.add(newEmployment);
       employment = newEmployment;
-      employmentIndex = widget.data.employmenthistory!.indexOf(newEmployment);
+      employmentIndex = data.employmenthistory!.indexOf(newEmployment);
       option = PageOption.experience;
     });
     updatePdf();
@@ -135,7 +173,7 @@ class EditorState extends State<Editor> {
 
   deleteExperience(int index) {
     setState(() {
-      widget.data.employmenthistory!.removeAt(index);
+      data.employmenthistory!.removeAt(index);
     });
     updatePdf();
   }
@@ -150,7 +188,7 @@ class EditorState extends State<Editor> {
 
   saveQualification() {
     setState(() {
-      widget.data.qualifications!.insert(qualificationIndex, qualification!);
+      data.qualifications![qualificationIndex] = qualification!;
       option = PageOption.qualificationList;
     });
     updatePdf();
@@ -164,9 +202,9 @@ class EditorState extends State<Editor> {
       endDate: DateTime.now().toString()
     );
     setState(() {
-      widget.data.qualifications!.add(newQualification);
+      data.qualifications!.add(newQualification);
       qualification = newQualification;
-      qualificationIndex = widget.data.qualifications!.indexOf(newQualification);
+      qualificationIndex = data.qualifications!.indexOf(newQualification);
       option = PageOption.qualification;
     });
     updatePdf();
@@ -174,7 +212,7 @@ class EditorState extends State<Editor> {
 
   deleteQualification(int index) {
     setState(() {
-      widget.data.qualifications!.removeAt(index);
+      data.qualifications!.removeAt(index);
     });
     updatePdf();
   }
@@ -189,7 +227,7 @@ class EditorState extends State<Editor> {
 
   saveSkill() {
     setState(() {
-      widget.data.skills!.insert(skillIndex, skill!);
+      data.skills![skillIndex] = skill!;
       option = PageOption.skillList;
     });
     updatePdf();
@@ -202,9 +240,9 @@ class EditorState extends State<Editor> {
       reason: 'Reason'
     );
     setState(() {
-      widget.data.skills!.add(newSkill);
+      data.skills!.add(newSkill);
       skill = newSkill;
-      skillIndex = widget.data.skills!.indexOf(newSkill);
+      skillIndex = data.skills!.indexOf(newSkill);
       option = PageOption.skill;
     });
     updatePdf();
@@ -212,7 +250,7 @@ class EditorState extends State<Editor> {
 
   deleteSkill(int index) {
     setState(() {
-      widget.data.skills!.removeAt(index);
+      data.skills!.removeAt(index);
     });
     updatePdf();
   } 
@@ -227,7 +265,7 @@ class EditorState extends State<Editor> {
 
   saveReference() {
     setState(() {
-      widget.data.references!.insert(referenceIndex, reference!);
+      data.references![referenceIndex] = reference!;
       option = PageOption.referenceList;
     });
     updatePdf();
@@ -239,9 +277,9 @@ class EditorState extends State<Editor> {
       contact: 'Contact'
     );
     setState(() {
-      widget.data.references!.add(newReference);
+      data.references!.add(newReference);
       reference = newReference;
-      referenceIndex = widget.data.references!.indexOf(newReference);
+      referenceIndex = data.references!.indexOf(newReference);
       option = PageOption.reference;
     });
     updatePdf();
@@ -249,14 +287,24 @@ class EditorState extends State<Editor> {
 
   deleteReference(int index) {
     setState(() {
-      widget.data.references!.removeAt(index);
+      data.references!.removeAt(index);
     });
     updatePdf();
   }
 
+  save() {
+    widget.data = data;
+    Navigator.pop(context);
+  }
+
+  cancel() {
+    Navigator.pop(context);
+  }
+
   @override
   void initState() {
-    // create pdf
+    data = widget.data;
+    setOffLoadingScreen();
     super.initState();
   }
 
@@ -268,56 +316,304 @@ class EditorState extends State<Editor> {
     Size screenSize = MediaQuery.of(context).size;
     double w = screenSize.width/100;
     double h = screenSize.height/100;
-    return SizedBox(
-      child: Row(
-        children: [
-          Container(
-            padding: EdgeInsets.all(w*1),
-            width: 32*w,
-            height: 85*h,
-            child: SfPdfViewer.memory(
-              bytes!,
-              pageSpacing: 8
-            ),
+    return Container(
+      alignment: Alignment.center,
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.all(Radius.circular(20)),
+          border: Border.all(
+            color: Colors.grey.shade300
           ),
-          Container(
-            child: 
-            // Menus
-            switch(option) {
-              PageOption.main => Column(
-                children: [],
+          color: Colors.grey.shade100
+        ),
+        width: 69*w,
+        height: 85*h,
+        child: ClipRRect(
+          borderRadius: const BorderRadius.all(Radius.circular(20)),
+          child: Scaffold(
+            appBar: AppBar(
+              leading: IconButton(
+                icon: const Icon(
+                  Icons.close,
+                ), 
+                onPressed: () async { 
+                  Navigator.pop(context);
+                },
               ),
-              PageOption.personDetails => Column(
-                children: [],
-              ),
-              PageOption.experienceList => Column(
-                children: [],
-              ),
-              PageOption.qualificationList => Column(
-                children: [],
-              ),
-              PageOption.skillList => Column(
-                children: [],
-              ),
-              PageOption.referenceList => Column(
-                children: [],
-              ),
-              PageOption.experience => Column(
-                children: [],
-              ),
-              PageOption.qualification => Column(
-                children: [],
-              ),
-              PageOption.skill => Column(
-                children: [],
-              ),
-              PageOption.reference => Column(
-                children: [],
-              )
-            }
+            ),
+            body: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  padding: EdgeInsets.all(w*1),
+                  width: 27*w,
+                  height: 85*h,
+                  child: SfPdfViewer.asset(
+                    'Documents/DocumentTest.pdf',
+                    pageSpacing: 8
+                  ),
+                ),
+                SizedBox(width: 2*w,),
+                SingleChildScrollView(
+                  child: 
+                  // Menus
+                  switch(option) {
+                    PageOption.main => Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        MenuButton(
+                          text: 'Pesonal Details',
+                          width: w*30,
+                          height: h*10,
+                          onTap: () {
+                            selectPersonalDetails();
+                          },
+                          fontSize: 1.2*w,
+                        ),
+                        const SizedBox(height: 10,),
+                        MenuButton(
+                          text: 'Professional Summary',
+                          width: w*30,
+                          height: h*10,
+                          onTap: () {
+                            selectProfetionalSummary();
+                          },
+                          fontSize: 1.2*w,
+                        ),
+                        const SizedBox(height: 10,),
+                        MenuButton(
+                          text: 'Experience',
+                          width: w*30,
+                          height: h*10,
+                          onTap: () {
+                            selectExperienceList();
+                          },
+                          fontSize: 1.2*w,
+                        ),
+                        const SizedBox(height: 10,),
+                        MenuButton(
+                          text: 'Education',
+                          width: w*30,
+                          height: h*10,
+                          onTap: () {
+                            selectQualificationList();
+                          },
+                          fontSize: 1.2*w,
+                        ),
+                        const SizedBox(height: 10,),
+                        MenuButton(
+                          text: 'Skills',
+                          width: w*30,
+                          height: h*10,
+                          onTap: () {
+                            selectSkillList();
+                          },
+                          fontSize: 1.2*w,
+                        ),
+                        const SizedBox(height: 10,),
+                        MenuButton(
+                          text: 'References',
+                          width: w*30,
+                          height: h*10,
+                          onTap: () {
+                            selectReferenceList();
+                          },
+                          fontSize: 1.2*w,
+                        ),
+                        const SizedBox(height: 20,),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            CustomizableButton(
+                              text: 'Save', 
+                              width: 7*w, 
+                              height: 28, 
+                              onTap: () {
+                                save();
+                              }, 
+                              fontSize: w*0.8
+                            ),
+                            SizedBox(width: w*3,),
+                            CustomizableButton(
+                              text: 'Cancel', 
+                              width: 7*w, 
+                              height: 28, 
+                              onTap: () {
+                                cancel();
+                              }, 
+                              fontSize: w*0.8
+                            )
+                          ],
+                        )
+                      ],
+                    ),
+                    PageOption.personDetails => Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Align(
+                          alignment: Alignment.topCenter,
+                          child: Text(
+                            'Personal Details',
+                            style: TextStyle(fontSize: 1.6*w),
+                          ),
+                        ),
+                        const SizedBox(height: 20,),
+                        Row(
+                          children: [
+                            Container(
+                              height: 80,
+                              width: w*14.8,
+                              padding: EdgeInsets.fromLTRB(0*w, 0, 0.2*w, 0),
+                              child: TextFormField(
+                                key: const Key('fname'),
+                                controller: fnameController,
+                                decoration: const InputDecoration(
+                                  enabledBorder: OutlineInputBorder(),
+                                  labelText: 'First Name',
+                                ),
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'This field is required';
+                                  }
+                                  return null;
+                                },
+                              ),
+                            ),
+                            Container(
+                              height: 80,
+                              width: w*14.8,
+                              padding: EdgeInsets.fromLTRB(0.2*w, 0, 0*w, 0),
+                              child: TextFormField(
+                                key: const Key('lname'),
+                                controller: lnameController,
+                                decoration: const InputDecoration(
+                                  enabledBorder: OutlineInputBorder(),
+                                  labelText: 'Last Name',
+                                ),
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'This field is required';
+                                }
+                                return null;
+                              },
+                              ),
+                            )
+                          ],
+                        ),
+                        SizedBox(
+                          height: 80,
+                          width: 30*w,
+                          child: TextFormField(
+                            key: const Key('email'),
+                            controller: emailController,
+                            decoration: const InputDecoration(
+                              enabledBorder: OutlineInputBorder(),
+                              labelText: 'Email',
+                            ),
+                            validator: (value) {
+                                if (!RegExp(r"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
+                                .hasMatch(value!)) {
+                                return 'This is not a valid email';
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                        SizedBox(
+                          height: 80,
+                          width: 30*w,
+                          child: TextFormField(
+                            key: const Key('phoneNumber'),
+                            controller: phoneNumberController,
+                            decoration: const InputDecoration(
+                              enabledBorder: OutlineInputBorder(),
+                              labelText: 'Phone Number',
+                            ),
+                            validator: (value) {
+                              return null;
+                            },
+                          ),
+                        ),
+                        SizedBox(
+                          height: 80,
+                          width: 30*w,
+                          child: TextFormField(
+                            key: const Key('location'),
+                            controller: locationController,
+                            decoration: const InputDecoration(
+                              enabledBorder: OutlineInputBorder(),
+                              labelText: 'Location/Address',
+                            ),
+                            validator: (value) {
+                              return null;
+                            },
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            CustomizableButton(
+                              text: 'Update', 
+                              width: 7*w, 
+                              height: 28, 
+                              onTap: () {
+                                savePersonalDetails();
+                              }, 
+                              fontSize: w*0.8
+                            ),
+                            SizedBox(width: w*3,),
+                            CustomizableButton(
+                              text: 'Cancel', 
+                              width: 7*w, 
+                              height: 28, 
+                              onTap: () {
+                                selectMain();
+                              }, 
+                              fontSize: w*0.8
+                            )
+                          ],
+                        )
+                      ],
+                    ),
+                    PageOption.professionalSummary => Column(
+                      children: [const Text("Not Ready")],
+                    ),
+                    PageOption.experienceList => Column(
+                      children: [const Text("Not Ready")],
+                    ),
+                    PageOption.qualificationList => Column(
+                      children: [const Text("Not Ready")],
+                    ),
+                    PageOption.skillList => Column(
+                      children: [const Text("Not Ready")],
+                    ),
+                    PageOption.referenceList => Column(
+                      children: [const Text("Not Ready")],
+                    ),
+                    PageOption.experience => Column(
+                      children: [const Text("Not Ready")],
+                    ),
+                    PageOption.qualification => Column(
+                      children: [const Text("Not Ready")],
+                    ),
+                    PageOption.skill => Column(
+                      children: [const Text("Not Ready")],
+                    ),
+                    PageOption.reference => Column(
+                      children: [const Text("Not Ready")],
+                    )
+                  }
+                )
+              ]
+            ),
           )
-        ]
-      ),
+        )
+      )
     );
   }
 
