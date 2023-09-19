@@ -44,7 +44,11 @@ class TestPageState extends State<TestPage> {
               height: 28, 
               onTap: () async {
                 CVData data = CVData(
-                  description: 'This is my description'
+                  description: 'This is my description',
+                  employmenthistory: [],
+                  qualifications: [],
+                  skills: [],
+                  references: [],
                 );
                 data = await showCV(data, TemplateOption.templateA);
               }, 

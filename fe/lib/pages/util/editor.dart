@@ -60,6 +60,12 @@ class EditorState extends State<Editor> {
   TextEditingController descriptionController = TextEditingController();
   TextEditingController educationalDescriptionController = TextEditingController();
 
+  // Text editing controllers for experience
+  TextEditingController jobTitleController = TextEditingController();
+  TextEditingController companyController = TextEditingController();
+  TextEditingController startDateController = TextEditingController();
+  TextEditingController endDateController = TextEditingController();
+
   // Will regenerate the PDF with changes
   updatePdf() {
     setState(() {
@@ -123,6 +129,7 @@ class EditorState extends State<Editor> {
     setState(() {
       option = PageOption.main;
     });
+    updatePdf();
   }
 
   selectExperienceList() {
@@ -150,6 +157,10 @@ class EditorState extends State<Editor> {
   }
 
   selectExperience(AIEmployment employment, int employmentIndex) {
+    companyController.text = data.employmenthistory![employmentIndex].company??'Company';
+    jobTitleController.text = data.employmenthistory![employmentIndex].jobTitle??'Job Title';
+    startDateController.text = data.employmenthistory![employmentIndex].startDate??'Start Date';
+    endDateController.text = data.employmenthistory![employmentIndex].endDate??'End Date';
     setState(() {
       this.employment = employment;
       this.employmentIndex = employmentIndex;
@@ -158,6 +169,10 @@ class EditorState extends State<Editor> {
   }
 
   saveExperience() {
+    data.employmenthistory![employmentIndex].company = companyController.text;
+    data.employmenthistory![employmentIndex].jobTitle = jobTitleController.text;
+    data.employmenthistory![employmentIndex].startDate = startDateController.text;
+    data.employmenthistory![employmentIndex].endDate = endDateController.text;
     setState(() {
       data.employmenthistory![employmentIndex] = employment!;
       option = PageOption.experienceList;
@@ -172,6 +187,10 @@ class EditorState extends State<Editor> {
       startDate: DateTime.now().toString(),
       endDate: DateTime.now().toString()
     );
+    companyController.text = newEmployment.company!;
+    jobTitleController.text = newEmployment.jobTitle!;
+    startDateController.text = newEmployment.startDate!;
+    endDateController.text = newEmployment.endDate!;
     setState(() {
       data.employmenthistory!.add(newEmployment);
       employment = newEmployment;
@@ -669,7 +688,43 @@ class EditorState extends State<Editor> {
                       ],
                     ),
                     PageOption.experienceList => Column(
-                      children: [const Text("Not Ready")],
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Align(
+                          alignment: Alignment.topCenter,
+                          child: Text(
+                            'Experience',
+                            style: TextStyle(fontSize: 1.6*w),
+                          ),
+                        ),
+                        const SizedBox(height: 20,),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            CustomizableButton(
+                              text: 'Back', 
+                              width: 7*w, 
+                              height: 28, 
+                              onTap: () {
+                                selectMain();
+                              }, 
+                              fontSize: w*0.8
+                            ),
+                            SizedBox(width: w*3,),
+                            CustomizableButton(
+                              text: 'Add', 
+                              width: 7*w, 
+                              height: 28, 
+                              onTap: () {
+                                addExperience();
+                              }, 
+                              fontSize: w*0.8
+                            )
+                          ],
+                        )
+                      ],
                     ),
                     PageOption.qualificationList => Column(
                       children: [const Text("Not Ready")],
@@ -681,7 +736,43 @@ class EditorState extends State<Editor> {
                       children: [const Text("Not Ready")],
                     ),
                     PageOption.experience => Column(
-                      children: [const Text("Not Ready")],
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Align(
+                          alignment: Alignment.topCenter,
+                          child: Text(
+                            'Experience',
+                            style: TextStyle(fontSize: 1.6*w),
+                          ),
+                        ),
+                        const SizedBox(height: 20,),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            CustomizableButton(
+                              text: 'Update', 
+                              width: 7*w, 
+                              height: 28, 
+                              onTap: () {
+                                saveExperience();
+                              }, 
+                              fontSize: w*0.8
+                            ),
+                            SizedBox(width: w*3,),
+                            CustomizableButton(
+                              text: 'Cancel', 
+                              width: 7*w, 
+                              height: 28, 
+                              onTap: () {
+                                selectExperienceList();
+                              }, 
+                              fontSize: w*0.8
+                            )
+                          ],
+                        )
+                      ],
                     ),
                     PageOption.qualification => Column(
                       children: [const Text("Not Ready")],
