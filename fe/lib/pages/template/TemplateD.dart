@@ -75,9 +75,9 @@ class _CreatePdfState extends State<CreatePdfStatefulWidget> {
     //Get page client size
     final Size pageSize = page.getClientSize();
 
-    Rect topPane = Rect.fromLTWH(0, -90, pageSize.width, 90);
-    Rect leftPane = Rect.fromLTWH(8, -pageSize.height+90, pageSize.width/4-8, pageSize.height);
-    Rect rightPane = Rect.fromLTWH(pageSize.width/4 + 8, 0, pageSize.width/4*3 + 8, 90);
+    Rect topPane = Rect.fromLTWH(0, 16, pageSize.width, 0);
+    Rect leftPane = Rect.fromLTWH(8, 90, pageSize.width/4-8, 0);
+    Rect rightPane = Rect.fromLTWH(pageSize.width/4 + 8, -pageSize.height+90, pageSize.width/4*3 - 8, pageSize.height);
 
     page.graphics.drawRectangle(
       bounds: Rect.fromLTWH(0, 0, pageSize.width, pageSize.height),
@@ -97,9 +97,8 @@ class _CreatePdfState extends State<CreatePdfStatefulWidget> {
     );
 
     drawNameSurname(page, pageSize, topPane, "Name Surname");
-    PdfLayoutResult resultLeft = drawContactDetails(page, pageSize, leftPane, "Contact Details");
+    PdfLayoutResult resultLeft = drawContactDetails(page, pageSize, leftPane, "ADDRESS\nPHONE NUMBER\nEMAIL");
     drawSkills(page, pageSize, resultLeft.bounds, []);
-
     
     PdfLayoutResult resultRight = drawDescription(page, pageSize, rightPane, "");
     resultRight = drawExperience(page, pageSize, resultRight.bounds, []);
@@ -173,18 +172,26 @@ class _CreatePdfState extends State<CreatePdfStatefulWidget> {
         alignment: PdfTextAlignment.center,
         // lineAlignment: PdfVerticalAlignment.middle
       ),
-      Rect.fromLTWH(bounds.left, bounds.bottom+8, bounds.width, bounds.height),
+      Rect.fromLTWH(bounds.left, bounds.bottom+8, bounds.width, 0),
       data
     );
   }
 
   PdfLayoutResult drawContactDetails(PdfPage page, Size pageSize, Rect bounds, String data) {
-    return addText(
+    bounds = addText(
       page,
       pageSize,
       PdfStandardFont(PdfFontFamily.helvetica, 12),
       PdfStringFormat(),
-      Rect.fromLTWH(bounds.left, bounds.bottom+8, bounds.width, bounds.height),
+      Rect.fromLTWH(bounds.left, bounds.bottom+8, bounds.width, 0),
+      "Contact"
+    ).bounds;
+    return addText(
+      page,
+      pageSize,
+      PdfStandardFont(PdfFontFamily.helvetica, 11),
+      PdfStringFormat(),
+      Rect.fromLTWH(bounds.left, bounds.bottom+8, bounds.width, 0),
       data
     );
   }
@@ -195,7 +202,7 @@ class _CreatePdfState extends State<CreatePdfStatefulWidget> {
       pageSize,
       PdfStandardFont(PdfFontFamily.helvetica, 12),
       PdfStringFormat(),
-      Rect.fromLTWH(bounds.left, bounds.bottom+8, bounds.width, bounds.height),
+      Rect.fromLTWH(bounds.left, bounds.bottom+8, bounds.width, 0),
       "SUMMARY"
     ).bounds;
     return addText(
@@ -203,7 +210,7 @@ class _CreatePdfState extends State<CreatePdfStatefulWidget> {
       pageSize,
       PdfStandardFont(PdfFontFamily.helvetica, 11),
       PdfStringFormat(),
-      Rect.fromLTWH(bounds.left, bounds.bottom+8, bounds.width, bounds.height),
+      Rect.fromLTWH(bounds.left, bounds.bottom+8, bounds.width, 0),
       data
     );
   }
@@ -214,7 +221,7 @@ class _CreatePdfState extends State<CreatePdfStatefulWidget> {
       pageSize,
       PdfStandardFont(PdfFontFamily.helvetica, 12),
       PdfStringFormat(),
-      Rect.fromLTWH(bounds.left, bounds.bottom+8, bounds.width, bounds.height),
+      Rect.fromLTWH(bounds.left, bounds.bottom+8, bounds.width, 0),
       "EXPERIENCE"
     ).bounds;
     return addText(
@@ -222,7 +229,7 @@ class _CreatePdfState extends State<CreatePdfStatefulWidget> {
       pageSize,
       PdfStandardFont(PdfFontFamily.helvetica, 11),
       PdfStringFormat(),
-      Rect.fromLTWH(bounds.left, bounds.bottom+8, bounds.width, bounds.height),
+      Rect.fromLTWH(bounds.left, bounds.bottom+8, bounds.width, 0),
       ""
     );
   }
@@ -233,7 +240,7 @@ class _CreatePdfState extends State<CreatePdfStatefulWidget> {
       pageSize,
       PdfStandardFont(PdfFontFamily.helvetica, 12),
       PdfStringFormat(),
-      Rect.fromLTWH(bounds.left, bounds.bottom+8, bounds.width, bounds.height),
+      Rect.fromLTWH(bounds.left, bounds.bottom+8, bounds.width, 0),
       "EDUCATION"
     ).bounds;
     return addText(
@@ -242,7 +249,7 @@ class _CreatePdfState extends State<CreatePdfStatefulWidget> {
       PdfStandardFont(PdfFontFamily.helvetica, 11),
       PdfStringFormat(),
       Rect.fromLTWH(bounds.left, bounds.bottom+8,
-          bounds.width, bounds.height),
+          bounds.width, 0),
       ""
     );
   }
@@ -253,7 +260,7 @@ class _CreatePdfState extends State<CreatePdfStatefulWidget> {
       pageSize,
       PdfStandardFont(PdfFontFamily.helvetica, 12),
       PdfStringFormat(),
-      Rect.fromLTWH(bounds.left, bounds.bottom+8, bounds.width, bounds.height),
+      Rect.fromLTWH(bounds.left, bounds.bottom+8, bounds.width, 0),
       "REFERENCE"
     ).bounds;
     return addText(
@@ -262,7 +269,7 @@ class _CreatePdfState extends State<CreatePdfStatefulWidget> {
       PdfStandardFont(PdfFontFamily.helvetica, 11),
       PdfStringFormat(),
       Rect.fromLTWH(bounds.left, bounds.bottom+8,
-          bounds.width, bounds.height),
+          bounds.width, 0),
       ""
     );
   }
@@ -291,7 +298,7 @@ class _CreatePdfState extends State<CreatePdfStatefulWidget> {
       pageSize,
       PdfStandardFont(PdfFontFamily.helvetica, 12),
       PdfStringFormat(),
-      Rect.fromLTWH(bounds.left, bounds.bottom+8, bounds.width, bounds.height),
+      Rect.fromLTWH(bounds.left, bounds.bottom+8, bounds.width, 0),
       "SKILLS"
     ).bounds;
 
