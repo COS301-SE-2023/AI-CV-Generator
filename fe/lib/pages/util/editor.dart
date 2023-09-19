@@ -83,6 +83,10 @@ class EditorState extends State<Editor> {
   TextEditingController reasonController = TextEditingController();
   TextEditingController levelController = TextEditingController();
 
+  // Text editing controllers for reference
+  TextEditingController contactController = TextEditingController();
+  TextEditingController descriptionRefController = TextEditingController();
+
   // Will regenerate the PDF with changes
   updatePdf() {
     setState(() {
@@ -187,13 +191,39 @@ class EditorState extends State<Editor> {
     });
   }
 
+  updateSkillList() {
+    skillList = [];
+    for (AISkill skill in data.skills!) {
+      skillList.add(
+        skillButton(
+          skill, 
+          data.skills!.indexOf(skill)
+        )
+      );
+    }
+  }
+
   selectSkillList() {
+    updateSkillList();
     setState(() {
       option = PageOption.skillList;
     });
   }
 
+  updateReferenceList() {
+    referenceList = [];
+    for (AIReference ref in data.references!) {
+      referenceList.add(
+        referenceButton(
+          ref, 
+          data.references!.indexOf(ref)
+        )
+      );
+    }
+  }
+
   selectReferenceList() {
+    updateReferenceList();
     setState(() {
       option = PageOption.referenceList;
     });
@@ -260,8 +290,6 @@ class EditorState extends State<Editor> {
       this.qualificationIndex = qualificationIndex;
       option = PageOption.qualification;
     });
-    updateQualificationList();
-    updatePdf();
   }
 
   saveQualification() {
@@ -304,6 +332,9 @@ class EditorState extends State<Editor> {
   }
 
   selectSkill(AISkill skill,int skillIndex) {
+    skillController.text = skill.skill??'Skill';
+    reasonController.text = skill.reason??'Reason';
+    levelController.text = skill.level??'Level';
     setState(() {
       this.skill = skill;
       this.skillIndex = skillIndex;
@@ -312,10 +343,14 @@ class EditorState extends State<Editor> {
   }
 
   saveSkill() {
+    skill!.skill = skillController.text;
+    skill!.reason = reasonController.text;
+    skill!.level = levelController.text;
     setState(() {
       data.skills![skillIndex] = skill!;
       option = PageOption.skillList;
     });
+    updateSkillList();
     updatePdf();
   }
 
@@ -325,9 +360,13 @@ class EditorState extends State<Editor> {
       level: 5.toString(),
       reason: 'Reason'
     );
+    skillController.text = newSkill.skill!;
+    reasonController.text = newSkill.reason!;
+    levelController.text = newSkill.level!;
     setState(() {
       data.skills!.add(newSkill);
     });
+    updateSkillList();
     updatePdf();
   }
 
@@ -335,10 +374,13 @@ class EditorState extends State<Editor> {
     setState(() {
       data.skills!.removeAt(index);
     });
+    updateSkillList();
     updatePdf();
   } 
 
   selectReference(AIReference reference, int referenceIndex) {
+    contactController.text = reference.contact??'Contact';
+    descriptionRefController.text = reference.description??'Description';
     setState(() {
       this.reference = reference;
       this.referenceIndex = referenceIndex;
@@ -347,10 +389,13 @@ class EditorState extends State<Editor> {
   }
 
   saveReference() {
+    reference!.contact = contactController.text;
+    reference!.description = descriptionRefController.text;
     setState(() {
       data.references![referenceIndex] = reference!;
       option = PageOption.referenceList;
     });
+    updateReferenceList();
     updatePdf();
   }
 
@@ -359,9 +404,12 @@ class EditorState extends State<Editor> {
       description: 'Description',
       contact: 'Contact'
     );
+    contactController.text = newReference.contact!;
+    descriptionRefController.text = newReference.description!;
     setState(() {
       data.references!.add(newReference);
     });
+    updateReferenceList();
     updatePdf();
   }
 
@@ -369,6 +417,7 @@ class EditorState extends State<Editor> {
     setState(() {
       data.references!.removeAt(index);
     });
+    updateReferenceList();
     updatePdf();
   }
 
@@ -1399,6 +1448,54 @@ class EditorState extends State<Editor> {
           ),
         ),
         const SizedBox(height: 20,),
+        SizedBox(
+          height: 80,
+          width: 30*w,
+          child: TextFormField(
+            key: const Key('skill'),
+            controller: skillController,
+            decoration: const InputDecoration(
+              enabledBorder: OutlineInputBorder(),
+              labelText: 'Skill',
+            ),
+            validator: (value) {
+              return null;
+            },
+          ),
+        ),
+        const SizedBox(height: 20,),
+        SizedBox(
+          height: 80,
+          width: 30*w,
+          child: TextFormField(
+            key: const Key('reason'),
+            controller: reasonController,
+            decoration: const InputDecoration(
+              enabledBorder: OutlineInputBorder(),
+              labelText: 'Reason',
+            ),
+            validator: (value) {
+              return null;
+            },
+          ),
+        ),
+        const SizedBox(height: 20,),
+        SizedBox(
+          height: 80,
+          width: 30*w,
+          child: TextFormField(
+            key: const Key('level'),
+            controller: levelController,
+            decoration: const InputDecoration(
+              enabledBorder: OutlineInputBorder(),
+              labelText: 'level',
+            ),
+            validator: (value) {
+              return null;
+            },
+          ),
+        ),
+        const SizedBox(height: 20,),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -1441,6 +1538,38 @@ class EditorState extends State<Editor> {
           ),
         ),
         const SizedBox(height: 20,),
+        SizedBox(
+          height: 80,
+          width: 30*w,
+          child: TextFormField(
+            key: const Key('contact'),
+            controller: contactController,
+            decoration: const InputDecoration(
+              enabledBorder: OutlineInputBorder(),
+              labelText: 'Contact',
+            ),
+            validator: (value) {
+              return null;
+            },
+          ),
+        ),
+        const SizedBox(height: 20,),
+        SizedBox(
+          height: 80,
+          width: 30*w,
+          child: TextFormField(
+            key: const Key('description'),
+            controller: descriptionRefController,
+            decoration: const InputDecoration(
+              enabledBorder: OutlineInputBorder(),
+              labelText: 'Description',
+            ),
+            validator: (value) {
+              return null;
+            },
+          ),
+        ),
+        const SizedBox(height: 20,),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -1472,13 +1601,13 @@ class EditorState extends State<Editor> {
 
 
   Future<DateTime?> datePicker(BuildContext context) async {
-  return showDatePicker(
-      context: context, 
-      initialEntryMode: DatePickerEntryMode.input, 
-      firstDate: DateTime.now().subtract(const Duration(days:365*100)), 
-      initialDate: DateTime.now(),
-      lastDate: DateTime.now()
-    );
-}
+    return showDatePicker(
+        context: context, 
+        initialEntryMode: DatePickerEntryMode.input, 
+        firstDate: DateTime.now().subtract(const Duration(days:365*100)), 
+        initialDate: DateTime.now(),
+        lastDate: DateTime.now()
+      );
+  }
 
 }
