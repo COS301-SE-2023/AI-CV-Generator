@@ -37,6 +37,10 @@ class CreatePdfStatefulWidget extends StatefulWidget {
 
 class _CreatePdfState extends State<CreatePdfStatefulWidget> {
   TextEditingController fullnameC = TextEditingController();
+  TextEditingController addressC = TextEditingController();
+  TextEditingController phonenumberC = TextEditingController();
+  TextEditingController emailC = TextEditingController();
+  TextEditingController descriptC = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -74,11 +78,12 @@ class _CreatePdfState extends State<CreatePdfStatefulWidget> {
     drawMainPage(page, pageSize);
     drawPersonalDetails(page, pageSize);
     drawSkills(page, pageSize);
-    PdfLayoutResult result = drawDescription(page, pageSize);
+    PdfLayoutResult result = drawDescription(page, pageSize, "");
     result = drawExperience(page, pageSize, result);
     result = drawEducation(page, pageSize, result);
     result = drawReference(page, pageSize, result);
     final List<int> bytes = document.saveSync();
+    
     showDialog(
       context: context, 
       builder: (context) {
@@ -168,24 +173,32 @@ class _CreatePdfState extends State<CreatePdfStatefulWidget> {
     );
   }
 
-  drawDescription(PdfPage page, Size pageSize) {
-    String text = "SUMMARY";
-    final PdfFont contentFont = PdfStandardFont(PdfFontFamily.helvetica, 11);
-    final Size contentSize = contentFont.measureString(text);
-    page.graphics.drawString(
-        "", 
-        contentFont,
-        brush: PdfBrushes.black,
-        bounds: Rect.fromLTWH(pageSize.width/3+16, 90+16, pageSize.width/3*2-1, pageSize.height - 90),
-        format: PdfStringFormat(
-          alignment: PdfTextAlignment.left,
-          lineAlignment: PdfVerticalAlignment.top
-        )
-    );
-    return PdfTextElement(text: text, font: contentFont).draw(
+  addText(PdfPage page, Size pageSize, PdfFont contentFont, Rect bound, String text)
+  {
+      final Size contentSize = contentFont.measureString(text);
+      return PdfTextElement(text: text, font: contentFont).draw(
         page: page,
-        bounds: Rect.fromLTWH(pageSize.width/3+16, 90+16,
-          pageSize.width/3*2 -30, pageSize.height - 90));
+        bounds: bound
+      );
+  }
+
+  PdfLayoutResult drawDescription(PdfPage page, Size pageSize, String data) {
+    PdfLayoutResult result = addText(
+      page,
+      pageSize,
+      PdfStandardFont(PdfFontFamily.helvetica, 12),
+      Rect.fromLTWH(pageSize.width/3+16, 90+16,
+          pageSize.width/3*2 -30, pageSize.height - 90),
+      "SUMMARY"
+    );
+    return addText(
+      page,
+      pageSize,
+      PdfStandardFont(PdfFontFamily.helvetica, 11),
+      Rect.fromLTWH(pageSize.width/3+16, result.bounds.bottom+8,
+          pageSize.width/3*2 -30, pageSize.height - 90),
+      data
+      );
   }
 
   drawExperience(PdfPage page, Size pageSize, PdfLayoutResult result) {
