@@ -75,13 +75,36 @@ class _CreatePdfState extends State<CreatePdfStatefulWidget> {
     //Get page client size
     final Size pageSize = page.getClientSize();
 
-    drawMainPage(page, pageSize);
-    drawPersonalDetails(page, pageSize);
-    drawSkills(page, pageSize);
-    PdfLayoutResult result = drawDescription(page, pageSize, "");
-    result = drawExperience(page, pageSize, result);
-    result = drawEducation(page, pageSize, result);
-    result = drawReference(page, pageSize, result);
+    Rect topPane = Rect.fromLTWH(0, -90, pageSize.width, 90);
+    Rect leftPane = Rect.fromLTWH(8, -pageSize.height+90, pageSize.width/4-8, pageSize.height);
+    Rect rightPane = Rect.fromLTWH(pageSize.width/4 + 8, 0, pageSize.width/4*3 + 8, 90);
+
+    page.graphics.drawRectangle(
+      bounds: Rect.fromLTWH(0, 0, pageSize.width, pageSize.height),
+      pen: PdfPen(PdfColor(0, 0, 0))
+    );
+    page.graphics.drawRectangle(
+      brush: PdfSolidBrush(PdfColor(56, 92, 100)),
+      bounds: Rect.fromLTWH(0, 0, pageSize.width, 90)
+    );
+    page.graphics.drawRectangle(
+      brush: PdfSolidBrush(PdfColor(85, 144, 157)),
+      bounds: Rect.fromLTWH(0, 90, pageSize.width/4, pageSize.height - 90)
+    );
+    page.graphics.drawRectangle(
+      brush: PdfSolidBrush(PdfColor(255, 255, 255)),
+      bounds: Rect.fromLTWH(pageSize.width/4, 90, pageSize.width/4*3-1, pageSize.height - 90-1)
+    );
+
+    drawNameSurname(page, pageSize, topPane, "Name Surname");
+    PdfLayoutResult resultLeft = drawContactDetails(page, pageSize, leftPane, "Contact Details");
+    drawSkills(page, pageSize, resultLeft.bounds, []);
+
+    
+    PdfLayoutResult resultRight = drawDescription(page, pageSize, rightPane, "");
+    resultRight = drawExperience(page, pageSize, resultRight.bounds, []);
+    resultRight = drawEducation(page, pageSize, resultRight.bounds, []);
+    resultRight = drawReference(page, pageSize, resultRight.bounds, []);
     final List<int> bytes = document.saveSync();
     
     showDialog(
@@ -127,141 +150,124 @@ class _CreatePdfState extends State<CreatePdfStatefulWidget> {
       }
     );
   }
-  
-  drawMainPage(PdfPage page, Size pageSize) {
-    page.graphics.drawRectangle(
-        bounds: Rect.fromLTWH(0, 0, pageSize.width, pageSize.height),
-        pen: PdfPen(PdfColor(0, 0, 0)));
-    
-      page.graphics.drawRectangle(
-        brush: PdfSolidBrush(PdfColor(56, 92, 100)),
-        bounds: Rect.fromLTWH(0, 0, pageSize.width, 90)
-    );
-  //left
-    page.graphics.drawRectangle(
-      brush: PdfSolidBrush(PdfColor(85, 144, 157)),
-      bounds: Rect.fromLTWH(0, 90, pageSize.width/3, pageSize.height - 90)
-    );
-  //right
-    page.graphics.drawRectangle(
-      brush: PdfSolidBrush(PdfColor(255, 255, 255)),
-      bounds: Rect.fromLTWH(pageSize.width/3, 90, pageSize.width/3*2-1, pageSize.height - 90-1)
-    );
-  }
 
-  drawPersonalDetails(PdfPage page, Size pageSize) {
-    page.graphics.drawString(
-        "NAME SURNAME", PdfStandardFont(PdfFontFamily.helvetica, 30),
-        brush: PdfBrushes.white,
-        bounds: Rect.fromLTWH(0, 0, pageSize.width, 90),
-        format: PdfStringFormat(
-          alignment: PdfTextAlignment.center,
-          lineAlignment: PdfVerticalAlignment.middle)
-    );
-    page.graphics.drawString(
-        "ADDRESS\nPHONE NUMBER\nEMAIL", PdfStandardFont(PdfFontFamily.helvetica, 12),
-        brush: PdfBrushes.white,
-        bounds: Rect.fromLTWH(0+16, 90+16, pageSize.width/3, pageSize.height - 90),
-        format: PdfStringFormat(
-          alignment: PdfTextAlignment.left,
-          lineAlignment: PdfVerticalAlignment.top)
-    );
-    page.graphics.drawLine(
-      PdfPen(PdfColor(255, 255, 255)), 
-      Offset(0+16, 170),
-      Offset(pageSize.width/3, 170)
-    );
-  }
-
-  addText(PdfPage page, Size pageSize, PdfFont contentFont, Rect bound, String text)
+  PdfLayoutResult addText(PdfPage page, Size pageSize, PdfFont contentFont, PdfStringFormat format, Rect bound, String text)
   {
-      final Size contentSize = contentFont.measureString(text);
-      return PdfTextElement(text: text, font: contentFont).draw(
+    final Size contentSize = contentFont.measureString(text);
+    return PdfTextElement(
+      text: text, 
+      font: contentFont,
+      format: format
+      ).draw(
         page: page,
-        bounds: bound
-      );
+        bounds: bound,
+      )!;
   }
 
-  PdfLayoutResult drawDescription(PdfPage page, Size pageSize, String data) {
-    PdfLayoutResult result = addText(
+  PdfLayoutResult drawNameSurname(PdfPage page, Size pageSize, Rect bounds, String data) {
+    return addText(
+      page,
+      pageSize,
+      PdfStandardFont(PdfFontFamily.helvetica, 30),
+      PdfStringFormat(
+        alignment: PdfTextAlignment.center,
+        // lineAlignment: PdfVerticalAlignment.middle
+      ),
+      Rect.fromLTWH(bounds.left, bounds.bottom+8, bounds.width, bounds.height),
+      data
+    );
+  }
+
+  PdfLayoutResult drawContactDetails(PdfPage page, Size pageSize, Rect bounds, String data) {
+    return addText(
       page,
       pageSize,
       PdfStandardFont(PdfFontFamily.helvetica, 12),
-      Rect.fromLTWH(pageSize.width/3+16, 90+16,
-          pageSize.width/3*2 -30, pageSize.height - 90),
-      "SUMMARY"
+      PdfStringFormat(),
+      Rect.fromLTWH(bounds.left, bounds.bottom+8, bounds.width, bounds.height),
+      data
     );
+  }
+
+  PdfLayoutResult drawDescription(PdfPage page, Size pageSize, Rect bounds, String data) {
+    bounds = addText(
+      page,
+      pageSize,
+      PdfStandardFont(PdfFontFamily.helvetica, 12),
+      PdfStringFormat(),
+      Rect.fromLTWH(bounds.left, bounds.bottom+8, bounds.width, bounds.height),
+      "SUMMARY"
+    ).bounds;
     return addText(
       page,
       pageSize,
       PdfStandardFont(PdfFontFamily.helvetica, 11),
-      Rect.fromLTWH(pageSize.width/3+16, result.bounds.bottom+8,
-          pageSize.width/3*2 -30, pageSize.height - 90),
+      PdfStringFormat(),
+      Rect.fromLTWH(bounds.left, bounds.bottom+8, bounds.width, bounds.height),
       data
-      );
-  }
-
-  drawExperience(PdfPage page, Size pageSize, PdfLayoutResult result) {
-    String text = "EXPERIENCE";
-    final PdfFont contentFont = PdfStandardFont(PdfFontFamily.helvetica, 11);
-    final Size contentSize = contentFont.measureString(text);
-    page.graphics.drawString(
-        "", 
-        contentFont,
-        brush: PdfBrushes.black,
-        bounds: Rect.fromLTWH(pageSize.width/3+16, result.bounds.bottom, pageSize.width/3*2-1, pageSize.height - 90),
-        format: PdfStringFormat(
-          alignment: PdfTextAlignment.left,
-          lineAlignment: PdfVerticalAlignment.top
-        )
     );
-    return PdfTextElement(text: text, font: contentFont).draw(
-        page: page,
-        bounds: Rect.fromLTWH(pageSize.width/3+16, result.bounds.bottom+16,
-            pageSize.width/3*2 -30, pageSize.height - 90))!;
   }
 
-  drawEducation(PdfPage page, Size pageSize, PdfLayoutResult result) {
-    String text = "EDUCATION";
-    final PdfFont contentFont = PdfStandardFont(PdfFontFamily.helvetica, 11);
-    final Size contentSize = contentFont.measureString(text);
-    page.graphics.drawString(
-        "", 
-        PdfStandardFont(PdfFontFamily.helvetica, 11),
-        brush: PdfBrushes.black,
-        bounds: Rect.fromLTWH(pageSize.width/3+16, 274, result.bounds.bottom, pageSize.height - 90),
-        format: PdfStringFormat(
-          alignment: PdfTextAlignment.left,
-          lineAlignment: PdfVerticalAlignment.top
-        )
+  PdfLayoutResult drawExperience(PdfPage page, Size pageSize, Rect bounds, List data) {
+    bounds = addText(
+      page,
+      pageSize,
+      PdfStandardFont(PdfFontFamily.helvetica, 12),
+      PdfStringFormat(),
+      Rect.fromLTWH(bounds.left, bounds.bottom+8, bounds.width, bounds.height),
+      "EXPERIENCE"
+    ).bounds;
+    return addText(
+      page,
+      pageSize,
+      PdfStandardFont(PdfFontFamily.helvetica, 11),
+      PdfStringFormat(),
+      Rect.fromLTWH(bounds.left, bounds.bottom+8, bounds.width, bounds.height),
+      ""
     );
-    return PdfTextElement(text: text, font: contentFont).draw(
-        page: page,
-        bounds: Rect.fromLTWH(pageSize.width/3+16, result.bounds.bottom+16,
-            pageSize.width/3*2 -30, pageSize.height - 90))!;
   }
 
-  drawReference(PdfPage page, Size pageSize, PdfLayoutResult result) {
-    String text = "REFERENCE";
-    final PdfFont contentFont = PdfStandardFont(PdfFontFamily.helvetica, 11);
-    final Size contentSize = contentFont.measureString(text);
-    page.graphics.drawString(
-        "", 
-        PdfStandardFont(PdfFontFamily.helvetica, 11),
-        brush: PdfBrushes.black,
-        bounds: Rect.fromLTWH(pageSize.width/3+16, 358, result.bounds.bottom, pageSize.height - 90),
-        format: PdfStringFormat(
-          alignment: PdfTextAlignment.left,
-          lineAlignment: PdfVerticalAlignment.top
-        )
+  PdfLayoutResult drawEducation(PdfPage page, Size pageSize, Rect bounds, List data) {
+    bounds = addText(
+      page,
+      pageSize,
+      PdfStandardFont(PdfFontFamily.helvetica, 12),
+      PdfStringFormat(),
+      Rect.fromLTWH(bounds.left, bounds.bottom+8, bounds.width, bounds.height),
+      "EDUCATION"
+    ).bounds;
+    return addText(
+      page,
+      pageSize,
+      PdfStandardFont(PdfFontFamily.helvetica, 11),
+      PdfStringFormat(),
+      Rect.fromLTWH(bounds.left, bounds.bottom+8,
+          bounds.width, bounds.height),
+      ""
     );
-    return PdfTextElement(text: text, font: contentFont).draw(
-        page: page,
-        bounds: Rect.fromLTWH(pageSize.width/3+16, result.bounds.bottom+16,
-            pageSize.width/3*2 -30, pageSize.height - 90))!;
   }
 
-  drawSkills(PdfPage page, Size pageSize) {
+  PdfLayoutResult drawReference(PdfPage page, Size pageSize, Rect bounds, List data) {
+    bounds = addText(
+      page,
+      pageSize,
+      PdfStandardFont(PdfFontFamily.helvetica, 12),
+      PdfStringFormat(),
+      Rect.fromLTWH(bounds.left, bounds.bottom+8, bounds.width, bounds.height),
+      "REFERENCE"
+    ).bounds;
+    return addText(
+      page,
+      pageSize,
+      PdfStandardFont(PdfFontFamily.helvetica, 11),
+      PdfStringFormat(),
+      Rect.fromLTWH(bounds.left, bounds.bottom+8,
+          bounds.width, bounds.height),
+      ""
+    );
+  }
+
+  drawSkills(PdfPage page, Size pageSize, Rect bounds, List data) {
     final skillsList = PdfUnorderedList(
       marker: PdfUnorderedMarker(
           font: PdfStandardFont(PdfFontFamily.helvetica, 10),
@@ -280,20 +286,18 @@ class _CreatePdfState extends State<CreatePdfStatefulWidget> {
       indent: 20
     );
 
-    page.graphics.drawString(
-        "SKILLS", 
-        PdfStandardFont(PdfFontFamily.helvetica, 11),
-        brush: PdfBrushes.white,
-        bounds: Rect.fromLTWH(0+16, 190, pageSize.width/3, pageSize.height - 90),
-        format: PdfStringFormat(
-          alignment: PdfTextAlignment.left,
-          lineAlignment: PdfVerticalAlignment.top
-        )
-    );
+    bounds = addText(
+      page,
+      pageSize,
+      PdfStandardFont(PdfFontFamily.helvetica, 12),
+      PdfStringFormat(),
+      Rect.fromLTWH(bounds.left, bounds.bottom+8, bounds.width, bounds.height),
+      "SKILLS"
+    ).bounds;
 
     skillsList.draw(
       page: page,
-      bounds: Rect.fromLTWH(0, 210, pageSize.width/3, pageSize.height - 90),
+      bounds: Rect.fromLTWH(0, bounds.bottom+8, pageSize.width/3, pageSize.height - 90),
     );
   }
 }
