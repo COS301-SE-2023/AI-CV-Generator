@@ -7,6 +7,7 @@ import 'package:ai_cv_generator/models/aimodels/AISkill.dart';
 import 'package:ai_cv_generator/models/aimodels/CVData.dart';
 import 'package:ai_cv_generator/pages/template/Template.dart';
 import 'package:ai_cv_generator/pages/widgets/buttons/customizableButton.dart';
+import 'package:ai_cv_generator/pages/widgets/buttons/deletableMenuButton.dart';
 import 'package:ai_cv_generator/pages/widgets/buttons/menuButton.dart';
 import 'package:ai_cv_generator/pages/widgets/loadingScreens/loadingScreen.dart';
 import 'package:flutter/material.dart';
@@ -137,22 +138,20 @@ class EditorState extends State<Editor> {
     updatePdf();
   }
 
-  updateEmploymentList(double w, double h) {
+  updateEmploymentList() {
     employmentList = [];
     for (AIEmployment emp in data.employmenthistory!) {
       employmentList.add(
         experienceButton(
           emp, 
           data.employmenthistory!.indexOf(emp), 
-          w, 
-          h
         )
       );
     }
   }
 
   selectExperienceList(double w, double h) {
-    updateEmploymentList(w, h);
+    updateEmploymentList();
     setState(() {
       option = PageOption.experienceList;
     });
@@ -197,7 +196,7 @@ class EditorState extends State<Editor> {
       data.employmenthistory![employmentIndex] = employment!;
       option = PageOption.experienceList;
     });
-    updateEmploymentList(w, h);
+    updateEmploymentList();
     updatePdf();
   }
 
@@ -215,7 +214,7 @@ class EditorState extends State<Editor> {
     setState(() {
       data.employmenthistory!.add(newEmployment);
     });
-    updateEmploymentList(w, h);
+    updateEmploymentList();
     updatePdf();
   }
 
@@ -223,6 +222,7 @@ class EditorState extends State<Editor> {
     setState(() {
       data.employmenthistory!.removeAt(index);
     });
+    updateEmploymentList();
     updatePdf();
   }
 
@@ -340,20 +340,20 @@ class EditorState extends State<Editor> {
     Navigator.pop(context);
   }
 
-  Widget experienceButton(AIEmployment employmentOp,int index,double w, double h) {
+  Widget experienceButton(AIEmployment employmentOp,int index) {
     return Container(
       padding: const EdgeInsets.only(
         top: 5,
         bottom: 5
       ),
-      child: MenuButton(
-        text: '${employmentOp.jobTitle??'Job Title'} / ${employmentOp.company??'Company'}', 
-        width: w*30, 
-        height: h*10, 
+      child: DeletableMenuButton(
+        text: '${employmentOp.jobTitle??'Job Title'} / ${employmentOp.company??'Company'}',
         onTap: () {
           selectExperience(employmentOp, index);
-        }, 
-        fontSize: w*1.2
+        },
+        onDeletePressed: () {
+          deleteExperience(index);
+        }
       ),
     );
   }
@@ -754,6 +754,7 @@ class EditorState extends State<Editor> {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
+        const SizedBox(height: 10,),
         Align(
           alignment: Alignment.topCenter,
           child: Text(
