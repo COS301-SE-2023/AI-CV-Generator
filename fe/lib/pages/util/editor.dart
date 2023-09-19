@@ -78,6 +78,11 @@ class EditorState extends State<Editor> {
   TextEditingController startDateQuaController = TextEditingController();
   TextEditingController endDateQuaController = TextEditingController();
 
+  // Text editing controllers for skill
+  TextEditingController skillController = TextEditingController();
+  TextEditingController reasonController = TextEditingController();
+  TextEditingController levelController = TextEditingController();
+
   // Will regenerate the PDF with changes
   updatePdf() {
     setState(() {
@@ -973,13 +978,133 @@ class EditorState extends State<Editor> {
 
   Widget skillListMenu(double w, double h) {
     return Column(
-      children: [Text('Not Ready')],
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        const SizedBox(height: 10,),
+        Align(
+          alignment: Alignment.topCenter,
+          child: Text(
+            'Skills',
+            style: TextStyle(fontSize: 1.6*w),
+          ),
+        ),
+        const SizedBox(height: 20,),
+        if (skillList.isNotEmpty)
+        ...skillList,
+        if (skillList.isEmpty) 
+        SizedBox(
+          width: w*30,
+          height: 300,
+          child: const Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.flag,color: Colors.grey,size: 100,),
+                SizedBox(height: 20),
+                Text(
+                  "No Skills...", 
+                  style: TextStyle(
+                    color: Colors.grey
+                  )
+                )
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(height: 20,),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            CustomizableButton(
+              text: 'Back', 
+              width: 7*w, 
+              height: 28, 
+              onTap: () {
+                selectMain();
+              }, 
+              fontSize: w*0.8
+            ),
+            SizedBox(width: w*3,),
+            CustomizableButton(
+              text: 'Add', 
+              width: 7*w, 
+              height: 28, 
+              onTap: () {
+                addSkill();
+              }, 
+              fontSize: w*0.8
+            )
+          ],
+        )
+      ],
     );
   }
 
   Widget referenceListMenu(double w, double h) {
     return Column(
-      children: [Text('Not Ready')],
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        const SizedBox(height: 10,),
+        Align(
+          alignment: Alignment.topCenter,
+          child: Text(
+            'References',
+            style: TextStyle(fontSize: 1.6*w),
+          ),
+        ),
+        const SizedBox(height: 20,),
+        if (referenceList.isNotEmpty)
+        ...referenceList,
+        if (referenceList.isEmpty) 
+        SizedBox(
+          width: w*30,
+          height: 300,
+          child: const Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.people,color: Colors.grey,size: 100,),
+                SizedBox(height: 20),
+                Text(
+                  "No References...", 
+                  style: TextStyle(
+                    color: Colors.grey
+                  )
+                )
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(height: 20,),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            CustomizableButton(
+              text: 'Back', 
+              width: 7*w, 
+              height: 28, 
+              onTap: () {
+                selectMain();
+              }, 
+              fontSize: w*0.8
+            ),
+            SizedBox(width: w*3,),
+            CustomizableButton(
+              text: 'Add', 
+              width: 7*w, 
+              height: 28, 
+              onTap: () {
+                addReference();
+              }, 
+              fontSize: w*0.8
+            )
+          ],
+        )
+      ],
     );
   }
 
