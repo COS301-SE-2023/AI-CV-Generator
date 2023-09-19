@@ -61,11 +61,12 @@ class CustomizableButtonState extends State<CustomizableButton> {
                   children: [
                     Text(
                       widget.text,
+                      overflow: TextOverflow.fade,
                       style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white,
-                          fontSize: widget.fontSize
-                        ),
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                        fontSize: widget.fontSize
+                      ),
                     )
                   ],
                 ),

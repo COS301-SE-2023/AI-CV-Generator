@@ -26,6 +26,7 @@ enum PageOption {
   reference
 }
 
+// ignore: must_be_immutable
 class Editor extends StatefulWidget {
   Editor({super.key, required this.data,required this.option});
   CVData data;
@@ -42,12 +43,16 @@ class EditorState extends State<Editor> {
   PageOption option = PageOption.main;
   int employmentIndex = 0;
   AIEmployment? employment;
+  List<Widget> employmentList = [];
   int qualificationIndex = 0;
   AIQualification? qualification;
+  List<Widget> qualificationList = [];
   int skillIndex = 0;
   AISkill? skill;
+  List<Widget> skillList = [];
   int referenceIndex = 0;
   AIReference? reference;
+  List<Widget> referenceList = [];
 
   // Text editing controllers for personalDetails
   TextEditingController fnameController = TextEditingController();
@@ -132,7 +137,22 @@ class EditorState extends State<Editor> {
     updatePdf();
   }
 
-  selectExperienceList() {
+  updateEmploymentList(double w, double h) {
+    employmentList = [];
+    for (AIEmployment emp in data.employmenthistory!) {
+      employmentList.add(
+        experienceButton(
+          emp, 
+          data.employmenthistory!.indexOf(emp), 
+          w, 
+          h
+        )
+      );
+    }
+  }
+
+  selectExperienceList(double w, double h) {
+    updateEmploymentList(w, h);
     setState(() {
       option = PageOption.experienceList;
     });
@@ -168,7 +188,7 @@ class EditorState extends State<Editor> {
     });
   }
 
-  saveExperience() {
+  saveExperience(double w, double h) {
     data.employmenthistory![employmentIndex].company = companyController.text;
     data.employmenthistory![employmentIndex].jobTitle = jobTitleController.text;
     data.employmenthistory![employmentIndex].startDate = startDateController.text;
@@ -177,15 +197,16 @@ class EditorState extends State<Editor> {
       data.employmenthistory![employmentIndex] = employment!;
       option = PageOption.experienceList;
     });
+    updateEmploymentList(w, h);
     updatePdf();
   }
 
-  addExperience() {
+  addExperience(double w, double h) {
     AIEmployment newEmployment = AIEmployment(
       company: 'Company',
       jobTitle: 'JobTitle',
-      startDate: DateTime.now().toString(),
-      endDate: DateTime.now().toString()
+      startDate: '${DateTime.now().year}/${DateTime.now().month}/${DateTime.now().day}',
+      endDate: '${DateTime.now().year}/${DateTime.now().month}/${DateTime.now().day}'
     );
     companyController.text = newEmployment.company!;
     jobTitleController.text = newEmployment.jobTitle!;
@@ -193,10 +214,8 @@ class EditorState extends State<Editor> {
     endDateController.text = newEmployment.endDate!;
     setState(() {
       data.employmenthistory!.add(newEmployment);
-      employment = newEmployment;
-      employmentIndex = data.employmenthistory!.indexOf(newEmployment);
-      option = PageOption.experience;
     });
+    updateEmploymentList(w, h);
     updatePdf();
   }
 
@@ -227,14 +246,11 @@ class EditorState extends State<Editor> {
     AIQualification newQualification = AIQualification(
       qualification: 'Qualification',
       institution: 'Institution',
-      startDate: DateTime.now().toString(),
-      endDate: DateTime.now().toString()
+      startDate: '${DateTime.now().year}/${DateTime.now().month}/${DateTime.now().day}',
+      endDate: '${DateTime.now().year}/${DateTime.now().month}/${DateTime.now().day}'
     );
     setState(() {
       data.qualifications!.add(newQualification);
-      qualification = newQualification;
-      qualificationIndex = data.qualifications!.indexOf(newQualification);
-      option = PageOption.qualification;
     });
     updatePdf();
   }
@@ -270,9 +286,6 @@ class EditorState extends State<Editor> {
     );
     setState(() {
       data.skills!.add(newSkill);
-      skill = newSkill;
-      skillIndex = data.skills!.indexOf(newSkill);
-      option = PageOption.skill;
     });
     updatePdf();
   }
@@ -307,9 +320,6 @@ class EditorState extends State<Editor> {
     );
     setState(() {
       data.references!.add(newReference);
-      reference = newReference;
-      referenceIndex = data.references!.indexOf(newReference);
-      option = PageOption.reference;
     });
     updatePdf();
   }
@@ -328,6 +338,24 @@ class EditorState extends State<Editor> {
 
   cancel() {
     Navigator.pop(context);
+  }
+
+  Widget experienceButton(AIEmployment employmentOp,int index,double w, double h) {
+    return Container(
+      padding: const EdgeInsets.only(
+        top: 5,
+        bottom: 5
+      ),
+      child: MenuButton(
+        text: '${employmentOp.jobTitle??'Job Title'} / ${employmentOp.company??'Company'}', 
+        width: w*30, 
+        height: h*10, 
+        onTap: () {
+          selectExperience(employmentOp, index);
+        }, 
+        fontSize: w*1.2
+      ),
+    );
   }
 
   @override
@@ -441,7 +469,7 @@ class EditorState extends State<Editor> {
           width: w*30,
           height: h*10,
           onTap: () {
-            selectExperienceList();
+            selectExperienceList(w,h);
           },
           fontSize: 1.2*w,
         ),
@@ -734,7 +762,29 @@ class EditorState extends State<Editor> {
           ),
         ),
         const SizedBox(height: 20,),
-
+        if (employmentList.isNotEmpty)
+        ...employmentList,
+        if (employmentList.isEmpty) 
+        SizedBox(
+          width: w*30,
+          height: 300,
+          child: const Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.cases_rounded,color: Colors.grey,size: 100,),
+                SizedBox(height: 20),
+                Text(
+                  "No Work Experience...", 
+                  style: TextStyle(
+                    color: Colors.grey
+                  )
+                )
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(height: 20,),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -754,7 +804,7 @@ class EditorState extends State<Editor> {
               width: 7*w, 
               height: 28, 
               onTap: () {
-                addExperience();
+                addExperience(w,h);
               }, 
               fontSize: w*0.8
             )
@@ -795,6 +845,103 @@ class EditorState extends State<Editor> {
           ),
         ),
         const SizedBox(height: 20,),
+        SizedBox(
+          height: 80,
+          width: 30*w,
+          child: TextFormField(
+            key: const Key('jobTtitle'),
+            controller: jobTitleController,
+            decoration: const InputDecoration(
+              enabledBorder: OutlineInputBorder(),
+              labelText: 'Job Title',
+            ),
+            validator: (value) {
+              return null;
+            },
+          ),
+        ),
+        const SizedBox(height: 20,),
+        SizedBox(
+          height: 80,
+          width: 30*w,
+          child: TextFormField(
+            key: const Key('company'),
+            controller: companyController,
+            decoration: const InputDecoration(
+              enabledBorder: OutlineInputBorder(),
+              labelText: 'Company/Instatution',
+            ),
+            validator: (value) {
+              return null;
+            },
+          ),
+        ),
+        const SizedBox(height: 20,),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  setState(() {
+                    datePicker(context).then((value) {
+                      if(value != null) {
+                        startDateController.text = '${value.year}/${value.month}/${value.day}';
+                      }
+                    });
+                  });
+                });
+              },
+              child: SizedBox(
+                height: 80,
+                width: 14*w,
+                child: TextFormField(
+                  enabled: false,
+                  key: const Key('startDate'),
+                  controller: startDateController,
+                  decoration: const InputDecoration(
+                    enabledBorder: OutlineInputBorder(),
+                    labelText: 'Start Date',
+                  ),
+                  validator: (value) {
+                    return null;
+                  },
+                ),
+              ),
+            ),
+            SizedBox(width: 2*w,),
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  setState(() {
+                    datePicker(context).then((value) {
+                      if(value != null) {
+                        endDateController.text = '${value.year}/${value.month}/${value.day}';
+                      }
+                    });
+                  });
+                });
+              },
+              child: SizedBox(
+                height: 80,
+                width: 14*w,
+                child: TextFormField(
+                  enabled: false,
+                  key: const Key('endDate'),
+                  controller: endDateController,
+                  decoration: const InputDecoration(
+                    enabledBorder: OutlineInputBorder(),
+                    labelText: 'endDate',
+                  ),
+                  validator: (value) {
+                    return null;
+                  },
+                ),
+              ),
+            )
+          ],
+        ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -804,7 +951,7 @@ class EditorState extends State<Editor> {
               width: 7*w, 
               height: 28, 
               onTap: () {
-                saveExperience();
+                saveExperience(w,h);
               }, 
               fontSize: w*0.8
             ),
@@ -814,7 +961,7 @@ class EditorState extends State<Editor> {
               width: 7*w, 
               height: 28, 
               onTap: () {
-                selectExperienceList();
+                selectExperienceList(w,h);
               }, 
               fontSize: w*0.8
             )
@@ -949,5 +1096,16 @@ class EditorState extends State<Editor> {
       ],
     );
   }
+
+
+  Future<DateTime?> datePicker(BuildContext context) async {
+  return showDatePicker(
+      context: context, 
+      initialEntryMode: DatePickerEntryMode.input, 
+      firstDate: DateTime.now().subtract(const Duration(days:365*100)), 
+      initialDate: DateTime.now(),
+      lastDate: DateTime.now()
+    );
+}
 
 }

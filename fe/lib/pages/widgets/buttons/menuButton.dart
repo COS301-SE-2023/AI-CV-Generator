@@ -60,6 +60,7 @@ class MenuButtonState extends State<MenuButton> {
                       ),
                       child: Text(
                         widget.text,
+                        overflow: TextOverflow.fade,
                         style: TextStyle(
                             fontWeight: FontWeight.w600,
                             color: const Color(0xFFEA6D79),
