@@ -95,7 +95,7 @@ class TemplateTemp {
     rightBox = drawExperience(page!, pageSize, rightBox, data.employmenthistory!).bounds;
     rightBox = drawEducation(page!, pageSize, rightBox, data.qualifications!).bounds;
     rightBox = drawReference(page!, pageSize, rightBox, data.references!).bounds;
-    rightBox = drawLinks(page!, pageSize, rightBox, data.references!).bounds;
+    rightBox = drawLinks(page!, pageSize, rightBox, data.links!).bounds;
 
     final List<int> bytes = document.saveSync();
     
@@ -313,7 +313,7 @@ class TemplateTemp {
     List<String> skills = [];
     for(AISkill skill in data)
     {
-      skills.add(skill.skill??'Skill');
+      skills.add('${skill.skill??'Skill'} level => ${skill.level??'5'}');
     }
     final skillsList = PdfUnorderedList(
       marker: PdfUnorderedMarker(
