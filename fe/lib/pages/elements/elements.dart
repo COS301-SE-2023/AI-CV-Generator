@@ -197,7 +197,7 @@ class SectionInputState extends State<SectionInput> {
       height: widget.height,
       width: widget.width,
       child: TextFormField(
-        maxLength: widget.maxLength??500,
+        maxLength: widget.maxLength??90000,
         controller: widget.controller, 
         textAlign: TextAlign.right, 
         style:  widget.fontSize != null ? TextStyle(fontSize: widget.fontSize) : Theme.of(context).textTheme.titleMedium,

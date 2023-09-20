@@ -629,9 +629,12 @@ class HomeState extends State<Home> {
                                     }
                                     showButton();
                                     data = await AIApi.generateAI(data: aiInput!);
-                                    if (data != null && data!.description == null) {
+                                    if (data == null || data!.description == null) {
                                       setCVErrorOn();
+                                      return;
                                     }
+                                    print(data!.toJson());
+                                    data = await showCV(data!, option);
                                     generated = true;
                                     setCVLoadingOff();
                                   },

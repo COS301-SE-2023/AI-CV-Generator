@@ -129,7 +129,7 @@ class ChangePasswordState extends State<ChangePasswordWidget> {
             Container(
               padding: const EdgeInsets.fromLTRB(500, 10, 500, 10),
               child: TextField(
-                maxLength: 25,
+                maxLength: 50,
                 key: const Key('password'),
                 obscureText: true,
                 controller: passwordController,
@@ -161,7 +161,7 @@ class ChangePasswordState extends State<ChangePasswordWidget> {
               padding: const EdgeInsets.fromLTRB(500, 10, 500, 10),
               child: TextField(
                 key: const Key('passwordretype'),
-                maxLength: 25,
+                maxLength: 50,
                 obscureText: true,
                 controller: passwordRetypeController,
                 decoration: InputDecoration(

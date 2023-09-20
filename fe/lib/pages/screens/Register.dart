@@ -150,7 +150,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     height: 80,
                     padding: EdgeInsets.fromLTRB(33*w, 0*h, 33*w, 0*h),
                     child: TextFormField(
-                      maxLength: 25,
+                      maxLength: 50,
                       key: const Key('username'),
                       controller: nameController,
                       decoration: InputDecoration(
@@ -183,7 +183,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     height: 80,
                     padding: EdgeInsets.fromLTRB(33*w, 0*h, 33*w, 0*h),
                     child: TextFormField(
-                      maxLength: 25,
+                      maxLength: 50,
                       key: const Key('email'),
                       controller: emailController,
                       decoration: const InputDecoration(
@@ -204,7 +204,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     height: 80,
                     padding: EdgeInsets.fromLTRB(33*w, 0*h, 33*w, 0*h),
                     child: TextFormField(
-                      maxLength: 25,
+                      maxLength: 50,
                       key: const Key('password'),
                       obscureText: true,
                       controller: passwordController,
@@ -230,7 +230,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     height: 80,
                     padding: EdgeInsets.fromLTRB(33*w, 0*h, 33*w, 0*h),
                     child: TextFormField(
-                      maxLength: 25,
+                      maxLength: 50,
                       key: const Key('passwordretype'),
                       obscureText: true,
                       controller: passwordRetypeController,

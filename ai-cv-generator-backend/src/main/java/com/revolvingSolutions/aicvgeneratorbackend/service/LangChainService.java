@@ -96,6 +96,8 @@ public class LangChainService {
                                 .qualifications(request.getData().getQualifications())
                                 .education_description(education_description)
                                 .links(request.getData().getLinks())
+                                .skills(request.getData().getSkills())
+                                .references(request.getData().getReferences())
                                 .build()
                 )
                 .build();

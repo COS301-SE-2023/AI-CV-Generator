@@ -49,6 +49,7 @@ class TestPageState extends State<TestPage> {
                   qualifications: [],
                   skills: [],
                   references: [],
+                  links: []
                 );
                 data = await showCV(data, TemplateOption.templateA);
               }, 

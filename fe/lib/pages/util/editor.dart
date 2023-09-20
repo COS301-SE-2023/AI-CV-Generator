@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:ai_cv_generator/models/aimodels/AIEmployment.dart';
+import 'package:ai_cv_generator/models/aimodels/AILink.dart';
 import 'package:ai_cv_generator/models/aimodels/AIQualification.dart';
 import 'package:ai_cv_generator/models/aimodels/AIReference.dart';
 import 'package:ai_cv_generator/models/aimodels/AISkill.dart';
@@ -22,10 +23,12 @@ enum PageOption {
   qualificationList,
   skillList,
   referenceList,
+  linkList,
   experience,
   qualification,
   skill,
-  reference
+  reference,
+  link
 }
 
 // ignore: must_be_immutable
@@ -55,6 +58,9 @@ class EditorState extends State<Editor> {
   int referenceIndex = 0;
   AIReference? reference;
   List<Widget> referenceList = [];
+  int linkIndex = 0;
+  AILink? link;
+  List<Widget> linkList = [];
 
   // Text editing controllers for personalDetails
   TextEditingController fnameController = TextEditingController();
@@ -87,6 +93,9 @@ class EditorState extends State<Editor> {
   // Text editing controllers for reference
   TextEditingController contactController = TextEditingController();
   TextEditingController descriptionRefController = TextEditingController();
+
+  // Text editing controllers for link
+  TextEditingController urlController = TextEditingController();
 
   // Will regenerate the PDF with changes
   updatePdf() async {
@@ -228,6 +237,25 @@ class EditorState extends State<Editor> {
     updateReferenceList();
     setState(() {
       option = PageOption.referenceList;
+    });
+  }
+
+  updateLinkList() {
+    linkList = [];
+    for (AILink lin in data.links!) {
+      linkList.add(
+        linkButton(
+          lin, 
+          data.links!.indexOf(lin)
+        )
+      );
+    }
+  }
+
+  selectLinkList() {
+    updateLinkList();
+    setState(() {
+      option = PageOption.linkList;
     });
   }
 
@@ -423,6 +451,45 @@ class EditorState extends State<Editor> {
     updatePdf();
   }
 
+  selectLink(AILink link, int linkIndex) {
+    urlController.text = link.url??'Url';
+    setState(() {
+      this.link = link;
+      this.linkIndex = linkIndex;
+      option = PageOption.link;
+    });
+  }
+
+  saveLink() {
+    link!.url = urlController.text;
+    setState(() {
+      data.links![linkIndex] = link!;
+      option = PageOption.linkList;
+    });
+    updateLinkList();
+    updatePdf();
+  }
+
+  addLink() {
+    AILink newLink = AILink(
+      url: 'Url '
+    );
+    urlController.text = newLink.url!;
+    setState(() {
+      data.links!.add(newLink);
+    });
+    updateLinkList();
+    updatePdf();
+  }
+
+  deleteLink(int index) {
+    setState(() {
+      data.links!.removeAt(index);
+    });
+    updateLinkList();
+    updatePdf();
+  }
+
   save() {
     widget.data = data;
     Navigator.pop(context);
@@ -504,6 +571,24 @@ class EditorState extends State<Editor> {
     );
   }
 
+  Widget linkButton(AILink linkOp,int index) {
+    return Container(
+      padding: const EdgeInsets.only(
+        top: 5,
+        bottom: 5
+      ),
+      child: DeletableMenuButton(
+        text: linkOp.url??'Url',
+        onTap: () {
+          selectLink(linkOp, index);
+        },
+        onDeletePressed: () {
+          deleteLink(index);
+        }
+      ),
+    );
+  }
+
   @override
   void initState() {
     data = widget.data;
@@ -570,10 +655,12 @@ class EditorState extends State<Editor> {
                     PageOption.qualificationList => qualificationListMenu(w, h),
                     PageOption.skillList => skillListMenu(w, h),
                     PageOption.referenceList => referenceListMenu(w, h),
+                    PageOption.linkList => linkListMenu(w, h),
                     PageOption.experience => experienceMenu(w, h),
                     PageOption.qualification => qualificationMenu(w, h),
                     PageOption.skill => skillMenu(w, h),
-                    PageOption.reference => referenceMenu(w, h)
+                    PageOption.reference => referenceMenu(w, h),
+                    PageOption.link => linkMenu(w, h)
                   }
                 )
               ]
@@ -594,7 +681,7 @@ class EditorState extends State<Editor> {
         MenuButton(
           text: 'Pesonal Details',
           width: w*30,
-          height: h*10,
+          height: h*8,
           onTap: () {
             selectPersonalDetails();
           },
@@ -604,7 +691,7 @@ class EditorState extends State<Editor> {
         MenuButton(
           text: 'Professional Summary',
           width: w*30,
-          height: h*10,
+          height: h*8,
           onTap: () {
             selectProfetionalSummary();
           },
@@ -614,7 +701,7 @@ class EditorState extends State<Editor> {
         MenuButton(
           text: 'Experience',
           width: w*30,
-          height: h*10,
+          height: h*8,
           onTap: () {
             selectExperienceList();
           },
@@ -624,7 +711,7 @@ class EditorState extends State<Editor> {
         MenuButton(
           text: 'Education',
           width: w*30,
-          height: h*10,
+          height: h*8,
           onTap: () {
             selectQualificationList();
           },
@@ -634,7 +721,7 @@ class EditorState extends State<Editor> {
         MenuButton(
           text: 'Skills',
           width: w*30,
-          height: h*10,
+          height: h*8,
           onTap: () {
             selectSkillList();
           },
@@ -644,9 +731,19 @@ class EditorState extends State<Editor> {
         MenuButton(
           text: 'References',
           width: w*30,
-          height: h*10,
+          height: h*8,
           onTap: () {
             selectReferenceList();
+          },
+          fontSize: 1.2*w,
+        ),
+        const SizedBox(height: 10,),
+        MenuButton(
+          text: 'Links',
+          width: w*30,
+          height: h*8,
+          onTap: () {
+            selectLinkList();
           },
           fontSize: 1.2*w,
         ),
@@ -745,7 +842,7 @@ class EditorState extends State<Editor> {
           height: 80,
           width: 30*w,
           child: TextFormField(
-            maxLength: 25,
+            maxLength: 50,
             key: const Key('email'),
             controller: emailController,
             decoration: const InputDecoration(
@@ -1161,6 +1258,72 @@ class EditorState extends State<Editor> {
               height: 28, 
               onTap: () {
                 addReference();
+              }, 
+              fontSize: w*0.8
+            )
+          ],
+        )
+      ],
+    );
+  }
+
+  Widget linkListMenu(double w, double h) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        const SizedBox(height: 10,),
+        Align(
+          alignment: Alignment.topCenter,
+          child: Text(
+            'Links',
+            style: TextStyle(fontSize: 1.6*w),
+          ),
+        ),
+        const SizedBox(height: 20,),
+        if (linkList.isNotEmpty)
+        ...linkList,
+        if (linkList.isEmpty) 
+        SizedBox(
+          width: w*30,
+          height: 300,
+          child: const Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.link,color: Colors.grey,size: 100,),
+                SizedBox(height: 20),
+                Text(
+                  "No Links...", 
+                  style: TextStyle(
+                    color: Colors.grey
+                  )
+                )
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(height: 20,),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            CustomizableButton(
+              text: 'Back', 
+              width: 7*w, 
+              height: 28, 
+              onTap: () {
+                selectMain();
+              }, 
+              fontSize: w*0.8
+            ),
+            SizedBox(width: w*3,),
+            CustomizableButton(
+              text: 'Add', 
+              width: 7*w, 
+              height: 28, 
+              onTap: () {
+                addLink();
               }, 
               fontSize: w*0.8
             )
@@ -1621,6 +1784,66 @@ class EditorState extends State<Editor> {
               height: 28, 
               onTap: () {
                 selectReferenceList();
+              }, 
+              fontSize: w*0.8
+            )
+          ],
+        )
+      ],
+    );
+  }
+
+  Widget linkMenu(double w, double h) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Align(
+          alignment: Alignment.topCenter,
+          child: Text(
+            'Link',
+            style: TextStyle(fontSize: 1.6*w),
+          ),
+        ),
+        const SizedBox(height: 20,),
+        SizedBox(
+          height: 80,
+          width: 30*w,
+          child: TextFormField(
+            maxLength: 50,
+            key: const Key('url'),
+            controller: urlController,
+            decoration: const InputDecoration(
+              counterText: "",
+              enabledBorder: OutlineInputBorder(),
+              labelText: 'Url',
+            ),
+            validator: (value) {
+              return null;
+            },
+          ),
+        ),
+        const SizedBox(height: 20,),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            CustomizableButton(
+              text: 'Update', 
+              width: 7*w, 
+              height: 28, 
+              onTap: () {
+                saveLink();
+              }, 
+              fontSize: w*0.8
+            ),
+            SizedBox(width: w*3,),
+            CustomizableButton(
+              text: 'Cancel', 
+              width: 7*w, 
+              height: 28, 
+              onTap: () {
+                selectLinkList();
               }, 
               fontSize: w*0.8
             )
