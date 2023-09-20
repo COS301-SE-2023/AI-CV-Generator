@@ -92,10 +92,10 @@ class TemplateTemp {
     );
     rightBox = Rect.fromLTWH(rightBox.left+8, rightBox.top, rightBox.width-16, 0);
     rightBox = drawDescription(page!, pageSize, rightBox, description).bounds;
-    rightBox = drawExperience(page!, pageSize, rightBox, data.employmenthistory!).bounds;
-    rightBox = drawEducation(page!, pageSize, rightBox, data.qualifications!).bounds;
-    rightBox = drawReference(page!, pageSize, rightBox, data.references!).bounds;
-    rightBox = drawLinks(page!, pageSize, rightBox, data.links!).bounds;
+    rightBox = drawExperience(page!, pageSize, rightBox, data.employmenthistory??[]).bounds;
+    rightBox = drawEducation(page!, pageSize, rightBox, data.qualifications??[]).bounds;
+    rightBox = drawReference(page!, pageSize, rightBox, data.references??[]).bounds;
+    rightBox = drawLinks(page!, pageSize, rightBox, data.links??[]).bounds;
 
     final List<int> bytes = document.saveSync();
     
