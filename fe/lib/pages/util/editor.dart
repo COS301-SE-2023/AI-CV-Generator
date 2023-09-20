@@ -1599,7 +1599,6 @@ class EditorState extends State<Editor> {
     );
   }
 
-
   Future<DateTime?> datePicker(BuildContext context) async {
     return showDatePicker(
         context: context, 
@@ -1609,5 +1608,4 @@ class EditorState extends State<Editor> {
         lastDate: DateTime.now()
       );
   }
-
 }
