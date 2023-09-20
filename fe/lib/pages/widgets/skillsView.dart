@@ -47,8 +47,10 @@ class SkillSectionState extends State<SkillSection> {
       // color: isHeader ? Colors.grey[300] : Colors.white,
       padding: const EdgeInsets.all(8.0),
       child: TextField(
+        maxLength: 50,
         textAlign: TextAlign.center,
         decoration: InputDecoration(
+          counterText: "",
           hintText: hintText,
           border: InputBorder.none
         ),

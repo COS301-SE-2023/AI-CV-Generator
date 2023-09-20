@@ -217,9 +217,11 @@ void initState() {
       children: [
         Expanded(
           child: TextFormField(
+          maxLength: 50,
           controller: widget.companyC,
           textAlign: TextAlign.center,
           decoration: const InputDecoration(
+            counterText: "",
             hintText: "Organisation",
             border: OutlineInputBorder(),
             ),
@@ -228,9 +230,11 @@ void initState() {
         const SizedBox(width: 8,),
         Expanded(
           child: TextFormField(
+          maxLength: 50,
           controller: widget.titleC,
           textAlign: TextAlign.center,
           decoration: const InputDecoration(
+            counterText: "",
             hintText: "Position Held",
             border: OutlineInputBorder(),
             ),

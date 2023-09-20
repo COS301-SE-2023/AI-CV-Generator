@@ -1188,7 +1188,7 @@ class EditorState extends State<Editor> {
           width: 30*w,
           child: TextFormField(
             key: const Key('jobTtitle'),
-            maxLength: 25,
+            maxLength: 50,
             controller: jobTitleController,
             decoration: const InputDecoration(
               counterText: "",
@@ -1205,7 +1205,7 @@ class EditorState extends State<Editor> {
           height: 80,
           width: 30*w,
           child: TextFormField(
-            maxLength: 25,
+            maxLength: 50,
             key: const Key('company'),
             controller: companyController,
             decoration: const InputDecoration(
@@ -1330,7 +1330,7 @@ class EditorState extends State<Editor> {
           height: 80,
           width: 30*w,
           child: TextFormField(
-            maxLength: 40,
+            maxLength: 50,
             key: const Key('qualification'),
             controller: qualificationController,
             decoration: const InputDecoration(
@@ -1348,7 +1348,7 @@ class EditorState extends State<Editor> {
           height: 80,
           width: 30*w,
           child: TextFormField(
-            maxLength: 40,
+            maxLength: 50,
             key: const Key('instatution'),
             controller: institutionController,
             decoration: const InputDecoration(
@@ -1473,7 +1473,7 @@ class EditorState extends State<Editor> {
           height: 80,
           width: 30*w,
           child: TextFormField(
-            maxLength: 25,
+            maxLength: 50,
             key: const Key('skill'),
             controller: skillController,
             decoration: const InputDecoration(
@@ -1491,7 +1491,7 @@ class EditorState extends State<Editor> {
           height: 80,
           width: 30*w,
           child: TextFormField(
-            maxLength: 25,
+            maxLength: 50,
             key: const Key('reason'),
             controller: reasonController,
             decoration: const InputDecoration(
@@ -1569,7 +1569,7 @@ class EditorState extends State<Editor> {
           height: 80,
           width: 30*w,
           child: TextFormField(
-            maxLength: 25,
+            maxLength: 50,
             key: const Key('contact'),
             controller: contactController,
             decoration: const InputDecoration(
@@ -1587,7 +1587,7 @@ class EditorState extends State<Editor> {
           height: 80,
           width: 30*w,
           child: TextFormField(
-            maxLength: 25,
+            maxLength: 50,
             key: const Key('description'),
             controller: descriptionRefController,
             decoration: const InputDecoration(
