@@ -6,6 +6,7 @@ import 'package:ai_cv_generator/models/aimodels/AIReference.dart';
 import 'package:ai_cv_generator/models/aimodels/AISkill.dart';
 import 'package:ai_cv_generator/models/aimodels/CVData.dart';
 import 'package:ai_cv_generator/pages/template/Template.dart';
+import 'package:ai_cv_generator/pages/template/TemplateD.dart';
 import 'package:ai_cv_generator/pages/widgets/buttons/customizableButton.dart';
 import 'package:ai_cv_generator/pages/widgets/buttons/deletableMenuButton.dart';
 import 'package:ai_cv_generator/pages/widgets/buttons/menuButton.dart';
@@ -88,7 +89,8 @@ class EditorState extends State<Editor> {
   TextEditingController descriptionRefController = TextEditingController();
 
   // Will regenerate the PDF with changes
-  updatePdf() {
+  updatePdf() async {
+    bytes = await TemplateTemp().templateD(data);
     setState(() {
       
     });
@@ -505,7 +507,11 @@ class EditorState extends State<Editor> {
   @override
   void initState() {
     data = widget.data;
-    setOffLoadingScreen();
+    TemplateTemp().templateD(data).then((value) {
+      bytes = value;
+      setOffLoadingScreen();
+    },);
+    
     super.initState();
   }
 
@@ -550,10 +556,7 @@ class EditorState extends State<Editor> {
                   padding: EdgeInsets.all(w*1),
                   width: 27*w,
                   height: 85*h,
-                  child: SfPdfViewer.asset(
-                    'Documents/DocumentTest.pdf',
-                    pageSpacing: 8
-                  ),
+                  child: SfPdfViewer.memory(bytes!),
                 ),
                 SizedBox(width: 2*w,),
                 SingleChildScrollView(
