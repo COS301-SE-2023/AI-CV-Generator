@@ -146,6 +146,7 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
     return Container (
       constraints: BoxConstraints.tight( Size(550,70)),
       child: TextFormField(
+        maxLength: 50,
         key: const Key("Name input"),
         controller: fname,
         decoration: const InputDecoration(
@@ -169,6 +170,7 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
     return Container (
       constraints: BoxConstraints.tight(const Size(550,70)),
       child: TextFormField(
+        maxLength: 50,
         key: const Key("Last Name input"),
         controller: lname,
         decoration: const InputDecoration(
@@ -192,6 +194,7 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
     return Container (
       constraints: BoxConstraints.tight(const Size(550,70)),
       child: TextFormField(
+        maxLength: 25,
         key: const Key("Email input"),
         controller: email,
         decoration: const InputDecoration(
@@ -215,6 +218,7 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
     return Container (
       constraints: BoxConstraints.tight(const Size(550,70)),
       child: TextFormField(
+        maxLength: 20,
         key: const Key("Cell input"),
         controller: cell,
         decoration: const InputDecoration(
@@ -238,6 +242,7 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
     return Container (
       constraints: BoxConstraints.tight(const Size(550,70)),
       child: TextFormField(
+        maxLength: 50,
         key: const Key("Address input"),
         controller: address,
         decoration: const InputDecoration(

@@ -702,6 +702,7 @@ class EditorState extends State<Editor> {
               width: w*14.8,
               padding: EdgeInsets.fromLTRB(0*w, 0, 0.2*w, 0),
               child: TextFormField(
+                maxLength: 50,
                 key: const Key('fname'),
                 controller: fnameController,
                 decoration: const InputDecoration(
@@ -721,6 +722,7 @@ class EditorState extends State<Editor> {
               width: w*14.8,
               padding: EdgeInsets.fromLTRB(0.2*w, 0, 0*w, 0),
               child: TextFormField(
+                maxLength: 50,
                 key: const Key('lname'),
                 controller: lnameController,
                 decoration: const InputDecoration(
@@ -741,6 +743,7 @@ class EditorState extends State<Editor> {
           height: 80,
           width: 30*w,
           child: TextFormField(
+            maxLength: 25,
             key: const Key('email'),
             controller: emailController,
             decoration: const InputDecoration(
@@ -760,6 +763,7 @@ class EditorState extends State<Editor> {
           height: 80,
           width: 30*w,
           child: TextFormField(
+            maxLength: 20,
             key: const Key('phoneNumber'),
             controller: phoneNumberController,
             decoration: const InputDecoration(
@@ -775,6 +779,7 @@ class EditorState extends State<Editor> {
           height: 80,
           width: 30*w,
           child: TextFormField(
+            maxLength: 50,
             key: const Key('location'),
             controller: locationController,
             decoration: const InputDecoration(

@@ -105,6 +105,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                             width: w*17,
                             padding: EdgeInsets.fromLTRB(0*w, 0*h, 0.2*w, 0*h),
                             child: TextFormField(
+                              maxLength: 50,
                               key: const Key('fname'),
                               controller: fnameController,
                               decoration: const InputDecoration(
@@ -124,6 +125,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                             width: w*17,
                             padding: EdgeInsets.fromLTRB(0.2*w, 0*h, 0*w, 0*h),
                             child: TextFormField(
+                              maxLength: 50,
                               key: const Key('lname'),
                               controller: lnameController,
                               decoration: const InputDecoration(
@@ -146,6 +148,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     height: 80,
                     padding: EdgeInsets.fromLTRB(33*w, 0*h, 33*w, 0*h),
                     child: TextFormField(
+                      maxLength: 25,
                       key: const Key('username'),
                       controller: nameController,
                       decoration: InputDecoration(
@@ -177,6 +180,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     height: 80,
                     padding: EdgeInsets.fromLTRB(33*w, 0*h, 33*w, 0*h),
                     child: TextFormField(
+                      maxLength: 25,
                       key: const Key('email'),
                       controller: emailController,
                       decoration: const InputDecoration(
@@ -196,6 +200,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     height: 80,
                     padding: EdgeInsets.fromLTRB(33*w, 0*h, 33*w, 0*h),
                     child: TextFormField(
+                      maxLength: 25,
                       key: const Key('password'),
                       obscureText: true,
                       controller: passwordController,
@@ -220,6 +225,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     height: 80,
                     padding: EdgeInsets.fromLTRB(33*w, 0*h, 33*w, 0*h),
                     child: TextFormField(
+                      maxLength: 25,
                       key: const Key('passwordretype'),
                       obscureText: true,
                       controller: passwordRetypeController,
