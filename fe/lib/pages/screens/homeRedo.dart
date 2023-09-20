@@ -18,6 +18,7 @@ import 'package:ai_cv_generator/models/user/Skill.dart';
 import 'package:ai_cv_generator/models/user/UserModel.dart';
 import 'package:ai_cv_generator/pages/template/Template.dart';
 import 'package:ai_cv_generator/pages/util/colourPickBox.dart';
+import 'package:ai_cv_generator/pages/util/editor.dart';
 import 'package:ai_cv_generator/pages/util/errorMessage.dart';
 import 'package:ai_cv_generator/pages/util/fileView.dart';
 import 'package:ai_cv_generator/pages/util/successMessage.dart';
@@ -315,6 +316,23 @@ class HomeState extends State<Home> {
   void requirementsforshareUpdate(PlatformFile file) {
     requirementsforshare(context, file);
     setState(() {});
+  }
+
+  Future<CVData> showCV(CVData data, TemplateOption option) async {
+    Editor editor = Editor(data: data, option: option);
+    await showDialog(
+      barrierColor: const Color(0x01000000),
+      context: context, 
+      builder: (context) {
+        return Container(
+          width: 100,
+          height: 800,
+          child: editor,
+        );
+      }
+    );
+
+    return editor.data;
   }
 
   // Build
@@ -836,5 +854,4 @@ class HomeState extends State<Home> {
       )
     );
   }
-
 }

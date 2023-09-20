@@ -6,6 +6,7 @@ import com.revolvingSolutions.aicvgeneratorbackend.constants.StaticValues;
 import com.revolvingSolutions.aicvgeneratorbackend.model.aimodels.AIEmployment;
 import com.revolvingSolutions.aicvgeneratorbackend.model.aimodels.AIInputData;
 import com.revolvingSolutions.aicvgeneratorbackend.model.aimodels.CVData;
+import com.revolvingSolutions.aicvgeneratorbackend.model.aimodels.ProfessionalSummaryModel;
 import com.revolvingSolutions.aicvgeneratorbackend.request.AI.ChatRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.AI.ExtractionRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.AI.GenerationRequest;
@@ -73,7 +74,9 @@ public class LangChainService {
             mylist.add(interact(employmentHistoryExpander(chatLanguageModel()),employment.toString()));
         }
 
-        String description = interact(descriptionAgent(chatLanguageModel()),request.getData().toString());
+
+
+        String description = interact(descriptionAgent(chatLanguageModel()),createProfessionalSummaryModel(request.getData()).toString());
         if (description == null) description = "Description";
         if (request.getData().getExperience() == null) request.getData().setExperience(new ArrayList<>());
         if (request.getData().getQualifications() == null) request.getData().setQualifications(new ArrayList<>());
@@ -95,6 +98,18 @@ public class LangChainService {
                                 .links(request.getData().getLinks())
                                 .build()
                 )
+                .build();
+    }
+
+    private ProfessionalSummaryModel createProfessionalSummaryModel(AIInputData data) {
+        return ProfessionalSummaryModel.builder()
+                .firstname(data.getFirstname())
+                .lastname(data.getLastname())
+                .description(data.getDescription())
+                .location(data.getLocation())
+                .experience(data.getExperience())
+                .qualifications(data.getQualifications())
+                .skills(data.getSkills())
                 .build();
     }
 
