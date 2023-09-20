@@ -2,7 +2,7 @@ import 'package:ai_cv_generator/dio/client/AuthApi.dart';
 import 'package:ai_cv_generator/dio/response/AuthResponses/Code.dart';
 import 'package:ai_cv_generator/pages/screens/emailConfirmation.dart';
 import 'package:ai_cv_generator/pages/util/errorMessage.dart';
-import 'package:ai_cv_generator/pages/widgets/buttons/generalTextButton.dart';
+import 'package:ai_cv_generator/pages/widgets/buttons/customizableButton.dart';
 import 'package:ai_cv_generator/pages/widgets/loadingscreens/loadingScreen.dart';
 import 'package:flutter/material.dart';
  
@@ -129,45 +129,42 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               const SizedBox(
                 height: 16,
               ),
-              Container(
-                  width: w*10,
-                  height: h*5,
-                  child: InkWell(
-                    hoverColor: Colors.transparent,
-                    key: const Key('login'),
-                    child: const GeneralButtonStyle(text: "Login"),
-                    onTap: () async {
-                      if(_formKey.currentState!.validate() == false) {
-                        return;
-                      }
-                      setState(() {
-                        wait = true;
-                      });
-                      Code resp = await AuthApi.login(username: nameController.text,password: passwordController.text);
-                      if (resp == Code.success) {
-                        setState(() {
-                          wait = false;
-                        });
-                        home();
-                      } else if (resp == Code.failed) {
-                        showError("Invalid Login!");
-                        setState(() {
-                          wait = false;
-                        });
-                      } else if (resp == Code.requestFailed) {
-                        showError("Something went wrong!!");
-                        setState(() {
-                          wait = false;
-                        });
-                      } else if (resp == Code.notEnabled) {
-                        await AuthApi.resendEmail(username: nameController.text, password: passwordController.text);
-                        setState(() {
-                          wait = false;
-                        });
-                        confirm();
-                      }
-                    },
-                  )
+              CustomizableButton(
+                text: 'Login', 
+                width: w*10, 
+                height: h*5, 
+                onTap: () async {
+                  if(_formKey.currentState!.validate() == false) {
+                    return;
+                  }
+                  setState(() {
+                    wait = true;
+                  });
+                  Code resp = await AuthApi.login(username: nameController.text,password: passwordController.text);
+                  if (resp == Code.success) {
+                    setState(() {
+                      wait = false;
+                    });
+                    home();
+                  } else if (resp == Code.failed) {
+                    showError("Invalid Login!");
+                    setState(() {
+                      wait = false;
+                    });
+                  } else if (resp == Code.requestFailed) {
+                    showError("Something went wrong!!");
+                    setState(() {
+                      wait = false;
+                    });
+                  } else if (resp == Code.notEnabled) {
+                    await AuthApi.resendEmail(username: nameController.text, password: passwordController.text);
+                    setState(() {
+                      wait = false;
+                    });
+                    confirm();
+                  }
+                }, 
+                fontSize: 0.9*w
               ),
               const SizedBox(
                 height: 16,

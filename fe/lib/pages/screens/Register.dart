@@ -2,7 +2,7 @@ import 'package:ai_cv_generator/dio/client/AuthApi.dart';
 import 'package:ai_cv_generator/dio/response/AuthResponses/Code.dart';
 import 'package:ai_cv_generator/pages/screens/emailConfirmation.dart';
 import 'package:ai_cv_generator/pages/util/errorMessage.dart';
-import 'package:ai_cv_generator/pages/widgets/buttons/generalTextButton.dart';
+import 'package:ai_cv_generator/pages/widgets/buttons/customizableButton.dart';
 import 'package:ai_cv_generator/pages/widgets/loadingscreens/loadingScreen.dart';
 import 'package:ai_cv_generator/pages/widgets/termsAndConditions.dart';
 import 'package:flutter/material.dart';
@@ -246,59 +246,56 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   Container(
                     child: tAndCs
                   ),
-                  SizedBox(
-                      height: 5*h,
-                      width: 10*w,
-                      child: InkWell(
-                        hoverColor: Colors.transparent,
-                        key: const Key('register'),
-                        child: const GeneralButtonStyle(text: "Register"),
-                        onTap: () async {
-                          if(_formKey.currentState!.validate() == false) {
-                            return;
-                          }
-                          if (!tAndCs.accepted) {
-                            showError("Please accept our Terms of Use and Privacy Policy");
-                            setState(() {
-                            });
-                            return;
-                          }
-                          if (passwordController.text != passwordRetypeController.text) {
-                            showError("Password does not match");
-                            setState(() {
-                              p2textColor = const Color.fromRGBO(250, 0, 0, 0.466);
-                            });
-                            return;
-                          }
-                          wait = true;
-                          setState(() {
-                            
-                          });
-                          Code code = await AuthApi.register(username: nameController.text,password: passwordController.text,email: emailController.text,fname: fnameController.text,lname: lnameController.text);
-                          wait = false;
-                          setState(() {
-                            
-                          });
-                          print(code);
-                          if (code == Code.success) {
-                            setState(() {
-                              
-                            });
-                            confirm();
-                          } else if (code == Code.failed) {
-                            showError("Username already Exists");
-                            setState(() {
-                              p2textColor = userNameAndPwordError = const Color.fromRGBO(250, 0, 0, 0.466);
-                            });
-                          } else {
-                            showError("Invalid Username or Password");
-                            setState(() {
-                              p2textColor = userNameAndPwordError = const Color.fromRGBO(250, 0, 0, 0.466);
-                            });
-                          }
-                        },
-                      )
-                  )
+                  CustomizableButton(
+                    text: 'Register', 
+                    width: 10*w, 
+                    height: 5*h, 
+                    onTap: () async {
+                      if(_formKey.currentState!.validate() == false) {
+                        return;
+                      }
+                      if (!tAndCs.accepted) {
+                        showError("Please accept our Terms of Use and Privacy Policy");
+                        setState(() {
+                        });
+                        return;
+                      }
+                      if (passwordController.text != passwordRetypeController.text) {
+                        showError("Password does not match");
+                        setState(() {
+                          p2textColor = const Color.fromRGBO(250, 0, 0, 0.466);
+                        });
+                        return;
+                      }
+                      wait = true;
+                      setState(() {
+                        
+                      });
+                      Code code = await AuthApi.register(username: nameController.text,password: passwordController.text,email: emailController.text,fname: fnameController.text,lname: lnameController.text);
+                      wait = false;
+                      setState(() {
+                        
+                      });
+                      print(code);
+                      if (code == Code.success) {
+                        setState(() {
+                          
+                        });
+                        confirm();
+                      } else if (code == Code.failed) {
+                        showError("Username already Exists");
+                        setState(() {
+                          p2textColor = userNameAndPwordError = const Color.fromRGBO(250, 0, 0, 0.466);
+                        });
+                      } else {
+                        showError("Invalid Username or Password");
+                        setState(() {
+                          p2textColor = userNameAndPwordError = const Color.fromRGBO(250, 0, 0, 0.466);
+                        });
+                      }
+                    }, 
+                    fontSize: w*0.9
+                  ),
                 ],
               )
             )

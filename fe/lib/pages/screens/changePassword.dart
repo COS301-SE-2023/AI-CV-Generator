@@ -191,6 +191,7 @@ class ChangePasswordState extends State<ChangePasswordWidget> {
                 padding: const EdgeInsets.fromLTRB(600, 0, 600, 0),
                 child: InkWell(
                   child: const GeneralButtonStyle(text: "Confirm"),
+                  borderRadius: BorderRadius.circular(16.0),
                   onTap: () async {
                     if (passwordController.text != passwordRetypeController.text) {
                       showError("Password does not match");
