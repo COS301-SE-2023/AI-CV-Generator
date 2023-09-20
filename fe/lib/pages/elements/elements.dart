@@ -202,6 +202,7 @@ class SectionInputState extends State<SectionInput> {
         textAlign: TextAlign.right, 
         style:  widget.fontSize != null ? TextStyle(fontSize: widget.fontSize) : Theme.of(context).textTheme.titleMedium,
         decoration: InputDecoration(
+          counterText: "",
           border: InputBorder.none,
           hintStyle: hintStyle,
           hintText: widget.hint,

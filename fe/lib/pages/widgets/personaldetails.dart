@@ -150,6 +150,7 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
         key: const Key("Name input"),
         controller: fname,
         decoration: const InputDecoration(
+          counterText: "",
           contentPadding: EdgeInsets.all(5.0),
           labelText: 'First Name',
           enabledBorder: OutlineInputBorder(),
@@ -174,6 +175,7 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
         key: const Key("Last Name input"),
         controller: lname,
         decoration: const InputDecoration(
+          counterText: "",
           contentPadding: EdgeInsets.all(5.0),
           labelText: 'Last Name',
           enabledBorder: OutlineInputBorder(),
@@ -198,6 +200,7 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
         key: const Key("Email input"),
         controller: email,
         decoration: const InputDecoration(
+          counterText: "",
           contentPadding: EdgeInsets.all(5.0),
           labelText: 'Email',
           enabledBorder: OutlineInputBorder(),
@@ -222,6 +225,7 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
         key: const Key("Cell input"),
         controller: cell,
         decoration: const InputDecoration(
+          counterText: "",
           contentPadding: EdgeInsets.all(5.0),
           labelText: 'Contact Number',
           enabledBorder: OutlineInputBorder(),
@@ -246,6 +250,7 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
         key: const Key("Address input"),
         controller: address,
         decoration: const InputDecoration(
+          counterText: "",
           contentPadding: EdgeInsets.all(5.0),
           labelText: 'General Location',
           enabledBorder: OutlineInputBorder(),

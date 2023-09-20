@@ -706,6 +706,7 @@ class EditorState extends State<Editor> {
                 key: const Key('fname'),
                 controller: fnameController,
                 decoration: const InputDecoration(
+                  counterText: "",
                   enabledBorder: OutlineInputBorder(),
                   labelText: 'First Name',
                 ),
@@ -726,6 +727,7 @@ class EditorState extends State<Editor> {
                 key: const Key('lname'),
                 controller: lnameController,
                 decoration: const InputDecoration(
+                  counterText: "",
                   enabledBorder: OutlineInputBorder(),
                   labelText: 'Last Name',
                 ),
@@ -747,6 +749,7 @@ class EditorState extends State<Editor> {
             key: const Key('email'),
             controller: emailController,
             decoration: const InputDecoration(
+              counterText: "",
               enabledBorder: OutlineInputBorder(),
               labelText: 'Email',
             ),
@@ -767,6 +770,7 @@ class EditorState extends State<Editor> {
             key: const Key('phoneNumber'),
             controller: phoneNumberController,
             decoration: const InputDecoration(
+              counterText: "",
               enabledBorder: OutlineInputBorder(),
               labelText: 'Phone Number',
             ),
@@ -783,6 +787,7 @@ class EditorState extends State<Editor> {
             key: const Key('location'),
             controller: locationController,
             decoration: const InputDecoration(
+              counterText: "",
               enabledBorder: OutlineInputBorder(),
               labelText: 'Location/Address',
             ),
