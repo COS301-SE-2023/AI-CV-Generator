@@ -48,11 +48,11 @@ class HelpState extends State<Help> {
               previousPage: "Home",
               currentPage: "Help",
             ),
-            const SizedBox(
-              height: 24,
+            SizedBox(
+              height: 2.4*w,
             ),
-            Expanded(
-              child: ListView(
+            SingleChildScrollView(
+              child: Column(
                 children: [
                   const Text(
                     "Help",
