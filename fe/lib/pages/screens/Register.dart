@@ -109,6 +109,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                               key: const Key('fname'),
                               controller: fnameController,
                               decoration: const InputDecoration(
+                                counterText: "",
                                 enabledBorder: OutlineInputBorder(),
                                 labelText: 'First Name',
                               ),
@@ -129,6 +130,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                               key: const Key('lname'),
                               controller: lnameController,
                               decoration: const InputDecoration(
+                                counterText: "",
                                 enabledBorder: OutlineInputBorder(),
                                 labelText: 'Last Name',
                               ),
@@ -152,6 +154,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                       key: const Key('username'),
                       controller: nameController,
                       decoration: InputDecoration(
+                        counterText: "",
                         errorMaxLines: 1,
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
@@ -184,6 +187,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                       key: const Key('email'),
                       controller: emailController,
                       decoration: const InputDecoration(
+                        counterText: "",
                         enabledBorder: OutlineInputBorder(),
                         labelText: 'Email',
                       ),
@@ -205,6 +209,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                       obscureText: true,
                       controller: passwordController,
                       decoration: InputDecoration(
+                        counterText: "",
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                             color: userNameAndPwordError??const Color(0xFF000000),
@@ -230,6 +235,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                       obscureText: true,
                       controller: passwordRetypeController,
                       decoration: InputDecoration(
+                        counterText: "",
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                             color: p2textColor??const Color(0xFF000000),

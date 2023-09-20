@@ -1188,8 +1188,10 @@ class EditorState extends State<Editor> {
           width: 30*w,
           child: TextFormField(
             key: const Key('jobTtitle'),
+            maxLength: 25,
             controller: jobTitleController,
             decoration: const InputDecoration(
+              counterText: "",
               enabledBorder: OutlineInputBorder(),
               labelText: 'Job Title',
             ),
@@ -1203,9 +1205,11 @@ class EditorState extends State<Editor> {
           height: 80,
           width: 30*w,
           child: TextFormField(
+            maxLength: 25,
             key: const Key('company'),
             controller: companyController,
             decoration: const InputDecoration(
+              counterText: "",
               enabledBorder: OutlineInputBorder(),
               labelText: 'Company/Instatution',
             ),
@@ -1326,9 +1330,11 @@ class EditorState extends State<Editor> {
           height: 80,
           width: 30*w,
           child: TextFormField(
+            maxLength: 40,
             key: const Key('qualification'),
             controller: qualificationController,
             decoration: const InputDecoration(
+              counterText: "",
               enabledBorder: OutlineInputBorder(),
               labelText: 'Qualification',
             ),
@@ -1342,9 +1348,11 @@ class EditorState extends State<Editor> {
           height: 80,
           width: 30*w,
           child: TextFormField(
+            maxLength: 40,
             key: const Key('instatution'),
             controller: institutionController,
             decoration: const InputDecoration(
+              counterText: "",
               enabledBorder: OutlineInputBorder(),
               labelText: 'Instatution/School',
             ),
@@ -1465,9 +1473,11 @@ class EditorState extends State<Editor> {
           height: 80,
           width: 30*w,
           child: TextFormField(
+            maxLength: 25,
             key: const Key('skill'),
             controller: skillController,
             decoration: const InputDecoration(
+              counterText: "",
               enabledBorder: OutlineInputBorder(),
               labelText: 'Skill',
             ),
@@ -1481,9 +1491,11 @@ class EditorState extends State<Editor> {
           height: 80,
           width: 30*w,
           child: TextFormField(
+            maxLength: 25,
             key: const Key('reason'),
             controller: reasonController,
             decoration: const InputDecoration(
+              counterText: "",
               enabledBorder: OutlineInputBorder(),
               labelText: 'Reason',
             ),
@@ -1497,9 +1509,11 @@ class EditorState extends State<Editor> {
           height: 80,
           width: 30*w,
           child: TextFormField(
+            maxLength: 10,
             key: const Key('level'),
             controller: levelController,
             decoration: const InputDecoration(
+              counterText: "",
               enabledBorder: OutlineInputBorder(),
               labelText: 'level',
             ),
@@ -1555,9 +1569,11 @@ class EditorState extends State<Editor> {
           height: 80,
           width: 30*w,
           child: TextFormField(
+            maxLength: 25,
             key: const Key('contact'),
             controller: contactController,
             decoration: const InputDecoration(
+              counterText: "",
               enabledBorder: OutlineInputBorder(),
               labelText: 'Contact',
             ),
@@ -1571,9 +1587,11 @@ class EditorState extends State<Editor> {
           height: 80,
           width: 30*w,
           child: TextFormField(
+            maxLength: 25,
             key: const Key('description'),
             controller: descriptionRefController,
             decoration: const InputDecoration(
+              counterText: "",
               enabledBorder: OutlineInputBorder(),
               labelText: 'Description',
             ),
