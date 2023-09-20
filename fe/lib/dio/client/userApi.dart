@@ -12,7 +12,6 @@ import 'package:ai_cv_generator/dio/request/UserRequests/UpdateUserRequest.dart'
 import 'package:ai_cv_generator/dio/request/DetailsRequests/Qualification/RemoveQualificationRequest.dart';
 import 'package:ai_cv_generator/dio/request/DetailsRequests/Qualification/UpdateQualificationRequest.dart';
 import 'package:ai_cv_generator/dio/response/DetailsResponses/QualificationsResponse.dart';
-import 'package:ai_cv_generator/dio/response/AuthResponses/AuthResponse.dart';
 import 'package:ai_cv_generator/dio/response/DetailsResponses/EmploymentResponse.dart';
 import 'package:ai_cv_generator/dio/response/DetailsResponses/LinkResponse.dart';
 import 'package:ai_cv_generator/dio/response/DetailsResponses/ReferenceResponse.dart';
@@ -64,18 +63,6 @@ class UserApi extends DioClient {
     }
 
     return updateduser;
-  }
-
-  static void testRequest({
-    required String val
-  }) async {
-    
-    try {
-      Response resp = await DioClient.dio.get('api/User/test');
-    } on DioException catch (e) {
-      DioClient.handleError(e);
-    }
-    Response resp = await DioClient.dio.get('api/Users');
   }
 
   static Future<List<Qualification>?> addQulaification({

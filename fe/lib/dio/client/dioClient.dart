@@ -1,6 +1,5 @@
 import 'package:ai_cv_generator/dio/interceptors/HeaderInterceptor.dart';
 import 'package:ai_cv_generator/dio/interceptors/Logger.dart';
-import 'package:ai_cv_generator/dio/interceptors/missingErrorInterceptor.dart';
 import 'package:ai_cv_generator/dio/interceptors/tokenRefreshInterceptor.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';

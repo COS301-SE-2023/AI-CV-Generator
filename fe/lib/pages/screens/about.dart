@@ -16,7 +16,6 @@ class AboutPageState extends State<AboutPage> {
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
     double w = screenSize.width/100;
-    double h = screenSize.height/100;
     return  Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(

@@ -2,6 +2,7 @@ import 'package:ai_cv_generator/pages/widgets/policy.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class TermsAndConditions extends StatefulWidget {
   TermsAndConditions({super.key, required this.accepted});
   bool accepted;
