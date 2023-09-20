@@ -1,11 +1,13 @@
 import 'dart:typed_data';
 
-import 'package:ai_cv_generator/pages/personaldetails2.dart';
-import 'package:ai_cv_generator/pages/util/fileView.dart';
-import 'package:file_picker/file_picker.dart';
+import 'package:ai_cv_generator/models/user/Employment.dart';
+import 'package:ai_cv_generator/models/user/Link.dart';
+import 'package:ai_cv_generator/models/user/Qualification.dart';
+import 'package:ai_cv_generator/models/user/Reference.dart';
+import 'package:ai_cv_generator/models/user/Skill.dart';
 import 'package:flutter/material.dart';
-// ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
+// ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_pdf/pdf.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
@@ -36,11 +38,13 @@ class CreatePdfStatefulWidget extends StatefulWidget {
 }
 
 class _CreatePdfState extends State<CreatePdfStatefulWidget> {
-  TextEditingController fullnameC = TextEditingController();
-  TextEditingController addressC = TextEditingController();
-  TextEditingController phonenumberC = TextEditingController();
-  TextEditingController emailC = TextEditingController();
-  TextEditingController descriptC = TextEditingController();
+  //Create a PDF document.
+  final PdfDocument document = PdfDocument();
+  //Add page to the PDF
+  PdfPage? page;
+  // double headingFontSize = 0;
+  PdfStandardFont bodyHeadingFont = PdfStandardFont(PdfFontFamily.helvetica, 14);
+  PdfStandardFont bodyTextFont = PdfStandardFont(PdfFontFamily.helvetica, 8);
 
   @override
   Widget build(BuildContext context) {
@@ -66,47 +70,82 @@ class _CreatePdfState extends State<CreatePdfStatefulWidget> {
       ),
     );
   }
-  TextEditingController controller = TextEditingController(text: "INVOICE");
-  Future<void> templateD() async {
-    //Create a PDF document.
-    final PdfDocument document = PdfDocument();
-    //Add page to the PDF
-    final PdfPage page = document.pages.add();
-    //Get page client size
-    final Size pageSize = page.getClientSize();
 
-    //top
+  Future<void> templateD() async {
+    String description = "BodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfTextBodyOfText";
+    String name = "Avery Quinn";
+    String number = "0823451286";
+    String address = "Pretoria, Gauteng";
+    String email = "Avery@Gmail.com";
+
+    List<Qualification>? qualifications = [];
+    qualifications.add(Qualification(qualification: "BSC IT", intstitution: "University of Pretoria", date: DateTime.now(), quaid: 0, endo: DateTime.now()));
+    qualifications.add(Qualification(qualification: "BSC IT", intstitution: "University of Johannesburg", date: DateTime.now(), quaid: 0, endo: DateTime.now()));
+
+    List<Employment>? employments = [];
+    employments.add(Employment(company: "KPMG", title: "Accountant", startdate: DateTime.now(), enddate: DateTime.now(), empid: 0));
+    employments.add(Employment(company: "EY", title: "Intern", startdate: DateTime.now(), enddate: DateTime.now(), empid: 0));
+
+    List<Skill>? skills = [];
+    skills.add(Skill(skill: "MongoDB", level: 0, reason: "Training", skillid: 0));
+    skills.add(Skill(skill: "C#", level: 0, reason: "Training", skillid: 0));
+    skills.add(Skill(skill: "C++", level: 0, reason: "Training", skillid: 0));
+    
+    List<Reference> reference = [];
+    reference.add(Reference(description: "David Bill", contact: "billd@gmail.com", refid: 0));
+    reference.add(Reference(description: "Tammy Toll", contact: "tollt@gmail.com", refid: 0));
+    
+    List<Link> links = [];
+    links.add(Link(url: "www.gmail.com", linkid: 0));
+    links.add(Link(url: "www.yahoo.com", linkid: 0));
+
+    //create the initial page
+    page = document.pages.add();
+    //Get page client size
+    final Size pageSize = page!.getClientSize();
+
+    //set main regions for text
     Rect topBox = Rect.fromLTWH(0, 0, pageSize.width, 90);
-    page.graphics.drawRectangle(
+    Rect leftBox = Rect.fromLTWH(0, topBox.bottom, pageSize.width/4, pageSize.height - topBox.height);
+    Rect rightBox = Rect.fromLTWH(leftBox.width, topBox.bottom, pageSize.width/4*3, pageSize.height - topBox.height);
+
+    //set recurring theme for document
+    setTheme(
+      document,
+      Rect.fromLTWH(0, 0, pageSize.width/4, pageSize.height),
+      Rect.fromLTWH(leftBox.width-8, 0, pageSize.width/4*3+16, pageSize.height)
+    );
+
+    // top
+    page!.graphics.drawRectangle(
       brush: PdfSolidBrush(PdfColor(56, 92, 100)),
       bounds: topBox
     );
     topBox = Rect.fromLTWH(topBox.left, topBox.top, topBox.width, topBox.height);
-    drawNameSurname(page, pageSize, topBox, "Name Surname");
-    
+    drawNameSurname(page!, pageSize, topBox, name);
+
     //left
-    Rect leftBox = Rect.fromLTWH(0, topBox.bottom, pageSize.width/4, pageSize.height - topBox.height);
-    page.graphics.drawRectangle(
+    page!.graphics.drawRectangle(
       brush: PdfSolidBrush(PdfColor(85, 144, 157)),
       bounds: leftBox
     );
     leftBox = Rect.fromLTWH(leftBox.left+8, leftBox.top, leftBox.width-8, 0);
-    leftBox = drawContactDetails(page, pageSize, leftBox, "ADDRESS\nPHONE NUMBER\nEMAIL").bounds;
-    drawSkills(page, pageSize, leftBox, []);
+    leftBox = drawContactDetails(page!, pageSize, leftBox, "${address}\n\n${number}\n\n${email}").bounds;
+    //lists must be at bottom for now
+    leftBox = drawSkills(page!, pageSize, leftBox, skills).bounds;
 
     //right
-    Rect rightBox = Rect.fromLTWH(leftBox.width-8, topBox.bottom, pageSize.width/4*3+16, pageSize.height - topBox.height);
-    page.graphics.drawRectangle(
+    page!.graphics.drawRectangle(
       brush: PdfSolidBrush(PdfColor(250, 250, 250)),
       bounds: rightBox
     );
-    rightBox = Rect.fromLTWH(rightBox.left+8, rightBox.top, rightBox.width, 0);
-    rightBox = drawDescription(page, pageSize, rightBox, "Hello\nMy name is oscar").bounds;
-    rightBox = drawExperience(page, pageSize, rightBox, []).bounds;
-    rightBox = drawEducation(page, pageSize, rightBox, []).bounds;
-    rightBox = drawReference(page, pageSize, rightBox, []).bounds;
+    rightBox = Rect.fromLTWH(rightBox.left+8, rightBox.top, rightBox.width-16, 0);
+    rightBox = drawDescription(page!, pageSize, rightBox, description).bounds;
+    rightBox = drawExperience(page!, pageSize, rightBox, employments).bounds;
+    rightBox = drawEducation(page!, pageSize, rightBox, qualifications).bounds;
+    rightBox = drawReference(page!, pageSize, rightBox, reference).bounds;
+    rightBox = drawLinks(page!, pageSize, rightBox, links).bounds;
 
-    // addText(page, pageSize, PdfStandardFont(PdfFontFamily.helvetica, 12), PdfStringFormat(), bounds, "Contact").bounds;
     final List<int> bytes = document.saveSync();
     
     showDialog(
@@ -153,9 +192,22 @@ class _CreatePdfState extends State<CreatePdfStatefulWidget> {
     );
   }
 
+  void setTheme(PdfDocument document, Rect leftBox, Rect rightBox) {
+    document.pages.pageAdded =(sender, args) {
+      page = args.page;
+      args.page.graphics.drawRectangle(
+        brush: PdfSolidBrush(PdfColor(85, 144, 157)),
+        bounds: leftBox
+      );
+      args.page.graphics.drawRectangle(
+        brush: PdfSolidBrush(PdfColor(250, 250, 250)),
+        bounds: rightBox
+      );
+    };
+  }
+
   PdfLayoutResult addText(PdfPage page, Size pageSize, PdfFont contentFont, PdfStringFormat format, Rect bound, String text)
   {
-    final Size contentSize = contentFont.measureString(text);
     return PdfTextElement(
       text: text, 
       font: contentFont,
@@ -184,17 +236,17 @@ class _CreatePdfState extends State<CreatePdfStatefulWidget> {
     bounds = addText(
       page,
       pageSize,
-      PdfStandardFont(PdfFontFamily.helvetica, 12),
+      bodyHeadingFont,
       PdfStringFormat(),
-      Rect.fromLTWH(bounds.left, bounds.bottom+4, bounds.width, bounds.height),
+      Rect.fromLTWH(bounds.left, bounds.bottom+16, bounds.width, 0),
       "Contact Details"
     ).bounds;
     return addText(
       page,
       pageSize,
-      PdfStandardFont(PdfFontFamily.helvetica, 11),
+      bodyTextFont,
       PdfStringFormat(),
-      Rect.fromLTWH(bounds.left, bounds.bottom+4, bounds.width, 0),
+      Rect.fromLTWH(bounds.left, bounds.bottom+8, bounds.width, 0),
       data
     );
   }
@@ -203,109 +255,141 @@ class _CreatePdfState extends State<CreatePdfStatefulWidget> {
     bounds = addText(
       page,
       pageSize,
-      PdfStandardFont(PdfFontFamily.helvetica, 14),
+      bodyHeadingFont,
       PdfStringFormat(),
-      Rect.fromLTWH(bounds.left, bounds.bottom+4, bounds.width, bounds.height),
+      Rect.fromLTWH(bounds.left, bounds.bottom+16, bounds.width, 0),
       "SUMMARY"
     ).bounds;
     return addText(
       page,
       pageSize,
-      PdfStandardFont(PdfFontFamily.helvetica, 11),
+      bodyTextFont,
       PdfStringFormat(),
-      Rect.fromLTWH(bounds.left, bounds.bottom+4, bounds.width, 0),
+      Rect.fromLTWH(bounds.left, bounds.bottom+8, bounds.width, 0),
       data
     );
   }
 
   PdfLayoutResult drawExperience(PdfPage page, Size pageSize, Rect bounds, List data) {
-    bounds = addText(
+    PdfLayoutResult result = addText(
       page,
       pageSize,
-      PdfStandardFont(PdfFontFamily.helvetica, 14),
+      bodyHeadingFont,
       PdfStringFormat(),
-      Rect.fromLTWH(bounds.left, bounds.bottom+4, bounds.width, bounds.height),
+      Rect.fromLTWH(bounds.left, bounds.bottom+16, bounds.width, 0),
       "EXPERIENCE"
-    ).bounds;
-    return addText(
-      page,
-      pageSize,
-      PdfStandardFont(PdfFontFamily.helvetica, 11),
-      PdfStringFormat(),
-      Rect.fromLTWH(bounds.left, bounds.bottom+4, bounds.width, 0),
-      ""
     );
+    for(Employment employment in data) {
+      String startDate = DateFormat('MMM yyyy').format(employment.startdate);
+      String endDate = DateFormat('MMM yyyy').format(employment.enddate);
+      result = addText(
+        page,
+        pageSize,
+        bodyTextFont,
+        PdfStringFormat(),
+        Rect.fromLTWH(result.bounds.left, result.bounds.bottom+8, result.bounds.width, 0),
+        "${employment.company}, ${employment.title}, ${startDate} - ${endDate}"
+      );
+    }
+    return result;
   }
 
   PdfLayoutResult drawEducation(PdfPage page, Size pageSize, Rect bounds, List data) {
-    bounds = addText(
+    PdfLayoutResult result = addText(
       page,
       pageSize,
-      PdfStandardFont(PdfFontFamily.helvetica, 14),
+      bodyHeadingFont,
       PdfStringFormat(),
-      Rect.fromLTWH(bounds.left, bounds.bottom+4, bounds.width, bounds.height),
+      Rect.fromLTWH(bounds.left, bounds.bottom+16, bounds.width, 0),
       "EDUCATION"
-    ).bounds;
-    return addText(
-      page,
-      pageSize,
-      PdfStandardFont(PdfFontFamily.helvetica, 11),
-      PdfStringFormat(),
-      Rect.fromLTWH(bounds.left, bounds.bottom+4, bounds.width, 0),
-      ""
     );
+    for(Qualification qualification in data) {
+      result = addText(
+        page,
+        pageSize,
+        bodyTextFont,
+        PdfStringFormat(),
+        Rect.fromLTWH(result.bounds.left, result.bounds.bottom+8, result.bounds.width, 0),
+        "${qualification.qualification}, ${qualification.intstitution}, ${qualification.date.year} - ${qualification.endo.year}"
+      );
+    }
+    return result;
   }
 
   PdfLayoutResult drawReference(PdfPage page, Size pageSize, Rect bounds, List data) {
-    bounds = addText(
+    PdfLayoutResult result = addText(
       page,
       pageSize,
-      PdfStandardFont(PdfFontFamily.helvetica, 14),
+      bodyHeadingFont,
       PdfStringFormat(),
-      Rect.fromLTWH(bounds.left, bounds.bottom+4, bounds.width, bounds.height),
+      Rect.fromLTWH(bounds.left, bounds.bottom+16, bounds.width, 0),
       "REFERENCE"
-    ).bounds;
-    return addText(
+    );
+    for(Reference reference in data) {
+      result = addText(
+        page,
+        pageSize,
+        bodyTextFont,
+        PdfStringFormat(),
+        Rect.fromLTWH(result.bounds.left, result.bounds.bottom+8, result.bounds.width, 0),
+        "${reference.description} ${reference.contact}"
+      );
+    }
+    return result;
+  }
+  PdfLayoutResult drawLinks(PdfPage page, Size pageSize, Rect bounds, List data) {
+    PdfLayoutResult result = addText(
       page,
       pageSize,
-      PdfStandardFont(PdfFontFamily.helvetica, 11),
+      bodyHeadingFont,
       PdfStringFormat(),
-      Rect.fromLTWH(bounds.left, bounds.bottom+4, bounds.width, 0),
-      ""
+      Rect.fromLTWH(bounds.left, bounds.bottom+16, bounds.width, 0),
+      "Links"
     );
+    for(Link link in data) {
+      result = addText(
+        page,
+        pageSize,
+        bodyTextFont,
+        PdfStringFormat(),
+        Rect.fromLTWH(result.bounds.left, result.bounds.bottom+8, result.bounds.width, 0),
+        "${link.url}"
+      );
+    }
+    return result;
   }
 
-  drawSkills(PdfPage page, Size pageSize, Rect bounds, List data) {
+  PdfLayoutResult drawSkills(PdfPage page, Size pageSize, Rect bounds, List data) {
+    List<String> skills = [];
+    for(Skill skill in data)
+    {
+      skills.add(skill.skill);
+    }
     final skillsList = PdfUnorderedList(
       marker: PdfUnorderedMarker(
           font: PdfStandardFont(PdfFontFamily.helvetica, 10),
           style: PdfUnorderedMarkerStyle.disk,
       ),
       items: PdfListItemCollection(
-        <String>[
-          'SKILL 1',
-          'SKILL 2',
-          'SKILL 3',
-          'SKILL 4',
-          'SKILL 5',
-        ]
+        skills
       ),
-      textIndent: 10,
-      indent: 20
+      textIndent: 5,
+      indent: 10
     );
 
-    bounds = addText(
+    PdfLayoutResult result  = addText(
       page,
       pageSize,
-      PdfStandardFont(PdfFontFamily.helvetica, 14),
+      bodyHeadingFont,
       PdfStringFormat(),
-      Rect.fromLTWH(bounds.left, bounds.bottom+4, bounds.width, bounds.height),
+      Rect.fromLTWH(bounds.left, bounds.bottom+8, bounds.width, bounds.height),
       "SKILLS"
-    ).bounds;
+    );
 
     skillsList.draw(
       page: page,
-      bounds: Rect.fromLTWH(0, bounds.bottom+8, pageSize.width/3, pageSize.height - 90),
+      bounds: Rect.fromLTWH(0, result.bounds.bottom+8, pageSize.width/3, 0),
     );
+    return result;
   }
 }
