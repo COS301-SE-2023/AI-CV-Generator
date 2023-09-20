@@ -14,17 +14,6 @@ class TermsAndConditionsState extends State<TermsAndConditions> {
   bool agreed = false;
   @override
   Widget build(BuildContext context) {
-    Color getColor(Set<MaterialState> states) {
-      const Set<MaterialState> interactiveStates = <MaterialState>{
-        MaterialState.pressed,
-        MaterialState.hovered,
-        MaterialState.focused,
-      };
-      if (states.any(interactiveStates.contains)) {
-        return Colors.grey;
-      }
-      return const Color(0xFFEA6D79);
-    }
     return Padding(
       padding: const EdgeInsets.all(10),
       child: Center (
@@ -69,7 +58,7 @@ class TermsAndConditionsState extends State<TermsAndConditions> {
             const SizedBox(width: 20,),
             Checkbox(
               checkColor: Colors.white,
-              fillColor: MaterialStateProperty.resolveWith(getColor),
+              activeColor: const Color(0xFFEA6D79),
               value: agreed,
               onChanged: (bool? value) {
                 setState(() {
