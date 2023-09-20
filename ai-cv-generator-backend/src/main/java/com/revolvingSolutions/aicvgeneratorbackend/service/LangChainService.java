@@ -80,7 +80,7 @@ public class LangChainService {
         if (description == null) description = "Description";
         if (request.getData().getExperience() == null) request.getData().setExperience(new ArrayList<>());
         if (request.getData().getQualifications() == null) request.getData().setQualifications(new ArrayList<>());
-        String education_description = interact(educationDescriptionAgent(chatLanguageModel()),request.getData().getQualifications().toString()+request.getData().getDescription());
+        String education_description = interact(educationDescriptionAgent(educationDescriptionChatModel()),request.getData().getQualifications().toString()+request.getData().getDescription());
         if (education_description == null) education_description = "Education Description";
         return GenerationResponse.builder()
                 .data(
@@ -215,6 +215,22 @@ public class LangChainService {
                 .modelName(modelName)
                 .apiKey(apikey)
                 .temperature(temperature)
+                .logRequests(true)
+                .logResponses(true)
+                .maxRetries(2)
+                .maxTokens(1000)
+                .topP(1.0)
+                .timeout(Duration.ofMinutes(2))
+                .frequencyPenalty(0.0)
+                .presencePenalty(0.0)
+                .build();
+    }
+
+    private ChatLanguageModel educationDescriptionChatModel() {
+        return OpenAiChatModel.builder()
+                .modelName(modelName)
+                .apiKey(apikey)
+                .temperature(0.4)
                 .logRequests(true)
                 .logResponses(true)
                 .maxRetries(2)
