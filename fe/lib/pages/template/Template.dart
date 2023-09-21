@@ -6,7 +6,6 @@ import 'package:ai_cv_generator/pages/template/TemplateC.dart';
 import 'package:ai_cv_generator/pages/widgets/loadingScreens/loadingScreen.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:pdf_render/pdf_render.dart';
 
 // Option enum for template Picking
 enum TemplateOption {templateA,templateB,templateC,templateD}

@@ -1,5 +1,5 @@
 import 'package:ai_cv_generator/models/aimodels/CVData.dart';
-import 'package:ai_cv_generator/pages/template/Template.dart';
+import 'package:ai_cv_generator/pages/template/TemplateChoice.dart';
 import 'package:ai_cv_generator/pages/util/editor.dart';
 import 'package:ai_cv_generator/pages/widgets/buttons/customizableButton.dart';
 import 'package:flutter/material.dart';
@@ -14,14 +14,14 @@ class TestPage extends StatefulWidget {
 class TestPageState extends State<TestPage> {
 
   Future<CVData> showCV(CVData data, TemplateOption option) async {
-    Editor editor = Editor(data: data, option: option);
+    ColorSet set = ColorSet();
+    set.setColorSetD();
+    Editor editor = Editor(data: data, option: option,colors: set,);
     await showDialog(
       barrierColor: const Color(0x01000000),
       context: context, 
       builder: (context) {
         return Container(
-          width: 100,
-          height: 800,
           child: editor,
         );
       }

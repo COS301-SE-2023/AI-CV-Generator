@@ -6,8 +6,8 @@ import 'package:ai_cv_generator/models/aimodels/AIQualification.dart';
 import 'package:ai_cv_generator/models/aimodels/AIReference.dart';
 import 'package:ai_cv_generator/models/aimodels/AISkill.dart';
 import 'package:ai_cv_generator/models/aimodels/CVData.dart';
-import 'package:ai_cv_generator/pages/template/Template.dart';
-import 'package:ai_cv_generator/pages/template/TemplateD.dart';
+import 'package:ai_cv_generator/pages/template/TemplateChoice.dart';
+import 'package:ai_cv_generator/pages/util/colourPickBox.dart';
 import 'package:ai_cv_generator/pages/widgets/buttons/customizableButton.dart';
 import 'package:ai_cv_generator/pages/widgets/buttons/deletableMenuButton.dart';
 import 'package:ai_cv_generator/pages/widgets/buttons/menuButton.dart';
@@ -33,18 +33,29 @@ enum PageOption {
 
 // ignore: must_be_immutable
 class Editor extends StatefulWidget {
-  Editor({super.key, required this.data,required this.option});
+  Editor({
+    super.key, 
+    required this.data,
+    required this.option,
+    required this.colors
+  });
   CVData data;
-  final TemplateOption option;
+  ColorSet colors;
+  TemplateOption option;
   @override
   State<StatefulWidget> createState() => EditorState();
 }
 
 class EditorState extends State<Editor> {
 
-  bool wait = true;
+  // CV variables
   late CVData data;
+  late TemplateOption templateOption;
+  late ColorSet colors;
+  bool wait = true;
   Uint8List? bytes;
+
+  // Menu Management variables
   PageOption option = PageOption.main;
   int employmentIndex = 0;
   AIEmployment? employment;
@@ -99,7 +110,7 @@ class EditorState extends State<Editor> {
 
   // Will regenerate the PDF with changes
   updatePdf() async {
-    bytes = await TemplateTemp().templateD(data);
+    bytes = await templateChoice(data, widget.option, colors);
     setState(() {
       
     });
@@ -592,11 +603,12 @@ class EditorState extends State<Editor> {
   @override
   void initState() {
     data = widget.data;
-    TemplateTemp().templateD(data).then((value) {
+    templateOption = widget.option;
+    colors = widget.colors;
+    templateChoice(data, templateOption, colors).then((value) {
       bytes = value;
       setOffLoadingScreen();
-    },);
-    
+    });
     super.initState();
   }
 
@@ -618,7 +630,7 @@ class EditorState extends State<Editor> {
           ),
           color: Colors.grey.shade100
         ),
-        width: 69*w,
+        width: 70*w,
         height: 85*h,
         child: ClipRRect(
           borderRadius: const BorderRadius.all(Radius.circular(20)),
@@ -637,6 +649,91 @@ class EditorState extends State<Editor> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                SingleChildScrollView(
+                  child: Container(
+                    width: 6*w,
+                    height: colors.getAmount()*70,
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.all(Radius.circular(64)),
+                      border: Border.all(
+                        color: const Color.fromARGB(0, 0, 0, 0),
+                      ),
+                      color: Theme.of(context).colorScheme.surface,
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        if (colors.colA != null)
+                        ColourBox(
+                          color: colors.colA!, 
+                          h: 40, 
+                          w: 40, 
+                          onTap: () async {
+                            colors.colA = await pickColour(context, colors.colA!);
+                            updatePdf();
+                          }
+                        ),
+                        if (colors.colB != null)
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        if (colors.colB != null)
+                        ColourBox(
+                          color: colors.colB!, 
+                          h: 40, 
+                          w: 40, 
+                          onTap: () async {
+                            colors.colB = await pickColour(context, colors.colB!);
+                            updatePdf();
+                          }
+                        ),
+                        if (colors.colC != null)
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        if (colors.colC != null)
+                        ColourBox(
+                          color: colors.colC!, 
+                          h: 40, 
+                          w: 40, 
+                          onTap: () async {
+                            colors.colC = await pickColour(context, colors.colC!);
+                            updatePdf();
+                          }
+                        ),
+                        if (colors.colD != null)
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        if (colors.colD != null)
+                        ColourBox(
+                          color: colors.colD!, 
+                          h: 40, 
+                          w: 40, 
+                          onTap: () async {
+                            colors.colD = await pickColour(context, colors.colD!);
+                            updatePdf();
+                          }
+                        ),
+                        if (colors.colE != null)
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        if (colors.colE != null)
+                        ColourBox(
+                          color: colors.colE!, 
+                          h: 40, 
+                          w: 40, 
+                          onTap: () async {
+                            colors.colE = await pickColour(context, colors.colE!);
+                            updatePdf();
+                          }
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
                 Container(
                   padding: EdgeInsets.all(w*1),
                   width: 27*w,

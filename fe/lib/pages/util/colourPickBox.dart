@@ -13,14 +13,15 @@ class ColourBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      borderRadius: BorderRadius.circular(50),
       onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           color: color
         ),
-        width: w*5,
-        height: h*5,
+        width: w,
+        height: h,
       )
     );
   }

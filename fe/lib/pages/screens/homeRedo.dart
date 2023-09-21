@@ -318,22 +318,22 @@ class HomeState extends State<Home> {
     setState(() {});
   }
 
-  Future<CVData> showCV(CVData data, TemplateOption option) async {
-    Editor editor = Editor(data: data, option: option);
-    await showDialog(
-      barrierColor: const Color(0x01000000),
-      context: context, 
-      builder: (context) {
-        return Container(
-          width: 100,
-          height: 800,
-          child: editor,
-        );
-      }
-    );
+  // Future<CVData> showCV(CVData data, TemplateOption option) async {
+  //   Editor editor = Editor(data: data, option: option);
+  //   await showDialog(
+  //     barrierColor: const Color(0x01000000),
+  //     context: context, 
+  //     builder: (context) {
+  //       return Container(
+  //         width: 100,
+  //         height: 800,
+  //         child: editor,
+  //       );
+  //     }
+  //   );
 
-    return editor.data;
-  }
+  //   return editor.data;
+  // }
 
   // Build
   @override
@@ -492,77 +492,77 @@ class HomeState extends State<Home> {
                         )
                       )
                     ),
-                    if (generated) 
-                    Container(
-                      height: h*28,
-                      width: 6*w,
-                      decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.all(Radius.circular(12)),
-                        border: Border.all(
-                          color: const Color.fromARGB(0, 0, 0, 0),
-                        ),
-                        color: Theme.of(context).colorScheme.surface,
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          ColourBox(
-                            color: a, 
-                            h: h, 
-                            w: h, 
-                            onTap: () async {
-                              a = await pickColour(context, a);
-                              setState(() {
+                    // if (generated) 
+                    // Container(
+                    //   height: h*28,
+                    //   width: 6*w,
+                    //   decoration: BoxDecoration(
+                    //     borderRadius: const BorderRadius.all(Radius.circular(12)),
+                    //     border: Border.all(
+                    //       color: const Color.fromARGB(0, 0, 0, 0),
+                    //     ),
+                    //     color: Theme.of(context).colorScheme.surface,
+                    //   ),
+                    //   child: Column(
+                    //     mainAxisAlignment: MainAxisAlignment.center,
+                    //     crossAxisAlignment: CrossAxisAlignment.center,
+                    //     children: [
+                    //       ColourBox(
+                    //         color: a, 
+                    //         h: h, 
+                    //         w: h, 
+                    //         onTap: () async {
+                    //           a = await pickColour(context, a);
+                    //           setState(() {
                                 
-                              });
-                            }
-                          ),
-                          SizedBox(
-                            height: h*1,
-                          ),
-                          ColourBox(
-                            color: b, 
-                            h: h, 
-                            w: h, 
-                            onTap: () async {
-                              b = await pickColour(context, b);
-                              setState(() {
+                    //           });
+                    //         }
+                    //       ),
+                    //       SizedBox(
+                    //         height: h*1,
+                    //       ),
+                    //       ColourBox(
+                    //         color: b, 
+                    //         h: h, 
+                    //         w: h, 
+                    //         onTap: () async {
+                    //           b = await pickColour(context, b);
+                    //           setState(() {
                                 
-                              });
-                            }
-                          ),
-                          SizedBox(
-                            height: h*1,
-                          ),
-                          ColourBox(
-                            color: c, 
-                            h: h, 
-                            w: h, 
-                            onTap: () async {
-                              c = await pickColour(context, c);
-                              setState(() {
+                    //           });
+                    //         }
+                    //       ),
+                    //       SizedBox(
+                    //         height: h*1,
+                    //       ),
+                    //       ColourBox(
+                    //         color: c, 
+                    //         h: h, 
+                    //         w: h, 
+                    //         onTap: () async {
+                    //           c = await pickColour(context, c);
+                    //           setState(() {
                                 
-                              });
-                            }
-                          ),
-                          SizedBox(
-                            height: h*1,
-                          ),
-                          ColourBox(
-                            color: d, 
-                            h: h, 
-                            w: h, 
-                            onTap: () async {
-                              d = await pickColour(context, d);
-                              setState(() {
+                    //           });
+                    //         }
+                    //       ),
+                    //       SizedBox(
+                    //         height: h*1,
+                    //       ),
+                    //       ColourBox(
+                    //         color: d, 
+                    //         h: h, 
+                    //         w: h, 
+                    //         onTap: () async {
+                    //           d = await pickColour(context, d);
+                    //           setState(() {
                                 
-                              });
-                            }
-                          )
-                        ],
-                      ),
-                    ),
+                    //           });
+                    //         }
+                    //       )
+                    //     ],
+                    //   ),
+                    // ),
                     Container(
                       padding: EdgeInsets.fromLTRB(2*w, 0, 2*w, 0),
                       width: 35*w,
@@ -633,8 +633,8 @@ class HomeState extends State<Home> {
                                       setCVErrorOn();
                                       return;
                                     }
-                                    print(data!.toJson());
-                                    data = await showCV(data!, option);
+                                    // print(data!.toJson());
+                                    // data = await showCV(data!, option);
                                     generated = true;
                                     setCVLoadingOff();
                                   },
