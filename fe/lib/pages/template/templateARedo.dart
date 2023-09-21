@@ -30,15 +30,10 @@ class TemplateA {
     this.colorSet = colorSet;
     //set main regions for text
     Rect topBox = Rect.fromLTWH(0, 0, pageSize.width, 90);
+    
     Rect leftBox = Rect.fromLTWH(0, topBox.bottom, pageSize.width/4, pageSize.height - topBox.height);
     Rect rightBox = Rect.fromLTWH(leftBox.width, topBox.bottom, pageSize.width/4*3, pageSize.height - topBox.height);
-
-    //set recurring theme for document
-    setTheme(
-      document,
-      Rect.fromLTWH(0, 0, pageSize.width/4, pageSize.height),
-      Rect.fromLTWH(leftBox.width-8, 0, pageSize.width/4*3+16, pageSize.height)
-    );
+    Rect bottomBox = Rect.fromLTWH(0,topBox.bottom,topBox.width,pageSize.height-topBox.height);
 
     // top
     pages[currentPage].graphics.drawRectangle(
@@ -51,7 +46,7 @@ class TemplateA {
     //left
     pages[currentPage].graphics.drawRectangle(
       brush: PdfSolidBrush(PdfColor(colorSet.colB!.red,colorSet.colB!.green,colorSet.colB!.blue,colorSet.colB!.alpha)),
-      bounds: leftBox
+      bounds: bottomBox
     );
     leftBox = Rect.fromLTWH(leftBox.left+8, leftBox.top, leftBox.width-8, 0);
     leftBox = drawContactDetails(pageSize, leftBox, "${data.location??'Address'}\n\n${data.phoneNumber??'Phone Number'}\n\n${data.email??'Email'}").bounds;
@@ -95,22 +90,6 @@ class TemplateA {
     );
     rightBox = Rect.fromLTWH(rightBox.left+8, rightBox.top, rightBox.width-16, 0);
     return rightBox;
-  }
-
-  
-
-  void setTheme(PdfDocument document, Rect leftBox, Rect rightBox) {
-    document.pages.pageAdded =(sender, args) {
-      pages[currentPage] = args.page;
-      args.page.graphics.drawRectangle(
-        brush: PdfSolidBrush(PdfColor(85, 144, 157)),
-        bounds: leftBox
-      );
-      args.page.graphics.drawRectangle(
-        brush: PdfSolidBrush(PdfColor(250, 250, 250)),
-        bounds: rightBox
-      );
-    };
   }
 
   PdfLayoutResult addText(Size pageSize, PdfFont contentFont, PdfStringFormat format, Rect bound, String text)

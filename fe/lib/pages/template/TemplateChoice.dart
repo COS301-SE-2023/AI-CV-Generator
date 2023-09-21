@@ -3,7 +3,10 @@ import 'dart:typed_data';
 
 import 'package:ai_cv_generator/models/aimodels/CVData.dart';
 import 'package:ai_cv_generator/pages/template/TemplateD.dart';
+import 'package:ai_cv_generator/pages/template/templateARedo.dart';
 import 'package:flutter/material.dart';
+
+// All logic for template choices are here
 
 enum TemplateOption {
   templateA,
@@ -44,8 +47,11 @@ class ColorSet {
   }
 
   setColorSetA() {
-    colA = Colors.blue;
-    colB = Colors.green;
+    colA = Colors.blue.shade900;
+    colB = Colors.white;
+    colC = Colors.blue;
+    colD = null;
+    colE = null;
   }
 
   setColorSetB() {
@@ -82,7 +88,7 @@ class ColorSet {
 Future<Uint8List> templateChoice(CVData data, TemplateOption option, ColorSet colors) async {
   switch(option) {
     case TemplateOption.templateA:
-    return TemplateD().templateD(data,colors);
+    return TemplateA().templateA(data,colors);
     case TemplateOption.templateB:
     return TemplateD().templateD(data,colors);
     case TemplateOption.templateC:

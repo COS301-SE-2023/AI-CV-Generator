@@ -258,11 +258,11 @@ class TemplateD {
     List<String> skills = [];
     for(AISkill skill in data)
     {
-      skills.add('${skill.skill??'Skill'} level => ${skill.level??'5'}');
+      skills.add('${skill.skill??'Skill'} level: ${skill.level??'5'}');
     }
     final skillsList = PdfUnorderedList(
       marker: PdfUnorderedMarker(
-          font: PdfStandardFont(PdfFontFamily.helvetica, 10),
+          font: PdfStandardFont(PdfFontFamily.helvetica, 12),
           style: PdfUnorderedMarkerStyle.disk,
       ),
       items: PdfListItemCollection(
