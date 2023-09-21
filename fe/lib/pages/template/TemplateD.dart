@@ -9,25 +9,33 @@ import 'package:ai_cv_generator/models/aimodels/CVData.dart';
 import 'package:ai_cv_generator/pages/template/TemplateChoice.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_pdf/pdf.dart';
+import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 class TemplateD {
   //Create a PDF document.
   final PdfDocument document = PdfDocument();
   //Add page to the PDF
-  PdfPage? page;
+  //PdfPage? page;
+  List<PdfPage> pages = [];
+  int currentPage = 0;
+  double lHeight = 762; // margin size top = 40
+  double rhHeight = 762;
+  late ColorSet colorSet;
   // double headingFontSize = 0;
   PdfStandardFont bodyHeadingFont = PdfStandardFont(PdfFontFamily.helvetica, 14);
   PdfStandardFont bodyTextFont = PdfStandardFont(PdfFontFamily.helvetica, 12);
 
   Uint8List templateD(CVData data, ColorSet colorSet) {
     //create the initial page
-    page = document.pages.add();
+    pages.add(document.pages.add());
     //Get page client size
-    Size pageSize = page!.getClientSize();
-
+    Size pageSize = pages[currentPage].getClientSize();
+    this.colorSet = colorSet;
     //set main regions for text
     Rect topBox = Rect.fromLTWH(0, 0, pageSize.width, 90);
+    lHeight -=90;
     Rect leftBox = Rect.fromLTWH(0, topBox.bottom, pageSize.width/4, pageSize.height - topBox.height);
+    rhHeight -= 90;
     Rect rightBox = Rect.fromLTWH(leftBox.width, topBox.bottom, pageSize.width/4*3, pageSize.height - topBox.height);
 
     //set recurring theme for document
@@ -38,47 +46,68 @@ class TemplateD {
     );
 
     // top
-    page!.graphics.drawRectangle(
+    pages[currentPage].graphics.drawRectangle(
       brush: PdfSolidBrush(PdfColor(colorSet.colA!.red, colorSet.colA!.green, colorSet.colA!.blue,colorSet.colA!.alpha)),
       bounds: topBox
     );
     topBox = Rect.fromLTWH(topBox.left, topBox.top, topBox.width, topBox.height);
-    drawNameSurname(page!, pageSize, topBox, '${data.firstname??'First name'} ${data.lastname??'Last Name'}');
+    drawNameSurname(pages[currentPage], pageSize, topBox, '${data.firstname??'First name'} ${data.lastname??'Last Name'}');
 
     //left
-    page!.graphics.drawRectangle(
+    pages[currentPage].graphics.drawRectangle(
       brush: PdfSolidBrush(PdfColor(colorSet.colB!.red,colorSet.colB!.green,colorSet.colB!.blue,colorSet.colB!.alpha)),
       bounds: leftBox
     );
     leftBox = Rect.fromLTWH(leftBox.left+8, leftBox.top, leftBox.width-8, 0);
-    leftBox = drawContactDetails(page!, pageSize, leftBox, "${data.location??'Address'}\n\n${data.phoneNumber??'Phone Number'}\n\n${data.email??'Email'}").bounds;
+    leftBox = drawContactDetails(pages[currentPage], pageSize, leftBox, "${data.location??'Address'}\n\n${data.phoneNumber??'Phone Number'}\n\n${data.email??'Email'}").bounds;
     //lists must be at bottom for now
-    leftBox = drawSkills(page!, pageSize, leftBox, data.skills!).bounds;
+    leftBox = drawSkills(pages[currentPage], pageSize, leftBox, data.skills!).bounds;
 
-    page!.graphics.drawRectangle(
+    pages[currentPage].graphics.drawRectangle(
       brush: PdfSolidBrush(PdfColor(colorSet.colC!.red, colorSet.colC!.green, colorSet.colC!.blue,colorSet.colC!.alpha)),
       bounds: rightBox
     );
     rightBox = Rect.fromLTWH(rightBox.left+8, rightBox.top, rightBox.width-16, 0);
-    rightBox = drawDescription(page!, pageSize, rightBox, data.description??'Description').bounds;
+    rightBox = drawDescription(pages[currentPage], pageSize, rightBox, data.description??'Description').bounds;
     if (data.employmenthistory != null && data.employmenthistory!.isNotEmpty) {
-      rightBox = drawExperience(page!, pageSize, rightBox, data.employmenthistory??[]).bounds;
+      rightBox = drawExperience(pages[currentPage], pageSize, rightBox, data.employmenthistory??[]).bounds;
     }
     if (data.qualifications != null && data.qualifications!.isNotEmpty) {
-      rightBox = drawEducation(page!, pageSize, rightBox, data.qualifications??[]).bounds;
+      rightBox = drawEducation(pages[currentPage], pageSize, rightBox, data.qualifications??[]).bounds;
     }
     if (data.references != null && data.references!.isNotEmpty) {
-      rightBox = drawReference(page!, pageSize, rightBox, data.references??[]).bounds;
+      rightBox = drawReference(pages[currentPage], pageSize, rightBox, data.references??[]).bounds;
     }
     if (data.links != null && data.links!.isNotEmpty) {
-      rightBox = drawLinks(page!, pageSize, rightBox, data.links??[]).bounds;
+      rightBox = drawLinks(pages[currentPage], pageSize, rightBox, data.links??[]).bounds;
     }
     return Uint8List.fromList(document.saveSync());
   }
 
+  Rect addPage() {
+    pages.add(document.pages.add());
+    currentPage++;
+    Size pageSize = pages[currentPage].getClientSize();
+    Rect leftBox = Rect.fromLTWH(0, 0, pageSize.width/4, pageSize.height);
+    rhHeight -= 90;
+    Rect rightBox = Rect.fromLTWH(leftBox.width, 0, pageSize.width/4*3, pageSize.height);
+    pages[currentPage].graphics.drawRectangle(
+      brush: PdfSolidBrush(PdfColor(colorSet.colB!.red,colorSet.colB!.green,colorSet.colB!.blue,colorSet.colB!.alpha)),
+      bounds: leftBox
+    );
+    pages[currentPage].graphics.drawRectangle(
+      brush: PdfSolidBrush(PdfColor(colorSet.colC!.red, colorSet.colC!.green, colorSet.colC!.blue,colorSet.colC!.alpha)),
+      bounds: rightBox
+    );
+    rightBox = Rect.fromLTWH(rightBox.left+8, rightBox.top, rightBox.width-16, 0);
+    return rightBox;
+  }
+
+  
+
   void setTheme(PdfDocument document, Rect leftBox, Rect rightBox) {
     document.pages.pageAdded =(sender, args) {
-      page = args.page;
+      pages[currentPage] = args.page;
       args.page.graphics.drawRectangle(
         brush: PdfSolidBrush(PdfColor(85, 144, 157)),
         bounds: leftBox
@@ -92,12 +121,16 @@ class TemplateD {
 
   PdfLayoutResult addText(PdfPage page, Size pageSize, PdfFont contentFont, PdfStringFormat format, Rect bound, String text)
   {
+    if (bound.top + bodyTextFont.height >= 762) {
+      print('SetOff');
+      bound = addPage();
+    }
     return PdfTextElement(
       text: text, 
       font: contentFont,
       format: format
       ).draw(
-        page: page,
+        page: pages[currentPage],
         bounds: bound,
       )!;
   }
@@ -125,7 +158,7 @@ class TemplateD {
       Rect.fromLTWH(bounds.left, bounds.bottom+16, bounds.width, 0),
       "Contact Details"
     ).bounds;
-    return addText(
+    PdfLayoutResult result = addText(
       page,
       pageSize,
       bodyTextFont,
@@ -133,6 +166,8 @@ class TemplateD {
       Rect.fromLTWH(bounds.left, bounds.bottom+8, bounds.width, 0),
       data
     );
+    lHeight -= result.bounds.bottom;
+    return result;
   }
 
   PdfLayoutResult drawDescription(PdfPage page, Size pageSize, Rect bounds, String data) {
@@ -141,17 +176,20 @@ class TemplateD {
       pageSize,
       bodyHeadingFont,
       PdfStringFormat(),
-      Rect.fromLTWH(bounds.left, bounds.bottom+16, bounds.width, 0),
+      Rect.fromLTWH(bounds.left, bounds.bottom+16, bounds.width, bodyHeadingFont.height),
       "SUMMARY"
     ).bounds;
-    return addText(
+    double height = (data.length*bodyTextFont.size)/bodyTextFont.height;
+    PdfLayoutResult result =  addText(
       page,
       pageSize,
       bodyTextFont,
       PdfStringFormat(),
-      Rect.fromLTWH(bounds.left, bounds.bottom+8, bounds.width, 0),
+      Rect.fromLTWH(bounds.left, bounds.bottom+8, bounds.width,0),
       data
     );
+    print('Description: ${result.bounds.bottom}');
+    return result;
   }
 
   PdfLayoutResult drawExperience(PdfPage page, Size pageSize, Rect bounds, List data) {
@@ -160,19 +198,21 @@ class TemplateD {
       pageSize,
       bodyHeadingFont,
       PdfStringFormat(),
-      Rect.fromLTWH(bounds.left, bounds.bottom+16, bounds.width, 0),
+      Rect.fromLTWH(bounds.left, bounds.bottom+16, bounds.width, bodyHeadingFont.height),
       "EXPERIENCE"
     );
+
     for(AIEmployment employment in data) {
       result = addText(
         page,
         pageSize,
         bodyTextFont,
         PdfStringFormat(),
-        Rect.fromLTWH(result.bounds.left, result.bounds.bottom+8, result.bounds.width, 0),
+        Rect.fromLTWH(result.bounds.left, result.bounds.bottom+8, result.bounds.width, bodyTextFont.height),
         "${employment.company}, ${employment.jobTitle}, ${employment.startDate} - ${employment.endDate}"
       );
     }
+    print('Experience: ${result.bounds.bottom}');
     return result;
   }
 
