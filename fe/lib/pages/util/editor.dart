@@ -9,6 +9,7 @@ import 'package:ai_cv_generator/models/aimodels/CVData.dart';
 import 'package:ai_cv_generator/pages/template/TemplateChoice.dart';
 import 'package:ai_cv_generator/pages/util/colourPickBox.dart';
 import 'package:ai_cv_generator/pages/widgets/buttons/customizableButton.dart';
+import 'package:ai_cv_generator/pages/widgets/buttons/customizableIconButton.dart';
 import 'package:ai_cv_generator/pages/widgets/buttons/deletableMenuButton.dart';
 import 'package:ai_cv_generator/pages/widgets/buttons/menuButton.dart';
 import 'package:ai_cv_generator/pages/widgets/loadingScreens/loadingScreen.dart';
@@ -652,7 +653,7 @@ class EditorState extends State<Editor> {
                 SingleChildScrollView(
                   child: Container(
                     width: 6*w,
-                    height: colors.getAmount()*70,
+                    height: colors.getAmount()*70 +50,
                     decoration: BoxDecoration(
                       borderRadius: const BorderRadius.all(Radius.circular(64)),
                       border: Border.all(
@@ -730,6 +731,18 @@ class EditorState extends State<Editor> {
                             updatePdf();
                           }
                         ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        CustomizableIconButton(
+                          icon: Icons.switch_right, 
+                          width: 40, 
+                          height: 40, 
+                          onTap: () {
+
+                          }, 
+                          iconSize: 40
+                        )
                       ],
                     ),
                   ),
@@ -1051,25 +1064,25 @@ class EditorState extends State<Editor> {
             },
           )
         ),
-        Container (
-          constraints: BoxConstraints.tight(Size(30*w,200)),
-          child: TextFormField(
-            key: const Key("Educational Description"),
-            maxLines: 6,
-            controller: educationalDescriptionController,
-            decoration: const InputDecoration(
-              labelText: 'Educational Description',
-              enabledBorder: OutlineInputBorder(),
-              icon: Icon(Icons.person),
-            ),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter some text';
-              }
-              return null;
-            },
-          )
-        ),
+        // Container (
+        //   constraints: BoxConstraints.tight(Size(30*w,200)),
+        //   child: TextFormField(
+        //     key: const Key("Educational Description"),
+        //     maxLines: 6,
+        //     controller: educationalDescriptionController,
+        //     decoration: const InputDecoration(
+        //       labelText: 'Educational Description',
+        //       enabledBorder: OutlineInputBorder(),
+        //       icon: Icon(Icons.person),
+        //     ),
+        //     validator: (value) {
+        //       if (value == null || value.isEmpty) {
+        //         return 'Please enter some text';
+        //       }
+        //       return null;
+        //     },
+        //   )
+        // ),
         const SizedBox(height: 20,),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,

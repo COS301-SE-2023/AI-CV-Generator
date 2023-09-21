@@ -65,6 +65,7 @@ class JobsPageState extends State<JobsPage> {
     if(jobs == null || jobs.isEmpty == true) {
       showError("No jobs to display!");
       jobCards = previousJobs;
+      previousJobs = [];
     } else {
       createCards(jobs);
       previousJobs = jobCards;
