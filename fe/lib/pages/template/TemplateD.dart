@@ -18,9 +18,8 @@ class TemplateD {
   // double headingFontSize = 0;
   PdfStandardFont bodyHeadingFont = PdfStandardFont(PdfFontFamily.helvetica, 14);
   PdfStandardFont bodyTextFont = PdfStandardFont(PdfFontFamily.helvetica, 12);
-  static int count = 0;
+
   Uint8List templateD(CVData data, ColorSet colorSet) {
-    print(count++);
     //create the initial page
     page = document.pages.add();
     //Get page client size
@@ -38,7 +37,6 @@ class TemplateD {
       Rect.fromLTWH(leftBox.width-8, 0, pageSize.width/4*3+16, pageSize.height)
     );
 
-    print(count);
     // top
     page!.graphics.drawRectangle(
       brush: PdfSolidBrush(PdfColor(colorSet.colA!.red, colorSet.colA!.green, colorSet.colA!.blue,colorSet.colA!.alpha)),
@@ -47,7 +45,6 @@ class TemplateD {
     topBox = Rect.fromLTWH(topBox.left, topBox.top, topBox.width, topBox.height);
     drawNameSurname(page!, pageSize, topBox, '${data.firstname??'First name'} ${data.lastname??'Last Name'}');
 
-    print(count);
     //left
     page!.graphics.drawRectangle(
       brush: PdfSolidBrush(PdfColor(colorSet.colB!.red,colorSet.colB!.green,colorSet.colB!.blue,colorSet.colB!.alpha)),
@@ -58,31 +55,24 @@ class TemplateD {
     //lists must be at bottom for now
     leftBox = drawSkills(page!, pageSize, leftBox, data.skills!).bounds;
 
-    print(count);
-    //right
     page!.graphics.drawRectangle(
       brush: PdfSolidBrush(PdfColor(colorSet.colC!.red, colorSet.colC!.green, colorSet.colC!.blue,colorSet.colC!.alpha)),
       bounds: rightBox
     );
-    print(count);
     rightBox = Rect.fromLTWH(rightBox.left+8, rightBox.top, rightBox.width-16, 0);
     rightBox = drawDescription(page!, pageSize, rightBox, data.description??'Description').bounds;
-    //if (data.employmenthistory != null && data.employmenthistory!.isNotEmpty) {
+    if (data.employmenthistory != null && data.employmenthistory!.isNotEmpty) {
       rightBox = drawExperience(page!, pageSize, rightBox, data.employmenthistory??[]).bounds;
-    //}
-    print(count);
-    //if (data.qualifications != null && data.qualifications!.isNotEmpty) {
+    }
+    if (data.qualifications != null && data.qualifications!.isNotEmpty) {
       rightBox = drawEducation(page!, pageSize, rightBox, data.qualifications??[]).bounds;
-    //}
-    print(count);
-    //if (data.references != null && data.references!.isNotEmpty) {
+    }
+    if (data.references != null && data.references!.isNotEmpty) {
       rightBox = drawReference(page!, pageSize, rightBox, data.references??[]).bounds;
-    //}
-    print(count);
-    //if (data.links != null && data.links!.isNotEmpty) {
-    //  rightBox = drawLinks(page!, pageSize, rightBox, data.links??[]).bounds;
-    //}
-    print('${count}End');
+    }
+    if (data.links != null && data.links!.isNotEmpty) {
+      rightBox = drawLinks(page!, pageSize, rightBox, data.links??[]).bounds;
+    }
     return Uint8List.fromList(document.saveSync());
   }
 
