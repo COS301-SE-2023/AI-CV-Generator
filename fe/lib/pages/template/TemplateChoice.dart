@@ -16,7 +16,7 @@ class TemplateD {
   PdfPage? page;
   // double headingFontSize = 0;
   PdfStandardFont bodyHeadingFont = PdfStandardFont(PdfFontFamily.helvetica, 14);
-  PdfStandardFont bodyTextFont = PdfStandardFont(PdfFontFamily.helvetica, 8);
+  PdfStandardFont bodyTextFont = PdfStandardFont(PdfFontFamily.helvetica, 12);
 
   Uint8List templateD(CVData data, ColorSet colorSet) {
 
@@ -58,7 +58,7 @@ class TemplateD {
 
     //right
     page!.graphics.drawRectangle(
-      brush: PdfSolidBrush(PdfColor(250, 250, 250)),
+      brush: PdfSolidBrush(PdfColor(colorSet.colC!.red, colorSet.colC!.green, colorSet.colC!.blue,colorSet.colC!.alpha)),
       bounds: rightBox
     );
     rightBox = Rect.fromLTWH(rightBox.left+8, rightBox.top, rightBox.width-16, 0);
@@ -324,6 +324,9 @@ class ColorSet {
   setColorSetD() {
     colA = const Color.fromRGBO(56, 92, 100,1);
     colB = const Color.fromRGBO(85, 144, 157,1);
+    colC = const Color.fromRGBO(250, 250, 250, 1);
+    colD = null;
+    colE = null;
   }
 
   setColorSetE() {

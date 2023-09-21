@@ -15,7 +15,7 @@ class TestPageState extends State<TestPage> {
 
   Future<CVData> showCV(CVData data, TemplateOption option) async {
     ColorSet set = ColorSet();
-    set.setColorSetD();
+    set.setColorSetTemplateChoice(option);
     Editor editor = Editor(data: data, option: option,colors: set,);
     await showDialog(
       barrierColor: const Color(0x01000000),
@@ -51,7 +51,7 @@ class TestPageState extends State<TestPage> {
                   references: [],
                   links: []
                 );
-                data = await showCV(data, TemplateOption.templateA);
+                data = await showCV(data, TemplateOption.templateD);
               }, 
               fontSize: 10
             )
