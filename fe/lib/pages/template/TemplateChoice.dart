@@ -2,8 +2,11 @@
 import 'dart:typed_data';
 
 import 'package:ai_cv_generator/models/aimodels/CVData.dart';
-import 'package:ai_cv_generator/pages/template/TemplateD.dart';
+import 'package:ai_cv_generator/pages/template/templateBRedo.dart';
+import 'package:ai_cv_generator/pages/template/templateCRedo.dart';
+import 'package:ai_cv_generator/pages/template/templateDRedo.dart';
 import 'package:ai_cv_generator/pages/template/templateARedo.dart';
+import 'package:ai_cv_generator/pages/template/templateERedo.dart';
 import 'package:flutter/material.dart';
 
 // All logic for template choices are here
@@ -55,11 +58,19 @@ class ColorSet {
   }
 
   setColorSetB() {
-
+    colA = Colors.blue.shade900;
+    colB = Colors.white;
+    colC = null;
+    colD = null;
+    colE = null;
   }
 
   setColorSetC() {
-
+    colA = Colors.blue.shade900;
+    colB = Colors.white;
+    colC = null;
+    colD = null;
+    colE = null;
   }
 
   setColorSetD() {
@@ -71,7 +82,11 @@ class ColorSet {
   }
 
   setColorSetE() {
-
+    colA = Colors.blue.shade900;
+    colB = Colors.white;
+    colC = null;
+    colD = null;
+    colE = null;
   }
 
   getAmount() {
@@ -90,12 +105,12 @@ Future<Uint8List> templateChoice(CVData data, TemplateOption option, ColorSet co
     case TemplateOption.templateA:
     return TemplateA().templateA(data,colors);
     case TemplateOption.templateB:
-    return TemplateD().templateD(data,colors);
+    return TemplateB().templateB(data,colors);
     case TemplateOption.templateC:
-    return TemplateD().templateD(data,colors);
+    return TemplateC().templateC(data,colors);
     case TemplateOption.templateD:
     return TemplateD().templateD(data,colors);
     case TemplateOption.templateE:
-    return TemplateD().templateD(data,colors);
+    return TemplateE().templateE(data,colors);
   }
 }
