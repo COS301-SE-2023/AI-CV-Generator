@@ -24,52 +24,51 @@ class TemplateA {
 
   Uint8List templateA(CVData data, ColorSet colorSet) {
     //create the initial page
+    document.pageSettings.margins.all = 15;
     pages.add(document.pages.add());
     //Get page client size
     Size pageSize = pages[currentPage].getClientSize();
     this.colorSet = colorSet;
     //set main regions for text
-    Rect topBox = Rect.fromLTWH(0, 0, pageSize.width, 90);
     
-    Rect leftBox = Rect.fromLTWH(0, topBox.bottom, pageSize.width/4, pageSize.height - topBox.height);
-    Rect rightBox = Rect.fromLTWH(leftBox.width, topBox.bottom, pageSize.width/4*3, pageSize.height - topBox.height);
-    Rect bottomBox = Rect.fromLTWH(0,topBox.bottom,topBox.width,pageSize.height-topBox.height);
+    Rect leftBox = Rect.fromLTWH(0, 0, pageSize.width/3, pageSize.height);
+    Rect rightBox = Rect.fromLTWH(leftBox.width, 0, pageSize.width/3*2, pageSize.height);
 
-    // top
-    pages[currentPage].graphics.drawRectangle(
-      brush: PdfSolidBrush(PdfColor(colorSet.colA!.red, colorSet.colA!.green, colorSet.colA!.blue,colorSet.colA!.alpha)),
-      bounds: topBox
-    );
-    topBox = Rect.fromLTWH(topBox.left, topBox.top, topBox.width, topBox.height);
-    drawNameSurname(pageSize, topBox, '${data.firstname??'First name'} ${data.lastname??'Last Name'}');
+    
 
     //left
     pages[currentPage].graphics.drawRectangle(
-      brush: PdfSolidBrush(PdfColor(colorSet.colB!.red,colorSet.colB!.green,colorSet.colB!.blue,colorSet.colB!.alpha)),
-      bounds: bottomBox
+      brush: PdfSolidBrush(PdfColor(colorSet.colA!.red,colorSet.colA!.green,colorSet.colA!.blue,colorSet.colA!.alpha)),
+      bounds: leftBox
     );
-    leftBox = Rect.fromLTWH(leftBox.left+8, leftBox.top, leftBox.width-8, 0);
-    leftBox = drawContactDetails(pageSize, leftBox, "${data.location??'Address'}\n\n${data.phoneNumber??'Phone Number'}\n\n${data.email??'Email'}").bounds;
+    leftBox = Rect.fromLTWH(leftBox.left, leftBox.top +20, leftBox.width-8, leftBox.height);
+    leftBox = drawNameSurname(pageSize, leftBox, '${data.firstname??'First name'}\n ${data.lastname??'Last Name'}\n').bounds;
+    leftBox = Rect.fromLTWH(leftBox.left+8, leftBox.top, leftBox.width-8, leftBox.height);
+    leftBox = drawContactDetails(pageSize, leftBox, "${data.location??'Address'}\n\n${data.phoneNumber??'Phone Number'}\n\n").bounds;
+    //leftBox = Rect.fromLTWH(leftBox.left+8, leftBox.top-8, leftBox.width-8, leftBox.height);
+    leftBox = drawEmail(pageSize, leftBox,data.email??'nate123@gmail.com').bounds;
     //lists must be at bottom for now
-    leftBox = drawSkills(pageSize, leftBox, data.skills!).bounds;
-
+    if (data.skills != null && data.skills!.isNotEmpty) {
+      leftBox = drawSkills(pageSize, leftBox, data.skills!).bounds;
+    }
+    
     pages[currentPage].graphics.drawRectangle(
-      brush: PdfSolidBrush(PdfColor(colorSet.colC!.red, colorSet.colC!.green, colorSet.colC!.blue,colorSet.colC!.alpha)),
+      brush: PdfSolidBrush(PdfColor(colorSet.colB!.red, colorSet.colB!.green, colorSet.colB!.blue,colorSet.colB!.alpha)),
       bounds: rightBox
     );
     rightBox = Rect.fromLTWH(rightBox.left+8, rightBox.top, rightBox.width-16, 0);
     rightBox = drawDescription(pageSize, rightBox, data.description??'Description').bounds;
     if (data.employmenthistory != null && data.employmenthistory!.isNotEmpty) {
-      rightBox = drawExperience(pageSize, rightBox, data.employmenthistory??[]).bounds;
+      rightBox = drawExperience(pageSize, rightBox, data.employmenthistory!).bounds;
     }
     if (data.qualifications != null && data.qualifications!.isNotEmpty) {
-      rightBox = drawEducation(pageSize, rightBox, data.qualifications??[]).bounds;
+      rightBox = drawEducation(pageSize, rightBox, data.qualifications!).bounds;
     }
     if (data.references != null && data.references!.isNotEmpty) {
-      rightBox = drawReference(pageSize, rightBox, data.references??[]).bounds;
+      rightBox = drawReference(pageSize, rightBox, data.references!).bounds;
     }
     if (data.links != null && data.links!.isNotEmpty) {
-      rightBox = drawLinks(pageSize, rightBox, data.links??[]).bounds;
+      rightBox = drawLinks(pageSize, rightBox, data.links!).bounds;
     }
     return Uint8List.fromList(document.saveSync());
   }
@@ -104,13 +103,26 @@ class TemplateA {
       )!;
   }
 
+  PdfLayoutResult addColorText(Size pageSize,PdfBrush brush ,PdfFont contentFont, PdfStringFormat format, Rect bound, String text) {
+    return PdfTextElement(
+      text: text,
+      font: contentFont,
+      format: format,
+      brush: brush
+    ).draw(
+      page: pages[currentPage],
+      bounds: bound
+    )!;
+  }
+
   PdfLayoutResult drawNameSurname(Size pageSize, Rect bounds, String data) {
-    return addText(
+    return addColorText(
       pageSize,
-      PdfStandardFont(PdfFontFamily.helvetica, 30),
+      PdfBrushes.white,
+      PdfStandardFont(PdfFontFamily.helvetica, 15),
       PdfStringFormat(
         alignment: PdfTextAlignment.center,
-        lineAlignment: PdfVerticalAlignment.middle
+        lineAlignment: PdfVerticalAlignment.top
       ),
       bounds,
       data
@@ -118,21 +130,34 @@ class TemplateA {
   }
 
   PdfLayoutResult drawContactDetails(Size pageSize, Rect bounds, String data) {
-    bounds = addText(
+    bounds = addColorText(
       pageSize,
+      PdfBrushes.white,
       bodyHeadingFont,
       PdfStringFormat(),
       Rect.fromLTWH(bounds.left, bounds.bottom+16, bounds.width, Rect.largest.height),
       "Contact Details"
     ).bounds;
-    PdfLayoutResult result = addText(
+    PdfLayoutResult result = addColorText(
       pageSize,
+      PdfBrushes.white,
       bodyTextFont,
       PdfStringFormat(),
       Rect.fromLTWH(bounds.left, bounds.bottom+8, bounds.width, Rect.largest.height),
       data
     );
     return result;
+  }
+
+  PdfLayoutResult drawEmail(Size pageSize, Rect bounds, String email) {
+    return addColorText(
+      pageSize, 
+      PdfBrushes.white, 
+      PdfStandardFont(PdfFontFamily.helvetica, 9), 
+      PdfStringFormat(), 
+      Rect.fromLTWH(bounds.left, bounds.bottom, bounds.width, Rect.largest.height), 
+      email
+    );
   }
 
   PdfLayoutResult drawDescription(Size pageSize, Rect bounds, String data) {

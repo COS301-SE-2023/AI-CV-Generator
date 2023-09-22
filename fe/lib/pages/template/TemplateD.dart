@@ -24,6 +24,7 @@ class TemplateD {
 
   Uint8List templateD(CVData data, ColorSet colorSet) {
     //create the initial page
+    document.pageSettings.margins.all = 15;
     pages.add(document.pages.add());
     //Get page client size
     Size pageSize = pages[currentPage].getClientSize();
@@ -56,8 +57,10 @@ class TemplateD {
     leftBox = Rect.fromLTWH(leftBox.left+8, leftBox.top, leftBox.width-8, 0);
     leftBox = drawContactDetails(pageSize, leftBox, "${data.location??'Address'}\n\n${data.phoneNumber??'Phone Number'}\n\n${data.email??'Email'}").bounds;
     //lists must be at bottom for now
-    leftBox = drawSkills(pageSize, leftBox, data.skills!).bounds;
-
+    if (data.skills != null && data.skills!.isNotEmpty) {
+      leftBox = drawSkills(pageSize, leftBox, data.skills!).bounds;
+    }
+    
     pages[currentPage].graphics.drawRectangle(
       brush: PdfSolidBrush(PdfColor(colorSet.colC!.red, colorSet.colC!.green, colorSet.colC!.blue,colorSet.colC!.alpha)),
       bounds: rightBox
@@ -65,16 +68,16 @@ class TemplateD {
     rightBox = Rect.fromLTWH(rightBox.left+8, rightBox.top, rightBox.width-16, 0);
     rightBox = drawDescription(pageSize, rightBox, data.description??'Description').bounds;
     if (data.employmenthistory != null && data.employmenthistory!.isNotEmpty) {
-      rightBox = drawExperience(pageSize, rightBox, data.employmenthistory??[]).bounds;
+      rightBox = drawExperience(pageSize, rightBox, data.employmenthistory!).bounds;
     }
     if (data.qualifications != null && data.qualifications!.isNotEmpty) {
-      rightBox = drawEducation(pageSize, rightBox, data.qualifications??[]).bounds;
+      rightBox = drawEducation(pageSize, rightBox, data.qualifications!).bounds;
     }
     if (data.references != null && data.references!.isNotEmpty) {
-      rightBox = drawReference(pageSize, rightBox, data.references??[]).bounds;
+      rightBox = drawReference(pageSize, rightBox, data.references!).bounds;
     }
     if (data.links != null && data.links!.isNotEmpty) {
-      rightBox = drawLinks(pageSize, rightBox, data.links??[]).bounds;
+      rightBox = drawLinks(pageSize, rightBox, data.links!).bounds;
     }
     return Uint8List.fromList(document.saveSync());
   }
@@ -125,9 +128,22 @@ class TemplateD {
       )!;
   }
 
+  PdfLayoutResult addColorText(Size pageSize,PdfBrush brush ,PdfFont contentFont, PdfStringFormat format, Rect bound, String text) {
+    return PdfTextElement(
+      text: text,
+      font: contentFont,
+      format: format,
+      brush: brush
+    ).draw(
+      page: pages[currentPage],
+      bounds: bound
+    )!;
+  }
+
   PdfLayoutResult drawNameSurname(Size pageSize, Rect bounds, String data) {
-    return addText(
+    return addColorText(
       pageSize,
+      PdfBrushes.white,
       PdfStandardFont(PdfFontFamily.helvetica, 30),
       PdfStringFormat(
         alignment: PdfTextAlignment.center,
@@ -271,7 +287,6 @@ class TemplateD {
       textIndent: 5,
       indent: 10
     );
-
     PdfLayoutResult result  = addText(
       pageSize,
       bodyHeadingFont,
