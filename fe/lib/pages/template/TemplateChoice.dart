@@ -49,7 +49,7 @@ class ColorSet {
   setColorSetA() {
     colA = Colors.blue.shade900;
     colB = Colors.white;
-    colC = Colors.blue;
+    colC = null;
     colD = null;
     colE = null;
   }

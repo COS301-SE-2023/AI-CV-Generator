@@ -1,6 +1,3 @@
-import 'dart:io';
-import 'dart:typed_data';
-
 import 'package:ai_cv_generator/models/aimodels/AIEmployment.dart';
 import 'package:ai_cv_generator/models/aimodels/AILink.dart';
 import 'package:ai_cv_generator/models/aimodels/AIQualification.dart';
@@ -8,8 +5,6 @@ import 'package:ai_cv_generator/models/aimodels/AIReference.dart';
 import 'package:ai_cv_generator/models/aimodels/AISkill.dart';
 import 'package:ai_cv_generator/models/aimodels/CVData.dart';
 import 'package:ai_cv_generator/pages/template/TemplateChoice.dart';
-import 'package:file_picker/file_picker.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:syncfusion_flutter_pdf/pdf.dart';
 
@@ -25,7 +20,7 @@ class TemplateA {
   PdfStandardFont bodyHeadingFont = PdfStandardFont(PdfFontFamily.helvetica, 14);
   PdfStandardFont bodyTextFont = PdfStandardFont(PdfFontFamily.helvetica, 12);
 
-  Future<Uint8List> templateA(CVData data, ColorSet colorSet) async {
+  Uint8List templateA(CVData data, ColorSet colorSet) {
 
     //create the initial page
     document.pageSettings.margins.all = 15;
@@ -47,11 +42,13 @@ class TemplateA {
     );
     leftBox = Rect.fromLTWH(leftBox.left, leftBox.top +20, leftBox.width-8, leftBox.height);
     leftBox = drawNameSurname(pageSize, leftBox, '${data.firstname??'First name'}\n ${data.lastname??'Last Name'}\n').bounds;
+    // pages[currentPage].graphics.drawLine(PdfPens.white,Offset(leftBox.left, leftBox.bottom+8),Offset(leftBox.right+8, leftBox.bottom+8));
     leftBox = Rect.fromLTWH(leftBox.left+8, leftBox.top, leftBox.width-8, leftBox.height);
-    leftBox = drawContactDetails(pageSize, leftBox, "${data.location??'Address'}\n\n${data.phoneNumber??'Phone Number'}\n\n").bounds;
-    //leftBox = Rect.fromLTWH(leftBox.left+8, leftBox.top-8, leftBox.width-8, leftBox.height);
-    leftBox = (await drawEmail(pageSize, leftBox,data.email??'nate123@gmail.com')).bounds;
-    //lists must be at bottom for now
+    leftBox = drawContactDetails(pageSize, leftBox, "- ${data.location??'Address'}\n\n- ${data.phoneNumber??'Phone Number'}\n\n- ${data.email??'nate123@gmail.com'}").bounds;
+    // leftBox = Rect.fromLTWH(leftBox.left+8, leftBox.top-8, leftBox.width-8, leftBox.height);
+    // drawEmail(pageSize, leftBox,data.email??'nate123@gmail.com').bounds;
+    // lists must be at bottom for now
+    // leftBox = Rect.fromLTWH(leftBox.left, leftBox.top+10, leftBox.width, leftBox.height);
     if (data.skills != null && data.skills!.isNotEmpty) {
       leftBox = drawSkills(pageSize, leftBox, data.skills!).bounds;
     }
@@ -140,8 +137,9 @@ class TemplateA {
       bodyHeadingFont,
       PdfStringFormat(),
       Rect.fromLTWH(bounds.left, bounds.bottom+16, bounds.width, Rect.largest.height),
-      "Contact Details"
+      "Personal Details"
     ).bounds;
+    pages[currentPage].graphics.drawLine(PdfPens.white,Offset(bounds.left+110, bounds.bottom-bodyHeadingFont.height/2),Offset(bounds.right-10, bounds.bottom-bodyHeadingFont.height/2));
     PdfLayoutResult result = addColorText(
       pageSize,
       PdfBrushes.white,
@@ -153,17 +151,15 @@ class TemplateA {
     return result;
   }
 
-  Future<PdfLayoutResult> drawEmail(Size pageSize, Rect bounds, String email) async {
-    bounds = Rect.fromLTWH(bounds.left, bounds.bottom, 50, 50);
-    ByteData emailImg = await rootBundle.load('images/icons8-email-50.png');
-    pages[currentPage].graphics.drawImage(PdfBitmap(emailImg.buffer.asUint8List(emailImg.offsetInBytes)), bounds);
-    //bounds = Rect.fromLTWH(bounds.left, bounds.bottom, bounds.width, Rect.largest.height);
+  PdfLayoutResult drawEmail(Size pageSize, Rect bounds, String email) {
+    PdfFont font = PdfStandardFont(PdfFontFamily.helvetica, 9);
+    pages[currentPage].graphics.drawLine(PdfPens.white,Offset(bounds.left, bounds.bottom+font.height/2),Offset(bounds.left + 10, bounds.bottom+font.height/2));
     return addColorText(
       pageSize, 
       PdfBrushes.white, 
-      PdfStandardFont(PdfFontFamily.helvetica, 9), 
+      font, 
       PdfStringFormat(), 
-      Rect.fromLTWH(bounds.left, bounds.bottom, bounds.width, Rect.largest.height), 
+      Rect.fromLTWH(bounds.left+15, bounds.bottom, bounds.width, Rect.largest.height), 
       email
     );
     
@@ -177,6 +173,7 @@ class TemplateA {
       Rect.fromLTWH(bounds.left, bounds.bottom+16, bounds.width, 0),
       "SUMMARY"
     ).bounds;
+    pages[currentPage].graphics.drawLine(PdfPens.black,Offset(bounds.left+80, bounds.bottom-bodyHeadingFont.height/2),Offset(bounds.right-10, bounds.bottom-bodyHeadingFont.height/2));
     PdfLayoutResult result =  addText(
       pageSize,
       bodyTextFont,
@@ -195,7 +192,7 @@ class TemplateA {
       Rect.fromLTWH(bounds.left, bounds.bottom+16, bounds.width, Rect.largest.height),
       "EXPERIENCE"
     );
-
+    pages[currentPage].graphics.drawLine(PdfPens.black,Offset(result.bounds.left+100, result.bounds.bottom-bodyHeadingFont.height/2),Offset(result.bounds.right-10, result.bounds.bottom-bodyHeadingFont.height/2));
     for(AIEmployment employment in data) {
       result = addText(
         pageSize,
@@ -216,6 +213,7 @@ class TemplateA {
       Rect.fromLTWH(bounds.left, bounds.bottom+16, bounds.width, Rect.largest.height),
       "EDUCATION"
     );
+    pages[currentPage].graphics.drawLine(PdfPens.black,Offset(result.bounds.left+90, result.bounds.bottom-bodyHeadingFont.height/2),Offset(result.bounds.right-10, result.bounds.bottom-bodyHeadingFont.height/2));
     for(AIQualification qualification in data) {
       result = addText(
         pageSize,
@@ -236,6 +234,7 @@ class TemplateA {
       Rect.fromLTWH(bounds.left, bounds.bottom+16, bounds.width, Rect.largest.height),
       "REFERENCE"
     );
+    pages[currentPage].graphics.drawLine(PdfPens.black,Offset(result.bounds.left+100, result.bounds.bottom-bodyHeadingFont.height/2),Offset(result.bounds.right-10, result.bounds.bottom-bodyHeadingFont.height/2));
     for(AIReference reference in data) {
       result = addText(
         pageSize,
@@ -255,6 +254,7 @@ class TemplateA {
       Rect.fromLTWH(bounds.left, bounds.bottom+16, bounds.width, Rect.largest.height),
       "Links"
     );
+    pages[currentPage].graphics.drawLine(PdfPens.black,Offset(result.bounds.left+40, result.bounds.bottom-bodyHeadingFont.height/2),Offset(result.bounds.right-10, result.bounds.bottom-bodyHeadingFont.height/2));
     for(AILink link in data) {
       result = addText(
         pageSize,
@@ -268,38 +268,25 @@ class TemplateA {
   }
 
   PdfLayoutResult drawSkills(Size pageSize, Rect bounds, List data) {
-    List<String> skills = [];
-    for(AISkill skill in data)
-    {
-      skills.add('${skill.skill??'Skill'} level => ${skill.level??'5'}');
-    }
-    final skillsList = PdfUnorderedList(
-      marker: PdfUnorderedMarker(
-          font: PdfStandardFont(PdfFontFamily.helvetica, 10),
-          style: PdfUnorderedMarkerStyle.disk,
-      ),
-      items: PdfListItemCollection(
-        skills
-      ),
-      textIndent: 5,
-      indent: 10
-    );
-
-    PdfLayoutResult result  = addText(
+    PdfLayoutResult result  = addColorText(
       pageSize,
+      PdfBrushes.white,
       bodyHeadingFont,
       PdfStringFormat(),
       Rect.fromLTWH(bounds.left, bounds.bottom+8, bounds.width, bounds.height),
-      "SKILLS"
+      "Skills"
     );
-    Rect newbounds = Rect.fromLTWH(0, result.bounds.bottom+8, pageSize.width/3, 0);
-    if (newbounds.top + PdfStandardFont(PdfFontFamily.helvetica,10).height >= 762) {
-      bounds = addPage();
+    pages[currentPage].graphics.drawLine(PdfPens.white,Offset(result.bounds.left+60, result.bounds.bottom-bodyHeadingFont.height/2),Offset(result.bounds.right-10, result.bounds.bottom-bodyHeadingFont.height/2));
+    for (AISkill skill in data) {
+      result = addColorText(
+        pageSize, 
+        PdfBrushes.white, 
+        PdfStandardFont(PdfFontFamily.helvetica, 12), 
+        PdfStringFormat(), 
+        Rect.fromLTWH(result.bounds.left, result.bounds.bottom+8, result.bounds.width, Rect.largest.height), 
+        '${skill.skill} level: ${skill.level}'
+      );
     }
-    skillsList.draw(
-      page: pages[currentPage],
-      bounds: Rect.fromLTWH(0, result.bounds.bottom+8, pageSize.width/3, 0),
-    );
     return result;
   }
 }
