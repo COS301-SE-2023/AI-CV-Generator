@@ -51,7 +51,7 @@ class TestPageState extends State<TestPage> {
                   references: [],
                   links: []
                 );
-                data = await showCV(data, TemplateOption.templateD);
+                data = await showCV(data, TemplateOption.templateA);
               }, 
               fontSize: 10
             )

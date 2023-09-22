@@ -155,8 +155,9 @@ class TemplateD {
   }
 
   PdfLayoutResult drawContactDetails(Size pageSize, Rect bounds, String data) {
-    bounds = addText(
+    bounds = addColorText(
       pageSize,
+      PdfBrushes.white,
       bodyHeadingFont,
       PdfStringFormat(),
       Rect.fromLTWH(bounds.left, bounds.bottom+16, bounds.width, Rect.largest.height),

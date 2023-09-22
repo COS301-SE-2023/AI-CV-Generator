@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:ai_cv_generator/models/aimodels/AIEmployment.dart';
@@ -7,7 +8,9 @@ import 'package:ai_cv_generator/models/aimodels/AIReference.dart';
 import 'package:ai_cv_generator/models/aimodels/AISkill.dart';
 import 'package:ai_cv_generator/models/aimodels/CVData.dart';
 import 'package:ai_cv_generator/pages/template/TemplateChoice.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:syncfusion_flutter_pdf/pdf.dart';
 
 class TemplateA {
@@ -22,7 +25,8 @@ class TemplateA {
   PdfStandardFont bodyHeadingFont = PdfStandardFont(PdfFontFamily.helvetica, 14);
   PdfStandardFont bodyTextFont = PdfStandardFont(PdfFontFamily.helvetica, 12);
 
-  Uint8List templateA(CVData data, ColorSet colorSet) {
+  Future<Uint8List> templateA(CVData data, ColorSet colorSet) async {
+
     //create the initial page
     document.pageSettings.margins.all = 15;
     pages.add(document.pages.add());
@@ -46,7 +50,7 @@ class TemplateA {
     leftBox = Rect.fromLTWH(leftBox.left+8, leftBox.top, leftBox.width-8, leftBox.height);
     leftBox = drawContactDetails(pageSize, leftBox, "${data.location??'Address'}\n\n${data.phoneNumber??'Phone Number'}\n\n").bounds;
     //leftBox = Rect.fromLTWH(leftBox.left+8, leftBox.top-8, leftBox.width-8, leftBox.height);
-    leftBox = drawEmail(pageSize, leftBox,data.email??'nate123@gmail.com').bounds;
+    leftBox = (await drawEmail(pageSize, leftBox,data.email??'nate123@gmail.com')).bounds;
     //lists must be at bottom for now
     if (data.skills != null && data.skills!.isNotEmpty) {
       leftBox = drawSkills(pageSize, leftBox, data.skills!).bounds;
@@ -149,7 +153,11 @@ class TemplateA {
     return result;
   }
 
-  PdfLayoutResult drawEmail(Size pageSize, Rect bounds, String email) {
+  Future<PdfLayoutResult> drawEmail(Size pageSize, Rect bounds, String email) async {
+    bounds = Rect.fromLTWH(bounds.left, bounds.bottom, 50, 50);
+    ByteData emailImg = await rootBundle.load('images/icons8-email-50.png');
+    pages[currentPage].graphics.drawImage(PdfBitmap(emailImg.buffer.asUint8List(emailImg.offsetInBytes)), bounds);
+    //bounds = Rect.fromLTWH(bounds.left, bounds.bottom, bounds.width, Rect.largest.height);
     return addColorText(
       pageSize, 
       PdfBrushes.white, 
@@ -158,6 +166,7 @@ class TemplateA {
       Rect.fromLTWH(bounds.left, bounds.bottom, bounds.width, Rect.largest.height), 
       email
     );
+    
   }
 
   PdfLayoutResult drawDescription(Size pageSize, Rect bounds, String data) {
