@@ -48,7 +48,7 @@ class TemplateA {
     // leftBox = Rect.fromLTWH(leftBox.left+8, leftBox.top-8, leftBox.width-8, leftBox.height);
     // drawEmail(pageSize, leftBox,data.email??'nate123@gmail.com').bounds;
     // lists must be at bottom for now
-    // leftBox = Rect.fromLTWH(leftBox.left, leftBox.top+10, leftBox.width, leftBox.height);
+    leftBox = Rect.fromLTWH(leftBox.left, leftBox.top+30, leftBox.width, leftBox.height);
     if (data.skills != null && data.skills!.isNotEmpty) {
       leftBox = drawSkills(pageSize, leftBox, data.skills!).bounds;
     }
@@ -284,8 +284,14 @@ class TemplateA {
         PdfStandardFont(PdfFontFamily.helvetica, 12), 
         PdfStringFormat(), 
         Rect.fromLTWH(result.bounds.left, result.bounds.bottom+8, result.bounds.width, Rect.largest.height), 
-        '${skill.skill} level: ${skill.level}'
+        '${skill.skill}'
       );
+      int level = int.parse(skill.level!);
+      double sum = (result.bounds.right - 10) - (result.bounds.left);
+      double good = ((level/5) * sum);
+      double bad = (((5-level)/5) * sum);
+      pages[currentPage].graphics.drawRectangle(bounds: Rect.fromLTWH(result.bounds.left, result.bounds.bottom+4, good, 3),brush: PdfBrushes.white);
+      pages[currentPage].graphics.drawRectangle(bounds: Rect.fromLTWH(result.bounds.left+good, result.bounds.bottom+4, bad, 3),brush: PdfBrushes.yellow);
     }
     return result;
   }

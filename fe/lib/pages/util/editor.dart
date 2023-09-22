@@ -102,6 +102,15 @@ class EditorState extends State<Editor> {
   TextEditingController reasonController = TextEditingController();
   TextEditingController levelController = TextEditingController();
 
+  final List<String> _dropdownItems = [
+    '0',
+    '1',
+    '2',
+    '3',
+    '4',
+    '5'
+  ];
+
   // Text editing controllers for reference
   TextEditingController contactController = TextEditingController();
   TextEditingController descriptionRefController = TextEditingController();
@@ -1778,21 +1787,31 @@ class EditorState extends State<Editor> {
           ),
         ),
         const SizedBox(height: 20,),
-        SizedBox(
-          height: 80,
-          width: 30*w,
-          child: TextFormField(
-            maxLength: 10,
-            key: const Key('level'),
-            controller: levelController,
-            decoration: const InputDecoration(
-              counterText: "",
-              enabledBorder: OutlineInputBorder(),
-              labelText: 'level',
-            ),
-            validator: (value) {
-              return null;
-            },
+        Container(
+          width: 100,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            color: Colors.grey.shade100
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Text('Level: '),
+              DropdownButton<String>(
+                value: levelController.text,
+                onChanged: (String? newValue) {
+                  levelController.text = newValue??'0';
+                  setState(() {});
+                },
+                items: _dropdownItems.map((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+              ),
+            ],
           ),
         ),
         const SizedBox(height: 20,),
