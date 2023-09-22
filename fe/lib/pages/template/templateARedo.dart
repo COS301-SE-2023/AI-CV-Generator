@@ -211,9 +211,9 @@ class TemplateA {
       bodyHeadingFont,
       PdfStringFormat(),
       Rect.fromLTWH(bounds.left, bounds.bottom+16, bounds.width, Rect.largest.height),
-      "EDUCATION"
+      "Qualifications / Certifications"
     );
-    pages[currentPage].graphics.drawLine(PdfPens.black,Offset(result.bounds.left+90, result.bounds.bottom-bodyHeadingFont.height/2),Offset(result.bounds.right-10, result.bounds.bottom-bodyHeadingFont.height/2));
+    pages[currentPage].graphics.drawLine(PdfPens.black,Offset(result.bounds.left+190, result.bounds.bottom-bodyHeadingFont.height/2),Offset(result.bounds.right-10, result.bounds.bottom-bodyHeadingFont.height/2));
     for(AIQualification qualification in data) {
       result = addText(
         pageSize,

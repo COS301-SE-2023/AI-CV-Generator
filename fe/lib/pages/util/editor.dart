@@ -741,7 +741,7 @@ class EditorState extends State<Editor> {
                           onTap: () {
 
                           }, 
-                          iconSize: 40
+                          iconSize: w*2
                         )
                       ],
                     ),
@@ -819,7 +819,7 @@ class EditorState extends State<Editor> {
         ),
         const SizedBox(height: 10,),
         MenuButton(
-          text: 'Education',
+          text: 'Qualifications / Certifications',
           width: w*30,
           height: h*8,
           onTap: () {
@@ -1188,7 +1188,7 @@ class EditorState extends State<Editor> {
         Align(
           alignment: Alignment.topCenter,
           child: Text(
-            'Qualifications',
+            'Qualifications / Certifications',
             style: TextStyle(fontSize: 1.6*w),
           ),
         ),
