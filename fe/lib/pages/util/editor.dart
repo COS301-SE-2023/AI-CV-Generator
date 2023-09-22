@@ -513,6 +513,8 @@ class EditorState extends State<Editor> {
 
   save() {
     widget.data = data;
+    widget.option = templateOption;
+    widget.colors = colors;
     Navigator.pop(context);
   }
 
