@@ -114,18 +114,7 @@ class JobsPageState extends State<JobsPage> {
           onPressed: () { 
             Navigator.pop(context);
           },
-        ),
-        actions: [
-          IconButton(onPressed: () {}, 
-            icon: const Icon(
-              Icons.account_circle,
-              size: 32,
-            )
-          ),
-          const SizedBox(
-            width: 16,
-          )
-        ],
+        )
       ),
       body: SafeArea(
         child: Column(
