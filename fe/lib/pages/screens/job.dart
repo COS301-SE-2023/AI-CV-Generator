@@ -21,7 +21,6 @@ class JobsPage extends StatefulWidget {
 
 class JobsPageState extends State<JobsPage> {
   List<Widget> jobCards = [];
-  List<Widget> previousJobs = [];
   TextEditingController occupationC = TextEditingController();
   TextEditingController locationC = TextEditingController();
   final _formKey = GlobalKey<FormState>();
@@ -30,8 +29,6 @@ class JobsPageState extends State<JobsPage> {
   @override
   void initState() {
     populate();
-    previousJobs = jobCards;
-    setState(() {});
     super.initState();
   }
 
@@ -52,7 +49,6 @@ class JobsPageState extends State<JobsPage> {
     if(user != null) {
         List<JobResponseDTO>? jobs = await getJobs("accounting", "Pretoria");
         // List<JobResponseDTO>? jobs = await getRecommended();
-        jobs = [];
           if(jobs == null || jobs == []) {
             showError("No jobs to display!");
           } else {
@@ -71,12 +67,9 @@ class JobsPageState extends State<JobsPage> {
     List<JobResponseDTO>? jobs = await getJobs(occupation, location);
     setState(() {
     if(jobs == null || jobs.isEmpty == true) {
-      showError("No jobs to display!");
-      jobCards = previousJobs;
-      previousJobs = [];
+      showError("We couldn't find any results!");
     } else {
       createCards(jobs);
-      previousJobs = jobCards;
     }
     loading = false;
     });
@@ -254,7 +247,6 @@ class JobsPageState extends State<JobsPage> {
                       child: Wrap(
                         crossAxisAlignment: WrapCrossAlignment.center,
                         children: [
-                          // if(jobs == [])
                           if(loading == true)
                             const Padding(
                               padding: EdgeInsets.symmetric(vertical: 160),
