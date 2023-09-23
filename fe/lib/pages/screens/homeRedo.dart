@@ -22,6 +22,7 @@ import 'package:ai_cv_generator/pages/template/TemplateChoice.dart';
 import 'package:ai_cv_generator/pages/util/editor.dart';
 import 'package:ai_cv_generator/pages/util/errorMessage.dart';
 import 'package:ai_cv_generator/pages/util/fileView.dart';
+import 'package:ai_cv_generator/pages/util/namePromt.dart';
 import 'package:ai_cv_generator/pages/util/successMessage.dart';
 import 'package:ai_cv_generator/pages/widgets/EmptyCV.dart';
 import 'package:ai_cv_generator/pages/widgets/buttons/appBarButton.dart';
@@ -255,6 +256,18 @@ class HomeState extends State<Home> {
     Navigator.popUntil(context, ModalRoute.withName("/"));
   }
 
+  updateFiles() {
+    list = [];
+    FileApi.getFiles().then((value) {
+      for (var element in value!) {
+        paint.ImageProvider prov = paint.MemoryImage(element.cover);
+        list.add(add(element.filename,prov));
+      }
+        setState(() {
+      });
+    });
+  }
+
   // Initialize State
   @override
   void initState() {
@@ -351,6 +364,20 @@ class HomeState extends State<Home> {
     });
     bytes = await templateChoice(data!, option, colors);
     setCVLoadingOff();
+  }
+
+  Future<String?> promptName() async {
+    NamePrompt prompt = NamePrompt();
+    await showDialog(
+      context: context, 
+      builder: (context) {
+        return Container(
+          child: prompt,
+        );
+      }
+    );
+
+    return prompt.name;
   }
 
   // Build
@@ -495,7 +522,8 @@ class HomeState extends State<Home> {
                                   children:[
                                     templateChoices(TemplateOption.templateA, "assets/images/templateARework.png"),
                                     templateChoices(TemplateOption.templateB, "assets/images/templateBRework.png"),
-                                    templateChoices(TemplateOption.templateC, "assets/images/TemplateCAsset.jpg")
+                                    templateChoices(TemplateOption.templateC, "assets/images/TemplateCAsset.jpg"),
+                                    templateChoices(TemplateOption.templateD, "assets/images/templateDRework.png")
                                   ],
                                 )
                               ),
@@ -556,7 +584,7 @@ class HomeState extends State<Home> {
                                   },
                                   fontSize: w*0.8
                                 ),
-                                SizedBox(width: 4*w,),
+                                SizedBox(width: 2*w,),
                                 CustomizableButton(
                                   text: "Upload", 
                                   width: 7*w, 
@@ -594,10 +622,30 @@ class HomeState extends State<Home> {
                                   },
                                   fontSize: w*0.8
                                 ),
+                                if (generated)
+                                SizedBox(width: 2*w,),
+                                if (generated)
+                                CustomizableButton(
+                                  text: 'Save', 
+                                  width: 7*w, 
+                                  height: 5*h, 
+                                  onTap: () async {
+                                    if (bytes != null) {
+                                      String? name = await promptName();
+                                      if (name == null) return;
+                                      await FileApi.uploadFile(file: PlatformFile(name: '$name.pdf', size: bytes!.length, bytes: bytes));
+                                      updateFiles();
+                                    } else {
+                                      showError("Something went wrong!");
+                                      return;
+                                    }
+                                  }, 
+                                  fontSize: w*0.8
+                                )
                               ],
                             ),
                           ),
-                          if (showButtons)
+                          if (generated)
                           Container(
                             padding: EdgeInsets.only(
                               top: h*2

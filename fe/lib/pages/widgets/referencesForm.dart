@@ -207,7 +207,7 @@ class _ReferencesDetailsFormState extends State<ReferencesDetailsForm> {
                 ),
               ],
             ),
-            SizedBox(height: 5*h,),
+            SizedBox(height: 4*h,),
           ],
         )
       )

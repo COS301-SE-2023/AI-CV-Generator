@@ -1,6 +1,7 @@
 import 'package:ai_cv_generator/models/aimodels/CVData.dart';
 import 'package:ai_cv_generator/pages/template/TemplateChoice.dart';
 import 'package:ai_cv_generator/pages/util/editor.dart';
+import 'package:ai_cv_generator/pages/util/namePromt.dart';
 import 'package:ai_cv_generator/pages/widgets/buttons/customizableButton.dart';
 import 'package:flutter/material.dart';
 
@@ -30,6 +31,20 @@ class TestPageState extends State<TestPage> {
     return editor.data;
   }
 
+  Future<String?> promptName() async {
+    NamePrompt prompt = NamePrompt();
+    await showDialog(
+      context: context, 
+      builder: (context) {
+        return Container(
+          child: prompt,
+        );
+      }
+    );
+
+    return prompt.name;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,7 +66,8 @@ class TestPageState extends State<TestPage> {
                   references: [],
                   links: []
                 );
-                data = await showCV(data, TemplateOption.templateB);
+                //data = await showCV(data, TemplateOption.templateD);
+                print(await promptName());
               }, 
               fontSize: 10
             )
