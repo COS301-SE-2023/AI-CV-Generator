@@ -33,6 +33,8 @@ class UserServiceTest {
 
     private UserService userService;
 
+    private UUIDGenerator generator;
+
     @Mock
     private UserRepository userRepository;
 
@@ -67,6 +69,7 @@ class UserServiceTest {
     @BeforeEach
     void setUp() {
         closeable = MockitoAnnotations.openMocks(this);
+        generator = new UUIDGenerator();
         userService = new UserService(
                 userRepository,
                 fileRepository,
@@ -77,6 +80,7 @@ class UserServiceTest {
                 skillRepository,
                 shareRepository,
                 profileImageRepository,
+                generator,
                 passwordEncoder
         );
     }

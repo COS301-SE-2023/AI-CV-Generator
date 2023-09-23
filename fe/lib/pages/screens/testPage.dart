@@ -66,8 +66,8 @@ class TestPageState extends State<TestPage> {
                   references: [],
                   links: []
                 );
-                //data = await showCV(data, TemplateOption.templateD);
-                print(await promptName());
+                data = await showCV(data, TemplateOption.templateD);
+                //print(await promptName());
               }, 
               fontSize: 10
             )
