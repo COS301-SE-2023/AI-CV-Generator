@@ -341,7 +341,14 @@ class CreateJobCardState extends State<CreateJobCard> {
                       onTap: () async {
                         if(widget.link != null) {
                           if (await canLaunchUrl(Uri.parse(widget.link ?? ""))) {
-                            await launchUrl(Uri.parse(widget.link ?? ""));
+                            await launchUrl(
+                              Uri.parse(widget.link ?? ""),
+                              mode: LaunchMode.externalApplication,
+                              webViewConfiguration: WebViewConfiguration(
+                                enableDomStorage: true,
+                                enableJavaScript: true
+                              )
+                            );
                           }
                         }
                       }, 

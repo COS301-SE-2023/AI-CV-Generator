@@ -27,7 +27,8 @@ public class CareerJunctionService {
     public CompletableFuture<Set<JobResponseDTO>> careerJunction(JobScrapeRequest request) throws IOException {
         System.out.println("Career Junction start" + Thread.currentThread().getName());
         Set<JobResponseDTO> responseDTOS = new HashSet<>();
-        Document doc = Jsoup.connect("https://www.careerjunction.co.za/jobs/results?keywords="+request.getField().replaceAll(" ","%20")+"&location="+request.getLocation().replaceAll(" ", "%20")).get();
+        String url = "https://www.careerjunction.co.za/jobs/results?keywords="+request.getField().replaceAll(" ","%20")+"&location="+request.getLocation().replaceAll(" ", "%20");
+        Document doc = Jsoup.connect(url).get();
         Elements elements = doc.getElementsByClass("module job-result  ");
         for (Element el: elements) {
             try {
@@ -38,12 +39,15 @@ public class CareerJunctionService {
                 Elements titleA = title.get(0).getElementsByTag("a");
                 if (titleA.isEmpty()) continue;
                 String subtitle = null;
+                String link = null;
                 if (titleA.size() == 2) {
                     subtitle = titleA.get(1).ownText();
+                    link = titleA.get(1).attr("href");
                 }
                 String location = null;
                 String salary = null;
                 String imgLink = null;
+
                 if (!overview.isEmpty()) {
                     Elements locationEl = overview.get(0).getElementsByClass("location");
                     if (!locationEl.isEmpty()) {
@@ -54,6 +58,7 @@ public class CareerJunctionService {
                         salary = salaryEl.get(0).ownText();
                     }
                 }
+
                 Elements imgEl = el.getElementsByTag("img");
                 if (!imgEl.isEmpty()) {
                     imgLink = "https://www.careerjunction.co.za"+ imgEl.get(0).attr("src");
@@ -63,7 +68,7 @@ public class CareerJunctionService {
                 responseDTOS.add(
                         JobResponseDTO.builder()
                                 .title(titleA.first().ownText())
-                                .link("/")
+                                .link(url+link)
                                 .location(location)
                                 .subTitle(subtitle)
                                 .salary(salary)
