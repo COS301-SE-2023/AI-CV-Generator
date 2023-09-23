@@ -282,7 +282,8 @@ class TemplateE {
         Rect.fromLTWH(result.bounds.left, result.bounds.bottom+8, result.bounds.width, Rect.largest.height), 
         '${skill.skill}'
       );
-      int level = int.parse(skill.level!);
+      int level = int.tryParse(skill.level??'5')??5;
+      if (level > 5 || level < 0) level = 5;
       double sum = (result.bounds.right - 10) - (result.bounds.left);
       double good = ((level/5) * sum);
       double bad = (((5-level)/5) * sum);

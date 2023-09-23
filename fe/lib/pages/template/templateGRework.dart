@@ -8,7 +8,7 @@ import 'package:ai_cv_generator/pages/template/TemplateChoice.dart';
 import 'package:flutter/services.dart';
 import 'package:syncfusion_flutter_pdf/pdf.dart';
 
-class TemplateA {
+class TemplateG {
   //Create a PDF document.
   final PdfDocument document = PdfDocument();
   //Add page to the PDF
@@ -20,7 +20,7 @@ class TemplateA {
   PdfStandardFont bodyHeadingFont = PdfStandardFont(PdfFontFamily.helvetica, 14);
   PdfStandardFont bodyTextFont = PdfStandardFont(PdfFontFamily.helvetica, 12);
 
-  Uint8List templateA(CVData data, ColorSet colorSet) {
+  Uint8List templateG(CVData data, ColorSet colorSet) {
 
     //create the initial page
     document.pageSettings.margins.all = 15;
@@ -42,12 +42,8 @@ class TemplateA {
     );
     leftBox = Rect.fromLTWH(leftBox.left, leftBox.top +20, leftBox.width-8, leftBox.height);
     leftBox = drawNameSurname(pageSize, leftBox, '${data.firstname??'First name'}\n ${data.lastname??'Last Name'}\n').bounds;
-    // pages[currentPage].graphics.drawLine(PdfPens.white,Offset(leftBox.left, leftBox.bottom+8),Offset(leftBox.right+8, leftBox.bottom+8));
     leftBox = Rect.fromLTWH(leftBox.left+8, leftBox.top, leftBox.width-8, leftBox.height);
     leftBox = drawContactDetails(pageSize, leftBox, "- ${data.location??'Address'}\n\n- ${data.phoneNumber??'Phone Number'}\n\n- ${data.email??'nate123@gmail.com'}").bounds;
-    // leftBox = Rect.fromLTWH(leftBox.left+8, leftBox.top-8, leftBox.width-8, leftBox.height);
-    // drawEmail(pageSize, leftBox,data.email??'nate123@gmail.com').bounds;
-    // lists must be at bottom for now
     leftBox = Rect.fromLTWH(leftBox.left, leftBox.top+30, leftBox.width, leftBox.height);
     if (data.skills != null && data.skills!.isNotEmpty) {
       leftBox = drawSkills(pageSize, leftBox, data.skills!).bounds;

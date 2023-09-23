@@ -120,7 +120,7 @@ class TemplateB {
   PdfLayoutResult drawNameSurname(Size pageSize, Rect bounds, String data) {
     return addColorText(
       pageSize,
-      PdfSolidBrush(PdfColor(colorSet.colD!.red, colorSet.colD!.blue,colorSet.colD!.green, colorSet.colD!.alpha)),
+      PdfSolidBrush(PdfColor(colorSet.colD!.red, colorSet.colD!.green,colorSet.colD!.blue, colorSet.colD!.alpha)),
       PdfStandardFont(PdfFontFamily.helvetica, 30),
       PdfStringFormat(
         alignment: PdfTextAlignment.center,
@@ -134,7 +134,7 @@ class TemplateB {
   PdfLayoutResult drawContactDetails(Size pageSize, Rect bounds, String data) {
     bounds = addColorText(
       pageSize,
-      PdfSolidBrush(PdfColor(colorSet.colE!.red, colorSet.colE!.blue, colorSet.colE!.green,colorSet.colE!.alpha)),
+      PdfSolidBrush(PdfColor(colorSet.colE!.red, colorSet.colE!.green, colorSet.colE!.blue,colorSet.colE!.alpha)),
       bodyHeadingFont,
       PdfStringFormat(),
       Rect.fromLTWH(bounds.left, bounds.bottom+16, bounds.width, Rect.largest.height),
@@ -143,7 +143,7 @@ class TemplateB {
     pages[currentPage].graphics.drawLine(PdfPen(PdfColor(colorSet.colE!.red, colorSet.colE!.green, colorSet.colE!.blue,colorSet.colE!.alpha)),Offset(bounds.left+110, bounds.bottom-bodyHeadingFont.height/2),Offset(bounds.right-10, bounds.bottom-bodyHeadingFont.height/2));
     PdfLayoutResult result = addColorText(
       pageSize,
-      PdfSolidBrush(PdfColor(colorSet.colE!.red, colorSet.colE!.blue, colorSet.colE!.green,colorSet.colE!.alpha)),
+      PdfSolidBrush(PdfColor(colorSet.colE!.red, colorSet.colE!.green, colorSet.colE!.blue,colorSet.colE!.alpha)),
       bodyTextFont,
       PdfStringFormat(),
       Rect.fromLTWH(bounds.left, bounds.bottom+8, bounds.width, Rect.largest.height),
@@ -297,7 +297,8 @@ class TemplateB {
         Rect.fromLTWH(result.bounds.left, result.bounds.bottom+15, result.bounds.width, Rect.largest.height), 
         '${skill.skill}'
       );
-      int level = int.parse(skill.level!);
+      int level = int.tryParse(skill.level??'5')??5;
+      if (level > 5 || level < 0) level = 5;
       double sum = (result.bounds.right - 10) - (result.bounds.left);
       double good = ((level/5) * sum);
       double bad = (((5-level)/5) * sum);
