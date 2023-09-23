@@ -25,13 +25,18 @@ class ColorSet {
   Color? colC;
   Color? colD;
   Color? colE;
+  Color? colF;
+  Color? colG;
+
 
   ColorSet({
     this.colA,
     this.colB,
     this.colC,
     this.colD,
-    this.colE
+    this.colE,
+    this.colF,
+    this.colG
   });
 
   setColorSetTemplateChoice(TemplateOption option) {
@@ -55,14 +60,18 @@ class ColorSet {
     colC = null;
     colD = null;
     colE = null;
+    colF = null;
+    colG = null;
   }
 
   setColorSetB() {
     colA = Colors.blue.shade900;
     colB = Colors.white;
     colC = Colors.white;
-    colD = null;
-    colE = null;
+    colD = Colors.white;
+    colE = Colors.black;
+    colF = Colors.black;
+    colG = null;
   }
 
   setColorSetC() {
@@ -71,6 +80,9 @@ class ColorSet {
     colC = null;
     colD = null;
     colE = null;
+    colE = null;
+    colF = null;
+    colG = null;
   }
 
   setColorSetD() {
@@ -79,6 +91,9 @@ class ColorSet {
     colC = const Color.fromRGBO(250, 250, 250, 1);
     colD = null;
     colE = null;
+    colE = null;
+    colF = null;
+    colG = null;
   }
 
   setColorSetE() {
@@ -87,6 +102,9 @@ class ColorSet {
     colC = null;
     colD = null;
     colE = null;
+    colE = null;
+    colF = null;
+    colG = null;
   }
 
   getAmount() {

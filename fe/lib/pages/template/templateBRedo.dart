@@ -120,7 +120,7 @@ class TemplateB {
   PdfLayoutResult drawNameSurname(Size pageSize, Rect bounds, String data) {
     return addColorText(
       pageSize,
-      PdfBrushes.white,
+      PdfSolidBrush(PdfColor(colorSet.colD!.red, colorSet.colD!.blue,colorSet.colD!.green, colorSet.colD!.alpha)),
       PdfStandardFont(PdfFontFamily.helvetica, 30),
       PdfStringFormat(
         alignment: PdfTextAlignment.center,
@@ -132,16 +132,18 @@ class TemplateB {
   }
 
   PdfLayoutResult drawContactDetails(Size pageSize, Rect bounds, String data) {
-    bounds = addText(
+    bounds = addColorText(
       pageSize,
+      PdfSolidBrush(PdfColor(colorSet.colE!.red, colorSet.colE!.blue, colorSet.colE!.green,colorSet.colE!.alpha)),
       bodyHeadingFont,
       PdfStringFormat(),
       Rect.fromLTWH(bounds.left, bounds.bottom+16, bounds.width, Rect.largest.height),
       "Personal Details"
     ).bounds;
     pages[currentPage].graphics.drawLine(PdfPens.gray,Offset(bounds.left+110, bounds.bottom-bodyHeadingFont.height/2),Offset(bounds.right-10, bounds.bottom-bodyHeadingFont.height/2));
-    PdfLayoutResult result = addText(
+    PdfLayoutResult result = addColorText(
       pageSize,
+      PdfSolidBrush(PdfColor(colorSet.colE!.red, colorSet.colE!.blue, colorSet.colE!.green,colorSet.colE!.alpha)),
       bodyTextFont,
       PdfStringFormat(),
       Rect.fromLTWH(bounds.left, bounds.bottom+8, bounds.width, Rect.largest.height),
@@ -165,16 +167,18 @@ class TemplateB {
   }
 
   PdfLayoutResult drawDescription(Size pageSize, Rect bounds, String data) {
-    bounds = addText(
+    bounds = addColorText(
       pageSize,
+      PdfSolidBrush(PdfColor(colorSet.colF!.red, colorSet.colF!.green, colorSet.colF!.blue, colorSet.colF!.alpha)),
       bodyHeadingFont,
       PdfStringFormat(),
       Rect.fromLTWH(bounds.left, bounds.bottom+16, bounds.width, 0),
       "SUMMARY"
     ).bounds;
     pages[currentPage].graphics.drawLine(PdfPens.black,Offset(bounds.left+80, bounds.bottom-bodyHeadingFont.height/2),Offset(bounds.right-10, bounds.bottom-bodyHeadingFont.height/2));
-    PdfLayoutResult result =  addText(
+    PdfLayoutResult result =  addColorText(
       pageSize,
+      PdfSolidBrush(PdfColor(colorSet.colF!.red, colorSet.colF!.green, colorSet.colF!.blue, colorSet.colF!.alpha)),
       bodyTextFont,
       PdfStringFormat(),
       Rect.fromLTWH(bounds.left, bounds.bottom+8, bounds.width,Rect.largest.height),
@@ -184,8 +188,9 @@ class TemplateB {
   }
 
   PdfLayoutResult drawExperience(Size pageSize, Rect bounds, List data) {
-    PdfLayoutResult result = addText(
+    PdfLayoutResult result = addColorText(
       pageSize,
+      PdfSolidBrush(PdfColor(colorSet.colF!.red, colorSet.colF!.green, colorSet.colF!.blue, colorSet.colF!.alpha)),
       bodyHeadingFont,
       PdfStringFormat(),
       Rect.fromLTWH(bounds.left, bounds.bottom+16, bounds.width, Rect.largest.height),
@@ -193,8 +198,9 @@ class TemplateB {
     );
     pages[currentPage].graphics.drawLine(PdfPens.black,Offset(result.bounds.left+100, result.bounds.bottom-bodyHeadingFont.height/2),Offset(result.bounds.right-10, result.bounds.bottom-bodyHeadingFont.height/2));
     for(AIEmployment employment in data) {
-      result = addText(
+      result = addColorText(
         pageSize,
+        PdfSolidBrush(PdfColor(colorSet.colF!.red, colorSet.colF!.green, colorSet.colF!.blue, colorSet.colF!.alpha)),
         bodyTextFont,
         PdfStringFormat(),
         Rect.fromLTWH(result.bounds.left, result.bounds.bottom+8, result.bounds.width, Rect.largest.height),
@@ -205,8 +211,9 @@ class TemplateB {
   }
 
   PdfLayoutResult drawEducation(Size pageSize, Rect bounds, List data) {
-    PdfLayoutResult result = addText(
+    PdfLayoutResult result = addColorText(
       pageSize,
+      PdfSolidBrush(PdfColor(colorSet.colF!.red, colorSet.colF!.green, colorSet.colF!.blue, colorSet.colF!.alpha)),
       bodyHeadingFont,
       PdfStringFormat(),
       Rect.fromLTWH(bounds.left, bounds.bottom+16, bounds.width, Rect.largest.height),
@@ -214,8 +221,9 @@ class TemplateB {
     );
     pages[currentPage].graphics.drawLine(PdfPens.gray,Offset(result.bounds.left+190, result.bounds.bottom-bodyHeadingFont.height/2),Offset(result.bounds.right-10, result.bounds.bottom-bodyHeadingFont.height/2));
     for(AIQualification qualification in data) {
-      result = addText(
+      result = addColorText(
         pageSize,
+        PdfSolidBrush(PdfColor(colorSet.colF!.red, colorSet.colF!.green, colorSet.colF!.blue, colorSet.colF!.alpha)),
         bodyTextFont,
         PdfStringFormat(),
         Rect.fromLTWH(result.bounds.left, result.bounds.bottom+8, result.bounds.width, Rect.largest.height),
@@ -226,8 +234,9 @@ class TemplateB {
   }
 
   PdfLayoutResult drawReference(Size pageSize, Rect bounds, List data) {
-    PdfLayoutResult result = addText(
+    PdfLayoutResult result = addColorText(
       pageSize,
+      PdfSolidBrush(PdfColor(colorSet.colF!.red, colorSet.colF!.green, colorSet.colF!.blue, colorSet.colF!.alpha)),
       bodyHeadingFont,
       PdfStringFormat(),
       Rect.fromLTWH(bounds.left, bounds.bottom+16, bounds.width, Rect.largest.height),
@@ -235,8 +244,9 @@ class TemplateB {
     );
     pages[currentPage].graphics.drawLine(PdfPens.gray,Offset(result.bounds.left+100, result.bounds.bottom-bodyHeadingFont.height/2),Offset(result.bounds.right-10, result.bounds.bottom-bodyHeadingFont.height/2));
     for(AIReference reference in data) {
-      result = addText(
+      result = addColorText(
         pageSize,
+        PdfSolidBrush(PdfColor(colorSet.colF!.red, colorSet.colF!.green, colorSet.colF!.blue, colorSet.colF!.alpha)),
         bodyTextFont,
         PdfStringFormat(),
         Rect.fromLTWH(result.bounds.left, result.bounds.bottom+8, result.bounds.width, Rect.largest.height),
@@ -246,8 +256,9 @@ class TemplateB {
     return result;
   }
   PdfLayoutResult drawLinks(Size pageSize, Rect bounds, List data) {
-    PdfLayoutResult result = addText(
+    PdfLayoutResult result = addColorText(
       pageSize,
+      PdfSolidBrush(PdfColor(colorSet.colE!.red, colorSet.colE!.green, colorSet.colE!.blue,colorSet.colE!.alpha)),
       bodyHeadingFont,
       PdfStringFormat(),
       Rect.fromLTWH(bounds.left, bounds.bottom+16, bounds.width, Rect.largest.height),
@@ -255,8 +266,9 @@ class TemplateB {
     );
     pages[currentPage].graphics.drawLine(PdfPens.gray,Offset(result.bounds.left+40, result.bounds.bottom-bodyHeadingFont.height/2),Offset(result.bounds.right-10, result.bounds.bottom-bodyHeadingFont.height/2));
     for(AILink link in data) {
-      result = addText(
+      result = addColorText(
         pageSize,
+        PdfSolidBrush(PdfColor(colorSet.colE!.red, colorSet.colE!.green, colorSet.colE!.blue,colorSet.colE!.alpha)),
         bodyTextFont,
         PdfStringFormat(),
         Rect.fromLTWH(result.bounds.left, result.bounds.bottom+8, result.bounds.width, Rect.largest.height),
@@ -267,8 +279,9 @@ class TemplateB {
   }
 
   PdfLayoutResult drawSkills(Size pageSize, Rect bounds, List data) {
-    PdfLayoutResult result  = addText(
+    PdfLayoutResult result  = addColorText(
       pageSize,
+      PdfSolidBrush(PdfColor(colorSet.colE!.red, colorSet.colE!.green, colorSet.colE!.blue,colorSet.colE!.alpha)),
       bodyHeadingFont,
       PdfStringFormat(),
       Rect.fromLTWH(bounds.left, bounds.bottom+8, bounds.width, bounds.height),
@@ -276,8 +289,9 @@ class TemplateB {
     );
     pages[currentPage].graphics.drawLine(PdfPens.gray,Offset(result.bounds.left+60, result.bounds.bottom-bodyHeadingFont.height/2),Offset(result.bounds.right-10, result.bounds.bottom-bodyHeadingFont.height/2));
     for (AISkill skill in data) {
-      result = addText(
+      result = addColorText(
         pageSize, 
+        PdfSolidBrush(PdfColor(colorSet.colE!.red, colorSet.colE!.green, colorSet.colE!.blue,colorSet.colE!.alpha)),
         PdfStandardFont(PdfFontFamily.helvetica, 14), 
         PdfStringFormat(), 
         Rect.fromLTWH(result.bounds.left, result.bounds.bottom+15, result.bounds.width, Rect.largest.height), 

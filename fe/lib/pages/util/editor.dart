@@ -742,18 +742,20 @@ class EditorState extends State<Editor> {
                             updatePdf();
                           }
                         ),
-                        // const SizedBox(
-                        //   height: 10,
-                        // ),
-                        // CustomizableIconButton(
-                        //   icon: Icons.switch_right, 
-                        //   width: 40, 
-                        //   height: 40, 
-                        //   onTap: () async {
-                        //     await templatePicker();
-                        //   }, 
-                        //   iconSize: w*2
-                        // )
+                        if (colors.colF != null)
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        if (colors.colF != null)
+                        ColourBox(
+                          color: colors.colF!, 
+                          h: 40, 
+                          w: 40, 
+                          onTap: () async {
+                            colors.colF = await pickColour(context, colors.colF!);
+                            updatePdf();
+                          }
+                        ),
                       ],
                     ),
                   ),
