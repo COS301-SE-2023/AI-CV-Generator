@@ -30,30 +30,29 @@ class TemplateE {
     this.colorSet = colorSet;
     //set main regions for text
     
-    Rect leftBox = Rect.fromLTWH(0, 0, pageSize.width/3, pageSize.height);
-    Rect rightBox = Rect.fromLTWH(leftBox.width, 0, pageSize.width/3*2, pageSize.height);
-
-    
+    Rect leftBox = Rect.fromLTWH(0, 0, pageSize.width, pageSize.height);
+    Rect rightBox = leftBox;
+    // Rect rightBox = Rect.fromLTWH(leftBox.width, 0, pageSize.width/3*2, pageSize.height);
 
     //left
-    pages[currentPage].graphics.drawRectangle(
-      brush: PdfSolidBrush(PdfColor(colorSet.colA!.red,colorSet.colA!.green,colorSet.colA!.blue,colorSet.colA!.alpha)),
-      bounds: leftBox
-    );
-    leftBox = Rect.fromLTWH(leftBox.left, leftBox.top +20, leftBox.width-8, leftBox.height);
-    leftBox = drawNameSurname(pageSize, leftBox, '${data.firstname??'First name'}\n ${data.lastname??'Last Name'}\n').bounds;
+    // pages[currentPage].graphics.drawRectangle(
+    //   brush: PdfSolidBrush(PdfColor(colorSet.colA!.red,colorSet.colA!.green,colorSet.colA!.blue,colorSet.colA!.alpha)),
+    //   bounds: leftBox
+    // );
+    leftBox = Rect.fromLTWH(leftBox.left, leftBox.top, leftBox.width-8, leftBox.height);
+    leftBox = drawNameSurname(pageSize, leftBox, '${data.firstname??'First name'} ${data.lastname??'Last Name'}').bounds;
     leftBox = Rect.fromLTWH(leftBox.left+8, leftBox.top, leftBox.width-8, leftBox.height);
-    leftBox = drawContactDetails(pageSize, leftBox, "- ${data.location??'Address'}\n\n- ${data.phoneNumber??'Phone Number'}\n\n- ${data.email??'nate123@gmail.com'}").bounds;
+    leftBox = drawContactDetails(pageSize, leftBox, "${data.location??'Address'} - ${data.phoneNumber??'Phone Number'} - ${data.email??'nate123@gmail.com'}\n\n").bounds;
     leftBox = Rect.fromLTWH(leftBox.left, leftBox.top+30, leftBox.width, leftBox.height);
     if (data.skills != null && data.skills!.isNotEmpty) {
       leftBox = drawSkills(pageSize, leftBox, data.skills!).bounds;
     }
     
-    pages[currentPage].graphics.drawRectangle(
-      brush: PdfSolidBrush(PdfColor(colorSet.colB!.red, colorSet.colB!.green, colorSet.colB!.blue,colorSet.colB!.alpha)),
-      bounds: rightBox
-    );
-    rightBox = Rect.fromLTWH(rightBox.left+8, rightBox.top, rightBox.width-16, 0);
+    // pages[currentPage].graphics.drawRectangle(
+    //   brush: PdfSolidBrush(PdfColor(colorSet.colB!.red, colorSet.colB!.green, colorSet.colB!.blue,colorSet.colB!.alpha)),
+    //   bounds: rightBox
+    // );
+    rightBox = Rect.fromLTWH(rightBox.left+8, rightBox.top+30, rightBox.width-16, 0);
     rightBox = drawDescription(pageSize, rightBox, data.description??'Description').bounds;
     if (data.employmenthistory != null && data.employmenthistory!.isNotEmpty) {
       rightBox = drawExperience(pageSize, rightBox, data.employmenthistory!).bounds;
@@ -115,11 +114,11 @@ class TemplateE {
   PdfLayoutResult drawNameSurname(Size pageSize, Rect bounds, String data) {
     return addColorText(
       pageSize,
-      PdfBrushes.white,
+      PdfBrushes.black,
       PdfStandardFont(PdfFontFamily.helvetica, 15),
       PdfStringFormat(
         alignment: PdfTextAlignment.center,
-        lineAlignment: PdfVerticalAlignment.top
+        // lineAlignment: PdfVerticalAlignment.top
       ),
       bounds,
       data
@@ -127,20 +126,11 @@ class TemplateE {
   }
 
   PdfLayoutResult drawContactDetails(Size pageSize, Rect bounds, String data) {
-    bounds = addColorText(
-      pageSize,
-      PdfBrushes.white,
-      bodyHeadingFont,
-      PdfStringFormat(),
-      Rect.fromLTWH(bounds.left, bounds.bottom+16, bounds.width, Rect.largest.height),
-      "Personal Details"
-    ).bounds;
-    pages[currentPage].graphics.drawLine(PdfPens.white,Offset(bounds.left+110, bounds.bottom-bodyHeadingFont.height/2),Offset(bounds.right-10, bounds.bottom-bodyHeadingFont.height/2));
     PdfLayoutResult result = addColorText(
       pageSize,
-      PdfBrushes.white,
+      PdfBrushes.black,
       bodyTextFont,
-      PdfStringFormat(),
+      PdfStringFormat(alignment: PdfTextAlignment.center,),
       Rect.fromLTWH(bounds.left, bounds.bottom+8, bounds.width, Rect.largest.height),
       data
     );
@@ -149,10 +139,10 @@ class TemplateE {
 
   PdfLayoutResult drawEmail(Size pageSize, Rect bounds, String email) {
     PdfFont font = PdfStandardFont(PdfFontFamily.helvetica, 9);
-    pages[currentPage].graphics.drawLine(PdfPens.white,Offset(bounds.left, bounds.bottom+font.height/2),Offset(bounds.left + 10, bounds.bottom+font.height/2));
+    pages[currentPage].graphics.drawLine(PdfPens.black,Offset(bounds.left, bounds.bottom+font.height/2),Offset(bounds.left + 10, bounds.bottom+font.height/2));
     return addColorText(
       pageSize, 
-      PdfBrushes.white, 
+      PdfBrushes.black, 
       font, 
       PdfStringFormat(), 
       Rect.fromLTWH(bounds.left+15, bounds.bottom, bounds.width, Rect.largest.height), 
@@ -266,17 +256,17 @@ class TemplateE {
   PdfLayoutResult drawSkills(Size pageSize, Rect bounds, List data) {
     PdfLayoutResult result  = addColorText(
       pageSize,
-      PdfBrushes.white,
+      PdfBrushes.black,
       bodyHeadingFont,
       PdfStringFormat(),
       Rect.fromLTWH(bounds.left, bounds.bottom+8, bounds.width, bounds.height),
       "Skills"
     );
-    pages[currentPage].graphics.drawLine(PdfPens.white,Offset(result.bounds.left+60, result.bounds.bottom-bodyHeadingFont.height/2),Offset(result.bounds.right-10, result.bounds.bottom-bodyHeadingFont.height/2));
+    pages[currentPage].graphics.drawLine(PdfPens.black,Offset(result.bounds.left+60, result.bounds.bottom-bodyHeadingFont.height/2),Offset(result.bounds.right-10, result.bounds.bottom-bodyHeadingFont.height/2));
     for (AISkill skill in data) {
       result = addColorText(
         pageSize, 
-        PdfBrushes.white, 
+        PdfBrushes.black, 
         PdfStandardFont(PdfFontFamily.helvetica, 12), 
         PdfStringFormat(), 
         Rect.fromLTWH(result.bounds.left, result.bounds.bottom+8, result.bounds.width, Rect.largest.height), 
@@ -287,7 +277,7 @@ class TemplateE {
       double sum = (result.bounds.right - 10) - (result.bounds.left);
       double good = ((level/5) * sum);
       double bad = (((5-level)/5) * sum);
-      pages[currentPage].graphics.drawRectangle(bounds: Rect.fromLTWH(result.bounds.left, result.bounds.bottom+4, good, 3),brush: PdfBrushes.white);
+      pages[currentPage].graphics.drawRectangle(bounds: Rect.fromLTWH(result.bounds.left, result.bounds.bottom+4, good, 3),brush: PdfBrushes.black);
       pages[currentPage].graphics.drawRectangle(bounds: Rect.fromLTWH(result.bounds.left+good, result.bounds.bottom+4, bad, 3),brush: PdfBrushes.yellow);
     }
     return result;

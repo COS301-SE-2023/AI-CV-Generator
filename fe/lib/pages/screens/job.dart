@@ -21,15 +21,14 @@ class JobsPage extends StatefulWidget {
 
 class JobsPageState extends State<JobsPage> {
   List<Widget> jobCards = [];
-  List<Widget> previousJobs = [];
   TextEditingController occupationC = TextEditingController();
   TextEditingController locationC = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  bool loading = true;
 
   @override
   void initState() {
     populate();
-    previousJobs = jobCards;
     super.initState();
   }
 
@@ -50,26 +49,29 @@ class JobsPageState extends State<JobsPage> {
     if(user != null) {
         List<JobResponseDTO>? jobs = await getJobs("accounting", "Pretoria");
         // List<JobResponseDTO>? jobs = await getRecommended();
-        setState(() {
-          createCards(jobs);
-        });
+          if(jobs == null || jobs == []) {
+            showError("No jobs to display!");
+          } else {
+            setState(() {
+              createCards(jobs);
+            });
+          }
     } else {
       showError("Something went wrong!");
       toLogin();
     }
+    loading = false;
   }
 
   Future<void> searchJobs(String occupation, String location) async {
     List<JobResponseDTO>? jobs = await getJobs(occupation, location);
     setState(() {
     if(jobs == null || jobs.isEmpty == true) {
-      showError("No jobs to display!");
-      jobCards = previousJobs;
-      previousJobs = [];
+      showError("We couldn't find any results!");
     } else {
       createCards(jobs);
-      previousJobs = jobCards;
     }
+    loading = false;
     });
   }
 
@@ -202,6 +204,7 @@ class JobsPageState extends State<JobsPage> {
                                 if(_formKey.currentState!.validate() == true) {
                                   setState(() {
                                     jobCards = [];
+                                    loading = true;
                                   });
                                   await searchJobs(occupationC.text, locationC.text);
                                 }
@@ -244,7 +247,7 @@ class JobsPageState extends State<JobsPage> {
                       child: Wrap(
                         crossAxisAlignment: WrapCrossAlignment.center,
                         children: [
-                          if(jobCards.isEmpty == true)
+                          if(loading == true)
                             const Padding(
                               padding: EdgeInsets.symmetric(vertical: 160),
                               child:LoadingScreen(),
