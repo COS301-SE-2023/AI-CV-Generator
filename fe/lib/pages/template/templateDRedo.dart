@@ -275,34 +275,30 @@ class TemplateD {
     List<String> skills = [];
     for(AISkill skill in data)
     {
-      skills.add('${skill.skill??'Skill'} level: ${skill.level??'5'}');
+      skills.add('${skill.skill??'Skill'}: ${skill.level??'5'} / 5');
     }
-    final skillsList = PdfUnorderedList(
-      marker: PdfUnorderedMarker(
-          font: PdfStandardFont(PdfFontFamily.helvetica, 12),
-          style: PdfUnorderedMarkerStyle.disk,
-      ),
-      items: PdfListItemCollection(
-        skills
-      ),
-      textIndent: 5,
-      indent: 10
-    );
-    PdfLayoutResult result  = addText(
+    PdfLayoutResult result = addColorText(
       pageSize,
+      PdfBrushes.white,
       bodyHeadingFont,
       PdfStringFormat(),
-      Rect.fromLTWH(bounds.left, bounds.bottom+8, bounds.width, bounds.height),
-      "SKILLS"
+      Rect.fromLTWH(bounds.left, bounds.bottom+16, bounds.width, Rect.largest.height),
+      "Core Qualifications"
     );
     Rect newbounds = Rect.fromLTWH(0, result.bounds.bottom+8, pageSize.width/3, 0);
     if (newbounds.top + PdfStandardFont(PdfFontFamily.helvetica,10).height >= 762) {
       bounds = addPage();
     }
-    skillsList.draw(
-      page: pages[currentPage],
-      bounds: Rect.fromLTWH(0, result.bounds.bottom+8, pageSize.width/3, 0),
-    );
+    for(String skill in skills) {
+      result = addColorText(
+        pageSize,
+        PdfBrushes.white,
+        bodyHeadingFont,
+        PdfStringFormat(),
+        Rect.fromLTWH(result.bounds.left, result.bounds.bottom+8, result.bounds.width, Rect.largest.height),
+        skill
+      );
+    }
     return result;
   }
 }
