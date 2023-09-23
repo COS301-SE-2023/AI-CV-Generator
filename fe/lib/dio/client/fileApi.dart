@@ -171,7 +171,7 @@ class FileApi extends DioClient {
 
   static Future<String> generateUrlFromNewFile({
     required PlatformFile? file,
-    required DateTime date
+    required int hours
   }) async {
     String url = "";
     try {
@@ -180,15 +180,12 @@ class FileApi extends DioClient {
         "file": MultipartFile.fromBytes(
           file.bytes as List<int>, filename: file.name,
         ),
-        "Date": date.toIso8601String(),
+        "hours": hours,
         "base": "http://${Uri.base.host}:${Uri.base.port}/"
       });
       Response response = await DioClient.dio.post(
           'api/User/shareFile',
           data: formData,
-          onSendProgress: (int sent, int total) {
-            print('$sent $total');
-          },
         );
       ShareFileResponse resp =ShareFileResponse.fromJson(response.data);
         url = resp.generatedUrl;

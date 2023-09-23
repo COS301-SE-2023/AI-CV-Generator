@@ -143,10 +143,8 @@ class ShareWidgetState extends State<ShareWidget> {
               const SizedBox(height: 8.0,),
               InkWell(
                 onTap: () async {
-                  Duration duration = DateTime.now().difference(date);
-                  widget.file = PlatformFile(name: "${nameC.text}.pdf", size: widget.file!.bytes!.length,bytes: widget.file?.bytes);
-                  await FileApi.uploadFile(file: widget.file);
-                  String linkToCV = await FileApi.generateUrl(filename: widget.file!.name,duration: duration);
+                  PlatformFile file = PlatformFile(name: '${nameC.text}.pdf', size: widget.file!.bytes!.length,bytes: widget.file!.bytes);
+                  String linkToCV = await FileApi.generateUrlFromNewFile(file: widget.file,hours: int.parse(timeInput.text));
                   Clipboard.setData(ClipboardData(text: linkToCV));
                 },
                 child: Row(

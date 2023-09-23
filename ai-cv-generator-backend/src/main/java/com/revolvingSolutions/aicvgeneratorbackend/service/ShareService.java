@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -26,7 +27,7 @@ public class ShareService {
     @Transactional
     public ResponseEntity<Resource> RetriveUrl(RetrieveFileWithURLRequest request) {
         try {
-            ShareEntity share = shareRepository.getReferenceById(request.getUuid());
+            ShareEntity share = shareRepository.getByUuid(request.getUuid()).orElseThrow();
             if (update(share)) {
                 throw new FileNotFoundException("Expired");
             }
@@ -50,8 +51,8 @@ public class ShareService {
     }
 
     private Boolean update(ShareEntity geting) {
-        List<ShareEntity> expired = shareRepository.getExpiredURLs(Date.from(Instant.now()));
-        shareRepository.deleteAllInBatch(shareRepository.getExpiredURLs(Date.from(Instant.now())));
+        List<ShareEntity> expired = shareRepository.getExpiredURLs(LocalDateTime.now());
+        shareRepository.deleteAllInBatch(shareRepository.getExpiredURLs(LocalDateTime.now()));
         shareRepository.flush();
         if (expired.contains(geting)) {
             return true;
