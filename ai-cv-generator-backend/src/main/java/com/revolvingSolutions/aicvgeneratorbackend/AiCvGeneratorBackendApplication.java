@@ -22,9 +22,24 @@ public class AiCvGeneratorBackendApplication {
 		return new RestTemplate();
 	}
 
-	@Bean
-	public Executor asyncExecutor() {
+	@Bean(name = "task1")
+	public Executor asyncExecutor1() {
         return new ThreadPoolTaskExecutor();
+	}
+
+	@Bean(name = "task2")
+	public Executor asyncExecutor2() {
+		return new ThreadPoolTaskExecutor();
+	}
+
+	@Bean(name = "task3")
+	public Executor asyncExecutor3() {
+		return new ThreadPoolTaskExecutor();
+	}
+
+	@Bean(name = "taskExecutor")
+	public Executor asyncExecutor() {
+		return new ThreadPoolTaskExecutor();
 	}
 
 }
