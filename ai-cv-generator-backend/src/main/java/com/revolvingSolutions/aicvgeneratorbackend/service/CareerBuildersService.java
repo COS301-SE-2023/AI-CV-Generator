@@ -33,11 +33,11 @@ public class CareerBuildersService {
         Element list = main.getElementsByClass("section__content__results").first();
         Elements listelements = doc.getElementsByClass("article article--result ");
         for (Element el : listelements) {
-            if (amount.get()==0) {
-                return CompletableFuture.completedFuture(
-                        responseDTOS
-                );
-            }
+//            if (amount.get()==0) {
+//                return CompletableFuture.completedFuture(
+//                        responseDTOS
+//                );
+//            }
             try {
                 if (el.getElementsByClass("article__header__text__title article__header__text__title--4 ").isEmpty()) {
                     continue;

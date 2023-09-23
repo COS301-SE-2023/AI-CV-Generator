@@ -30,11 +30,11 @@ public class CareerJunctionService {
         Document doc = Jsoup.connect("https://www.careerjunction.co.za/jobs/results?keywords="+request.getField().replaceAll(" ","%20")+"&location="+request.getLocation().replaceAll(" ", "%20")).get();
         Elements elements = doc.getElementsByClass("module job-result  ");
         for (Element el: elements) {
-            if (amount.get()==0) {
-                return CompletableFuture.completedFuture(
-                        responseDTOS
-                );
-            }
+//            if (amount.get()==0) {
+//                return CompletableFuture.completedFuture(
+//                        responseDTOS
+//                );
+//            }
             try {
                 Elements title = el.getElementsByClass("job-result-title");
                 Elements logo = el.getElementsByClass("job-result-logo-title");
