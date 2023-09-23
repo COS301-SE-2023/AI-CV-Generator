@@ -756,6 +756,20 @@ class EditorState extends State<Editor> {
                             updatePdf();
                           }
                         ),
+                        if (colors.colG != null)
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        if (colors.colG != null)
+                        ColourBox(
+                          color: colors.colG!, 
+                          h: 40, 
+                          w: 40, 
+                          onTap: () async {
+                            colors.colG = await pickColour(context, colors.colG!);
+                            updatePdf();
+                          }
+                        ),
                       ],
                     ),
                   ),

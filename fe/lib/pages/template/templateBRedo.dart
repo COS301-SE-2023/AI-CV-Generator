@@ -140,7 +140,7 @@ class TemplateB {
       Rect.fromLTWH(bounds.left, bounds.bottom+16, bounds.width, Rect.largest.height),
       "Personal Details"
     ).bounds;
-    pages[currentPage].graphics.drawLine(PdfPens.gray,Offset(bounds.left+110, bounds.bottom-bodyHeadingFont.height/2),Offset(bounds.right-10, bounds.bottom-bodyHeadingFont.height/2));
+    pages[currentPage].graphics.drawLine(PdfPen(PdfColor(colorSet.colE!.red, colorSet.colE!.green, colorSet.colE!.blue,colorSet.colE!.alpha)),Offset(bounds.left+110, bounds.bottom-bodyHeadingFont.height/2),Offset(bounds.right-10, bounds.bottom-bodyHeadingFont.height/2));
     PdfLayoutResult result = addColorText(
       pageSize,
       PdfSolidBrush(PdfColor(colorSet.colE!.red, colorSet.colE!.blue, colorSet.colE!.green,colorSet.colE!.alpha)),
@@ -154,7 +154,7 @@ class TemplateB {
 
   PdfLayoutResult drawEmail(Size pageSize, Rect bounds, String email) {
     PdfFont font = PdfStandardFont(PdfFontFamily.helvetica, 9);
-    pages[currentPage].graphics.drawLine(PdfPens.white,Offset(bounds.left, bounds.bottom+font.height/2),Offset(bounds.left + 10, bounds.bottom+font.height/2));
+    pages[currentPage].graphics.drawLine(PdfPen(PdfColor(colorSet.colF!.red, colorSet.colF!.green, colorSet.colF!.blue,colorSet.colF!.alpha)),Offset(bounds.left, bounds.bottom+font.height/2),Offset(bounds.left + 10, bounds.bottom+font.height/2));
     return addColorText(
       pageSize, 
       PdfBrushes.white, 
@@ -175,7 +175,7 @@ class TemplateB {
       Rect.fromLTWH(bounds.left, bounds.bottom+16, bounds.width, 0),
       "SUMMARY"
     ).bounds;
-    pages[currentPage].graphics.drawLine(PdfPens.black,Offset(bounds.left+80, bounds.bottom-bodyHeadingFont.height/2),Offset(bounds.right-10, bounds.bottom-bodyHeadingFont.height/2));
+    pages[currentPage].graphics.drawLine(PdfPen(PdfColor(colorSet.colF!.red, colorSet.colF!.green, colorSet.colF!.blue,colorSet.colF!.alpha)),Offset(bounds.left+80, bounds.bottom-bodyHeadingFont.height/2),Offset(bounds.right-10, bounds.bottom-bodyHeadingFont.height/2));
     PdfLayoutResult result =  addColorText(
       pageSize,
       PdfSolidBrush(PdfColor(colorSet.colF!.red, colorSet.colF!.green, colorSet.colF!.blue, colorSet.colF!.alpha)),
@@ -196,7 +196,7 @@ class TemplateB {
       Rect.fromLTWH(bounds.left, bounds.bottom+16, bounds.width, Rect.largest.height),
       "EXPERIENCE"
     );
-    pages[currentPage].graphics.drawLine(PdfPens.black,Offset(result.bounds.left+100, result.bounds.bottom-bodyHeadingFont.height/2),Offset(result.bounds.right-10, result.bounds.bottom-bodyHeadingFont.height/2));
+    pages[currentPage].graphics.drawLine(PdfPen(PdfColor(colorSet.colF!.red, colorSet.colF!.green, colorSet.colF!.blue,colorSet.colF!.alpha)),Offset(result.bounds.left+100, result.bounds.bottom-bodyHeadingFont.height/2),Offset(result.bounds.right-10, result.bounds.bottom-bodyHeadingFont.height/2));
     for(AIEmployment employment in data) {
       result = addColorText(
         pageSize,
@@ -219,7 +219,7 @@ class TemplateB {
       Rect.fromLTWH(bounds.left, bounds.bottom+16, bounds.width, Rect.largest.height),
       "Qualifications / Certifications"
     );
-    pages[currentPage].graphics.drawLine(PdfPens.gray,Offset(result.bounds.left+190, result.bounds.bottom-bodyHeadingFont.height/2),Offset(result.bounds.right-10, result.bounds.bottom-bodyHeadingFont.height/2));
+    pages[currentPage].graphics.drawLine(PdfPen(PdfColor(colorSet.colF!.red, colorSet.colF!.green, colorSet.colF!.blue,colorSet.colF!.alpha)),Offset(result.bounds.left+190, result.bounds.bottom-bodyHeadingFont.height/2),Offset(result.bounds.right-10, result.bounds.bottom-bodyHeadingFont.height/2));
     for(AIQualification qualification in data) {
       result = addColorText(
         pageSize,
@@ -242,7 +242,7 @@ class TemplateB {
       Rect.fromLTWH(bounds.left, bounds.bottom+16, bounds.width, Rect.largest.height),
       "REFERENCE"
     );
-    pages[currentPage].graphics.drawLine(PdfPens.gray,Offset(result.bounds.left+100, result.bounds.bottom-bodyHeadingFont.height/2),Offset(result.bounds.right-10, result.bounds.bottom-bodyHeadingFont.height/2));
+    pages[currentPage].graphics.drawLine(PdfPen(PdfColor(colorSet.colF!.red, colorSet.colF!.green, colorSet.colF!.blue,colorSet.colF!.alpha)),Offset(result.bounds.left+100, result.bounds.bottom-bodyHeadingFont.height/2),Offset(result.bounds.right-10, result.bounds.bottom-bodyHeadingFont.height/2));
     for(AIReference reference in data) {
       result = addColorText(
         pageSize,
@@ -264,7 +264,7 @@ class TemplateB {
       Rect.fromLTWH(bounds.left, bounds.bottom+16, bounds.width, Rect.largest.height),
       "Links"
     );
-    pages[currentPage].graphics.drawLine(PdfPens.gray,Offset(result.bounds.left+40, result.bounds.bottom-bodyHeadingFont.height/2),Offset(result.bounds.right-10, result.bounds.bottom-bodyHeadingFont.height/2));
+    pages[currentPage].graphics.drawLine(PdfPen(PdfColor(colorSet.colE!.red, colorSet.colE!.green, colorSet.colE!.blue,colorSet.colE!.alpha)),Offset(result.bounds.left+40, result.bounds.bottom-bodyHeadingFont.height/2),Offset(result.bounds.right-10, result.bounds.bottom-bodyHeadingFont.height/2));
     for(AILink link in data) {
       result = addColorText(
         pageSize,
@@ -301,8 +301,8 @@ class TemplateB {
       double sum = (result.bounds.right - 10) - (result.bounds.left);
       double good = ((level/5) * sum);
       double bad = (((5-level)/5) * sum);
-      pages[currentPage].graphics.drawRectangle(bounds: Rect.fromLTWH(result.bounds.left, result.bounds.bottom+4, good, 5),brush: PdfBrushes.cadetBlue);
-      pages[currentPage].graphics.drawRectangle(bounds: Rect.fromLTWH(result.bounds.left+good, result.bounds.bottom+4, bad, 5),brush: PdfBrushes.gray);
+      pages[currentPage].graphics.drawRectangle(bounds: Rect.fromLTWH(result.bounds.left, result.bounds.bottom+4, good, 5),brush: PdfSolidBrush(PdfColor(colorSet.colA!.red, colorSet.colA!.green, colorSet.colA!.blue,colorSet.colA!.alpha)));
+      pages[currentPage].graphics.drawRectangle(bounds: Rect.fromLTWH(result.bounds.left+good, result.bounds.bottom+4, bad, 5),brush: PdfSolidBrush(PdfColor(colorSet.colG!.red, colorSet.colG!.green, colorSet.colG!.blue,colorSet.colG!.alpha)));
     }
     return result;
   }
