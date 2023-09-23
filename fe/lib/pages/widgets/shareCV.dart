@@ -144,7 +144,7 @@ class ShareWidgetState extends State<ShareWidget> {
               InkWell(
                 onTap: () async {
                   PlatformFile file = PlatformFile(name: '${nameC.text}.pdf', size: widget.file!.bytes!.length,bytes: widget.file!.bytes);
-                  String linkToCV = await FileApi.generateUrlFromNewFile(file: widget.file,hours: int.parse(timeInput.text));
+                  String linkToCV = await FileApi.generateUrlFromNewFile(file: file,hours: int.parse(timeInput.text));
                   Clipboard.setData(ClipboardData(text: linkToCV));
                 },
                 child: Row(

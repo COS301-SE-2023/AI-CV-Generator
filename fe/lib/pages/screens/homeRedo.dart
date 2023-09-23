@@ -337,7 +337,7 @@ class HomeState extends State<Home> {
       barrierColor: const Color(0x01000000),
       context: context, 
       builder: (context) {
-        return Container(
+        return SizedBox(
           width: 100,
           height: 800,
           child: editor,
@@ -494,7 +494,7 @@ class HomeState extends State<Home> {
                                 child: GridView.count(
                                   crossAxisCount: 1,
                                   children:[
-                                    templateChoices(TemplateOption.templateA, "assets/images/TemplateAAsset.jpg"),
+                                    templateChoices(TemplateOption.templateA, "assets/images/templateARework.png"),
                                     templateChoices(TemplateOption.templateB, "assets/images/TemplateBAsset.png"),
                                     templateChoices(TemplateOption.templateC, "assets/images/TemplateCAsset.jpg")
                                   ],

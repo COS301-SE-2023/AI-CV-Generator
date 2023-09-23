@@ -8,6 +8,7 @@ import 'package:ai_cv_generator/models/aimodels/AISkill.dart';
 import 'package:ai_cv_generator/models/aimodels/CVData.dart';
 import 'package:ai_cv_generator/pages/template/TemplateChoice.dart';
 import 'package:ai_cv_generator/pages/util/colourPickBox.dart';
+import 'package:ai_cv_generator/pages/util/templatePicker.dart';
 import 'package:ai_cv_generator/pages/widgets/buttons/customizableButton.dart';
 import 'package:ai_cv_generator/pages/widgets/buttons/customizableIconButton.dart';
 import 'package:ai_cv_generator/pages/widgets/buttons/deletableMenuButton.dart';
@@ -664,7 +665,7 @@ class EditorState extends State<Editor> {
                 SingleChildScrollView(
                   child: Container(
                     width: 6*w,
-                    height: colors.getAmount()*70 +50,
+                    height: colors.getAmount()*70,
                     decoration: BoxDecoration(
                       borderRadius: const BorderRadius.all(Radius.circular(64)),
                       border: Border.all(
@@ -742,18 +743,18 @@ class EditorState extends State<Editor> {
                             updatePdf();
                           }
                         ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        CustomizableIconButton(
-                          icon: Icons.switch_right, 
-                          width: 40, 
-                          height: 40, 
-                          onTap: () {
-
-                          }, 
-                          iconSize: w*2
-                        )
+                        // const SizedBox(
+                        //   height: 10,
+                        // ),
+                        // CustomizableIconButton(
+                        //   icon: Icons.switch_right, 
+                        //   width: 40, 
+                        //   height: 40, 
+                        //   onTap: () async {
+                        //     await templatePicker();
+                        //   }, 
+                        //   iconSize: w*2
+                        // )
                       ],
                     ),
                   ),
@@ -1992,5 +1993,23 @@ class EditorState extends State<Editor> {
         initialDate: DateTime.now(),
         lastDate: DateTime.now()
       );
+  }
+
+  Future<void> templatePicker() async {
+    TemplatePicker picker = TemplatePicker(option: templateOption, colors: colors);
+    await showDialog(
+      context: context, 
+      builder: (context) {
+        return SizedBox(
+          width: 800,
+          height: 425,
+          child: picker,
+        );
+      }
+    );
+
+    colors = picker.colors;
+    templateOption = picker.option;
+    updatePdf();
   }
 }

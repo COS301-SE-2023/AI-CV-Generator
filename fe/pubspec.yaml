@@ -115,6 +115,7 @@ flutter:
     - assets/images/JobPage.png
     - assets/images/Navbar.png
     - assets/images/icons8-email-50.png
+    - assets/images/templateARework.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
