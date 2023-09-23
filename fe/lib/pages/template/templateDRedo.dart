@@ -56,10 +56,10 @@ class TemplateD {
     );
     leftBox = Rect.fromLTWH(leftBox.left+8, leftBox.top, leftBox.width-8, 0);
     leftBox = drawContactDetails(pageSize, leftBox, "${data.location??'Address'}\n\n${data.phoneNumber??'Phone Number'}\n\n${data.email??'Email'}").bounds;
-    leftBox = Rect.fromLTWH(leftBox.left, leftBox.top+16, leftBox.width, leftBox.height);
-    pages[currentPage].graphics.drawLine(PdfPens.white, Offset(leftBox.left, leftBox.bottom), Offset(leftBox.width, leftBox.bottom));
     //lists must be at bottom for now
     if (data.skills != null && data.skills!.isNotEmpty) {
+      leftBox = Rect.fromLTWH(leftBox.left, leftBox.top+16, leftBox.width, leftBox.height);
+      pages[currentPage].graphics.drawLine(PdfPens.white, Offset(leftBox.left, leftBox.bottom), Offset(leftBox.width, leftBox.bottom));
       leftBox = drawSkills(pageSize, leftBox, data.skills!).bounds;
     }
     
@@ -69,18 +69,24 @@ class TemplateD {
     );
     rightBox = Rect.fromLTWH(rightBox.left+8, rightBox.top, rightBox.width-16, 0);
     rightBox = drawDescription(pageSize, rightBox, data.description??'Description').bounds;
-    rightBox = Rect.fromLTWH(rightBox.left, rightBox.top+16, rightBox.width, rightBox.height);
-    pages[currentPage].graphics.drawLine(PdfPens.black, Offset(rightBox.left, rightBox.bottom), Offset(rightBox.width, rightBox.bottom));
     if (data.employmenthistory != null && data.employmenthistory!.isNotEmpty) {
+      rightBox = Rect.fromLTWH(rightBox.left, rightBox.top+16, rightBox.width, rightBox.height);
+      pages[currentPage].graphics.drawLine(PdfPens.black, Offset(rightBox.left, rightBox.bottom), Offset(rightBox.width, rightBox.bottom));
       rightBox = drawExperience(pageSize, rightBox, data.employmenthistory!).bounds;
     }
     if (data.qualifications != null && data.qualifications!.isNotEmpty) {
+      rightBox = Rect.fromLTWH(rightBox.left, rightBox.top+16, rightBox.width, rightBox.height);
+      pages[currentPage].graphics.drawLine(PdfPens.black, Offset(rightBox.left, rightBox.bottom), Offset(rightBox.width, rightBox.bottom));
       rightBox = drawEducation(pageSize, rightBox, data.qualifications!).bounds;
     }
     if (data.references != null && data.references!.isNotEmpty) {
+      rightBox = Rect.fromLTWH(rightBox.left, rightBox.top+16, rightBox.width, rightBox.height);
+      pages[currentPage].graphics.drawLine(PdfPens.black, Offset(rightBox.left, rightBox.bottom), Offset(rightBox.width, rightBox.bottom));
       rightBox = drawReference(pageSize, rightBox, data.references!).bounds;
     }
     if (data.links != null && data.links!.isNotEmpty) {
+      rightBox = Rect.fromLTWH(rightBox.left, rightBox.top+16, rightBox.width, rightBox.height);
+      pages[currentPage].graphics.drawLine(PdfPens.black, Offset(rightBox.left, rightBox.bottom), Offset(rightBox.width, rightBox.bottom));
       rightBox = drawLinks(pageSize, rightBox, data.links!).bounds;
     }
     return Uint8List.fromList(document.saveSync());
