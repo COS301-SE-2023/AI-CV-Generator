@@ -60,7 +60,7 @@ class ColorSet {
   setColorSetB() {
     colA = Colors.blue.shade900;
     colB = Colors.white;
-    colC = null;
+    colC = Colors.white;
     colD = null;
     colE = null;
   }

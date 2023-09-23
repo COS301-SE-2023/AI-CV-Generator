@@ -19,7 +19,6 @@ import 'package:ai_cv_generator/models/user/Reference.dart';
 import 'package:ai_cv_generator/models/user/Skill.dart';
 import 'package:ai_cv_generator/models/user/UserModel.dart';
 import 'package:ai_cv_generator/pages/template/TemplateChoice.dart';
-import 'package:ai_cv_generator/pages/util/colourPickBox.dart';
 import 'package:ai_cv_generator/pages/util/editor.dart';
 import 'package:ai_cv_generator/pages/util/errorMessage.dart';
 import 'package:ai_cv_generator/pages/util/fileView.dart';
@@ -495,7 +494,7 @@ class HomeState extends State<Home> {
                                   crossAxisCount: 1,
                                   children:[
                                     templateChoices(TemplateOption.templateA, "assets/images/templateARework.png"),
-                                    templateChoices(TemplateOption.templateB, "assets/images/TemplateBAsset.png"),
+                                    templateChoices(TemplateOption.templateB, "assets/images/templateBRework.png"),
                                     templateChoices(TemplateOption.templateC, "assets/images/TemplateCAsset.jpg")
                                   ],
                                 )

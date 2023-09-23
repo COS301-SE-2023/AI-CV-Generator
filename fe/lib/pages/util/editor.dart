@@ -10,7 +10,6 @@ import 'package:ai_cv_generator/pages/template/TemplateChoice.dart';
 import 'package:ai_cv_generator/pages/util/colourPickBox.dart';
 import 'package:ai_cv_generator/pages/util/templatePicker.dart';
 import 'package:ai_cv_generator/pages/widgets/buttons/customizableButton.dart';
-import 'package:ai_cv_generator/pages/widgets/buttons/customizableIconButton.dart';
 import 'package:ai_cv_generator/pages/widgets/buttons/deletableMenuButton.dart';
 import 'package:ai_cv_generator/pages/widgets/buttons/menuButton.dart';
 import 'package:ai_cv_generator/pages/widgets/loadingScreens/loadingScreen.dart';
