@@ -25,11 +25,13 @@ class JobsPageState extends State<JobsPage> {
   TextEditingController occupationC = TextEditingController();
   TextEditingController locationC = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  bool loading = true;
 
   @override
   void initState() {
     populate();
     previousJobs = jobCards;
+    setState(() {});
     super.initState();
   }
 
@@ -50,13 +52,19 @@ class JobsPageState extends State<JobsPage> {
     if(user != null) {
         List<JobResponseDTO>? jobs = await getJobs("accounting", "Pretoria");
         // List<JobResponseDTO>? jobs = await getRecommended();
-        setState(() {
-          createCards(jobs);
-        });
+        jobs = [];
+          if(jobs == null || jobs == []) {
+            showError("No jobs to display!");
+          } else {
+            setState(() {
+              createCards(jobs);
+            });
+          }
     } else {
       showError("Something went wrong!");
       toLogin();
     }
+    loading = false;
   }
 
   Future<void> searchJobs(String occupation, String location) async {
@@ -70,6 +78,7 @@ class JobsPageState extends State<JobsPage> {
       createCards(jobs);
       previousJobs = jobCards;
     }
+    loading = false;
     });
   }
 
@@ -202,6 +211,7 @@ class JobsPageState extends State<JobsPage> {
                                 if(_formKey.currentState!.validate() == true) {
                                   setState(() {
                                     jobCards = [];
+                                    loading = true;
                                   });
                                   await searchJobs(occupationC.text, locationC.text);
                                 }
@@ -244,7 +254,8 @@ class JobsPageState extends State<JobsPage> {
                       child: Wrap(
                         crossAxisAlignment: WrapCrossAlignment.center,
                         children: [
-                          if(jobCards.isEmpty == true)
+                          // if(jobs == [])
+                          if(loading == true)
                             const Padding(
                               padding: EdgeInsets.symmetric(vertical: 160),
                               child:LoadingScreen(),
