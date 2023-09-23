@@ -58,6 +58,8 @@ class TemplateD {
     leftBox = drawContactDetails(pageSize, leftBox, "${data.location??'Address'}\n\n${data.phoneNumber??'Phone Number'}\n\n${data.email??'Email'}").bounds;
     //lists must be at bottom for now
     if (data.skills != null && data.skills!.isNotEmpty) {
+      leftBox = Rect.fromLTWH(leftBox.left, leftBox.top+16, leftBox.width, leftBox.height);
+      pages[currentPage].graphics.drawLine(PdfPens.white, Offset(leftBox.left, leftBox.bottom), Offset(leftBox.width, leftBox.bottom));
       leftBox = drawSkills(pageSize, leftBox, data.skills!).bounds;
     }
     
@@ -68,15 +70,23 @@ class TemplateD {
     rightBox = Rect.fromLTWH(rightBox.left+8, rightBox.top, rightBox.width-16, 0);
     rightBox = drawDescription(pageSize, rightBox, data.description??'Description').bounds;
     if (data.employmenthistory != null && data.employmenthistory!.isNotEmpty) {
+      rightBox = Rect.fromLTWH(rightBox.left, rightBox.top+16, rightBox.width, rightBox.height);
+      pages[currentPage].graphics.drawLine(PdfPens.black, Offset(rightBox.left, rightBox.bottom), Offset(rightBox.width, rightBox.bottom));
       rightBox = drawExperience(pageSize, rightBox, data.employmenthistory!).bounds;
     }
     if (data.qualifications != null && data.qualifications!.isNotEmpty) {
+      rightBox = Rect.fromLTWH(rightBox.left, rightBox.top+16, rightBox.width, rightBox.height);
+      pages[currentPage].graphics.drawLine(PdfPens.black, Offset(rightBox.left, rightBox.bottom), Offset(rightBox.width, rightBox.bottom));
       rightBox = drawEducation(pageSize, rightBox, data.qualifications!).bounds;
     }
     if (data.references != null && data.references!.isNotEmpty) {
+      rightBox = Rect.fromLTWH(rightBox.left, rightBox.top+16, rightBox.width, rightBox.height);
+      pages[currentPage].graphics.drawLine(PdfPens.black, Offset(rightBox.left, rightBox.bottom), Offset(rightBox.width, rightBox.bottom));
       rightBox = drawReference(pageSize, rightBox, data.references!).bounds;
     }
     if (data.links != null && data.links!.isNotEmpty) {
+      rightBox = Rect.fromLTWH(rightBox.left, rightBox.top+16, rightBox.width, rightBox.height);
+      pages[currentPage].graphics.drawLine(PdfPens.black, Offset(rightBox.left, rightBox.bottom), Offset(rightBox.width, rightBox.bottom));
       rightBox = drawLinks(pageSize, rightBox, data.links!).bounds;
     }
     return Uint8List.fromList(document.saveSync());
@@ -163,8 +173,9 @@ class TemplateD {
       Rect.fromLTWH(bounds.left, bounds.bottom+16, bounds.width, Rect.largest.height),
       "Contact Details"
     ).bounds;
-    PdfLayoutResult result = addText(
+    PdfLayoutResult result = addColorText(
       pageSize,
+      PdfBrushes.white,
       bodyTextFont,
       PdfStringFormat(),
       Rect.fromLTWH(bounds.left, bounds.bottom+8, bounds.width, Rect.largest.height),
@@ -275,34 +286,30 @@ class TemplateD {
     List<String> skills = [];
     for(AISkill skill in data)
     {
-      skills.add('${skill.skill??'Skill'} level: ${skill.level??'5'}');
+      skills.add('${skill.skill??'Skill'}: ${skill.level??'5'} / 5');
     }
-    final skillsList = PdfUnorderedList(
-      marker: PdfUnorderedMarker(
-          font: PdfStandardFont(PdfFontFamily.helvetica, 12),
-          style: PdfUnorderedMarkerStyle.disk,
-      ),
-      items: PdfListItemCollection(
-        skills
-      ),
-      textIndent: 5,
-      indent: 10
-    );
-    PdfLayoutResult result  = addText(
+    PdfLayoutResult result = addColorText(
       pageSize,
+      PdfBrushes.white,
       bodyHeadingFont,
       PdfStringFormat(),
-      Rect.fromLTWH(bounds.left, bounds.bottom+8, bounds.width, bounds.height),
-      "SKILLS"
+      Rect.fromLTWH(bounds.left, bounds.bottom+16, bounds.width, Rect.largest.height),
+      "Core Qualifications"
     );
     Rect newbounds = Rect.fromLTWH(0, result.bounds.bottom+8, pageSize.width/3, 0);
     if (newbounds.top + PdfStandardFont(PdfFontFamily.helvetica,10).height >= 762) {
       bounds = addPage();
     }
-    skillsList.draw(
-      page: pages[currentPage],
-      bounds: Rect.fromLTWH(0, result.bounds.bottom+8, pageSize.width/3, 0),
-    );
+    for(String skill in skills) {
+      result = addColorText(
+        pageSize,
+        PdfBrushes.white,
+        bodyHeadingFont,
+        PdfStringFormat(),
+        Rect.fromLTWH(result.bounds.left, result.bounds.bottom+8, result.bounds.width, Rect.largest.height),
+        skill
+      );
+    }
     return result;
   }
 }
