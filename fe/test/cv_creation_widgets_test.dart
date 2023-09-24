@@ -108,7 +108,7 @@ void main(){
     });
 
     testWidgets("Employment Input test", (WidgetTester tester) async {
-      /*Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak'); // Replace AdjustedModel with your actual model class
+      Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak'); // Replace AdjustedModel with your actual model class
       
     // Build our widget and trigger a frame.
       await tester.pumpWidget( MaterialApp(home: EmploymentDetailsForm()));
@@ -126,9 +126,9 @@ void main(){
 
       // Example: Verify that a new qualification entry is added
       //expect(find.byType(TextMonitorWidget), findsWidgets);
-      expect(find.byType(TextFormField), findsNWidgets(2)); // Assumes two text form fields in TextMonitorWidget
-      expect(find.byType(DateTimeFormField), findsNWidgets(2)); // Assumes two date form fields in TextMonitorWidget
-      */});
+      expect(find.byType(TextFormField), findsNWidgets(4)); // Assumes two text form fields in TextMonitorWidget
+      expect(find.byType(DateTimeFormField), findsNWidgets(4)); // Assumes two date form fields in TextMonitorWidget
+    });
     
   });
 
