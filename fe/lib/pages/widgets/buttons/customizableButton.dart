@@ -61,17 +61,20 @@ class CustomizableButtonState extends State<CustomizableButton> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Text(
-                      widget.text,
-                      overflow: TextOverflow.fade,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
-                        fontSize: widget.fontSize
+                    Expanded(
+                      child: Text(
+                        widget.text,
+                        overflow: TextOverflow.fade,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
+                          fontSize: widget.fontSize,
+                        ),
                       ),
-                    )
+                    ),
                   ],
                 ),
+
               ),
             ),
           ],
