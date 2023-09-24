@@ -12,7 +12,7 @@ import 'package:integration_test/integration_test.dart';
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
-  group('end-to-end test', () {
+  group('end-to-end test1', () {
     testWidgets('Login page fields',
       (WidgetTester tester) async {
         //app.main();
