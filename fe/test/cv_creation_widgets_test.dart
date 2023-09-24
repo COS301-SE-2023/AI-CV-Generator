@@ -1,5 +1,5 @@
 import 'package:ai_cv_generator/models/user/UserModel.dart';
-import 'package:ai_cv_generator/pages/screens/home.dart';
+import 'package:ai_cv_generator/pages/screens/homeRedo.dart';
 import 'package:ai_cv_generator/pages/util/strings.dart';
 import 'package:ai_cv_generator/pages/widgets/description.dart';
 import 'package:ai_cv_generator/pages/widgets/employment.dart';
@@ -11,6 +11,7 @@ import 'package:date_field/date_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/mockito.dart';
 
 void main(){
   group("Test Personal Details", () {
@@ -29,7 +30,6 @@ void main(){
       expect(find.text('Contact Number'), findsOneWidget);
       expect(find.text('General Location'), findsOneWidget);
       expect(find.text('Save and Proceed'), findsOneWidget);
-
     });
 
     testWidgets("Personal Details Input test", (WidgetTester tester) async {
@@ -40,8 +40,8 @@ void main(){
       await tester.enterText(find.byKey(const Key("Name input")), 'John');
       await tester.enterText(find.byKey(const Key("Last Name input")), 'Doe');
       await tester.enterText(find.byKey(const Key("Email input")), 'john.doe@example.com');
-      await tester.enterText(find.byKey(const Key("Cell input")), '1234567890');
-      await tester.enterText(find.byKey(const Key("Address input")), '123 Main St');
+      await tester.enterText(find.byKey(const Key("Cell input")), '012 123 4567');
+      await tester.enterText(find.byKey(const Key("Address input")), '123 Main Street, Pretoria');
       await tester.pump();
 
       // Tap the Save and Proceed button again.
@@ -52,6 +52,7 @@ void main(){
       expect(find.text('This field is required'), findsNothing);
       expect(find.text('This is not a valid email'), findsNothing);
     });
+
   });
 
   group("Test Qualifications", () {
@@ -69,27 +70,26 @@ void main(){
       });
 
       testWidgets("Qualifications Input test", (WidgetTester tester) async {
-      Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak'); // Replace AdjustedModel with your actual model class
-      
-    // Build our widget and trigger a frame.
-      await tester.pumpWidget( MaterialApp(home: QualificationsDetailsForm()));
+        Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak'); // Replace AdjustedModel with your actual model class
+          
+        // Build our widget and trigger a frame.
+          await tester.pumpWidget( MaterialApp(home: QualificationsDetailsForm()));
 
-      await tester.enterText(find.byKey(const Key("Institution input")), 'University of Pretoria');
-      await tester.enterText(find.byKey(const Key("Qualification input")), 'BSc Computer Science');
-      
-      // Simulate entering a start date and end date
+          await tester.enterText(find.byKey(const Key("Institution input")), 'University of Pretoria');
+          await tester.enterText(find.byKey(const Key("Qualification input")), 'BSc Computer Science');
+          
+          // Simulate entering a start date and end date
 
-      // Tap buttons
-      await tester.tap(find.text('Add'));
-      await tester.pump();
+          // Tap buttons
+          await tester.tap(find.text('Add'));
+          await tester.pump();
 
-      // Verify the state of the widget after interactions
+          // Verify the state of the widget after interactions
 
-      // Example: Verify that a new qualification entry is added
-      //expect(find.byType(TextMonitorWidget), findsWidgets);
-      expect(find.byType(TextFormField), findsNWidgets(2)); // Assumes two text form fields in TextMonitorWidget
-      expect(find.byType(DateTimeFormField), findsNWidgets(2)); // Assumes two date form fields in TextMonitorWidget
-
+          // Example: Verify that a new qualification entry is added
+          //expect(find.byType(TextMonitorWidget), findsWidgets);
+          expect(find.byType(TextFormField), findsNWidgets(4)); // Assumes two text form fields in TextMonitorWidget
+          expect(find.byType(DateTimeFormField), findsNWidgets(4)); // Assumes two date form fields in TextMonitorWidget
       });
   });
 
@@ -105,9 +105,9 @@ void main(){
       expect(find.text('Job Title'), findsOneWidget);
       expect(find.text('Start Date'), findsOneWidget);
       expect(find.text('End Date'), findsOneWidget);
-      });
+    });
 
-      testWidgets("Employment Input test", (WidgetTester tester) async {
+    testWidgets("Employment Input test", (WidgetTester tester) async {
       Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak'); // Replace AdjustedModel with your actual model class
       
     // Build our widget and trigger a frame.
@@ -126,10 +126,9 @@ void main(){
 
       // Example: Verify that a new qualification entry is added
       //expect(find.byType(TextMonitorWidget), findsWidgets);
-      expect(find.byType(TextFormField), findsNWidgets(2)); // Assumes two text form fields in TextMonitorWidget
-      expect(find.byType(DateTimeFormField), findsNWidgets(2)); // Assumes two date form fields in TextMonitorWidget
-
-      });
+      expect(find.byType(TextFormField), findsNWidgets(4)); // Assumes two text form fields in TextMonitorWidget
+      expect(find.byType(DateTimeFormField), findsNWidgets(4)); // Assumes two date form fields in TextMonitorWidget
+    });
     
   });
 
@@ -176,7 +175,7 @@ void main(){
       expect(find.text('Job Title'), findsOneWidget);
       expect(find.text('Contact Number'), findsOneWidget);
       expect(find.text('Email'), findsOneWidget);
-      });
+    });
     testWidgets("References Input test", (WidgetTester tester) async {
       Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak'); // Replace AdjustedModel with your actual model class
       // Build our widget and trigger a frame.

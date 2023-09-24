@@ -12,7 +12,7 @@ import 'package:ai_cv_generator/pages/util/templatePicker.dart';
 import 'package:ai_cv_generator/pages/widgets/buttons/customizableButton.dart';
 import 'package:ai_cv_generator/pages/widgets/buttons/deletableMenuButton.dart';
 import 'package:ai_cv_generator/pages/widgets/buttons/menuButton.dart';
-import 'package:ai_cv_generator/pages/widgets/loadingScreens/loadingScreen.dart';
+import 'package:ai_cv_generator/pages/widgets/loadingscreens/loadingScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
@@ -1957,7 +1957,7 @@ class EditorState extends State<Editor> {
           height: 80,
           width: 30*w,
           child: TextFormField(
-            maxLength: 50,
+            maxLength: 200,
             key: const Key('url'),
             controller: urlController,
             decoration: const InputDecoration(

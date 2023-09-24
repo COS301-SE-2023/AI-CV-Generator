@@ -117,7 +117,10 @@ flutter:
     - assets/images/icons8-email-50.png
     - assets/images/templateARework.png
     - assets/images/templateBRework.png
+    - assets/images/templateCRework.png
     - assets/images/templateDRework.png
+    - assets/images/templateERework.png
+    - assets/images/templateFRework.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

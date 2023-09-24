@@ -112,7 +112,7 @@ class TemplateE {
   PdfLayoutResult drawContactDetails(Size pageSize, Rect bounds, String data) {
     PdfLayoutResult result = addColorText(
       pageSize,
-      PdfBrushes.black,
+      PdfSolidBrush(PdfColor(colorSet.colC!.red, colorSet.colC!.green, colorSet.colC!.blue,colorSet.colC!.alpha)),
       bodyTextFont,
       PdfStringFormat(alignment: PdfTextAlignment.left,),
       Rect.fromLTWH(bounds.left, bounds.bottom+8, bounds.width, Rect.largest.height),
@@ -144,8 +144,9 @@ class TemplateE {
       Rect.fromLTWH(bounds.left, bounds.bottom+16, bounds.width, 0),
       "PROFESSIONAL SUMMARY"
     ).bounds;
-    PdfLayoutResult result =  addText(
+    PdfLayoutResult result =  addColorText(
       pageSize,
+      PdfSolidBrush(PdfColor(colorSet.colC!.red, colorSet.colC!.green, colorSet.colC!.blue,colorSet.colC!.alpha)),
       bodyTextFont,
       PdfStringFormat(),
       Rect.fromLTWH(bounds.left, bounds.bottom+8, bounds.width,Rect.largest.height),
@@ -164,8 +165,9 @@ class TemplateE {
       "EXPERIENCE"
     );
     for(AIEmployment employment in data) {
-      result = addText(
+      result = addColorText(
         pageSize,
+        PdfSolidBrush(PdfColor(colorSet.colC!.red, colorSet.colC!.green, colorSet.colC!.blue,colorSet.colC!.alpha)),
         bodyTextFont,
         PdfStringFormat(),
         Rect.fromLTWH(result.bounds.left, result.bounds.bottom+8, result.bounds.width, Rect.largest.height),
@@ -185,8 +187,9 @@ class TemplateE {
       "EDUCATION"
     );
     for(AIQualification qualification in data) {
-      result = addText(
+      result = addColorText(
         pageSize,
+        PdfSolidBrush(PdfColor(colorSet.colC!.red, colorSet.colC!.green, colorSet.colC!.blue,colorSet.colC!.alpha)),
         bodyTextFont,
         PdfStringFormat(),
         Rect.fromLTWH(result.bounds.left, result.bounds.bottom+8, result.bounds.width, Rect.largest.height),
@@ -206,8 +209,9 @@ class TemplateE {
       "REFERENCE"
     );
     for(AIReference reference in data) {
-      result = addText(
+      result = addColorText(
         pageSize,
+        PdfSolidBrush(PdfColor(colorSet.colC!.red, colorSet.colC!.green, colorSet.colC!.blue,colorSet.colC!.alpha)),
         bodyTextFont,
         PdfStringFormat(),
         Rect.fromLTWH(result.bounds.left, result.bounds.bottom+8, result.bounds.width, Rect.largest.height),
@@ -226,8 +230,9 @@ class TemplateE {
       "LINKS"
     );
     for(AILink link in data) {
-      result = addText(
+      result = addColorText(
         pageSize,
+        PdfSolidBrush(PdfColor(colorSet.colC!.red, colorSet.colC!.green, colorSet.colC!.blue,colorSet.colC!.alpha)),
         bodyTextFont,
         PdfStringFormat(),
         Rect.fromLTWH(result.bounds.left, result.bounds.bottom+8, result.bounds.width, Rect.largest.height),
@@ -249,7 +254,7 @@ class TemplateE {
     for (AISkill skill in data) {
       result = addColorText(
         pageSize, 
-        PdfBrushes.black, 
+        PdfSolidBrush(PdfColor(colorSet.colC!.red, colorSet.colC!.green, colorSet.colC!.blue,colorSet.colC!.alpha)), 
         PdfStandardFont(PdfFontFamily.helvetica, 12), 
         PdfStringFormat(), 
         Rect.fromLTWH(result.bounds.left, result.bounds.bottom+8, result.bounds.width, Rect.largest.height), 

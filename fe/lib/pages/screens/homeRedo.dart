@@ -30,7 +30,7 @@ import 'package:ai_cv_generator/pages/widgets/buttons/customizableButton.dart';
 import 'package:ai_cv_generator/pages/widgets/buttons/customizableIconButton.dart';
 import 'package:ai_cv_generator/pages/widgets/chatBotView.dart';
 import 'package:ai_cv_generator/pages/widgets/extractionView.dart';
-import 'package:ai_cv_generator/pages/widgets/loadingScreens/loadingScreen.dart';
+import 'package:ai_cv_generator/pages/widgets/loadingscreens/loadingScreen.dart';
 import 'package:ai_cv_generator/pages/widgets/navdrawer.dart';
 import 'package:ai_cv_generator/pages/widgets/personaldetails.dart';
 import 'package:ai_cv_generator/pages/widgets/shareCV.dart';
@@ -522,8 +522,10 @@ class HomeState extends State<Home> {
                                   children:[
                                     templateChoices(TemplateOption.templateA, "assets/images/templateARework.png"),
                                     templateChoices(TemplateOption.templateB, "assets/images/templateBRework.png"),
-                                    templateChoices(TemplateOption.templateC, "assets/images/TemplateCAsset.jpg"),
-                                    templateChoices(TemplateOption.templateD, "assets/images/templateDRework.png")
+                                    templateChoices(TemplateOption.templateC, "assets/images/templateCRework.png"),
+                                    templateChoices(TemplateOption.templateD, "assets/images/templateDRework.png"),
+                                    templateChoices(TemplateOption.templateE, "assets/images/templateERework.png"),
+                                    templateChoices(TemplateOption.templateF, "assets/images/templateFRework.png")
                                   ],
                                 )
                               ),
