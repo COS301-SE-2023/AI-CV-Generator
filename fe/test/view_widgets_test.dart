@@ -73,7 +73,7 @@ void main(){
         expect(find.byIcon(Icons.close), findsNothing);
       });*/
     });
-    
+
     testWidgets('Message input', (WidgetTester tester) async {
       await tester.runAsync(() async {
 
@@ -175,7 +175,7 @@ void main(){
     });
 
     testWidgets('Skills view screen input', (WidgetTester tester) async {
-      /*// Create a list of sample references
+      // Create a list of sample references
       final List<Reference> sampleReferences = [
         Reference(description: 'Reference 1', contact: 'Contact 1', refid: 1),
         Reference(description: 'Reference 2', contact: 'Contact 2', refid: 2),
@@ -197,7 +197,7 @@ void main(){
       expect(find.text('Reference 1'), findsOneWidget);
       expect(find.text('Reference 2'), findsOneWidget);
       expect(find.text('Contact 1'), findsOneWidget);
-      expect(find.text('Contact 2'), findsOneWidget);*/
+      expect(find.text('Contact 2'), findsOneWidget);
     });
 
     testWidgets('Adding references field displayed', (WidgetTester tester) async {
