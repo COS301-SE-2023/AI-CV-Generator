@@ -2,9 +2,11 @@ import 'dart:typed_data';
 
 import 'package:ai_cv_generator/models/user/UserModel.dart';
 import 'package:ai_cv_generator/pages/screens/homeRedo.dart';
+import 'package:ai_cv_generator/pages/widgets/EmptyCV.dart';
 import 'package:ai_cv_generator/pages/widgets/breadcrumb.dart';
 import 'package:ai_cv_generator/pages/widgets/cvHistory.dart';
 import 'package:ai_cv_generator/pages/widgets/description.dart';
+import 'package:ai_cv_generator/pages/widgets/loadingscreens/AILoadingScreen.dart';
 import 'package:ai_cv_generator/pages/widgets/shareCV.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -79,6 +81,41 @@ void main() {
 
      expect(find.byKey(const Key("Description start")), findsOneWidget);
   });
+
+group("Empty CV widget tests", () {
+  testWidgets("Empty status", (WidgetTester tester) async {
+    Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak'); // Replace AdjustedModel with your actual model class
+
+    // Test with ScreenStatus.empty
+    await tester.pumpWidget(
+      MaterialApp(
+        home: EmptyCVScreen(
+          status: ScreenStatus.empty,
+        ),
+      ),
+    );
+
+    expect(find.text('Create CV !!!'), findsOneWidget);
+    expect(find.byIcon(Icons.emoji_emotions_outlined), findsOneWidget);
+  });
+
+  testWidgets("Loading status", (WidgetTester tester) async {
+    Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak'); // Replace AdjustedModel with your actual model class
+
+    // Test with ScreenStatus.empty
+    await tester.pumpWidget(
+      MaterialApp(
+        home: EmptyCVScreen(
+          status: ScreenStatus.loading,
+        ),
+      ),
+    );
+
+    expect(find.byType(AILoadingScreen), findsOneWidget);
+  });
+
+});
+  
 }
 
 
