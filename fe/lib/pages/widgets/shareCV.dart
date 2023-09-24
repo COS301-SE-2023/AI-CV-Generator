@@ -86,8 +86,7 @@ class ShareWidgetState extends State<ShareWidget> {
   ];
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: SingleChildScrollView(
+    return SingleChildScrollView(
       child: SizedBox(
         height: 250,
         width: 400,
@@ -174,7 +173,6 @@ class ShareWidgetState extends State<ShareWidget> {
           )
         )
       )
-    )
     );
   }
 
