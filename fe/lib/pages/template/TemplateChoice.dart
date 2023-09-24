@@ -112,9 +112,9 @@ class ColorSet {
   }
 
   setColorSetE() {
-    colA = Colors.blue.shade900;
+    colA = Colors.green.shade900;
     colB = Colors.white;
-    colC = null;
+    colC = Colors.black;
     colD = null;
     colE = null;
     colE = null;

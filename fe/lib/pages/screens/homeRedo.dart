@@ -522,8 +522,10 @@ class HomeState extends State<Home> {
                                   children:[
                                     templateChoices(TemplateOption.templateA, "assets/images/templateARework.png"),
                                     templateChoices(TemplateOption.templateB, "assets/images/templateBRework.png"),
-                                    templateChoices(TemplateOption.templateC, "assets/images/TemplateCAsset.jpg"),
-                                    templateChoices(TemplateOption.templateD, "assets/images/templateDRework.png")
+                                    templateChoices(TemplateOption.templateC, "assets/images/templateCRework.png"),
+                                    templateChoices(TemplateOption.templateD, "assets/images/templateDRework.png"),
+                                    templateChoices(TemplateOption.templateE, "assets/images/templateERework.png"),
+                                    templateChoices(TemplateOption.templateF, "assets/images/templateFRework.png")
                                   ],
                                 )
                               ),

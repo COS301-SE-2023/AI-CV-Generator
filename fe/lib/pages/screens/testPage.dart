@@ -2,6 +2,8 @@ import 'package:ai_cv_generator/api/downloadService.dart';
 import 'package:ai_cv_generator/models/aimodels/CVData.dart';
 import 'package:ai_cv_generator/pages/template/TemplateChoice.dart';
 import 'package:ai_cv_generator/pages/template/templateCRedo.dart';
+import 'package:ai_cv_generator/pages/template/templateERedo.dart';
+import 'package:ai_cv_generator/pages/template/templateFRework.dart';
 import 'package:ai_cv_generator/pages/util/editor.dart';
 import 'package:ai_cv_generator/pages/util/namePromt.dart';
 import 'package:ai_cv_generator/pages/widgets/buttons/customizableButton.dart';
@@ -73,11 +75,11 @@ class TestPageState extends State<TestPage> {
                   references: [],
                   links: []
                 );
-                data = await showCV(data, TemplateOption.templateC);
+                data = await showCV(data, TemplateOption.templateE);
                 ColorSet set = ColorSet();
-                set.setColorSetTemplateChoice(TemplateOption.templateC);
-                PdfDocument doc = PdfDocument(inputBytes: await TemplateC().templateC(data, set));
-                DownloadService.download(await TemplateC().templateC(data, set), downloadName: 'templateC.pdf');
+                set.setColorSetTemplateChoice(TemplateOption.templateE);
+                PdfDocument doc = PdfDocument(inputBytes: await TemplateE().templateE(data, set));
+                DownloadService.download(await TemplateE().templateE(data, set), downloadName: 'templateE.pdf');
                 //print(await promptName());
                 // toHelpPage();
               }, 
