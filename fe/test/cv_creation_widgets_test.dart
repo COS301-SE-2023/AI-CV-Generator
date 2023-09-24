@@ -177,7 +177,7 @@ void main(){
       expect(find.text('Email'), findsOneWidget);
     });
     testWidgets("References Input test", (WidgetTester tester) async {
-      /*//Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak'); // Replace AdjustedModel with your actual model class
+      Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak'); // Replace AdjustedModel with your actual model class
       // Build our widget and trigger a frame.
       await tester.pumpWidget( MaterialApp(home: ReferencesForm()));
 
@@ -192,7 +192,7 @@ void main(){
       //await tester.pumpAndSettle();
 
       // Verify that there are no validation errors.
-      expect(find.text('Please enter some text'), findsNothing);*/
+      expect(find.text('Please enter some text'), findsNothing);
     });
   });
   
