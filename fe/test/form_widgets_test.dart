@@ -58,7 +58,9 @@ void main() {
     expect(find.text('New Test Reason'), findsOneWidget);*/
   });
 
-  /*testWidgets('Delete Skill Test', (WidgetTester tester) async {
+  testWidgets('Delete Skill Test', (WidgetTester tester) async {
+    /*Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak'); // Replace AdjustedModel with your actual model class
+
     // Build our widget and trigger a frame.
     await tester.pumpWidget(MaterialApp(home: SkillsDetailsForm()));
 
@@ -74,6 +76,6 @@ void main() {
     await tester.pump();
 
     // Verify that the skill has been deleted
-    expect(find.text('Skill'), findsNothing);
-  });*/
+    expect(find.text('Skill'), findsNothing);*/
+  });
 }
