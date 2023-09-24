@@ -1957,7 +1957,7 @@ class EditorState extends State<Editor> {
           height: 80,
           width: 30*w,
           child: TextFormField(
-            maxLength: 50,
+            maxLength: 200,
             key: const Key('url'),
             controller: urlController,
             decoration: const InputDecoration(
