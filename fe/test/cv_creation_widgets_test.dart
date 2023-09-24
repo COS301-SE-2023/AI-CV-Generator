@@ -165,7 +165,7 @@ void main(){
 
   group("Test References", () {
     testWidgets("References Form should render correctly", (WidgetTester tester) async {
-      /*//Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak'); // Replace AdjustedModel with your actual model class
+      Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak'); // Replace AdjustedModel with your actual model class
       
     // Build our widget and trigger a frame.
       await tester.pumpWidget( MaterialApp(home: ReferencesForm()));
@@ -174,8 +174,8 @@ void main(){
       expect(find.text('Full Name'), findsOneWidget);
       expect(find.text('Job Title'), findsOneWidget);
       expect(find.text('Contact Number'), findsOneWidget);
-      expect(find.text('Email'), findsOneWidget);*/
-      });
+      expect(find.text('Email'), findsOneWidget);
+    });
     testWidgets("References Input test", (WidgetTester tester) async {
       /*//Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak'); // Replace AdjustedModel with your actual model class
       // Build our widget and trigger a frame.
