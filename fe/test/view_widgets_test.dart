@@ -300,7 +300,7 @@ void main(){
   group("Test Skills view", () {
 
     testWidgets('Skills screen renders correctly test', (WidgetTester tester) async {
-      /*// Create a list of sample skills
+      // Create a list of sample skills
       final List<Skill> sampleSkills = [
         Skill(skill: 'Skill 1', reason: 'Reason 1', level: 3, skillid: 1),
         Skill(skill: 'Skill 2', reason: 'Reason 2', level: 4, skillid: 2),
@@ -325,7 +325,6 @@ void main(){
     expect(find.text('Reason 2'), findsOneWidget);
     expect(find.text('3'), findsOneWidget); // Level value
     expect(find.text('4'), findsOneWidget); // Level value
-*/
     });
 
     testWidgets('Skills screen  test', (WidgetTester tester) async {
