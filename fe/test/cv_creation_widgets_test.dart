@@ -198,13 +198,13 @@ void main(){
   
   group("Test Description", () {
     testWidgets("Description Form should render correctly", (WidgetTester tester) async {
-      /*//Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak'); // Replace AdjustedModel with your actual model class
+      Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak'); // Replace AdjustedModel with your actual model class
       
     // Build our widget and trigger a frame.
       await tester.pumpWidget( MaterialApp(home: DescriptionForm()));
 
       expect(find.text(StringsDescription.appsubHeadingTitle), findsOneWidget);
-      expect(find.text('Description'), findsOneWidget);*/
+      expect(find.text('Description'), findsOneWidget);
     });
 
     testWidgets("Description Input test", (WidgetTester tester) async {
