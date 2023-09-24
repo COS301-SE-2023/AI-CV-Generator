@@ -86,12 +86,14 @@ class ShareWidgetState extends State<ShareWidget> {
   ];
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
+    return Material(
+      child: SingleChildScrollView(
       child: SizedBox(
         height: 250,
         width: 400,
         child: Container(
           padding: const EdgeInsets.all(16.0),
+          child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -115,7 +117,9 @@ class ShareWidgetState extends State<ShareWidget> {
                   borderRadius: BorderRadius.circular(12),
                   color: Colors.grey.shade100
                 ),
-                child: Row(
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal, // Allow horizontal scrolling
+                  child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -138,6 +142,7 @@ class ShareWidgetState extends State<ShareWidget> {
                       }).toList(),
                     ),
                   ],
+                ),
                 ),
               ),
               const SizedBox(height: 8.0,),
@@ -166,8 +171,10 @@ class ShareWidgetState extends State<ShareWidget> {
               )
             ],
           )
+          )
         )
       )
+    )
     );
   }
 
