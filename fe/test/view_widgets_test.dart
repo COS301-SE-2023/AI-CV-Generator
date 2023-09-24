@@ -218,8 +218,8 @@ void main(){
         await tester.pump();
 
         // Verify that the ReferenceSection widget is displayed
-        expect(find.byType(ReferenceSection), findsOneWidget);*/
-      });
+        expect(find.byType(ReferenceSection), findsOneWidget);
+      });*/
     });
 
     testWidgets('Editing References', (WidgetTester tester) async {
@@ -294,6 +294,7 @@ void main(){
         expect(find.widgetWithText(ReferenceField, 'Desc 2'), findsOneWidget);
     });*/
   });
+});
 
   group("Test Skills view", () {
 
@@ -370,8 +371,9 @@ void main(){
       await tester.pump();
 
       // Verify that editing mode is disabled
-      expect(find.byIcon(Icons.delete), findsNothing);*/
-      });
+      expect(find.byIcon(Icons.delete), findsNothing);
+      });*/
+    });
   });
 
 }
