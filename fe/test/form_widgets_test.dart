@@ -59,12 +59,21 @@ void main() {
   });
 
   testWidgets('Delete Skill Test', (WidgetTester tester) async {
-    /*Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak'); // Replace AdjustedModel with your actual model class
+    //Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak'); // Replace AdjustedModel with your actual model class
 
     // Build our widget and trigger a frame.
     await tester.pumpWidget(MaterialApp(home: SkillsDetailsForm()));
 
-    // Add a skill first
+    await tester.tap(find.text('Add'));
+    await tester.pump();
+
+    //await tester.enterText(find.byKey(const Key("skill text input")), 'New Test Skill');
+    //await tester.enterText(find.byKey(const Key("reason text input")), 'New Test Reason');
+
+    // Verify that the entered text is correctly displayed
+    expect(find.text('Skill'), findsNWidgets(2));
+    expect(find.text('Reason'), findsNWidgets(2));
+    /*// Add a skill first
     await tester.tap(find.byType(ElevatedButton).first);
     await tester.pump();
 
