@@ -27,24 +27,21 @@ void main() {
     expect(find.byType(SkillsDetailsForm), findsOneWidget);
   });
 
-  /*testWidgets('Test input fields in TextMonitorWidget', (WidgetTester tester) async {
-    final userModel = UserModel(
-      fname: 'John',
-      lname: 'Doe',
-      username: 'jd',
-    );
-
-    // Assign the test-specific UserModel instance to Home.adjustedModel
-    Home.adjustedModel = userModel;
+  testWidgets('Test input fields in TextMonitorWidget', (WidgetTester tester) async {
+    Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak'); // Replace AdjustedModel with your actual model class
     
     // Build your TextMonitorWidget with some initial data
     await tester.pumpWidget(
-      MaterialApp(
+      const MaterialApp(
         home: SkillsDetailsForm(),
       ),
     );
 
-        // Add a skill first
+    //expect(find.text('No Skills...'), findsOneWidget);
+    expect(find.text('Add'), findsOneWidget);
+    expect(find.text('Back'), findsOneWidget);
+    
+    /*// Add a skill first
     await tester.tap(find.text('Add'));
     await tester.pump();
 
@@ -58,8 +55,8 @@ void main() {
 
     // Verify that the entered text is correctly displayed
     expect(find.text('New Test Skill'), findsOneWidget);
-    expect(find.text('New Test Reason'), findsOneWidget);
-  });*/
+    expect(find.text('New Test Reason'), findsOneWidget);*/
+  });
 
   /*testWidgets('Delete Skill Test', (WidgetTester tester) async {
     // Build our widget and trigger a frame.
