@@ -7,14 +7,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   testWidgets('SkillsDetailsForm should build correctly', (WidgetTester tester) async {
-    final userModel = UserModel(
-    fname: 'John',
-    lname: 'Doe',
-    username: 'jd',
-  );
-
-  // Assign the test-specific UserModel instance to Home.adjustedModel
-  Home.adjustedModel = userModel;
+    Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak'); // Replace AdjustedModel with your actual model class
     
     // Build your SkillsDetailsForm widget
     await tester.pumpWidget(
