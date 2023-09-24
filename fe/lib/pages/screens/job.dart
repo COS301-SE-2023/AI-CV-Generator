@@ -344,7 +344,7 @@ class CreateJobCardState extends State<CreateJobCard> {
                             await launchUrl(
                               Uri.parse(widget.link ?? ""),
                               mode: LaunchMode.externalApplication,
-                              webViewConfiguration: WebViewConfiguration(
+                              webViewConfiguration: const WebViewConfiguration(
                                 enableDomStorage: true,
                                 enableJavaScript: true
                               )

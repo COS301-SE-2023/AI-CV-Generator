@@ -6,8 +6,7 @@ import com.revolvingSolutions.aicvgeneratorbackend.entitiy.UserEntity;
 import com.revolvingSolutions.aicvgeneratorbackend.repository.UserRepository;
 import com.revolvingSolutions.aicvgeneratorbackend.request.webscraper.JobScrapeRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.response.webscraper.JobScrapeResponse;
-import com.revolvingSolutions.aicvgeneratorbackend.service.JobScraperService;
-import com.revolvingSolutions.aicvgeneratorbackend.service.UserService;
+import com.revolvingSolutions.aicvgeneratorbackend.service.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -32,6 +31,9 @@ import static org.mockito.Mockito.mock;
 public class WebScraperIntegrationTest {
     private WebScraperController controller;
     private JobScraperService service;
+    private LinkedinService linkedinService;
+    private CareerBuildersService careerBuildersService;
+    private CareerJunctionService careerJunctionService;
 
     @Autowired
     private UserRepository repository;
@@ -46,8 +48,16 @@ public class WebScraperIntegrationTest {
     @BeforeEach
     void setUp() {
         closeable = MockitoAnnotations.openMocks(this);
+        linkedinService = new LinkedinService();
+        careerBuildersService = new CareerBuildersService();
+        careerJunctionService = new CareerJunctionService();
         service = new JobScraperService(repository,userService);
-        controller = new WebScraperController(service);
+        controller = new WebScraperController(
+                service,
+                linkedinService,
+                careerBuildersService,
+                careerJunctionService
+            );
         // given
         Authentication authentication = mock(Authentication.class);
         // Mockito.whens() for your authorization object
