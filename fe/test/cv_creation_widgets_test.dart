@@ -1,5 +1,5 @@
 import 'package:ai_cv_generator/models/user/UserModel.dart';
-//import 'package:ai_cv_generator/pages/screens/homeRedo.dart';
+import 'package:ai_cv_generator/pages/screens/homeRedo.dart';
 import 'package:ai_cv_generator/pages/util/strings.dart';
 import 'package:ai_cv_generator/pages/widgets/description.dart';
 import 'package:ai_cv_generator/pages/widgets/employment.dart';
@@ -17,8 +17,8 @@ void main(){
   group("Test Personal Details", () {
 
     testWidgets('PersonalDetailsForm should render correctly', (WidgetTester tester) async {
-      /*// Mock the Home.adjustedModel to avoid null reference
-      //Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak'); // Replace AdjustedModel with your actual model class
+      // Mock the Home.adjustedModel to avoid null reference
+      Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak'); // Replace AdjustedModel with your actual model class
       
     // Build our widget and trigger a frame.
       await tester.pumpWidget( MaterialApp(home: PersonalDetailsForm()));
@@ -30,7 +30,6 @@ void main(){
       expect(find.text('Contact Number'), findsOneWidget);
       expect(find.text('General Location'), findsOneWidget);
       expect(find.text('Save and Proceed'), findsOneWidget);
-*/
     });
 
     testWidgets("Personal Details Input test", (WidgetTester tester) async {
