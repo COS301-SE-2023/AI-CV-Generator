@@ -4,6 +4,7 @@ import 'package:ai_cv_generator/models/user/UserModel.dart';
 import 'package:ai_cv_generator/pages/screens/homeRedo.dart';
 import 'package:ai_cv_generator/pages/widgets/breadcrumb.dart';
 import 'package:ai_cv_generator/pages/widgets/cvHistory.dart';
+import 'package:ai_cv_generator/pages/widgets/description.dart';
 import 'package:ai_cv_generator/pages/widgets/shareCV.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -67,6 +68,17 @@ void main() {
     expect(find.text('Previous Page'), findsOneWidget);
   });
 
+  testWidgets("Description test", (WidgetTester tester) async {
+    Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak'); // Replace AdjustedModel with your actual model class
+  
+     await tester.pumpWidget(
+      MaterialApp(
+        home: DescriptionForm()
+      )
+     );
+
+     expect(find.byKey(const Key("Description start")), findsOneWidget);
+  });
 }
 
 
