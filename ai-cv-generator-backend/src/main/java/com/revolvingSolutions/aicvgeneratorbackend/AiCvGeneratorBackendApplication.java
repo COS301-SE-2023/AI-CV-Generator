@@ -22,15 +22,24 @@ public class AiCvGeneratorBackendApplication {
 		return new RestTemplate();
 	}
 
-	@Bean
-	public Executor taskExecutor() {
-		ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-		executor.setCorePoolSize(2);
-		executor.setMaxPoolSize(2);
-		executor.setQueueCapacity(500);
-		executor.setThreadNamePrefix("GithubLookup-");
-		executor.initialize();
-		return executor;
+	@Bean(name = "task1")
+	public Executor asyncExecutor1() {
+        return new ThreadPoolTaskExecutor();
+	}
+
+	@Bean(name = "task2")
+	public Executor asyncExecutor2() {
+		return new ThreadPoolTaskExecutor();
+	}
+
+	@Bean(name = "task3")
+	public Executor asyncExecutor3() {
+		return new ThreadPoolTaskExecutor();
+	}
+
+	@Bean(name = "taskExecutor")
+	public Executor asyncExecutor() {
+		return new ThreadPoolTaskExecutor();
 	}
 
 }

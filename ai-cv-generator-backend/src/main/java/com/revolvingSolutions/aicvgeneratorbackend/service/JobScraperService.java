@@ -18,6 +18,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -52,7 +53,7 @@ public class JobScraperService {
     public User getAISafeModel() {
         return userService.getUser().getUser();
     }
-    public JobScrapeResponse getRecommended() {
+    public JobScrapeResponse getRecommended() throws ExecutionException, InterruptedException {
         User user = getAISafeModel();
         String field = fieldClassifier(fieldClassifierchatLanguageModel()).chat(descriptionAgent(chatLanguageModel()).chat(user.toString()));
         String location = "";
@@ -63,11 +64,13 @@ public class JobScraperService {
                   .location(location)
                   .amount(10)
                   .build()
-        );
+        ).get();
     }
 
     private AtomicInteger amount;
-    public JobScrapeResponse scrapData(
+
+    @Async
+    public CompletableFuture<JobScrapeResponse> scrapData(
         JobScrapeRequest request
     ) {
         AtomicInteger amount = new AtomicInteger(request.getAmount());
@@ -103,13 +106,17 @@ public class JobScraperService {
             responseDTOS.addAll(linkedIn.get());
             responseDTOS.addAll(careerBuilders.get());
             responseDTOS.addAll(careerJunction.get());
-            return JobScrapeResponse.builder()
-                    .jobs(responseDTOS)
-                    .build();
+            return CompletableFuture.completedFuture(
+                    JobScrapeResponse.builder()
+                            .jobs(responseDTOS)
+                            .build()
+            );
         } catch (ExecutionException | InterruptedException e) {
-            return JobScrapeResponse.builder()
-                    .jobs(new HashSet<>())
-                    .build();
+            return CompletableFuture.completedFuture(
+                    JobScrapeResponse.builder()
+                            .jobs(new HashSet<>())
+                            .build()
+            );
         }
     }
 

@@ -9,9 +9,6 @@ class Breadcrumb extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size screenSize = MediaQuery.of(context).size;
-    double w = screenSize.width/100;
-    double h = screenSize.height/100;
     return Container(
       alignment: Alignment.topLeft,
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
@@ -30,7 +27,7 @@ class Breadcrumb extends StatelessWidget {
               )
             ),
             Text(
-              "/ ${currentPage} ", 
+              "/ $currentPage ", 
               style: const TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold

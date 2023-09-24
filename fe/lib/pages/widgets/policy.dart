@@ -2,7 +2,6 @@
 import 'package:ai_cv_generator/pages/widgets/loadingscreens/loadingScreen.dart';
 
 // external
-import 'dart:js_interop';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
@@ -34,7 +33,7 @@ class Policy extends StatelessWidget {
         borderRadius: BorderRadius.circular(radius)
       ),
       child: Container(
-        padding: EdgeInsets.all(24),
+        padding: const EdgeInsets.all(24),
         width: 700,
         height: 600,
         child:
@@ -44,7 +43,7 @@ class Policy extends StatelessWidget {
               child: FutureBuilder(
                 future: Future.delayed(Duration(milliseconds: waitPeriod)).then((value) {return rootBundle.loadString(filename);}),
                 builder: (context, snapshot) {
-                  if (!(snapshot == null) && snapshot.hasData) {
+                  if (snapshot.hasData) {
                     return Markdown(
                       data: snapshot.data as String,
                       styleSheet: MarkdownStyleSheet(
@@ -74,7 +73,7 @@ class Policy extends StatelessWidget {
                 }
               )
             ),
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
             TextButton(

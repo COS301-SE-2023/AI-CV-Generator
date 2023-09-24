@@ -53,98 +53,123 @@ void shareCVModal(BuildContext context,PlatformFile? f) {
 }
 
 void requirementsforshare(BuildContext context, PlatformFile? file) {
-  TextEditingController nameC = TextEditingController();
-  TextEditingController timeInput = TextEditingController();
-  DateTime date = DateTime.now();
 
   showDialog(
     context: context, 
     builder: (BuildContext context) {
       return Dialog(
-        child: FractionallySizedBox(
-          widthFactor: 0.4,
-          child: Container(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'Specify Name and Time',
-                  style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 16.0),
-                TextField(
-                  controller: nameC,
-                  decoration: const InputDecoration(
-                    labelText: "Enter Name for file",
-                    border: OutlineInputBorder(),
-                  ),
-                ),
-                const SizedBox(height: 8.0,),
-                TextField(
-                  controller: timeInput,
-                  decoration: const InputDecoration( 
-                   icon: Icon(Icons.timer), //icon of text field
-                   labelText: "Enter Time in hours", //label text of field
-                   hintText: "Hours"
-                  ),
-                  onTap: () async {
-                    // TimeOfDay? pickedTime =  await showTimePicker(
-                    //         initialTime: TimeOfDay.now(),
-                    //         context: context,
-                    //     );
-                    
-                    // if(pickedTime != null ){
-                    //     print(pickedTime.format(context));
-                    //     DateTime parsedTime = DateFormat.jm().parse(pickedTime.format(context).toString());
-                    //     print(parsedTime);
-                    //     String formattedTime = DateFormat('dd:HH:mm:ss').format(parsedTime);
-                    //     print(formattedTime);
-                    //     date = parsedTime;
-                    //     timeInput.text = formattedTime;
-                        
-                    // }else{
-                    //     print("Time is not selected");
-                    // }
-                  },
-                  onTapOutside: (event) {
-                    date = DateTime.now();
-                    date.add(Duration(hours: int.parse(timeInput.text)));
-                  },
-                ),
-                const SizedBox(height: 8.0,),
-                InkWell(
-                      onTap: () async {
-                        Duration duration = DateTime.now().difference(date);
-                        file = PlatformFile(name: "${nameC.text}.pdf", size: file!.bytes!.length,bytes: file?.bytes);
-                        await FileApi.uploadFile(file: file);
-                        String linkToCV = await FileApi.generateUrl(filename: file!.name,duration: duration);
-                        Clipboard.setData(ClipboardData(text: linkToCV));
-                      },
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.link,
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                          const SizedBox(width: 8.0),
-                          Text(
-                            'Copy Link',
-                            style: TextStyle(
-                              fontSize: 16.0,
-                              color: Theme.of(context).colorScheme.primary
-                              ),
-                          ),
-                        ]
-                      )
-                )
-              ],
-            )
-          )
-        ),
+        child: ShareWidget(file: file,)
       );
     }
   );
+}
+
+// ignore: must_be_immutable
+class ShareWidget extends StatefulWidget {
+  ShareWidget({super.key, required this.file});
+  PlatformFile? file;
+  @override
+  State<StatefulWidget> createState() => ShareWidgetState();
+}
+
+class ShareWidgetState extends State<ShareWidget> {
+  TextEditingController nameC = TextEditingController();
+  TextEditingController timeInput = TextEditingController(text: '1');
+  DateTime date = DateTime.now();
+  final List<String> _dropdownItems = [
+    '1',
+    '2',
+    '4',
+    '8',
+    '16',
+    '24'
+  ];
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: SizedBox(
+        height: 250,
+        width: 400,
+        child: Container(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Text(
+                'Specify Name and Time',
+                style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 16.0),
+              TextField(
+                controller: nameC,
+                decoration: const InputDecoration(
+                  labelText: "Enter Name for file",
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              const SizedBox(height: 8.0,),
+              Container(
+                width: 100,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  color: Colors.grey.shade100
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const Text('Hours: '),
+                    DropdownButton<String>(
+                      value: timeInput.text,
+                      onChanged: (String? newValue) {
+                        timeInput.text = newValue??'0';
+                        date = DateTime.now();
+                        date.add(Duration(hours: int.parse(timeInput.text)));
+                        setState(() {
+                          
+                        });
+                      },
+                      items: _dropdownItems.map((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 8.0,),
+              InkWell(
+                onTap: () async {
+                  PlatformFile file = PlatformFile(name: '${nameC.text}.pdf', size: widget.file!.bytes!.length,bytes: widget.file!.bytes);
+                  String linkToCV = await FileApi.generateUrlFromNewFile(file: file,hours: int.parse(timeInput.text));
+                  Clipboard.setData(ClipboardData(text: linkToCV));
+                },
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.link,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                    const SizedBox(width: 8.0),
+                    Text(
+                      'Copy Link',
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        color: Theme.of(context).colorScheme.primary
+                        ),
+                    ),
+                  ]
+                )
+              )
+            ],
+          )
+        )
+      )
+    );
+  }
+
 }
 

@@ -24,6 +24,7 @@ import com.revolvingSolutions.aicvgeneratorbackend.response.details.qualificatio
 import com.revolvingSolutions.aicvgeneratorbackend.response.file.GetFilesResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.user.GetUserResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.user.UpdateUserResponse;
+import com.revolvingSolutions.aicvgeneratorbackend.service.UUIDGenerator;
 import com.revolvingSolutions.aicvgeneratorbackend.service.UserService;
 import jakarta.activation.MimeType;
 import jdk.jfr.ContentType;
@@ -61,6 +62,8 @@ public class UserIntergrationTests {
     // These are essentially integration tests between the backend and the front end
     private UserController userController;
     private UserService userService;
+
+    private UUIDGenerator generator;
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -93,6 +96,7 @@ public class UserIntergrationTests {
     @BeforeEach
     void setUp() {
         closeable = MockitoAnnotations.openMocks(this);
+        generator = new UUIDGenerator();
         userService = new UserService(
                 userRepository,
                 fileRepository,
@@ -103,6 +107,7 @@ public class UserIntergrationTests {
                 skillRepository,
                 shareRepository,
                 profileImageRepository,
+                generator,
                 passwordEncoder
         );
         userController = new UserController(

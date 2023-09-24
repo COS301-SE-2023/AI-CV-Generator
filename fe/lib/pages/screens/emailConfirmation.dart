@@ -2,7 +2,7 @@ import 'package:ai_cv_generator/dio/client/AuthApi.dart';
 import 'package:ai_cv_generator/dio/response/AuthResponses/Code.dart';
 import 'package:ai_cv_generator/pages/util/errorMessage.dart';
 import 'package:ai_cv_generator/pages/util/successMessage.dart';
-import 'package:ai_cv_generator/pages/widgets/buttons/generalTextButton.dart';
+import 'package:ai_cv_generator/pages/widgets/buttons/customizableButton.dart';
 import 'package:flutter/material.dart';
 
 class EmailConfirmationArguments{
@@ -168,18 +168,15 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     SizedBox(
                       height: 2.4*h,
                     ),
-                    Container(
-                       height: 5*h,
-                       width: 10*w,
-                      child: InkWell(
-                        child: const GeneralButtonStyle(
-                          text: "Login"
-                        ),
-                        onTap: () {
-                          backToLogin();
-                        },
-                      ),
-                    ),
+                    CustomizableButton(
+                      text: 'Login', 
+                      width: 10*w, 
+                      height: 5*h, 
+                      onTap: () {
+                        backToLogin();
+                      }, 
+                      fontSize: 0.9*w
+                    )
                   ],
                 )
               ],

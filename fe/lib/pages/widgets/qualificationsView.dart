@@ -217,22 +217,26 @@ class QualificationsFieldState extends State<QualificationsField> {
       child: Column(
         children: [
             TextFormField(
+            maxLength: 50,
             key: const Key('Institution input'),
             style: const TextStyle(fontSize: 20),
             controller: widget.intstitutionC,
             textAlign: TextAlign.right,
             decoration: const InputDecoration(
+              counterText: "",
               hintText: "INSTITUTION NAME",
               border: InputBorder.none
               ),
             ),
             const SizedBox(width: 8,),
             TextFormField(
+            maxLength: 50,
             key: const Key('Qualification input'),
             // style: TextStyle(fontSize: 5),
             controller: widget.qualificationC,
             textAlign: TextAlign.right,
             decoration: const InputDecoration(
+              counterText: "",
               hintText: "QUALIFICATION NAME",
               hintStyle: TextStyle(fontSize: 15),
               border: InputBorder.none

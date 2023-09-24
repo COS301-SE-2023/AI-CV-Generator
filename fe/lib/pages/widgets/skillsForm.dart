@@ -210,7 +210,7 @@ class _SkillsDetailsFormState extends State<SkillsDetailsForm> {
                 ),
               ],
             ),
-            SizedBox(height: 5*h,),
+            SizedBox(height: 4*h,),
           ],
         )
       )

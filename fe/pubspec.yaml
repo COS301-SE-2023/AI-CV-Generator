@@ -99,6 +99,7 @@ flutter:
     - assets/images/TemplateAAsset.jpg
     - assets/images/TemplateBAsset.png
     - assets/images/TemplateCAsset.jpg
+    - assets/Documents/DocumentTest.pdf
     - assets/.env
     - assets/markdown/Terms_of_use.md
     - assets/markdown/Privacy_policy.md
@@ -108,6 +109,18 @@ flutter:
     - assets/images/circle-xmark-svgrepo-com.svg
     - assets/images/circle-filled-circle-radio-filled-round-bullet-svgrepo-com.svg
     - assets/images/party-popper-svgrepo-com.svg
+    - assets/images/ExtractionPage.png
+    - assets/images/HomePage.png
+    - assets/images/AIChatBot.png
+    - assets/images/JobPage.png
+    - assets/images/Navbar.png
+    - assets/images/icons8-email-50.png
+    - assets/images/templateARework.png
+    - assets/images/templateBRework.png
+    - assets/images/templateCRework.png
+    - assets/images/templateDRework.png
+    - assets/images/templateERework.png
+    - assets/images/templateFRework.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
@@ -123,7 +136,7 @@ flutter:
   fonts:
     - family: Montserrat
       fonts:
-       - asset: assets\fonts\OpenSans-Regular.ttf
+       - asset: assets/fonts/OpenSans-Regular.ttf
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

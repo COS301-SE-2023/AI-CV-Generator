@@ -24,20 +24,15 @@ public class CareerBuildersService {
 
     private AtomicInteger amount = new AtomicInteger(0);
 
-    @Async
+    @Async("task2")
     public CompletableFuture<Set<JobResponseDTO>> CBRE(JobScrapeRequest request) throws IOException {
-        System.out.println("CareerBuilders");
+        System.out.println("CareerBuilders" + Thread.currentThread().getName());
         Set<JobResponseDTO> responseDTOS = new HashSet<>();
         Document doc = Jsoup.connect("https://careers.cbre.com/en_US/careers/SearchJobs/"+request.getField().replaceAll(" ","%20")+"%20="+request.getLocation().replaceAll(" ", "%20")+"?listFilterMode=1&jobSort=relevancy&jobRecordsPerPage=25&").get();
         Element main = doc.getElementsByTag("main").first();
         Element list = main.getElementsByClass("section__content__results").first();
         Elements listelements = doc.getElementsByClass("article article--result ");
         for (Element el : listelements) {
-            if (amount.get()==0) {
-                return CompletableFuture.completedFuture(
-                        responseDTOS
-                );
-            }
             try {
                 if (el.getElementsByClass("article__header__text__title article__header__text__title--4 ").isEmpty()) {
                     continue;
@@ -54,19 +49,15 @@ public class CareerBuildersService {
                 if (spans.size() >= 2) {
                     location = spans.get(2).ownText();
                 }
-                if (
-                        responseDTOS.add(
-                                JobResponseDTO.builder()
-                                        .title(link.ownText())
-                                        .subTitle(subTitle)
-                                        .location(location)
-                                        .imgLink("https://careers.cbre.com/portal/4/images/socialShare.jpg")
-                                        .link(link.attr("href"))
-                                        .build()
-                        )
-                ) {
-                    amount.decrementAndGet();
-                }
+                responseDTOS.add(
+                        JobResponseDTO.builder()
+                                .title(link.ownText())
+                                .subTitle(subTitle)
+                                .location(location)
+                                .imgLink("https://careers.cbre.com/portal/4/images/socialShare.jpg")
+                                .link(link.attr("href"))
+                                .build()
+                );
             } catch (Exception e) {
                 System.out.println("Response DTOs failed");
             }

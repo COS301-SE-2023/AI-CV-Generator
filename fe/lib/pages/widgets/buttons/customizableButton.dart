@@ -30,6 +30,7 @@ class CustomizableButtonState extends State<CustomizableButton> {
       height: widget.height,
       child: InkWell(
         hoverColor: Colors.transparent,
+        borderRadius: BorderRadius.circular(16.0),
         onTap: widget.onTap,
         onHover: (value) {
           Alignment temp = begin;
@@ -53,7 +54,8 @@ class CustomizableButtonState extends State<CustomizableButton> {
                       colors: const [
                         Color(0xFFFDA187),
                         Color(0xFFEA6D79),
-                      ]),
+                      ]
+                  ),
                   borderRadius: BorderRadius.circular(16.0),
                 ),
                 child: Row(
@@ -61,11 +63,12 @@ class CustomizableButtonState extends State<CustomizableButton> {
                   children: [
                     Text(
                       widget.text,
+                      overflow: TextOverflow.fade,
                       style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white,
-                          fontSize: widget.fontSize
-                        ),
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                        fontSize: widget.fontSize
+                      ),
                     )
                   ],
                 ),

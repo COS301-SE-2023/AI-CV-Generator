@@ -4,7 +4,9 @@ package com.revolvingSolutions.aicvgeneratorbackend.service;
 import com.revolvingSolutions.aicvgeneratorbackend.agent.*;
 import com.revolvingSolutions.aicvgeneratorbackend.constants.StaticValues;
 import com.revolvingSolutions.aicvgeneratorbackend.model.aimodels.AIEmployment;
+import com.revolvingSolutions.aicvgeneratorbackend.model.aimodels.AIInputData;
 import com.revolvingSolutions.aicvgeneratorbackend.model.aimodels.CVData;
+import com.revolvingSolutions.aicvgeneratorbackend.model.aimodels.ProfessionalSummaryModel;
 import com.revolvingSolutions.aicvgeneratorbackend.request.AI.ChatRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.AI.ExtractionRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.AI.GenerationRequest;
@@ -72,6 +74,14 @@ public class LangChainService {
             mylist.add(interact(employmentHistoryExpander(chatLanguageModel()),employment.toString()));
         }
 
+
+
+        String description = interact(descriptionAgent(chatLanguageModel()),createProfessionalSummaryModel(request.getData()).toString());
+        if (description == null) description = "Description";
+        if (request.getData().getExperience() == null) request.getData().setExperience(new ArrayList<>());
+        if (request.getData().getQualifications() == null) request.getData().setQualifications(new ArrayList<>());
+        String education_description = interact(educationDescriptionAgent(educationDescriptionChatModel()),request.getData().getQualifications().toString()+request.getData().getDescription());
+        if (education_description == null) education_description = "Education Description";
         return GenerationResponse.builder()
                 .data(
                         CVData.builder()
@@ -80,14 +90,28 @@ public class LangChainService {
                                 .phoneNumber(request.getData().getPhoneNumber())
                                 .email(request.getData().getEmail())
                                 .location(request.getData().getLocation())
-                                .description(interact(descriptionAgent(chatLanguageModel()),request.getData().toString()))
+                                .description(description)
                                 .employmenthistory(request.getData().getExperience())
                                 .experience(mylist)
                                 .qualifications(request.getData().getQualifications())
-                                .education_description(interact(educationDescriptionAgent(chatLanguageModel()),request.getData().getQualifications().toString()+request.getData().getDescription()))
+                                .education_description(education_description)
                                 .links(request.getData().getLinks())
+                                .skills(request.getData().getSkills())
+                                .references(request.getData().getReferences())
                                 .build()
                 )
+                .build();
+    }
+
+    private ProfessionalSummaryModel createProfessionalSummaryModel(AIInputData data) {
+        return ProfessionalSummaryModel.builder()
+                .firstname(data.getFirstname())
+                .lastname(data.getLastname())
+                .description(data.getDescription())
+                .location(data.getLocation())
+                .experience(data.getExperience())
+                .qualifications(data.getQualifications())
+                .skills(data.getSkills())
                 .build();
     }
 
@@ -101,9 +125,22 @@ public class LangChainService {
         if (block) {
             // implement mock later
         }
+        AIInputData data = extractionAgent(extractionChatLanguageModel()).extractPersonFrom(request.getText());
+
+        if (data.getFirstname() == null) data.setFirstname("First Name");
+        if (data.getLastname() == null) data.setLastname("Last Name");
+        if (data.getEmail() == null) data.setEmail("Email");
+        if (data.getLocation() == null) data.setLocation("Location");
+        if (data.getPhoneNumber() == null) data.setPhoneNumber("Phone number");
+        if (data.getDescription() == null) data.setDescription("Description");
+        if (data.getExperience() == null) data.setExperience(new ArrayList<>());
+        if (data.getQualifications() == null) data.setQualifications(new ArrayList<>());
+        if (data.getLinks() == null) data.setLinks(new ArrayList<>());
+        if (data.getSkills() == null) data.setReferences(new ArrayList<>());
+
         ExtractionResponse resp = ExtractionResponse.builder()
                 .data(
-                        extractionAgent(extractionChatLanguageModel()).extractPersonFrom(request.getText())
+                    data
                 )
                 .build();
         System.out.println(resp.toString());
@@ -180,6 +217,22 @@ public class LangChainService {
                 .modelName(modelName)
                 .apiKey(apikey)
                 .temperature(temperature)
+                .logRequests(true)
+                .logResponses(true)
+                .maxRetries(2)
+                .maxTokens(1000)
+                .topP(1.0)
+                .timeout(Duration.ofMinutes(2))
+                .frequencyPenalty(0.0)
+                .presencePenalty(0.0)
+                .build();
+    }
+
+    private ChatLanguageModel educationDescriptionChatModel() {
+        return OpenAiChatModel.builder()
+                .modelName(modelName)
+                .apiKey(apikey)
+                .temperature(0.4)
                 .logRequests(true)
                 .logResponses(true)
                 .maxRetries(2)

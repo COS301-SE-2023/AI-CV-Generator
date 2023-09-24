@@ -271,12 +271,14 @@ class ProfileState extends State<Profile> {
                                       controller: fnameC,
                                       hint: "First Name",
                                       fontSize: 24,
+                                      maxLength: 50
                                     ),
                                     const SizedBox(width: 8,),
                                     SectionInput(
                                       controller: lnameC,
                                       hint: "Last Name",
                                       fontSize: 24,
+                                      maxLength: 50,
                                     ),
                                 ]
                               ),
@@ -284,12 +286,14 @@ class ProfileState extends State<Profile> {
                               SectionInput(
                                 controller: locationC,
                                 hint: "Address",
-                                height: 34
+                                height: 34,
+                                maxLength: 50,
                               ),
                               SectionInput(
                                 controller: phoneNoC,
                                 hint: "Phone number",
                                 height: 34,
+                                maxLength: 20,
                               ),
                               const SizedBox(height: 55,),
                               qualificationsC,

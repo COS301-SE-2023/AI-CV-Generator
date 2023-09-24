@@ -109,7 +109,7 @@ class DescriptionFormState extends State<DescriptionForm> {
                 ),
               ],
             ),
-            SizedBox(height: 5*h,),
+            SizedBox(height: 4*h,),
           ]
         )
       )

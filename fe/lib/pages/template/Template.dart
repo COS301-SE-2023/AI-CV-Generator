@@ -428,7 +428,10 @@ class TemplateState extends State<Template> {
   }
 
   Widget templateD() {
-    return const SizedBox(height: 10,child: Text("Unimplemented!!!"));
+    if (img == null) {
+      return const LoadingScreen();
+    }
+    return ListView();
   }
 }
 

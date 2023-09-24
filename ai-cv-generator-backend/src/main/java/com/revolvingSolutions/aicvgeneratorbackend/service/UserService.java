@@ -60,11 +60,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.Date;
+import java.io.IOException;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.util.*;
 import java.time.Instant;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -79,6 +79,7 @@ public class UserService {
     private final SkillRepository skillRepository;
     private final ShareRepository shareRepository;
     private final ProfileImageRepository profileImageRepository;
+    private final UUIDGenerator generator;
 
     private final PasswordEncoder encoder;
     public GetUserResponse getUser() {
@@ -493,7 +494,7 @@ public class UserService {
                             .filetype(file.getFiletype())
                             .filename(file.getFilename())
                             .data(file.getData())
-                            .ExpireDate(Date.from(Instant.now().plusMillis(request.getDuration().toMillis())))
+                            .ExpireDate(LocalDateTime.now().plus(request.getDuration()))
                             .build()
             );
             return GenerateUrlResponse.builder()
@@ -504,23 +505,25 @@ public class UserService {
         }
     }
 
-    public GenerateUrlResponse generateUrlFromFile(String base, MultipartFile file, Date date) {
-        try {
+
+    @Transactional
+    public GenerateUrlResponse generateUrlFromFile(String base, MultipartFile file, Integer hours) throws IOException {
             update();
+            UUID id = generator.generateID();
             shareRepository.save(
-                    ShareEntity.builder()
-                            .filetype(file.getContentType())
-                            .filename(file.getOriginalFilename())
-                            .data(file.getBytes())
-                            .ExpireDate(date)
-                            .build()
+                ShareEntity.builder()
+                        .uuid(id)
+                        .filetype(file.getContentType())
+                        .filename(file.getName())
+                        .data(file.getBytes())
+                        .ExpireDate(LocalDateTime.now().plusHours(hours))
+                        .build()
             );
+
             return GenerateUrlResponse.builder()
-                    .generatedUrl(base+"share/"+shareRepository.findByFilename(file.getOriginalFilename()).orElseThrow().getUuid().toString())
+                    .generatedUrl(base+"share/"+id)
                     .build();
-        } catch (Exception e) {
-            throw new UnknownErrorException("File exception!: "+e.getMessage());
-        }
+
     }
 
     @Transactional
@@ -583,7 +586,7 @@ public class UserService {
     }
 
     private void update() {
-        shareRepository.deleteAllInBatch(shareRepository.getExpiredURLs(java.util.Date.from(Instant.now())));
+        shareRepository.deleteAllInBatch(shareRepository.getExpiredURLs(LocalDateTime.now()));
         shareRepository.flush();
     }
 }

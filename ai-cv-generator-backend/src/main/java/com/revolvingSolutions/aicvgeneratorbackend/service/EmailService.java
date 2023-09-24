@@ -329,7 +329,6 @@ public class EmailService {
 
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message);
-
         try {
             helper.setFrom(fromAddress, senderName);
             helper.setTo(userEmail);

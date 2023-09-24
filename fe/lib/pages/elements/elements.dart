@@ -177,7 +177,8 @@ class SectionInput extends StatefulWidget {
   double? fontSize;
   double? height;
   double? width;
-  SectionInput({super.key, required this.controller, this.hint, this.fontSize, this.height, this.width});
+  int? maxLength;
+  SectionInput({super.key, required this.controller, this.hint, this.fontSize, this.height, this.width, this.maxLength});
   @override
   SectionInputState createState() => SectionInputState();
 }
@@ -196,10 +197,12 @@ class SectionInputState extends State<SectionInput> {
       height: widget.height,
       width: widget.width,
       child: TextFormField(
+        maxLength: widget.maxLength??90000,
         controller: widget.controller, 
         textAlign: TextAlign.right, 
         style:  widget.fontSize != null ? TextStyle(fontSize: widget.fontSize) : Theme.of(context).textTheme.titleMedium,
         decoration: InputDecoration(
+          counterText: "",
           border: InputBorder.none,
           hintStyle: hintStyle,
           hintText: widget.hint,

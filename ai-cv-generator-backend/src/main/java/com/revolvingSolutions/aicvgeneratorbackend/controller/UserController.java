@@ -45,9 +45,12 @@ import com.revolvingSolutions.aicvgeneratorbackend.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @RestController
@@ -92,11 +95,18 @@ public class UserController {
     @PostMapping(value="/shareFile")
     public ResponseEntity<GenerateUrlResponse> uploadFileAndShare(
             @RequestParam("file")MultipartFile file,
-            @RequestParam("Date")@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date duration,
-            @RequestParam("base") String base
+            @RequestParam("base") String base,
+            @RequestParam("hours")Integer hours
             ) {
-        GenerateUrlResponse response = service.generateUrlFromFile(base,file,duration);
-        return ResponseEntity.ok(response);
+        System.out.println("Heeeeeeeeeeeeeeeeeeeeeerrrrrrrrrrrrrrrrrrreeeeeeeeeeeeeeee");
+        try {
+            GenerateUrlResponse response = service.generateUrlFromFile(base,file,hours);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatusCode.valueOf(404)).build();
+        }
+
     }
 
     @PostMapping(value="/retfile")

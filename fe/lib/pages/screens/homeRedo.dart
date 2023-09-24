@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:ai_cv_generator/api/downloadService.dart';
 import 'package:ai_cv_generator/api/pdfApi.dart';
 import 'package:ai_cv_generator/dio/client/AIApi.dart';
@@ -16,10 +18,11 @@ import 'package:ai_cv_generator/models/user/Qualification.dart';
 import 'package:ai_cv_generator/models/user/Reference.dart';
 import 'package:ai_cv_generator/models/user/Skill.dart';
 import 'package:ai_cv_generator/models/user/UserModel.dart';
-import 'package:ai_cv_generator/pages/template/Template.dart';
-import 'package:ai_cv_generator/pages/util/colourPickBox.dart';
+import 'package:ai_cv_generator/pages/template/TemplateChoice.dart';
+import 'package:ai_cv_generator/pages/util/editor.dart';
 import 'package:ai_cv_generator/pages/util/errorMessage.dart';
 import 'package:ai_cv_generator/pages/util/fileView.dart';
+import 'package:ai_cv_generator/pages/util/namePromt.dart';
 import 'package:ai_cv_generator/pages/util/successMessage.dart';
 import 'package:ai_cv_generator/pages/widgets/EmptyCV.dart';
 import 'package:ai_cv_generator/pages/widgets/buttons/appBarButton.dart';
@@ -35,10 +38,10 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter/painting.dart' as paint;
-import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'dart:math' as math;
 
 import 'package:intl/intl.dart';
+import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 GlobalKey<ChatBotViewState> chatBotKey = GlobalKey();
 class Home extends StatefulWidget {
@@ -63,6 +66,8 @@ class HomeState extends State<Home> {
   ScreenStatus status = ScreenStatus.empty;
   AIInput? aiInput;
 
+  Uint8List? bytes;
+
   // variables
   UserModel? model;
   CVData? data = CVData();
@@ -71,10 +76,8 @@ class HomeState extends State<Home> {
   bool isChatBotVisible = false;
 
   // template colours
-  Color a = Colors.lightGreen;
-  Color b = Colors.blue;
-  Color c = Colors.blue.shade100;
-  Color d = Colors.grey.shade300;
+  ColorSet colors = ColorSet();
+  
 
   ChatBotView chatBot = const ChatBotView();
 
@@ -154,6 +157,15 @@ class HomeState extends State<Home> {
       yield controller.value.text;
     }
   } 
+
+  // Update PDF
+  Future<void> updatePdf() async {
+    if (!generated) return;
+    bytes = await templateChoice(data!, option, colors);
+    setState(() {
+      
+    });
+  }
 
   // Coverters
   // UserModel to AiInput
@@ -244,9 +256,22 @@ class HomeState extends State<Home> {
     Navigator.popUntil(context, ModalRoute.withName("/"));
   }
 
+  updateFiles() {
+    list = [];
+    FileApi.getFiles().then((value) {
+      for (var element in value!) {
+        paint.ImageProvider prov = paint.MemoryImage(element.cover);
+        list.add(add(element.filename,prov));
+      }
+        setState(() {
+      });
+    });
+  }
+
   // Initialize State
   @override
   void initState() {
+    colors.setColorSetA();
     UserApi.getUser().then((value) {
       model = value;
       nameController.text = model!.fname;
@@ -318,19 +343,48 @@ class HomeState extends State<Home> {
     setState(() {});
   }
 
+  Future<void> showCV() async {
+    Editor editor = Editor(data: data!, option: option, colors: colors,);
+    await showDialog(
+      barrierColor: const Color(0x01000000),
+      context: context, 
+      builder: (context) {
+        return SizedBox(
+          width: 100,
+          height: 800,
+          child: editor,
+        );
+      }
+    );
+    setCVLoadingOn();
+    setState(() {
+      colors = editor.colors;
+      option = editor.option;
+      data = editor.data;
+    });
+    bytes = await templateChoice(data!, option, colors);
+    setCVLoadingOff();
+  }
+
+  Future<String?> promptName() async {
+    NamePrompt prompt = NamePrompt();
+    await showDialog(
+      context: context, 
+      builder: (context) {
+        return Container(
+          child: prompt,
+        );
+      }
+    );
+
+    return prompt.name;
+  }
+
   // Build
   @override
   Widget build(BuildContext context) {
 
     // Template
-    Template template = Template(
-      option: option, 
-      data: data!,
-      colA: a,
-      colB: b,
-      colC: c,
-      colD: d,
-    );
 
     // Window Resizing
     Size screenSize = MediaQuery.of(context).size;
@@ -339,7 +393,7 @@ class HomeState extends State<Home> {
 
     // Widget Builders
     // Template Option builder
-    Widget templateChoice(TemplateOption pick, String assetPath) {
+    Widget templateChoices(TemplateOption pick, String assetPath) {
       Color isPicked = Colors.transparent;
       if (option == pick) isPicked = Colors.blue;
       return Container(
@@ -356,6 +410,8 @@ class HomeState extends State<Home> {
           cursor: SystemMouseCursors.click,
           child: GestureDetector(
             onTap: () {
+              colors.setColorSetTemplateChoice(pick);
+              updatePdf();
               setState(() {
                 option = pick;
               });
@@ -382,18 +438,28 @@ class HomeState extends State<Home> {
               width: 40*w,
             ),
           ),
-          InkWell(
-            onTap: () {
-                toJobs();
-            },
-            child: const AppBarButtonStyle(text: "Jobs"),
+          SizedBox(
+            width: 80,
+            height: 28,
+            child: InkWell(
+              hoverColor: Colors.transparent,
+              onTap: () {
+                  toJobs();
+              },
+              child: const AppBarButtonStyle(text: "Jobs"),
+            ),
           ),
           SizedBox(width: 3.2*w,),
-          InkWell(
-            onTap: () {
-                toAbout();
-            },
-            child: const AppBarButtonStyle(text: "About")
+          SizedBox(
+            width: 80,
+            height: 28,
+            child: InkWell(
+              hoverColor: Colors.transparent,
+              onTap: () {
+                  toAbout();
+              },
+              child: const AppBarButtonStyle(text: "About")
+            ),
           ),
           SizedBox(width: 4*w,),
           MouseRegion(
@@ -454,9 +520,12 @@ class HomeState extends State<Home> {
                                 child: GridView.count(
                                   crossAxisCount: 1,
                                   children:[
-                                    templateChoice(TemplateOption.templateA, "assets/images/TemplateAAsset.jpg"),
-                                    templateChoice(TemplateOption.templateB, "assets/images/TemplateBAsset.png"),
-                                    templateChoice(TemplateOption.templateC, "assets/images/TemplateCAsset.jpg")
+                                    templateChoices(TemplateOption.templateA, "assets/images/templateARework.png"),
+                                    templateChoices(TemplateOption.templateB, "assets/images/templateBRework.png"),
+                                    templateChoices(TemplateOption.templateC, "assets/images/templateCRework.png"),
+                                    templateChoices(TemplateOption.templateD, "assets/images/templateDRework.png"),
+                                    templateChoices(TemplateOption.templateE, "assets/images/templateERework.png"),
+                                    templateChoices(TemplateOption.templateF, "assets/images/templateFRework.png")
                                   ],
                                 )
                               ),
@@ -464,77 +533,6 @@ class HomeState extends State<Home> {
                           ],
                         )
                       )
-                    ),
-                    if (generated) 
-                    Container(
-                      height: h*28,
-                      width: 6*w,
-                      decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.all(Radius.circular(12)),
-                        border: Border.all(
-                          color: const Color.fromARGB(0, 0, 0, 0),
-                        ),
-                        color: Theme.of(context).colorScheme.surface,
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          ColourBox(
-                            color: a, 
-                            h: h, 
-                            w: h, 
-                            onTap: () async {
-                              a = await pickColour(context, a);
-                              setState(() {
-                                
-                              });
-                            }
-                          ),
-                          SizedBox(
-                            height: h*1,
-                          ),
-                          ColourBox(
-                            color: b, 
-                            h: h, 
-                            w: h, 
-                            onTap: () async {
-                              b = await pickColour(context, b);
-                              setState(() {
-                                
-                              });
-                            }
-                          ),
-                          SizedBox(
-                            height: h*1,
-                          ),
-                          ColourBox(
-                            color: c, 
-                            h: h, 
-                            w: h, 
-                            onTap: () async {
-                              c = await pickColour(context, c);
-                              setState(() {
-                                
-                              });
-                            }
-                          ),
-                          SizedBox(
-                            height: h*1,
-                          ),
-                          ColourBox(
-                            color: d, 
-                            h: h, 
-                            w: h, 
-                            onTap: () async {
-                              d = await pickColour(context, d);
-                              setState(() {
-                                
-                              });
-                            }
-                          )
-                        ],
-                      ),
                     ),
                     Container(
                       padding: EdgeInsets.fromLTRB(2*w, 0, 2*w, 0),
@@ -553,6 +551,7 @@ class HomeState extends State<Home> {
                                   width: 7*w, 
                                   height: 5*h, 
                                   onTap: () async {
+                                    generated = false;
                                     Home.ready = false;
                                     Home.adjustedModel = model;
                                     noShowButton();
@@ -573,22 +572,31 @@ class HomeState extends State<Home> {
                                     setCVLoadingOn();
                                     aiInput = userModelToInput(Home.adjustedModel!);
                                     data = await AIApi.generateAI(data: aiInput!);
-                                    if (data != null && data!.description == null) {
+                                    if (data == null || data!.description == null) {
                                       setCVErrorOn();
+                                      return;
+                                    }
+                                    bytes = await templateChoice(data!, option, colors);
+                                    if (bytes == null) {
+                                      setCVError();
+                                      return;
                                     }
                                     generated = true;
                                     setCVLoadingOff();
                                   },
                                   fontSize: w*0.8
                                 ),
-                                SizedBox(width: 4*w,),
+                                SizedBox(width: 2*w,),
                                 CustomizableButton(
                                   text: "Upload", 
                                   width: 7*w, 
                                   height: 5*h, 
                                   onTap: () async {
+                                    
                                     PlatformFile? file = await pdfAPI.pick_cvfile();
                                     if (file == null) return;
+                                    generated = false;
+                                    noShowButton();
                                     setCVLoadingOn();
                                     aiInput = await AIApi.extractPdf(file: file);
                                     if (aiInput == null) {
@@ -602,18 +610,44 @@ class HomeState extends State<Home> {
                                     }
                                     showButton();
                                     data = await AIApi.generateAI(data: aiInput!);
-                                    if (data != null && data!.description == null) {
+                                    if (data == null || data!.description == null) {
                                       setCVErrorOn();
+                                      return;
+                                    }
+                                    bytes = await templateChoice(data!, option, colors);
+                                    if (bytes == null) {
+                                      setCVError();
+                                      return;
                                     }
                                     generated = true;
                                     setCVLoadingOff();
                                   },
                                   fontSize: w*0.8
                                 ),
+                                if (generated)
+                                SizedBox(width: 2*w,),
+                                if (generated)
+                                CustomizableButton(
+                                  text: 'Save', 
+                                  width: 7*w, 
+                                  height: 5*h, 
+                                  onTap: () async {
+                                    if (bytes != null) {
+                                      String? name = await promptName();
+                                      if (name == null) return;
+                                      await FileApi.uploadFile(file: PlatformFile(name: '$name.pdf', size: bytes!.length, bytes: bytes));
+                                      updateFiles();
+                                    } else {
+                                      showError("Something went wrong!");
+                                      return;
+                                    }
+                                  }, 
+                                  fontSize: w*0.8
+                                )
                               ],
                             ),
                           ),
-                          if (showButtons)
+                          if (generated)
                           Container(
                             padding: EdgeInsets.only(
                               top: h*2
@@ -631,8 +665,14 @@ class HomeState extends State<Home> {
                                     noShowButton();
                                     setCVLoadingOn();
                                     data = await AIApi.generateAI(data: aiInput!);
-                                    if (data != null && data!.description == null) {
+                                    if (data == null || data!.description == null) {
                                       setCVErrorOn();
+                                      return;
+                                    }
+                                    bytes = await templateChoice(data!, option, colors);
+                                    if (bytes == null) {
+                                      setCVError();
+                                      return;
                                     }
                                     showButton();
                                     generated = true;
@@ -642,16 +682,15 @@ class HomeState extends State<Home> {
                                 ),
                                 SizedBox(width: 1*w,),
                                 CustomizableButton(
-                                  text: "Expand", 
+                                  text: "Edit", 
                                   width: 6*w, 
                                   height: 5*h, 
                                   onTap: () async {
-                                    PlatformFile? file = await template.transform();
-                                    if (file == null) {
-                                      showError("Something went wrong!");
+                                    if (data == null) {
+                                      showError('Something went wrong!');
                                       return;
                                     }
-                                    showPdf(file);
+                                    await showCV();
                                   },
                                   fontSize: w*0.7
                                 ),
@@ -661,12 +700,11 @@ class HomeState extends State<Home> {
                                   width: 6*w, 
                                   height: 5*h, 
                                   onTap: () async {
-                                    PlatformFile? file = await template.transform();
-                                    if (file == null) {
+                                    if (bytes == null) {
                                       showError("Something went wrong!");
                                       return;
                                     }
-                                    DownloadService.download(file.bytes!.toList(), downloadName: file.name);
+                                    DownloadService.download(bytes!, downloadName: 'Untitled.pdf');
                                   },
                                   fontSize: w*0.7
                                 ),
@@ -676,12 +714,11 @@ class HomeState extends State<Home> {
                                   width: 6*w, 
                                   height: 5*h, 
                                   onTap: () async {
-                                    PlatformFile? file = await template.transform();
-                                    if (file == null) {
+                                    if (bytes == null) {
                                       showError("Something went wrong!");
                                       return;
                                     }
-                                    requirementsforshareUpdate(file);
+                                    requirementsforshareUpdate(PlatformFile(name: 'Untitled.pdf', size: bytes!.length, bytes: bytes));
                                   },
                                   fontSize: w*0.7
                                 )
@@ -701,7 +738,12 @@ class HomeState extends State<Home> {
                               ),
                               child: 
                               generated == true?
-                              template : EmptyCVScreen(status: status,)
+                              Container(
+                                padding: EdgeInsets.all(w*1),
+                                width: 27*w,
+                                height: 85*h,
+                                child: SfPdfViewer.memory(bytes!),
+                              ) : EmptyCVScreen(status: status,)
                             ),
                           )
                         ],
@@ -827,5 +869,4 @@ class HomeState extends State<Home> {
       )
     );
   }
-
 }

@@ -129,10 +129,12 @@ class ChangePasswordState extends State<ChangePasswordWidget> {
             Container(
               padding: const EdgeInsets.fromLTRB(500, 10, 500, 10),
               child: TextField(
+                maxLength: 50,
                 key: const Key('password'),
                 obscureText: true,
                 controller: passwordController,
                 decoration: const InputDecoration(
+                  counterText: "",
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(
                       color:Color(0xFF000000),
@@ -159,9 +161,11 @@ class ChangePasswordState extends State<ChangePasswordWidget> {
               padding: const EdgeInsets.fromLTRB(500, 10, 500, 10),
               child: TextField(
                 key: const Key('passwordretype'),
+                maxLength: 50,
                 obscureText: true,
                 controller: passwordRetypeController,
                 decoration: InputDecoration(
+                  counterText: "",
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(
                       color: p2textColor??const Color(0xFF000000),
@@ -191,6 +195,7 @@ class ChangePasswordState extends State<ChangePasswordWidget> {
                 padding: const EdgeInsets.fromLTRB(600, 0, 600, 0),
                 child: InkWell(
                   child: const GeneralButtonStyle(text: "Confirm"),
+                  borderRadius: BorderRadius.circular(16.0),
                   onTap: () async {
                     if (passwordController.text != passwordRetypeController.text) {
                       showError("Password does not match");

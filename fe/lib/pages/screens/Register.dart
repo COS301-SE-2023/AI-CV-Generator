@@ -2,7 +2,7 @@ import 'package:ai_cv_generator/dio/client/AuthApi.dart';
 import 'package:ai_cv_generator/dio/response/AuthResponses/Code.dart';
 import 'package:ai_cv_generator/pages/screens/emailConfirmation.dart';
 import 'package:ai_cv_generator/pages/util/errorMessage.dart';
-import 'package:ai_cv_generator/pages/widgets/buttons/generalTextButton.dart';
+import 'package:ai_cv_generator/pages/widgets/buttons/customizableButton.dart';
 import 'package:ai_cv_generator/pages/widgets/loadingscreens/loadingScreen.dart';
 import 'package:ai_cv_generator/pages/widgets/termsAndConditions.dart';
 import 'package:flutter/material.dart';
@@ -105,9 +105,11 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                             width: w*17,
                             padding: EdgeInsets.fromLTRB(0*w, 0*h, 0.2*w, 0*h),
                             child: TextFormField(
+                              maxLength: 50,
                               key: const Key('fname'),
                               controller: fnameController,
                               decoration: const InputDecoration(
+                                counterText: "",
                                 enabledBorder: OutlineInputBorder(),
                                 labelText: 'First Name',
                               ),
@@ -124,9 +126,11 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                             width: w*17,
                             padding: EdgeInsets.fromLTRB(0.2*w, 0*h, 0*w, 0*h),
                             child: TextFormField(
+                              maxLength: 50,
                               key: const Key('lname'),
                               controller: lnameController,
                               decoration: const InputDecoration(
+                                counterText: "",
                                 enabledBorder: OutlineInputBorder(),
                                 labelText: 'Last Name',
                               ),
@@ -146,9 +150,11 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     height: 80,
                     padding: EdgeInsets.fromLTRB(33*w, 0*h, 33*w, 0*h),
                     child: TextFormField(
+                      maxLength: 50,
                       key: const Key('username'),
                       controller: nameController,
                       decoration: InputDecoration(
+                        counterText: "",
                         errorMaxLines: 1,
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
@@ -177,9 +183,11 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     height: 80,
                     padding: EdgeInsets.fromLTRB(33*w, 0*h, 33*w, 0*h),
                     child: TextFormField(
+                      maxLength: 50,
                       key: const Key('email'),
                       controller: emailController,
                       decoration: const InputDecoration(
+                        counterText: "",
                         enabledBorder: OutlineInputBorder(),
                         labelText: 'Email',
                       ),
@@ -196,10 +204,12 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     height: 80,
                     padding: EdgeInsets.fromLTRB(33*w, 0*h, 33*w, 0*h),
                     child: TextFormField(
+                      maxLength: 50,
                       key: const Key('password'),
                       obscureText: true,
                       controller: passwordController,
                       decoration: InputDecoration(
+                        counterText: "",
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                             color: userNameAndPwordError??const Color(0xFF000000),
@@ -208,18 +218,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                         ),
                         labelText: 'Password',
                       ),
-                      // onChanged: (value) {
-                      //   if (passwordRetypeController.text != passwordController.text) {
-                      //     setState(() {
-                      //       p2textColor = const Color.fromRGBO(250, 0, 0, 0.466);
-                      //     });
-                          
-                      //   } else {
-                      //     setState(() {
-                      //       p2textColor = null;
-                      //     });
-                      //   }
-                      // },
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'This field is required';
@@ -232,10 +230,12 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     height: 80,
                     padding: EdgeInsets.fromLTRB(33*w, 0*h, 33*w, 0*h),
                     child: TextFormField(
+                      maxLength: 50,
                       key: const Key('passwordretype'),
                       obscureText: true,
                       controller: passwordRetypeController,
                       decoration: InputDecoration(
+                        counterText: "",
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                             color: p2textColor??const Color(0xFF000000),
@@ -247,17 +247,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                           color: p2textColor
                         )
                       ),
-                      // onChanged: (value) {
-                      //   if (passwordRetypeController.text != passwordController.text) {
-                      //     setState(() {
-                      //       p2textColor = const Color.fromRGBO(250, 0, 0, 0.466);
-                      //     });
-                      //   } else {
-                      //     setState(() {
-                      //       p2textColor = null;
-                      //     });
-                      //   }
-                      // },
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'This field is required';
@@ -269,58 +258,56 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   Container(
                     child: tAndCs
                   ),
-                  Container(
-                      height: 6*h,
-                      width: 11*w,
-                      child: InkWell(
-                        key: const Key('register'),
-                        child: const GeneralButtonStyle(text: "Register"),
-                        onTap: () async {
-                          if(_formKey.currentState!.validate() == false) {
-                            return;
-                          }
-                          if (!tAndCs.accepted) {
-                            showError("Please accept our Terms of Use and Privacy Policy");
-                            setState(() {
-                            });
-                            return;
-                          }
-                          if (passwordController.text != passwordRetypeController.text) {
-                            showError("Password does not match");
-                            setState(() {
-                              p2textColor = const Color.fromRGBO(250, 0, 0, 0.466);
-                            });
-                            return;
-                          }
-                          wait = true;
-                          setState(() {
-                            
-                          });
-                          Code code = await AuthApi.register(username: nameController.text,password: passwordController.text,email: emailController.text,fname: fnameController.text,lname: lnameController.text);
-                          wait = false;
-                          setState(() {
-                            
-                          });
-                          print(code);
-                          if (code == Code.success) {
-                            setState(() {
-                              
-                            });
-                            confirm();
-                          } else if (code == Code.failed) {
-                            showError("Username already Exists");
-                            setState(() {
-                              p2textColor = userNameAndPwordError = const Color.fromRGBO(250, 0, 0, 0.466);
-                            });
-                          } else {
-                            showError("Invalid Username or Password");
-                            setState(() {
-                              p2textColor = userNameAndPwordError = const Color.fromRGBO(250, 0, 0, 0.466);
-                            });
-                          }
-                        },
-                      )
-                  )
+                  CustomizableButton(
+                    text: 'Register', 
+                    width: 10*w, 
+                    height: 5*h, 
+                    onTap: () async {
+                      if(_formKey.currentState!.validate() == false) {
+                        return;
+                      }
+                      if (!tAndCs.accepted) {
+                        showError("Please accept our Terms of Use and Privacy Policy");
+                        setState(() {
+                        });
+                        return;
+                      }
+                      if (passwordController.text != passwordRetypeController.text) {
+                        showError("Password does not match");
+                        setState(() {
+                          p2textColor = const Color.fromRGBO(250, 0, 0, 0.466);
+                        });
+                        return;
+                      }
+                      wait = true;
+                      setState(() {
+                        
+                      });
+                      Code code = await AuthApi.register(username: nameController.text,password: passwordController.text,email: emailController.text,fname: fnameController.text,lname: lnameController.text);
+                      wait = false;
+                      setState(() {
+                        
+                      });
+                      print(code);
+                      if (code == Code.success) {
+                        setState(() {
+                          
+                        });
+                        confirm();
+                      } else if (code == Code.failed) {
+                        showError("Username already Exists");
+                        setState(() {
+                          p2textColor = userNameAndPwordError = const Color.fromRGBO(250, 0, 0, 0.466);
+                        });
+                      } else {
+                        showError("Invalid Username or Password");
+                        setState(() {
+                          p2textColor = userNameAndPwordError = const Color.fromRGBO(250, 0, 0, 0.466);
+                        });
+                      }
+                    }, 
+                    fontSize: w*0.9
+                  ),
                 ],
               )
             )

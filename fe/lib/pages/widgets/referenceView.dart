@@ -210,19 +210,23 @@ void initState() {
         children: [
             TextFormField(
             style: const TextStyle(fontSize: 20),
+            maxLength: 50,
             controller: widget.descriptionC,
             textAlign: TextAlign.center,
             decoration: const InputDecoration(
+              counterText: "",
               hintText: "REFERENCE DESCRIPTION",
               border: InputBorder.none
               ),
             ),
             const SizedBox(width: 8,),
             TextFormField(
+            maxLength: 50,
             // style: TextStyle(fontSize: 5),
             controller: widget.contactC,
             textAlign: TextAlign.center,
             decoration: const InputDecoration(
+              counterText: "",
               hintText: "CONTACT INFORMATION",
               hintStyle: TextStyle(fontSize: 15),
               border: InputBorder.none
