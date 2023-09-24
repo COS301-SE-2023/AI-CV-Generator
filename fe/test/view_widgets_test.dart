@@ -70,9 +70,10 @@ void main(){
         expect(find.text('AI CHAT BOT'), findsNothing);
         expect(find.text('Type a message'), findsNothing);
         expect(find.byIcon(Icons.send_rounded), findsNothing);
-        expect(find.byIcon(Icons.close), findsNothing);*/
-      });
-
+        expect(find.byIcon(Icons.close), findsNothing);
+      });*/
+    });
+    
     testWidgets('Message input', (WidgetTester tester) async {
       await tester.runAsync(() async {
 
