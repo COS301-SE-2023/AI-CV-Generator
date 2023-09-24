@@ -9,7 +9,7 @@ import 'dart:typed_data';
 class ShareApi {
   static final Dio shareClient = Dio(
     BaseOptions( 
-      baseUrl: "http://localhost:8080/",
+      baseUrl: "https://ai-cv-generator.azurewebsites.net/",
       connectTimeout: const Duration(
         seconds: 10
       ),
