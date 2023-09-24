@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:ai_cv_generator/models/user/UserModel.dart';
 import 'package:ai_cv_generator/pages/screens/homeRedo.dart';
+import 'package:ai_cv_generator/pages/widgets/breadcrumb.dart';
 import 'package:ai_cv_generator/pages/widgets/cvHistory.dart';
 import 'package:ai_cv_generator/pages/widgets/shareCV.dart';
 import 'package:file_picker/file_picker.dart';
@@ -48,6 +49,22 @@ void main() {
     expect(find.text('Hours: '), findsOneWidget);
     expect(find.text('Copy Link'), findsOneWidget);
     
+  });
+
+  testWidgets("Breadcrumb test", (WidgetTester tester) async {
+    Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak'); // Replace AdjustedModel with your actual model class
+    // Create a PlatformFile for testing
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Breadcrumb(
+          currentPage: 'Current Page',
+          previousPage: 'Previous Page',
+        ),
+      ),
+    );
+
+    // Verify that the Breadcrumb widget displays the correct text.
+    expect(find.text('Previous Page'), findsOneWidget);
   });
 
 }
