@@ -33,7 +33,7 @@ void main(){
     });
 
     testWidgets("Personal Details Input test", (WidgetTester tester) async {
-      /*//Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak'); // Replace AdjustedModel with your actual model class
+      Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak'); // Replace AdjustedModel with your actual model class
       // Build our widget and trigger a frame.
       await tester.pumpWidget( MaterialApp(home: PersonalDetailsForm()));
 
@@ -50,7 +50,7 @@ void main(){
 
       // Verify that there are no validation errors.
       expect(find.text('This field is required'), findsNothing);
-      expect(find.text('This is not a valid email'), findsNothing);*/
+      expect(find.text('This is not a valid email'), findsNothing);
     });
 
   });
