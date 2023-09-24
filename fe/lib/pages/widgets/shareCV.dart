@@ -116,9 +116,7 @@ class ShareWidgetState extends State<ShareWidget> {
                   borderRadius: BorderRadius.circular(12),
                   color: Colors.grey.shade100
                 ),
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal, // Allow horizontal scrolling
-                  child: Row(
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -141,7 +139,6 @@ class ShareWidgetState extends State<ShareWidget> {
                       }).toList(),
                     ),
                   ],
-                ),
                 ),
               ),
               const SizedBox(height: 8.0,),
