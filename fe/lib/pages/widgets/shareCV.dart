@@ -6,8 +6,6 @@ import 'package:flutter/services.dart';
 
 void shareCVModal(BuildContext context,PlatformFile? f) {
   PlatformFile? file = f;
-
-
   showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -62,6 +60,29 @@ void requirementsforshare(BuildContext context, PlatformFile? file) {
       );
     }
   );
+}
+
+// ignore: must_be_immutable
+class ShareWidgetTest extends StatefulWidget {
+  ShareWidgetTest({
+    super.key,
+    this.file
+  });
+
+  PlatformFile? file;
+
+  @override
+  State<StatefulWidget> createState() => ShareWidgetTestState();
+
+}
+
+class ShareWidgetTestState extends State<ShareWidgetTest> {
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      child: ShareWidget(file: widget.file),
+    );
+  }
 }
 
 // ignore: must_be_immutable
