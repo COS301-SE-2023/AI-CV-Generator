@@ -57,7 +57,7 @@ void main(){
 
   group("Test Qualifications", () {
     testWidgets("Qualifications Form should render correctly", (WidgetTester tester) async {
-     /* //Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak'); // Replace AdjustedModel with your actual model class
+      Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak'); // Replace AdjustedModel with your actual model class
       
     // Build our widget and trigger a frame.
       await tester.pumpWidget( MaterialApp(home: QualificationsDetailsForm()));
@@ -66,31 +66,30 @@ void main(){
       expect(find.text('Institution'), findsOneWidget);
       expect(find.text('Qualification'), findsOneWidget);
       expect(find.text('Start Date'), findsOneWidget);
-      expect(find.text('End Date'), findsOneWidget);*/
+      expect(find.text('End Date'), findsOneWidget);
       });
 
       testWidgets("Qualifications Input test", (WidgetTester tester) async {
-     /* //Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak'); // Replace AdjustedModel with your actual model class
-      
-    // Build our widget and trigger a frame.
-      await tester.pumpWidget( MaterialApp(home: QualificationsDetailsForm()));
+        Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak'); // Replace AdjustedModel with your actual model class
+          
+        // Build our widget and trigger a frame.
+          await tester.pumpWidget( MaterialApp(home: QualificationsDetailsForm()));
 
-      await tester.enterText(find.byKey(const Key("Institution input")), 'University of Pretoria');
-      await tester.enterText(find.byKey(const Key("Qualification input")), 'BSc Computer Science');
-      
-      // Simulate entering a start date and end date
+          await tester.enterText(find.byKey(const Key("Institution input")), 'University of Pretoria');
+          await tester.enterText(find.byKey(const Key("Qualification input")), 'BSc Computer Science');
+          
+          // Simulate entering a start date and end date
 
-      // Tap buttons
-      await tester.tap(find.text('Add'));
-      await tester.pump();
+          // Tap buttons
+          await tester.tap(find.text('Add'));
+          await tester.pump();
 
-      // Verify the state of the widget after interactions
+          // Verify the state of the widget after interactions
 
-      // Example: Verify that a new qualification entry is added
-      //expect(find.byType(TextMonitorWidget), findsWidgets);
-      expect(find.byType(TextFormField), findsNWidgets(2)); // Assumes two text form fields in TextMonitorWidget
-      expect(find.byType(DateTimeFormField), findsNWidgets(2)); // Assumes two date form fields in TextMonitorWidget
-*/
+          // Example: Verify that a new qualification entry is added
+          //expect(find.byType(TextMonitorWidget), findsWidgets);
+          expect(find.byType(TextFormField), findsNWidgets(4)); // Assumes two text form fields in TextMonitorWidget
+          expect(find.byType(DateTimeFormField), findsNWidgets(4)); // Assumes two date form fields in TextMonitorWidget
       });
   });
 
@@ -136,7 +135,7 @@ void main(){
 
   group("Test Skills", () {
     testWidgets("Skills Form should render correctly", (WidgetTester tester) async {
-      /*//Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak'); // Replace AdjustedModel with your actual model class
+      Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak'); // Replace AdjustedModel with your actual model class
       
     // Build our widget and trigger a frame.
       await tester.pumpWidget( MaterialApp(home: SkillsForm()));
@@ -144,10 +143,10 @@ void main(){
       expect(find.text(StringsSkill.appsubHeadingTitle), findsOneWidget);
       expect(find.text('Skill 1'), findsOneWidget);
       expect(find.text('Skill 2'), findsOneWidget);
-      expect(find.text('Skill 3'), findsOneWidget);*/
+      expect(find.text('Skill 3'), findsOneWidget);
       });
     testWidgets("Skills Input test", (WidgetTester tester) async {
-      /*//Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak'); // Replace AdjustedModel with your actual model class
+      Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak'); // Replace AdjustedModel with your actual model class
       // Build our widget and trigger a frame.
       await tester.pumpWidget( MaterialApp(home: SkillsForm()));
 
@@ -161,7 +160,7 @@ void main(){
       await tester.pump();
 
       // Verify that there are no validation errors.
-      expect(find.text('Please enter some text'), findsNothing);*/
+      expect(find.text('Please enter some text'), findsNothing);
     });
   });
 
