@@ -22,7 +22,7 @@ jobs:
       run: |
           echo "${{ secrets.ENV_FILE }}" > .env
       working-directory: fe/assets
-    - run: flutter test 
+    - run: flutter test --cov
       working-directory: ${{env.working-directory}}
     - name: Upload coverage reports to Codecov
       uses: codecov/codecov-action@v3
