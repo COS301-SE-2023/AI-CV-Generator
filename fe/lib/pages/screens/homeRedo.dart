@@ -30,7 +30,7 @@ import 'package:ai_cv_generator/pages/widgets/buttons/customizableButton.dart';
 import 'package:ai_cv_generator/pages/widgets/buttons/customizableIconButton.dart';
 import 'package:ai_cv_generator/pages/widgets/chatBotView.dart';
 import 'package:ai_cv_generator/pages/widgets/extractionView.dart';
-import 'package:ai_cv_generator/pages/widgets/loadingScreens/loadingScreen.dart';
+import 'package:ai_cv_generator/pages/widgets/loadingscreens/loadingScreen.dart';
 import 'package:ai_cv_generator/pages/widgets/navdrawer.dart';
 import 'package:ai_cv_generator/pages/widgets/personaldetails.dart';
 import 'package:ai_cv_generator/pages/widgets/shareCV.dart';
