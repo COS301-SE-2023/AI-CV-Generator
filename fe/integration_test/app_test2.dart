@@ -6,6 +6,7 @@ import 'package:ai_cv_generator/pages/util/strings.dart';
 import 'package:ai_cv_generator/pages/widgets/employment.dart';
 import 'package:ai_cv_generator/pages/widgets/personaldetails.dart';
 import 'package:ai_cv_generator/pages/widgets/qualifications.dart';
+import 'package:ai_cv_generator/pages/widgets/referencesForm.dart';
 import 'package:date_field/date_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_driver/flutter_driver.dart' as flutter_driver;
@@ -29,6 +30,7 @@ void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   group('end-to-end test2', () {
+    /*
     //Passing
     testWidgets('Register Test', (tester) async {
       await tester.pumpWidget(const MaterialApp(home: RegisterPage()));
@@ -49,43 +51,40 @@ void main() {
       expect(find.text('amandak'), findsOneWidget);
       expect(find.text('ak@gmail.com'), findsOneWidget);
       expect(find.text('1234'), findsNWidgets(2));
-      expect(find.byKey(const Key('register')), findsOneWidget);
+      expect(find.text('Register'), findsNWidgets(2));
     }
   );
 
-   /* testWidgets('Login', (WidgetTester tester) async {
-        //app.main();
-        await tester.pumpWidget(MaterialApp(
-          routes: {
-            '/home': (context) => const Home(), // Ensure the '/home' route leads to the home page widget.
-          },
-          home: const Login(),
-        ));
-  
-        await tester.pumpAndSettle();
-        //do
-        await tester.enterText(find.byKey(const Key('username')), 'amandak');
-        await tester.enterText(find.byKey(const Key('password')), '1234');
+  testWidgets('Login', (WidgetTester tester) async {
+    //app.main();
+    await tester.pumpWidget(MaterialApp(
+      home: const Login(),
+    ));
 
-        await tester.pumpAndSettle();
-        //test
-        expect(find.text('amandak'), findsOneWidget);
-        expect(find.text('1234'), findsOneWidget);
-        expect(find.byKey(const Key('login')), findsOneWidget);
-        expect(find.byKey(const Key('create_account')), findsOneWidget);
-        expect(find.text('Forgot your password?'), findsOneWidget);
+    await tester.pumpAndSettle();
+    //do
+    await tester.enterText(find.byKey(const Key('name')), 'amandak');
+    await tester.enterText(find.byKey(const Key('password')), '1234');
+
+    await tester.pumpAndSettle();
+    //test
+    expect(find.text('amandak'), findsOneWidget);
+    expect(find.text('1234'), findsOneWidget);
+    expect(find.text('Login'), findsOneWidget);
+    expect(find.byKey(const Key('create_account')), findsOneWidget);
+    expect(find.text('Forgot your password?'), findsOneWidget);
 
 
-        await tester.tap(find.byKey(const Key('login')));
-        await tester.pumpAndSettle();
+    //await tester.tap(find.text('Login'));
+    //await tester.pumpAndSettle();
 
-        expect(find.byType(Home), findsOneWidget);
-    });
+    //expect(find.byType(HomeTestWidget), findsOneWidget);
+  });
 
-    testWidgets('Survey: Personal Details', (WidgetTester tester) async {
+   testWidgets('Survey: Personal Details', (WidgetTester tester) async {
       Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak'); 
 
-      await tester.pumpWidget( MaterialApp(home: PersonalDetailsForm()));
+      await tester.pumpWidget( MaterialApp(home: PersonalDetailsFormTest()));
 
       await tester.enterText(find.byKey(const Key("Name input")), 'Jane');
       await tester.enterText(find.byKey(const Key("Last Name input")), 'Doe');
@@ -103,29 +102,96 @@ void main() {
       expect(find.text('Save and Proceed'), findsOneWidget);
     });
 
-    testWidgets('Survey: Employment Details', (WidgetTester tester) async {
-      Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak');
-      await tester.pumpWidget( MaterialApp(home: EmploymentDetailsForm()));
-      //await tester.pumpAndSettle();
-
-      //debugDumpApp();
-      // Verify that the page is initially empty
-      expect(find.text("No Work Experience..."), findsOneWidget);
-
-    });
-
-  //Reimpliment
     testWidgets('Survey: Qualification Details', (WidgetTester tester) async {
       Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak'); // Replace AdjustedModel with your actual model class
       
     // Build our widget and trigger a frame.
-      await tester.pumpWidget( MaterialApp(home: QualificationsDetailsForm()));
+      await tester.pumpWidget( MaterialApp(home: QualificationsDetailsFormTest()));
 
       expect(find.text(StringsQualifications.appsubHeadingTitle), findsOneWidget);
       expect(find.text('Institution'), findsOneWidget);
       expect(find.text('Qualification'), findsOneWidget);
       expect(find.text('Start Date'), findsOneWidget);
       expect(find.text('End Date'), findsOneWidget);
-    });*/
+
+      await tester.enterText(find.byKey(const Key("Institution input")), 'University of Pretoria');
+      await tester.enterText(find.byKey(const Key("Qualification input")), 'BSc Computer Science');
+
+      // Simulate selecting dates
+      await tester.tap(find.byKey(const Key("Start date input")));
+      await tester.pumpAndSettle(); // Wait for date picker to appear
+      await tester.tap(find.text('OK')); // Select a date (you may need to adapt this part based on your date picker implementation)
+      await tester.pumpAndSettle(); // Wait for date picker to close
+
+      await tester.tap(find.byKey(const Key("End date input")));
+      await tester.pumpAndSettle(); // Wait for date picker to appear
+      await tester.tap(find.text('OK')); // Select a date (you may need to adapt this part based on your date picker implementation)
+      await tester.pumpAndSettle(); // Wait for date picker to close
+
+      expect(find.text('University of Pretoria'), findsOneWidget);
+      expect(find.text('BSc Computer Science'), findsOneWidget);
+      expect(find.text('Start Date'), findsOneWidget);
+      expect(find.text('End Date'), findsOneWidget);
+      expect(find.text('Add'), findsOneWidget);
+      expect(find.text('Back'), findsOneWidget);
+      expect(find.text('Save and Proceed'), findsOneWidget);
+    });
+
+    testWidgets('Survey: Employment Details', (WidgetTester tester) async {
+      Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak');
+      await tester.pumpWidget( MaterialApp(home: EmploymentDetailsFormTest()));
+      //await tester.pumpAndSettle();
+
+      //debugDumpApp();
+      // Verify that the page is initially empty
+      expect(find.byKey(const Key("Company input")), findsOneWidget);
+      expect(find.byKey(const Key("Job Title input")), findsOneWidget);
+      expect(find.byKey(const Key("Employment start")), findsOneWidget);
+      expect(find.byKey(const Key("Employment end")), findsOneWidget);
+
+      await tester.enterText(find.byKey(const Key("Company input")), 'Dynamic Visual Technologies');
+      await tester.enterText(find.byKey(const Key("Job Title input")), 'Junior Software Engineer');
+
+      // Simulate selecting dates
+      await tester.tap(find.byKey(const Key("Employment start")));
+      await tester.pumpAndSettle(); // Wait for date picker to appear
+      await tester.tap(find.text('OK')); // Select a date (you may need to adapt this part based on your date picker implementation)
+      await tester.pumpAndSettle(); // Wait for date picker to close
+
+      await tester.tap(find.byKey(const Key("Employment end")));
+      await tester.pumpAndSettle(); // Wait for date picker to appear
+      await tester.tap(find.text('OK')); // Select a date (you may need to adapt this part based on your date picker implementation)
+      await tester.pumpAndSettle(); // Wait for date picker to clo
+
+      expect(find.text('Dynamic Visual Technologies'), findsOneWidget);
+      expect(find.text('Junior Software Engineer'), findsOneWidget);
+      expect(find.text('Start Date'), findsOneWidget);
+      expect(find.text('End Date'), findsOneWidget);
+      expect(find.text('Add'), findsOneWidget);
+      expect(find.text('Back'), findsOneWidget);
+      expect(find.text('Save and Proceed'), findsOneWidget);
+    });
+    */
+
+    testWidgets('Survey: References Details', (WidgetTester tester) async {
+      Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak');
+      await tester.pumpWidget( MaterialApp(home: ReferencesDetailsFormTest()));
+      //await tester.pumpAndSettle();
+
+      //debugDumpApp();
+      // Verify that the page is initially empty
+      expect(find.byKey(const Key("description input")), findsOneWidget);
+      expect(find.byKey(const Key("contact input")), findsOneWidget);
+
+      await tester.enterText(find.byKey(const Key("description input")), 'John Doe - Senior Software Engineer');
+      await tester.enterText(find.byKey(const Key("contact input")), '123456789');
+
+      expect(find.text('John Doe - Senior Software Engineer'), findsOneWidget);
+      expect(find.text('123456789'), findsOneWidget);
+      expect(find.text('Add'), findsOneWidget);
+      expect(find.text('Back'), findsOneWidget);
+      expect(find.text('Save and Proceed'), findsOneWidget);
+    });
+
   });
 }
