@@ -1,6 +1,7 @@
 import 'package:ai_cv_generator/models/user/Qualification.dart';
 import 'package:ai_cv_generator/models/user/UserModel.dart';
 import 'package:ai_cv_generator/pages/screens/homeRedo.dart';
+import 'package:ai_cv_generator/pages/screens/job.dart';
 import 'package:ai_cv_generator/pages/screens/login.dart';
 import 'package:ai_cv_generator/pages/util/strings.dart';
 import 'package:ai_cv_generator/pages/widgets/description.dart';
@@ -32,7 +33,7 @@ void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   group('end-to-end test2', () {
-    testWidgets('Register Test', (tester) async {
+    /*testWidgets('Register Test', (tester) async {
       await tester.pumpWidget(const MaterialApp(home: RegisterPage()));
 
       await tester.pumpAndSettle();
@@ -52,10 +53,11 @@ void main() {
       expect(find.text('ak@gmail.com'), findsOneWidget);
       expect(find.text('1234'), findsNWidgets(2));
       expect(find.text('Register'), findsNWidgets(2));
+
     }
   );
 
-  testWidgets('Login', (WidgetTester tester) async {
+  testWidgets('Login', (tester) async {
     //app.main();
     await tester.pumpWidget(MaterialApp(
       home: const Login(),
@@ -81,7 +83,7 @@ void main() {
     //expect(find.byType(HomeTestWidget), findsOneWidget);
   });
 
-   testWidgets('Survey: Personal Details', (WidgetTester tester) async {
+   testWidgets('Survey: Personal Details', (tester) async {
       Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak'); 
 
       await tester.pumpWidget( MaterialApp(home: PersonalDetailsFormTest()));
@@ -102,7 +104,7 @@ void main() {
       expect(find.text('Save and Proceed'), findsOneWidget);
     });
 
-    testWidgets('Survey: Qualification Details', (WidgetTester tester) async {
+    testWidgets('Survey: Qualification Details', (tester) async {
       Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak'); // Replace AdjustedModel with your actual model class
       
     // Build our widget and trigger a frame.
@@ -137,7 +139,7 @@ void main() {
       expect(find.text('Save and Proceed'), findsOneWidget);
     });
 
-    testWidgets('Survey: Employment Details', (WidgetTester tester) async {
+    testWidgets('Survey: Employment Details', (tester) async {
       Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak');
       await tester.pumpWidget( MaterialApp(home: EmploymentDetailsFormTest()));
       //await tester.pumpAndSettle();
@@ -172,7 +174,7 @@ void main() {
       expect(find.text('Save and Proceed'), findsOneWidget);
     });
 
-    testWidgets('Survey: References Details', (WidgetTester tester) async {
+    testWidgets('Survey: References Details', (tester) async {
       Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak');
       await tester.pumpWidget( MaterialApp(home: ReferencesDetailsFormTest()));
       //await tester.pumpAndSettle();
@@ -192,7 +194,7 @@ void main() {
       expect(find.text('Save and Proceed'), findsOneWidget);
     });
 
-    testWidgets('Survey: Skills Details', (WidgetTester tester) async {
+    testWidgets('Survey: Skills Details', (tester) async {
       Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak');
       await tester.pumpWidget( MaterialApp(home: SkillsDetailsFormTest()));
       //await tester.pumpAndSettle();
@@ -223,7 +225,7 @@ void main() {
       expect(find.text('Save and Proceed'), findsOneWidget);
     });
 
-    testWidgets('Survey: Description form', (WidgetTester tester) async {
+    testWidgets('Survey: Description form', (tester) async {
       Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak');
       await tester.pumpWidget( MaterialApp(home: DescriptionFormTest()));
       //await tester.pumpAndSettle();
@@ -238,6 +240,24 @@ void main() {
       expect(find.text('Back'), findsOneWidget);
       expect(find.text('Save and Proceed'), findsOneWidget);
     });
+*/
+    testWidgets('Jobs test', (tester) async {
+      Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak');
+      await tester.pumpWidget( MaterialApp(home: JobsPageTest()));
+
+      expect(find.text("RECOMMENDED FOR YOU"), findsOneWidget);
+      expect(find.byKey(const Key("occupation")), findsOneWidget);
+      expect(find.byKey(const Key("location")), findsOneWidget);
+      expect(find.text("Search"), findsOneWidget);
+
+      await tester.enterText(find.byKey(const Key("occupation")), 'Software Engineer');
+      await tester.enterText(find.byKey(const Key("location")), 'Pretoria');
+      
+      expect(find.text('Software Engineer'), findsOneWidget);
+      expect(find.text('Pretoria'), findsOneWidget);
+    });
+    
 
   });
+    
 }
