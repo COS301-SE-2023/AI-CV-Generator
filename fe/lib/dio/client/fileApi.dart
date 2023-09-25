@@ -5,8 +5,10 @@ import 'dart:ui';
 import 'package:ai_cv_generator/dio/client/dioClient.dart';
 import 'package:ai_cv_generator/dio/request/FileRequests/FileRequest.dart';
 import 'package:ai_cv_generator/dio/request/FileRequests/ShareFileRequest.dart';
+import 'package:ai_cv_generator/dio/response/AuthResponses/Code.dart';
 import 'package:ai_cv_generator/dio/response/FileResponses/GetFilesResponse.dart';
 import 'package:ai_cv_generator/dio/response/FileResponses/ShareFileResponse.dart';
+import 'package:ai_cv_generator/dio/response/FileResponses/UploadFileResponse.dart';
 import 'package:ai_cv_generator/models/files/FileModel.dart';
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
@@ -15,13 +17,13 @@ import 'package:pdf_render/pdf_render.dart';
 import 'package:flutter/painting.dart' as paint;
 
 class FileApi extends DioClient {
-  static Future<Response?> uploadFile(
+  static Future<Code> uploadFile(
     {
       required PlatformFile? file,
 
     }
   ) async {
-    if (file == null) return null;
+    if (file == null) return Code.requestFailed;
     final pdf = await PdfDocument.openData(file.bytes!);
     var page = await pdf.getPage(1);
     var imgPDF = await page.render();
@@ -44,11 +46,11 @@ class FileApi extends DioClient {
         onSendProgress: (int sent, int total) {
         },
       );
-      return response;
+      return UploadFileResponse.fromJson(response.data).code;
     } on DioException catch(e) {
       DioClient.handleError(e);
     }
-    return null;
+    return Code.requestFailed;
   }
 
   static Future<Image> getProfileImage() async {

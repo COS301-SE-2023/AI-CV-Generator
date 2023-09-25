@@ -14,16 +14,19 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity()
 @Table(name="files")
+@IdClass(FileID.class)
 public class FileEntity{
     @Id
     @GeneratedValue
-    public Integer fileid;
+    public Long fileid;
 
+    @Id
     @ManyToOne()
     @JoinColumn(name = "uid", referencedColumnName = "userid")
     @JsonBackReference
     public UserEntity user;
 
+    @Id
     public String filename;
     public String filetype;
 

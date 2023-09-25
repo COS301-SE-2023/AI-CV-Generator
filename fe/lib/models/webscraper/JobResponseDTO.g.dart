@@ -8,8 +8,8 @@ part of 'JobResponseDTO.dart';
 
 JobResponseDTO _$JobResponseDTOFromJson(Map<String, dynamic> json) =>
     JobResponseDTO(
-      title: json['title'] as String,
-      subTitle: json['subTitle'] as String,
+      title: json['title'] as String?,
+      subTitle: json['subTitle'] as String?,
       link: json['link'] as String?,
       location: json['location'] as String?,
       salary: json['salary'] as String?,

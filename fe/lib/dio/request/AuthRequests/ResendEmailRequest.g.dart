@@ -17,5 +17,5 @@ Map<String, dynamic> _$ResendEmailRequestToJson(ResendEmailRequest instance) =>
     <String, dynamic>{
       'username': instance.username,
       'password': instance.password,
-      'siteUrl': instance.siteUrl
+      'siteUrl': instance.siteUrl,
     };
