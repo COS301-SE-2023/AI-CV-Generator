@@ -3,6 +3,7 @@ import 'package:ai_cv_generator/models/user/UserModel.dart';
 import 'package:ai_cv_generator/pages/screens/homeRedo.dart';
 import 'package:ai_cv_generator/pages/screens/login.dart';
 import 'package:ai_cv_generator/pages/util/strings.dart';
+import 'package:ai_cv_generator/pages/widgets/description.dart';
 import 'package:ai_cv_generator/pages/widgets/employment.dart';
 import 'package:ai_cv_generator/pages/widgets/personaldetails.dart';
 import 'package:ai_cv_generator/pages/widgets/qualifications.dart';
@@ -31,8 +32,6 @@ void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   group('end-to-end test2', () {
-    /*
-    //Passing
     testWidgets('Register Test', (tester) async {
       await tester.pumpWidget(const MaterialApp(home: RegisterPage()));
 
@@ -192,7 +191,6 @@ void main() {
       expect(find.text('Back'), findsOneWidget);
       expect(find.text('Save and Proceed'), findsOneWidget);
     });
-    */
 
     testWidgets('Survey: Skills Details', (WidgetTester tester) async {
       Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak');
@@ -221,6 +219,22 @@ void main() {
       expect(find.text('3'), findsOneWidget);
 
       expect(find.text('Add'), findsOneWidget);
+      expect(find.text('Back'), findsOneWidget);
+      expect(find.text('Save and Proceed'), findsOneWidget);
+    });
+
+    testWidgets('Survey: Description form', (WidgetTester tester) async {
+      Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak');
+      await tester.pumpWidget( MaterialApp(home: DescriptionFormTest()));
+      //await tester.pumpAndSettle();
+
+      //debugDumpApp();
+      // Verify that the page is initially empty
+      expect(find.byKey(const Key("Description start")), findsOneWidget);
+      
+      await tester.enterText(find.byKey(const Key("Description start")), 'I am a talented software engineer');
+      
+      expect(find.text('I am a talented software engineer'), findsOneWidget);
       expect(find.text('Back'), findsOneWidget);
       expect(find.text('Save and Proceed'), findsOneWidget);
     });
