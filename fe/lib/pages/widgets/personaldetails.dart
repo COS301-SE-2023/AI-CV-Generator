@@ -7,6 +7,21 @@ import 'package:ai_cv_generator/pages/widgets/questionaireModal.dart';
 import 'package:flutter/material.dart';
 import 'package:ai_cv_generator/pages/screens/homeRedo.dart';
 
+class PersonalDetailsFormTest extends StatefulWidget{
+  PersonalDetailsFormTest({super.key});
+
+  @override
+  State<StatefulWidget> createState() => PersonalDetailsFormTestState();
+}
+
+class PersonalDetailsFormTestState extends State<PersonalDetailsFormTest> {
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      child: PersonalDetailsForm(),
+    );
+  }
+}
 class PersonalDetailsForm extends StatefulWidget {
   const PersonalDetailsForm({super.key});
 
