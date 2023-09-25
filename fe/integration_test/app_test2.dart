@@ -7,6 +7,7 @@ import 'package:ai_cv_generator/pages/widgets/employment.dart';
 import 'package:ai_cv_generator/pages/widgets/personaldetails.dart';
 import 'package:ai_cv_generator/pages/widgets/qualifications.dart';
 import 'package:ai_cv_generator/pages/widgets/referencesForm.dart';
+import 'package:ai_cv_generator/pages/widgets/skillsForm.dart';
 import 'package:date_field/date_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_driver/flutter_driver.dart' as flutter_driver;
@@ -171,7 +172,6 @@ void main() {
       expect(find.text('Back'), findsOneWidget);
       expect(find.text('Save and Proceed'), findsOneWidget);
     });
-    */
 
     testWidgets('Survey: References Details', (WidgetTester tester) async {
       Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak');
@@ -188,6 +188,38 @@ void main() {
 
       expect(find.text('John Doe - Senior Software Engineer'), findsOneWidget);
       expect(find.text('123456789'), findsOneWidget);
+      expect(find.text('Add'), findsOneWidget);
+      expect(find.text('Back'), findsOneWidget);
+      expect(find.text('Save and Proceed'), findsOneWidget);
+    });
+    */
+
+    testWidgets('Survey: Skills Details', (WidgetTester tester) async {
+      Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak');
+      await tester.pumpWidget( MaterialApp(home: SkillsDetailsFormTest()));
+      //await tester.pumpAndSettle();
+
+      //debugDumpApp();
+      // Verify that the page is initially empty
+      expect(find.byKey(const Key("skill input")), findsOneWidget);
+      expect(find.byKey(const Key("reason input")), findsOneWidget);
+      expect(find.byKey(const Key("level input")), findsOneWidget);
+
+      await tester.enterText(find.byKey(const Key("skill input")), 'Java');
+      await tester.enterText(find.byKey(const Key("reason input")), 'Used it for app development');
+
+      //dropdown
+      await tester.tap(find.byKey(const Key("level input")));
+      // Wait for the menu to appear
+      await tester.pump(const Duration(seconds: 1));
+      await tester.tap(find.text('3'));
+      //wait for selection
+      await tester.pump(const Duration(seconds: 1));
+
+      expect(find.text('Java'), findsOneWidget);
+      expect(find.text('Used it for app development'), findsOneWidget);
+      expect(find.text('3'), findsOneWidget);
+
       expect(find.text('Add'), findsOneWidget);
       expect(find.text('Back'), findsOneWidget);
       expect(find.text('Save and Proceed'), findsOneWidget);
