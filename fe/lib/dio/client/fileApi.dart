@@ -19,8 +19,7 @@ import 'package:flutter/painting.dart' as paint;
 class FileApi extends DioClient {
   static Future<Code> uploadFile(
     {
-      required PlatformFile? file,
-
+      required PlatformFile? file
     }
   ) async {
     if (file == null) return Code.requestFailed;

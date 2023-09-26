@@ -8,7 +8,9 @@ import 'package:ai_cv_generator/models/aimodels/AISkill.dart';
 import 'package:ai_cv_generator/models/aimodels/CVData.dart';
 import 'package:ai_cv_generator/pages/template/TemplateChoice.dart';
 import 'package:ai_cv_generator/pages/util/colourPickBox.dart';
+import 'package:ai_cv_generator/pages/util/editorBank.dart';
 import 'package:ai_cv_generator/pages/util/templatePicker.dart';
+import 'package:ai_cv_generator/pages/widgets/buttons/appBarButton.dart';
 import 'package:ai_cv_generator/pages/widgets/buttons/customizableButton.dart';
 import 'package:ai_cv_generator/pages/widgets/buttons/deletableMenuButton.dart';
 import 'package:ai_cv_generator/pages/widgets/buttons/menuButton.dart';
@@ -55,6 +57,9 @@ class EditorState extends State<Editor> {
   late ColorSet colors;
   bool wait = true;
   Uint8List? bytes;
+
+  // Bank
+  late EditorBank bank;
 
   // Menu Management variables
   PageOption option = PageOption.main;
@@ -522,6 +527,14 @@ class EditorState extends State<Editor> {
     Navigator.pop(context);
   }
 
+  updateBank() {
+
+  }
+
+  undo() {
+
+  }
+
   Widget experienceButton(AIEmployment employmentOp,int index) {
     return Container(
       padding: const EdgeInsets.only(
@@ -617,6 +630,16 @@ class EditorState extends State<Editor> {
     data = widget.data;
     templateOption = widget.option;
     colors = widget.colors;
+    bank = EditorBank(
+      past: [
+        EditorModel(
+          data: data, 
+          templateOption: templateOption, 
+          colors: colors
+        )
+      ], 
+      max: 5
+    );
     templateChoice(data, templateOption, colors).then((value) {
       bytes = value;
       setOffLoadingScreen();
@@ -656,6 +679,15 @@ class EditorState extends State<Editor> {
                   Navigator.pop(context);
                 },
               ),
+              actions: [   
+                InkWell(
+                  child: const AppBarButtonStyle(text: 'Undo'),
+                  onTap: () {
+                    undo();
+                  },
+                ),
+                const SizedBox(width: 20,)
+              ],
             ),
             body: Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -778,7 +810,9 @@ class EditorState extends State<Editor> {
                   padding: EdgeInsets.all(w*1),
                   width: 27*w,
                   height: 85*h,
-                  child: SfPdfViewer.memory(bytes!),
+                  child: SfPdfViewer.memory(
+                    bytes!,
+                  )
                 ),
                 SizedBox(width: 2*w,),
                 SingleChildScrollView(

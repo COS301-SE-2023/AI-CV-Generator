@@ -83,106 +83,122 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     String? password = widget.password;
     Size screenSize = MediaQuery.of(context).size;
     double w = screenSize.width/100;
-    double h = screenSize.height/100; 
     return Scaffold(
-      body: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Container(
-            alignment: Alignment.center,
-            // padding: EdgeInsets.fromLTRB(1*w, 3*h, 10*w, 1*h),
-            child: Image(
-              fit: BoxFit.contain,
-              image: ResizeImage(
-                const AssetImage('assets/images/logo.png'),
-                width:w.toInt()*200,
-                height:h.toInt()*200
+      body: Center(
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              SingleChildScrollView(
+                child: Container(
+                  alignment: Alignment.center,
+                  // padding: EdgeInsets.fromLTRB(1*w, 3*h, 10*w, 1*h),
+                  child: Image(
+                    fit: BoxFit.contain,
+                    image: ResizeImage(
+                      const AssetImage('assets/images/logo.png'),
+                      width:w.toInt()*100,
+                    ),
+                  )
+                ),
               ),
-            )
-          ),
-          Container(
-            height: h*40,
-            width: w*40,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Check your inbox",
-                        style: TextStyle(
-                          fontSize: 28, 
-                          color: Theme.of(context).colorScheme.primary
-                        ),
-                      ),
-                      SizedBox(width: 1.6*w,),
-                      Icon(
-                        Icons.email,
-                        color: Theme.of(context).colorScheme.primary
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 1.6*h,
-                  ),
-                  const Text(
-                    "Click on the link in the email to complete the verification process",
-                    style: TextStyle(fontSize: 16),
-                    textAlign: TextAlign.center,
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 0.8*h,
-              ),
-                Column(
-                  children: [
-                    Container(
-                      child: TextButton(
-                        onPressed: () async {
-                          Code code = await AuthApi.resendEmail(username: username!, password: password!);
-                          if (code == Code.success) {
-                            showSuccess("Email sent!!");
-                          } else {
-                            showError("Unknown error occurred!");
-                            setState(() {
-                              
-                            });
-                          }
-                        }, 
-                        child: Text(
-                          "Resend Email?",
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.primary
+              SizedBox(width: w*2,),
+              SingleChildScrollView(
+                child: ClipRect(
+                  clipBehavior: Clip.hardEdge,
+                  child: Container(
+                    height: 400,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Check your inbox",
+                                overflow: TextOverflow.fade,
+                                style: TextStyle(
+                                  fontSize: 28, 
+                                  color: Theme.of(context).colorScheme.primary
+                                ),
+                              ),
+                              SizedBox(width: 1.6*w,),
+                              Icon(
+                                Icons.email,
+                                
+                                color: Theme.of(context).colorScheme.primary
+                              ),
+                            ],
                           ),
-                        )
+                          const SizedBox(
+                            height: 16,
+                          ),
+                          const Text(
+                            "Click on the link in the email to complete the verification process",
+                            overflow: TextOverflow.fade,
+                            maxLines: 10,
+                            style: TextStyle(fontSize: 16),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
                       ),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                        Column(
+                          children: [
+                            SizedBox(
+                              height: 24,
+                              child: TextButton(
+                                onPressed: () async {
+                                  Code code = await AuthApi.resendEmail(username: username!, password: password!);
+                                  if (code == Code.success) {
+                                    showSuccess("Email sent!!");
+                                  } else {
+                                    showError("Unknown error occurred!");
+                                    setState(() {
+                                      
+                                    });
+                                  }
+                                }, 
+                                child: Text(
+                                  "Resend Email?",
+                                  overflow: TextOverflow.fade,
+                                  style: TextStyle(
+                                    color: Theme.of(context).colorScheme.primary,
+                                  ),
+                                )
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 24,
+                            ),
+                            CustomizableButton(
+                              text: 'Login', 
+                              width: 10*w, 
+                              height: 30, 
+                              onTap: () {
+                                backToLogin();
+                              }, 
+                              fontSize: 0.9*w
+                            )
+                          ],
+                        )
+                      ],
                     ),
-                    SizedBox(
-                      height: 2.4*h,
-                    ),
-                    CustomizableButton(
-                      text: 'Login', 
-                      width: 10*w, 
-                      height: 5*h, 
-                      onTap: () {
-                        backToLogin();
-                      }, 
-                      fontSize: 0.9*w
-                    )
-                  ],
-                )
-              ],
-            ),
+                  ),
+                ),
+              )
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

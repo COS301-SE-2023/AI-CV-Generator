@@ -528,7 +528,7 @@ class HomeState extends State<Home> {
                               alignment: Alignment.topCenter,
                               child: Text(
                                 "TEMPLATES",
-                                style: TextStyle(fontSize: 2.6*h),
+                                style: TextStyle(fontSize: 2.6*h,overflow: TextOverflow.fade),
                                 ),
                             ),
                             SizedBox(height: 1.6*h,),

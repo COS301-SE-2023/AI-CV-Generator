@@ -67,7 +67,8 @@ class CustomizableButtonState extends State<CustomizableButton> {
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         color: Colors.white,
-                        fontSize: widget.fontSize
+                        fontSize: widget.fontSize,
+                        overflow: TextOverflow.fade
                       ),
                     )
                   ],

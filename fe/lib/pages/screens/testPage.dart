@@ -58,34 +58,36 @@ class TestPageState extends State<TestPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            CustomizableButton(
-              text: 'Test', 
-              width: 40, 
-              height: 28, 
-              onTap: () async {
-                CVData data = CVData(
-                  description: 'This is my description',
-                  employmenthistory: [],
-                  qualifications: [],
-                  skills: [],
-                  references: [],
-                  links: []
-                );
-                data = await showCV(data, TemplateOption.templateE);
-                ColorSet set = ColorSet();
-                set.setColorSetTemplateChoice(TemplateOption.templateE);
-                PdfDocument doc = PdfDocument(inputBytes: await TemplateE().templateE(data, set));
-                DownloadService.download(await TemplateE().templateE(data, set), downloadName: 'templateE.pdf');
-                //print(await promptName());
-                // toHelpPage();
-              }, 
-              fontSize: 10
-            )
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              CustomizableButton(
+                text: 'Test', 
+                width: 40, 
+                height: 28, 
+                onTap: () async {
+                  CVData data = CVData(
+                    description: 'This is my description',
+                    employmenthistory: [],
+                    qualifications: [],
+                    skills: [],
+                    references: [],
+                    links: []
+                  );
+                  data = await showCV(data, TemplateOption.templateE);
+                  ColorSet set = ColorSet();
+                  set.setColorSetTemplateChoice(TemplateOption.templateE);
+                  PdfDocument doc = PdfDocument(inputBytes: await TemplateE().templateE(data, set));
+                  DownloadService.download(await TemplateE().templateE(data, set), downloadName: 'templateE.pdf');
+                  //print(await promptName());
+                  // toHelpPage();
+                }, 
+                fontSize: 10
+              )
+            ],
+          ),
         ),
       )
     );

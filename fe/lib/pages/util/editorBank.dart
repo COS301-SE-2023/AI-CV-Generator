@@ -28,6 +28,9 @@ class EditorBank {
   }
 
   EditorModel undo() {
+    if (currentSize == 0) {
+      return past.first;
+    }
     return past.removeAt(currentSize--);
   }
   
