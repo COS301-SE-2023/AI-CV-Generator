@@ -3,6 +3,7 @@ import 'package:ai_cv_generator/pages/screens/homeRedo.dart';
 import 'package:ai_cv_generator/pages/util/strings.dart';
 import 'package:ai_cv_generator/pages/widgets/description.dart';
 import 'package:ai_cv_generator/pages/widgets/employment.dart';
+import 'package:ai_cv_generator/pages/widgets/extraActivities.dart';
 import 'package:ai_cv_generator/pages/widgets/personaldetails.dart';
 import 'package:ai_cv_generator/pages/widgets/qualifications.dart';
 import 'package:ai_cv_generator/pages/widgets/references.dart';
@@ -222,5 +223,13 @@ void main(){
       // Verify that there are no validation errors.
       expect(find.text('Please enter some text'), findsNothing);*/
     });
+  });
+
+  testWidgets("Extra activities Input test", (WidgetTester tester) async {
+    Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak'); // Replace AdjustedModel with your actual model class
+    // Build our widget and trigger a frame.
+    await tester.pumpWidget( MaterialApp(home: ExtraActivitiesSectionTest(employment: [],)));
+    
+    expect(find.byIcon(Icons.add), findsOneWidget);
   });
 }
