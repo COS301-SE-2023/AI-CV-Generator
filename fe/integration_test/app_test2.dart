@@ -32,7 +32,7 @@ class MockUserModel extends Mock implements UserModel {
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
-  group('end-to-end test2', () {
+  group('Input validation and Navigation', () {
     /*testWidgets('Register Test', (tester) async {
       await tester.pumpWidget(const MaterialApp(home: RegisterPage()));
 
@@ -240,24 +240,107 @@ void main() {
       expect(find.text('Back'), findsOneWidget);
       expect(find.text('Save and Proceed'), findsOneWidget);
     });
-*/
+
     testWidgets('Jobs test', (tester) async {
-      Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak');
-      await tester.pumpWidget( MaterialApp(home: JobsPageTest()));
+        Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak');
+        await tester.pumpWidget( MaterialApp(home: JobsPageTest()));
 
-      expect(find.text("RECOMMENDED FOR YOU"), findsOneWidget);
-      expect(find.byKey(const Key("occupation")), findsOneWidget);
-      expect(find.byKey(const Key("location")), findsOneWidget);
-      expect(find.text("Search"), findsOneWidget);
+        expect(find.text("RECOMMENDED FOR YOU"), findsOneWidget);
+        expect(find.byKey(const Key("occupation")), findsOneWidget);
+        expect(find.byKey(const Key("location")), findsOneWidget);
+        expect(find.text("Search"), findsOneWidget);
 
-      await tester.enterText(find.byKey(const Key("occupation")), 'Software Engineer');
-      await tester.enterText(find.byKey(const Key("location")), 'Pretoria');
       
-      expect(find.text('Software Engineer'), findsOneWidget);
-      expect(find.text('Pretoria'), findsOneWidget);
-    });
-    
+        await tester.enterText(find.byKey(const Key("occupation")), 'Software Engineer');
+        await tester.enterText(find.byKey(const Key("location")), 'Pretoria');
 
+        expect(find.text('Software Engineer'), findsOneWidget);
+        expect(find.text('Pretoria'), findsOneWidget);
+    });*/
+    
   });
+
+  group('Security tests', () {
+    testWidgets('Login attempt 1: no password', (tester) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: LoginTest(),
+      ));
+
+    await tester.pumpAndSettle();
+    //do
+    await tester.enterText(find.byKey(const Key('name')), 'amandak');
+    await tester.enterText(find.byKey(const Key('password')), '');
+
+    await tester.pumpAndSettle();
+    //test
+    await tester.tap(find.text('Login'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('This field is required'), findsOneWidget);
+    });
+
+    testWidgets('Login attempt 2: incorrect password', (tester) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: LoginTest(),
+      ));
+
+    await tester.pumpAndSettle();
+    //do
+    await tester.enterText(find.byKey(const Key('name')), 'amandak');
+    await tester.enterText(find.byKey(const Key('password')), 'abcd');
+
+    await tester.pumpAndSettle();
+    //test
+    await tester.tap(find.text('Login'));
+    await tester.pumpAndSettle();
+
+    expect(find.text("Invalid Login!"), findsOneWidget);
+    });
+
+    testWidgets('Login attempt 3: incorrect username', (tester) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: LoginTest(),
+      ));
+
+    await tester.pumpAndSettle();
+    //do
+    await tester.enterText(find.byKey(const Key('name')), 'johnny');
+    await tester.enterText(find.byKey(const Key('password')), '1234');
+
+    await tester.pumpAndSettle();
+    //test
+    await tester.tap(find.text('Login'));
+    await tester.pumpAndSettle();
+
+    expect(find.text("Invalid Login!"), findsOneWidget);
+    });
+
+    testWidgets('Login attempt 4: incorrect username and password', (tester) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: LoginTest(),
+      ));
+
+    await tester.pumpAndSettle();
+    //do
+    await tester.enterText(find.byKey(const Key('name')), 'johnny');
+    await tester.enterText(find.byKey(const Key('password')), 'poggi');
+
+    await tester.pumpAndSettle();
+    //test
+    await tester.tap(find.text('Login'));
+    await tester.pumpAndSettle();
+
+    expect(find.text("Invalid Login!"), findsOneWidget);
+    });
+  });
+
+  /*group('Error handling and recovery tests', () {
+    testWidgets('Register Test', (tester) async {
+    });
+  });*/
     
 }
