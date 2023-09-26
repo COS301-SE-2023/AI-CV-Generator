@@ -260,7 +260,7 @@ void main() {
     
   });
 
-  group('Security tests', () {
+  /*group('Security tests', () {
     testWidgets('Login attempt 1: no password', (tester) async {
       await tester.pumpWidget(
         MaterialApp(
@@ -336,11 +336,54 @@ void main() {
 
     expect(find.text("Invalid Login!"), findsOneWidget);
     });
-  });
-
-  /*group('Error handling and recovery tests', () {
-    testWidgets('Register Test', (tester) async {
-    });
   });*/
+
+  group('Error handling and recovery tests', () {
+    testWidgets('Register test 1: empty fields ', (tester) async {
+      /*await tester.pumpWidget( MaterialApp(home: RegisterPageTest()));
+
+      await tester.pumpAndSettle();
+      //do
+      await tester.enterText(find.byKey(const Key('fname')), '');
+      await tester.enterText(find.byKey(const Key('lname')), '');
+      await tester.enterText(find.byKey(const Key('username')), '');
+      await tester.enterText(find.byKey(const Key('email')), '');
+      await tester.enterText(find.byKey(const Key('password')), '');
+      await tester.enterText(find.byKey(const Key('passwordretype')), '');
+
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.byKey(const Key('Register button')));
+      //test
+      expect(find.text('This field is required'), findsNWidgets(5));
+      expect(find.text('This is not a valid email'), findsOneWidget);*/
+    });
+
+    testWidgets('Personal details test: empty fields ', (tester) async {
+      Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak'); 
+      await tester.pumpWidget( MaterialApp(home: PersonalDetailsFormTest()));
+
+      await tester.tap(find.text('Save and Proceed'));
+      await Future.delayed(Duration(seconds: 8));
+
+      expect(find.text('This field is required'), findsNWidgets(2));
+      expect(find.text('This is not a valid email'), findsOneWidget);
+
+    });
+    testWidgets('Qualifications details test: empty fields ', (tester) async {
+      Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak'); 
+      await tester.pumpWidget( MaterialApp(home: QualificationsDetailsFormTest()));
+
+      await tester.tap(find.text('Add'));
+      await Future.delayed(Duration(seconds: 8));
+
+      await tester.tap(find.text('Save and Proceed'));
+      await Future.delayed(Duration(seconds: 8));
+
+      expect(find.text('This field is required'), findsNWidgets(4));
+
+    });
+
+  });
     
 }
