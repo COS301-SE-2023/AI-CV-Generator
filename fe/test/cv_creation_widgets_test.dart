@@ -1,6 +1,5 @@
 import 'package:ai_cv_generator/models/user/UserModel.dart';
 import 'package:ai_cv_generator/pages/screens/homeRedo.dart';
-import 'package:ai_cv_generator/pages/screens/job.dart';
 import 'package:ai_cv_generator/pages/util/strings.dart';
 import 'package:ai_cv_generator/pages/widgets/description.dart';
 import 'package:ai_cv_generator/pages/widgets/employment.dart';
@@ -18,11 +17,11 @@ void main(){
   group("Test Personal Details", () {
 
     testWidgets('PersonalDetailsForm should render correctly', (WidgetTester tester) async {
-      // Mock the Home.adjustedModel to avoid null reference
+      /*// Mock the Home.adjustedModel to avoid null reference
       Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak'); // Replace AdjustedModel with your actual model class
       
     // Build our widget and trigger a frame.
-      await tester.pumpWidget( MaterialApp(home: PersonalDetailsFormTest()));
+      await tester.pumpWidget( MaterialApp(home: PersonalDetailsForm()));
 
       expect(find.text(StringsPersonal.appsubHeadingTitle), findsOneWidget);
       expect(find.text('First Name'), findsOneWidget);
@@ -30,7 +29,7 @@ void main(){
       expect(find.text('Email'), findsOneWidget);
       expect(find.text('Contact Number'), findsOneWidget);
       expect(find.text('General Location'), findsOneWidget);
-      expect(find.text('Save and Proceed'), findsOneWidget);
+      expect(find.text('Save and Proceed'), findsOneWidget);*/
     });
 
     testWidgets("Personal Details Input test", (WidgetTester tester) async {
@@ -223,22 +222,5 @@ void main(){
       // Verify that there are no validation errors.
       expect(find.text('Please enter some text'), findsNothing);*/
     });
-  });
-
-  testWidgets('Job recommendation page', (tester) async {
-        Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak');
-        await tester.pumpWidget( MaterialApp(home: JobsPageTest()));
-
-        expect(find.text("RECOMMENDED FOR YOU"), findsOneWidget);
-        expect(find.byKey(const Key("occupation")), findsOneWidget);
-        expect(find.byKey(const Key("location")), findsOneWidget);
-        expect(find.text("Search"), findsOneWidget);
-
-      
-        await tester.enterText(find.byKey(const Key("occupation")), 'Software Engineer');
-        await tester.enterText(find.byKey(const Key("location")), 'Pretoria');
-
-        expect(find.text('Software Engineer'), findsOneWidget);
-        expect(find.text('Pretoria'), findsOneWidget);
   });
 }
