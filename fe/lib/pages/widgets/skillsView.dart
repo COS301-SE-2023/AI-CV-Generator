@@ -110,8 +110,25 @@ class SkillSectionState extends State<SkillSection> {
     return null;
   }
 
-  Table populate() {
+  Widget populate() {
     List<TableRow> linkWidgets = [];
+    if (skillMap.isEmpty) {
+      return const Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.flag,color: Colors.grey,size: 100,),
+            SizedBox(height: 20),
+            Text(
+              "No Skills...", 
+              style: TextStyle(
+                color: Colors.grey
+              )
+            )
+          ],
+        ),
+      );
+    }
     skillMap.forEach((key, value) {
       linkWidgets.add(
         CreateRow(
