@@ -9,6 +9,21 @@ import 'package:ai_cv_generator/pages/widgets/skillsForm.dart';
 // external
 import 'package:flutter/material.dart';
 
+class DescriptionFormTest extends StatefulWidget{
+  DescriptionFormTest({super.key});
+
+  @override
+  State<StatefulWidget> createState() => DescriptionFormTestState();
+}
+
+class DescriptionFormTestState extends State<DescriptionFormTest> {
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      child: DescriptionForm(),
+    );
+  }
+}
 
 class DescriptionForm extends StatefulWidget {
    const DescriptionForm({super.key});

@@ -10,6 +10,23 @@ import 'package:date_field/date_field.dart';
 import 'package:flutter/material.dart';
 import 'package:ai_cv_generator/pages/screens/homeRedo.dart';
 
+class QualificationsDetailsFormTest extends StatefulWidget{
+  QualificationsDetailsFormTest({super.key});
+
+  @override
+  State<StatefulWidget> createState() => QualificationsDetailsFormTestState();
+}
+
+class QualificationsDetailsFormTestState extends State<QualificationsDetailsFormTest> {
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      child: QualificationsDetailsForm(),
+    );
+  }
+}
+
+
 class QualificationsDetailsForm extends StatefulWidget {
   const QualificationsDetailsForm({super.key});
 

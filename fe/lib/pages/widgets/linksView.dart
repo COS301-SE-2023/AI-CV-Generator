@@ -75,6 +75,25 @@ class LinksSectionState extends State<LinksSection> {
 
   List<Widget> populate() {
     List<Widget> linkWidgets = [];
+    if (linksMap.isEmpty) {
+      linkWidgets.add(
+        const Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.link,color: Colors.grey,size: 100,),
+              SizedBox(height: 20),
+              Text(
+                "No Links...", 
+                style: TextStyle(
+                  color: Colors.grey
+                )
+              )
+            ],
+          ),
+        )
+      );
+    }
     linksMap.forEach((key, value) {
       linkWidgets.add(linksMap[key]['widget']);
       if(editing == true) {

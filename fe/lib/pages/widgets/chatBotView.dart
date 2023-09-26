@@ -115,7 +115,8 @@ class ChatBotViewState extends State<ChatBotView> {
                 title: Container(
                   alignment: Alignment.center,
                   padding: const EdgeInsets.only(right: 50),
-                  child:Text("AI CHAT BOT",
+                  child:Text(
+                    "AI Assistant",
                     style: Theme.of(context).appBarTheme.toolbarTextStyle,),
                   ),
                   leading: IconButton(

@@ -17,11 +17,13 @@ import com.revolvingSolutions.aicvgeneratorbackend.request.details.employment.Up
 import com.revolvingSolutions.aicvgeneratorbackend.request.details.qualification.AddQualificationRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.file.DownloadFileRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.user.UpdateUserRequest;
+import com.revolvingSolutions.aicvgeneratorbackend.response.auth.Code;
 import com.revolvingSolutions.aicvgeneratorbackend.response.details.employment.AddEmploymentResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.details.employment.RemoveEmploymentResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.details.employment.UpdateEmploymentResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.details.qualification.AddQualificationResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.file.GetFilesResponse;
+import com.revolvingSolutions.aicvgeneratorbackend.response.file.UploadFileResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.user.GetUserResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.user.UpdateUserResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.service.UUIDGenerator;
@@ -262,7 +264,7 @@ public class UserIntergrationTests {
         MockMultipartFile file = new MockMultipartFile("Filename",(byte[]) null);
         MockMultipartFile cover = new MockMultipartFile("FileCoverName",(byte[]) null);
         // when
-        ResponseEntity<String> response = userController.uploadFile(file,cover);
+        ResponseEntity<UploadFileResponse> response = userController.uploadFile(file,cover);
         // then
 
         ArgumentCaptor<FileEntity> fileEntity = ArgumentCaptor.forClass(FileEntity.class);
@@ -274,7 +276,7 @@ public class UserIntergrationTests {
         assertThat(fileEntity.getValue().getFilename() != null).isTrue();
 
         assertThat(response.getStatusCode().isSameCodeAs(HttpStatusCode.valueOf(200))).isTrue();
-        assertThat(Objects.requireNonNull(response.getBody()).matches("Success")).isTrue();
+        assertThat(Objects.requireNonNull(Objects.requireNonNull(response.getBody()).getCode()) ==Code.success ).isTrue();
     }
 
     @Test

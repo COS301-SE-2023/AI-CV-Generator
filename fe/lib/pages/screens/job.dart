@@ -12,6 +12,22 @@ import 'package:flutter/material.dart';
 
 import 'package:url_launcher/url_launcher.dart';
 
+class JobsPageTest extends StatefulWidget{
+  JobsPageTest({super.key});
+
+  @override
+  State<StatefulWidget> createState() => JobsPageTestState();
+}
+
+class JobsPageTestState extends State<JobsPageTest> {
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      child: JobsPage(),
+    );
+  }
+}
+
 class JobsPage extends StatefulWidget {
   const JobsPage({super.key});
 
@@ -167,7 +183,7 @@ class JobsPageState extends State<JobsPage> {
                         Container(
                           width: w*20,
                           child: TextFormField(
-                            key: const Key("occupation"),
+                            key: const Key("location"),
                             decoration: const InputDecoration(
                               hintText: "Type in your location",
                               border: OutlineInputBorder()

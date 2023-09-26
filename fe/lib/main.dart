@@ -97,7 +97,7 @@ class ShareCVApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'AI-CV-GENERATOR_DEMO1_build',
+      title: 'AI CV Generator',
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
       routes: {

@@ -5,6 +5,7 @@ import 'package:ai_cv_generator/api/pdfApi.dart';
 import 'package:ai_cv_generator/dio/client/AIApi.dart';
 import 'package:ai_cv_generator/dio/client/fileApi.dart';
 import 'package:ai_cv_generator/dio/client/userApi.dart';
+import 'package:ai_cv_generator/dio/response/AuthResponses/Code.dart';
 import 'package:ai_cv_generator/models/aimodels/AIEmployment.dart';
 import 'package:ai_cv_generator/models/aimodels/AIInput.dart';
 import 'package:ai_cv_generator/models/aimodels/AILink.dart';
@@ -44,6 +45,28 @@ import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 GlobalKey<ChatBotViewState> chatBotKey = GlobalKey();
+
+class HomeTestWidget extends StatefulWidget {
+  HomeTestWidget({super.key});
+  UserModel? adjustedModel;
+  bool ready = false;
+  @override
+  State<StatefulWidget> createState() =>  _HomeTestWidgetState();
+}
+
+class _HomeTestWidgetState extends State<HomeTestWidget> {
+  @override
+  Widget build(BuildContext context) {
+    // Example: You can pass custom data to Home by modifying the 'model' property
+    // final UserModel customModel = UserModel(); // Create a custom UserModel
+    // Home.adjustedModel = customModel; // Set the adjustedModel property
+    return Material(
+      child: Home(), // Render the original Home widget
+    );
+  }
+
+}
+
 class Home extends StatefulWidget {
   const Home({super.key});
   static UserModel? adjustedModel;
@@ -266,6 +289,23 @@ class HomeState extends State<Home> {
         setState(() {
       });
     });
+  }
+
+  getFileName(Uint8List bytes) async {
+    String? name = await promptName();
+    if (name == null) return;
+    Code code = await FileApi.uploadFile(file: PlatformFile(name: '$name.pdf', size: bytes!.length, bytes: bytes));
+    if (code == Code.requestFailed) {
+      showError("Something went wrong!");
+      return;
+    } else if (code == Code.failed) {
+      showError("File with name already exists!");
+      getFileName(bytes);
+      return;
+    } else {
+      showSuccess("File uploaded sucessfully!");
+      updateFiles();
+    }
   }
 
   // Initialize State
@@ -510,7 +550,7 @@ class HomeState extends State<Home> {
                               alignment: Alignment.topCenter,
                               child: Text(
                                 "TEMPLATES",
-                                style: TextStyle(fontSize: 2.6*h),
+                                style: TextStyle(fontSize: 2.6*h,overflow: TextOverflow.fade),
                                 ),
                             ),
                             SizedBox(height: 1.6*h,),
@@ -633,10 +673,7 @@ class HomeState extends State<Home> {
                                   height: 5*h, 
                                   onTap: () async {
                                     if (bytes != null) {
-                                      String? name = await promptName();
-                                      if (name == null) return;
-                                      await FileApi.uploadFile(file: PlatformFile(name: '$name.pdf', size: bytes!.length, bytes: bytes));
-                                      updateFiles();
+                                      getFileName(bytes!);
                                     } else {
                                       showError("Something went wrong!");
                                       return;

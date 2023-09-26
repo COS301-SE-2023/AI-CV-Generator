@@ -38,11 +38,11 @@ class NavDrawer extends StatelessWidget {
             title: const Text('About'),
             onTap: () => {Navigator.pushNamed(context, '/about')},
           ),
-          // ListTile(
-          //   leading: const Icon(Icons.help),
-          //   title: const Text('Help'),
-          //   onTap: () => {Navigator.pushNamed(context, '/help')},
-          // ),
+          ListTile(
+            leading: const Icon(Icons.help),
+            title: const Text('Help'),
+            onTap: () => {Navigator.pushNamed(context, '/help')},
+          ),
           ListTile(
             leading: const Icon(Icons.exit_to_app),
             title: const Text('Logout'),

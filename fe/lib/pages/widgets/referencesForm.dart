@@ -9,6 +9,23 @@ import 'package:ai_cv_generator/pages/widgets/skillsForm.dart';
 import 'package:flutter/material.dart';
 import 'package:ai_cv_generator/pages/screens/homeRedo.dart';
 
+class ReferencesDetailsFormTest extends StatefulWidget{
+  ReferencesDetailsFormTest({super.key});
+
+  @override
+  State<StatefulWidget> createState() => ReferencesDetailsFormTestState();
+}
+
+class ReferencesDetailsFormTestState extends State<ReferencesDetailsFormTest> {
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      child: ReferencesDetailsForm(),
+    );
+  }
+}
+
+
 class ReferencesDetailsForm extends StatefulWidget {
   const ReferencesDetailsForm({super.key});
 
