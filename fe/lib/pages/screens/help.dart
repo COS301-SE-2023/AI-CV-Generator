@@ -28,6 +28,7 @@ class HelpState extends State<Help> {
     var chat = GlobalKey();
     var extract = GlobalKey();
     var editor = GlobalKey();
+    var survey = GlobalKey();
 
     to(GlobalKey key) {
       Scrollable.ensureVisible(
@@ -72,6 +73,10 @@ class HelpState extends State<Help> {
 
     moveToEditor() {
       to(editor);
+    }
+
+    moveToSurvey() {
+      to(survey);
     }
 
     Widget imageDescription(String imagePath, String imageDescription, String title, MainAxisAlignment axisAlignment, GlobalKey key) {

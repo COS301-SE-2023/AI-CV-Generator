@@ -23,6 +23,7 @@ import 'package:ai_cv_generator/pages/template/TemplateChoice.dart';
 import 'package:ai_cv_generator/pages/util/editor.dart';
 import 'package:ai_cv_generator/pages/util/errorMessage.dart';
 import 'package:ai_cv_generator/pages/util/fileView.dart';
+import 'package:ai_cv_generator/pages/util/inputEditor.dart';
 import 'package:ai_cv_generator/pages/util/namePromt.dart';
 import 'package:ai_cv_generator/pages/util/successMessage.dart';
 import 'package:ai_cv_generator/pages/widgets/EmptyCV.dart';
@@ -46,6 +47,7 @@ import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 GlobalKey<ChatBotViewState> chatBotKey = GlobalKey();
 
+// ignore: must_be_immutable
 class HomeTestWidget extends StatefulWidget {
   HomeTestWidget({super.key});
   UserModel? adjustedModel;
@@ -294,7 +296,7 @@ class HomeState extends State<Home> {
   getFileName(Uint8List bytes) async {
     String? name = await promptName();
     if (name == null) return;
-    Code code = await FileApi.uploadFile(file: PlatformFile(name: '$name.pdf', size: bytes!.length, bytes: bytes));
+    Code code = await FileApi.uploadFile(file: PlatformFile(name: '$name.pdf', size: bytes.length, bytes: bytes));
     if (code == Code.requestFailed) {
       showError("Something went wrong!");
       return;
@@ -383,10 +385,24 @@ class HomeState extends State<Home> {
     setState(() {});
   }
 
+  Future<AIInput?> extractMenu(AIInput aiInput, Uint8List bytes) async {
+    InputEditor editor = InputEditor(data: aiInput, bytes: bytes);
+    await showDialog(
+      context: context, 
+      builder: (context) {
+        return SizedBox(
+          width: 100,
+          height: 800,
+          child: editor,
+        );
+      }
+    );
+    return editor.data;
+  }
+
   Future<void> showCV() async {
     Editor editor = Editor(data: data!, option: option, colors: colors,);
     await showDialog(
-      barrierColor: const Color(0x01000000),
       context: context, 
       builder: (context) {
         return SizedBox(
@@ -451,10 +467,10 @@ class HomeState extends State<Home> {
           child: GestureDetector(
             onTap: () {
               colors.setColorSetTemplateChoice(pick);
-              updatePdf();
               setState(() {
                 option = pick;
               });
+              updatePdf();
             },
             child: Image(image: Image.asset(assetPath).image),
           )
@@ -644,7 +660,8 @@ class HomeState extends State<Home> {
                                       return;
                                     }
                                     noShowButton();
-                                    if (await extractionViewUpdate(aiInput!, file) == false) {
+                                    aiInput = await extractMenu(aiInput!, file.bytes!);
+                                    if (aiInput == null) {
                                       setCVLoadingOff();
                                       return;
                                     }
