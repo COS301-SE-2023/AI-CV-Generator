@@ -17,11 +17,11 @@ void main(){
   group("Test Personal Details", () {
 
     testWidgets('PersonalDetailsForm should render correctly', (WidgetTester tester) async {
-      /*// Mock the Home.adjustedModel to avoid null reference
+      // Mock the Home.adjustedModel to avoid null reference
       Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak'); // Replace AdjustedModel with your actual model class
       
     // Build our widget and trigger a frame.
-      await tester.pumpWidget( MaterialApp(home: PersonalDetailsForm()));
+      await tester.pumpWidget( MaterialApp(home: PersonalDetailsFormTest()));
 
       expect(find.text(StringsPersonal.appsubHeadingTitle), findsOneWidget);
       expect(find.text('First Name'), findsOneWidget);
@@ -29,7 +29,7 @@ void main(){
       expect(find.text('Email'), findsOneWidget);
       expect(find.text('Contact Number'), findsOneWidget);
       expect(find.text('General Location'), findsOneWidget);
-      expect(find.text('Save and Proceed'), findsOneWidget);*/
+      expect(find.text('Save and Proceed'), findsOneWidget);
     });
 
     testWidgets("Personal Details Input test", (WidgetTester tester) async {
