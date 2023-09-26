@@ -1,13 +1,16 @@
 import 'dart:typed_data';
 
 import 'package:ai_cv_generator/models/user/UserModel.dart';
+import 'package:ai_cv_generator/pages/screens/help.dart';
 import 'package:ai_cv_generator/pages/screens/homeRedo.dart';
+import 'package:ai_cv_generator/pages/screens/job.dart';
 import 'package:ai_cv_generator/pages/widgets/EmptyCV.dart';
 import 'package:ai_cv_generator/pages/widgets/breadcrumb.dart';
 import 'package:ai_cv_generator/pages/widgets/cvHistory.dart';
 import 'package:ai_cv_generator/pages/widgets/description.dart';
 import 'package:ai_cv_generator/pages/widgets/loadingscreens/AILoadingScreen.dart';
 import 'package:ai_cv_generator/pages/widgets/loadingscreens/ErrorScreen.dart';
+import 'package:ai_cv_generator/pages/widgets/policy.dart';
 import 'package:ai_cv_generator/pages/widgets/shareCV.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -38,7 +41,7 @@ void main() {
   });
 
   testWidgets("Share CV test", (WidgetTester tester) async {
-    /*Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak'); // Replace AdjustedModel with your actual model class
+    Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak'); // Replace AdjustedModel with your actual model class
     // Create a PlatformFile for testing
     final platformFile = PlatformFile(
       name: 'test.pdf',
@@ -52,8 +55,8 @@ void main() {
     expect(find.text("Enter Name for file"), findsOneWidget);
     expect(find.text('Hours: '), findsOneWidget);
     expect(find.text('Copy Link'), findsOneWidget);
-    */
   });
+  
   testWidgets("Breadcrumb test", (WidgetTester tester) async {
     Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak'); // Replace AdjustedModel with your actual model class
     // Create a PlatformFile for testing
@@ -81,6 +84,37 @@ void main() {
 
      expect(find.byKey(const Key("Description start")), findsOneWidget);*/
   });
+
+  testWidgets('Job recommendation page', (tester) async {
+    Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak');
+    await tester.pumpWidget( MaterialApp(home: JobsPageTest()));
+
+    expect(find.text("RECOMMENDED FOR YOU"), findsOneWidget);
+    expect(find.byKey(const Key("occupation")), findsOneWidget);
+    expect(find.byKey(const Key("location")), findsOneWidget);
+    expect(find.text("Search"), findsOneWidget);
+
+  
+    await tester.enterText(find.byKey(const Key("occupation")), 'Software Engineer');
+    await tester.enterText(find.byKey(const Key("location")), 'Pretoria');
+
+    expect(find.text('Software Engineer'), findsOneWidget);
+    expect(find.text('Pretoria'), findsOneWidget);
+  });
+
+  testWidgets('Help page', (tester) async {
+    Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak');
+    await tester.pumpWidget( MaterialApp(home: HelpTest()));
+
+    expect(find.text('Help'), findsOneWidget);
+  });
+
+  testWidgets('Policy', (tester) async {
+    Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak');
+    await tester.pumpWidget( MaterialApp(home: Policy(filename: '',)));
+
+  });
+
 
 group("Empty CV widget tests", () {
   testWidgets("Empty status", (WidgetTester tester) async {
