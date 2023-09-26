@@ -37,6 +37,7 @@ import com.revolvingSolutions.aicvgeneratorbackend.response.details.skill.AddSki
 import com.revolvingSolutions.aicvgeneratorbackend.response.details.skill.RemoveSkillResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.details.skill.UpdateSkillResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.file.GetFilesResponse;
+import com.revolvingSolutions.aicvgeneratorbackend.response.file.UploadFileResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.user.GenerateUrlResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.user.GetUserResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.user.UpdateUserResponse;
@@ -85,7 +86,7 @@ public class UserController {
     }
 
     @PostMapping(value="/file")
-    public ResponseEntity<String> uploadFile(
+    public ResponseEntity<UploadFileResponse> uploadFile(
             @RequestParam("file")MultipartFile file,
             @RequestParam("cover")MultipartFile cover
             ) {

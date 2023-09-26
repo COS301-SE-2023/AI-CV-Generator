@@ -27,6 +27,7 @@ import com.revolvingSolutions.aicvgeneratorbackend.request.file.DownloadFileRequ
 import com.revolvingSolutions.aicvgeneratorbackend.request.details.employment.RemoveEmploymentRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.user.GenerateUrlRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.user.UpdateUserRequest;
+import com.revolvingSolutions.aicvgeneratorbackend.response.auth.Code;
 import com.revolvingSolutions.aicvgeneratorbackend.response.details.employment.AddEmploymentResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.details.employment.RemoveEmploymentResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.details.employment.UpdateEmploymentResponse;
@@ -43,6 +44,7 @@ import com.revolvingSolutions.aicvgeneratorbackend.response.details.skill.AddSki
 import com.revolvingSolutions.aicvgeneratorbackend.response.details.skill.RemoveSkillResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.details.skill.UpdateSkillResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.file.GetFilesResponse;
+import com.revolvingSolutions.aicvgeneratorbackend.response.file.UploadFileResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.user.GenerateUrlResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.user.GetUserResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.user.UpdateUserResponse;
@@ -462,7 +464,12 @@ public class UserService {
             return ResponseEntity.notFound().build();
         }
     }
-    public String uploadFile(MultipartFile request, MultipartFile cover) {
+    public UploadFileResponse uploadFile(MultipartFile request, MultipartFile cover) {
+        if (!fileRepository.getFileFromUser(getAuthenticatedUser().getUsername(),request.getOriginalFilename()).isEmpty()) {
+            return UploadFileResponse.builder()
+                    .code(Code.failed)
+                    .build();
+        }
         try {
             FileEntity file = FileEntity.builder()
                     .user(getAuthenticatedUser())
@@ -472,9 +479,14 @@ public class UserService {
                     .cover(cover.getBytes())
                     .build();
             fileRepository.save(file);
-            return "Success";
+            return UploadFileResponse.builder()
+                    .code(Code.success)
+                    .build();
         } catch (Exception e) {
-            throw new UnknownErrorException("File exception!: "+e.getMessage());
+            e.printStackTrace();
+            return UploadFileResponse.builder()
+                    .code(Code.failed)
+                    .build();
         }
     }
 
