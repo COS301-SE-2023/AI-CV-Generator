@@ -111,6 +111,7 @@ flutter:
     - assets/images/party-popper-svgrepo-com.svg
     - assets/images/ExtractionPage.png
     - assets/images/HomePage.png
+    - assets/images/ProfilePage.png
     - assets/images/AIChatBot.png
     - assets/images/JobPage.png
     - assets/images/Navbar.png

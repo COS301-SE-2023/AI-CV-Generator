@@ -8,7 +8,7 @@ name: Tests
 on: [push, workflow_dispatch]
 
 jobs:
-  frontend_tests:
+  frontend_unit_tests:
     runs-on: ubuntu-latest
     env: 
       working-directory: fe
@@ -30,7 +30,7 @@ jobs:
         CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
         
-  integration_tests:
+  frontend_integration_tests:
     runs-on: windows-latest
     env: 
       working-directory: fe
@@ -55,7 +55,7 @@ jobs:
       working-directory: ${{ env.working-directory }}
 
 
-  backend_tests:
+  backend_unit_and_integration_tests:
     runs-on: ubuntu-latest
     env: 
       working-directory: ai-cv-generator-backend
