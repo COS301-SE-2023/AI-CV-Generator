@@ -31,7 +31,7 @@ jobs:
 
         
   integration_tests:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     env: 
       working-directory: fe
 
@@ -52,7 +52,7 @@ jobs:
     - name: Wait for Backend to Start
       run: sleep 120  # Adjust the duration as needed to allow the backend to start
     - name: Run Flutter Integration Tests
-      run: flutter test integration_test/app_test2.dart -d linux
+      run: flutter test integration_test/app_test2.dart -d windows
       working-directory: ${{ env.working-directory }}
 
 
