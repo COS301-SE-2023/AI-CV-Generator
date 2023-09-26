@@ -29,6 +29,10 @@ class HelpState extends State<Help> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            const Breadcrumb(previousPage: "Home", currentPage: "Help",),
+            const SizedBox(
+              height: 24,
+            ),
             Align(
               alignment: Alignment.center,
               child: Text(
