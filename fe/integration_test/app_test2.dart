@@ -32,8 +32,8 @@ class MockUserModel extends Mock implements UserModel {
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
-  group('Input validation and Navigation', () {
-    /*testWidgets('Register Test', (tester) async {
+  group('Navigation and user flow tests', () {
+    testWidgets('Register Test', (tester) async {
       await tester.pumpWidget(const MaterialApp(home: RegisterPage()));
 
       await tester.pumpAndSettle();
@@ -256,11 +256,10 @@ void main() {
 
         expect(find.text('Software Engineer'), findsOneWidget);
         expect(find.text('Pretoria'), findsOneWidget);
-    });*/
-    
+    });
   });
 
-  /*group('Security tests', () {
+  group('Security tests', () {
     testWidgets('Login attempt 1: no password', (tester) async {
       await tester.pumpWidget(
         MaterialApp(
@@ -324,22 +323,70 @@ void main() {
           home: LoginTest(),
       ));
 
-    await tester.pumpAndSettle();
-    //do
-    await tester.enterText(find.byKey(const Key('name')), 'johnny');
-    await tester.enterText(find.byKey(const Key('password')), 'poggi');
+      await tester.pumpAndSettle();
+      //do
+      await tester.enterText(find.byKey(const Key('name')), 'johnny');
+      await tester.enterText(find.byKey(const Key('password')), 'poggi');
 
-    await tester.pumpAndSettle();
-    //test
-    await tester.tap(find.text('Login'));
-    await tester.pumpAndSettle();
+      await tester.pumpAndSettle();
+      //test
+      await tester.tap(find.text('Login'));
+      await tester.pumpAndSettle();
 
-    expect(find.text("Invalid Login!"), findsOneWidget);
+      expect(find.text("Invalid Login!"), findsOneWidget);
     });
-  });*/
+  });
 
   group('Error handling and recovery tests', () {
-    testWidgets('Register test 1: empty fields ', (tester) async {
+    testWidgets('Personal details test: empty fields ', (tester) async {
+      Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak'); 
+      await tester.pumpWidget( MaterialApp(home: PersonalDetailsFormTest()));
+
+      await tester.tap(find.text('Save and Proceed'));
+      await Future.delayed(Duration(seconds: 5));
+
+      expect(find.text('This field is required'), findsNWidgets(2));
+      expect(find.text('This is not a valid email'), findsOneWidget);
+    });
+
+    testWidgets('Qualifications details test: empty fields ', (tester) async {
+      Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak'); 
+      await tester.pumpWidget( MaterialApp(home: QualificationsDetailsFormTest()));
+
+      await tester.tap(find.text('Add'));
+      await Future.delayed(Duration(seconds: 5));
+
+      await tester.tap(find.text('Save and Proceed'));
+      await Future.delayed(Duration(seconds: 5));
+
+      expect(find.text('This field is required'), findsNWidgets(4));
+    });
+
+    testWidgets('Employment details test: empty fields ', (tester) async {
+      Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak'); 
+      await tester.pumpWidget( MaterialApp(home: EmploymentDetailsFormTest()));
+
+      await tester.tap(find.text('Add'));
+      await Future.delayed(Duration(seconds: 5));
+
+      await tester.tap(find.text('Save and Proceed'));
+      await Future.delayed(Duration(seconds: 5));
+
+      expect(find.text('Please enter some text'), findsNWidgets(4));
+    });
+
+    testWidgets('References test: empty fields ', (tester) async {
+      Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak'); 
+      await tester.pumpWidget( MaterialApp(home: DescriptionFormTest()));
+
+
+      await tester.tap(find.text('Save and Proceed'));
+      await Future.delayed(Duration(seconds: 5));
+
+      expect(find.text('Please enter some text'), findsOneWidget);
+    });
+
+    testWidgets('Register test: empty fields ', (tester) async {
       /*await tester.pumpWidget( MaterialApp(home: RegisterPageTest()));
 
       await tester.pumpAndSettle();
@@ -352,60 +399,33 @@ void main() {
       await tester.enterText(find.byKey(const Key('passwordretype')), '');
 
       await tester.pumpAndSettle();
+      //await Future.delayed(Duration(seconds: 8));
 
       await tester.tap(find.byKey(const Key('Register button')));
+      await Future.delayed(Duration(seconds: 8));
       //test
       expect(find.text('This field is required'), findsNWidgets(5));
       expect(find.text('This is not a valid email'), findsOneWidget);*/
     });
-
-    /*testWidgets('Personal details test: empty fields ', (tester) async {
-      Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak'); 
-      await tester.pumpWidget( MaterialApp(home: PersonalDetailsFormTest()));
-
-      await tester.tap(find.text('Save and Proceed'));
-      await Future.delayed(Duration(seconds: 8));
-
-      expect(find.text('This field is required'), findsNWidgets(2));
-      expect(find.text('This is not a valid email'), findsOneWidget);
-
-    });
-    testWidgets('Qualifications details test: empty fields ', (tester) async {
-      Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak'); 
-      await tester.pumpWidget( MaterialApp(home: QualificationsDetailsFormTest()));
-
-      await tester.tap(find.text('Add'));
-      await Future.delayed(Duration(seconds: 8));
-
-      await tester.tap(find.text('Save and Proceed'));
-      await Future.delayed(Duration(seconds: 8));
-
-      expect(find.text('This field is required'), findsNWidgets(4));
-    });
-    testWidgets('Employment details test: empty fields ', (tester) async {
-      Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak'); 
-      await tester.pumpWidget( MaterialApp(home: EmploymentDetailsFormTest()));
-
-      await tester.tap(find.text('Add'));
-      await Future.delayed(Duration(seconds: 8));
-
-      await tester.tap(find.text('Save and Proceed'));
-      await Future.delayed(Duration(seconds: 8));
-
-      expect(find.text('Please enter some text'), findsNWidgets(4));
-    });*/
-    testWidgets('References test: empty fields ', (tester) async {
-      Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak'); 
-      await tester.pumpWidget( MaterialApp(home: DescriptionFormTest()));
-
-
-      await tester.tap(find.text('Save and Proceed'));
-      await Future.delayed(Duration(seconds: 8));
-
-      expect(find.text('Please enter some text'), findsOneWidget);
-
-    });
-
   });
+
+  group("Input handling and validation", () {
+      testWidgets('Personal details: invalid input formats', (tester) async {
+        Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak'); 
+        await tester.pumpWidget( MaterialApp(home: PersonalDetailsFormTest()));
+
+        await tester.enterText(find.byKey(const Key("Name input")), 'Jane');
+        await tester.enterText(find.byKey(const Key("Last Name input")), 'Doe');
+        await tester.enterText(find.byKey(const Key("Email input")), 'someemail.co');
+        await tester.enterText(find.byKey(const Key("Cell input")), '012 123 4567');
+        await tester.enterText(find.byKey(const Key("Address input")), 'Pretoria');
+        await tester.pump();
+
+        await tester.tap(find.text('Save and Proceed'));
+        await Future.delayed(Duration(seconds: 5));
+
+        expect(find.text('This is not a valid email'), findsOneWidget);
+      });
+    });
     
 }
