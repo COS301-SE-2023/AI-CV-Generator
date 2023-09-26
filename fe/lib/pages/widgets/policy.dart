@@ -32,8 +32,7 @@ class Policy extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(radius)
       ),
-      child: Container(
-        padding: const EdgeInsets.all(24),
+      child: SizedBox(
         width: 700,
         height: 600,
         child:
