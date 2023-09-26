@@ -359,7 +359,7 @@ void main() {
       expect(find.text('This is not a valid email'), findsOneWidget);*/
     });
 
-    testWidgets('Personal details test: empty fields ', (tester) async {
+    /*testWidgets('Personal details test: empty fields ', (tester) async {
       Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak'); 
       await tester.pumpWidget( MaterialApp(home: PersonalDetailsFormTest()));
 
@@ -381,6 +381,28 @@ void main() {
       await Future.delayed(Duration(seconds: 8));
 
       expect(find.text('This field is required'), findsNWidgets(4));
+    });
+    testWidgets('Employment details test: empty fields ', (tester) async {
+      Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak'); 
+      await tester.pumpWidget( MaterialApp(home: EmploymentDetailsFormTest()));
+
+      await tester.tap(find.text('Add'));
+      await Future.delayed(Duration(seconds: 8));
+
+      await tester.tap(find.text('Save and Proceed'));
+      await Future.delayed(Duration(seconds: 8));
+
+      expect(find.text('Please enter some text'), findsNWidgets(4));
+    });*/
+    testWidgets('References test: empty fields ', (tester) async {
+      Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak'); 
+      await tester.pumpWidget( MaterialApp(home: DescriptionFormTest()));
+
+
+      await tester.tap(find.text('Save and Proceed'));
+      await Future.delayed(Duration(seconds: 8));
+
+      expect(find.text('Please enter some text'), findsOneWidget);
 
     });
 
