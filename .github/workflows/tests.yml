@@ -48,7 +48,6 @@ jobs:
       run: |
         cd ai-cv-generator-backend
         mvn spring-boot:run &
-        disown
     - name: Wait for Backend to Start
       run: sleep 120  # Adjust the duration as needed to allow the backend to start
     - name: Run Flutter Integration Tests
