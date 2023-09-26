@@ -45,6 +45,28 @@ import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 GlobalKey<ChatBotViewState> chatBotKey = GlobalKey();
+
+class HomeTestWidget extends StatefulWidget {
+  HomeTestWidget({super.key});
+  UserModel? adjustedModel;
+  bool ready = false;
+  @override
+  State<StatefulWidget> createState() =>  _HomeTestWidgetState();
+}
+
+class _HomeTestWidgetState extends State<HomeTestWidget> {
+  @override
+  Widget build(BuildContext context) {
+    // Example: You can pass custom data to Home by modifying the 'model' property
+    // final UserModel customModel = UserModel(); // Create a custom UserModel
+    // Home.adjustedModel = customModel; // Set the adjustedModel property
+    return Material(
+      child: Home(), // Render the original Home widget
+    );
+  }
+
+}
+
 class Home extends StatefulWidget {
   const Home({super.key});
   static UserModel? adjustedModel;

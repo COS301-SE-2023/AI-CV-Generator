@@ -9,6 +9,22 @@ import 'package:ai_cv_generator/pages/widgets/referencesForm.dart';
 import 'package:flutter/material.dart';
 import 'package:ai_cv_generator/pages/screens/homeRedo.dart';
 
+class SkillsDetailsFormTest extends StatefulWidget{
+  SkillsDetailsFormTest({super.key});
+
+  @override
+  State<StatefulWidget> createState() => SkillsDetailsFormTestState();
+}
+
+class SkillsDetailsFormTestState extends State<SkillsDetailsFormTest> {
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      child: SkillsDetailsForm(),
+    );
+  }
+}
+
 class SkillsDetailsForm extends StatefulWidget {
   const SkillsDetailsForm({super.key});
 
@@ -327,6 +343,7 @@ class TextMonitorWidgetState extends State<TextMonitorWidget> {
       alignment: Alignment.topCenter,
       constraints: BoxConstraints.tight(const Size(550,70)),
       child: DropdownButton<String>(
+        key: const Key("level input"),
         value: level.text,
         onChanged: (String? newValue) {
           setState(() {level.text = newValue!;});

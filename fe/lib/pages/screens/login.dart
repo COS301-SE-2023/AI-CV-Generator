@@ -6,6 +6,19 @@ import 'package:ai_cv_generator/pages/widgets/buttons/customizableButton.dart';
 import 'package:ai_cv_generator/pages/widgets/loadingscreens/loadingScreen.dart';
 import 'package:flutter/material.dart';
  
+class LoginTest extends StatefulWidget {
+  @override
+  _LoginTestState createState() => _LoginTestState();
+}
+
+class _LoginTestState extends State<LoginTest> {
+  @override
+  Widget build(BuildContext context) {
+    return Login(); // Return the actual Login widget here
+  }
+}
+
+
 class Login extends StatelessWidget {
   const Login({Key? key}) : super(key: key);
   @override

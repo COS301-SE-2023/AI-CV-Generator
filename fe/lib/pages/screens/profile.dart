@@ -10,6 +10,7 @@ import 'package:ai_cv_generator/pages/widgets/cvHistory.dart';
 import 'package:ai_cv_generator/pages/elements/elements.dart';
 import 'package:ai_cv_generator/pages/widgets/employmentView.dart';
 import 'package:ai_cv_generator/pages/util/imageCropper.dart';
+import 'package:ai_cv_generator/pages/widgets/extraActivities.dart';
 import 'package:ai_cv_generator/pages/widgets/loadingscreens/loadingScreen.dart';
 import 'package:ai_cv_generator/pages/widgets/referenceView.dart';
 import 'package:ai_cv_generator/pages/widgets/skillsView.dart';
@@ -84,12 +85,14 @@ class ProfileState extends State<Profile> {
     GlobalKey<EmploymentSectionState> employhistoryKey = GlobalKey<EmploymentSectionState>();
     GlobalKey<ReferenceSectionState> referenceKey = GlobalKey<ReferenceSectionState>();
     GlobalKey<SkillSectionState> skillKey = GlobalKey<SkillSectionState>();
+    GlobalKey<ExtraActivitiesSectionState> extraActivitiesSectionStateKey = GlobalKey<ExtraActivitiesSectionState>();
 
     LinksSection linkC = LinksSection(key: linksKey, links: model!.links != null ? model!.links! : []);
     QualificationsSection qualificationsC = QualificationsSection(key: qualificationsKey, qualifications: model!.qualifications != null ? model!.qualifications! : []);
     EmploymentSection employmentC = EmploymentSection(key: employhistoryKey, employment: model!.employmenthistory != null ? model!.employmenthistory! : [Employment(company: 'ERROR', title: 'ERORR', startdate: DateTime.now(), enddate: DateTime.now(), empid: 0)]);
     ReferenceSection referenceC = ReferenceSection(key: referenceKey, reference: model!.references != null ? model!.references! : []);
     SkillSection skillC = SkillSection(key: skillKey, skill: model!.skills != null ? model!.skills! : []);
+    ExtraActivitiesSection extraActivitiesC = ExtraActivitiesSection(key: extraActivitiesSectionStateKey, employment: model!.employmenthistory != null ? model!.employmenthistory! : [Employment(company: 'ERROR', title: 'ERORR', startdate: DateTime.now(), enddate: DateTime.now(), empid: 0)]);
     
     DateTime time = DateTime.now();
     Future<void> actualupdate() async {
@@ -190,6 +193,8 @@ class ProfileState extends State<Profile> {
                               employmentC,
                               const SizedBox(height: 16,),
                               referenceC,
+                              const SizedBox(height: 16,),
+                              extraActivitiesC,
                               const SizedBox(height: 16,),
                               skillC,
                               const SizedBox(height: 16,),

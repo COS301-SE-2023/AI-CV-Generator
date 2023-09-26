@@ -7,6 +7,19 @@ import 'package:ai_cv_generator/pages/widgets/loadingscreens/loadingScreen.dart'
 import 'package:ai_cv_generator/pages/widgets/termsAndConditions.dart';
 import 'package:flutter/material.dart';
  
+class RegisterPageTest extends StatefulWidget {
+  @override
+  _RegisterPageTestState createState() => _RegisterPageTestState();
+}
+
+class _RegisterPageTestState extends State<RegisterPageTest> {
+  @override
+  Widget build(BuildContext context) {
+    return RegisterPage(); // Return the actual RegisterPage widget here
+  }
+}
+
+
 class RegisterPage extends StatelessWidget {
   const  RegisterPage({Key? key}) : super(key: key);
   @override
@@ -259,6 +272,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     child: tAndCs
                   ),
                   CustomizableButton(
+                    key: const Key('Register button'),
                     text: 'Register', 
                     width: 10*w, 
                     height: 5*h, 

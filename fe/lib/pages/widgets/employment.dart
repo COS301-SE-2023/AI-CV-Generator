@@ -10,6 +10,22 @@ import 'package:date_field/date_field.dart';
 import 'package:ai_cv_generator/pages/util/strings.dart';
 import 'package:flutter/material.dart';
 
+class EmploymentDetailsFormTest extends StatefulWidget {
+  EmploymentDetailsFormTest({super.key});
+
+  @override
+  State<StatefulWidget> createState() => EmploymentDetailsFormTestState();
+}
+
+class EmploymentDetailsFormTestState extends State<EmploymentDetailsFormTest> {
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      child: EmploymentDetailsForm(),
+    );
+  }
+}
+
 class EmploymentDetailsForm extends StatefulWidget {
   const EmploymentDetailsForm({super.key});
 
