@@ -679,15 +679,15 @@ class EditorState extends State<Editor> {
                   Navigator.pop(context);
                 },
               ),
-              actions: [   
-                InkWell(
-                  child: const AppBarButtonStyle(text: 'Undo'),
-                  onTap: () {
-                    undo();
-                  },
-                ),
-                const SizedBox(width: 20,)
-              ],
+              // actions: [   
+              //   InkWell(
+              //     child: const AppBarButtonStyle(text: 'Undo'),
+              //     onTap: () {
+              //       undo();
+              //     },
+              //   ),
+              //   const SizedBox(width: 20,)
+              // ],
             ),
             body: Row(
               mainAxisAlignment: MainAxisAlignment.center,

@@ -57,7 +57,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: route,
       routes: {
-        '/':(context) => const Login(),
+        '/':(context) => const TestPage(),
         '/register':(context) => const RegisterPage(),
         '/confirm':(context) => const EmailConfirmation(),
         '/home':(context) => const Home(),
@@ -97,7 +97,7 @@ class ShareCVApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'AI-CV-GENERATOR_DEMO1_build',
+      title: 'AI CV Generator',
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
       routes: {
