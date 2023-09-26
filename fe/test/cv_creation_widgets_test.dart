@@ -1,5 +1,6 @@
 import 'package:ai_cv_generator/models/user/UserModel.dart';
 import 'package:ai_cv_generator/pages/screens/homeRedo.dart';
+import 'package:ai_cv_generator/pages/screens/job.dart';
 import 'package:ai_cv_generator/pages/util/strings.dart';
 import 'package:ai_cv_generator/pages/widgets/description.dart';
 import 'package:ai_cv_generator/pages/widgets/employment.dart';
@@ -222,5 +223,22 @@ void main(){
       // Verify that there are no validation errors.
       expect(find.text('Please enter some text'), findsNothing);*/
     });
+  });
+
+  testWidgets('Job recommendation page', (tester) async {
+        Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak');
+        await tester.pumpWidget( MaterialApp(home: JobsPageTest()));
+
+        expect(find.text("RECOMMENDED FOR YOU"), findsOneWidget);
+        expect(find.byKey(const Key("occupation")), findsOneWidget);
+        expect(find.byKey(const Key("location")), findsOneWidget);
+        expect(find.text("Search"), findsOneWidget);
+
+      
+        await tester.enterText(find.byKey(const Key("occupation")), 'Software Engineer');
+        await tester.enterText(find.byKey(const Key("location")), 'Pretoria');
+
+        expect(find.text('Software Engineer'), findsOneWidget);
+        expect(find.text('Pretoria'), findsOneWidget);
   });
 }
