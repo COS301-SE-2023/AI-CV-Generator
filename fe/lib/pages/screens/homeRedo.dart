@@ -381,9 +381,13 @@ class HomeState extends State<Home> {
     );
   }
 
-  nullSafe(AIInput input) {
+  nullSafeInputData(AIInput input) {
     input.description ??= 'Description';
     input.email ??= 'Email';
+    input.firstname ??='First Name';
+    input.lastname ??='Last Name';
+    input.location ??='Location';
+    input.phoneNumber ??='Phone Number';
     for (AIEmployment emp in  input.experience) {
       emp.company ??= 'Company';
       emp.jobTitle ??= 'Job Title';
@@ -400,6 +404,9 @@ class HomeState extends State<Home> {
       skill.skill ??= 'Skill';
       skill.reason ??= 'Reason';
       skill.level ??= '5';
+      if (skill.level != '1'||skill.level != '1'||skill.level != '1'||skill.level != '1'||skill.level != '1') {
+        skill.level = '5';
+      }
     }
     for (AILink lin in input.links) {
       lin.url ??= 'Url';
@@ -409,6 +416,44 @@ class HomeState extends State<Home> {
       ref.description ??= 'Description';
     }
     return input;
+  }
+
+  CVData nullSafeOutputData(CVData outputData) {
+    outputData.description ??='Description';
+    outputData.email ??='Email';
+    outputData.firstname ??='First Name';
+    outputData.lastname ??='Last Name';
+    outputData.location ??='Location';
+    outputData.phoneNumber ??='Phone Number';
+    for (AIEmployment emp in  outputData.employmenthistory??[]) {
+      emp.company ??= 'Company';
+      emp.jobTitle ??= 'Job Title';
+      emp.endDate ??= 'End Date';
+      emp.startDate ??= 'Start Date';
+    }
+    for (AIQualification qua in outputData.qualifications??[]) {
+      qua.qualification ??= 'Qualification';
+      qua.institution ??= 'Instatution';
+      qua.endDate ??= 'End Date';
+      qua.startDate ??= 'Start Date';
+    }
+    for (AISkill skill in outputData.skills??[]) {
+      skill.skill ??= 'Skill';
+      skill.reason ??= 'Reason';
+      skill.level ??= '5';
+      if (skill.level != '1'||skill.level != '1'||skill.level != '1'||skill.level != '1'||skill.level != '1') {
+        skill.level = '5';
+      }
+    }
+    for (AILink lin in outputData.links??[]) {
+      lin.url ??= 'Url';
+    }
+    for (AIReference ref in outputData.references??[]) {
+      ref.contact ??= 'Contact';
+      ref.description ??= 'Description';
+    }
+
+    return outputData;
   }
 
   // Display PDF
@@ -438,7 +483,7 @@ class HomeState extends State<Home> {
   }
 
   Future<AIInput?> extractMenu(AIInput aiInput, Uint8List bytes) async {
-    InputEditor editor = InputEditor(data: aiInput, bytes: bytes);
+    InputEditor editor = InputEditor(data: nullSafeInputData(aiInput), bytes: bytes);
     await showDialog(
       context: context, 
       builder: (context) {
@@ -453,7 +498,7 @@ class HomeState extends State<Home> {
   }
 
   Future<void> showCV() async {
-    Editor editor = Editor(data: data!, option: option, colors: colors,);
+    Editor editor = Editor(data: nullSafeOutputData(data!), option: option, colors: colors,);
     await showDialog(
       context: context, 
       builder: (context) {
@@ -684,6 +729,7 @@ class HomeState extends State<Home> {
                                     setCVErrorOn();
                                     return;
                                   }
+                                  data = nullSafeOutputData(data!);
                                   bytes = await templateChoice(data!, option, colors);
                                   if (bytes == null) {
                                     setCVError();
@@ -711,7 +757,7 @@ class HomeState extends State<Home> {
                                     showError("Something went wrong!");
                                     return;
                                   }
-                                  aiInput = nullSafe(aiInput!);
+                                  aiInput = nullSafeInputData(aiInput!);
                                   noShowButton();
                                   aiInput = await extractMenu(aiInput!, file.bytes!);
                                   if (aiInput == null) {
@@ -724,6 +770,7 @@ class HomeState extends State<Home> {
                                     setCVErrorOn();
                                     return;
                                   }
+                                  data = nullSafeOutputData(data!);
                                   bytes = await templateChoice(data!, option, colors);
                                   if (bytes == null) {
                                     setCVError();
@@ -776,6 +823,7 @@ class HomeState extends State<Home> {
                                     setCVErrorOn();
                                     return;
                                   }
+                                  data = nullSafeOutputData(data!);
                                   bytes = await templateChoice(data!, option, colors);
                                   if (bytes == null) {
                                     setCVError();
