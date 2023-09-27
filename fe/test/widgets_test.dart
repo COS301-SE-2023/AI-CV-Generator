@@ -215,7 +215,7 @@ group("Empty CV widget tests", () {
   });
 
   testWidgets("Forgot password", (WidgetTester tester) async {
-    /* Failing due to overflow error
+    /* Failing due to overflow 
     Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak'); 
 
     await tester.pumpWidget(MaterialApp(home: ForgotPassword()));
