@@ -7,7 +7,7 @@ COPY pom.xml .
 RUN mvn dependency:go-offline
 
 # Copy the WAR file to the Tomcat webapps directory
-COPY ai-cv-generator-backend/target/ai-cv-generator-backend-0.0.1-SNAPSHOT.war ./ai-cv-generator-backend/src
+COPY ai-cv-generator-backend/target/ai-cv-generator-backend-0.0.1-SNAPSHOT.jar app.jar
 
 
 RUN mvn package -DskipTests
@@ -15,9 +15,7 @@ RUN mvn package -DskipTests
 
 FROM openjdk:11-jre-slim
 WORKDIR /ai-cv-generator-backend
-COPY --from=builder /ai-cv-generator-backend/target/*.war app.war
+COPY --from=builder /ai-cv-generator-backend/target/*.jar app.jar
 EXPOSE 8080
 
-# RUN mvn spring-boot:run
-# Start Tomcat
-CMD ["mvn", "spring-boot:run"]
+CMD ["java", "-jar", "app.jar"]
