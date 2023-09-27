@@ -80,7 +80,7 @@ class HelpState extends State<Help> {
       to(survey);
     }
 
-    Widget imageDescription(String imagePath, String filePath, String title, MainAxisAlignment axisAlignment, GlobalKey key) {
+    Widget imageDescription(String imagePath, String filePath, String title, MainAxisAlignment axisAlignment, GlobalKey key, double height) {
       return Container(
         padding: const EdgeInsets.only(
           top: 25,
@@ -105,13 +105,8 @@ class HelpState extends State<Help> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      const SizedBox(width: 20,),
-                      Text(
-                        title,
-                        style: TextStyle(
-                          fontSize: 2*w
-                        ),
-                      ),
+                      SizedBox(width: 8*w,),
+                      
                       IconButton(
                         hoverColor: Colors.transparent,
                         onPressed: () {
@@ -139,15 +134,7 @@ class HelpState extends State<Help> {
                     ),
                   ),
                   const SizedBox(height: 30,),
-                  Container(
-                    width: 60*w,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16),
-                      color: Colors.white
-                    ),
-                    child: HelpDescription(filename: filePath),
-                  ),
-                  const SizedBox(height: 30,)
+                  HelpDescription(filename: filePath,height: height,),
                 ],
               )
             )
@@ -378,13 +365,14 @@ class HelpState extends State<Help> {
                   ]
                 ),
               ),
-              // imageDescription(
-              //   'assets/images/HomePage.png', 
-              //   '',
-              //   'Home Page', 
-              //   MainAxisAlignment.center,
-              //   home
-              // ),
+              imageDescription(
+                'assets/images/HomePage.png', 
+                'assets/markdown/HomeHelp.md',
+                'Home Page', 
+                MainAxisAlignment.center,
+                home,
+                150
+              ),
               // imageDescription(
               //   'assets/images/ProfilePage.png', 
               //   'Image descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage description',
