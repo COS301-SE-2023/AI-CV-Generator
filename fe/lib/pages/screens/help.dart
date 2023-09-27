@@ -364,27 +364,7 @@ class HelpState extends State<Help> {
                             ),
                           ),
                           const SizedBox(height: 30,),
-                          Container(
-                            width: 60*w,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(16),
-                              color: Colors.white
-                            ),
-                            child: Container(
-                              width: 60*w,
-                              margin: const EdgeInsets.all(10),
-                              child: Text(
-                                'Image descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage description',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 1*w,
-                                  overflow: TextOverflow.fade
-                                ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 30,)
+                          const HelpDescription(filename: 'assets/markdown/GeneralHelp.md', height: 150)
                         ],
                       )
                     ),
@@ -426,13 +406,13 @@ class HelpState extends State<Help> {
                 chat,
                 220
               ),
-              // imageDescription(
-              //   'assets/images/ExtractionPage.png', 
-              //   '',
-              //   MainAxisAlignment.center,
-              //   extract,
-              //   150
-              // ),
+              imageDescription(
+                'assets/images/ExtractionPage.png', 
+                'assets/markdown/ExtractionHelp.md',
+                MainAxisAlignment.center,
+                extract,
+                150
+              ),
               imageDescription(
                 'assets/images/SurveyPage.png', 
                 'assets/markdown/SurveyHelp.md', 

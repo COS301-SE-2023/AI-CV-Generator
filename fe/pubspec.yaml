@@ -106,9 +106,11 @@ flutter:
     - assets/markdown/HomeHelp.md
     - assets/markdown/AboutHelp.md
     - assets/markdown/SurveyHelp.md
-    # - assets/markdown/JobHelp.md
-    # - assets/markdown/ProfileHelp.md
+    - assets/markdown/JobHelp.md
+    - assets/markdown/ProfileHelp.md
     - assets/markdown/ChatBotHelp.md
+    - assets/markdown/ExtractionHelp.md
+    - assets/markdown/GeneralHelp.md
     - assets/images/error-905.svg
     - assets/images/rain-svgrepo-com.svg
     - assets/images/close-circle-svgrepo-com.svg
