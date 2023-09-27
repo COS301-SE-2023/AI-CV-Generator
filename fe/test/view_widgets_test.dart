@@ -209,7 +209,6 @@ void main(){
     });
 
     testWidgets('Adding references field displayed', (WidgetTester tester) async {
-      /*await tester.runAsync(() async {
         // Create an empty list of references
         final List<Reference> emptyReferences = [];
 
@@ -221,18 +220,19 @@ void main(){
             ),
           ),
         );
+
+        await tester.pump(Duration(seconds: 1));
+        await tester.pumpAndSettle();
         
         // Tap the "Add" button
         await tester.tap(find.byIcon(Icons.add));
-        await tester.pump();
+        await tester.pumpAndSettle();
 
         // Verify that the ReferenceSection widget is displayed
         expect(find.byType(ReferenceSection), findsOneWidget);
-      });*/
     });
 
     testWidgets('Editing References', (WidgetTester tester) async {
-      /*await tester.runAsync(() async {
         // Create a list of sample references
         final List<Reference> sampleReferences = [
           Reference(description: 'Desc 1', contact: 'Contact 1', refid: 1),
@@ -247,30 +247,31 @@ void main(){
           ),
         );
 
+        await tester.pump(Duration(seconds: 1));
+        await tester.pumpAndSettle();
+
         // Verify that there is a reference field with the initial data
         expect(find.widgetWithText(ReferenceField, 'Desc 1'), findsOneWidget);
 
         // Tap the "Edit" button
         await tester.tap(find.byIcon(Icons.edit));
-        await tester.pump();
+        await tester.pumpAndSettle();
 
         // Verify that editing mode is enabled
         expect(find.byIcon(Icons.delete), findsOneWidget);
 
         // Tap the "Remove" button for the reference
         await tester.tap(find.byIcon(Icons.delete));
-        await tester.pump();
+        await tester.pumpAndSettle();
 
         // Verify that the reference is removed
         expect(find.widgetWithText(ReferenceField, 'Desc 1'), findsNothing);
 
         // Verify that editing mode is disabled
         expect(find.byIcon(Icons.delete), findsNothing);
-      });*/
     });
 
     testWidgets('Removing References', (WidgetTester tester) async {
-      /*await tester.runAsync(() async {
         // Create a list of sample references
         final List<Reference> sampleReferences = [
           Reference(description: 'Desc 1', contact: 'Contact 1', refid: 1),
@@ -286,22 +287,24 @@ void main(){
           ),
         );
 
+        await tester.pump(Duration(seconds: 1));
+        await tester.pumpAndSettle();
+
         // Verify that there are two references initially
         expect(find.widgetWithText(ReferenceField, 'Desc 1'), findsOneWidget);
         expect(find.widgetWithText(ReferenceField, 'Desc 2'), findsOneWidget);
 
         // Tap the "Edit" button
         await tester.tap(find.byIcon(Icons.edit));
-        await tester.pump();
+        await tester.pumpAndSettle();
 
         // Tap the "Remove" button for the first reference
         await tester.tap(find.byIcon(Icons.delete).first);
-        await tester.pump();
+        await tester.pumpAndSettle();
 
         // Verify that the first reference is removed
         expect(find.widgetWithText(ReferenceField, 'Desc 1'), findsNothing);
         expect(find.widgetWithText(ReferenceField, 'Desc 2'), findsOneWidget);
-    });*/
   });
 });
 
@@ -336,39 +339,41 @@ void main(){
     });
 
     testWidgets('Skills screen  test', (WidgetTester tester) async {
-      /*// Create a list of sample skills
+      // Create a list of sample skills
       final List<Skill> sampleSkills = [
         Skill(skill: 'Skill 1', reason: 'Reason 1', level: 3, skillid: 1),
         Skill(skill: 'Skill 2', reason: 'Reason 2', level: 4, skillid: 2),
       ];
 
-    // Build the SkillSection widget with the sample skills
-    await tester.pumpWidget(
-      MaterialApp(
-        home: Scaffold(
-          body: SkillSection(skill: sampleSkills),
+      // Build the SkillSection widget with the sample skills
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: SkillSection(skill: sampleSkills),
+          ),
         ),
-      ),
-    );
+      );
 
-    await tester.runAsync(() async {
+      await tester.pump(Duration(seconds: 1));
+      await tester.pumpAndSettle();
+
       // Tap the "Add" button
       await tester.tap(find.byIcon(Icons.add));
-      await tester.pump();
+      await tester.pumpAndSettle();
 
       // Verify that a new skill input field is added
       expect(find.byType(TextField), findsNWidgets(4));
 
       // Tap the "Edit" button
       await tester.tap(find.byIcon(Icons.edit));
-      await tester.pump();
+      await tester.pumpAndSettle();
 
       // Verify that editing mode is enabled
       expect(find.byIcon(Icons.delete), findsNWidgets(2));
 
       // Tap the "Remove" button of the first skill
       await tester.tap(find.byIcon(Icons.delete).first);
-      await tester.pump();
+      await tester.pumpAndSettle();
 
       // Verify that the first skill is removed
       expect(find.text('Skill 1'), findsNothing);
@@ -376,11 +381,10 @@ void main(){
 
       // Tap the "Edit" button again to exit editing mode
       await tester.tap(find.byIcon(Icons.edit));
-      await tester.pump();
+      await tester.pumpAndSettle();
 
       // Verify that editing mode is disabled
       expect(find.byIcon(Icons.delete), findsNothing);
-      });*/
     });
   });
 
