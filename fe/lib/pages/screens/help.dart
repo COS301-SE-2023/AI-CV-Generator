@@ -419,27 +419,27 @@ class HelpState extends State<Help> {
               //   MainAxisAlignment.center,
               //   job
               // ),
-              // imageDescription(
-              //   'assets/images/AIChatBot.png', 
-              //   'Image descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage description',
-              //   'Chat Bot', 
-              //   MainAxisAlignment.center,
-              //   chat
-              // ),
+              imageDescription(
+                'assets/images/AIChatBot.png', 
+                'assets/markdown/ChatBotHelp.md',
+                MainAxisAlignment.center,
+                chat,
+                220
+              ),
               // imageDescription(
               //   'assets/images/ExtractionPage.png', 
-              //   'Image descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage description',
-              //   'Extraction Page', 
+              //   '',
               //   MainAxisAlignment.center,
-              //   extract
+              //   extract,
+              //   150
               // ),
-              // imageDescription(
-              //   'assets/images/AIChatBot.png', 
-              //   'Image descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage description',
-              //   'Chat Bot', 
-              //   MainAxisAlignment.center,
-              //   editor
-              // ),
+              imageDescription(
+                'assets/images/SurveyPage.png', 
+                'assets/markdown/SurveyHelp.md', 
+                MainAxisAlignment.center, 
+                survey, 
+                150
+              )
             ],
           ),
         ),
