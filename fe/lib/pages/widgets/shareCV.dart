@@ -109,7 +109,7 @@ class ShareWidgetState extends State<ShareWidget> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: SizedBox(
-        height: 250,
+        height: 220,
         width: 400,
         child: Container(
           padding: const EdgeInsets.all(16.0),
