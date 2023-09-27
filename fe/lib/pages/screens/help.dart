@@ -30,6 +30,8 @@ class HelpState extends State<Help> {
     var extract = GlobalKey();
     var editor = GlobalKey();
     var survey = GlobalKey();
+    var about = GlobalKey();
+
 
     to(GlobalKey key) {
       Scrollable.ensureVisible(
@@ -80,7 +82,11 @@ class HelpState extends State<Help> {
       to(survey);
     }
 
-    Widget imageDescription(String imagePath, String filePath, String title, MainAxisAlignment axisAlignment, GlobalKey key, double height) {
+    moveToAbout() {
+      to(about);
+    }
+
+    Widget imageDescription(String imagePath, String filePath, MainAxisAlignment axisAlignment, GlobalKey key, double height) {
       return Container(
         padding: const EdgeInsets.only(
           top: 25,
@@ -232,6 +238,16 @@ class HelpState extends State<Help> {
                           }, 
                           fontSize: w*1.4
                         ),
+                        const SizedBox(height: 30,),
+                        GreyButton(
+                          text: 'Survey', 
+                          width: w*30, 
+                          height: 60, 
+                          onTap: () { 
+                            moveToSurvey();
+                          }, 
+                          fontSize: w*1.4
+                        ),
                       ],
                     ),
                   ),
@@ -277,6 +293,16 @@ class HelpState extends State<Help> {
                           height: 60, 
                           onTap: () { 
                             moveToGeneral();
+                          }, 
+                          fontSize: w*1.4
+                        ),
+                        const SizedBox(height: 30,),
+                        GreyButton(
+                          text: 'About Us', 
+                          width: w*30, 
+                          height: 60, 
+                          onTap: () { 
+                            moveToAbout();
                           }, 
                           fontSize: w*1.4
                         ),
@@ -368,18 +394,17 @@ class HelpState extends State<Help> {
               imageDescription(
                 'assets/images/HomePage.png', 
                 'assets/markdown/HomeHelp.md',
-                'Home Page', 
                 MainAxisAlignment.center,
                 home,
                 150
               ),
-              // imageDescription(
-              //   'assets/images/ProfilePage.png', 
-              //   'Image descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage description',
-              //   'Profile Page', 
-              //   MainAxisAlignment.center,
-              //   profile
-              // ),
+              imageDescription(
+                'assets/images/AboutPage.png', 
+                'assets/markdown/AboutHelp.md',
+                MainAxisAlignment.center,
+                about,
+                150
+              ),
               // imageDescription(
               //   'assets/images/Navbar.png', 
               //   'Image descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage description',
