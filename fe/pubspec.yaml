@@ -110,6 +110,7 @@ flutter:
     - assets/markdown/ProfileHelp.md
     - assets/markdown/ChatBotHelp.md
     - assets/markdown/ExtractionHelp.md
+    - assets/markdown/EditorHelp.md
     - assets/markdown/GeneralHelp.md
     - assets/images/error-905.svg
     - assets/images/rain-svgrepo-com.svg

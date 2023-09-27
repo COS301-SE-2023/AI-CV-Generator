@@ -42,7 +42,7 @@ class HelpDescription extends StatelessWidget {
                     styleSheet: MarkdownStyleSheet(
                       p: const TextStyle(
                         color: Colors.grey,
-                        fontSize: 10
+                        fontSize: 13
                       ),
                       h1: const TextStyle(
                         color: Colors.grey,

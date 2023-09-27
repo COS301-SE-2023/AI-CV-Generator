@@ -414,11 +414,18 @@ class HelpState extends State<Help> {
                 150
               ),
               imageDescription(
+                'assets/images/EditorPage.png', 
+                'assets/markdown/EditorHelp.md',
+                MainAxisAlignment.center,
+                editor,
+                150
+              ),
+              imageDescription(
                 'assets/images/SurveyPage.png', 
                 'assets/markdown/SurveyHelp.md', 
                 MainAxisAlignment.center, 
                 survey, 
-                150
+                170
               )
             ],
           ),
