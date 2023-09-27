@@ -87,8 +87,11 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
       body: Center(
         child: Column(
           children: [
-            Container(
-              child: titleSection(w,h),
+            Expanded(
+              flex: 2,
+              child: Container(
+                child: titleSection(w,h),
+              ),
             ),
             Expanded(
               flex: 8,
