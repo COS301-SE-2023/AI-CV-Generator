@@ -55,8 +55,7 @@ class MockQualificationsField extends StatelessWidget {
 void main(){
 
   group("Test chatbot", () {
-    testWidgets('Chatbot window should not be visible', (WidgetTester tester) async {
-      /*await tester.runAsync(() async {
+    testWidgets('Chatbot window', (WidgetTester tester) async {
         await tester.pumpWidget(
         const MaterialApp(
             home: Scaffold(
@@ -65,13 +64,22 @@ void main(){
           ),
         );
 
-      
+        await tester.pump(Duration(seconds: 1));
+        await tester.pumpAndSettle();
+
         // Verify that the initial state is as expected
-        expect(find.text('AI CHAT BOT'), findsNothing);
-        expect(find.text('Type a message'), findsNothing);
-        expect(find.byIcon(Icons.send_rounded), findsNothing);
-        expect(find.byIcon(Icons.close), findsNothing);
-      });*/
+        expect(find.text("AI Assistant"), findsOneWidget);
+        expect(find.text("Type a message"), findsOneWidget);
+
+        expect(find.text("Resume photo?"), findsOneWidget);
+        expect(find.text("Creating a CV?"), findsOneWidget);
+        expect(find.text("Accessing my details?"), findsOneWidget);
+        expect(find.text("Resume length?"), findsOneWidget);
+        expect(find.text("Including a cover letter?"), findsOneWidget);
+        expect(find.text("Looking for jobs?"), findsOneWidget);
+
+        expect(find.byIcon(Icons.send_rounded), findsOneWidget);
+        expect(find.byIcon(Icons.close), findsOneWidget);
     });
 
     testWidgets('Message input', (WidgetTester tester) async {
