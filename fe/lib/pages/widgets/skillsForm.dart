@@ -171,7 +171,7 @@ class _SkillsDetailsFormState extends State<SkillsDetailsForm> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.build,color: Colors.grey,size: w*h*1,),
+                      Icon(Icons.flag,color: Colors.grey,size: w*h*1,),
                       SizedBox(height: h*2),
                       Text(
                         "No Skills...", 
