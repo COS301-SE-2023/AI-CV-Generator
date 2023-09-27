@@ -27,6 +27,6 @@ public class AIInputData {
     private List<AILink> links;
     @Description("Each reference must be described with the description of who the reference is and the contact details")
     private List<AIReference> references;
-    @Description("Each skill must be described with the skill name and a value indicating it's proficiency and a reason for the skill")
+    @Description("Each skill must be described with the skill and a value indicating it's proficiency and a reason for the skill")
     private List<AISkill> skills;
 }
