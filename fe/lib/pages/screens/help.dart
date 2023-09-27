@@ -1,3 +1,4 @@
+import 'package:ai_cv_generator/pages/util/helpDescription.dart';
 import 'package:ai_cv_generator/pages/widgets/buttons/greyButton.dart';
 import 'package:flutter/material.dart';
 
@@ -79,7 +80,7 @@ class HelpState extends State<Help> {
       to(survey);
     }
 
-    Widget imageDescription(String imagePath, String imageDescription, String title, MainAxisAlignment axisAlignment, GlobalKey key) {
+    Widget imageDescription(String imagePath, String filePath, String title, MainAxisAlignment axisAlignment, GlobalKey key) {
       return Container(
         padding: const EdgeInsets.only(
           top: 25,
@@ -144,19 +145,7 @@ class HelpState extends State<Help> {
                       borderRadius: BorderRadius.circular(16),
                       color: Colors.white
                     ),
-                    child: Container(
-                      width: 60*w,
-                      margin: const EdgeInsets.all(10),
-                      child: Text(
-                        imageDescription,
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.w400,
-                          fontSize: 1*w,
-                          overflow: TextOverflow.fade
-                        ),
-                      ),
-                    ),
+                    child: HelpDescription(filename: filePath),
                   ),
                   const SizedBox(height: 30,)
                 ],
@@ -389,55 +378,55 @@ class HelpState extends State<Help> {
                   ]
                 ),
               ),
-              imageDescription(
-                'assets/images/HomePage.png', 
-                'Image descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage description',
-                'Home Page', 
-                MainAxisAlignment.center,
-                home
-              ),
-              imageDescription(
-                'assets/images/ProfilePage.png', 
-                'Image descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage description',
-                'Profile Page', 
-                MainAxisAlignment.center,
-                profile
-              ),
-              imageDescription(
-                'assets/images/Navbar.png', 
-                'Image descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage description',
-                'Navigation', 
-                MainAxisAlignment.center,
-                navigation
-              ),
-              imageDescription(
-                'assets/images/JobPage.png', 
-                'Image descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage description',
-                'JobPage', 
-                MainAxisAlignment.center,
-                job
-              ),
-              imageDescription(
-                'assets/images/AIChatBot.png', 
-                'Image descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage description',
-                'Chat Bot', 
-                MainAxisAlignment.center,
-                chat
-              ),
-              imageDescription(
-                'assets/images/ExtractionPage.png', 
-                'Image descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage description',
-                'Extraction Page', 
-                MainAxisAlignment.center,
-                extract
-              ),
-              imageDescription(
-                'assets/images/AIChatBot.png', 
-                'Image descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage description',
-                'Chat Bot', 
-                MainAxisAlignment.center,
-                editor
-              ),
+              // imageDescription(
+              //   'assets/images/HomePage.png', 
+              //   '',
+              //   'Home Page', 
+              //   MainAxisAlignment.center,
+              //   home
+              // ),
+              // imageDescription(
+              //   'assets/images/ProfilePage.png', 
+              //   'Image descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage description',
+              //   'Profile Page', 
+              //   MainAxisAlignment.center,
+              //   profile
+              // ),
+              // imageDescription(
+              //   'assets/images/Navbar.png', 
+              //   'Image descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage description',
+              //   'Navigation', 
+              //   MainAxisAlignment.center,
+              //   navigation
+              // ),
+              // imageDescription(
+              //   'assets/images/JobPage.png', 
+              //   'Image descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage description',
+              //   'JobPage', 
+              //   MainAxisAlignment.center,
+              //   job
+              // ),
+              // imageDescription(
+              //   'assets/images/AIChatBot.png', 
+              //   'Image descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage description',
+              //   'Chat Bot', 
+              //   MainAxisAlignment.center,
+              //   chat
+              // ),
+              // imageDescription(
+              //   'assets/images/ExtractionPage.png', 
+              //   'Image descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage description',
+              //   'Extraction Page', 
+              //   MainAxisAlignment.center,
+              //   extract
+              // ),
+              // imageDescription(
+              //   'assets/images/AIChatBot.png', 
+              //   'Image descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage description',
+              //   'Chat Bot', 
+              //   MainAxisAlignment.center,
+              //   editor
+              // ),
             ],
           ),
         ),
