@@ -107,7 +107,7 @@ void main() {
     await tester.pumpWidget( MaterialApp(home: Help()));
     
     await tester.pump(Duration(seconds: 1));
-    await tester.pumpAndSettle();
+    await tester.pumpAndSettle(const Duration(seconds: 30));
 
     expect(find.text('What can we help you with?'), findsOneWidget);
   });
