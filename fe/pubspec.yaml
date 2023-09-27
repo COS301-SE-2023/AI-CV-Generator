@@ -105,7 +105,6 @@ flutter:
     - assets/markdown/Privacy_policy.md
     - assets/markdown/HomeHelp.md
     - assets/markdown/AboutHelp.md
-    - assets/markdown/AboutHelp.md
     - assets/markdown/JobHelp.md
     - assets/markdown/ProfileHelp.md
     - assets/markdown/ChatBotHelp.md
