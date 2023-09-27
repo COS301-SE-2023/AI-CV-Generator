@@ -105,6 +105,9 @@ void main() {
   testWidgets('Help page', (tester) async {
     Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak');
     await tester.pumpWidget( MaterialApp(home: Help()));
+    
+    await tester.pump(Duration(seconds: 1));
+    await tester.pumpAndSettle();
 
     expect(find.text('What can we help you with?'), findsOneWidget);
   });
