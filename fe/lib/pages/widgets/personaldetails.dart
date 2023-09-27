@@ -87,6 +87,7 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
       body: Center(
         child: Column(
           children: [
+            SizedBox(height: 24,),
             Container(
               child: titleSection(w,h),
             ),
