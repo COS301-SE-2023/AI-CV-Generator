@@ -2,6 +2,7 @@ import 'package:ai_cv_generator/models/user/Qualification.dart';
 import 'package:ai_cv_generator/models/user/Reference.dart';
 import 'package:ai_cv_generator/models/user/Skill.dart';
 import 'package:ai_cv_generator/pages/widgets/chatBotView.dart';
+import 'package:ai_cv_generator/pages/widgets/linksView.dart';
 import 'package:ai_cv_generator/pages/widgets/qualificationsView.dart';
 import 'package:ai_cv_generator/pages/widgets/referenceView.dart';
 import 'package:ai_cv_generator/pages/widgets/skillsView.dart';
@@ -386,6 +387,12 @@ void main(){
       // Verify that editing mode is disabled
       expect(find.byIcon(Icons.delete), findsNothing);
     });
+  });
+
+  testWidgets("Links view", (WidgetTester tester) async {
+    await tester.pumpWidget( MaterialApp(home: LinksTest(urlC: TextEditingController())));
+  
+    expect(find.byKey(const Key("url")), findsOneWidget);
   });
 
 }
