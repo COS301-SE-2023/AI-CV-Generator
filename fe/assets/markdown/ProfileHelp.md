@@ -1,0 +1,3 @@
+## Profile
+
+Should you click on the Profile button, you will be taken to the Profile page. Here you can write an “about me” message in the “About me” text box, add your work experiences, education and other useful links. You can also view your generate CVs and your personal information and profile picture. You will also be able to go back to the home page by clicking the Arrow at the top left corner or clicking on the word “Home”.
