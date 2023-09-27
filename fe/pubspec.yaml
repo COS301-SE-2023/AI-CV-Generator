@@ -104,6 +104,10 @@ flutter:
     - assets/markdown/Terms_of_use.md
     - assets/markdown/Privacy_policy.md
     - assets/markdown/HomeHelp.md
+    - assets/markdown/AboutHelp.md
+    - assets/markdown/JobHelp.md
+    - assets/markdown/ProfileHelp.md
+    - assets/markdown/ChatBotHelp.md
     - assets/images/error-905.svg
     - assets/images/rain-svgrepo-com.svg
     - assets/images/close-circle-svgrepo-com.svg
