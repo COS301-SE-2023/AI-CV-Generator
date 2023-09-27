@@ -3,6 +3,24 @@ import 'package:ai_cv_generator/models/user/Link.dart';
 import 'package:ai_cv_generator/dio/client/userApi.dart';
 import '../elements/elements.dart';
 
+class LinksTest extends StatefulWidget {
+  TextEditingController urlC = TextEditingController();
+  LinksTest({super.key, required this.urlC});
+
+  @override
+  State<StatefulWidget> createState() => LinksTestState();
+
+}
+
+class LinksTestState extends State<LinksTest> {
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      child: LinksField(urlC: TextEditingController()),
+    );
+  }
+}
+
 class LinksSection extends StatefulWidget {
   final List<Link> links;
   const LinksSection({super.key, required this.links});
@@ -192,6 +210,7 @@ class LinksFieldState extends State<LinksField> {
   Widget build(BuildContext context) {
     return Container(
       child: TextFormField(
+      key: const Key("url"),
       controller: widget.urlC,
       textAlign: TextAlign.center,
       decoration: const InputDecoration(
