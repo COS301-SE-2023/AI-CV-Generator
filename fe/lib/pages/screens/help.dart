@@ -379,26 +379,33 @@ class HelpState extends State<Help> {
                 150
               ),
               imageDescription(
+                'assets/images/Navbar.png', 
+                'assets/markdown/NavigationHelp.md', 
+                MainAxisAlignment.center,
+                navigation,
+                215
+              ),
+              imageDescription(
                 'assets/images/AboutPage.png', 
                 'assets/markdown/AboutHelp.md',
                 MainAxisAlignment.center,
                 about,
                 150
               ),
-              // imageDescription(
-              //   'assets/images/Navbar.png', 
-              //   'Image descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage description',
-              //   'Navigation', 
-              //   MainAxisAlignment.center,
-              //   navigation
-              // ),
-              // imageDescription(
-              //   'assets/images/JobPage.png', 
-              //   'Image descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage description',
-              //   'JobPage', 
-              //   MainAxisAlignment.center,
-              //   job
-              // ),
+              imageDescription(
+                'assets/images/JobPage.png', 
+                'assets/markdown/Jobhelp.md',
+                MainAxisAlignment.center,
+                job,
+                175
+              ),
+              imageDescription(
+                'assets/images/ProfilePage.png', 
+                'assets/markdown/Profilehelp.md',
+                MainAxisAlignment.center,
+                profile,
+                175
+              ),
               imageDescription(
                 'assets/images/AIChatBot.png', 
                 'assets/markdown/ChatBotHelp.md',

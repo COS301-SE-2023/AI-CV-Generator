@@ -1,4 +1,4 @@
-# Home Page
+# Job Page
 
 The job page will by default recommend available jobs to you based off you user profile.
 

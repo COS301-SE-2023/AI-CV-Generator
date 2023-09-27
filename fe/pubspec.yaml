@@ -112,6 +112,7 @@ flutter:
     - assets/markdown/ExtractionHelp.md
     - assets/markdown/EditorHelp.md
     - assets/markdown/GeneralHelp.md
+    - assets/markdown/NavigationHelp.md
     - assets/images/error-905.svg
     - assets/images/rain-svgrepo-com.svg
     - assets/images/close-circle-svgrepo-com.svg
