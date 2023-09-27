@@ -368,7 +368,7 @@ class InputEditorState extends State<InputEditor> {
   selectSkill(AISkill skill,int skillIndex) {
     skillController.text = skill.skill??'Skill';
     reasonController.text = skill.reason??'Reason';
-    levelController.text = skill.level??'Level';
+    levelController.text = skill.level??'5';
     setState(() {
       this.skill = skill;
       this.skillIndex = skillIndex;

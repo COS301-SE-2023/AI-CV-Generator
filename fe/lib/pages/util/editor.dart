@@ -10,7 +10,6 @@ import 'package:ai_cv_generator/pages/template/TemplateChoice.dart';
 import 'package:ai_cv_generator/pages/util/colourPickBox.dart';
 import 'package:ai_cv_generator/pages/util/editorBank.dart';
 import 'package:ai_cv_generator/pages/util/templatePicker.dart';
-import 'package:ai_cv_generator/pages/widgets/buttons/appBarButton.dart';
 import 'package:ai_cv_generator/pages/widgets/buttons/customizableButton.dart';
 import 'package:ai_cv_generator/pages/widgets/buttons/deletableMenuButton.dart';
 import 'package:ai_cv_generator/pages/widgets/buttons/menuButton.dart';
@@ -390,7 +389,7 @@ class EditorState extends State<Editor> {
   selectSkill(AISkill skill,int skillIndex) {
     skillController.text = skill.skill??'Skill';
     reasonController.text = skill.reason??'Reason';
-    levelController.text = skill.level??'Level';
+    levelController.text = skill.level??'5';
     setState(() {
       this.skill = skill;
       this.skillIndex = skillIndex;

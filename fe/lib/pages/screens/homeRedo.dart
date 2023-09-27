@@ -399,7 +399,7 @@ class HomeState extends State<Home> {
     for (AISkill skill in input.skills) {
       skill.skill ??= 'Skill';
       skill.reason ??= 'Reason';
-      skill.level ??= 'Level';
+      skill.level ??= '5';
     }
     for (AILink lin in input.links) {
       lin.url ??= 'Url';
