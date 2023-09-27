@@ -22,6 +22,7 @@ import 'package:ai_cv_generator/models/user/UserModel.dart';
 import 'package:ai_cv_generator/pages/template/TemplateChoice.dart';
 import 'package:ai_cv_generator/pages/util/editor.dart';
 import 'package:ai_cv_generator/pages/util/errorMessage.dart';
+import 'package:ai_cv_generator/pages/util/filePrompt.dart';
 import 'package:ai_cv_generator/pages/util/fileView.dart';
 import 'package:ai_cv_generator/pages/util/inputEditor.dart';
 import 'package:ai_cv_generator/pages/util/namePromt.dart';
@@ -379,6 +380,57 @@ class HomeState extends State<Home> {
       }
     );
   }
+
+  nullSafe(AIInput input) {
+    input.description ??= 'Description';
+    input.email ??= 'Email';
+    for (AIEmployment emp in  input.experience) {
+      emp.company ??= 'Company';
+      emp.jobTitle ??= 'Job Title';
+      emp.endDate ??= 'End Date';
+      emp.startDate ??= 'Start Date';
+    }
+    for (AIQualification qua in input.qualifications) {
+      qua.qualification ??= 'Qualification';
+      qua.institution ??= 'Instatution';
+      qua.endDate ??= 'End Date';
+      qua.startDate ??= 'Start Date';
+    }
+    for (AISkill skill in input.skills) {
+      skill.skill ??= 'Skill';
+      skill.reason ??= 'Reason';
+      skill.level ??= 'Level';
+    }
+    for (AILink lin in input.links) {
+      lin.url ??= 'Url';
+    }
+    for (AIReference ref in input.references) {
+      ref.contact ??= 'Contact';
+      ref.description ??= 'Description';
+    }
+    return input;
+  }
+
+  // Display PDF
+  Future<PlatformFile?> confirmPdf(PlatformFile? file) async {
+    if (file == null) return file; 
+    FilePrompt prompt = FilePrompt(file: file);
+    await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          backgroundColor: Colors.transparent,
+          elevation: 0.0,
+          child: prompt,
+        );
+      }
+    );
+    if (prompt.ready) {
+      return prompt.file;
+    } else {
+      return null;
+    }
+  }
   // Share Pdf
   void requirementsforshareUpdate(PlatformFile file) {
     requirementsforshare(context, file);
@@ -538,389 +590,388 @@ class HomeState extends State<Home> {
       ),
       body: SingleChildScrollView(
         child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Center(
-              child: Container(
-                padding: EdgeInsets.fromLTRB(0, h*3, 0,h*1),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      padding: EdgeInsets.fromLTRB(0, 0, 2*w, 0),
-                      width: w*25,
-                      height: h*85,
-                      child: Container(
-                        padding: EdgeInsets.fromLTRB(2.4*w,2.4*h, 2.4*w, 2.4*h),
-                        decoration: BoxDecoration(
-                          borderRadius: const BorderRadius.all(Radius.circular(20)),
-                          border: Border.all(
-                            color: const Color.fromARGB(0, 0, 0, 0),
-                          ),
-                          color: Theme.of(context).colorScheme.surface,
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Center(
+            child: Container(
+              padding: EdgeInsets.fromLTRB(0, h*3, 0,h*1),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    padding: EdgeInsets.fromLTRB(0, 0, 2*w, 0),
+                    width: w*25,
+                    height: h*85,
+                    child: Container(
+                      padding: EdgeInsets.fromLTRB(2.4*w,2.4*h, 2.4*w, 2.4*h),
+                      decoration: BoxDecoration(
+                        borderRadius: const BorderRadius.all(Radius.circular(20)),
+                        border: Border.all(
+                          color: const Color.fromARGB(0, 0, 0, 0),
                         ),
-                        child: Column(
-                          children: [
-                            Align(
-                              alignment: Alignment.topCenter,
-                              child: Text(
-                                "TEMPLATES",
-                                style: TextStyle(fontSize: 2.6*h,overflow: TextOverflow.fade),
-                                ),
-                            ),
-                            SizedBox(height: 1.6*h,),
-                            SingleChildScrollView(
-                              child: SizedBox(
-                                height: 70*h,
-                                child: GridView.count(
-                                  crossAxisCount: 1,
-                                  children:[
-                                    templateChoices(TemplateOption.templateA, "assets/images/templateARework.png"),
-                                    templateChoices(TemplateOption.templateB, "assets/images/templateBRework.png"),
-                                    templateChoices(TemplateOption.templateC, "assets/images/templateCRework.png"),
-                                    templateChoices(TemplateOption.templateD, "assets/images/templateDRework.png"),
-                                    templateChoices(TemplateOption.templateE, "assets/images/templateERework.png"),
-                                    templateChoices(TemplateOption.templateF, "assets/images/templateFRework.png")
-                                  ],
-                                )
-                              ),
-                            )
-                          ],
-                        )
-                      )
-                    ),
-                    Container(
-                      padding: EdgeInsets.fromLTRB(2*w, 0, 2*w, 0),
-                      width: 35*w,
-                      height: 85*h,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                            width: 30*w,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                CustomizableButton(
-                                  text: "Survey", 
-                                  width: 7*w, 
-                                  height: 5*h, 
-                                  onTap: () async {
-                                    generated = false;
-                                    Home.ready = false;
-                                    Home.adjustedModel = model;
-                                    noShowButton();
-                                    await showDialog(
-                                      context: context, 
-                                      builder: (BuildContext context) {
-                                        return Dialog(
-                                          backgroundColor: Colors.transparent,
-                                          child: ConstrainedBox(
-                                            constraints: const BoxConstraints(maxWidth: 800),
-                                            child: const PersonalDetailsForm()
-                                          )
-                                        );
-                                      }
-                                    );
-                                    if (Home.ready == false) return;
-                                    showButton();
-                                    setCVLoadingOn();
-                                    aiInput = userModelToInput(Home.adjustedModel!);
-                                    data = await AIApi.generateAI(data: aiInput!);
-                                    if (data == null || data!.description == null) {
-                                      setCVErrorOn();
-                                      return;
-                                    }
-                                    bytes = await templateChoice(data!, option, colors);
-                                    if (bytes == null) {
-                                      setCVError();
-                                      return;
-                                    }
-                                    generated = true;
-                                    setCVLoadingOff();
-                                  },
-                                  fontSize: w*0.8
-                                ),
-                                SizedBox(width: 2*w,),
-                                CustomizableButton(
-                                  text: "Upload", 
-                                  width: 7*w, 
-                                  height: 5*h, 
-                                  onTap: () async {
-                                    
-                                    PlatformFile? file = await pdfAPI.pick_cvfile();
-                                    if (file == null) return;
-                                    generated = false;
-                                    noShowButton();
-                                    setCVLoadingOn();
-                                    aiInput = await AIApi.extractPdf(file: file);
-                                    if (aiInput == null) {
-                                      showError("Something went wrong!");
-                                      return;
-                                    }
-                                    noShowButton();
-                                    aiInput = await extractMenu(aiInput!, file.bytes!);
-                                    if (aiInput == null) {
-                                      setCVLoadingOff();
-                                      return;
-                                    }
-                                    showButton();
-                                    data = await AIApi.generateAI(data: aiInput!);
-                                    if (data == null || data!.description == null) {
-                                      setCVErrorOn();
-                                      return;
-                                    }
-                                    bytes = await templateChoice(data!, option, colors);
-                                    if (bytes == null) {
-                                      setCVError();
-                                      return;
-                                    }
-                                    generated = true;
-                                    setCVLoadingOff();
-                                  },
-                                  fontSize: w*0.8
-                                ),
-                                if (generated)
-                                SizedBox(width: 2*w,),
-                                if (generated)
-                                CustomizableButton(
-                                  text: 'Save', 
-                                  width: 7*w, 
-                                  height: 5*h, 
-                                  onTap: () async {
-                                    if (bytes != null) {
-                                      getFileName(bytes!);
-                                    } else {
-                                      showError("Something went wrong!");
-                                      return;
-                                    }
-                                  }, 
-                                  fontSize: w*0.8
-                                )
-                              ],
-                            ),
-                          ),
-                          if (generated)
-                          Container(
-                            padding: EdgeInsets.only(
-                              top: h*2
-                            ),
-                            width: 30*w,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                CustomizableButton(
-                                  text: " Re-Generate", 
-                                  width: 6*w, 
-                                  height: 5*h, 
-                                  onTap: () async {
-                                    generated = false;
-                                    noShowButton();
-                                    setCVLoadingOn();
-                                    data = await AIApi.generateAI(data: aiInput!);
-                                    if (data == null || data!.description == null) {
-                                      setCVErrorOn();
-                                      return;
-                                    }
-                                    bytes = await templateChoice(data!, option, colors);
-                                    if (bytes == null) {
-                                      setCVError();
-                                      return;
-                                    }
-                                    showButton();
-                                    generated = true;
-                                    setCVLoadingOff();
-                                  },
-                                  fontSize: w*0.7
-                                ),
-                                SizedBox(width: 1*w,),
-                                CustomizableButton(
-                                  text: "Edit", 
-                                  width: 6*w, 
-                                  height: 5*h, 
-                                  onTap: () async {
-                                    if (data == null) {
-                                      showError('Something went wrong!');
-                                      return;
-                                    }
-                                    await showCV();
-                                  },
-                                  fontSize: w*0.7
-                                ),
-                                SizedBox(width: 1*w,),
-                                CustomizableButton(
-                                  text: "Download", 
-                                  width: 6*w, 
-                                  height: 5*h, 
-                                  onTap: () async {
-                                    if (bytes == null) {
-                                      showError("Something went wrong!");
-                                      return;
-                                    }
-                                    DownloadService.download(bytes!, downloadName: 'Untitled.pdf');
-                                  },
-                                  fontSize: w*0.7
-                                ),
-                                SizedBox(width: 1*w,),
-                                CustomizableButton(
-                                  text: "Share", 
-                                  width: 6*w, 
-                                  height: 5*h, 
-                                  onTap: () async {
-                                    if (bytes == null) {
-                                      showError("Something went wrong!");
-                                      return;
-                                    }
-                                    requirementsforshareUpdate(PlatformFile(name: 'Untitled.pdf', size: bytes!.length, bytes: bytes));
-                                  },
-                                  fontSize: w*0.7
-                                )
-                              ],
-                            ),
-                          ),
-                          SizedBox(height: 4*h,),
-                          Expanded(
-                            child: Container(
-                              width: 35*w,
-                              decoration: BoxDecoration(
-                                borderRadius: const BorderRadius.all(Radius.circular(20)),
-                                border: Border.all(
-                                  color: const Color.fromARGB(0, 0, 0, 0),
-                                ),
-                                color: Theme.of(context).colorScheme.surface,
-                              ),
-                              child: 
-                              generated == true?
-                              Container(
-                                padding: EdgeInsets.all(w*1),
-                                width: 27*w,
-                                height: 85*h,
-                                child: SfPdfViewer.memory(bytes!),
-                              ) : EmptyCVScreen(status: status,)
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    Container(
-                      padding: EdgeInsets.only(
-                        left: 2.5*w
+                        color: Theme.of(context).colorScheme.surface,
                       ),
                       child: Column(
                         children: [
-                          SizedBox(height: 2*h,),
                           Align(
                             alignment: Alignment.topCenter,
                             child: Text(
-                              "PastCVs",
-                              style: TextStyle(fontSize: 2.6*h),
+                              "TEMPLATES",
+                              style: TextStyle(fontSize: 2.6*h,overflow: TextOverflow.fade),
                               ),
                           ),
-                          SizedBox(height: 2.4*h,),
-                          Container(
+                          SizedBox(height: 1.6*h,),
+                          SingleChildScrollView(
+                            child: SizedBox(
+                              height: 70*h,
+                              child: GridView.count(
+                                crossAxisCount: 1,
+                                children:[
+                                  templateChoices(TemplateOption.templateA, "assets/images/templateARework.png"),
+                                  templateChoices(TemplateOption.templateB, "assets/images/templateBRework.png"),
+                                  templateChoices(TemplateOption.templateC, "assets/images/templateCRework.png"),
+                                  templateChoices(TemplateOption.templateD, "assets/images/templateDRework.png"),
+                                  templateChoices(TemplateOption.templateE, "assets/images/templateERework.png"),
+                                  templateChoices(TemplateOption.templateF, "assets/images/templateFRework.png")
+                                ],
+                              )
+                            ),
+                          )
+                        ],
+                      )
+                    )
+                  ),
+                  Container(
+                    padding: EdgeInsets.fromLTRB(2*w, 0, 2*w, 0),
+                    width: 35*w,
+                    height: 85*h,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          width: 30*w,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              CustomizableButton(
+                                text: "Survey", 
+                                width: 7*w, 
+                                height: 5*h, 
+                                onTap: () async {
+                                  generated = false;
+                                  Home.ready = false;
+                                  Home.adjustedModel = model;
+                                  noShowButton();
+                                  await showDialog(
+                                    context: context, 
+                                    builder: (BuildContext context) {
+                                      return Dialog(
+                                        backgroundColor: Colors.transparent,
+                                        child: ConstrainedBox(
+                                          constraints: const BoxConstraints(maxWidth: 800),
+                                          child: const PersonalDetailsForm()
+                                        )
+                                      );
+                                    }
+                                  );
+                                  if (Home.ready == false) return;
+                                  showButton();
+                                  setCVLoadingOn();
+                                  aiInput = userModelToInput(Home.adjustedModel!);
+                                  data = await AIApi.generateAI(data: aiInput!);
+                                  if (data == null || data!.description == null) {
+                                    setCVErrorOn();
+                                    return;
+                                  }
+                                  bytes = await templateChoice(data!, option, colors);
+                                  if (bytes == null) {
+                                    setCVError();
+                                    return;
+                                  }
+                                  generated = true;
+                                  setCVLoadingOff();
+                                },
+                                fontSize: w*0.8
+                              ),
+                              SizedBox(width: 2*w,),
+                              CustomizableButton(
+                                text: "Upload", 
+                                width: 7*w, 
+                                height: 5*h, 
+                                onTap: () async {
+                                  
+                                  PlatformFile? file = await confirmPdf(await pdfAPI.pick_cvfile());
+                                  if (file == null) return;
+                                  generated = false;
+                                  noShowButton();
+                                  setCVLoadingOn();
+                                  aiInput = await AIApi.extractPdf(file: file);
+                                  if (aiInput == null) {
+                                    showError("Something went wrong!");
+                                    return;
+                                  }
+                                  aiInput = nullSafe(aiInput!);
+                                  noShowButton();
+                                  aiInput = await extractMenu(aiInput!, file.bytes!);
+                                  if (aiInput == null) {
+                                    setCVLoadingOff();
+                                    return;
+                                  }
+                                  showButton();
+                                  data = await AIApi.generateAI(data: aiInput!);
+                                  if (data == null || data!.description == null) {
+                                    setCVErrorOn();
+                                    return;
+                                  }
+                                  bytes = await templateChoice(data!, option, colors);
+                                  if (bytes == null) {
+                                    setCVError();
+                                    return;
+                                  }
+                                  generated = true;
+                                  setCVLoadingOff();
+                                },
+                                fontSize: w*0.8
+                              ),
+                              if (generated)
+                              SizedBox(width: 2*w,),
+                              if (generated)
+                              CustomizableButton(
+                                text: 'Save', 
+                                width: 7*w, 
+                                height: 5*h, 
+                                onTap: () async {
+                                  if (bytes != null) {
+                                    getFileName(bytes!);
+                                  } else {
+                                    showError("Something went wrong!");
+                                    return;
+                                  }
+                                }, 
+                                fontSize: w*0.8
+                              )
+                            ],
+                          ),
+                        ),
+                        if (generated)
+                        Container(
+                          padding: EdgeInsets.only(
+                            top: h*2
+                          ),
+                          width: 30*w,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              CustomizableButton(
+                                text: " Re-Generate", 
+                                width: 6*w, 
+                                height: 5*h, 
+                                onTap: () async {
+                                  generated = false;
+                                  noShowButton();
+                                  setCVLoadingOn();
+                                  data = await AIApi.generateAI(data: aiInput!);
+                                  if (data == null || data!.description == null) {
+                                    setCVErrorOn();
+                                    return;
+                                  }
+                                  bytes = await templateChoice(data!, option, colors);
+                                  if (bytes == null) {
+                                    setCVError();
+                                    return;
+                                  }
+                                  showButton();
+                                  generated = true;
+                                  setCVLoadingOff();
+                                },
+                                fontSize: w*0.7
+                              ),
+                              SizedBox(width: 1*w,),
+                              CustomizableButton(
+                                text: "Edit", 
+                                width: 6*w, 
+                                height: 5*h, 
+                                onTap: () async {
+                                  if (data == null) {
+                                    showError('Something went wrong!');
+                                    return;
+                                  }
+                                  await showCV();
+                                },
+                                fontSize: w*0.7
+                              ),
+                              SizedBox(width: 1*w,),
+                              CustomizableButton(
+                                text: "Download", 
+                                width: 6*w, 
+                                height: 5*h, 
+                                onTap: () async {
+                                  if (bytes == null) {
+                                    showError("Something went wrong!");
+                                    return;
+                                  }
+                                  DownloadService.download(bytes!, downloadName: 'Untitled.pdf');
+                                },
+                                fontSize: w*0.7
+                              ),
+                              SizedBox(width: 1*w,),
+                              CustomizableButton(
+                                text: "Share", 
+                                width: 6*w, 
+                                height: 5*h, 
+                                onTap: () async {
+                                  if (bytes == null) {
+                                    showError("Something went wrong!");
+                                    return;
+                                  }
+                                  requirementsforshareUpdate(PlatformFile(name: 'Untitled.pdf', size: bytes!.length, bytes: bytes));
+                                },
+                                fontSize: w*0.7
+                              )
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: 4*h,),
+                        Expanded(
+                          child: Container(
+                            width: 35*w,
                             decoration: BoxDecoration(
                               borderRadius: const BorderRadius.all(Radius.circular(20)),
                               border: Border.all(
                                 color: const Color.fromARGB(0, 0, 0, 0),
                               ),
-                              color: Theme.of(context).colorScheme.surface,
+                              color:Theme.of(context).colorScheme.surface,
                             ),
-                            child: SizedBox(
-                              width: 20*w,
-                              height: 78*h,
-                              child: Center(
-                                child: Transform.scale(
-                                  scale: 0.9,
-                                  child: Container(
-                                    child: 
-                                      list.isNotEmpty?
-                                      SingleChildScrollView(
-                                        scrollDirection: Axis.vertical,
-                                        child: Wrap(
-                                            spacing: 8,
-                                            runSpacing: 8,
-                                            children: [
-                                              ...list
-                                            ]
+                            child: 
+                            generated == true?
+                            Container(
+                              padding: EdgeInsets.all(w*1),
+                              width: 27*w,
+                              height: 85*h,
+                              child: SfPdfViewer.memory(bytes!),
+                            ) : EmptyCVScreen(status: status,)
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  SizedBox(width: 2.5*w,),
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.all(Radius.circular(20)),
+                      border: Border.all(
+                        color: const Color.fromARGB(0, 0, 0, 0),
+                      ),
+                      color: Theme.of(context).colorScheme.surface,
+                    ),
+                    child: Column(
+                      children: [
+                        SizedBox(height: 2*h,),
+                        Align(
+                          alignment: Alignment.topCenter,
+                          child: Text(
+                            "PastCVs",
+                            style: TextStyle(fontSize: 2.6*h),
+                            ),
+                        ),
+                        SizedBox(height: 2.4*h,),
+                        Container(
+                          child: SizedBox(
+                            width: 20*w,
+                            height: 78*h,
+                            child: Center(
+                              child: Transform.scale(
+                                scale: 0.9,
+                                child: Container(
+                                  child: 
+                                    list.isNotEmpty?
+                                    SingleChildScrollView(
+                                      scrollDirection: Axis.vertical,
+                                      child: Wrap(
+                                          spacing: 8,
+                                          runSpacing: 8,
+                                          children: [
+                                            ...list
+                                          ]
+                                      )
+                                    ) : Center(
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Icon(Icons.insert_drive_file,color: Colors.grey,size: w*h*1,),
+                                        SizedBox(height: w*h*0.2),
+                                        const Text("No CVs...", 
+                                        style: TextStyle(
+                                          color: Colors.grey
                                         )
-                                      ) : Center(
-                                      child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Icon(Icons.insert_drive_file,color: Colors.grey,size: w*h*1,),
-                                          SizedBox(height: w*h*0.2),
-                                          const Text("No CVs...", 
-                                          style: TextStyle(
-                                            color: Colors.grey
-                                          )
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                  ),
-                                )
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                ),
                               )
                             )
                           )
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      width: 1.1*w,
-                    ),
-                    
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          height: 70*h,
-                        ),
-                        SizedBox(
-                          child: CustomizableIconButton(
-                            icon: Icons.message,
-                            height: w*4,
-                            width: w*4,
-                            iconSize: w*h*0.2,
-                            onTap: () {
-                              showDialog(
-                                barrierColor: const Color(0x01000000),
-                                context: context, 
-                                builder: (BuildContext context) {
-                                  return Column(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: <Widget>[
-                                      Padding(
-                                        padding: EdgeInsets.only(
-                                          left:w*70,
-                                          right: 0,
-                                          top: h*4,
-                                          bottom: 0
-                                        ),
-                                        child: Column(
-                                          children: <Widget>[
-                                            chatBot
-                                          ],
-                                        ),
-                                      )
-                                    ],
-                                  );
-                                }
-                              );
-                            },
-                          )
-                        ),
+                        )
                       ],
                     ),
+                  ),
+                  SizedBox(
+                    width: 1.1*w,
+                  ),
                   
-                  ]
-                ),
-              )
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        height: 70*h,
+                      ),
+                      SizedBox(
+                        child: CustomizableIconButton(
+                          icon: Icons.message,
+                          height: w*4,
+                          width: w*4,
+                          iconSize: w*h*0.2,
+                          onTap: () {
+                            showDialog(
+                              barrierColor: const Color(0x01000000),
+                              context: context, 
+                              builder: (BuildContext context) {
+                                return Column(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: EdgeInsets.only(
+                                        left:w*70,
+                                        right: 0,
+                                        top: h*4,
+                                        bottom: 0
+                                      ),
+                                      child: Column(
+                                        children: <Widget>[
+                                          chatBot
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                );
+                              }
+                            );
+                          },
+                        )
+                      ),
+                    ],
+                  ),
+                
+                ]
+              ),
             )
-          ],
-        ),
-      )
+          )
+        ],
+      ),
+      ),
     );
   }
 }
