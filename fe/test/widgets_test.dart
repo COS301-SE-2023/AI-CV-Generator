@@ -106,7 +106,7 @@ void main() {
     Home.adjustedModel = UserModel(fname: 'Amanda', lname: 'K', username: 'amandak');
     await tester.pumpWidget( MaterialApp(home: Help()));
 
-    expect(find.text('Help'), findsOneWidget);
+    expect(find.text('What can we help you with?'), findsOneWidget);
   });
 
   testWidgets('Policy', (tester) async {
