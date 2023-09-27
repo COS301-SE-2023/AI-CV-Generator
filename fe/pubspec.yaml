@@ -103,6 +103,16 @@ flutter:
     - assets/.env
     - assets/markdown/Terms_of_use.md
     - assets/markdown/Privacy_policy.md
+    - assets/markdown/HomeHelp.md
+    - assets/markdown/AboutHelp.md
+    - assets/markdown/SurveyHelp.md
+    - assets/markdown/JobHelp.md
+    - assets/markdown/ProfileHelp.md
+    - assets/markdown/ChatBotHelp.md
+    - assets/markdown/ExtractionHelp.md
+    - assets/markdown/EditorHelp.md
+    - assets/markdown/GeneralHelp.md
+    - assets/markdown/NavigationHelp.md
     - assets/images/error-905.svg
     - assets/images/rain-svgrepo-com.svg
     - assets/images/close-circle-svgrepo-com.svg
@@ -115,6 +125,9 @@ flutter:
     - assets/images/AIChatBot.png
     - assets/images/JobPage.png
     - assets/images/Navbar.png
+    - assets/images/EditorPage.png
+    - assets/images/AboutPage.png
+    - assets/images/SurveyPage.png
     - assets/images/icons8-email-50.png
     - assets/images/templateARework.png
     - assets/images/templateBRework.png

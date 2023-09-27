@@ -1,3 +1,4 @@
+import 'package:ai_cv_generator/pages/util/helpDescription.dart';
 import 'package:ai_cv_generator/pages/widgets/buttons/greyButton.dart';
 import 'package:flutter/material.dart';
 
@@ -29,6 +30,8 @@ class HelpState extends State<Help> {
     var extract = GlobalKey();
     var editor = GlobalKey();
     var survey = GlobalKey();
+    var about = GlobalKey();
+
 
     to(GlobalKey key) {
       Scrollable.ensureVisible(
@@ -79,7 +82,11 @@ class HelpState extends State<Help> {
       to(survey);
     }
 
-    Widget imageDescription(String imagePath, String imageDescription, String title, MainAxisAlignment axisAlignment, GlobalKey key) {
+    moveToAbout() {
+      to(about);
+    }
+
+    Widget imageDescription(String imagePath, String filePath, MainAxisAlignment axisAlignment, GlobalKey key, double height) {
       return Container(
         padding: const EdgeInsets.only(
           top: 25,
@@ -104,13 +111,8 @@ class HelpState extends State<Help> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      const SizedBox(width: 20,),
-                      Text(
-                        title,
-                        style: TextStyle(
-                          fontSize: 2*w
-                        ),
-                      ),
+                      SizedBox(width: 8*w,),
+                      
                       IconButton(
                         hoverColor: Colors.transparent,
                         onPressed: () {
@@ -138,27 +140,7 @@ class HelpState extends State<Help> {
                     ),
                   ),
                   const SizedBox(height: 30,),
-                  Container(
-                    width: 60*w,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16),
-                      color: Colors.white
-                    ),
-                    child: Container(
-                      width: 60*w,
-                      margin: const EdgeInsets.all(10),
-                      child: Text(
-                        imageDescription,
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.w400,
-                          fontSize: 1*w,
-                          overflow: TextOverflow.fade
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 30,)
+                  HelpDescription(filename: filePath,height: height,),
                 ],
               )
             )
@@ -256,6 +238,16 @@ class HelpState extends State<Help> {
                           }, 
                           fontSize: w*1.4
                         ),
+                        const SizedBox(height: 30,),
+                        GreyButton(
+                          text: 'Survey', 
+                          width: w*30, 
+                          height: 60, 
+                          onTap: () { 
+                            moveToSurvey();
+                          }, 
+                          fontSize: w*1.4
+                        ),
                       ],
                     ),
                   ),
@@ -301,6 +293,16 @@ class HelpState extends State<Help> {
                           height: 60, 
                           onTap: () { 
                             moveToGeneral();
+                          }, 
+                          fontSize: w*1.4
+                        ),
+                        const SizedBox(height: 30,),
+                        GreyButton(
+                          text: 'About Us', 
+                          width: w*30, 
+                          height: 60, 
+                          onTap: () { 
+                            moveToAbout();
                           }, 
                           fontSize: w*1.4
                         ),
@@ -362,27 +364,7 @@ class HelpState extends State<Help> {
                             ),
                           ),
                           const SizedBox(height: 30,),
-                          Container(
-                            width: 60*w,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(16),
-                              color: Colors.white
-                            ),
-                            child: Container(
-                              width: 60*w,
-                              margin: const EdgeInsets.all(10),
-                              child: Text(
-                                'Image descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage description',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 1*w,
-                                  overflow: TextOverflow.fade
-                                ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 30,)
+                          const HelpDescription(filename: 'assets/markdown/GeneralHelp.md', height: 150)
                         ],
                       )
                     ),
@@ -391,53 +373,67 @@ class HelpState extends State<Help> {
               ),
               imageDescription(
                 'assets/images/HomePage.png', 
-                'Image descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage description',
-                'Home Page', 
+                'assets/markdown/HomeHelp.md',
                 MainAxisAlignment.center,
-                home
-              ),
-              imageDescription(
-                'assets/images/ProfilePage.png', 
-                'Image descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage description',
-                'Profile Page', 
-                MainAxisAlignment.center,
-                profile
+                home,
+                150
               ),
               imageDescription(
                 'assets/images/Navbar.png', 
-                'Image descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage description',
-                'Navigation', 
+                'assets/markdown/NavigationHelp.md', 
                 MainAxisAlignment.center,
-                navigation
+                navigation,
+                215
+              ),
+              imageDescription(
+                'assets/images/AboutPage.png', 
+                'assets/markdown/AboutHelp.md',
+                MainAxisAlignment.center,
+                about,
+                150
               ),
               imageDescription(
                 'assets/images/JobPage.png', 
-                'Image descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage description',
-                'JobPage', 
+                'assets/markdown/Jobhelp.md',
                 MainAxisAlignment.center,
-                job
+                job,
+                175
+              ),
+              imageDescription(
+                'assets/images/ProfilePage.png', 
+                'assets/markdown/Profilehelp.md',
+                MainAxisAlignment.center,
+                profile,
+                175
               ),
               imageDescription(
                 'assets/images/AIChatBot.png', 
-                'Image descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage description',
-                'Chat Bot', 
+                'assets/markdown/ChatBotHelp.md',
                 MainAxisAlignment.center,
-                chat
+                chat,
+                220
               ),
               imageDescription(
                 'assets/images/ExtractionPage.png', 
-                'Image descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage description',
-                'Extraction Page', 
+                'assets/markdown/ExtractionHelp.md',
                 MainAxisAlignment.center,
-                extract
+                extract,
+                150
               ),
               imageDescription(
-                'assets/images/AIChatBot.png', 
-                'Image descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage descriptionImage description',
-                'Chat Bot', 
+                'assets/images/EditorPage.png', 
+                'assets/markdown/EditorHelp.md',
                 MainAxisAlignment.center,
-                editor
+                editor,
+                150
               ),
+              imageDescription(
+                'assets/images/SurveyPage.png', 
+                'assets/markdown/SurveyHelp.md', 
+                MainAxisAlignment.center, 
+                survey, 
+                170
+              )
             ],
           ),
         ),
