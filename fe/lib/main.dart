@@ -5,7 +5,7 @@ import 'package:ai_cv_generator/pages/screens/changePassword.dart';
 import 'package:ai_cv_generator/pages/screens/emailConfirmation.dart';
 import 'package:ai_cv_generator/pages/screens/emailVerification.dart';
 import 'package:ai_cv_generator/pages/screens/forgotPassword.dart';
-import 'package:ai_cv_generator/pages/screens/register.dart';
+import './pages/screens/Register.dart';
 import 'package:ai_cv_generator/pages/screens/about.dart';
 import 'package:ai_cv_generator/pages/screens/help.dart';
 import 'package:ai_cv_generator/pages/screens/homeRedo.dart';
