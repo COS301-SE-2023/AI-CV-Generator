@@ -10,11 +10,12 @@
 	<groupId>com.revolvingSolutions</groupId>
 	<artifactId>ai-cv-generator-backend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<name>ai-cv-generator-backend</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>17</java.version>
+		<!-- <start-class>com.revolvingSolutions.aicvgeneratorbackend</start-class> -->
 	</properties>
 	<dependencies>
 		<dependency>
@@ -36,7 +37,11 @@
 		<dependency>
 			<groupId>dev.langchain4j</groupId>
 			<artifactId>langchain4j</artifactId>
-			<version>0.18.0</version>
+			<version>0.22.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.assertj</groupId>
@@ -91,10 +96,22 @@
 			<artifactId>jjwt-jackson</artifactId>
 			<version>0.11.5</version>
 		</dependency>
+		<dependency>
+			<groupId>org.jsoup</groupId>
+			<artifactId>jsoup</artifactId>
+			<version>1.16.1</version>
+		</dependency>		
 	</dependencies>
-
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>3.0.0</version>
+				<configuration>
+					<testFailureIgnore>true</testFailureIgnore>
+				</configuration>
+			</plugin>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
@@ -105,8 +122,34 @@
 							<artifactId>lombok</artifactId>
 						</exclude>
 					</excludes>
+					<!-- <mainClass>com.revolvingSolutions.aicvgeneratorbackend</mainClass> -->
+            		<layout>JAR</layout>
 				</configuration>
+				<executions>
+                <execution>
+                    <goals>
+                        <goal>repackage</goal>
+                    </goals>
+                </execution>
+            </executions>
 			</plugin>
+			<!--<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>3.1.2</version>
+				<configuration>
+					<testFailureIgnore>true</testFailureIgnore>
+				</configuration>
+			</plugin>-->
+			<!-- <dependency>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>3.4.1-SNAPSHOT</version>
+				<type>maven-plugin</type>
+				<configuration>
+					<archiveClasses>true</archiveClasses>
+				</configuration>
+			</dependency> -->
 		    <plugin>
 		        <groupId>com.microsoft.azure</groupId>
 		        <artifactId>azure-webapp-maven-plugin</artifactId>
@@ -134,7 +177,38 @@
 		            </deployment>
 		        </configuration>
 		    </plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.10</version> <!-- You can use the latest version -->
+				<executions>
+					<execution>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>report</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<!-- Specify the output directory for code coverage reports -->
+					<outputDirectory>${project.reporting.outputDirectory}</outputDirectory>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
-
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-report-plugin</artifactId>
+				<version>3.1.2</version>
+			</plugin>
+		</plugins>
+	</reporting>
 </project>

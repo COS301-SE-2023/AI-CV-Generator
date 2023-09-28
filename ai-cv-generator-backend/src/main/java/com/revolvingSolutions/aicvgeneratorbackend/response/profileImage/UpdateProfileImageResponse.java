@@ -1,6 +1,6 @@
 package com.revolvingSolutions.aicvgeneratorbackend.response.profileImage;
 
-import com.revolvingSolutions.aicvgeneratorbackend.model.ProfileImageModel;
+import com.revolvingSolutions.aicvgeneratorbackend.model.file.ProfileImageModel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

@@ -1,6 +1,6 @@
 package com.revolvingSolutions.aicvgeneratorbackend.request.details.link;
 
-import com.revolvingSolutions.aicvgeneratorbackend.model.Link;
+import com.revolvingSolutions.aicvgeneratorbackend.model.user.Link;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

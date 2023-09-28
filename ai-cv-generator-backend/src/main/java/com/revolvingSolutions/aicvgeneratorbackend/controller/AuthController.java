@@ -1,13 +1,12 @@
 package com.revolvingSolutions.aicvgeneratorbackend.controller;
 
-import com.revolvingSolutions.aicvgeneratorbackend.request.auth.AuthRequest;
-import com.revolvingSolutions.aicvgeneratorbackend.request.auth.RefreshRequest;
-import com.revolvingSolutions.aicvgeneratorbackend.request.auth.RegRequest;
-import com.revolvingSolutions.aicvgeneratorbackend.response.auth.AuthResponse;
+import com.revolvingSolutions.aicvgeneratorbackend.request.auth.*;
+import com.revolvingSolutions.aicvgeneratorbackend.response.auth.*;
 import com.revolvingSolutions.aicvgeneratorbackend.service.AuthenticationService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,11 +20,18 @@ public class AuthController {
     private final AuthenticationService service;
 
     @PostMapping("/reg")
-    public ResponseEntity<AuthResponse> register(
+    public ResponseEntity<RegisterResponse> register(
             @RequestBody RegRequest request,
             HttpServletRequest actualRequest
     ) {
         return ResponseEntity.ok(service.register(request,actualRequest));
+    }
+
+    @PostMapping("/verify")
+    public ResponseEntity<VerificationResponse> verify(
+            @RequestBody VerificationRequest request
+            ) {
+        return  ResponseEntity.ok(service.verify(request));
     }
 
     @PostMapping("/authenticate")
@@ -33,7 +39,59 @@ public class AuthController {
             @RequestBody AuthRequest request,
             HttpServletRequest actualRequest
     ) {
-        return ResponseEntity.ok(service.authenticate(request,actualRequest));
+        try {
+            return ResponseEntity.ok(service.authenticate(request,actualRequest));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatusCode.valueOf(403)).build();
+        }
+    }
+
+    @PostMapping("/resend")
+    public ResponseEntity<ResendEmailResponse> resend(
+            @RequestBody ResendEmailRequest request,
+            HttpServletRequest actualRequest
+    ) {
+        try {
+            return ResponseEntity.ok(service.resendEmail(request,actualRequest));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatusCode.valueOf(405)).build();
+        }
+    }
+
+    @PostMapping("/reset")
+    public ResponseEntity<ResetPasswordResponse> reset(
+            @RequestBody ResetPasswordRequest request,
+            HttpServletRequest actualRequest
+    ) {
+        try {
+            return ResponseEntity.ok(service.reset(request,actualRequest));
+        } catch (Exception e) {
+            return  ResponseEntity.status(HttpStatusCode.valueOf(403)).build();
+        }
+    }
+
+    @PostMapping("/validate")
+    public ResponseEntity<ValidatePasswordResetResponse> validateReset(
+            @RequestBody ValidatePasswordResetRequest request,
+            HttpServletRequest actualRequest
+    ) {
+        try {
+            return ResponseEntity.ok(service.validateReset(request,actualRequest));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatusCode.valueOf(403)).build();
+        }
+    }
+
+    @PostMapping("/change")
+    public ResponseEntity<ChangePasswordResponse> changePassword(
+            @RequestBody ChangePasswordRequest request,
+            HttpServletRequest actualRequest
+    ) {
+        try {
+            return ResponseEntity.ok(service.changePassword(request,actualRequest));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatusCode.valueOf(403)).build();
+        }
     }
 
     @PostMapping("/refresh")

@@ -37,7 +37,7 @@ public class SecureConf {
                         new Customizer<CsrfConfigurer<HttpSecurity>>() {
                             @Override
                             public void customize(CsrfConfigurer<HttpSecurity> httpSecurityCsrfConfigurer) {
-                                    httpSecurityCsrfConfigurer.disable();
+                                httpSecurityCsrfConfigurer.disable();
                             }
                         }
                 )
@@ -50,7 +50,7 @@ public class SecureConf {
                         }
                 )
                 .authorizeHttpRequests(
-                        (authorizationManagerRequestMatcherRegistry) ->
+                        authorizationManagerRequestMatcherRegistry ->
                                 authorizationManagerRequestMatcherRegistry
                                         .requestMatchers("/api/auth/**","/share/**","/csrf")
                                         .permitAll()
@@ -58,7 +58,7 @@ public class SecureConf {
                                         .authenticated()
                 )
                 .sessionManagement(
-                        (sessionManagement) ->
+                        sessionManagement ->
                             sessionManagement.sessionCreationPolicy(
                                     SessionCreationPolicy.STATELESS
                             )
@@ -70,7 +70,7 @@ public class SecureConf {
                         authentificationFilter, UsernamePasswordAuthenticationFilter.class
                 )
                 .logout(
-                        (logout) ->
+                        logout ->
                                 logout.addLogoutHandler(
                                         logoutHandler
                                 )

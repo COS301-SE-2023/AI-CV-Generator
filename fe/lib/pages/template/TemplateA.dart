@@ -1,42 +1,54 @@
 import 'dart:typed_data';
-import 'package:ai_cv_generator/models/generation/CVData.dart';
-import 'package:ai_cv_generator/models/user/UserModel.dart';
+import 'package:ai_cv_generator/models/aimodels/CVData.dart';
+import 'package:ai_cv_generator/pages/util/fileView.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
-import '../widgets/pdf_window.dart';
 
 // Ui counter part for pdf
 class TemplateA extends StatefulWidget {
-  TemplateA({super.key, required this.user, required this.data,});
-  // final MockGenerationResponse data;
-  final UserModel user;
-  final   CVData data;
+  TemplateA({super.key,required this.data,});
+  final CVData data;
   
-  TextEditingController? fnameC = TextEditingController();
-  TextEditingController? lnameC = TextEditingController();
-  TextEditingController? emailC = TextEditingController();
-  TextEditingController? locationC = TextEditingController();
-  TextEditingController? phoneNumberC = TextEditingController();
+  final TextEditingController? fnameC = TextEditingController();
+  final TextEditingController? lnameC = TextEditingController();
+  final TextEditingController? emailC = TextEditingController();
+  final TextEditingController? locationC = TextEditingController();
+  final TextEditingController? phoneNumberC = TextEditingController();
   
-  TextEditingController? nameC = TextEditingController();
-  TextEditingController? detailsC = TextEditingController();
-  TextEditingController? descriptionHeadingC = TextEditingController();
-  TextEditingController? descriptionC = TextEditingController();
-  TextEditingController? employmentHeadingC = TextEditingController();
-  TextEditingController? employmentC = TextEditingController();
-  TextEditingController? qualificationHeadingC = TextEditingController();
-  TextEditingController? qualificationC = TextEditingController();
-  TextEditingController? linksHeadingC = TextEditingController();
-  TextEditingController? linksC = TextEditingController();
+  final TextEditingController? nameC = TextEditingController();
+  final TextEditingController? detailsC = TextEditingController();
+  final TextEditingController? descriptionHeadingC = TextEditingController();
+  final TextEditingController? descriptionC = TextEditingController();
+  final TextEditingController? employmentHeadingC = TextEditingController();
+  final TextEditingController? employmentC = TextEditingController();
+  final TextEditingController? qualificationHeadingC = TextEditingController();
+  final TextEditingController? qualificationC = TextEditingController();
+  final TextEditingController? linksHeadingC = TextEditingController();
+  final TextEditingController? linksC = TextEditingController();
 
 
   Future<PlatformFile> transform() async {
-    print(" updata "+nameC!.text);
-    var templateApdf = TemplateAPdf(fname: fnameC!.text, lnameC: lnameC!.text, emailC: emailC!.text, locationC: locationC!.text, phoneNumberC: phoneNumberC!.text, nameC: nameC!.text, detailsC: detailsC!.text, descriptionHeadingC: descriptionHeadingC!.text, descriptionC: descriptionC!.text, employmentHeadingC: employmentHeadingC!.text, employmentC: employmentC!.text, qualificationHeadingC:qualificationHeadingC!.text, qualificationC: qualificationC!.text, linksHeadingC: linksHeadingC!.text, linksC: linksC!.text);
+    var templateApdf = TemplateAPdf(
+      fname: fnameC!.text, 
+      lnameC: lnameC!.text, 
+      emailC: emailC!.text, 
+      locationC: locationC!.text, 
+      phoneNumberC: phoneNumberC!.text, 
+      nameC: nameC!.text, 
+      detailsC: detailsC!.text, 
+      descriptionHeadingC: descriptionHeadingC!.text, 
+      descriptionC: descriptionC!.text, 
+      employmentHeadingC: employmentHeadingC!.text, 
+      employmentC: employmentC!.text, 
+      qualificationHeadingC:qualificationHeadingC!.text, 
+      qualificationC: qualificationC!.text, 
+      linksHeadingC: linksHeadingC!.text, 
+      linksC: linksC!.text
+    );
     templateApdf.writeOnPdf();
-    return await templateApdf!.getPdf();
+    return await templateApdf.getPdf();
   }
   
   @override
@@ -46,30 +58,24 @@ class TemplateA extends StatefulWidget {
 class TemplateAState extends State<TemplateA> {
   @override
   void initState() {
-    widget.nameC!.text = widget.user!.fname + " " + widget.user!.lname;
-    widget.detailsC!.text = (widget.user!.location??"Please provide Location!") + " | " +
-    (widget.user!.phoneNumber??"Please provide phone number!") + " | " +
-    (widget.user!.email??"Please provide email!");
+    widget.nameC!.text = "${widget.data.firstname} ${widget.data.lastname}";
+    widget.detailsC!.text = "${widget.data.location??"Please provide Location!"} | ${widget.data.phoneNumber??"Please provide phone number!"} | ${widget.data.email??"Please provide email!"}";
     widget.descriptionHeadingC!.text = "Professional Summary";
     widget.employmentHeadingC!.text = "Experience";
     widget.qualificationHeadingC!.text = "Qualifications";
     widget.linksHeadingC!.text = "Links";
-    widget.descriptionC!.text = widget.data!.description!;
-    for(int i = 0; i < widget.user!.employmenthistory!.length; i++) {
-      widget.employmentC!.text += widget.user!.employmenthistory![i].company + " | "
-      + widget.user!.employmenthistory![i].startdate.year.toString() + " - "
-      + widget.user!.employmenthistory![i].enddate.year.toString() + " | " + widget.user!.employmenthistory![i].title + "\n\n" + widget.data!.employmenthis![i] + "\n\n";
+    widget.descriptionC!.text = widget.data.description!;
+    for(int i = 0; i < widget.data.employmenthistory!.length; i++) {
+      widget.employmentC!.text += "${widget.data.employmenthistory![i].company} | ${widget.data.employmenthistory![i].startDate} - ${widget.data.employmenthistory![i].endDate} | ${widget.data.employmenthistory![i].jobTitle}\n\n${widget.data.experience![i]}\n\n";
     }
 
-    for(int i = 0; i < widget.user!.qualifications!.length; i++) {
-      widget.qualificationC!.text += widget.user!.qualifications![i].intstitution + " | "
-      + widget.user!.qualifications![i].date.year.toString() + " - "
-      + widget.user!.qualifications![i].endo.year.toString() + " | " + widget.user!.qualifications![i].qualification + "\n\n";
+    for(int i = 0; i < widget.data.qualifications!.length; i++) {
+      widget.qualificationC!.text += "${widget.data.qualifications![i].institution} | ${widget.data.qualifications![i].startDate} - ${widget.data.qualifications![i].endDate} | ${widget.data.qualifications![i].qualification}\n\n";
     }
-    widget.qualificationC!.text += widget.data!.education_description!;
+    widget.qualificationC!.text += widget.data.education_description!;
     
-    for(int i = 0; i < widget.user!.links!.length; i++) {
-      widget.linksC!.text += widget.user!.links![i].url + "\n";
+    for(int i = 0; i < widget.data.links!.length; i++) {
+      widget.linksC!.text += "${widget.data.links![i].url}\n";
     }
 
     super.initState();
@@ -84,7 +90,7 @@ class TemplateAState extends State<TemplateA> {
         Row(
           children: [
             Expanded(
-              child:Container(
+              child:SizedBox(
                 height: 300,
                 // color: Colors.lightGreenAccent,
                 child: Column(
@@ -93,7 +99,7 @@ class TemplateAState extends State<TemplateA> {
                     TextFieldInput(controller: widget.nameC!, fontSize: 32, textAlign: TextAlign.center,
                     
                     ),
-                    SizedBox(height: 32),
+                    const SizedBox(height: 32),
                     TextFieldInput(controller: widget.detailsC!, textAlign: TextAlign.center,),
                       
                   ]
@@ -104,7 +110,7 @@ class TemplateAState extends State<TemplateA> {
           ],
         ),
           Padding(
-            padding: EdgeInsets.all(32),
+            padding: const EdgeInsets.all(32),
             child: Row(
               children: [
                 Expanded( child:
@@ -114,22 +120,22 @@ class TemplateAState extends State<TemplateA> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         TextFieldInput(controller: widget.descriptionHeadingC!, fontSize: 24, textAlign: TextAlign.left, color: Colors.lightGreen),
-                        SizedBox(height: 16),
+                        const SizedBox(height: 16),
                         TextFieldInput(controller: widget.descriptionC!, fontSize: 14, textAlign: TextAlign.left, maxLines: 6,),
                         
-                        SizedBox(height: 48),
+                        const SizedBox(height: 48),
                         TextFieldInput(controller: widget.employmentHeadingC!, fontSize: 24, textAlign: TextAlign.left, color: Colors.lightGreen,),
-                        SizedBox(height: 16),
+                        const SizedBox(height: 16),
                         TextFieldInput(controller: widget.employmentC!, fontSize: 14, textAlign: TextAlign.left, maxLines: 6,),
 
-                        SizedBox(height: 48),
+                        const SizedBox(height: 48),
                         TextFieldInput(controller: widget.qualificationHeadingC!, fontSize: 24, textAlign: TextAlign.left, color: Colors.lightGreen),
-                        SizedBox(height: 16),
+                        const SizedBox(height: 16),
                         TextFieldInput(controller: widget.qualificationC!, fontSize: 14, textAlign: TextAlign.left, maxLines: 6,),
 
-                        SizedBox(height: 16),
+                        const SizedBox(height: 16),
                         TextFieldInput(controller: widget.linksHeadingC!, fontSize: 24, textAlign: TextAlign.left, color: Colors.lightGreen),
-                        SizedBox(height: 8),
+                        const SizedBox(height: 8),
                         TextFieldInput(controller: widget.linksC!, fontSize: 14, textAlign: TextAlign.left, maxLines: 6,),
                       ]
                     )
@@ -167,7 +173,7 @@ class TextFieldInputState extends State<TextFieldInput> {
         fontSize: widget.fontSize
       ),
       decoration: 
-      InputDecoration(
+      const InputDecoration(
         isDense: true,
         contentPadding: EdgeInsets.zero,
         border: InputBorder.none
@@ -238,7 +244,7 @@ class TemplateAPdf {
                       // color: PdfColors.lightGreen200,
                       child: pw.ListView(
                         children: [
-                          pw.Text(nameC, style: pw.TextStyle(fontSize: 32)),
+                          pw.Text(nameC, style: const pw.TextStyle(fontSize: 32)),
                           pw.SizedBox(height: 32),
                           pw.Text(detailsC),
                           pw.SizedBox(height: 32),
@@ -250,38 +256,38 @@ class TemplateAPdf {
                       alignment: pw.Alignment.centerLeft,
                       child: pw.Text(
                         descriptionHeadingC,
-                        style: pw.TextStyle(fontSize: 24, color: PdfColors.lightGreen200,)
+                        style: const pw.TextStyle(fontSize: 24, color: PdfColors.lightGreen200,)
                       ),
                     ),
                     pw.SizedBox(height: 8),
-                    pw.Text(descriptionC, style: pw.TextStyle(fontSize: 16)),
+                    pw.Text(descriptionC, style: const pw.TextStyle(fontSize: 16)),
                     pw.SizedBox(height: 16),
                     pw.Align(
                       alignment: pw.Alignment.centerLeft,
                       child: pw.Text(
                         employmentHeadingC,
-                        style: pw.TextStyle(fontSize: 24, color: PdfColors.lightGreen200,)
+                        style: const pw.TextStyle(fontSize: 24, color: PdfColors.lightGreen200,)
                       ),
                     ),
                     pw.SizedBox(height: 8),
-                    pw.Text(employmentC, style: pw.TextStyle(fontSize: 16)),
+                    pw.Text(employmentC, style: const pw.TextStyle(fontSize: 16)),
 
                     pw.SizedBox(height: 116),
                     pw.Align(
                       alignment: pw.Alignment.centerLeft,
                       child: pw.Text(
                         qualificationHeadingC,
-                        style: pw.TextStyle(fontSize: 24, color: PdfColors.lightGreen200,)
+                        style: const pw.TextStyle(fontSize: 24, color: PdfColors.lightGreen200,)
                       ),
                     ),
                     pw.SizedBox(height: 8),
-                    pw.Text(qualificationC, style: pw.TextStyle(fontSize: 16)),
+                    pw.Text(qualificationC, style: const pw.TextStyle(fontSize: 16)),
                     pw.SizedBox(height: 16),
                     pw.Align(
                       alignment: pw.Alignment.centerLeft,
                       child: pw.Text(
                         linksHeadingC,
-                        style: pw.TextStyle(fontSize: 24, color: PdfColors.lightGreen200,)
+                        style: const pw.TextStyle(fontSize: 24, color: PdfColors.lightGreen200,)
                       ),
                     ),
                     pw.SizedBox(height: 8),
@@ -289,7 +295,7 @@ class TemplateAPdf {
                       alignment: pw.Alignment.centerLeft,
                       child: pw.Text(
                         linksC,
-                        style: pw.TextStyle(fontSize: 16,)
+                        style: const pw.TextStyle(fontSize: 16,)
                       ),
                     ),
                   ]
@@ -313,7 +319,7 @@ class TemplateAPdf {
         context: context,
         builder: (context) {
           return Dialog(
-            child: PdfWindow(file: file,)
+            child: FileView(file: file,)
           );
         });
     },);

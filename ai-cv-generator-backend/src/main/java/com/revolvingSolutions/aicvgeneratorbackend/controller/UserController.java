@@ -2,6 +2,7 @@ package com.revolvingSolutions.aicvgeneratorbackend.controller;
 
 import com.revolvingSolutions.aicvgeneratorbackend.exception.FileNotFoundException;
 import com.revolvingSolutions.aicvgeneratorbackend.exception.NotIndatabaseException;
+import com.revolvingSolutions.aicvgeneratorbackend.model.email.Email;
 import com.revolvingSolutions.aicvgeneratorbackend.request.details.employment.AddEmploymentRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.details.employment.RemoveEmploymentRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.details.employment.UpdateEmploymentRequest;
@@ -11,6 +12,12 @@ import com.revolvingSolutions.aicvgeneratorbackend.request.details.link.UpdateLi
 import com.revolvingSolutions.aicvgeneratorbackend.request.details.qualification.AddQualificationRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.details.qualification.RemoveQualificationRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.details.qualification.UpdateQualificationRequest;
+import com.revolvingSolutions.aicvgeneratorbackend.request.details.reference.AddReferenceRequest;
+import com.revolvingSolutions.aicvgeneratorbackend.request.details.reference.RemoveReferenceRequest;
+import com.revolvingSolutions.aicvgeneratorbackend.request.details.reference.UpdateReferenceRequest;
+import com.revolvingSolutions.aicvgeneratorbackend.request.details.skill.AddSkillRequest;
+import com.revolvingSolutions.aicvgeneratorbackend.request.details.skill.RemoveSkillRequest;
+import com.revolvingSolutions.aicvgeneratorbackend.request.details.skill.UpdateSkillRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.file.DownloadFileRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.user.GenerateUrlRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.user.UpdateUserRequest;
@@ -23,17 +30,28 @@ import com.revolvingSolutions.aicvgeneratorbackend.response.details.link.UpdateL
 import com.revolvingSolutions.aicvgeneratorbackend.response.details.qualification.AddQualificationResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.details.qualification.RemoveQualificationResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.details.qualification.UpdateQualificationResponse;
+import com.revolvingSolutions.aicvgeneratorbackend.response.details.reference.AddReferenceResponse;
+import com.revolvingSolutions.aicvgeneratorbackend.response.details.reference.RemoveReferenceResponse;
+import com.revolvingSolutions.aicvgeneratorbackend.response.details.reference.UpdateReferenceResponse;
+import com.revolvingSolutions.aicvgeneratorbackend.response.details.skill.AddSkillResponse;
+import com.revolvingSolutions.aicvgeneratorbackend.response.details.skill.RemoveSkillResponse;
+import com.revolvingSolutions.aicvgeneratorbackend.response.details.skill.UpdateSkillResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.file.GetFilesResponse;
+import com.revolvingSolutions.aicvgeneratorbackend.response.file.UploadFileResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.user.GenerateUrlResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.user.GetUserResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.user.UpdateUserResponse;
+import com.revolvingSolutions.aicvgeneratorbackend.service.EmailService;
 import com.revolvingSolutions.aicvgeneratorbackend.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @RestController
@@ -68,7 +86,7 @@ public class UserController {
     }
 
     @PostMapping(value="/file")
-    public ResponseEntity<String> uploadFile(
+    public ResponseEntity<UploadFileResponse> uploadFile(
             @RequestParam("file")MultipartFile file,
             @RequestParam("cover")MultipartFile cover
             ) {
@@ -78,12 +96,18 @@ public class UserController {
     @PostMapping(value="/shareFile")
     public ResponseEntity<GenerateUrlResponse> uploadFileAndShare(
             @RequestParam("file")MultipartFile file,
-            @RequestParam("Date")@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date duration,
-            @RequestParam("base") String base
+            @RequestParam("base") String base,
+            @RequestParam("hours")Integer hours
             ) {
-        GenerateUrlResponse response = service.generateUrlFromFile(base,file,duration);
-        System.out.println("Iam here"+response.getGeneratedUrl());
-        return ResponseEntity.ok(response);
+        System.out.println("Heeeeeeeeeeeeeeeeeeeeeerrrrrrrrrrrrrrrrrrreeeeeeeeeeeeeeee");
+        try {
+            GenerateUrlResponse response = service.generateUrlFromFile(base,file,hours);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatusCode.valueOf(404)).build();
+        }
+
     }
 
     @PostMapping(value="/retfile")
@@ -174,6 +198,65 @@ public class UserController {
         }
     }
 
+    @PostMapping(value="/addRef")
+    public ResponseEntity<AddReferenceResponse> addReference(
+            @RequestBody AddReferenceRequest request
+            ) {
+        return ResponseEntity.ok(service.addReference(request));
+    }
+
+    @PostMapping(value="/remRef")
+    public ResponseEntity<RemoveReferenceResponse> removeReference(
+            @RequestBody RemoveReferenceRequest request
+            ) {
+        try {
+            return ResponseEntity.ok(service.removeReference(request));
+        } catch ( NotIndatabaseException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PostMapping(value="/updateRef")
+    public ResponseEntity<UpdateReferenceResponse> updateReference(
+            @RequestBody UpdateReferenceRequest request
+            ) {
+        try {
+            return ResponseEntity.ok(service.updateReference_(request));
+        } catch (NotIndatabaseException e) {
+            return ResponseEntity.notFound().build();
+        }
+
+    }
+
+    @PostMapping(value="/addSkill")
+    public  ResponseEntity<AddSkillResponse> addSkill(
+            @RequestBody AddSkillRequest request
+            ) {
+        return ResponseEntity.ok(service.addSkill(request));
+    }
+
+    @PostMapping(value = "/remSkill")
+    public ResponseEntity<RemoveSkillResponse> removeSkill(
+            @RequestBody RemoveSkillRequest request
+            ) {
+        try {
+            return ResponseEntity.ok(service.removeSkill(request));
+        } catch (NotIndatabaseException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PostMapping(value = "/updateSkill")
+    public  ResponseEntity<UpdateSkillResponse> updateSkill(
+            @RequestBody UpdateSkillRequest request
+            ) {
+        try {
+            return ResponseEntity.ok(service.updateSkill_(request));
+        } catch (NotIndatabaseException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     @PostMapping(value="/share")
     public ResponseEntity<GenerateUrlResponse> generateURL(
             @RequestBody GenerateUrlRequest request
@@ -183,13 +266,6 @@ public class UserController {
         } catch (FileNotFoundException e) {
             return ResponseEntity.notFound().build();
         }
-    }
-
-    @PostMapping(value = "/test")
-    public ResponseEntity<Resource> test(
-            @RequestBody DownloadFileRequest request
-    ) {
-        return service.getFileCover(request);
     }
 
 }

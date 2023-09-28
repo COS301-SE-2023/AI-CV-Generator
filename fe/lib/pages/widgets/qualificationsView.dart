@@ -55,7 +55,7 @@ class QualificationsSectionState extends State<QualificationsSection> {
   }
 
   void add() {
-    userApi.addQulaification(qualification: blankQualification).then((value) {
+    UserApi.addQulaification(qualification: blankQualification).then((value) {
       Qualification newQualification = getCorrect(value!)!;
       display(newQualification);
       setState(() {});
@@ -67,7 +67,7 @@ class QualificationsSectionState extends State<QualificationsSection> {
     if(oldQualification == null) {
       return;
     }
-    userApi.removeQulaification(qualification: oldQualification);
+    UserApi.removeQulaification(qualification: oldQualification);
     qualificationsMap.remove(objectId);
     setState(() {});
   }
@@ -76,7 +76,7 @@ class QualificationsSectionState extends State<QualificationsSection> {
     qualificationsMap.forEach((key, value) {
     Qualification? updatedQualification = getQualification(key);
       if(updatedQualification != null) {
-        userApi.updateQulaification(qualification: updatedQualification);
+        UserApi.updateQulaification(qualification: updatedQualification);
       }
     });
   }
@@ -108,6 +108,25 @@ class QualificationsSectionState extends State<QualificationsSection> {
 
   List<Widget> populate() {
     List<Widget> linkWidgets = [];
+    if (qualificationsMap.isEmpty) {
+      linkWidgets.add(
+        const Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.school,color: Colors.grey,size: 100,),
+              SizedBox(height: 20),
+              Text(
+                "No Qualifications...", 
+                style: TextStyle(
+                  color: Colors.grey
+                )
+              )
+            ],
+          ),
+        )
+      );
+    }
     qualificationsMap.forEach((key, value) {
       linkWidgets.add(qualificationsMap[key]['widget']);
       if(editing == true) {
@@ -115,19 +134,20 @@ class QualificationsSectionState extends State<QualificationsSection> {
           Align(
             alignment: Alignment.topRight,
             child: IconButton(
-              color: Colors.red,
+              
               onPressed: (){
                 remove(key);
                 if(qualificationsMap.isEmpty == true) {
                   editing = false;
                 }
               },
-              icon: const Icon(Icons.remove)),
+              icon: const Icon(Icons.delete)),
           ),
         );
         linkWidgets.add(const SizedBox(height: 4,),);
       }
     });
+    
     return linkWidgets;
   }
 
@@ -173,10 +193,10 @@ class QualificationsSectionState extends State<QualificationsSection> {
 }
 
 class QualificationsField extends StatefulWidget {
-  TextEditingController qualificationC;
-  TextEditingController intstitutionC;
-  TextEditingController dateC;
-  QualificationsField({super.key, required this.qualificationC, required this.intstitutionC, required this.dateC});
+  final TextEditingController qualificationC;
+  final TextEditingController intstitutionC;
+  final TextEditingController dateC;
+  const QualificationsField({super.key, required this.qualificationC, required this.intstitutionC, required this.dateC});
 
   @override
   QualificationsFieldState createState() => QualificationsFieldState();
@@ -197,20 +217,26 @@ class QualificationsFieldState extends State<QualificationsField> {
       child: Column(
         children: [
             TextFormField(
+            maxLength: 50,
+            key: const Key('Institution input'),
             style: const TextStyle(fontSize: 20),
             controller: widget.intstitutionC,
             textAlign: TextAlign.right,
             decoration: const InputDecoration(
+              counterText: "",
               hintText: "INSTITUTION NAME",
               border: InputBorder.none
               ),
             ),
             const SizedBox(width: 8,),
             TextFormField(
+            maxLength: 50,
+            key: const Key('Qualification input'),
             // style: TextStyle(fontSize: 5),
             controller: widget.qualificationC,
             textAlign: TextAlign.right,
             decoration: const InputDecoration(
+              counterText: "",
               hintText: "QUALIFICATION NAME",
               hintStyle: TextStyle(fontSize: 15),
               border: InputBorder.none

@@ -1,42 +1,73 @@
+// internal
+import 'package:ai_cv_generator/pages/elements/elements.dart';
 import 'package:ai_cv_generator/dio/client/shareClient.dart';
-import 'package:ai_cv_generator/pages/screens/Register.dart';
+import 'package:ai_cv_generator/pages/screens/changePassword.dart';
+import 'package:ai_cv_generator/pages/screens/emailConfirmation.dart';
+import 'package:ai_cv_generator/pages/screens/emailVerification.dart';
+import 'package:ai_cv_generator/pages/screens/forgotPassword.dart';
+import './pages/screens/Register.dart';
 import 'package:ai_cv_generator/pages/screens/about.dart';
-import 'package:ai_cv_generator/pages/screens/home.dart';
+import 'package:ai_cv_generator/pages/screens/help.dart';
+import 'package:ai_cv_generator/pages/screens/homeRedo.dart';
+import 'package:ai_cv_generator/pages/screens/job.dart';
 import 'package:ai_cv_generator/pages/screens/login.dart';
-import 'package:ai_cv_generator/pages/widgets/pdf_window.dart';
 import 'package:ai_cv_generator/pages/screens/profile.dart';
+import 'package:ai_cv_generator/pages/screens/testPage.dart';
+import 'package:ai_cv_generator/pages/util/sharedFileView.dart';
+
+// external
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:ai_cv_generator/pages/elements/elements.dart';
-
 
 Future<void> main() async {
   Uri myurl = Uri.base;
-  print(myurl.path);
   if (myurl.path.contains("/share/")) {
     String uuid = myurl.pathSegments.last;
     PlatformFile? file = await ShareApi.retrieveFile(uuid: uuid);
     runApp(ShareCVApp(file: file));
+  } else if (myurl.path.contains("/verify")) {
+    final String? code = myurl.queryParameters["code"];
+    if (code != null) {
+      runApp(MyApp(route: "/verify",code: code));
+    } else {
+      runApp(const MyApp(route: "/",));
+    }
+  } else if (myurl.path.contains("/reset")) {
+    final String? code = myurl.queryParameters["code"];
+    if (code != null) {
+      runApp(MyApp(route: "/validate",code: code,));
+    } else {
+      runApp(const MyApp(route: "/",));
+    }
   } else {
-    runApp(const MyApp());
+    runApp(const MyApp(route: "/"));
   }
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({super.key, required this.route, this.code});
+  final String route;
+  final String? code;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: mainTheme,
+      themeMode: ThemeMode.system,
       title: 'AI CV Generator',
       debugShowCheckedModeBanner: false,
-      initialRoute: '/',
+      initialRoute: route,
       routes: {
         '/':(context) => const Login(),
         '/register':(context) => const RegisterPage(),
+        '/confirm':(context) => const EmailConfirmation(),
         '/home':(context) => const Home(),
         '/profile':(context) => const Profile(),
+        '/jobs':(context) => const JobsPage(),
         '/about':(context) => const AboutPage(),
+        '/help':(context) => const Help(),
+        '/verify':(context) => EmailVerification(code: code,),
+        '/validate':(context) => ChangePassword(code: code,),
+        '/forgot':(context) => const ForgotPassword()
       },
       onGenerateRoute: (settings) {
         if (settings.name == '/profile') {
@@ -66,11 +97,11 @@ class ShareCVApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'AI-CV-GENERATOR_DEMO1_build',
+      title: 'AI CV Generator',
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
       routes: {
-        '/':(context) => PdfWindow(file: file),
+        '/':(context) => SharedFileView(file: file),
       },
     );
   }

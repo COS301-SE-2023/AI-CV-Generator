@@ -3,6 +3,24 @@ import 'package:ai_cv_generator/models/user/Link.dart';
 import 'package:ai_cv_generator/dio/client/userApi.dart';
 import '../elements/elements.dart';
 
+class LinksTest extends StatefulWidget {
+  TextEditingController urlC = TextEditingController();
+  LinksTest({super.key, required this.urlC});
+
+  @override
+  State<StatefulWidget> createState() => LinksTestState();
+
+}
+
+class LinksTestState extends State<LinksTest> {
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      child: LinksField(urlC: TextEditingController()),
+    );
+  }
+}
+
 class LinksSection extends StatefulWidget {
   final List<Link> links;
   const LinksSection({super.key, required this.links});
@@ -46,7 +64,7 @@ class LinksSectionState extends State<LinksSection> {
   }
 
   void add() {
-    userApi.AddLink(link: blankLink).then((value) {
+    UserApi.AddLink(link: blankLink).then((value) {
       Link newLink = getCorrect(value!)!;
       print(newLink.linkid);
       display(newLink);
@@ -59,7 +77,7 @@ class LinksSectionState extends State<LinksSection> {
     if(oldLink == null) {
       return;
     }
-    userApi.RemoveLink(link: oldLink);
+    UserApi.RemoveLink(link: oldLink);
     linksMap.remove(objectId);
     setState(() {});
   }
@@ -68,13 +86,32 @@ class LinksSectionState extends State<LinksSection> {
     linksMap.forEach((key, value) {
     Link? updatedLink = getLink(key);
       if(updatedLink != null) {
-        userApi.UpdateLink(link: updatedLink);
+        UserApi.UpdateLink(link: updatedLink);
       }
     });
   }
 
   List<Widget> populate() {
     List<Widget> linkWidgets = [];
+    if (linksMap.isEmpty) {
+      linkWidgets.add(
+        const Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.link,color: Colors.grey,size: 100,),
+              SizedBox(height: 20),
+              Text(
+                "No Links...", 
+                style: TextStyle(
+                  color: Colors.grey
+                )
+              )
+            ],
+          ),
+        )
+      );
+    }
     linksMap.forEach((key, value) {
       linkWidgets.add(linksMap[key]['widget']);
       if(editing == true) {
@@ -82,14 +119,14 @@ class LinksSectionState extends State<LinksSection> {
           Align(
             alignment: Alignment.topRight,
             child: IconButton(
-              color: Colors.red,
+              
               onPressed: () {
                 remove(key);
                 if(linksMap.isEmpty == true) {
                   editing = false;
                 }
               }, 
-              icon: const Icon(Icons.remove)),
+              icon: const Icon(Icons.delete)),
           ),
         );
         linkWidgets.add(const SizedBox(height: 4,),);
@@ -173,6 +210,7 @@ class LinksFieldState extends State<LinksField> {
   Widget build(BuildContext context) {
     return Container(
       child: TextFormField(
+      key: const Key("url"),
       controller: widget.urlC,
       textAlign: TextAlign.center,
       decoration: const InputDecoration(

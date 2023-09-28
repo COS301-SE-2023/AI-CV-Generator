@@ -7,7 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class DioClient {
   static final Dio _dio = Dio(
     BaseOptions(
-      baseUrl: "http://localhost:8080/",
+      baseUrl: "http://acgbackend.dmdyh8atf8dnd3cs.eastus2.azurecontainer.io:8080/",
       //Will change depending on time
       connectTimeout: const Duration(
         seconds: 40
@@ -18,15 +18,39 @@ class DioClient {
     ),
   ) ..interceptors.addAll(
     [
+      //ErrorInterceptor(),
       Logger(log: true),
       HeaderAdder(),
       TokenRevalidator()
     ]
   );
-  static const baseurl = "http://localhost:8080/"; //This will be the actual base usl during development of the system
+  static const baseurl = "http://acgbackend.dmdyh8atf8dnd3cs.eastus2.azurecontainer.io:8080/"; //This will be the actual base usl during development of the system
   //final baseurl = "https//mockbackend/api"; //Until the backend is fully established
 
-  
+  static Future<Response> get(String path) async {
+    return await dio.get(
+      path,
+      options: Options(
+        followRedirects: false,
+        validateStatus: (status) {
+          return (status !< 500);
+        }
+      )
+    );
+  }
+
+  static Future<Response> post(String path, String data) async {
+    return await DioClient.dio.get(
+      path,
+      data: data,
+      options: Options(
+        followRedirects: false,
+        validateStatus: (status) {
+          return (status !< 500);
+        }
+      )
+    );
+  }
 
   // Extreamely temporary (implementing secure method later on)
   // Keeping as is until final demo

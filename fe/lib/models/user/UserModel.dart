@@ -1,6 +1,8 @@
 import 'package:ai_cv_generator/models/user/Employment.dart';
 import 'package:ai_cv_generator/models/user/Qualification.dart';
 import 'package:ai_cv_generator/models/user/Link.dart';
+import 'package:ai_cv_generator/models/user/Reference.dart';
+import 'package:ai_cv_generator/models/user/Skill.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'UserModel.g.dart';
@@ -19,7 +21,8 @@ class UserModel {
   List<Qualification>? qualifications;
   List<Employment>? employmenthistory;
   List<Link>? links;
-  
+  List<Reference>? references;
+  List<Skill>? skills;
   
 
   UserModel({

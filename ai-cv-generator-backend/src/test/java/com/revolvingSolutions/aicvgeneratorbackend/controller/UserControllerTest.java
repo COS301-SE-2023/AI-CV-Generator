@@ -1,9 +1,6 @@
 package com.revolvingSolutions.aicvgeneratorbackend.controller;
 
-import com.revolvingSolutions.aicvgeneratorbackend.model.Employment;
-import com.revolvingSolutions.aicvgeneratorbackend.model.Link;
-import com.revolvingSolutions.aicvgeneratorbackend.model.Qualification;
-import com.revolvingSolutions.aicvgeneratorbackend.model.User;
+import com.revolvingSolutions.aicvgeneratorbackend.model.user.*;
 import com.revolvingSolutions.aicvgeneratorbackend.request.details.employment.AddEmploymentRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.details.employment.RemoveEmploymentRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.details.employment.UpdateEmploymentRequest;
@@ -13,6 +10,12 @@ import com.revolvingSolutions.aicvgeneratorbackend.request.details.link.UpdateLi
 import com.revolvingSolutions.aicvgeneratorbackend.request.details.qualification.AddQualificationRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.details.qualification.RemoveQualificationRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.details.qualification.UpdateQualificationRequest;
+import com.revolvingSolutions.aicvgeneratorbackend.request.details.reference.AddReferenceRequest;
+import com.revolvingSolutions.aicvgeneratorbackend.request.details.reference.RemoveReferenceRequest;
+import com.revolvingSolutions.aicvgeneratorbackend.request.details.reference.UpdateReferenceRequest;
+import com.revolvingSolutions.aicvgeneratorbackend.request.details.skill.AddSkillRequest;
+import com.revolvingSolutions.aicvgeneratorbackend.request.details.skill.RemoveSkillRequest;
+import com.revolvingSolutions.aicvgeneratorbackend.request.details.skill.UpdateSkillRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.file.DownloadFileRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.user.UpdateUserRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.service.UserService;
@@ -284,5 +287,110 @@ class UserControllerTest {
         userController.updateLink(req);
         // then
         verify(userService).updateLink_(req);
+    }
+
+    @Test
+    void addReference() {
+        // given
+        AddReferenceRequest req = AddReferenceRequest.builder()
+                .reference(
+                        Reference.builder()
+                                .description("Reference Description!")
+                                .contact("Contact Details!")
+                                .build()
+                )
+                .build();
+        // when
+        userController.addReference(req);
+        // then
+        verify(userService).addReference(req);
+    }
+
+    @Test
+    void removeReference() {
+        // given
+        RemoveReferenceRequest req = RemoveReferenceRequest.builder()
+                .reference(
+                        Reference.builder()
+                                .description("Reference Description!")
+                                .contact("Contact Details!")
+                                .build()
+                )
+                .build();
+        // when
+        userController.removeReference(req);
+        // then
+        verify(userService).removeReference(req);
+    }
+
+    @Test
+    void updateReference() {
+        // given
+        UpdateReferenceRequest req = UpdateReferenceRequest.builder()
+                .reference(
+                        Reference.builder()
+                                .description("Reference Description!")
+                                .contact("Contact Details!")
+                                .build()
+                )
+                .build();
+        // when
+        userController.updateReference(req);
+        // then
+        verify(userService).updateReference_(req);
+    }
+
+    @Test
+    void addSkill() {
+        // given
+        AddSkillRequest req = AddSkillRequest.builder()
+                .skill(
+                        Skill.builder()
+                                .skill("This is the Skill description")
+                                .level(2)
+                                .reason("This is the reason")
+                                .build()
+                )
+                .build();
+        // when
+        userController.addSkill(req);
+        // then
+        verify(userService).addSkill(req);
+    }
+
+    @Test
+    void removeSkill() {
+        // given
+        RemoveSkillRequest req = RemoveSkillRequest.builder()
+                .skill(
+                        Skill.builder()
+                                .skill("This is the Skill description")
+                                .level(2)
+                                .reason("This is the reason")
+                                .build()
+                )
+                .build();
+        // when
+        userController.removeSkill(req);
+        // then
+        verify(userService).removeSkill(req);
+    }
+
+    @Test
+    void updateSkill() {
+        // given
+        UpdateSkillRequest req = UpdateSkillRequest.builder()
+                .skill(
+                        Skill.builder()
+                                .skill("This is the Skill description")
+                                .level(2)
+                                .reason("This is the reason")
+                                .build()
+                )
+                .build();
+        // when
+        userController.updateSkill(req);
+        // then
+        verify(userService).updateSkill_(req);
     }
 }

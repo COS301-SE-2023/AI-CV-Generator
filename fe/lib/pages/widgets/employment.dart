@@ -1,16 +1,30 @@
 // ignore_for_file: must_be_immutable
 import 'package:ai_cv_generator/models/user/Employment.dart';
-import 'package:ai_cv_generator/pages/widgets/description.dart';
+import 'package:ai_cv_generator/pages/screens/homeRedo.dart';
+import 'package:ai_cv_generator/pages/widgets/buttons/customizableButton.dart';
 import 'package:ai_cv_generator/pages/widgets/qualifications.dart';
 import 'package:ai_cv_generator/pages/widgets/questionaireModal.dart';
 import 'package:ai_cv_generator/pages/widgets/navdrawer.dart';
+import 'package:ai_cv_generator/pages/widgets/referencesForm.dart';
 import 'package:date_field/date_field.dart';
 import 'package:ai_cv_generator/pages/util/strings.dart';
 import 'package:flutter/material.dart';
 
-import '../screens/home.dart';
+class EmploymentDetailsFormTest extends StatefulWidget {
+  EmploymentDetailsFormTest({super.key});
 
-// void main () => runApp(const EmploymentDetails());
+  @override
+  State<StatefulWidget> createState() => EmploymentDetailsFormTestState();
+}
+
+class EmploymentDetailsFormTestState extends State<EmploymentDetailsFormTest> {
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      child: EmploymentDetailsForm(),
+    );
+  }
+}
 
 class EmploymentDetailsForm extends StatefulWidget {
   const EmploymentDetailsForm({super.key});
@@ -22,8 +36,9 @@ class EmploymentDetailsForm extends StatefulWidget {
 }
 
 class _EmploymentDetailsFormState extends State<EmploymentDetailsForm> {
-  // final _formKey = GlobalKey<FormState>();
-    Column column = Column(children: [],);
+  final _formKey = GlobalKey<FormState>();
+    // ignore: prefer_const_constructors, prefer_const_literals_to_create_immutables
+    Column column =  Column(children: [],);
 
   @override
   void initState() {
@@ -41,7 +56,7 @@ class _EmploymentDetailsFormState extends State<EmploymentDetailsForm> {
           child: IconButton(
           onPressed: () {
             remove(key);
-          }, icon: const Icon(Icons.remove)
+          }, icon: const Icon(Icons.delete)
         ),
         )
       );
@@ -76,7 +91,7 @@ class _EmploymentDetailsFormState extends State<EmploymentDetailsForm> {
         child: IconButton(
         onPressed: () {
           remove(key);
-        }, icon: const Icon(Icons.remove)
+        }, icon: const Icon(Icons.delete)
       ),
       )
     );
@@ -94,6 +109,7 @@ class _EmploymentDetailsFormState extends State<EmploymentDetailsForm> {
           }
         }
       }
+      return _formKey.currentState!.validate();
     }
 
     isDataNull(Iterable<dynamic> data) {
@@ -110,24 +126,23 @@ class _EmploymentDetailsFormState extends State<EmploymentDetailsForm> {
   TextEditingController company2 = TextEditingController();
   TextEditingController jobTitle2 = TextEditingController();
   TextEditingController duration1 = TextEditingController();
-  
-    Widget titleSection=const Column (
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: <Widget> [
-        Padding (
-          padding: EdgeInsets.all(8.0),
-            child: Text (
-              StringsEmployment.appsubHeadingTitle,
-              style: TextStyle (
-                fontSize: 20.0,
-              ),
-          ),
-        ),
-      ],
-    );
+
+
+    back() {
+      Navigator.of(context).pop();
+      showQuestionaireModal(context, const QualificationsDetailsForm());
+    }
+
+    toNext() {
+      Navigator.pop(context);
+      showQuestionaireModal(context, const ReferencesDetailsForm());
+    }
 
   @override
   Widget build(BuildContext context) {
+    Size screenSize = MediaQuery.of(context).size;
+    double w = screenSize.width/100;
+    double h = screenSize.height/100; 
     return Scaffold(
       drawer: const NavDrawer(),
       appBar: AppBar(
@@ -144,70 +159,106 @@ class _EmploymentDetailsFormState extends State<EmploymentDetailsForm> {
         child: Column(
           children: [
             Expanded(
-              child: titleSection,
+              child: titleSection(w,h),
             ),
             Expanded(
               flex: 4,
-              child: ListView(
-                children: [
-                  ...column.children
-                ],
+              child: Form(
+                key: _formKey,
+                
+                child: 
+                column.children.isNotEmpty ?
+                ListView(
+                  children: [
+                    ...column.children
+                  ],
+                ) : Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.cases_rounded,color: Colors.grey,size: w*h*1,),
+                      SizedBox(height: h*2),
+                      Text(
+                        "No Work Experience...", 
+                        style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: w*h*0.15
+                        )
+                      )
+                    ],
+                  ),
+                )
               ),
             ),
             Align(
               alignment: Alignment.topCenter,
               child: Container ( 
                 padding: const EdgeInsets.all(20.0),
-                child: ElevatedButton(
-                  child: const Text('Add'),
-                  onPressed: () async {
-                    add();
-                  },
-                ),
+                child: CustomizableButton(
+                  text: 'Add',
+                  width: w*3,
+                  height: h*4,
+                  onTap: () => add(),
+                  fontSize: w*h*0.1,
+                )
               )
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget> [
-                SizedBox(
-                  height: 50,
-                  width: 150,
-                  child: ElevatedButton(
-                    child: const Text('Back'),
-                    onPressed: () async {
-                      updateUser();
-                      Navigator.of(context).pop();
-                      showQuestionaireModal(context, const QualificationsDetailsForm());
-                    },
-                  ),
+                CustomizableButton(
+                  text: 'Back',
+                  width: w*8,
+                  height: h*5,
+                  onTap: () {
+                    updateUser();
+                    back();
+                  },
+                  fontSize: w*h*0.1,
                 ),
-                const SizedBox(width: 64,),
-                SizedBox(
-                  height: 50,
-                  width: 150,
-                  child: ElevatedButton(
-                    child: const Text('Save and Proceed'),
-                    onPressed: () async {
-                      updateUser();
-                      Navigator.pop(context);
-                      showQuestionaireModal(context, const DescriptionForm());
-                    },
-                  ),
+                SizedBox(width: 6.4*w,),
+                CustomizableButton(
+                  text: 'Save and Proceed',
+                  width: w*8,
+                  height: h*5,
+                  onTap: () {
+                    if(updateUser() == false) {
+                      return;
+                    }
+                    toNext();
+                  },
+                  fontSize: w*h*0.1,
                 ),
-
-            ],
-          ),
-            const SizedBox(height: 64,),
+              ],
+            ),
+             SizedBox(height: 4*h,),
           ],
         )
       )
     );
   }
 
+  Widget titleSection(double w,double h) {
+    return Column (
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: <Widget> [
+        Padding (
+          padding: EdgeInsets.all(0.8*w),
+            child: Text (
+              StringsEmployment.appsubHeadingTitle,
+              style: TextStyle (
+                fontSize: w*h*0.2
+              ),
+          ),
+        ),
+      ],
+    );
+  }
 }
 
 class TextMonitorWidget extends StatefulWidget {
-  Column column = Column(children: [],);
+  // ignore: prefer_const_constructors, prefer_const_literals_to_create_immutables
+  Column column =  Column(children: [],);
   TextEditingController companyC = TextEditingController();
   TextEditingController titleC = TextEditingController();
   String? company = "";
@@ -238,14 +289,16 @@ class TextMonitorWidgetState extends State<TextMonitorWidget> {
   }
 
   populate() {
+    widget.column.children.add( const SizedBox(height: 4,));
     widget.column.children.add(_buildCompanyField(widget.companyC));
+    widget.column.children.add( const SizedBox(height: 8,));
     widget.column.children.add(_buildJobTitleField(widget.titleC));
     widget.column.children.add(_buildEmploymentDurationField());
   }
+
   Widget _buildCompanyField(TextEditingController controller) {
     return Container (
-      padding: const EdgeInsets.all(8.0),
-      constraints: BoxConstraints.tight(const Size(550,65)),
+      constraints: BoxConstraints.tight( const Size(550,70)),
       child: TextFormField(
         key: const Key("Company input"),
         controller: controller,
@@ -268,8 +321,7 @@ class TextMonitorWidgetState extends State<TextMonitorWidget> {
   
   Widget _buildJobTitleField(TextEditingController controller) {
     return Container (
-      padding: const EdgeInsets.all(8.0),
-      constraints: BoxConstraints.tight(const Size(550,65)),
+      constraints: BoxConstraints.tight( const Size(550,70)),
       child: TextFormField(
         key: const Key("Job Title input"),
         controller: controller,
@@ -292,9 +344,7 @@ class TextMonitorWidgetState extends State<TextMonitorWidget> {
 
   Widget _buildEmploymentDurationField() {
     return Container (
-      width: 100,
-      padding: const EdgeInsets.all(8.0),
-      constraints: BoxConstraints.tight(const Size(550,65)),
+      constraints: BoxConstraints.tight(const Size(550,70)),
       child: Row(
         children: [
           Expanded(

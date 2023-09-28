@@ -1,17 +1,25 @@
-import 'dart:typed_data';
+// internal
 import 'package:ai_cv_generator/dio/client/fileApi.dart';
 import 'package:ai_cv_generator/dio/client/userApi.dart';
 import 'package:ai_cv_generator/models/user/Employment.dart';
 import 'package:ai_cv_generator/models/user/UserModel.dart';
+import 'package:ai_cv_generator/pages/util/errorMessage.dart';
+import 'package:ai_cv_generator/pages/util/successMessage.dart';
 import 'package:ai_cv_generator/pages/widgets/breadcrumb.dart';
 import 'package:ai_cv_generator/pages/widgets/cvHistory.dart';
 import 'package:ai_cv_generator/pages/elements/elements.dart';
 import 'package:ai_cv_generator/pages/widgets/employmentView.dart';
 import 'package:ai_cv_generator/pages/util/imageCropper.dart';
-import 'package:ai_cv_generator/pages/widgets/loadingScreen.dart';
+import 'package:ai_cv_generator/pages/widgets/extraActivities.dart';
+import 'package:ai_cv_generator/pages/widgets/loadingscreens/loadingScreen.dart';
+import 'package:ai_cv_generator/pages/widgets/referenceView.dart';
+import 'package:ai_cv_generator/pages/widgets/skillsView.dart';
+import 'package:ai_cv_generator/pages/widgets/linksView.dart';
+import 'package:ai_cv_generator/pages/widgets/qualificationsView.dart';
+
+// external
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
-import '../widgets/linksView.dart';
-import '../widgets/qualificationsView.dart';
 import 'package:image_picker_web/image_picker_web.dart';
 
 class Profile extends StatefulWidget {
@@ -22,6 +30,7 @@ class Profile extends StatefulWidget {
 }
 
 bool isEditingEnabled = false;
+bool imageLoading = false;
 
 class ProfileState extends State<Profile> {
   final _formKey = GlobalKey<FormState>();
@@ -29,9 +38,13 @@ class ProfileState extends State<Profile> {
   Image? image;
   @override
   void initState() {
-    userApi.getUser().then((value) {
+    UserApi.getUser().then((value) {
       if(value != null){
         model = value;
+        if (model == null) {
+          showError("Something went wrong");
+          toLogin();
+        }
         setState(() {});
       }
     });
@@ -42,6 +55,18 @@ class ProfileState extends State<Profile> {
       });
     });
     super.initState();
+  }
+
+  showError(String message) {
+    showMessage(message, context);
+  }
+
+  showSuccess(String message) {
+    showHappyMessage(message, context);
+  }
+
+  toLogin() {
+    Navigator.popUntil(context, ModalRoute.withName("/"));
   }
 
   @override
@@ -58,9 +83,17 @@ class ProfileState extends State<Profile> {
     GlobalKey<LinksSectionState> linksKey = GlobalKey<LinksSectionState>();
     GlobalKey<QualificationsSectionState> qualificationsKey = GlobalKey<QualificationsSectionState>();
     GlobalKey<EmploymentSectionState> employhistoryKey = GlobalKey<EmploymentSectionState>();
+    GlobalKey<ReferenceSectionState> referenceKey = GlobalKey<ReferenceSectionState>();
+    GlobalKey<SkillSectionState> skillKey = GlobalKey<SkillSectionState>();
+    GlobalKey<ExtraActivitiesSectionState> extraActivitiesSectionStateKey = GlobalKey<ExtraActivitiesSectionState>();
+
     LinksSection linkC = LinksSection(key: linksKey, links: model!.links != null ? model!.links! : []);
     QualificationsSection qualificationsC = QualificationsSection(key: qualificationsKey, qualifications: model!.qualifications != null ? model!.qualifications! : []);
     EmploymentSection employmentC = EmploymentSection(key: employhistoryKey, employment: model!.employmenthistory != null ? model!.employmenthistory! : [Employment(company: 'ERROR', title: 'ERORR', startdate: DateTime.now(), enddate: DateTime.now(), empid: 0)]);
+    ReferenceSection referenceC = ReferenceSection(key: referenceKey, reference: model!.references != null ? model!.references! : []);
+    SkillSection skillC = SkillSection(key: skillKey, skill: model!.skills != null ? model!.skills! : []);
+    ExtraActivitiesSection extraActivitiesC = ExtraActivitiesSection(key: extraActivitiesSectionStateKey, employment: model!.employmenthistory != null ? model!.employmenthistory! : [Employment(company: 'ERROR', title: 'ERORR', startdate: DateTime.now(), enddate: DateTime.now(), empid: 0)]);
+    
     DateTime time = DateTime.now();
     Future<void> actualupdate() async {
       model!.fname = fnameC.text;
@@ -72,7 +105,9 @@ class ProfileState extends State<Profile> {
       linksKey.currentState?.update();
       qualificationsKey.currentState?.update();
       employhistoryKey.currentState?.update();
-      await userApi.updateUser(user: model!);
+      referenceKey.currentState?.update();
+      skillKey.currentState?.update();
+      await UserApi.updateUser(user: model!);
     }
     
     void update() {
@@ -91,11 +126,16 @@ class ProfileState extends State<Profile> {
     descripC.addListener(update);
 
     void updateImage(Image img) {
-    setState ((){ 
-          image = Image(image:img.image );
-        
-      });
-}
+        setState ((){ image = Image(image:img.image );});
+    }
+
+    void back() {
+      Navigator.pop(context);
+    }
+
+    Future<Uint8List?> getImageAsBytes(Uint8List data) {
+      return imagecrop(context, data);
+    }
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -106,133 +146,174 @@ class ProfileState extends State<Profile> {
           ), 
           onPressed: () async { 
             await actualupdate();
-            Navigator.pop(context);
+            back();
           },
-        ),
-      actions: [
-        IconButton(onPressed: () {}, 
-        icon: const Icon(Icons.account_circle, size: profileButtonSize,), ),
-        const SizedBox(width: 16,)
-      ],
+        )
       ),
       body: SafeArea(
         child: Container(
         color: Colors.white,
-        child: Stack(
+        child: Column(
           children: [
-            const Breadcrumb(previousPage: "Home", currentPage: "Profile",),
-          Form(
-            key: _formKey,
-            child: ListView(
-              padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 128),
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+            const Expanded(
+              child:Breadcrumb(previousPage: "Home", currentPage: "Profile",),
+            ),
+            Expanded(
+              flex: 15,
+              child: Form(
+                key: _formKey,
+                child: ListView(
+                  padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 128),
                   children: [
-                    Expanded(
-                      flex: 4,
-                      child: Column(
-                        children: [
-                          const SizedBox(height: 184,),
-                          SectionContainer(
-                            child: Column(
-                              children: [
-                                SectionHeading(text: "ABOUT ME", alignment: Alignment.topLeft,),
-                                TextFormField(
-                                  controller: descripC,
-                                  maxLines: 5,
-                                  style: Theme.of(context).textTheme.bodyLarge,
-                                  decoration: const InputDecoration(
-                                    border: OutlineInputBorder(),
-                                    hintText: "Insert a description about yourself"
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(height: 16,),
-                          employmentC,
-                          const SizedBox(height: 16,),
-                          SectionContainer(
-                            child: Column(
-                              children: [
-                                SectionHeading(text: "CVs", alignment: Alignment.topLeft,),
-                                CVHistory(context: context,),
-                              ],
-                            ),
-                          )                  
-                        ],
-                      ),
-                    ),
-                  
-                    const SizedBox(width: 128,),
-                  
-                    Expanded(
-                      flex: 2,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          MouseRegion(
-                            cursor: SystemMouseCursors.click,
-                            child: GestureDetector(
-                              onTap: () async {
-                                await actualupdate();
-                                Uint8List? imgByte =  await ImagePickerWeb.getImageAsBytes();
-                                if(imgByte == null) {
-                                  return;
-                                }
-                                imgByte = await imagecrop(context, imgByte);
-                                if(imgByte != null){
-                                  final changed = await FileApi.updateProfileImage(img: imgByte);
-                                  image = changed;
-                                  setState(() {});
-                                }
-                              },
-                              child: CircleAvatar(
-                                radius: 95.0,
-                                backgroundColor: Theme.of(context).colorScheme.secondary,
-                                child: CircleAvatar(
-                                  radius: 90.0,
-                                  backgroundImage: image!.image,
-                                  backgroundColor: Colors.grey.shade300
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          flex: 4,
+                          child: Column(
+                            children: [
+                              // const SizedBox(height: 184,),
+                              SectionContainer(
+                                child: Column(
+                                  children: [
+                                    SectionHeading(text: "ABOUT ME", alignment: Alignment.topLeft,),
+                                    TextFormField(
+                                      controller: descripC,
+                                      maxLines: 5,
+                                      style: Theme.of(context).textTheme.bodyLarge,
+                                      decoration: const InputDecoration(
+                                        border: OutlineInputBorder(),
+                                        hintText: "Insert a description about yourself"
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                            ),
+                              const SizedBox(height: 16,),
+                              employmentC,
+                              const SizedBox(height: 16,),
+                              referenceC,
+                              // const SizedBox(height: 16,),
+                              // extraActivitiesC,
+                              const SizedBox(height: 16,),
+                              skillC,
+                              const SizedBox(height: 16,),
+                              SectionContainer(
+                                child: Column(
+                                  children: [
+                                    SectionHeading(
+                                      text: "CVs",
+                                      alignment: Alignment.topLeft,
+                                    ),
+                                    CVHistory(context: context,axis: Axis.horizontal,),
+                                  ],
+                                ),
+                              )                  
+                            ],
                           ),
-                          const SizedBox(height: 16,),
-                          Wrap(
-                            // crossAxisAlignment: CrossAxisAlignment.start,
-                            // mainAxisAlignment: MainAxisAlignment.end,
-                            // mainAxisSize: MainAxisSize.min,
+                        ),
+                        const SizedBox(width: 128,),                     
+                        Expanded(
+                          flex: 2,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              // Flexible(
-                                // child: 
-                                SectionInput(controller: fnameC, hint: "First Name", fontSize: 24,),
-                              // ),
-                              const SizedBox(width: 8,),
-                              // Flexible(
-                              //   child: 
-                                SectionInput(controller: lnameC, hint: "Last Name", fontSize: 24,),
-                              // ),
-                            ]
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  imageLoading == true ? 
+                                  const CircularProgressIndicator(
+                                    color: Colors.grey,
+                                    strokeWidth: 1,
+                                  ) :
+                                  CircleAvatar(
+                                    radius: 95.0,
+                                    backgroundColor: Theme.of(context).colorScheme.secondary,
+                                    child: CircleAvatar(
+                                      radius: 90.0,
+                                      backgroundImage: image!.image,
+                                      backgroundColor: Colors.grey.shade300
+                                    ),
+                                  ),
+                                    IconButton(
+                                      color: const Color(0xFF333C64),
+                                      onPressed: () async {
+                                        Uint8List? imgByte =  await ImagePickerWeb.getImageAsBytes();
+                                        if(imgByte == null) {
+                                            return;
+                                        }
+                                        actualupdate().then((value) async {
+                                          image = null;
+                                          imgByte = await getImageAsBytes(imgByte!);
+                                          if(imgByte != null){
+                                            final changed = await FileApi.updateProfileImage(img: imgByte!);
+                                            image = changed;
+                                            setState(() {
+                                              imageLoading = false;
+                                            });
+                                          }
+                                        });
+                                        setState(() {
+                                          imageLoading = true;
+                                        });
+                                        
+                                      }, 
+                                      icon: const Icon(Icons.edit)),
+                                    ],
+                              ),
+                              const SizedBox(height: 16,),
+                              Text(
+                                emailC.text,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.grey.shade600
+                                )
+                              ),
+                              Wrap(
+                                children: [
+                                    SectionInput(
+                                      controller: fnameC,
+                                      hint: "First Name",
+                                      fontSize: 24,
+                                      maxLength: 50
+                                    ),
+                                    const SizedBox(width: 8,),
+                                    SectionInput(
+                                      controller: lnameC,
+                                      hint: "Last Name",
+                                      fontSize: 24,
+                                      maxLength: 50,
+                                    ),
+                                ]
+                              ),
+                              // SectionInput(controller: emailC, hint: "Email", height: 34),
+                              SectionInput(
+                                controller: locationC,
+                                hint: "Address",
+                                height: 34,
+                                maxLength: 50,
+                              ),
+                              SectionInput(
+                                controller: phoneNoC,
+                                hint: "Phone number",
+                                height: 34,
+                                maxLength: 20,
+                              ),
+                              const SizedBox(height: 55,),
+                              qualificationsC,
+                              const SizedBox(height: 16,),
+                              linkC
+                            ],
+                            )
                           ),
-                          SectionInput(controller: emailC, hint: "Email", height: 34),
-                          SectionInput(controller: locationC, hint: "Address", height: 34),
-                          SectionInput(controller: phoneNoC, hint: "Phone number", height: 34,),
-                          const SizedBox(height: 55,),
-                          qualificationsC,
-                          const SizedBox(height: 16,),
-                          linkC
                         ],
-                        )
                       ),
-                    ],
-                  ),
-            ],),
+                ],),
 
-          )
-            ],
+              )
+            )
+          ],
           )        
         )
       )
@@ -249,6 +330,7 @@ class TextInputField extends StatefulWidget {
 }
 
 class TextInputFieldState extends State<TextInputField> {
+
   @override
   Widget build(BuildContext context) {
     TextEditingController editor = widget.editor;

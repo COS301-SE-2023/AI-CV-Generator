@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Builder
@@ -51,12 +52,28 @@ public class UserEntity implements UserDetails {
     @JsonManagedReference
     public List<LinkEntity> links;
 
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    public List<ReferenceEntity> references;
+
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    public List<SkillEntity> skills;
+
+    @OneToMany(mappedBy = "user")
+    public Set<RegistrationTokenEntity> regTokens;
+
+    @OneToMany(mappedBy = "user")
+    public Set<PasswordTokenEntity> passwordResetToken;
+
     @Enumerated(EnumType.STRING)
     public Role role;
 
+    private boolean enabled;
+
+    @Column(nullable = false,updatable = false)
+    public String email;
+
     public String location;
     public String phoneNumber;
-    public String email;
     public String description;
 
     @Override
@@ -95,6 +112,6 @@ public class UserEntity implements UserDetails {
     //Not doing override for non expired
     @Override
     public boolean isEnabled() {
-        return true;
+        return enabled;
     }
 }

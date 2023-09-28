@@ -1,5 +1,6 @@
 import 'dart:convert' as con;
-import 'dart:html' as html;
+//import 'dart:html' as html;
+import "package:universal_html/html.dart" as html;
 
 class DownloadService {
   static void download(

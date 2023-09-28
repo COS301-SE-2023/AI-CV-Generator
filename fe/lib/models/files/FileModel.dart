@@ -1,4 +1,5 @@
 
+import 'dart:convert';
 import 'dart:typed_data';
 
 part 'FileModel.ga.dart';

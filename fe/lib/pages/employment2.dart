@@ -41,7 +41,6 @@ class _EmploymentDetailsFormState extends State<EmploymentDetailsForm> {
   TextEditingController company2 = TextEditingController();
   TextEditingController jobTitle2 = TextEditingController();
   TextEditingController duration1 = TextEditingController();
-  final TextEditingController _timeController = TextEditingController();
   
     Widget titleSection=const Column (
       mainAxisAlignment: MainAxisAlignment.spaceAround,

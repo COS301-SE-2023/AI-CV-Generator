@@ -9,7 +9,7 @@ import 'dart:typed_data';
 class ShareApi {
   static final Dio shareClient = Dio(
     BaseOptions( 
-      baseUrl: "http://localhost:8080/",
+      baseUrl: "http://acgbackend.dmdyh8atf8dnd3cs.eastus2.azurecontainer.io:8080/",
       connectTimeout: const Duration(
         seconds: 10
       ),
@@ -33,12 +33,13 @@ class ShareApi {
         'share',
         data: request.toJson(),
         options: Options(
-          responseType: ResponseType.bytes
+          responseType: ResponseType.bytes,
+          method: 'POST'
         )
       );
       Uint8List data = Uint8List.fromList(response.data.toList() as List<int>);
       PlatformFile file = PlatformFile(
-        name: "",
+        name: 'Untitled.pdf',
         size: data.length,
         bytes: data,
       );

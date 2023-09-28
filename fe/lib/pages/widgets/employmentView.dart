@@ -1,7 +1,7 @@
 import 'package:ai_cv_generator/dio/client/userApi.dart';
 import 'package:flutter/material.dart';
 import 'package:ai_cv_generator/models/user/Employment.dart';
-import '../elements/elements.dart';
+import 'package:ai_cv_generator/pages/elements/elements.dart';
 
 class EmploymentSection extends StatefulWidget {
   final List<Employment> employment;
@@ -56,7 +56,7 @@ class EmploymentSectionState extends State<EmploymentSection> {
   }
 
   void add() {
-    userApi.addEmployment(employment: blankEmployment).then((value) {
+    UserApi.addEmployment(employment: blankEmployment).then((value) {
       Employment newEmployment = getCorrect(value!)!;
       print(newEmployment.empid);
       display(newEmployment);
@@ -69,7 +69,7 @@ class EmploymentSectionState extends State<EmploymentSection> {
     if(oldEmployment == null) {
       return;
     }
-    userApi.RemoveEmployment(employment: oldEmployment);
+    UserApi.RemoveEmployment(employment: oldEmployment);
     employmentMap.remove(objectId);
     setState(() {});
   }
@@ -78,7 +78,7 @@ class EmploymentSectionState extends State<EmploymentSection> {
     employmentMap.forEach((key, value) {
     Employment? updatedEmployment = getEmployment(key);
       if(updatedEmployment != null) {
-        userApi.UpdateEmployment(employment: updatedEmployment);
+        UserApi.UpdateEmployment(employment: updatedEmployment);
       }
     });
   }
@@ -110,6 +110,25 @@ class EmploymentSectionState extends State<EmploymentSection> {
 
   List<Widget> populate() {
     List<Widget> linkWidgets = [];
+    if (employmentMap.isEmpty) {
+      linkWidgets.add(
+        const Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.cases_rounded,color: Colors.grey,size: 100,),
+              SizedBox(height: 20),
+              Text(
+                "No Work Experience...", 
+                style: TextStyle(
+                  color: Colors.grey
+                )
+              )
+            ],
+          ),
+        )
+      );
+    }
     employmentMap.forEach((key, value) {
       linkWidgets.add(employmentMap[key]['widget']);
       if(editing == true) {
@@ -117,14 +136,14 @@ class EmploymentSectionState extends State<EmploymentSection> {
           Align(
             alignment: Alignment.topRight,
             child: IconButton(
-              color: Colors.red,
+              
               onPressed: (){
                 remove(key);
                 if(employmentMap.isEmpty == true) {
                   editing = false;
                 }
               }, 
-              icon: const Icon(Icons.remove)),
+              icon: const Icon(Icons.delete)),
           ),
         );
         linkWidgets.add(const SizedBox(height: 4,),);
@@ -198,9 +217,11 @@ void initState() {
       children: [
         Expanded(
           child: TextFormField(
+          maxLength: 50,
           controller: widget.companyC,
           textAlign: TextAlign.center,
           decoration: const InputDecoration(
+            counterText: "",
             hintText: "Organisation",
             border: OutlineInputBorder(),
             ),
@@ -209,9 +230,11 @@ void initState() {
         const SizedBox(width: 8,),
         Expanded(
           child: TextFormField(
+          maxLength: 50,
           controller: widget.titleC,
           textAlign: TextAlign.center,
           decoration: const InputDecoration(
+            counterText: "",
             hintText: "Position Held",
             border: OutlineInputBorder(),
             ),

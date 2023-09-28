@@ -8,7 +8,7 @@ name: Tests
 on: [push, workflow_dispatch]
 
 jobs:
-  unit_tests:
+  frontend_unit_tests:
     runs-on: ubuntu-latest
     env: 
       working-directory: fe
@@ -18,6 +18,10 @@ jobs:
     - uses: subosito/flutter-action@v1
     - run: flutter pub get
       working-directory: ${{env.working-directory}}
+    - name: 'Create env file'
+      run: |
+          echo "${{ secrets.ENV_FILE }}" > .env
+      working-directory: fe/assets
     - run: flutter test --coverage
       working-directory: ${{env.working-directory}}
     - name: Upload coverage reports to Codecov
@@ -25,7 +29,33 @@ jobs:
       env:
         CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
-  backend_tests:
+        
+  frontend_integration_tests:
+    runs-on: windows-latest
+    env: 
+      working-directory: fe
+
+    steps:
+    - uses: actions/checkout@v1
+    - uses: subosito/flutter-action@v1
+    - run: flutter pub get
+      working-directory: ${{ env.working-directory }}
+    - name: 'Create env file'
+      run: |
+          echo "${{ secrets.ENV_FILE }}" > .env
+      working-directory: fe/assets
+    - name: Start Backend Server in the Background
+      run: |
+        cd ai-cv-generator-backend
+        mvn spring-boot:run &
+    - name: Wait for Backend to Start
+      run: sleep 120  # Adjust the duration as needed to allow the backend to start
+    - name: Run Flutter Integration Tests
+      run: flutter test integration_test/app_test2.dart -d windows
+      working-directory: ${{ env.working-directory }}
+
+
+  backend_unit_and_integration_tests:
     runs-on: ubuntu-latest
     env: 
       working-directory: ai-cv-generator-backend
@@ -47,22 +77,13 @@ jobs:
     - name: Run tests 
       run: mvn --batch-mode -Dmaven.test.failure.ignore=true test
       working-directory: ${{env.working-directory}}
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v3
-      env:
-        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+    - name: Generate JaCoCo Code Coverage Report
+      run: mvn jacoco:report
+      working-directory: ${{ env.working-directory }}
+    - name: Upload Code Coverage Report
+      uses: actions/upload-artifact@v2
+      with:
+        name: code-coverage-report
+        path: ai-cv-generator-backend/target/site
       
-  #integration_tests:
-   #   runs-on: ubuntu-latest
-    #  env: 
-     #   working-directory: fe
-
-     # steps:
-     # - uses: actions/checkout@v1
-     # - uses: subosito/flutter-action@v1
-     # - run: flutter pub get
-    #    working-directory: ${{env.working-directory}}
-     # - run: sudo apt-get install ninja-build
-      #  working-directory: ${{env.working-directory}}
-     # - run: xvfb-run flutter test -d linux integration_test/app_test.dart
     

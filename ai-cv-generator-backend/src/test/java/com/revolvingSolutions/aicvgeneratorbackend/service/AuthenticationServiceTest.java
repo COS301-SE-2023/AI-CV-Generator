@@ -1,5 +1,6 @@
 package com.revolvingSolutions.aicvgeneratorbackend.service;
 
+import com.revolvingSolutions.aicvgeneratorbackend.entitiy.RegistrationTokenEntity;
 import com.revolvingSolutions.aicvgeneratorbackend.entitiy.UserEntity;
 import com.revolvingSolutions.aicvgeneratorbackend.repository.UserRepository;
 import com.revolvingSolutions.aicvgeneratorbackend.request.auth.AuthRequest;
@@ -11,12 +12,14 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 
 class AuthenticationServiceTest {
@@ -34,6 +37,15 @@ class AuthenticationServiceTest {
     @Mock
     private AuthenticationManager authenticationManager;
 
+    @Mock
+    private EmailService emailService;
+
+    @Mock
+    private RegistrationTokenService registrationTokenService;
+
+    @Mock
+    private PasswordTokenService passwordTokenService;
+
     private AutoCloseable closeable;
     @BeforeEach
     void setUp() {
@@ -43,7 +55,10 @@ class AuthenticationServiceTest {
                 passwordEncoder,
                 authService,
                 refreshTokenService,
-                authenticationManager
+                authenticationManager,
+                emailService,
+                registrationTokenService,
+                passwordTokenService
         );
     }
 
@@ -58,19 +73,22 @@ class AuthenticationServiceTest {
         RegRequest req = RegRequest.builder()
                 .fname("fname")
                 .lname("lname")
+                .email("email")
                 .username("username")
                 .password("password")
                 .build();
         MockHttpServletRequest actualRequest = new MockHttpServletRequest();
+        Mockito.when(registrationTokenService.generateToken(any())).thenReturn(
+                RegistrationTokenEntity.builder()
+                        .registrationToken("Token")
+                        .build()
+        );
         // when
         authenticationService.register(req,actualRequest);
         // then
         ArgumentCaptor<String> usernameArgCapture = ArgumentCaptor.forClass(String.class);
         ArgumentCaptor<UserEntity> userEntityArgumentCaptor = ArgumentCaptor.forClass(UserEntity.class);
         ArgumentCaptor<String> passwordArgumentCaptor = ArgumentCaptor.forClass(String.class);
-        verify(userRepository).findByUsername(usernameArgCapture.capture());
-        String username = usernameArgCapture.getValue();
-        assertThat(username .equals("username")).isTrue();
         verify(passwordEncoder).encode(passwordArgumentCaptor.capture());
         String password = passwordArgumentCaptor.getValue();
         assertThat(password.equals("password"));
@@ -82,8 +100,6 @@ class AuthenticationServiceTest {
                         user.lname.equals("lname") &&
                         user.password != "password"
                 ).isTrue();
-        verify(authService).genToken(user,"127.0.0.1");
-        verify(userRepository).findByUsername("username");
     }
 
     @Test

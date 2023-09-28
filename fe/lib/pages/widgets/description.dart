@@ -1,24 +1,57 @@
-
+// internal
+import 'package:ai_cv_generator/pages/screens/homeRedo.dart';
 import 'package:ai_cv_generator/pages/util/strings.dart';
+import 'package:ai_cv_generator/pages/widgets/buttons/customizableButton.dart';
 import 'package:ai_cv_generator/pages/widgets/navdrawer.dart';
 import 'package:ai_cv_generator/pages/widgets/questionaireModal.dart';
+import 'package:ai_cv_generator/pages/widgets/skillsForm.dart';
+
+// external
 import 'package:flutter/material.dart';
 
-import '../screens/home.dart';
-import 'employment.dart';
+class DescriptionFormTest extends StatefulWidget{
+  DescriptionFormTest({super.key});
+
+  @override
+  State<StatefulWidget> createState() => DescriptionFormTestState();
+}
+
+class DescriptionFormTestState extends State<DescriptionFormTest> {
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      child: DescriptionForm(),
+    );
+  }
+}
 
 class DescriptionForm extends StatefulWidget {
-  const DescriptionForm({super.key});
+   const DescriptionForm({super.key});
 
   @override
   State<StatefulWidget> createState() => DescriptionFormState();
 }
 
 class DescriptionFormState extends State<DescriptionForm> {
+  final _formKey = GlobalKey<FormState>();
   TextEditingController descripC = TextEditingController();
+
+  back() {
+     Navigator.of(context).pop();
+    showQuestionaireModal(context, const SkillsDetailsForm());
+  }
+
+  toNext() {
+    Home.ready = true;
+    Navigator.popUntil(context, ModalRoute.withName('/home'));
+  }
+
   @override
   Widget build(BuildContext context) {
     descripC.text = Home.adjustedModel!.description??"";
+    Size screenSize = MediaQuery.of(context).size;
+    double w = screenSize.width/100;
+    double h = screenSize.height/100; 
     return Scaffold(
       drawer: const NavDrawer(),
       appBar: AppBar(
@@ -35,27 +68,30 @@ class DescriptionFormState extends State<DescriptionForm> {
         child: Column(
           children: [
             Expanded(
-              child: titleSection,
+              child: titleSection(w,h),
             ),
             Expanded(
               child:Container (
                 padding: const EdgeInsets.all(8.0),
                 constraints: BoxConstraints.tight(const Size(550,200)),
-                child: TextFormField(
-                  maxLines: 6,
-                  controller: descripC,
-                  decoration: const InputDecoration(
-                    // contentPadding: EdgeInsets.all(5.0),
-                    labelText: 'Description',
-                    enabledBorder: OutlineInputBorder(),
-                    icon: Icon(Icons.person),
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter some text';
-                    }
-                    return null;
-                  },
+                child: Form(
+                  key: _formKey,
+                  child: TextFormField(
+                    key: const Key("Description start"),
+                    maxLines: 6,
+                    controller: descripC,
+                    decoration: const InputDecoration(
+                      labelText: 'Description',
+                      enabledBorder: OutlineInputBorder(),
+                      icon: Icon(Icons.person),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter some text';
+                      }
+                      return null;
+                    },
+                  )
                 )
               ),
             ),
@@ -63,59 +99,57 @@ class DescriptionFormState extends State<DescriptionForm> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget> [
-                SizedBox(
-                  height: 50,
-                  width: 150,
-                  child: ElevatedButton(
-                    child: const Text('Back'),
-                    onPressed: () {
-                      updateUser();
-                      Navigator.of(context).pop();
-                      showQuestionaireModal(context, const EmploymentDetailsForm());
-                    },
-                  ),
+                CustomizableButton(
+                  text: 'Back',
+                  width: w*8,
+                  height: h*5,
+                  onTap: () {
+                    updateUser();
+                    back();
+                  },
+                  fontSize: w*h*0.1,
                 ),
-                const SizedBox(width: 64,),
-                SizedBox(
-                  height: 50,
-                  width: 150,
-                  child: ElevatedButton(
-                    child: const Text('Save and Proceed'),
-                    onPressed: () async {
-                      updateUser();
-                      Home.ready = true;
-                      Navigator.popUntil(context, ModalRoute.withName('/home'));
-                    },
-                  ),
+                SizedBox(width: 6.4*w,),
+                CustomizableButton(
+                  text: 'Save and Proceed',
+                  width: w*8,
+                  height: h*5,
+                  onTap: () {
+                    if(updateUser() == false) {
+                      return;
+                    }
+                    toNext();
+                  },
+                  fontSize: w*h*0.1,
                 ),
-
-            ],
-          ),
-            const SizedBox(height: 64,),
+              ],
+            ),
+            SizedBox(height: 4*h,),
           ]
         )
       )
     );
   }
 
-  updateUser() {
-      Home.adjustedModel!.description = descripC.text;
-      
-    }
+  bool updateUser() {
+    Home.adjustedModel!.description = descripC.text;
+    return _formKey.currentState!.validate();
+  }
 
-  Widget titleSection=const Column (
+  Widget titleSection(double w,double h) {
+    return Column (
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: <Widget> [
         Padding (
-          padding: EdgeInsets.all(8.0),
+          padding: EdgeInsets.all(0.8*w),
             child: Text (
               StringsDescription.appsubHeadingTitle,
               style: TextStyle (
-                fontSize: 20.0,
+                fontSize: w*h*0.2
               ),
           ),
         ),
       ],
     );
-
+  }
 }
