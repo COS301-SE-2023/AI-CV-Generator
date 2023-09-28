@@ -22,7 +22,7 @@ jobs:
       run: |
           echo "${{ secrets.ENV_FILE }}" > .env
       working-directory: fe/assets
-    - run: flutter test 
+    - run: flutter test --coverage
       working-directory: ${{env.working-directory}}
     - name: Upload coverage reports to Codecov
       uses: codecov/codecov-action@v3
@@ -77,10 +77,13 @@ jobs:
     - name: Run tests 
       run: mvn --batch-mode -Dmaven.test.failure.ignore=true test
       working-directory: ${{env.working-directory}}
-    #- name: Upload coverage to Codecov
-     # uses: codecov/codecov-action@v3
-      #env:
-       # CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-
+    - name: Generate JaCoCo Code Coverage Report
+      run: mvn jacoco:report
+      working-directory: ${{ env.working-directory }}
+    - name: Upload Code Coverage Report
+      uses: actions/upload-artifact@v2
+      with:
+        name: code-coverage-report
+        path: target/site/jacoco/index.html
       
     
