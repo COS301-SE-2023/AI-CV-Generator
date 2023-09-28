@@ -197,7 +197,7 @@
 				</executions>
 				<configuration>
 					<!-- Specify the output directory for code coverage reports -->
-					<outputDirectory>${project.reporting.outputDirectory}/jacoco-report</outputDirectory>
+					<outputDirectory>${project.reporting.outputDirectory}</outputDirectory>
 				</configuration>
 			</plugin>
 		</plugins>
