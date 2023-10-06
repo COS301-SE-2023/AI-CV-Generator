@@ -7,13 +7,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 class DioClient {
   static final Dio _dio = Dio(
     BaseOptions(
-      baseUrl: "http://acgbackend.dmdyh8atf8dnd3cs.eastus2.azurecontainer.io:8080/",
+      baseUrl: "http://localhost:8080/",
       //Will change depending on time
       connectTimeout: const Duration(
-        seconds: 40
+        seconds: 80
       ),
       receiveTimeout: const Duration(
-        seconds: 40
+        seconds: 80
       ),
     ),
   ) ..interceptors.addAll(
@@ -24,7 +24,7 @@ class DioClient {
       TokenRevalidator()
     ]
   );
-  static const baseurl = "http://acgbackend.dmdyh8atf8dnd3cs.eastus2.azurecontainer.io:8080/"; //This will be the actual base usl during development of the system
+  static const baseurl = "http://localhost:8080/"; //This will be the actual base usl during development of the system
   //final baseurl = "https//mockbackend/api"; //Until the backend is fully established
 
   static Future<Response> get(String path) async {

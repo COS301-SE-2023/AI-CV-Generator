@@ -59,19 +59,13 @@ public class LangChainService {
                                     .location(request.getData().getLocation())
                                     .description(StaticValues.description)
                                     .employmenthistory(request.getData().getExperience())
-                                    .experience(mylist)
                                     .qualifications(request.getData().getQualifications())
-                                    .education_description(StaticValues.education_description)
                                     .links(request.getData().getLinks())
                                     .references(request.getData().getReferences())
                                     .skills(request.getData().getSkills())
                                     .build()
                     )
                     .build();
-        }
-        List<String> mylist = new ArrayList<>();
-        for (AIEmployment employment : request.getData().getExperience()) {
-            mylist.add(interact(employmentHistoryExpander(chatLanguageModel()),employment.toString()));
         }
 
 
@@ -80,8 +74,6 @@ public class LangChainService {
         if (description == null) description = "Description";
         if (request.getData().getExperience() == null) request.getData().setExperience(new ArrayList<>());
         if (request.getData().getQualifications() == null) request.getData().setQualifications(new ArrayList<>());
-        String education_description = interact(educationDescriptionAgent(educationDescriptionChatModel()),request.getData().getQualifications().toString()+request.getData().getDescription());
-        if (education_description == null) education_description = "Education Description";
         return GenerationResponse.builder()
                 .data(
                         CVData.builder()
@@ -92,9 +84,7 @@ public class LangChainService {
                                 .location(request.getData().getLocation())
                                 .description(description)
                                 .employmenthistory(request.getData().getExperience())
-                                .experience(mylist)
                                 .qualifications(request.getData().getQualifications())
-                                .education_description(education_description)
                                 .links(request.getData().getLinks())
                                 .skills(request.getData().getSkills())
                                 .references(request.getData().getReferences())

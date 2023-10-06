@@ -16,9 +16,7 @@ class CVData {
   String? location; 
   String? description;
   List<AIEmployment>? employmenthistory;
-  List<String>? experience;
   List<AIQualification>? qualifications;
-  String? education_description;
   List<AILink>? links;
   List<AIReference>? references;
   List<AISkill>? skills;
@@ -31,9 +29,7 @@ class CVData {
     this.location,
     this.description,
     this.employmenthistory,
-    this.experience,
     this.qualifications,
-    this.education_description,
     this.links,
     this.references,
     this.skills

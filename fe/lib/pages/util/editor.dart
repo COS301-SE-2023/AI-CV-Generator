@@ -87,7 +87,6 @@ class EditorState extends State<Editor> {
 
   // Text editing controllers for professional descriptions
   TextEditingController descriptionController = TextEditingController();
-  TextEditingController educationalDescriptionController = TextEditingController();
 
   // Text editing controllers for experience
   TextEditingController jobTitleController = TextEditingController();
@@ -174,7 +173,6 @@ class EditorState extends State<Editor> {
 
   selectProfetionalSummary() {
     descriptionController.text = data.description??'Description';
-    educationalDescriptionController.text = data.education_description??'Education Description';
     setState(() {
       option = PageOption.professionalSummary;
     });
@@ -182,7 +180,6 @@ class EditorState extends State<Editor> {
 
   saveProfessionalSummary() {
     data.description = descriptionController.text;
-    data.education_description = educationalDescriptionController.text;
     setState(() {
       option = PageOption.main;
     });
