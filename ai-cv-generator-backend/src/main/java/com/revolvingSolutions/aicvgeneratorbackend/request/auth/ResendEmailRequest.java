@@ -12,5 +12,4 @@ import lombok.NoArgsConstructor;
 public class ResendEmailRequest {
     private String username;
     private String password;
-    private String siteUrl;
 }

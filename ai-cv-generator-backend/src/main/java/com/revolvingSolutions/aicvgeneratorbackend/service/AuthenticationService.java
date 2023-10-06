@@ -48,7 +48,6 @@ public class AuthenticationService {
 
             emailService.sendVerificationEmail(
                     request.getEmail(),
-                    request.getSiteUrl(),
                     token.getRegistrationToken()
             );
 
@@ -69,7 +68,6 @@ public class AuthenticationService {
         RegistrationTokenEntity token = registrationTokenService.generateToken(_user);
         emailService.sendVerificationEmail(
                 request.getEmail(),
-                request.getSiteUrl(),
                 token.getRegistrationToken()
         );
         return RegisterResponse.builder()
@@ -93,7 +91,6 @@ public class AuthenticationService {
             repository.save(user);
             emailService.sendVerificationEmail(
                     user.getEmail(),
-                    request.getSiteUrl(),
                     token.getRegistrationToken()
             );
             return ResendEmailResponse.builder()
@@ -166,7 +163,6 @@ public class AuthenticationService {
         PasswordTokenEntity token = resetPasswordTokenService.generateToken(user);
         emailService.sendPasswordResetEmail(
                 user.getEmail(),
-                request.getSiteUrl(),
                 token.getPasswordToken()
         );
         return ResetPasswordResponse.builder()
