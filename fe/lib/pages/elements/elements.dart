@@ -23,6 +23,7 @@ ThemeData mainTheme = ThemeData(
     focusColor: black
   ),
   appBarTheme: const AppBarTheme(
+    color: primaryColour,
     toolbarTextStyle: TextStyle(fontSize: 16, color: white),
     actionsIconTheme: IconThemeData(color: white, size: 32),
     iconTheme: IconThemeData(color: white)
