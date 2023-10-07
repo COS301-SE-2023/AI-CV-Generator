@@ -15,7 +15,7 @@ class AppBarButtonStyle extends StatelessWidget {
           children: [
             Center(
               child: Container(
-                height: contraints.maxHeight *0.5,
+                height: 30,
                 width: 80,
                 decoration: BoxDecoration(
                   color: Colors.white,
