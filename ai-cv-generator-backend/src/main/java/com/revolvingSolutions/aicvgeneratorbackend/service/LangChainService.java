@@ -148,11 +148,8 @@ public class LangChainService {
     }
 
     public ChatResponse chatBotInteract(ChatRequest request) {
-        SystemMessage sys = systemMessage(
-                "The user has the following information: "+getAISafeModel().toString()
-        );
         List<String> messages = new ArrayList<>();
-        ChatBotAgent chatBot = chatBotAgent(chatBotLanguageModel(),request.getMessages(),sys);
+        ChatBotAgent chatBot = chatBotAgent(chatBotLanguageModel(),request.getMessages());
         String response = chatBot.chat(0,request.getUserMessage());
         request.getMessages().add(request.getUserMessage());
         request.getMessages().add(response);
@@ -307,10 +304,14 @@ public class LangChainService {
                 .build();
     }
 
-    public ChatBotAgent chatBotAgent(ChatLanguageModel chatLanguageModel, List<String> messages, SystemMessage sys) {
+    public ChatBotAgent chatBotAgent(ChatLanguageModel chatLanguageModel, List<String> messages) {
         List<ChatMessage> messagesOff = new ArrayList<ChatMessage>();
-        Boolean user = true;
-        messagesOff.add(sys);
+        boolean user = true;
+        messagesOff.add(
+                systemMessage(
+                        "The user has the following information: "+getAISafeModel().toString()
+                )
+        );
         for (int x=0;x<messages.size();x++) {
             if (user) {
                 user = false;
