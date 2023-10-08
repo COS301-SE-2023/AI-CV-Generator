@@ -7,6 +7,7 @@ import com.revolvingSolutions.aicvgeneratorbackend.model.aimodels.AIEmployment;
 import com.revolvingSolutions.aicvgeneratorbackend.model.aimodels.AIInputData;
 import com.revolvingSolutions.aicvgeneratorbackend.model.aimodels.CVData;
 import com.revolvingSolutions.aicvgeneratorbackend.model.aimodels.ProfessionalSummaryModel;
+import com.revolvingSolutions.aicvgeneratorbackend.model.user.User;
 import com.revolvingSolutions.aicvgeneratorbackend.request.AI.ChatRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.AI.ExtractionRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.AI.GenerationRequest;
@@ -16,6 +17,7 @@ import com.revolvingSolutions.aicvgeneratorbackend.response.AI.GenerationRespons
 
 import dev.langchain4j.data.message.AiMessage;
 import dev.langchain4j.data.message.ChatMessage;
+import dev.langchain4j.data.message.SystemMessage;
 import dev.langchain4j.data.message.UserMessage;
 import dev.langchain4j.data.segment.TextSegment;
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
@@ -33,12 +35,16 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
+import static dev.langchain4j.data.message.SystemMessage.systemMessage;
+
 @Service
 @RequiredArgsConstructor
 public class LangChainService {
 
     @Value("${app.api.blockAI}")
     private Boolean block;
+
+    private final UserService userService;
 
     public GenerationResponse GenerateCV(
             GenerationRequest request
@@ -137,8 +143,16 @@ public class LangChainService {
         return  resp;
     }
 
+    public User getAISafeModel() {
+        return userService.getUser().getUser();
+    }
+
     public ChatResponse chatBotInteract(ChatRequest request) {
-        ChatBotAgent chatBot = chatBotAgent(chatBotLanguageModel(),request.getMessages());
+        SystemMessage sys = systemMessage(
+                "The user has the following information: "+getAISafeModel().toString()
+        );
+        List<String> messages = new ArrayList<>();
+        ChatBotAgent chatBot = chatBotAgent(chatBotLanguageModel(),request.getMessages(),sys);
         String response = chatBot.chat(0,request.getUserMessage());
         request.getMessages().add(request.getUserMessage());
         request.getMessages().add(response);
@@ -293,9 +307,10 @@ public class LangChainService {
                 .build();
     }
 
-    public ChatBotAgent chatBotAgent(ChatLanguageModel chatLanguageModel, List<String> messages) {
+    public ChatBotAgent chatBotAgent(ChatLanguageModel chatLanguageModel, List<String> messages, SystemMessage sys) {
         List<ChatMessage> messagesOff = new ArrayList<ChatMessage>();
         Boolean user = true;
+        messagesOff.add(sys);
         for (int x=0;x<messages.size();x++) {
             if (user) {
                 user = false;
