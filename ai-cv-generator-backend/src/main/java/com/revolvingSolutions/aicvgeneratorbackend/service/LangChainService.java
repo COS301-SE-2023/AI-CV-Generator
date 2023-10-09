@@ -11,6 +11,7 @@ import com.revolvingSolutions.aicvgeneratorbackend.model.user.User;
 import com.revolvingSolutions.aicvgeneratorbackend.request.AI.ChatRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.AI.ExtractionRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.AI.GenerationRequest;
+import com.revolvingSolutions.aicvgeneratorbackend.request.AI.UrlExtractionRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.response.AI.ChatResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.AI.ExtractionResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.AI.GenerationResponse;
@@ -28,9 +29,12 @@ import dev.langchain4j.retriever.Retriever;
 import dev.langchain4j.service.AiServices;
 import dev.langchain4j.store.memory.chat.ChatMemoryStore;
 import lombok.RequiredArgsConstructor;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
@@ -134,13 +138,34 @@ public class LangChainService {
         if (data.getLinks() == null) data.setLinks(new ArrayList<>());
         if (data.getSkills() == null) data.setReferences(new ArrayList<>());
 
-        ExtractionResponse resp = ExtractionResponse.builder()
+        return ExtractionResponse.builder()
                 .data(
                     data
                 )
                 .build();
-        System.out.println(resp.toString());
-        return  resp;
+    }
+
+    public ExtractionResponse extractUrlData(
+            UrlExtractionRequest request
+    ) throws IOException {
+        Document doc = Jsoup.connect(request.getUrl()).get();
+        AIInputData data = urlExtractionAgent(extractionChatLanguageModel()).extractPersonFrom(doc.toString());
+        if (data.getFirstname() == null) data.setFirstname("First Name");
+        if (data.getLastname() == null) data.setLastname("Last Name");
+        if (data.getEmail() == null) data.setEmail("Email");
+        if (data.getLocation() == null) data.setLocation("Location");
+        if (data.getPhoneNumber() == null) data.setPhoneNumber("Phone number");
+        if (data.getDescription() == null) data.setDescription("Description");
+        if (data.getExperience() == null) data.setExperience(new ArrayList<>());
+        if (data.getQualifications() == null) data.setQualifications(new ArrayList<>());
+        if (data.getLinks() == null) data.setLinks(new ArrayList<>());
+        if (data.getSkills() == null) data.setReferences(new ArrayList<>());
+
+        return ExtractionResponse.builder()
+                .data(
+                        data
+                )
+                .build();
     }
 
     public User getAISafeModel() {
@@ -299,6 +324,13 @@ public class LangChainService {
 
     public ExtractionAgent extractionAgent(ChatLanguageModel extractionChatLanguageModel) {
         return AiServices.builder(ExtractionAgent.class)
+                .chatLanguageModel(extractionChatLanguageModel)
+                .chatMemory(MessageWindowChatMemory.withMaxMessages(5))
+                .build();
+    }
+
+    public UrlExtractionAgent urlExtractionAgent(ChatLanguageModel extractionChatLanguageModel) {
+        return AiServices.builder(UrlExtractionAgent.class)
                 .chatLanguageModel(extractionChatLanguageModel)
                 .chatMemory(MessageWindowChatMemory.withMaxMessages(5))
                 .build();
