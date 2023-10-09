@@ -5,6 +5,7 @@
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
-    ]
+    ],
+    "disable-ssl": true
   }
 }

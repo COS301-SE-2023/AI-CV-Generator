@@ -1,20 +1,29 @@
 # Use a base image with Java and Tomcat pre-installed
-FROM maven:3.8.4-openjdk-11 AS builder
+FROM debian:latest AS build-env
 
-WORKDIR /ai-cv-generator-backend
+RUN apt-get update 
+RUN apt-get install -y curl git wget unzip libgconf-2-4 gdb libstdc++6 libglu1-mesa fonts-droid-fallback lib32stdc++6 python3 sed
+RUN apt-get clean
 
-COPY pom.xml .
-RUN mvn dependency:go-offline
+RUN git init
+RUN git config http.postBuffer 524288000
+RUN git clone https://github.com/flutter/flutter.git /usr/local/flutter
 
-# Copy the WAR file to the Tomcat webapps directory
-COPY ai-cv-generator-backend/ ./ai-cv-generator-backend
+ENV PATH="${PATH}:/usr/local/flutter/bin:/usr/local/flutter/bin/cache/dart-sdk/bin"
+
+RUN flutter doctor -v
+
+RUN flutter channel master
+RUN flutter upgrade
+RUN flutter config --enable-web
+
+RUN mkdir /app/
+COPY /fe/ /app/
+WORKDIR /app/
+RUN flutter build web
 
 
-RUN mvn package -DskipTests
+EXPOSE 5000
 
-FROM openjdk:17
-WORKDIR /ai-cv-generator-backend
-ADD /ai-cv-generator-backend/target/*.jar acgbackend
-EXPOSE 8080
-
-ENTRYPOINT ["java", "-jar", "acgbackend"]
+FROM nginx:1.21.1-alpine
+COPY --from=build-env /app/build/web /usr/share/nginx/html
