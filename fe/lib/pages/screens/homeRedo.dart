@@ -746,38 +746,108 @@ class HomeState extends State<Home> {
                                 width: 7*w, 
                                 height: 5*h, 
                                 onTap: () async {
-                                  
-                                  PlatformFile? file = await confirmPdf(await pdfAPI.pick_cvfile());
-                                  if (file == null) return;
-                                  generated = false;
-                                  noShowButton();
-                                  setCVLoadingOn();
-                                  aiInput = await AIApi.extractPdf(file: file);
-                                  if (aiInput == null) {
-                                    showError("Something went wrong!");
-                                    return;
-                                  }
-                                  aiInput = nullSafeInputData(aiInput!);
-                                  noShowButton();
-                                  aiInput = await extractMenu(aiInput!, file.bytes!);
-                                  if (aiInput == null) {
-                                    setCVLoadingOff();
-                                    return;
-                                  }
-                                  showButton();
-                                  data = await AIApi.generateAI(data: aiInput!);
-                                  if (data == null || data!.description == null) {
-                                    setCVErrorOn();
-                                    return;
-                                  }
-                                  data = nullSafeOutputData(data!);
-                                  bytes = await templateChoice(data!, option, colors);
-                                  if (bytes == null) {
-                                    setCVError();
-                                    return;
-                                  }
-                                  generated = true;
-                                  setCVLoadingOff();
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return Dialog(
+                                        child: FractionallySizedBox(
+                                          widthFactor: 0.4,
+                                          child: Container(
+                                            padding: const EdgeInsets.all(16.0),
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                const Text(
+                                                  'UPLOAD',
+                                                  style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+                                                ),
+                                                const SizedBox(height: 16.0),
+                                                Row(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  children: [
+                                                    Row(
+                                                      children: [
+                                                        Container(
+                                                          width: 15*w, 
+                                                          height: 6*h, 
+                                                          child: TextFormField(
+                                                            textAlign: TextAlign.center,
+                                                            key: const Key("location"),
+                                                            decoration: const InputDecoration(
+                                                              hintText: "URL",
+                                                              border: OutlineInputBorder()
+                                                            ),
+                                                            // controller: locationC,
+                                                            validator: (value) {
+                                                              if (value == null || value.isEmpty) {
+                                                                return 'Field is empty';
+                                                              }
+                                                              return null;
+                                                            },
+                                                          ),
+                                                        ),
+                                                        const SizedBox(width: 8,),
+                                                        CustomizableButton(
+                                                          onTap: () {
+                                                            // DownloadService.download(file!.bytes!.toList(), downloadName: file.name);
+                                                          },
+                                                          text: "Submit",
+                                                          width: 7*w, 
+                                                          height: 5*h, 
+                                                          fontSize: w*0.8,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    const Text("OR"),
+                                                    CustomizableButton(
+                                                      onTap: () async {
+                                                        PlatformFile? file = await confirmPdf(await pdfAPI.pick_cvfile());
+                                                        if (file == null) return;
+                                                        generated = false;
+                                                        noShowButton();
+                                                        setCVLoadingOn();
+                                                        aiInput = await AIApi.extractPdf(file: file);
+                                                        if (aiInput == null) {
+                                                          showError("Something went wrong!");
+                                                          return;
+                                                        }
+                                                        aiInput = nullSafeInputData(aiInput!);
+                                                        noShowButton();
+                                                        aiInput = await extractMenu(aiInput!, file.bytes!);
+                                                        if (aiInput == null) {
+                                                          setCVLoadingOff();
+                                                          return;
+                                                        }
+                                                        showButton();
+                                                        data = await AIApi.generateAI(data: aiInput!);
+                                                        if (data == null || data!.description == null) {
+                                                          setCVErrorOn();
+                                                          return;
+                                                        }
+                                                        data = nullSafeOutputData(data!);
+                                                        bytes = await templateChoice(data!, option, colors);
+                                                        if (bytes == null) {
+                                                          setCVError();
+                                                          return;
+                                                        }
+                                                        generated = true;
+                                                        setCVLoadingOff();
+                                                      }, 
+                                                      text: "Upload CV",
+                                                      width: 7*w, 
+                                                      height: 5*h, 
+                                                      fontSize: w*0.8
+                                                    )
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  );
                                 },
                                 fontSize: w*0.8
                               ),
