@@ -11,3 +11,10 @@ COPY ai-cv-generator-backend/ ./ai-cv-generator-backend
 
 
 RUN mvn package -DskipTests
+
+FROM openjdk:17
+WORKDIR /ai-cv-generator-backend
+ADD /ai-cv-generator-backend/target/*.jar acgbackend
+EXPOSE 8080
+
+ENTRYPOINT ["java", "-jar", "acgbackend"]
