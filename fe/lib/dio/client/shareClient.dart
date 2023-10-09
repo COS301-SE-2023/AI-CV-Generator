@@ -9,7 +9,7 @@ import 'dart:typed_data';
 class ShareApi {
   static final Dio shareClient = Dio(
     BaseOptions( 
-      baseUrl: "http://localhost:8080/",
+      baseUrl: "http://acgbackend.dmdyh8atf8dnd3cs.eastus2.azurecontainer.io:8080/",
       connectTimeout: const Duration(
         seconds: 10
       ),
