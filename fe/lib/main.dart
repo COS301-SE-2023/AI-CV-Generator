@@ -57,34 +57,19 @@ class MyApp extends StatelessWidget {
           return MaterialPageRoute(builder: (_) => const Login());
         }
         Uri base = Uri.parse(settings.name!);
-        switch (base.path) {
-          case'/':
+        print(base.pathSegments.first);
+        switch (base.pathSegments.first) {
+          case'':
               return MaterialPageRoute(builder: (_) => const Login()); 
-          case'/verify':
+          case'verify':
               return MaterialPageRoute(builder: (_) => EmailVerification(code: base.queryParameters["code"],));
-          case'/share':
+          case'share':
               String uuid = base.pathSegments.last;
-              return MaterialPageRoute(builder: (_) => const Login());
-          case'/validate':
+              return MaterialPageRoute(builder: (_) => SharedFileView(uuid: uuid));
+          case'validate':
               return MaterialPageRoute(builder: (_) => ChangePassword(code: base.queryParameters["code"],));
         }
       }
-    );
-  }
-}
-
-class ShareCVApp extends StatelessWidget {
-  const ShareCVApp({super.key, required this.file});
-  final PlatformFile? file;
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'AI CV Generator',
-      debugShowCheckedModeBanner: false,
-      initialRoute: '/',
-      routes: {
-        '/':(context) => SharedFileView(file: file),
-      },
     );
   }
 }

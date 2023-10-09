@@ -821,6 +821,8 @@ class HomeState extends State<Home> {
                                                         aiInput = await AIApi.extractPdf(file: file);
                                                         if (aiInput == null) {
                                                           showError("Something went wrong!");
+                                                          setCVLoadingOff();
+                                                          setCVErrorOn();
                                                           return;
                                                         }
                                                         aiInput = nullSafeInputData(aiInput!);
