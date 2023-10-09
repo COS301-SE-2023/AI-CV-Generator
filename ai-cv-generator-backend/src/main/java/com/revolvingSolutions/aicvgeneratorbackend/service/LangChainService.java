@@ -7,15 +7,18 @@ import com.revolvingSolutions.aicvgeneratorbackend.model.aimodels.AIEmployment;
 import com.revolvingSolutions.aicvgeneratorbackend.model.aimodels.AIInputData;
 import com.revolvingSolutions.aicvgeneratorbackend.model.aimodels.CVData;
 import com.revolvingSolutions.aicvgeneratorbackend.model.aimodels.ProfessionalSummaryModel;
+import com.revolvingSolutions.aicvgeneratorbackend.model.user.User;
 import com.revolvingSolutions.aicvgeneratorbackend.request.AI.ChatRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.AI.ExtractionRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.AI.GenerationRequest;
+import com.revolvingSolutions.aicvgeneratorbackend.request.AI.UrlExtractionRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.response.AI.ChatResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.AI.ExtractionResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.AI.GenerationResponse;
 
 import dev.langchain4j.data.message.AiMessage;
 import dev.langchain4j.data.message.ChatMessage;
+import dev.langchain4j.data.message.SystemMessage;
 import dev.langchain4j.data.message.UserMessage;
 import dev.langchain4j.data.segment.TextSegment;
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
@@ -26,12 +29,17 @@ import dev.langchain4j.retriever.Retriever;
 import dev.langchain4j.service.AiServices;
 import dev.langchain4j.store.memory.chat.ChatMemoryStore;
 import lombok.RequiredArgsConstructor;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+
+import static dev.langchain4j.data.message.SystemMessage.systemMessage;
 
 @Service
 @RequiredArgsConstructor
@@ -39,6 +47,8 @@ public class LangChainService {
 
     @Value("${app.api.blockAI}")
     private Boolean block;
+
+    private final UserService userService;
 
     public GenerationResponse GenerateCV(
             GenerationRequest request
@@ -128,16 +138,42 @@ public class LangChainService {
         if (data.getLinks() == null) data.setLinks(new ArrayList<>());
         if (data.getSkills() == null) data.setReferences(new ArrayList<>());
 
-        ExtractionResponse resp = ExtractionResponse.builder()
+        return ExtractionResponse.builder()
                 .data(
                     data
                 )
                 .build();
-        System.out.println(resp.toString());
-        return  resp;
+    }
+
+    public ExtractionResponse extractUrlData(
+            UrlExtractionRequest request
+    ) throws IOException {
+        Document doc = Jsoup.connect(request.getUrl()).get();
+        AIInputData data = urlExtractionAgent(extractionChatLanguageModel()).extractPersonFrom(doc.toString());
+        if (data.getFirstname() == null) data.setFirstname("First Name");
+        if (data.getLastname() == null) data.setLastname("Last Name");
+        if (data.getEmail() == null) data.setEmail("Email");
+        if (data.getLocation() == null) data.setLocation("Location");
+        if (data.getPhoneNumber() == null) data.setPhoneNumber("Phone number");
+        if (data.getDescription() == null) data.setDescription("Description");
+        if (data.getExperience() == null) data.setExperience(new ArrayList<>());
+        if (data.getQualifications() == null) data.setQualifications(new ArrayList<>());
+        if (data.getLinks() == null) data.setLinks(new ArrayList<>());
+        if (data.getSkills() == null) data.setReferences(new ArrayList<>());
+
+        return ExtractionResponse.builder()
+                .data(
+                        data
+                )
+                .build();
+    }
+
+    public User getAISafeModel() {
+        return userService.getUser().getUser();
     }
 
     public ChatResponse chatBotInteract(ChatRequest request) {
+        List<String> messages = new ArrayList<>();
         ChatBotAgent chatBot = chatBotAgent(chatBotLanguageModel(),request.getMessages());
         String response = chatBot.chat(0,request.getUserMessage());
         request.getMessages().add(request.getUserMessage());
@@ -293,9 +329,21 @@ public class LangChainService {
                 .build();
     }
 
+    public UrlExtractionAgent urlExtractionAgent(ChatLanguageModel extractionChatLanguageModel) {
+        return AiServices.builder(UrlExtractionAgent.class)
+                .chatLanguageModel(extractionChatLanguageModel)
+                .chatMemory(MessageWindowChatMemory.withMaxMessages(5))
+                .build();
+    }
+
     public ChatBotAgent chatBotAgent(ChatLanguageModel chatLanguageModel, List<String> messages) {
         List<ChatMessage> messagesOff = new ArrayList<ChatMessage>();
-        Boolean user = true;
+        boolean user = true;
+        messagesOff.add(
+                systemMessage(
+                        "The user has the following information: "+getAISafeModel().toString()
+                )
+        );
         for (int x=0;x<messages.size();x++) {
             if (user) {
                 user = false;

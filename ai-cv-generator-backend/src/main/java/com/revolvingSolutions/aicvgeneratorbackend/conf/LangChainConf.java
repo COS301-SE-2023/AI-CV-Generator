@@ -22,6 +22,7 @@ import dev.langchain4j.service.AiServices;
 import dev.langchain4j.store.embedding.EmbeddingStore;
 import dev.langchain4j.store.embedding.EmbeddingStoreIngestor;
 import dev.langchain4j.store.embedding.inmemory.InMemoryEmbeddingStore;
+import dev.langchain4j.store.embedding.pinecone.PineconeEmbeddingStore;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -48,9 +49,20 @@ public class LangChainConf {
     @Value("${langchain4j.chat-model.openai.temperature}")
     private Double temperature;
 
-    @Value("${app.api.embedimformation}")
+    @Value("${app.api.embed.information}")
     private Boolean embed;
 
+    @Value("${app.api.embedding.key}")
+    private String embedKey;
+
+    @Value("${app.api.embedding.environment}")
+    private String environment;
+
+    @Value("${app.api.embedding.index}")
+    private String index;
+
+    @Value("${app.api.embedding.project.id}")
+    private String projectId;
 
     @Bean
     public ChatLanguageModel chatLanguageModel() {
@@ -133,7 +145,13 @@ public class LangChainConf {
     }
     @Bean
     public EmbeddingStore<TextSegment> embeddingStore(EmbeddingModel embeddingModel, ResourceLoader resourceLoader) throws IOException {
-        EmbeddingStore<TextSegment> embeddingStore = new InMemoryEmbeddingStore<>();
+        EmbeddingStore<TextSegment> embeddingStore = PineconeEmbeddingStore.builder()
+                .apiKey(embedKey)
+                .environment(environment)
+                .index(index)
+                .nameSpace("")
+                .projectId(projectId)
+                .build();
         Document document;
         if (embed) return embeddingStore;
         try {

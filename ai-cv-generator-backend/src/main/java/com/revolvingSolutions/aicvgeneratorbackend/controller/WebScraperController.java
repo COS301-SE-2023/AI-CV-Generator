@@ -5,7 +5,6 @@ import com.revolvingSolutions.aicvgeneratorbackend.request.webscraper.JobScrapeR
 import com.revolvingSolutions.aicvgeneratorbackend.response.webscraper.JobScrapeResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.service.CareerBuildersService;
 import com.revolvingSolutions.aicvgeneratorbackend.service.CareerJunctionService;
-import com.revolvingSolutions.aicvgeneratorbackend.service.JobScraperService;
 import com.revolvingSolutions.aicvgeneratorbackend.service.LinkedinService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +23,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 @RequiredArgsConstructor
 public class WebScraperController {
 
-    private final JobScraperService service;
     private final LinkedinService linkedinService;
     private final CareerBuildersService careerBuildersService;
     private final CareerJunctionService careerJunctionService;
@@ -50,19 +48,17 @@ public class WebScraperController {
                             .jobs(responseDTOS)
                             .build()
             );
-        } catch (RuntimeException e) {
+        } catch (RuntimeException | IOException | ExecutionException | InterruptedException e) {
             return ResponseEntity.notFound().build();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (ExecutionException e) {
-            throw new RuntimeException(e);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
         }
     }
 
     @GetMapping(value = "/recommended")
     public  ResponseEntity<JobScrapeResponse> recommend() throws ExecutionException, InterruptedException {
-        return ResponseEntity.ok(service.getRecommended());
+        return ResponseEntity.ok(
+                JobScrapeResponse.builder()
+                        .jobs(new HashSet<>())
+                        .build()
+        );
     }
 }

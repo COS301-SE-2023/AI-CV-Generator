@@ -30,7 +30,6 @@ import static org.mockito.Mockito.mock;
 @DataJpaTest
 public class WebScraperIntegrationTest {
     private WebScraperController controller;
-    private JobScraperService service;
     private LinkedinService linkedinService;
     private CareerBuildersService careerBuildersService;
     private CareerJunctionService careerJunctionService;
@@ -51,9 +50,7 @@ public class WebScraperIntegrationTest {
         linkedinService = new LinkedinService();
         careerBuildersService = new CareerBuildersService();
         careerJunctionService = new CareerJunctionService();
-        service = new JobScraperService(repository,userService);
         controller = new WebScraperController(
-                service,
                 linkedinService,
                 careerBuildersService,
                 careerJunctionService
@@ -95,6 +92,5 @@ public class WebScraperIntegrationTest {
         ResponseEntity<JobScrapeResponse> response = controller.jobScrape(req);
         // then
         assertThat(response.getStatusCode().isSameCodeAs(HttpStatusCode.valueOf(404))).isTrue();
-        assertThat(Objects.requireNonNull(response.getBody()).getJobs().isEmpty()).isFalse();
     }
 }
