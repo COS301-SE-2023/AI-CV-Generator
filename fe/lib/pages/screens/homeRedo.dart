@@ -746,6 +746,8 @@ class HomeState extends State<Home> {
                                 width: 7*w, 
                                 height: 5*h, 
                                 onTap: () async {
+                                  final _formKey = GlobalKey<FormState>();
+                                  TextEditingController urlC = TextEditingController();
                                   showDialog(
                                     context: context,
                                     builder: (BuildContext context) {
@@ -764,40 +766,49 @@ class HomeState extends State<Home> {
                                                 ),
                                                 const SizedBox(height: 16.0),
                                                 Row(
+                                                  crossAxisAlignment: CrossAxisAlignment.center,
                                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                   children: [
-                                                    Row(
-                                                      children: [
-                                                        Container(
-                                                          width: 15*w, 
-                                                          height: 6*h, 
-                                                          child: TextFormField(
-                                                            textAlign: TextAlign.center,
-                                                            key: const Key("location"),
-                                                            decoration: const InputDecoration(
-                                                              hintText: "URL",
-                                                              border: OutlineInputBorder()
+                                                    Form(
+                                                      key: _formKey,
+                                                      child: Row(
+                                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                                        children: [
+                                                          Container(
+                                                            width: 15*w, 
+                                                            height: 8*h, 
+                                                            child: TextFormField(
+                                                              style: TextStyle(fontSize: 11),
+                                                              textAlign: TextAlign.center,
+                                                              key: const Key("url"),
+                                                              decoration: const InputDecoration(
+                                                                hintText: "URL",
+                                                                border: OutlineInputBorder()
+                                                              ),
+                                                              controller: urlC,
+                                                              // validator: (value) {
+                                                              //   if (value == null || value.isEmpty) {
+                                                              //     return 'Field is empty';
+                                                              //   }
+                                                              //   return null;
+                                                              // },
                                                             ),
-                                                            // controller: locationC,
-                                                            validator: (value) {
-                                                              if (value == null || value.isEmpty) {
-                                                                return 'Field is empty';
-                                                              }
-                                                              return null;
-                                                            },
                                                           ),
-                                                        ),
-                                                        const SizedBox(width: 8,),
-                                                        CustomizableButton(
-                                                          onTap: () {
-                                                            // DownloadService.download(file!.bytes!.toList(), downloadName: file.name);
-                                                          },
-                                                          text: "Submit",
-                                                          width: 7*w, 
-                                                          height: 5*h, 
-                                                          fontSize: w*0.8,
-                                                        ),
-                                                      ],
+                                                          const SizedBox(width: 8,),
+                                                          CustomizableButton(
+                                                            onTap: () {
+                                                              if(_formKey.currentState!.validate() == true) {
+                                                                //use url link
+                                                                urlC.text;
+                                                              }
+                                                            },
+                                                            text: "Submit",
+                                                            width: 7*w, 
+                                                            height: 5*h, 
+                                                            fontSize: w*0.8,
+                                                          ),
+                                                        ],
+                                                      ),
                                                     ),
                                                     const Text("OR"),
                                                     CustomizableButton(
