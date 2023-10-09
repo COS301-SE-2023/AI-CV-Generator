@@ -5,6 +5,7 @@ import 'package:ai_cv_generator/pages/screens/changePassword.dart';
 import 'package:ai_cv_generator/pages/screens/emailConfirmation.dart';
 import 'package:ai_cv_generator/pages/screens/emailVerification.dart';
 import 'package:ai_cv_generator/pages/screens/forgotPassword.dart';
+import 'package:mockito/mockito.dart';
 import './pages/screens/Register.dart';
 import 'package:ai_cv_generator/pages/screens/about.dart';
 import 'package:ai_cv_generator/pages/screens/help.dart';
@@ -19,34 +20,16 @@ import 'package:ai_cv_generator/pages/util/sharedFileView.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
+import 'package:flutter_web_plugins/url_strategy.dart';
+
+
 Future<void> main() async {
-  Uri myurl = Uri.base;
-  if (myurl.path.contains("/share/")) {
-    String uuid = myurl.pathSegments.last;
-    PlatformFile? file = await ShareApi.retrieveFile(uuid: uuid);
-    runApp(ShareCVApp(file: file));
-  } else if (myurl.path.contains("/verify")) {
-    final String? code = myurl.queryParameters["code"];
-    if (code != null) {
-      runApp(MyApp(route: "/verify",code: code));
-    } else {
-      runApp(const MyApp(route: "/",));
-    }
-  } else if (myurl.path.contains("/reset")) {
-    final String? code = myurl.queryParameters["code"];
-    if (code != null) {
-      runApp(MyApp(route: "/validate",code: code,));
-    } else {
-      runApp(const MyApp(route: "/",));
-    }
-  } else {
-    runApp(const MyApp(route: "/"));
-  }
+  usePathUrlStrategy();
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key, required this.route, this.code});
-  final String route;
+  const MyApp({super.key, this.code});
   final String? code;
   @override
   Widget build(BuildContext context) {
@@ -55,9 +38,10 @@ class MyApp extends StatelessWidget {
       themeMode: ThemeMode.system,
       title: 'AI CV Generator',
       debugShowCheckedModeBanner: false,
-      initialRoute: route,
+      initialRoute: '/',
       routes: {
         '/':(context) => const Login(),
+        '/verify':(context) => EmailVerification(code: code,),
         '/register':(context) => const RegisterPage(),
         '/confirm':(context) => const EmailConfirmation(),
         '/home':(context) => const Home(),
@@ -65,28 +49,26 @@ class MyApp extends StatelessWidget {
         '/jobs':(context) => const JobsPage(),
         '/about':(context) => const AboutPage(),
         '/help':(context) => const Help(),
-        '/verify':(context) => EmailVerification(code: code,),
         '/validate':(context) => ChangePassword(code: code,),
         '/forgot':(context) => const ForgotPassword()
       },
       onGenerateRoute: (settings) {
-        if (settings.name == '/profile') {
-          return PageRouteBuilder(
-            settings: settings,
-            pageBuilder: (context,animation, secondaryAnimation ) => const Profile(),
-            transitionsBuilder: (context, animation, secondaryAnimation, child) {
-
-              return FadeTransition(
-                opacity: animation,
-                child: child
-              );
-            },
-            transitionDuration: Duration.zero,
-            reverseTransitionDuration: const Duration(seconds: 2)
-          );
+        if (settings.name == null) {
+          return MaterialPageRoute(builder: (_) => const Login());
         }
-        return MaterialPageRoute(builder: (context)=> const Home());
-      },
+        Uri base = Uri.parse(settings.name!);
+        switch (base.path) {
+          case'/':
+              return MaterialPageRoute(builder: (_) => const Login()); 
+          case'/verify':
+              return MaterialPageRoute(builder: (_) => EmailVerification(code: base.queryParameters["code"],));
+          case'/share':
+              String uuid = base.pathSegments.last;
+              return MaterialPageRoute(builder: (_) => const Login());
+          case'/validate':
+              return MaterialPageRoute(builder: (_) => ChangePassword(code: base.queryParameters["code"],));
+        }
+      }
     );
   }
 }
