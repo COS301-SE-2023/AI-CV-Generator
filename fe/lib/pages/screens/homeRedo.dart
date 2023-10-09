@@ -623,7 +623,7 @@ class HomeState extends State<Home> {
               }, 
               child: Row(
                 children: [
-                  Text(model!.fname,),
+                  Text(model != null ? model!.fname : "user",),
                   SizedBox(width: 0.4*w,),
                   const Icon(Icons.account_circle),
                   SizedBox(width: 1.6*w,),
