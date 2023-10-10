@@ -74,7 +74,7 @@ class AIApi extends DioClient {
       return ChatResponse.fromJson(value.data).messages;
     }).timeout(const Duration(milliseconds: 80000),
     onTimeout: () {
-    
+    return List.empty();
     });
      return null;
   }
