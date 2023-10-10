@@ -53,7 +53,6 @@ class TokenRevalidator extends Interceptor {
         return handler.next(err);
       }
     }
-    return handler.next(err);
     
   }
 }
