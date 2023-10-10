@@ -1,30 +1,26 @@
 // internal
 import 'package:ai_cv_generator/pages/elements/elements.dart';
-import 'package:ai_cv_generator/dio/client/shareClient.dart';
 import 'package:ai_cv_generator/pages/screens/changePassword.dart';
 import 'package:ai_cv_generator/pages/screens/emailConfirmation.dart';
 import 'package:ai_cv_generator/pages/screens/emailVerification.dart';
 import 'package:ai_cv_generator/pages/screens/forgotPassword.dart';
-import 'package:mockito/mockito.dart';
-import './pages/screens/Register.dart';
+import 'package:ai_cv_generator/pages/screens/Register.dart';
 import 'package:ai_cv_generator/pages/screens/about.dart';
 import 'package:ai_cv_generator/pages/screens/help.dart';
 import 'package:ai_cv_generator/pages/screens/homeRedo.dart';
 import 'package:ai_cv_generator/pages/screens/job.dart';
 import 'package:ai_cv_generator/pages/screens/login.dart';
 import 'package:ai_cv_generator/pages/screens/profile.dart';
-import 'package:ai_cv_generator/pages/screens/testPage.dart';
 import 'package:ai_cv_generator/pages/util/sharedFileView.dart';
 
 // external
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_web_plugins/url_strategy.dart';
 
 
 Future<void> main() async {
-  usePathUrlStrategy();
+  //usePathUrlStrategy();
   runApp(const MyApp());
 }
 
@@ -68,6 +64,8 @@ class MyApp extends StatelessWidget {
               return MaterialPageRoute(builder: (_) => SharedFileView(uuid: uuid));
           case'validate':
               return MaterialPageRoute(builder: (_) => ChangePassword(code: base.queryParameters["code"],));
+          default:
+              return MaterialPageRoute(builder: (_) => const Login());
         }
       }
     );
