@@ -10,10 +10,10 @@ class DioClient {
       baseUrl: "http://acgbackend.dmdyh8atf8dnd3cs.eastus2.azurecontainer.io:8080/",
       //Will change depending on time
       connectTimeout: const Duration(
-        seconds: 80
+        seconds: 120
       ),
       receiveTimeout: const Duration(
-        seconds: 80
+        seconds: 120
       ),
     ),
   ) ..interceptors.addAll(
