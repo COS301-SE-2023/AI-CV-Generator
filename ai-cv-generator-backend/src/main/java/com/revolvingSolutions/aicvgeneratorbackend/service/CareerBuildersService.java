@@ -18,12 +18,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Service
 public class CareerBuildersService {
 
-    public void setCareerBuilders(AtomicInteger amount) {
-        this.amount = amount;
-    }
-
-    private AtomicInteger amount = new AtomicInteger(0);
-
     @Async("task2")
     public CompletableFuture<Set<JobResponseDTO>> CBRE(JobScrapeRequest request) throws IOException {
         System.out.println("CareerBuilders" + Thread.currentThread().getName());

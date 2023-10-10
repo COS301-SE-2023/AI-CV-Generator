@@ -18,11 +18,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Service
 public class LinkedinService {
 
-    public void setLinkedIn(AtomicInteger amount) {
-        this.amount = amount;
-    }
-
-    private AtomicInteger amount = new AtomicInteger(0);
     @Async("task1")
     public CompletableFuture<Set<JobResponseDTO>> linkedIn(JobScrapeRequest request) throws IOException {
         System.out.println("LinkedIn start " + Thread.currentThread().getName());

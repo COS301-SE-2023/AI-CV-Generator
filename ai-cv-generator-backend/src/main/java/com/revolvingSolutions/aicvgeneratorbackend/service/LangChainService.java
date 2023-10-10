@@ -3,10 +3,7 @@ package com.revolvingSolutions.aicvgeneratorbackend.service;
 
 import com.revolvingSolutions.aicvgeneratorbackend.agent.*;
 import com.revolvingSolutions.aicvgeneratorbackend.constants.StaticValues;
-import com.revolvingSolutions.aicvgeneratorbackend.model.aimodels.AIEmployment;
-import com.revolvingSolutions.aicvgeneratorbackend.model.aimodels.AIInputData;
-import com.revolvingSolutions.aicvgeneratorbackend.model.aimodels.CVData;
-import com.revolvingSolutions.aicvgeneratorbackend.model.aimodels.ProfessionalSummaryModel;
+import com.revolvingSolutions.aicvgeneratorbackend.model.aimodels.*;
 import com.revolvingSolutions.aicvgeneratorbackend.model.user.User;
 import com.revolvingSolutions.aicvgeneratorbackend.request.AI.ChatRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.AI.ExtractionRequest;
@@ -16,6 +13,7 @@ import com.revolvingSolutions.aicvgeneratorbackend.response.AI.ChatResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.AI.ExtractionResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.AI.GenerationResponse;
 
+import dev.langchain4j.classification.TextClassifier;
 import dev.langchain4j.data.message.AiMessage;
 import dev.langchain4j.data.message.ChatMessage;
 import dev.langchain4j.data.message.SystemMessage;
@@ -37,6 +35,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import static dev.langchain4j.data.message.SystemMessage.systemMessage;

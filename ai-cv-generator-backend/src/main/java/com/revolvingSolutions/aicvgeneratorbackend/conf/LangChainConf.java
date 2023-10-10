@@ -2,6 +2,8 @@ package com.revolvingSolutions.aicvgeneratorbackend.conf;
 
 
 import com.revolvingSolutions.aicvgeneratorbackend.agent.*;
+import com.revolvingSolutions.aicvgeneratorbackend.model.aimodels.JobClassification;
+import dev.langchain4j.classification.EmbeddingModelTextClassifier;
 import dev.langchain4j.classification.TextClassifier;
 import dev.langchain4j.data.document.Document;
 import dev.langchain4j.data.document.DocumentSplitter;
@@ -32,6 +34,8 @@ import org.springframework.core.io.ResourceLoader;
 
 import java.io.IOException;
 import java.time.Duration;
+import java.util.HashMap;
+import java.util.List;
 
 import static dev.langchain4j.data.document.FileSystemDocumentLoader.loadDocument;
 import static dev.langchain4j.model.openai.OpenAiModelName.GPT_3_5_TURBO;
@@ -166,7 +170,6 @@ public class LangChainConf {
                     .build();
             ingestor.ingest(document);
         } catch (Exception e) {
-            e.printStackTrace();
             System.out.println("Warning Something has BADLY gone Wrong!");
         }
         return embeddingStore;
@@ -175,5 +178,117 @@ public class LangChainConf {
     @Bean
     public ModerationModel moderationModel() {
         return OpenAiModerationModel.withApiKey(apikey);
+    }
+
+    @Bean
+    public TextClassifier<JobClassification> jobMap(EmbeddingModel embeddingModel) {
+        HashMap<JobClassification, List<String>> map = new HashMap<>();
+        map.put(
+                JobClassification.engineering,
+                List.of(
+                        "Analytical Thinker",
+                        "Problem Solver",
+                        "Innovative Designer",
+                        "Detail-Oriented Professional",
+                        "Technical Expert",
+                        "Team Player",
+                        "Creative Solution Provider",
+                        "Continuous Learner",
+                        "Critical Thinker",
+                        "Precision Engineer"
+                )
+        );
+        map.put(
+                JobClassification.business,
+                List.of(
+                        "Strategic Thinker",
+                        "Effective Communicator",
+                        "Team Leader",
+                        "Analytical Mindset",
+                        "Financial Acumen",
+                        "Negotiation Skills",
+                        "Decision Maker",
+                        "Adaptable to Change",
+                        "Problem Solver",
+                        "Customer-Centric"
+                )
+        );
+        map.put(
+                JobClassification.computer_science,
+                List.of(
+                        "Algorithm Expert",
+                        "Coding Guru",
+                        "Problem-Solving Pro",
+                        "Data Science Enthusiast",
+                        "Cybersecurity Whiz",
+                        "AI and Machine Learning Aficionado",
+                        "Software Development Maestro",
+                        "Database Wizard",
+                        "Web Development Prodigy",
+                        "Networking Ninja"
+                )
+        );
+        map.put(
+                JobClassification.architecture,
+                List.of(
+                        "Creative Designer",
+                        "Spatial Thinker",
+                        "Detail-Oriented Planner",
+                        "Innovative Problem Solver",
+                        "Technically Proficient",
+                        "Team Player",
+                        "Sustainable Design Advocate",
+                        "Continuous Learner",
+                        "Critical Evaluator",
+                        "Master of Form and Function"
+                )
+        );
+        map.put(
+                JobClassification.finance,
+                List.of(
+                        "Analytical Thinker",
+                        "Risk Management Expert",
+                        "Financial Strategist",
+                        "Data-Driven Decision Maker",
+                        "Detail-Oriented Analyst",
+                        "Investment Savvy",
+                        "Regulatory Compliance Specialist",
+                        "Effective Communicator",
+                        "Problem-Solving Guru",
+                        "Economic Trend Interpreter"
+                )
+        );
+        map.put(
+                JobClassification.education,
+                List.of(
+                        "Passionate Educator",
+                        "Innovative Curriculum Developer",
+                        "Dedicated Mentor",
+                        "Lifelong Learner",
+                        "Student-Centered Advocate",
+                        "Effective Classroom Manager",
+                        "Tech-Savvy Instructor",
+                        "Research-Driven Scholar",
+                        "Collaborative Team Player",
+                        "Compassionate Listener"
+                )
+        );
+        map.put(
+                JobClassification.law,
+                List.of(
+                        "Analytical Legal Mind",
+                        "Expert Researcher",
+                        "Effective Communicator",
+                        "Detail-Oriented",
+                        "Strong Advocate",
+                        "Critical Thinker",
+                        "Negotiation Skills",
+                        "Legal Writing Proficiency",
+                        "Ethical and Professional",
+                        "Strategic Problem Solver"
+                )
+        );
+        TextClassifier<JobClassification> classifier = new EmbeddingModelTextClassifier<>(embeddingModel, map);
+        return classifier;
     }
 }

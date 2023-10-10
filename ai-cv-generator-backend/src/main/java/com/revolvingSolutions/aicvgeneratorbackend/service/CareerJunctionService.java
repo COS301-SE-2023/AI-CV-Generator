@@ -18,11 +18,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Service
 public class CareerJunctionService {
 
-    public void setJobCareerJunction(AtomicInteger amount) {
-        this.amount = amount;
-    }
-    private AtomicInteger amount = new AtomicInteger(0);
-
     @Async("task3")
     public CompletableFuture<Set<JobResponseDTO>> careerJunction(JobScrapeRequest request) throws IOException {
         System.out.println("Career Junction start" + Thread.currentThread().getName());
