@@ -800,6 +800,7 @@ class HomeState extends State<Home> {
                                                               if(_formKey.currentState!.validate() == true) {
                                                                 //use url link
                                                                 urlC.text;
+                                                                Navigator.of(context).pop();
                                                               }
                                                             },
                                                             text: "Submit",
@@ -818,32 +819,37 @@ class HomeState extends State<Home> {
                                                         generated = false;
                                                         noShowButton();
                                                         setCVLoadingOn();
-                                                        aiInput = await AIApi.extractPdf(file: file);
-                                                        if (aiInput == null) {
-                                                          showError("Something went wrong!");
-                                                          return;
-                                                        }
-                                                        aiInput = nullSafeInputData(aiInput!);
-                                                        noShowButton();
-                                                        aiInput = await extractMenu(aiInput!, file.bytes!);
-                                                        if (aiInput == null) {
+                                                        AIApi.extractPdf(file: file).then((value) async {
+                                                          aiInput = value;
+                                                          if (aiInput == null) {
+                                                            showError("Something went wrong!");
+                                                            setCVLoadingOff();
+                                                            setCVErrorOn();
+                                                            return;
+                                                          }
+                                                          aiInput = nullSafeInputData(aiInput!);
+                                                          noShowButton();
+                                                          aiInput = await extractMenu(aiInput!, file.bytes!);
+                                                          if (aiInput == null) {
+                                                            setCVLoadingOff();
+                                                            return;
+                                                          }
+                                                          showButton();
+                                                          data = await AIApi.generateAI(data: aiInput!);
+                                                          if (data == null || data!.description == null) {
+                                                            setCVErrorOn();
+                                                            return;
+                                                          }
+                                                          data = nullSafeOutputData(data!);
+                                                          bytes = await templateChoice(data!, option, colors);
+                                                          if (bytes == null) {
+                                                            setCVError();
+                                                            return;
+                                                          }
+                                                          generated = true;
                                                           setCVLoadingOff();
-                                                          return;
-                                                        }
-                                                        showButton();
-                                                        data = await AIApi.generateAI(data: aiInput!);
-                                                        if (data == null || data!.description == null) {
-                                                          setCVErrorOn();
-                                                          return;
-                                                        }
-                                                        data = nullSafeOutputData(data!);
-                                                        bytes = await templateChoice(data!, option, colors);
-                                                        if (bytes == null) {
-                                                          setCVError();
-                                                          return;
-                                                        }
-                                                        generated = true;
-                                                        setCVLoadingOff();
+                                                        });
+                                                        Navigator.of(context).pop();
                                                       }, 
                                                       text: "Upload CV",
                                                       width: 7*w, 
