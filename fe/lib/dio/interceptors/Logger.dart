@@ -34,6 +34,6 @@ class Logger extends Interceptor {
     if (err.response == null) {
       print("Error may be that frontend cannot connect to the backend or that the backend isnt running");
     }
-    return super.onError(err, handler);
+    return handler.next(err);
   }
 }

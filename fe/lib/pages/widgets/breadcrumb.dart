@@ -17,7 +17,7 @@ class Breadcrumb extends StatelessWidget {
           children: [
             TextButton(
               onPressed: () {
-                Navigator.pushNamed(context, "/ + ${previousPage.toLowerCase()}");
+                Navigator.pushNamed(context, "/${previousPage.toLowerCase()}");
               },
               child: Text(
                 previousPage,

@@ -53,7 +53,6 @@ class MyApp extends StatelessWidget {
           return MaterialPageRoute(builder: (_) => const Login());
         }
         Uri base = Uri.parse(settings.name!);
-        print(base.pathSegments.first);
         switch (base.pathSegments.first) {
           case'':
               return MaterialPageRoute(builder: (_) => const Login()); 
