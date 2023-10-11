@@ -157,6 +157,20 @@ class HomeState extends State<Home> {
     });
   }
 
+  setCVExtractLoadingOn() {
+    setState(() {
+      status = ScreenStatus.extarction;
+    });
+  }
+
+  setCVExtractLoadingOff() {
+    setState(() {
+      status = ScreenStatus.empty;
+    });
+  }
+
+
+
   // CV AI Error screen
   // On
   setCVErrorOn() {
@@ -819,7 +833,7 @@ class HomeState extends State<Home> {
                                                         if (file == null) return;
                                                         generated = false;
                                                         noShowButton();
-                                                        setCVLoadingOn();
+                                                        setCVExtractLoadingOn();
                                                         AIApi.extractPdf(file: file).then((value) async {
                                                           aiInput = value;
                                                           if (aiInput == null) {
@@ -830,9 +844,9 @@ class HomeState extends State<Home> {
                                                           }
                                                           aiInput = nullSafeInputData(aiInput!);
                                                           noShowButton();
+                                                          setCVExtractLoadingOff();
                                                           aiInput = await extractMenu(aiInput!, file.bytes!);
                                                           if (aiInput == null) {
-                                                            setCVLoadingOff();
                                                             return;
                                                           }
                                                           showButton();
@@ -848,7 +862,7 @@ class HomeState extends State<Home> {
                                                             return;
                                                           }
                                                           generated = true;
-                                                          setCVLoadingOff();
+                                                          setCVExtractLoadingOff();
                                                         });
                                                         Navigator.of(context).pop();
                                                       }, 
