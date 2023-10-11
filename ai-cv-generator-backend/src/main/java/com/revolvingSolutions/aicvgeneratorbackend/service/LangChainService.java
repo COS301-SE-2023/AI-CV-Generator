@@ -121,9 +121,6 @@ public class LangChainService {
         if (request.getText().split(" ").length > 1000) {
             throw new Exception("Word Limit!!",null);
         }
-        if (block) {
-            // implement mock later
-        }
         AIInputData data = extractionAgent(extractionChatLanguageModel()).extractPersonFrom(request.getText());
 
         if (data.getFirstname() == null) data.setFirstname("First Name");

@@ -51,15 +51,15 @@ class AIApi extends DioClient {
     required PlatformFile file
   }) async {
     AIInput? data;
-    await DioClient.dio.post(
+    try {
+      Response response = await DioClient.dio.post(
         'generate/extract',
         data: ExtractionRequest(text: PdfTextExtractor(PdfDocument(inputBytes: file.bytes)).extractText()).toJson()
-      ).then((value) {
-        data = ExtractionResponse.fromJson(value.data).data;
-      }).timeout(const Duration(milliseconds: 80000), 
-      onTimeout: () {
-        
-      },);
+      );
+      data = ExtractionResponse.fromJson(response.data).data;
+    } on DioException catch(e) {
+      DioClient.handleError(e);
+    }
     return data;
   }
 
@@ -67,16 +67,11 @@ class AIApi extends DioClient {
     required List<String> messages,
     required String userMessage
   }) async {
-    await Dio().post(
+    Response response = await DioClient.dio.post(
       'generate/chat',
       data: ChatRequest(messages: messages, userMessage: userMessage).toJson()
-    ).then((value) {
-      return ChatResponse.fromJson(value.data).messages;
-    }).timeout(const Duration(milliseconds: 80000),
-    onTimeout: () {
-    return List.empty();
-    });
-     return null;
+    );
+    return ChatResponse.fromJson(response.data).messages;
   }
 }
 

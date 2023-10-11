@@ -297,6 +297,7 @@ class HomeState extends State<Home> {
   getFileName(Uint8List bytes) async {
     String? name = await promptName();
     if (name == null) return;
+    name = name.replaceAll(" ", "_");
     Code code = await FileApi.uploadFile(file: PlatformFile(name: '$name.pdf', size: bytes.length, bytes: bytes));
     if (code == Code.requestFailed) {
       showError("Something went wrong!");

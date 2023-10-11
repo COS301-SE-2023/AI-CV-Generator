@@ -14,9 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.time.Instant;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -25,7 +23,7 @@ public class ShareService {
     private final ShareRepository shareRepository;
 
     @Transactional
-    public ResponseEntity<Resource> RetriveUrl(RetrieveFileWithURLRequest request) {
+    public ResponseEntity<Resource> RetrieveUrl(RetrieveFileWithURLRequest request) {
         try {
             ShareEntity share = shareRepository.getByUuid(request.getUuid()).orElseThrow();
             if (update(share)) {
@@ -50,15 +48,11 @@ public class ShareService {
         }
     }
 
-    private Boolean update(ShareEntity geting) {
+    private Boolean update(ShareEntity getting) {
         List<ShareEntity> expired = shareRepository.getExpiredURLs(LocalDateTime.now());
         shareRepository.deleteAllInBatch(shareRepository.getExpiredURLs(LocalDateTime.now()));
         shareRepository.flush();
-        if (expired.contains(geting)) {
-            return true;
-        } else {
-            return false;
-        }
+        return expired.contains(getting);
     }
 
 }

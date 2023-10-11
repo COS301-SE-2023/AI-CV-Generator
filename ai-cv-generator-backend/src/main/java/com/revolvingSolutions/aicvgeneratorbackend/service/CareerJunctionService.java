@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -62,7 +63,7 @@ public class CareerJunctionService {
                 }
                 responseDTOS.add(
                         JobResponseDTO.builder()
-                                .title(titleA.first().ownText())
+                                .title(Objects.requireNonNull(titleA.first()).ownText())
                                 .link(url+link)
                                 .location(location)
                                 .subTitle(subtitle)

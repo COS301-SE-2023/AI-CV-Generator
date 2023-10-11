@@ -156,19 +156,14 @@ public class LangChainConf {
                 .nameSpace("")
                 .projectId(projectId)
                 .build();
-        Document document;
         if (embed) return embeddingStore;
         try {
-
-            Resource resource = resourceLoader.getResource("classpath:data.txt");
-            document = loadDocument(resource.getFile().toPath());
-            DocumentSplitter documentSplitter = DocumentSplitters.recursive(100,new OpenAiTokenizer(GPT_3_5_TURBO));
-            EmbeddingStoreIngestor ingestor = EmbeddingStoreIngestor.builder()
-                    .documentSplitter(documentSplitter)
+            EmbeddingStoreIngestor.builder()
+                    .documentSplitter(DocumentSplitters.recursive(100,new OpenAiTokenizer(GPT_3_5_TURBO)))
                     .embeddingStore(embeddingStore)
                     .embeddingModel(embeddingModel)
-                    .build();
-            ingestor.ingest(document);
+                    .build()
+                    .ingest(loadDocument(resourceLoader.getResource("classpath:data.txt").getFile().toPath()));
         } catch (Exception e) {
             System.out.println("Warning Something has BADLY gone Wrong!");
         }
@@ -288,7 +283,6 @@ public class LangChainConf {
                         "Strategic Problem Solver"
                 )
         );
-        TextClassifier<JobClassification> classifier = new EmbeddingModelTextClassifier<>(embeddingModel, map);
-        return classifier;
+        return new EmbeddingModelTextClassifier<>(embeddingModel, map);
     }
 }

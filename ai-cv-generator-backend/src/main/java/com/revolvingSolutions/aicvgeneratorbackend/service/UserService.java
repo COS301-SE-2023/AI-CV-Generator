@@ -63,10 +63,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.*;
-import java.time.Instant;
 
 @Service
 @RequiredArgsConstructor
@@ -483,7 +481,6 @@ public class UserService {
                     .code(Code.success)
                     .build();
         } catch (Exception e) {
-            e.printStackTrace();
             return UploadFileResponse.builder()
                     .code(Code.failed)
                     .build();
@@ -591,8 +588,7 @@ public class UserService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
             String currentUserName = authentication.getName();
-            var user_ = userRepository.findByUsername(currentUserName).orElseThrow();
-            return user_;
+            return userRepository.findByUsername(currentUserName).orElseThrow();
         }
         throw new UnknownErrorException("This should not be possible");
     }

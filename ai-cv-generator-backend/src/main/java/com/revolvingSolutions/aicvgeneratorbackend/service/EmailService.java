@@ -1,6 +1,5 @@
 package com.revolvingSolutions.aicvgeneratorbackend.service;
 
-import com.revolvingSolutions.aicvgeneratorbackend.entitiy.UserEntity;
 import com.revolvingSolutions.aicvgeneratorbackend.model.email.Email;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;

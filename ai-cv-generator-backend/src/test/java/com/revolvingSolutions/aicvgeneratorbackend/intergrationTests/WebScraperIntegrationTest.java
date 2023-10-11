@@ -3,10 +3,12 @@ package com.revolvingSolutions.aicvgeneratorbackend.intergrationTests;
 import com.revolvingSolutions.aicvgeneratorbackend.controller.WebScraperController;
 import com.revolvingSolutions.aicvgeneratorbackend.entitiy.Role;
 import com.revolvingSolutions.aicvgeneratorbackend.entitiy.UserEntity;
+import com.revolvingSolutions.aicvgeneratorbackend.model.aimodels.JobClassification;
 import com.revolvingSolutions.aicvgeneratorbackend.repository.UserRepository;
 import com.revolvingSolutions.aicvgeneratorbackend.request.webscraper.JobScrapeRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.response.webscraper.JobScrapeResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.service.*;
+import dev.langchain4j.classification.TextClassifier;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -22,7 +24,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import java.util.Objects;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.mockito.Mockito.mock;
@@ -40,6 +41,9 @@ public class WebScraperIntegrationTest {
     @Mock
     private UserService userService;
 
+    @Mock
+    private TextClassifier<JobClassification> classifier;
+
     private AutoCloseable closeable;
 
     private UserEntity originUser;
@@ -53,7 +57,9 @@ public class WebScraperIntegrationTest {
         controller = new WebScraperController(
                 linkedinService,
                 careerBuildersService,
-                careerJunctionService
+                careerJunctionService,
+                classifier,
+                userService
             );
         // given
         Authentication authentication = mock(Authentication.class);

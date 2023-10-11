@@ -33,20 +33,21 @@ public class CareerBuildersService {
                 }
                 Element link = el.getElementsByClass("article__header__text__title article__header__text__title--4 ").first().getElementsByTag("a").first();
                 Element subtitle = el.getElementsByClass("article__header__text__subtitle").first();
-                if (subtitle!= null) continue;
+                if (subtitle == null) continue;
                 Elements spans = subtitle.getElementsByTag("span");
-                String subTitle = "";
+                StringBuilder subTitle = new StringBuilder();
                 for (Element ell: spans) {
-                    subTitle+= ell.ownText();
+                    subTitle.append(ell.ownText());
                 }
                 String location = "Location";
                 if (spans.size() >= 2) {
                     location = spans.get(2).ownText();
                 }
+                assert link != null;
                 responseDTOS.add(
                         JobResponseDTO.builder()
                                 .title(link.ownText())
-                                .subTitle(subTitle)
+                                .subTitle(subTitle.toString())
                                 .location(location)
                                 .imgLink("https://careers.cbre.com/portal/4/images/socialShare.jpg")
                                 .link(link.attr("href"))

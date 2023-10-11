@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -31,13 +32,14 @@ public class LinkedinService {
             }
             Element link = el.getElementsByClass("hidden-nested-link").first();
 
+            assert link != null;
             responseDTOS.add(
                     JobResponseDTO.builder()
-                            .title(el.getElementsByClass("base-search-card__title").first().ownText())
+                            .title(Objects.requireNonNull(el.getElementsByClass("base-search-card__title").first()).ownText())
                             .subTitle(link.ownText())
                             .link(link.attr("href"))
                             .imgLink("https://static.vecteezy.com/system/resources/previews/018/930/587/original/linkedin-logo-linkedin-icon-transparent-free-png.png")
-                            .location(el.getElementsByClass("job-search-card__location").first().ownText())
+                            .location(Objects.requireNonNull(el.getElementsByClass("job-search-card__location").first()).ownText())
                             .build()
             );
 
