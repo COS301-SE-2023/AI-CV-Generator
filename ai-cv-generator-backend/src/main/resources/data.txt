@@ -83,10 +83,8 @@ You can access your details through the profile page where you can access, modif
 Where can I look for jobs?
 You can look for jobs by clicking any of the JOBS tab at the top of the page where you can view all jobs available based on your location and interests
 
-To create a CV, a user has 3 options:
-1. Go through the survey button. The user should click on the the "survey" button at the top of the screen and follow all the prompts, filling in information as necessary. the CV generator will then generate a CV for the user.
-2. Upload an existing CV. The user should click the "upload" button at the top of the screen, they will be presented with 2 options, either a link or an upload pdf option. The user should select the option to upload a pdf and then select the pdf they want to select on their local device. The Generator will then allow the user to edit or modify the CV they uploaded and save it to their account.
-3. Provide a link. The user should click the "upload" button at the top of the screem, they will be presented with 2 options, either a link or an upload pdf option.the user should select the option to input a link, then provide the necessary link, the user should then follow the necessary prompts then the generator will then generate a CV based on that information.
+To create a CV, you have 3 options. You can go through the survey button. Click the "survey" button at the top of the screen and follow all the prompts, filling in information as necessary. the CV generator will then generate a CV for you. You can upload an existing CV. Click the "upload" button at the top of the screen, you will be presented with 2 options, either a link option or an upload pdf option. You should select the option to upload a pdf and then select the pdf you want on your local device. The Generator will then allow you to edit or modify the CV you uploaded and save it to your account.
+You could also provide a link. Click the "upload" button at the top of the screen, you will be presented with 2 options, either a link option or an upload pdf option. You should select the option to input a link, then provide the necessary link, you should then follow the necessary prompts then the generator will generate a CV based on that information.
 
 To edit a CV, you must select the CV you would like to edit, then click on the "Edit" button and a screen will pop up that will allow you to modify the information as it has been set in the survey. You can also change the colours on your CV on the left side of the page.
 
