@@ -15,6 +15,9 @@ var surfaceColour = Colors.grey.shade200;
 const onSurfaceColour = Colors.black;
 
 ThemeData mainTheme = ThemeData(
+  dialogTheme: const DialogTheme(
+    backgroundColor: Colors.white
+  ),
   cardTheme: const CardTheme(
     surfaceTintColor: Colors.white,
     color: Colors.white
