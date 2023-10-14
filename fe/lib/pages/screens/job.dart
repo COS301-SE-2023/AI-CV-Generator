@@ -290,6 +290,7 @@ class CreateJobCardState extends State<CreateJobCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: Colors.white,
       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20))),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
