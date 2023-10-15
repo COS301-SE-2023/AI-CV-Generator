@@ -69,6 +69,10 @@ public class UserEntity implements UserDetails {
     @OneToMany(mappedBy = "user")
     public Set<PasswordTokenEntity> passwordResetToken;
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    public ChatMemory chatMemory;
+
     @Enumerated(EnumType.STRING)
     public Role role;
 
