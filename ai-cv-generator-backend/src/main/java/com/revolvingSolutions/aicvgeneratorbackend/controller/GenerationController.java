@@ -54,7 +54,6 @@ public class GenerationController {
                     generationService.extractUrlData(request)
             );
         } catch (Exception e) {
-            e.printStackTrace();
             return  ResponseEntity.notFound().build();
         }
     }
@@ -68,7 +67,6 @@ public class GenerationController {
                     generationService.chatBotInteract(request)
             );
         } catch (Exception e) {
-            e.printStackTrace();
             return ResponseEntity.status(HttpStatusCode.valueOf(405)).build();
         }
     }

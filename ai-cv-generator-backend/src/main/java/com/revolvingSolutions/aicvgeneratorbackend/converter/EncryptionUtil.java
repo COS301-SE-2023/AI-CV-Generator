@@ -16,13 +16,13 @@ import java.security.spec.AlgorithmParameterSpec;
 @Component
 public class EncryptionUtil {
     @Value("${app.encryption.name}")
-    private static String CIPHER_NAME;
+    private String CIPHER_NAME;
 
     @Value("${app.encryption.algorithm}")
-    private static String SECRET_KEY_ALGORITHM;
+    private String SECRET_KEY_ALGORITHM;
 
     @Value("${app.encryption.key}")
-    private static String KEY;
+    private String KEY;
 
     public Cipher prepareAndInitCipher(int encryptionMode) throws InvalidKeyException, NoSuchPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException {
         Cipher cipher = Cipher.getInstance(CIPHER_NAME != null ? CIPHER_NAME : "AES/CBC/PKCS5Padding");

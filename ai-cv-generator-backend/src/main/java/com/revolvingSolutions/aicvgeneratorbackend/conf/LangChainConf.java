@@ -137,8 +137,8 @@ public class LangChainConf {
     public EmbeddingModel embeddingModel() {
         return OpenAiEmbeddingModel.builder()
                 .apiKey(apikey)
-                .logRequests(true)
-                .logResponses(true)
+                .logRequests(false)
+                .logResponses(false)
                 .modelName(TEXT_EMBEDDING_ADA_002)
                 .build();
     }
@@ -283,6 +283,6 @@ public class LangChainConf {
                         "Strategic Problem Solver"
                 )
         );
-        return new EmbeddingModelTextClassifier<>(embeddingModel, map);
+        return new EmbeddingModelTextClassifier<JobClassification>(embeddingModel, map);
     }
 }

@@ -349,8 +349,8 @@ class HomeState extends State<Home> {
   // Builders
   // CV file builder
   Widget add(String filename,paint.ImageProvider prov) {
-  return OutlinedButton(
-    onPressed: ()  {
+  return InkWell(
+    onTap: ()  {
       FileApi.requestFile(filename: filename).then((value) {
         showDialog(
           context: context,
@@ -849,8 +849,10 @@ class HomeState extends State<Home> {
                                                           if (aiInput == null) {
                                                             return;
                                                           }
+                                                          setCVLoadingOn();
                                                           showButton();
                                                           data = await AIApi.generateAI(data: aiInput!);
+                                                          setCVLoadingOff();
                                                           if (data == null || data!.description == null) {
                                                             setCVErrorOn();
                                                             return;
@@ -864,6 +866,7 @@ class HomeState extends State<Home> {
                                                           generated = true;
                                                           setCVExtractLoadingOff();
                                                         });
+                                                        setState(() {});
                                                         Navigator.of(context).pop();
                                                       }, 
                                                       text: "Upload CV",
