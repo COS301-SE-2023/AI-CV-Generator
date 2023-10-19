@@ -761,128 +761,163 @@ class HomeState extends State<Home> {
                                 width: 7*w, 
                                 height: 5*h, 
                                 onTap: () async {
-                                  final _formKey = GlobalKey<FormState>();
-                                  TextEditingController urlC = TextEditingController();
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return Dialog(
-                                        child: FractionallySizedBox(
-                                          widthFactor: 0.4,
-                                          child: Container(
-                                            padding: const EdgeInsets.all(16.0),
-                                            child: Column(
-                                              mainAxisSize: MainAxisSize.min,
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                const Text(
-                                                  'UPLOAD',
-                                                  style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
-                                                ),
-                                                const SizedBox(height: 16.0),
-                                                Row(
-                                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                  children: [
-                                                    Form(
-                                                      key: _formKey,
-                                                      child: Row(
-                                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                                        children: [
-                                                          Container(
-                                                            width: 15*w, 
-                                                            height: 8*h, 
-                                                            child: TextFormField(
-                                                              style: TextStyle(fontSize: 11),
-                                                              textAlign: TextAlign.center,
-                                                              key: const Key("url"),
-                                                              decoration: const InputDecoration(
-                                                                hintText: "URL",
-                                                                border: OutlineInputBorder()
-                                                              ),
-                                                              controller: urlC,
-                                                              // validator: (value) {
-                                                              //   if (value == null || value.isEmpty) {
-                                                              //     return 'Field is empty';
-                                                              //   }
-                                                              //   return null;
-                                                              // },
-                                                            ),
-                                                          ),
-                                                          const SizedBox(width: 8,),
-                                                          CustomizableButton(
-                                                            onTap: () {
-                                                              if(_formKey.currentState!.validate() == true) {
-                                                                //use url link
-                                                                urlC.text;
-                                                                Navigator.of(context).pop();
-                                                              }
-                                                            },
-                                                            text: "Submit",
-                                                            width: 7*w, 
-                                                            height: 5*h, 
-                                                            fontSize: w*0.8,
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                    const Text("OR"),
-                                                    CustomizableButton(
-                                                      onTap: () async {
-                                                        PlatformFile? file = await confirmPdf(await pdfAPI.pick_cvfile());
-                                                        if (file == null) return;
-                                                        generated = false;
-                                                        noShowButton();
-                                                        setCVExtractLoadingOn();
-                                                        AIApi.extractPdf(file: file).then((value) async {
-                                                          aiInput = value;
-                                                          if (aiInput == null) {
-                                                            showError("Something went wrong!");
-                                                            setCVLoadingOff();
-                                                            setCVErrorOn();
-                                                            return;
-                                                          }
-                                                          aiInput = nullSafeInputData(aiInput!);
-                                                          noShowButton();
-                                                          setCVExtractLoadingOff();
-                                                          aiInput = await extractMenu(aiInput!, file.bytes!);
-                                                          if (aiInput == null) {
-                                                            return;
-                                                          }
-                                                          setCVLoadingOn();
-                                                          showButton();
-                                                          data = await AIApi.generateAI(data: aiInput!);
-                                                          setCVLoadingOff();
-                                                          if (data == null || data!.description == null) {
-                                                            setCVErrorOn();
-                                                            return;
-                                                          }
-                                                          data = nullSafeOutputData(data!);
-                                                          bytes = await templateChoice(data!, option, colors);
-                                                          if (bytes == null) {
-                                                            setCVError();
-                                                            return;
-                                                          }
-                                                          generated = true;
-                                                          setCVExtractLoadingOff();
-                                                        });
-                                                        setState(() {});
-                                                        Navigator.of(context).pop();
-                                                      }, 
-                                                      text: "Upload CV",
-                                                      width: 7*w, 
-                                                      height: 5*h, 
-                                                      fontSize: w*0.8
-                                                    )
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  );
+                                  // final _formKey = GlobalKey<FormState>();
+                                  // TextEditingController urlC = TextEditingController();
+                                  // showDialog(
+                                  //   context: context,
+                                  //   builder: (BuildContext context) {
+                                  //     return Dialog(
+                                  //       child: FractionallySizedBox(
+                                  //         widthFactor: 0.4,
+                                  //         child: Container(
+                                  //           padding: const EdgeInsets.all(16.0),
+                                  //           child: Column(
+                                  //             mainAxisSize: MainAxisSize.min,
+                                  //             crossAxisAlignment: CrossAxisAlignment.start,
+                                  //             children: [
+                                  //               const Text(
+                                  //                 'UPLOAD',
+                                  //                 style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+                                  //               ),
+                                  //               const SizedBox(height: 16.0),
+                                  //               Row(
+                                  //                 crossAxisAlignment: CrossAxisAlignment.center,
+                                  //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  //                 children: [
+                                  //                   Form(
+                                  //                     key: _formKey,
+                                  //                     child: Row(
+                                  //                       crossAxisAlignment: CrossAxisAlignment.center,
+                                  //                       children: [
+                                  //                         Container(
+                                  //                           width: 15*w, 
+                                  //                           height: 8*h, 
+                                  //                           child: TextFormField(
+                                  //                             style: TextStyle(fontSize: 11),
+                                  //                             textAlign: TextAlign.center,
+                                  //                             key: const Key("url"),
+                                  //                             decoration: const InputDecoration(
+                                  //                               hintText: "URL",
+                                  //                               border: OutlineInputBorder()
+                                  //                             ),
+                                  //                             controller: urlC,
+                                  //                             // validator: (value) {
+                                  //                             //   if (value == null || value.isEmpty) {
+                                  //                             //     return 'Field is empty';
+                                  //                             //   }
+                                  //                             //   return null;
+                                  //                             // },
+                                  //                           ),
+                                  //                         ),
+                                  //                         const SizedBox(width: 8,),
+                                  //                         CustomizableButton(
+                                  //                           onTap: () {
+                                  //                             if(_formKey.currentState!.validate() == true) {
+                                  //                               //use url link
+                                  //                               urlC.text;
+                                  //                               Navigator.of(context).pop();
+                                  //                             }
+                                  //                           },
+                                  //                           text: "Submit",
+                                  //                           width: 7*w, 
+                                  //                           height: 5*h, 
+                                  //                           fontSize: w*0.8,
+                                  //                         ),
+                                  //                       ],
+                                  //                     ),
+                                  //                   ),
+                                  //                   const Text("OR"),
+                                  //                   CustomizableButton(
+                                  //                     onTap: () async {
+                                  //                       PlatformFile? file = await confirmPdf(await pdfAPI.pick_cvfile());
+                                  //                       if (file == null) return;
+                                  //                       generated = false;
+                                  //                       noShowButton();
+                                  //                       setCVExtractLoadingOn();
+                                  //                       AIApi.extractPdf(file: file).then((value) async {
+                                  //                         aiInput = value;
+                                  //                         if (aiInput == null) {
+                                  //                           showError("Something went wrong!");
+                                  //                           setCVLoadingOff();
+                                  //                           setCVErrorOn();
+                                  //                           return;
+                                  //                         }
+                                  //                         aiInput = nullSafeInputData(aiInput!);
+                                  //                         noShowButton();
+                                  //                         setCVExtractLoadingOff();
+                                  //                         aiInput = await extractMenu(aiInput!, file.bytes!);
+                                  //                         if (aiInput == null) {
+                                  //                           return;
+                                  //                         }
+                                  //                         setCVLoadingOn();
+                                  //                         showButton();
+                                  //                         data = await AIApi.generateAI(data: aiInput!);
+                                  //                         setCVLoadingOff();
+                                  //                         if (data == null || data!.description == null) {
+                                  //                           setCVErrorOn();
+                                  //                           return;
+                                  //                         }
+                                  //                         data = nullSafeOutputData(data!);
+                                  //                         bytes = await templateChoice(data!, option, colors);
+                                  //                         if (bytes == null) {
+                                  //                           setCVError();
+                                  //                           return;
+                                  //                         }
+                                  //                         generated = true;
+                                  //                         setCVExtractLoadingOff();
+                                  //                       });
+                                  //                       setState(() {});
+                                  //                       Navigator.of(context).pop();
+                                  //                     }, 
+                                  //                     text: "Upload CV",
+                                  //                     width: 7*w, 
+                                  //                     height: 5*h, 
+                                  //                     fontSize: w*0.8
+                                  //                   )
+                                  //                 ],
+                                  //               ),
+                                  //             ],
+                                  //           ),
+                                  //         ),
+                                  //       ),
+                                  //     );
+                                  //   },
+                                  // );
+                                  PlatformFile? file = await confirmPdf(await pdfAPI.pick_cvfile());
+                                  if (file == null) return;
+                                  generated = false;
+                                  noShowButton();
+                                  setCVExtractLoadingOn();
+                                  aiInput = await AIApi.extractPdf(file: file);
+                                  if (aiInput == null) {
+                                    showError("Something went wrong!");
+                                    setCVLoadingOff();
+                                    setCVErrorOn();
+                                    return;
+                                  }
+                                  aiInput = nullSafeInputData(aiInput!);
+                                  noShowButton();
+                                  setCVExtractLoadingOff();
+                                  aiInput = await extractMenu(aiInput!, file.bytes!);
+                                  if (aiInput == null) {
+                                    return;
+                                  }
+                                  setCVLoadingOn();
+                                  showButton();
+                                  data = await AIApi.generateAI(data: aiInput!);
+                                  setCVLoadingOff();
+                                  if (data == null || data!.description == null) {
+                                    setCVErrorOn();
+                                    return;
+                                  }
+                                  data = nullSafeOutputData(data!);
+                                  bytes = await templateChoice(data!, option, colors);
+                                  if (bytes == null) {
+                                    setCVError();
+                                    return;
+                                  }
+                                  generated = true;
+                                  setCVExtractLoadingOff();
                                 },
                                 fontSize: w*0.8
                               ),
