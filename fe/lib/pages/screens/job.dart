@@ -63,7 +63,6 @@ class JobsPageState extends State<JobsPage> {
   void populate() async {
     UserModel? user = await UserApi.getUser();
     if(user != null) {
-        //List<JobResponseDTO>? jobs = await getJobs("accounting", "Pretoria");
         List<JobResponseDTO>? jobs = await getRecommended();
           if(jobs == null || jobs == []) {
             showError("No jobs to display!");

@@ -162,13 +162,17 @@ class QualificationsSectionState extends State<QualificationsSection> {
 
   @override
   Widget build(BuildContext context) {
+    Color addCol = const Color(0xFF333C64);
+    if (editing) {
+      addCol = const Color.fromARGB(255, 141, 142, 145);
+    }
     return SectionContainer(
       child: Column(
         children: [
           SectionHeadingBar(
             actions: [
               IconButton(
-                color: const Color(0xFF333C64),
+                color: addCol,
                 onPressed: () {
                 if(editing == false) {
                   add();

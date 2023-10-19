@@ -155,9 +155,6 @@ class ProfileState extends State<Profile> {
         color: Colors.white,
         child: Column(
           children: [
-            const Expanded(
-              child:Breadcrumb(previousPage: "Home", currentPage: "Profile",),
-            ),
             Expanded(
               flex: 15,
               child: Form(
@@ -165,6 +162,8 @@ class ProfileState extends State<Profile> {
                 child: ListView(
                   padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 128),
                   children: [
+                    const Breadcrumb(previousPage: "Home", currentPage: "Profile",),
+                    const SizedBox(height: 30,),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
