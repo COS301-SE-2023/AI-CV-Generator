@@ -242,21 +242,18 @@ class ProfileState extends State<Profile> {
                                         if(imgByte == null) {
                                             return;
                                         }
-                                        actualupdate().then((value) async {
-                                          image = null;
-                                          imgByte = await getImageAsBytes(imgByte!);
-                                          if(imgByte != null){
-                                            final changed = await FileApi.updateProfileImage(img: imgByte!);
-                                            image = changed;
-                                            setState(() {
-                                              imageLoading = false;
-                                            });
-                                          }
-                                        });
                                         setState(() {
                                           imageLoading = true;
                                         });
-                                        
+                                        await actualupdate();
+                                        imgByte = await getImageAsBytes(imgByte);
+                                        if(imgByte != null){
+                                          final changed = await FileApi.updateProfileImage(img: imgByte);
+                                          image = changed;
+                                          setState(() {
+                                            imageLoading = false;
+                                          });
+                                        }
                                       }, 
                                       icon: const Icon(Icons.edit)),
                                     ],

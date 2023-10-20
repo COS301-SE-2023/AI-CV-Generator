@@ -568,12 +568,6 @@ class HomeState extends State<Home> {
         padding: EdgeInsets.only(
           bottom: h*0.2
         ),
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: isPicked,
-            width: 3
-          )
-        ),
         child: MouseRegion(
           cursor: SystemMouseCursors.click,
           child: GestureDetector(
@@ -584,7 +578,18 @@ class HomeState extends State<Home> {
               });
               updatePdf();
             },
-            child: Image(image: Image.asset(assetPath).image),
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: isPicked,
+                  width: 3
+                ),
+              ),
+              child: Image.asset(
+                assetPath,
+                fit: BoxFit.fitHeight,
+              ),
+            )
           )
         )
       );
@@ -673,6 +678,8 @@ class HomeState extends State<Home> {
                         color: Theme.of(context).colorScheme.surface,
                       ),
                       child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Align(
                             alignment: Alignment.topCenter,

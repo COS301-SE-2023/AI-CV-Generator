@@ -62,7 +62,7 @@ class FileApi extends DioClient {
     ).then((value) {
         Uint8List data = Uint8List.fromList(value.data.toList() as List<int>);
         image = Image.memory(data);
-    }).timeout(const Duration(milliseconds: 500),onTimeout: () {
+    }).timeout(const Duration(milliseconds: 5000),onTimeout: () {
       
     },);
     return image;

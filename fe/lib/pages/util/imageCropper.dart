@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
   final controller = CropController();
   await showDialog(
       context: context, 
+      barrierColor: Colors.transparent,
       builder: (BuildContext context)  {
         return Dialog(
           backgroundColor: Colors.transparent,
