@@ -242,13 +242,19 @@ class ProfileState extends State<Profile> {
                                         if(imgByte == null) {
                                             return;
                                         }
-                                        setState(() {
-                                          imageLoading = true;
-                                        });
                                         await actualupdate();
                                         imgByte = await getImageAsBytes(imgByte);
                                         if(imgByte != null){
+                                          setState(() {
+                                            imageLoading = true;
+                                          });
                                           final changed = await FileApi.updateProfileImage(img: imgByte);
+                                          if (changed == null) {
+                                            setState(() {
+                                              imageLoading = false;
+                                            });
+                                            return;
+                                          }
                                           image = changed;
                                           setState(() {
                                             imageLoading = false;
