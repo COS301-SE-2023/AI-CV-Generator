@@ -31,29 +31,8 @@ jobs:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
-      - name: Start SonarQube
-        run: docker run -d --name sonarqube -p 9000:9000 sonarqube:latest
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      - name: Wait for SonarQube to Start
-        run: |
-          MAX_RETRIES=60
-          CURRENT_RETRY=0
-          SONARQUBE_URL="http://localhost:9000"
-          
-          until $(curl --output /dev/null --silent --head --fail $SONARQUBE_URL); do
-            if [ $CURRENT_RETRY -eq $MAX_RETRIES ]; then
-              echo "SonarQube did not start in time"
-              exit 1
-            fi
-            echo "Waiting for SonarQube to start... (Retry $CURRENT_RETRY of $MAX_RETRIES)"
-            CURRENT_RETRY=$((CURRENT_RETRY+1))
-            sleep 10
-          done
-          
-          echo "SonarQube is up and running"
       - name: Build and analyze
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: http://localhost:9000
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=ai-cv-generator -Dsonar.projectName='ai-cv-generator'
