@@ -114,9 +114,9 @@
 		<activeByDefault>true</activeByDefault>
 		</activation>
 		<properties>
-		<sonar.host.url>
-		http://localhost:9000
-		</sonar.host.url>
+		<sonar.host.url>http://localhost:9000</sonar.host.url>
+		<sonar.login>admin</sonar.login>
+          	<sonar.password>adminpassword</sonar.password>
 		</properties>
 		</profile>
 	</profiles>
