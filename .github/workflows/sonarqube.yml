@@ -35,6 +35,12 @@ jobs:
         run: docker run -d --name sonarqube -p 9000:9000 sonarqube:latest
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      - name: Test SonarQube Server with curl
+        run: |
+          SONARQUBE_URL="http://localhost:9000" 
+          curl -I -L -s -o /dev/null -w "%{http_code}" $SONARQUBE_URL
+        env:
+          SONARQUBE_URL: http://localhost:9000
       - name: Build and analyze
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
