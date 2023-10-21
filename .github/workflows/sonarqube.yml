@@ -35,12 +35,23 @@ jobs:
         run: docker run -d --name sonarqube -p 9000:9000 sonarqube:latest
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      - name: Test SonarQube Server with curl
+      - name: Wait for SonarQube to Start
         run: |
-          SONARQUBE_URL="http://localhost:9000" 
-          curl -I -L -s -o /dev/null -w "%{http_code}" $SONARQUBE_URL
-        env:
-          SONARQUBE_URL: http://localhost:9000
+          MAX_RETRIES=60
+          CURRENT_RETRY=0
+          SONARQUBE_URL="http://localhost:9000"
+          
+          until $(curl --output /dev/null --silent --head --fail $SONARQUBE_URL); do
+            if [ $CURRENT_RETRY -eq $MAX_RETRIES ]; then
+              echo "SonarQube did not start in time"
+              exit 1
+            fi
+            echo "Waiting for SonarQube to start... (Retry $CURRENT_RETRY of $MAX_RETRIES)"
+            CURRENT_RETRY=$((CURRENT_RETRY+1))
+            sleep 10
+          done
+          
+          echo "SonarQube is up and running"
       - name: Build and analyze
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
