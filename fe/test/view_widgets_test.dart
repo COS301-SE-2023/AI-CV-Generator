@@ -57,6 +57,7 @@ void main(){
 
   group("Test chatbot", () {
     testWidgets('Chatbot window', (WidgetTester tester) async {
+      await tester.runAsync(() async {
         await tester.pumpWidget(
         const MaterialApp(
             home: Scaffold(
@@ -81,6 +82,7 @@ void main(){
 
         expect(find.byIcon(Icons.send_rounded), findsOneWidget);
         expect(find.byIcon(Icons.close), findsOneWidget);
+      });
     });
 
     testWidgets('Message input', (WidgetTester tester) async {
