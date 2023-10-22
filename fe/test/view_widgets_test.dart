@@ -65,7 +65,7 @@ void main(){
           ),
         );
 
-        await tester.pump(Duration(seconds: 1));
+        //await tester.pump(Duration(seconds: 1));
         await tester.pumpAndSettle();
 
         // Verify that the initial state is as expected
