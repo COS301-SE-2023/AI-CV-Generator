@@ -96,15 +96,12 @@ public class UserController {
     @PostMapping(value="/shareFile")
     public ResponseEntity<GenerateUrlResponse> uploadFileAndShare(
             @RequestParam("file")MultipartFile file,
-            @RequestParam("base") String base,
             @RequestParam("hours")Integer hours
             ) {
-        System.out.println("Heeeeeeeeeeeeeeeeeeeeeerrrrrrrrrrrrrrrrrrreeeeeeeeeeeeeeee");
         try {
-            GenerateUrlResponse response = service.generateUrlFromFile(base,file,hours);
+            GenerateUrlResponse response = service.generateUrlFromFile(file,hours);
             return ResponseEntity.ok(response);
         } catch (Exception e) {
-            e.printStackTrace();
             return ResponseEntity.status(HttpStatusCode.valueOf(404)).build();
         }
 

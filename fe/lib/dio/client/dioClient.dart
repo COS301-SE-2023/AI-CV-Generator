@@ -24,7 +24,7 @@ class DioClient {
       TokenRevalidator()
     ]
   );
-  static const baseurl = "http://acgbackend.dmdyh8atf8dnd3cs.eastus2.azurecontainer.io:8080/"; //This will be the actual base usl during development of the system
+  static const baseurl = "http://localhost:8080/"; //This will be the actual base usl during development of the system
   //final baseurl = "https//mockbackend/api"; //Until the backend is fully established
 
   static Future<Response> get(String path) async {

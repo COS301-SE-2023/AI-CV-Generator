@@ -181,8 +181,7 @@ class FileApi extends DioClient {
         "file": MultipartFile.fromBytes(
           file.bytes as List<int>, filename: file.name,
         ),
-        "hours": hours,
-        "base": "http://${Uri.base.host}:${Uri.base.port}/"
+        "hours": hours
       });
       Response response = await DioClient.dio.post(
           'api/User/shareFile',
