@@ -16,6 +16,7 @@
 	<properties>
 		<java.version>17</java.version>
 		<!-- <start-class>com.revolvingSolutions.aicvgeneratorbackend</start-class> -->
+		<sonar.analysisCache.enabled>false</sonar.analysisCache.enabled>
 	</properties>
 	<dependencies>
 		<dependency>
