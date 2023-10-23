@@ -240,5 +240,4 @@
 			</plugin>
 		</plugins>
 	</reporting>
-	<sonar.analysisCache.enabled>false</sonar.analysisCache.enabled>
 </project>
