@@ -10,12 +10,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checking out
-      uses: actions/checkout@master
+      uses: actions/checkout@v2  # Use a more recent version of the action
       with:
         fetch-depth: 0
-    - name: SonarQube Scan
-      uses: kitabisa/sonarqube-action@v1.2.0
+    - name: Set up Java
+      uses: actions/setup-java@v2
       with:
-        host: http://localhost:9000
-        login: ${{ secrets.SONARQUBE_TOKEN }}
-        projectKey: ai-cv-generator
+        java-version: '17'  # Set the desired Java version
+    - name: Maven Clean Install
+      run: mvn clean install -U
+      working-directory: ai-cv-generator-backend
+    - name: SonarQube Scan
+      run: |
+        mvn clean verify sonar:sonar \
+          -Dsonar.projectKey=ai-cv-generator \
+          -Dsonar.projectName='ai-cv-generator' \
+          -Dsonar.host.url=http://localhost:9000 \
+          -Dsonar.token=sqp_adca997c02923de1e440b37ca9e713e22cc94b8d
+      working-directory: ai-cv-generator-backend  # Change to the backend directory
