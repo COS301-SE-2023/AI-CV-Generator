@@ -10,15 +10,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checking out
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         fetch-depth: 0
     - name: Set up Java
-      run: |
-        sudo apt-get update -q
-        sudo apt-get install -y openjdk-17-jdk
-    - name: Confirm Java version
-      run: java -version
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'oracle'
+        java-version: '17'
+        cache: 'maven'
+        path: ~/.m2
+        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
     - name: Maven Clean Install
       run: mvn clean install -U
       working-directory: ai-cv-generator-backend
