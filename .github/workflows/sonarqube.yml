@@ -10,14 +10,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checking out
-      uses: actions/checkout@v3
+      uses: actions/checkout@v2
       with:
         fetch-depth: 0
     - name: Set up Java
-      uses: actions/setup-java@v2
-      with:
-        java-version: '17'
-        distribution: 'oracle'
+      run: |
+        sudo apt-get update -q
+        sudo apt-get install -y openjdk-17-jdk
+    - name: Confirm Java version
+      run: java -version
     - name: Maven Clean Install
       run: mvn clean install -U
       working-directory: ai-cv-generator-backend
@@ -28,4 +29,4 @@ jobs:
           -Dsonar.projectName='ai-cv-generator' \
           -Dsonar.host.url=http://localhost:9000 \
           -Dsonar.token=sqp_adca997c02923de1e440b37ca9e713e22cc94b8d
-      working-directory: ai-cv-generator-backend  # Change to the backend directory
+      working-directory: ai-cv-generator-backend
