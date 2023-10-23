@@ -24,10 +24,6 @@ jobs:
     - name: Maven Clean Install
       run: mvn clean install -U
       working-directory: ai-cv-generator-backend
-    - name: SonarQube Scan
-      uses: kitabisa/sonarqube-action@master
-      with:
-        host: http://localhost:9000
-        login: sqp_adca997c02923de1e440b37ca9e713e22cc94b8d
-        projectKey: ai-cv-generator
-        working-directory: ai-cv-generator-backend
+    - name: SonarQube Analysis
+      run: mvn clean verify sonar:sonar -Dsonar.projectKey=ai-cv-generator -Dsonar.projectName='ai-cv-generator' -Dsonar.host.url=http://localhost:9000 -Dsonar.login=sqp_adca997c02923de1e440b37ca9e713e22cc94b8d
+      working-directory: ai-cv-generator-backend
