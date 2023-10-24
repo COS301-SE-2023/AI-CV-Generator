@@ -20,13 +20,13 @@ documents that will increase their chances of acquiring a job.
 [link to our site](https://tinyurl.com/generoo)
 
 ## The Team
-|<img src="https://github.com/COS301-SE-2023/AI-CV-Generator/assets/94606154/39875899-7368-4e46-8bc0-e5bf3e7b159f" width = 100>| Mbofho Mamatsharaga|
+|<img src="https://github.com/COS301-SE-2023/AI-CV-Generator/assets/94606154/39875899-7368-4e46-8bc0-e5bf3e7b159f" width = 300>| Mbofho Mamatsharaga|
 |----------------------|---------------------------|
 |I am familiar with C++, Java, HTML, CSS, JavaScript, TypeScript, PHP, Python, and a bit of Blender. I have also done a bit of work with Angular, and Android Studio, and I have started to learn Flutter as well. With my knowledge of the above-mentioned languages and technologies, I can work quite well in front-end development. I also have experience working as a team lead and as a business analyst, so that is also going to work well to my advantage in my roles in this project | Roles and responsibilities: Team lead, Business Analyst, Front-end, UI/UX, Data engineering
 
 Linkedin link: [Click Here](https://www.linkedin.com/in/mbofho-mamatsharaga-54992823b/)
 
-|<img src="https://github.com/COS301-SE-2023/AI-CV-Generator/assets/94606154/f9b40904-f755-4602-aa4f-f7bb685d1e8e" width = 100>| Amanda Kuzwayo|
+|<img src="https://github.com/COS301-SE-2023/AI-CV-Generator/assets/94606154/f9b40904-f755-4602-aa4f-f7bb685d1e8e" width = 300>| Amanda Kuzwayo|
 |----------------------|---------------------------|
 |I have predominantly back-end development experience, including C++, Java, JavaScript, Python, PHP, NodeJS, SQL, and NoSQL. I also have knowledge of HTML, CSS, and Angular. My set of skills will equip me to play a vital role in the back-end development of this project while also allowing me to assist with the front-end development. | Roles and Responsibilities: Services Engineering, Testing, and DevOps
 
