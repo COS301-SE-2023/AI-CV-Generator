@@ -6,12 +6,10 @@ part 'ResetPasswordRequest.g.dart';
 class ResetPasswordRequest {
   String username;
   String email;
-  String siteUrl;
 
   ResetPasswordRequest({
     required this.username,
-    required this.email,
-    required this.siteUrl
+    required this.email
   });
   
   factory ResetPasswordRequest.fromJson(Map<String, dynamic> json) => _$ResetPasswordRequestFromJson(json);

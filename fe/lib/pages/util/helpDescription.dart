@@ -22,7 +22,6 @@ class HelpDescription extends StatelessWidget {
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
     double w = screenSize.width/100;
-    double h = screenSize.height/100;
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16)

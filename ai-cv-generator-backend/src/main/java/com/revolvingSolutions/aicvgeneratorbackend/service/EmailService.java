@@ -1,6 +1,5 @@
 package com.revolvingSolutions.aicvgeneratorbackend.service;
 
-import com.revolvingSolutions.aicvgeneratorbackend.entitiy.UserEntity;
 import com.revolvingSolutions.aicvgeneratorbackend.model.email.Email;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -21,6 +20,9 @@ public class EmailService {
     @Value("${spring.mail.username}")
     private String revolvingSolsEmail;
 
+    @Value("${app.frontend.url}")
+    private String url;
+
     public String sendMail(Email email) {
         try {
             SimpleMailMessage mailMessage = new SimpleMailMessage();
@@ -36,7 +38,7 @@ public class EmailService {
     }
 
     @Async
-    public void sendVerificationEmail(String userEmail, String siteURL, String verificationCode) {
+    public void sendVerificationEmail(String userEmail, String verificationCode) {
         String fromAddress = "solutionsrevolving@gmail.com";
         String senderName = "Revolving Solutions";
         String subject = "Please verify your registration";
@@ -180,7 +182,7 @@ public class EmailService {
             helper.setFrom(fromAddress, senderName);
             helper.setTo(userEmail);
             helper.setSubject(subject);
-            String verifyURL = siteURL + "/verify?code=" + verificationCode;
+            String verifyURL = url + "/verify?code=" + verificationCode;
             content = content.replace("[[URL]]", verifyURL);
             helper.setText(content, true);
             javaMailSender.send(message);
@@ -190,7 +192,7 @@ public class EmailService {
     }
 
     @Async
-    public void sendPasswordResetEmail(String userEmail, String siteURL, String passwordResetCode) {
+    public void sendPasswordResetEmail(String userEmail, String passwordResetCode) {
         String fromAddress = "solutionsrevolving@gmail.com";
         String senderName = "Revolving Solutions";
         String subject = "Reset Password";
@@ -333,7 +335,7 @@ public class EmailService {
             helper.setFrom(fromAddress, senderName);
             helper.setTo(userEmail);
             helper.setSubject(subject);
-            String verifyURL = siteURL + "/reset?code=" + passwordResetCode;
+            String verifyURL = url + "/reset?code=" + passwordResetCode;
             content = content.replace("[[URL]]", verifyURL);
             helper.setText(content, true);
             javaMailSender.send(message);

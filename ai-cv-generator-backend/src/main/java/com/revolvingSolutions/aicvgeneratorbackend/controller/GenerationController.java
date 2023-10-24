@@ -4,6 +4,7 @@ package com.revolvingSolutions.aicvgeneratorbackend.controller;
 import com.revolvingSolutions.aicvgeneratorbackend.request.AI.ChatRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.AI.ExtractionRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.request.AI.GenerationRequest;
+import com.revolvingSolutions.aicvgeneratorbackend.request.AI.UrlExtractionRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.response.AI.ChatResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.AI.ExtractionResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.response.AI.GenerationResponse;
@@ -44,6 +45,19 @@ public class GenerationController {
         }
     }
 
+    @PostMapping(value = "/urlExtract")
+    public ResponseEntity<ExtractionResponse> extractUrlData(
+            @RequestBody UrlExtractionRequest request
+    ) {
+        try {
+            return ResponseEntity.ok(
+                    generationService.extractUrlData(request)
+            );
+        } catch (Exception e) {
+            return  ResponseEntity.notFound().build();
+        }
+    }
+
     @PostMapping(value = "/chat")
     public ResponseEntity<ChatResponse> chat(
             @RequestBody ChatRequest request
@@ -53,7 +67,6 @@ public class GenerationController {
                     generationService.chatBotInteract(request)
             );
         } catch (Exception e) {
-            e.printStackTrace();
             return ResponseEntity.status(HttpStatusCode.valueOf(405)).build();
         }
     }

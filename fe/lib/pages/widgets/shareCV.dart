@@ -105,6 +105,9 @@ class ShareWidgetState extends State<ShareWidget> {
     '16',
     '24'
   ];
+  back() {
+    Navigator.pop(context);
+  }
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -165,9 +168,11 @@ class ShareWidgetState extends State<ShareWidget> {
               const SizedBox(height: 8.0,),
               InkWell(
                 onTap: () async {
-                  PlatformFile file = PlatformFile(name: '${nameC.text}.pdf', size: widget.file!.bytes!.length,bytes: widget.file!.bytes);
+                  String name = nameC.text.replaceAll(" ", "_");
+                  PlatformFile file = PlatformFile(name: '$name.pdf', size: widget.file!.bytes!.length,bytes: widget.file!.bytes);
                   String linkToCV = await FileApi.generateUrlFromNewFile(file: file,hours: int.parse(timeInput.text));
                   Clipboard.setData(ClipboardData(text: linkToCV));
+                  back();
                 },
                 child: Row(
                   children: [

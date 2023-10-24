@@ -157,6 +157,20 @@ class HomeState extends State<Home> {
     });
   }
 
+  setCVExtractLoadingOn() {
+    setState(() {
+      status = ScreenStatus.extarction;
+    });
+  }
+
+  setCVExtractLoadingOff() {
+    setState(() {
+      status = ScreenStatus.empty;
+    });
+  }
+
+
+
   // CV AI Error screen
   // On
   setCVErrorOn() {
@@ -297,6 +311,7 @@ class HomeState extends State<Home> {
   getFileName(Uint8List bytes) async {
     String? name = await promptName();
     if (name == null) return;
+    name = name.replaceAll(" ", "_");
     Code code = await FileApi.uploadFile(file: PlatformFile(name: '$name.pdf', size: bytes.length, bytes: bytes));
     if (code == Code.requestFailed) {
       showError("Something went wrong!");
@@ -334,8 +349,8 @@ class HomeState extends State<Home> {
   // Builders
   // CV file builder
   Widget add(String filename,paint.ImageProvider prov) {
-  return OutlinedButton(
-    onPressed: ()  {
+  return InkWell(
+    onTap: ()  {
       FileApi.requestFile(filename: filename).then((value) {
         showDialog(
           context: context,
@@ -553,12 +568,6 @@ class HomeState extends State<Home> {
         padding: EdgeInsets.only(
           bottom: h*0.2
         ),
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: isPicked,
-            width: 3
-          )
-        ),
         child: MouseRegion(
           cursor: SystemMouseCursors.click,
           child: GestureDetector(
@@ -569,7 +578,18 @@ class HomeState extends State<Home> {
               });
               updatePdf();
             },
-            child: Image(image: Image.asset(assetPath).image),
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: isPicked,
+                  width: 3
+                ),
+              ),
+              child: Image.asset(
+                assetPath,
+                fit: BoxFit.fitHeight,
+              ),
+            )
           )
         )
       );
@@ -623,7 +643,7 @@ class HomeState extends State<Home> {
               }, 
               child: Row(
                 children: [
-                  Text(model!.fname,),
+                  Text(model != null ? model!.fname : "user",),
                   SizedBox(width: 0.4*w,),
                   const Icon(Icons.account_circle),
                   SizedBox(width: 1.6*w,),
@@ -658,6 +678,8 @@ class HomeState extends State<Home> {
                         color: Theme.of(context).colorScheme.surface,
                       ),
                       child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Align(
                             alignment: Alignment.topCenter,
@@ -746,26 +768,151 @@ class HomeState extends State<Home> {
                                 width: 7*w, 
                                 height: 5*h, 
                                 onTap: () async {
-                                  
+                                  // final _formKey = GlobalKey<FormState>();
+                                  // TextEditingController urlC = TextEditingController();
+                                  // showDialog(
+                                  //   context: context,
+                                  //   builder: (BuildContext context) {
+                                  //     return Dialog(
+                                  //       child: FractionallySizedBox(
+                                  //         widthFactor: 0.4,
+                                  //         child: Container(
+                                  //           padding: const EdgeInsets.all(16.0),
+                                  //           child: Column(
+                                  //             mainAxisSize: MainAxisSize.min,
+                                  //             crossAxisAlignment: CrossAxisAlignment.start,
+                                  //             children: [
+                                  //               const Text(
+                                  //                 'UPLOAD',
+                                  //                 style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+                                  //               ),
+                                  //               const SizedBox(height: 16.0),
+                                  //               Row(
+                                  //                 crossAxisAlignment: CrossAxisAlignment.center,
+                                  //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  //                 children: [
+                                  //                   Form(
+                                  //                     key: _formKey,
+                                  //                     child: Row(
+                                  //                       crossAxisAlignment: CrossAxisAlignment.center,
+                                  //                       children: [
+                                  //                         Container(
+                                  //                           width: 15*w, 
+                                  //                           height: 8*h, 
+                                  //                           child: TextFormField(
+                                  //                             style: TextStyle(fontSize: 11),
+                                  //                             textAlign: TextAlign.center,
+                                  //                             key: const Key("url"),
+                                  //                             decoration: const InputDecoration(
+                                  //                               hintText: "URL",
+                                  //                               border: OutlineInputBorder()
+                                  //                             ),
+                                  //                             controller: urlC,
+                                  //                             // validator: (value) {
+                                  //                             //   if (value == null || value.isEmpty) {
+                                  //                             //     return 'Field is empty';
+                                  //                             //   }
+                                  //                             //   return null;
+                                  //                             // },
+                                  //                           ),
+                                  //                         ),
+                                  //                         const SizedBox(width: 8,),
+                                  //                         CustomizableButton(
+                                  //                           onTap: () {
+                                  //                             if(_formKey.currentState!.validate() == true) {
+                                  //                               //use url link
+                                  //                               urlC.text;
+                                  //                               Navigator.of(context).pop();
+                                  //                             }
+                                  //                           },
+                                  //                           text: "Submit",
+                                  //                           width: 7*w, 
+                                  //                           height: 5*h, 
+                                  //                           fontSize: w*0.8,
+                                  //                         ),
+                                  //                       ],
+                                  //                     ),
+                                  //                   ),
+                                  //                   const Text("OR"),
+                                  //                   CustomizableButton(
+                                  //                     onTap: () async {
+                                  //                       PlatformFile? file = await confirmPdf(await pdfAPI.pick_cvfile());
+                                  //                       if (file == null) return;
+                                  //                       generated = false;
+                                  //                       noShowButton();
+                                  //                       setCVExtractLoadingOn();
+                                  //                       AIApi.extractPdf(file: file).then((value) async {
+                                  //                         aiInput = value;
+                                  //                         if (aiInput == null) {
+                                  //                           showError("Something went wrong!");
+                                  //                           setCVLoadingOff();
+                                  //                           setCVErrorOn();
+                                  //                           return;
+                                  //                         }
+                                  //                         aiInput = nullSafeInputData(aiInput!);
+                                  //                         noShowButton();
+                                  //                         setCVExtractLoadingOff();
+                                  //                         aiInput = await extractMenu(aiInput!, file.bytes!);
+                                  //                         if (aiInput == null) {
+                                  //                           return;
+                                  //                         }
+                                  //                         setCVLoadingOn();
+                                  //                         showButton();
+                                  //                         data = await AIApi.generateAI(data: aiInput!);
+                                  //                         setCVLoadingOff();
+                                  //                         if (data == null || data!.description == null) {
+                                  //                           setCVErrorOn();
+                                  //                           return;
+                                  //                         }
+                                  //                         data = nullSafeOutputData(data!);
+                                  //                         bytes = await templateChoice(data!, option, colors);
+                                  //                         if (bytes == null) {
+                                  //                           setCVError();
+                                  //                           return;
+                                  //                         }
+                                  //                         generated = true;
+                                  //                         setCVExtractLoadingOff();
+                                  //                       });
+                                  //                       setState(() {});
+                                  //                       Navigator.of(context).pop();
+                                  //                     }, 
+                                  //                     text: "Upload CV",
+                                  //                     width: 7*w, 
+                                  //                     height: 5*h, 
+                                  //                     fontSize: w*0.8
+                                  //                   )
+                                  //                 ],
+                                  //               ),
+                                  //             ],
+                                  //           ),
+                                  //         ),
+                                  //       ),
+                                  //     );
+                                  //   },
+                                  // );
                                   PlatformFile? file = await confirmPdf(await pdfAPI.pick_cvfile());
                                   if (file == null) return;
                                   generated = false;
                                   noShowButton();
-                                  setCVLoadingOn();
+                                  setCVExtractLoadingOn();
                                   aiInput = await AIApi.extractPdf(file: file);
                                   if (aiInput == null) {
                                     showError("Something went wrong!");
+                                    setCVLoadingOff();
+                                    setCVErrorOn();
                                     return;
                                   }
                                   aiInput = nullSafeInputData(aiInput!);
                                   noShowButton();
+                                  setCVExtractLoadingOff();
                                   aiInput = await extractMenu(aiInput!, file.bytes!);
                                   if (aiInput == null) {
-                                    setCVLoadingOff();
                                     return;
                                   }
+                                  setCVLoadingOn();
                                   showButton();
                                   data = await AIApi.generateAI(data: aiInput!);
+                                  setCVLoadingOff();
                                   if (data == null || data!.description == null) {
                                     setCVErrorOn();
                                     return;
@@ -777,7 +924,7 @@ class HomeState extends State<Home> {
                                     return;
                                   }
                                   generated = true;
-                                  setCVLoadingOff();
+                                  setCVExtractLoadingOff();
                                 },
                                 fontSize: w*0.8
                               ),

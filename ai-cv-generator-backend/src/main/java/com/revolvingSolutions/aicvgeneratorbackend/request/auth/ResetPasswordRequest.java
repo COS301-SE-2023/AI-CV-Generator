@@ -13,5 +13,4 @@ import lombok.NoArgsConstructor;
 public class ResetPasswordRequest {
     private String username;
     private String email;
-    private String siteUrl;
 }

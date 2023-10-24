@@ -1,6 +1,7 @@
 package com.revolvingSolutions.aicvgeneratorbackend.entitiy;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.revolvingSolutions.aicvgeneratorbackend.converter.StringConverter;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,13 +28,17 @@ public class UserEntity implements UserDetails {
     public Integer userid;
 
     @Column(nullable = false)
+    @Convert(converter = StringConverter.class)
     public String fname;
     @Column(nullable = false)
+    @Convert(converter = StringConverter.class)
     public String lname;
 
     @Column(unique = true,nullable = false)
+    @Convert(converter = StringConverter.class)
     public String username;
     @Column(nullable = false)
+    @Convert(converter = StringConverter.class)
     public String password;
 
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
@@ -64,16 +69,24 @@ public class UserEntity implements UserDetails {
     @OneToMany(mappedBy = "user")
     public Set<PasswordTokenEntity> passwordResetToken;
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    public ChatMemory chatMemory;
+
     @Enumerated(EnumType.STRING)
     public Role role;
 
     private boolean enabled;
 
     @Column(nullable = false,updatable = false)
+    @Convert(converter = StringConverter.class)
     public String email;
 
+    @Convert(converter = StringConverter.class)
     public String location;
+    @Convert(converter = StringConverter.class)
     public String phoneNumber;
+    @Convert(converter = StringConverter.class)
     public String description;
 
     @Override

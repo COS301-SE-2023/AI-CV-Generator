@@ -18,7 +18,7 @@ import java.util.UUID;
 public class RefreshTokenService {
 
     @Value("${app.tokenExpire-factor}")
-    private Long refreshTokenExpirefactor;
+    private Long refreshTokenExpireFactor;
 
     private final RefreshTokenRepository refreshTokenRepository;
 
@@ -32,7 +32,7 @@ public class RefreshTokenService {
         RefreshToken refreshToken = new RefreshToken();
 
         refreshToken.setUser(userRepository.findById(userId).orElseThrow());
-        refreshToken.setExpiryDate(Instant.now().plusMillis(1000*60*refreshTokenExpirefactor*2));
+        refreshToken.setExpiryDate(Instant.now().plusMillis(1000*60*refreshTokenExpireFactor*2));
         refreshToken.setToken(UUID.randomUUID().toString());
 
         refreshToken = refreshTokenRepository.save(refreshToken);

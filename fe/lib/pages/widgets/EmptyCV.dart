@@ -1,8 +1,9 @@
 import 'package:ai_cv_generator/pages/widgets/loadingscreens/AILoadingScreen.dart';
 import 'package:ai_cv_generator/pages/widgets/loadingscreens/ErrorScreen.dart';
+import 'package:ai_cv_generator/pages/widgets/loadingscreens/extractionLoadingScreen.dart';
 import 'package:flutter/material.dart';
 
-enum ScreenStatus {loading, error, empty}
+enum ScreenStatus {loading, error, empty,extarction}
 class   EmptyCVScreen extends StatelessWidget {
   const EmptyCVScreen({super.key,required this.status});
   final ScreenStatus status;
@@ -27,6 +28,8 @@ class   EmptyCVScreen extends StatelessWidget {
         );
       case ScreenStatus.loading:
         return const AILoadingScreen();
+      case ScreenStatus.extarction:
+        return const ExtractionLoadingScreen();
       case ScreenStatus.error:
         return const ErrorScreen(errormsg: "Rate Limit Exceeded");
 

@@ -20,14 +20,14 @@ public class ShareUrlController {
     public ResponseEntity<Resource> getSharedFile(
             @RequestBody RetrieveFileWithURLRequest request
             ) {
-        return service.RetriveUrl(request);
+        return service.RetrieveUrl(request);
     }
 
     @GetMapping(value="{uuid}")
     public ResponseEntity<Resource> getSharedFileWithURL(
             @PathVariable("uuid")UUID uuid
             ) {
-        return service.RetriveUrl(
+        return service.RetrieveUrl(
                 RetrieveFileWithURLRequest.builder()
                         .uuid(uuid)
                         .build()

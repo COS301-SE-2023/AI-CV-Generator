@@ -3,10 +3,12 @@ package com.revolvingSolutions.aicvgeneratorbackend.intergrationTests;
 import com.revolvingSolutions.aicvgeneratorbackend.controller.WebScraperController;
 import com.revolvingSolutions.aicvgeneratorbackend.entitiy.Role;
 import com.revolvingSolutions.aicvgeneratorbackend.entitiy.UserEntity;
+import com.revolvingSolutions.aicvgeneratorbackend.model.aimodels.JobClassification;
 import com.revolvingSolutions.aicvgeneratorbackend.repository.UserRepository;
 import com.revolvingSolutions.aicvgeneratorbackend.request.webscraper.JobScrapeRequest;
 import com.revolvingSolutions.aicvgeneratorbackend.response.webscraper.JobScrapeResponse;
 import com.revolvingSolutions.aicvgeneratorbackend.service.*;
+import dev.langchain4j.classification.TextClassifier;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -22,7 +24,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import java.util.Objects;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.mockito.Mockito.mock;
@@ -30,7 +31,6 @@ import static org.mockito.Mockito.mock;
 @DataJpaTest
 public class WebScraperIntegrationTest {
     private WebScraperController controller;
-    private JobScraperService service;
     private LinkedinService linkedinService;
     private CareerBuildersService careerBuildersService;
     private CareerJunctionService careerJunctionService;
@@ -40,6 +40,9 @@ public class WebScraperIntegrationTest {
 
     @Mock
     private UserService userService;
+
+    @Mock
+    private TextClassifier<JobClassification> classifier;
 
     private AutoCloseable closeable;
 
@@ -51,12 +54,12 @@ public class WebScraperIntegrationTest {
         linkedinService = new LinkedinService();
         careerBuildersService = new CareerBuildersService();
         careerJunctionService = new CareerJunctionService();
-        service = new JobScraperService(repository,userService);
         controller = new WebScraperController(
-                service,
                 linkedinService,
                 careerBuildersService,
-                careerJunctionService
+                careerJunctionService,
+                classifier,
+                userService
             );
         // given
         Authentication authentication = mock(Authentication.class);
@@ -95,6 +98,5 @@ public class WebScraperIntegrationTest {
         ResponseEntity<JobScrapeResponse> response = controller.jobScrape(req);
         // then
         assertThat(response.getStatusCode().isSameCodeAs(HttpStatusCode.valueOf(404))).isTrue();
-        assertThat(Objects.requireNonNull(response.getBody()).getJobs().isEmpty()).isFalse();
     }
 }

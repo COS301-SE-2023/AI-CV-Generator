@@ -47,7 +47,7 @@ class AuthApi extends DioClient {
     required String fname,
     required String lname
   }) async {
-    RegisterRequest req = RegisterRequest(username: username, password: password, email: email,fname: fname,lname: lname,siteUrl: "http://${Uri.base.host}:${Uri.base.port}");
+    RegisterRequest req = RegisterRequest(username: username, password: password, email: email,fname: fname,lname: lname);
     try {
       Response response = await DioClient.dio.post<Map<String,dynamic>>(
         'api/auth/reg',
@@ -69,7 +69,7 @@ class AuthApi extends DioClient {
     try {
       Response response = await DioClient.dio.post<Map<String,dynamic>>(
         'api/auth/resend',
-        data: ResendEmailRequest(username: username, password: password,siteUrl: "http://${Uri.base.host}:${Uri.base.port}").toJson()
+        data: ResendEmailRequest(username: username, password: password).toJson()
       );
       return ResendEmailResponse.fromJson(response.data).code;
     } on DioException catch (e) {
@@ -105,7 +105,7 @@ class AuthApi extends DioClient {
     try {
       Response response = await DioClient.dio.post<Map<String,dynamic>>(
         'api/auth/reset',
-        data: ResetPasswordRequest(username: username, email: email, siteUrl: "http://${Uri.base.host}:${Uri.base.port}").toJson()
+        data: ResetPasswordRequest(username: username, email: email).toJson()
       );
       return ResetPasswordResponse.fromJson(response.data).code;
     } on DioException catch (e) {

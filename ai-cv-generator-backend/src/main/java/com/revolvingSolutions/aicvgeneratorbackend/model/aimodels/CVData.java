@@ -19,9 +19,7 @@ public class CVData {
     private String location;
     private String description;
     private List<AIEmployment> employmenthistory;
-    private List<String> experience;
     private List<AIQualification> qualifications;
-    private String education_description;
     private List<AILink> links;
     private List<AIReference> references;
     private List<AISkill> skills;

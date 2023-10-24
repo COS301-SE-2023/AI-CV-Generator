@@ -35,10 +35,21 @@ class ChatBotViewState extends State<ChatBotView> {
   void initState() {
     FileApi.getProfileImage().then((value) {
       userImage = value;
+      messages.add(Message(
+        message: const JumpingDotsLoadingScreen(),
+        isSender: false
+      ));
+      chatBot.greeting().then((value) {
+        messages.last = addImage(Message(message: Text(value), isSender: false), userImage!, false);
+        setState(() {
+          
+        });
+      });
+      setState(() {
+        
+      });
     });
-    chatBot.greeting().then((value) {
-      addMessage(value, false);
-    });
+    
     super.initState();
   }
 

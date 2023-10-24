@@ -16,13 +16,9 @@ CVData _$CVDataFromJson(Map<String, dynamic> json) => CVData(
       employmenthistory: (json['employmenthistory'] as List<dynamic>?)
           ?.map((e) => AIEmployment.fromJson(e as Map<String, dynamic>))
           .toList(),
-      experience: (json['experience'] as List<dynamic>?)
-          ?.map((e) => e as String)
-          .toList(),
       qualifications: (json['qualifications'] as List<dynamic>?)
           ?.map((e) => AIQualification.fromJson(e as Map<String, dynamic>))
           .toList(),
-      education_description: json['education_description'] as String?,
       links: (json['links'] as List<dynamic>?)
           ?.map((e) => AILink.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -42,9 +38,7 @@ Map<String, dynamic> _$CVDataToJson(CVData instance) => <String, dynamic>{
       'location': instance.location,
       'description': instance.description,
       'employmenthistory': instance.employmenthistory,
-      'experience': instance.experience,
       'qualifications': instance.qualifications,
-      'education_description': instance.education_description,
       'links': instance.links,
       'references': instance.references,
       'skills': instance.skills,

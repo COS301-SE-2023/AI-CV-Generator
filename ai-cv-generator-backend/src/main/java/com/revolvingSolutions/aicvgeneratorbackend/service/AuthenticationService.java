@@ -5,7 +5,6 @@ import com.revolvingSolutions.aicvgeneratorbackend.exception.RefreshException;
 import com.revolvingSolutions.aicvgeneratorbackend.repository.UserRepository;
 import com.revolvingSolutions.aicvgeneratorbackend.request.auth.*;
 import com.revolvingSolutions.aicvgeneratorbackend.response.auth.*;
-import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,7 +13,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
 
 @Service
@@ -48,7 +46,6 @@ public class AuthenticationService {
 
             emailService.sendVerificationEmail(
                     request.getEmail(),
-                    request.getSiteUrl(),
                     token.getRegistrationToken()
             );
 
@@ -69,7 +66,6 @@ public class AuthenticationService {
         RegistrationTokenEntity token = registrationTokenService.generateToken(_user);
         emailService.sendVerificationEmail(
                 request.getEmail(),
-                request.getSiteUrl(),
                 token.getRegistrationToken()
         );
         return RegisterResponse.builder()
@@ -93,7 +89,6 @@ public class AuthenticationService {
             repository.save(user);
             emailService.sendVerificationEmail(
                     user.getEmail(),
-                    request.getSiteUrl(),
                     token.getRegistrationToken()
             );
             return ResendEmailResponse.builder()
@@ -166,7 +161,6 @@ public class AuthenticationService {
         PasswordTokenEntity token = resetPasswordTokenService.generateToken(user);
         emailService.sendPasswordResetEmail(
                 user.getEmail(),
-                request.getSiteUrl(),
                 token.getPasswordToken()
         );
         return ResetPasswordResponse.builder()
@@ -229,8 +223,8 @@ public class AuthenticationService {
                     if (!requireEmailVerification&&!user.isEnabled()) {
                         throw new RefreshException(token,"Not registered!");
                     }
-                    String newtoken = authService.genToken(user,getClientIp(actualRequest));
-                    return new AuthResponse(Code.success,newtoken, token);
+                    String newToken = authService.genToken(user,getClientIp(actualRequest));
+                    return new AuthResponse(Code.success,newToken, token);
                         }
                 )
                 .orElseThrow(() -> new RefreshException(token, "Refresh token is not in database!"));
@@ -238,13 +232,12 @@ public class AuthenticationService {
     }
 
     public String getClientIp(HttpServletRequest request) {
-        String remoteAddr = "";
         if (request != null) {
-            remoteAddr = request.getHeader("X-FORWARDED-FOR");
-            if (remoteAddr == null || "".equals(remoteAddr)) {
+            String remoteAddr = request.getHeader("X-FORWARDED-FOR");
+            if (remoteAddr == null || remoteAddr.isEmpty()) {
                 remoteAddr = request.getRemoteAddr();
             }
         }
-        return remoteAddr;
+        return "";
     }
 }

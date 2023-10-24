@@ -32,8 +32,8 @@ class CVHistoryState extends State<CVHistory> {
   }
 
   Widget add(String filename,paint.ImageProvider prov) {
-    return OutlinedButton(
-        onPressed: ()  {
+    return InkWell(
+        onTap: ()  {
           FileApi.requestFile(filename: filename).then((value) {
             showDialog(
               context: widget.context,

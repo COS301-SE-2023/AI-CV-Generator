@@ -50,6 +50,7 @@ import com.revolvingSolutions.aicvgeneratorbackend.response.user.GetUserResponse
 import com.revolvingSolutions.aicvgeneratorbackend.response.user.UpdateUserResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -63,10 +64,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.*;
-import java.time.Instant;
 
 @Service
 @RequiredArgsConstructor
@@ -84,6 +83,9 @@ public class UserService {
     private final UUIDGenerator generator;
 
     private final PasswordEncoder encoder;
+
+    @Value("${app.frontend.url}")
+    private String url;
     public GetUserResponse getUser() {
         UserEntity dbuser = getAuthenticatedUser();
         return GetUserResponse.builder()
@@ -483,7 +485,6 @@ public class UserService {
                     .code(Code.success)
                     .build();
         } catch (Exception e) {
-            e.printStackTrace();
             return UploadFileResponse.builder()
                     .code(Code.failed)
                     .build();
@@ -519,7 +520,7 @@ public class UserService {
 
 
     @Transactional
-    public GenerateUrlResponse generateUrlFromFile(String base, MultipartFile file, Integer hours) throws IOException {
+    public GenerateUrlResponse generateUrlFromFile(MultipartFile file, Integer hours) throws IOException {
             update();
             UUID id = generator.generateID();
             shareRepository.save(
@@ -533,7 +534,7 @@ public class UserService {
             );
 
             return GenerateUrlResponse.builder()
-                    .generatedUrl(base+"share/"+id)
+                    .generatedUrl(url+"/share/"+id)
                     .build();
 
     }
@@ -591,8 +592,7 @@ public class UserService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
             String currentUserName = authentication.getName();
-            var user_ = userRepository.findByUsername(currentUserName).orElseThrow();
-            return user_;
+            return userRepository.findByUsername(currentUserName).orElseThrow();
         }
         throw new UnknownErrorException("This should not be possible");
     }

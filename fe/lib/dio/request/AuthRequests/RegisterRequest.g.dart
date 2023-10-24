@@ -13,7 +13,6 @@ RegisterRequest _$RegisterRequestFromJson(Map<String, dynamic> json) =>
       email: json['email'] as String,
       fname: json['fname'] as String,
       lname: json['lname'] as String,
-      siteUrl: json['siteUrl'] as String,
     );
 
 Map<String, dynamic> _$RegisterRequestToJson(RegisterRequest instance) =>
@@ -23,5 +22,4 @@ Map<String, dynamic> _$RegisterRequestToJson(RegisterRequest instance) =>
       'email': instance.email,
       'fname': instance.fname,
       'lname': instance.lname,
-      'siteUrl': instance.siteUrl,
     };

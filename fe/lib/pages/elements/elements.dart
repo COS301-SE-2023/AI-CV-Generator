@@ -11,18 +11,34 @@ const errorColour = Colors.red;
 const onErrorColour = Colors.black;
 const backgroundColour = Colors.white;
 const onBackgroundColour = Colors.black;
-var surfaceColour = Colors.grey.withOpacity(0.1);
+var surfaceColour = Colors.grey.shade200;
 const onSurfaceColour = Colors.black;
 
 ThemeData mainTheme = ThemeData(
+  dialogTheme: const DialogTheme(
+    backgroundColor: Colors.white
+  ),
+  cardTheme: const CardTheme(
+    surfaceTintColor: Colors.white,
+    color: Colors.white
+  ),
+  cardColor: Colors.white,
+  datePickerTheme: const DatePickerThemeData(
+    headerBackgroundColor: primaryColour,
+    backgroundColor: Colors.white,
+  ),
   inputDecorationTheme: InputDecorationTheme(
-    hintStyle: TextStyle(color: Colors.grey.withOpacity(0.7))
+    hintStyle: TextStyle(color: Colors.grey.shade500)
   ),
   buttonTheme: const ButtonThemeData(
     hoverColor: black,
     focusColor: black
   ),
+  drawerTheme: const DrawerThemeData(
+    backgroundColor: white
+  ),
   appBarTheme: const AppBarTheme(
+    color: primaryColour,
     toolbarTextStyle: TextStyle(fontSize: 16, color: white),
     actionsIconTheme: IconThemeData(color: white, size: 32),
     iconTheme: IconThemeData(color: white)
@@ -187,7 +203,7 @@ class SectionInputState extends State<SectionInput> {
   TextStyle? hintStyle;
   @override
   void initState() {
-    hintStyle = TextStyle(fontSize: widget.fontSize, color: Colors.grey.withOpacity(0.7));
+    hintStyle = TextStyle(fontSize: widget.fontSize, color: Colors.grey.shade500);
     super.initState();
   }
 

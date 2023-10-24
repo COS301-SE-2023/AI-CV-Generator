@@ -40,7 +40,7 @@ class ShareUrlControllerTest {
         // when
         shareUrlController.getSharedFile(req);
         // then
-        verify(shareService).RetriveUrl(req);
+        verify(shareService).RetrieveUrl(req);
     }
 
     @Test
@@ -49,7 +49,7 @@ class ShareUrlControllerTest {
         shareUrlController.getSharedFileWithURL(UUID.randomUUID());
         // then
         ArgumentCaptor<RetrieveFileWithURLRequest> requestArgumentCaptor =ArgumentCaptor.forClass(RetrieveFileWithURLRequest.class);
-        verify(shareService).RetriveUrl(requestArgumentCaptor.capture());
+        verify(shareService).RetrieveUrl(requestArgumentCaptor.capture());
         assertThat(requestArgumentCaptor.getValue().getUuid() != null).isTrue();
     }
 }

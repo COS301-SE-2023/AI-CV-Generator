@@ -11,17 +11,13 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 public class CareerJunctionService {
-
-    public void setJobCareerJunction(AtomicInteger amount) {
-        this.amount = amount;
-    }
-    private AtomicInteger amount = new AtomicInteger(0);
 
     @Async("task3")
     public CompletableFuture<Set<JobResponseDTO>> careerJunction(JobScrapeRequest request) throws IOException {
@@ -67,7 +63,7 @@ public class CareerJunctionService {
                 }
                 responseDTOS.add(
                         JobResponseDTO.builder()
-                                .title(titleA.first().ownText())
+                                .title(Objects.requireNonNull(titleA.first()).ownText())
                                 .link(url+link)
                                 .location(location)
                                 .subTitle(subtitle)

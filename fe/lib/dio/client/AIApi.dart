@@ -51,15 +51,15 @@ class AIApi extends DioClient {
     required PlatformFile file
   }) async {
     AIInput? data;
-    await DioClient.dio.post(
+    try {
+      Response response = await DioClient.dio.post(
         'generate/extract',
         data: ExtractionRequest(text: PdfTextExtractor(PdfDocument(inputBytes: file.bytes)).extractText()).toJson()
-      ).then((value) {
-        data = ExtractionResponse.fromJson(value.data).data;
-      }).timeout(const Duration(milliseconds: 35000), 
-      onTimeout: () {
-        
-      },);
+      );
+      data = ExtractionResponse.fromJson(response.data).data;
+    } on DioException catch(e) {
+      DioClient.handleError(e);
+    }
     return data;
   }
 
