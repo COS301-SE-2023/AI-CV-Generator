@@ -20,7 +20,7 @@ documents that will increase their chances of acquiring a job.
 [link to our site](https://tinyurl.com/generoo)
 
 ## The Team
-|![WhatsApp Image 2023-03-26 at 21 23 44](https://github.com/COS301-SE-2023/AI-CV-Generator/assets/94606154/39875899-7368-4e46-8bc0-e5bf3e7b159f)| Mbofho Mamatsharaga|
+|<img src="https://github.com/COS301-SE-2023/AI-CV-Generator/assets/94606154/39875899-7368-4e46-8bc0-e5bf3e7b159f" width = 100>| Mbofho Mamatsharaga|
 |----------------------|---------------------------|
 |I am familiar with C++, Java, HTML, CSS, JavaScript, TypeScript, PHP, Python, and a bit of Blender. I have also done a bit of work with Angular, and Android Studio, and I have started to learn Flutter as well. With my knowledge of the above-mentioned languages and technologies, I can work quite well in front-end development. I also have experience working as a team lead and as a business analyst, so that is also going to work well to my advantage in my roles in this project | Roles and responsibilities: Team lead, Business Analyst, Front-end, UI/UX, Data engineering
 
