@@ -46,8 +46,10 @@ GitHub profile: [Click Here](https://github.com/nathanMils)
 
 |<img src="https://github.com/COS301-SE-2023/AI-CV-Generator/assets/94606154/aa083737-f416-46ed-9518-b2a860adbd3c" width = 250> | Vaghelis Gkikas|
 |----------------------|---------------------------|
-| My knowledge includes HTML, CSS, JavaScript, ReactJS, ExpressJS, MySQL, SQL, NodeJS, GDScript, Blender, C++, and Java. With my knowledge of these technologies, I am well-equipped to tackle a wide range of software development projects: web development and enterprise application development. | Roles and Responsibilities: Services Engineering, UI/UX, Front-end, Data Engineering |
+| My knowledge includes HTML, CSS, JavaScript, ReactJS, ExpressJS, MySQL, SQL, NodeJS, GDScript, Blender, C++, and Java. With my knowledge of these technologies, I am well-equipped to tackle a wide range of software development projects, including web development and enterprise application development. | Roles and Responsibilities: Services Engineering, UI/UX, Front-end, Data Engineering |
 
 Linkedin link: [Click Here](https://www.linkedin.com/in/vaghelis-gkikas-7a7217278)
 
 GitHub profile: [Click Here](https://github.com/u19284072)
+## Possible Collaboration:
+In order to possibly join in on the project, do email us at solutionsrevolving@gmail.com so we can add you as a collaborator and give further instructions as to how you can contribute to the development of the project.
