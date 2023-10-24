@@ -32,7 +32,7 @@ Linkedin link: [Click Here](https://www.linkedin.com/in/mbofho-mamatsharaga-5499
 
 Linkedin link: [Click Here](https://www.linkedin.com/in/amanda-khuzwayo-894130135)
 
-|<img src="https://github.com/COS301-SE-2023/AI-CV-Generator/assets/94606154/d4bbdd5c-11ef-4f97-8566-e209f7c4940c" width = 250 | Nathan Opperman |
+|<img src="https://github.com/COS301-SE-2023/AI-CV-Generator/assets/94606154/d4bbdd5c-11ef-4f97-8566-e209f7c4940c" width = 250> | Nathan Opperman |
 |----------------------|---------------------------|
 | I have worked with C++, Java, HTML, CSS, JavaScript, TypeScript, PHP, Python, NodeJS, and Angular. I have worked predominantly with the back end in the past, so I believe I am capable of playing my part as a back-end developer. | Roles and Responsibilities: Services Engineering, Integration Engineering, DevOps, API Engineering|
 
