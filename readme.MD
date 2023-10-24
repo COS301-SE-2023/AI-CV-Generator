@@ -11,21 +11,13 @@ documents that will increase their chances of acquiring a job.
 
  [![codecov](https://codecov.io/gh/TheStoryOfChampion/AI-CV-Generator/branch/main/graph/badge.svg)](https://codecov.io/gh/TheStoryOfChampion/AI-CV-Generator)
 
-[link to Google Doc](https://docs.google.com/document/d/1Midl1dNrDYABMpphBpfqwYncG0IV9M4xypMFUMdOG-I/edit?usp=sharing)
-
-[link to Demo 1 presentation](https://docs.google.com/presentation/d/1Qho91ar10-T4J-gPNWZYJirUlumxQ54s/edit?usp=sharing&ouid=116448994185217402077&rtpof=true&sd=true)
-
-[link to Demo 2 presentation](https://docs.google.com/presentation/d/1CIFVxeWi5tOaU3reQZI2o9W0In96vWp3/edit?usp=sharing&ouid=116448994185217402077&rtpof=true&sd=true)
-
-[link to Coding Standards Doc](https://docs.google.com/document/d/1Gtp9jmQquUp5D-hwBgRWAdjDGtrOWXoTiI5AjR2kRCs/edit?usp=sharing)
-
-[link to User Manual](https://docs.google.com/document/d/1nsnszA_zX4MuxR6q9IGBVBAWhLODjA_QrcHG1TJ6unQ/edit?usp=sharing)
-
-[link to Testing Policy](https://docs.google.com/document/d/1QZ62hYzCGrnREO30c-AKKOC5CeaftWvvBE-4PfSgD-0/edit?usp=sharing)
-
-[link to Technical Installation Manual](https://docs.google.com/document/d/11o-OKfOYcJP52uaIP1quclrAlpatQZFlG2XTUF4DLeA/edit?usp=sharing)
+[Documentation on Google Drive](https://drive.google.com/drive/folders/1Xr-sgxoy9MjMOE4FszYRsIiQXWNhJtkL?usp=share_link)
 
 [link to GitHub Project Board](https://github.com/orgs/COS301-SE-2023/projects/41) [link to Discord](https://discord.gg/MCTSU83y)
+
+[demonstration of our project](https://youtu.be/r_TFKuuCFgM?si=byuVRmyyX8HQWERE)
+
+[link to our site](https://tinyurl.com/generoo)
 
 ## The Team
 |![WhatsApp Image 2023-03-26 at 21 23 44](https://github.com/COS301-SE-2023/AI-CV-Generator/assets/94606154/39875899-7368-4e46-8bc0-e5bf3e7b159f)| Mbofho Mamatsharaga|
