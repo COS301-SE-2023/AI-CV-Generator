@@ -16,6 +16,7 @@
 	<properties>
 		<java.version>17</java.version>
 		<!-- <start-class>com.revolvingSolutions.aicvgeneratorbackend</start-class> -->
+		<sonar.analysisCache.enabled>false</sonar.analysisCache.enabled>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -106,7 +107,30 @@
 			<artifactId>jsoup</artifactId>
 			<version>1.16.1</version>
 		</dependency>
+		<dependency>
+			<groupId>org.sonarsource.scanner.maven</groupId>
+			<artifactId>sonar-maven-plugin</artifactId>
+			<version>3.10.0.2594</version>
+		</dependency>
+		<dependency>
+		    <groupId>com.google.guava</groupId>
+		    <artifactId>guava</artifactId>
+		    <version>32.1.3-jre</version>
+		</dependency>
 	</dependencies>
+	<profiles>
+		<profile>
+		<id>sonar</id>
+		<activation>
+		<activeByDefault>true</activeByDefault>
+		</activation>
+		<properties>
+		<sonar.host.url>http://localhost:9000</sonar.host.url>
+		<sonar.login>admin</sonar.login>
+          	<sonar.password>adminpassword</sonar.password>
+		</properties>
+		</profile>
+	</profiles>
 	<build>
 		<plugins>
 			<plugin>
@@ -204,6 +228,11 @@
 					<!-- Specify the output directory for code coverage reports -->
 					<outputDirectory>${project.reporting.outputDirectory}</outputDirectory>
 				</configuration>
+			</plugin>
+			<plugin>
+  				<groupId>org.sonarsource.scanner.maven</groupId>
+  				<artifactId>sonar-maven-plugin</artifactId>
+  				<version>3.10.0.2594</version>
 			</plugin>
 		</plugins>
 	</build>

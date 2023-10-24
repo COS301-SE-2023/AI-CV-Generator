@@ -1,0 +1,32 @@
+name: SonarQube Scan
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  sonarqube:
+    name: SonarQube Trigger
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checking out
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+    - name: Set up Java
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'oracle'
+        java-version: '17'
+        cache: 'maven'
+        path: ~/.m2
+        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+    - name: Maven Clean Install
+      run: mvn clean install -U
+      working-directory: ai-cv-generator-backend
+    - name: Change Directory
+      run: cd ai-cv-generator-backend
+    - name: Start SonarQube in Docker
+      run: docker run -d --name sonarqube -p 127.0.0.1:9000:9000 sonarqube:latest
+    #- name: SonarQube Scan
+     # run: mvn clean verify sonar:sonar -Dsonar.projectKey=ai-cv-generator -Dsonar.projectName='ai-cv-generator' -Dsonar.host.url=https://0306-105-27-152-106.ngrok.io -Dsonar.login=sqp_adca997c02923de1e440b37ca9e713e22cc94b8d
